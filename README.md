@@ -1,2 +1,2 @@
 # gws-agn
-investigating the AGN formation mechanism of GW events through spatial correlations
+investigating the AGN formation mechanism of BBH GW events through spatial correlations
