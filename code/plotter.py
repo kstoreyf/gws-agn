@@ -194,6 +194,6 @@ def create_skyplot(ra_arr, dec_arr, figsize=(10, 6), projection='mollweide',
     # Remove frame
     ax.spines['geo'].set_visible(False)
     
-    plt.legend()
+    plt.legend(loc='upper right', fontsize='small')
     
     return fig, ax
