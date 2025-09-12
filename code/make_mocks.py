@@ -38,12 +38,16 @@ def main():
     nbar_agn = 1e-3  # 1e-2 gives 1.1M; 1e-3 gives ~110k; 1e-4 gives 11k
     bias_gal = 1.5
     bias_agn = 2.5
+    # bias_gal = 1.0
+    # bias_agn = 1.0
     z_min = 0.0
     z_max = 1.5
     nside = lmax = 128
+    tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
     
     # Configuration parameters for GW injection
-    f_agn = 0.0
+    f_agn = 0.25
+    lambda_agn = 0.5
     N_gw = 1000
     gw_seed = None  # Will use catalog seed + 1000
     
@@ -51,27 +55,25 @@ def main():
     overwrite_mock = False
     overwrite_gws = False
     
+    # Generate filename for the mock catalog
+    tag_mock = f'_seed{seed}_ratioNgalNagn{int(round(nbar_gal/nbar_agn))}{tag_mock_extra}'
+    dir_mock = f'../data/mocks_glass/mock{tag_mock}'
+    fn_mock = os.path.join(dir_mock, 'mock_catalog.hdf5')
+    
     print("=== Creating Mock Catalog ===")
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, catalog_attrs = create_mock_catalog(
         seed=seed, nbar_gal=nbar_gal, nbar_agn=nbar_agn, 
         bias_gal=bias_gal, bias_agn=bias_agn,
         z_min=z_min, z_max=z_max, nside=nside, lmax=lmax,
-        save=True, overwrite_mock=overwrite_mock
+        fn_mock=fn_mock, save=True, overwrite_mock=overwrite_mock
     )
     
     print("\n=== Injecting GW Sources ===")
-    # Generate filename for the mock catalog
-    output_dir = os.path.join(os.path.dirname(__file__), '..', 'data', 'mocks_glass')
-    tag_mock = f'_ratioNgalNagn{int(round(nbar_gal/nbar_agn))}'
-    fn_mock = os.path.join(output_dir, f'mock_catalog_seed{seed}{tag_mock}.hdf5')
-    
+
     i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed = inject_gw_sources(
-        fn_mock, f_agn=f_agn, N_gw=N_gw, gw_seed=gw_seed, 
+        fn_mock, f_agn=f_agn, N_gw=N_gw, gw_seed=gw_seed, lambda_agn=lambda_agn,
         save=True, overwrite_gws=overwrite_gws
     )
-    
-    print("\n=== Analyzing AGN Fractions ===")
-    analyze_agn_fractions()
     
     print("\nMock catalog generation and GW injection complete!")
 
@@ -163,16 +165,12 @@ def load_gw_injection(fn_gw):
 
 
 def create_mock_catalog(seed=42, nbar_gal=1e-1, nbar_agn=1e-3, bias_gal=1.5, bias_agn=2.5,
-                       z_min=0.0, z_max=1.5, nside=128, lmax=128, save=True, overwrite_mock=False):
+                       z_min=0.0, z_max=1.5, nside=128, lmax=128, fn_mock=None, save=True, overwrite_mock=False):
     """Create a mock galaxy and AGN catalog."""
     
     # Create output directory if it doesn't exist
-    output_dir = os.path.join(os.path.dirname(__file__), '..', 'data', 'mocks_glass')
-    os.makedirs(output_dir, exist_ok=True)
-    
-    # Generate filename based on parameters
-    tag_mock = f'_ratioNgalNagn{int(round(nbar_gal/nbar_agn))}'
-    fn_mock = os.path.join(output_dir, f'mock_catalog_seed{seed}{tag_mock}.hdf5')
+    dir_mock = os.path.dirname(fn_mock)
+    os.makedirs(dir_mock, exist_ok=True)
     
     # Check if mock already exists
     if os.path.exists(fn_mock) and not overwrite_mock:
@@ -243,9 +241,7 @@ def create_mock_catalog(seed=42, nbar_gal=1e-1, nbar_agn=1e-3, bias_gal=1.5, bia
     print("Generating AGN...")
     dndz_agn = nbar_agn * dndz  # volume-weighted
     nagn_arr = glass.partition(z_bins, dndz_agn, shells)
-    
-    print(f"Mock tag: {tag_mock}")
-    
+        
     # Generate tracer positions
     print("Generating tracer positions...")
     tracers = {
@@ -321,7 +317,8 @@ def create_mock_catalog(seed=42, nbar_gal=1e-1, nbar_agn=1e-3, bias_gal=1.5, bia
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs
 
 
-def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, save=True, overwrite_gws=False):
+def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0.5,
+                      save=True, overwrite_gws=False):
     """Inject GW sources into an existing mock catalog."""
     
     # Load the mock catalog
@@ -334,10 +331,9 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, save=True, o
     rng = np.random.default_rng(seed=gw_seed)
     
     # Generate filename for GW injection
-    output_dir = '../data/mocks_glass'
-    base_name = os.path.splitext(os.path.basename(fn_mock))[0]
-    tag_gw = f'_fagn{f_agn}_N{N_gw}_seed{gw_seed}'
-    fn_gw = os.path.join(output_dir, f'{base_name}_gws{tag_gw}.hdf5')
+    dir_mock = os.path.dirname(fn_mock)
+    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}'
+    fn_gw = os.path.join(dir_mock, f'gws{tag_gw}.hdf5')
     
     # Check if GW injection already exists
     if os.path.exists(fn_gw) and not overwrite_gws:
@@ -355,7 +351,7 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, save=True, o
     N_agn = len(ra_agn)
     
     # Calculate fractions
-    frac_gal, frac_agn = utils.compute_gw_host_fractions(N_gal, N_agn, f_agn)
+    frac_gal, frac_agn = utils.compute_gw_host_fractions(N_gal, N_agn, f_agn, lambda_agn=lambda_agn)
     
     N_gw_gal = round(frac_gal * N_gw)
     N_gw_agn = round(frac_agn * N_gw)
@@ -369,39 +365,9 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, save=True, o
     # Save GW injection data
     if save:
         # Create output directory if it doesn't exist
-        os.makedirs(output_dir, exist_ok=True)
         save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed)
     
     return i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed
-
-
-def analyze_agn_fractions():
-    """Analyze dependence on N and f_agn."""
-    print("Analyzing dependence on N and f...")
-    N_gal_test = 10000
-    ratio_agn_arr = [1e-3, 1e-2, 1e-1, 1.0]
-    
-    n_f_bins = 100
-    bin_width = 1.0/n_f_bins
-    f_agn_arr = np.arange(0.0, 1.0+bin_width, bin_width)
-    
-    frac_agn_dict = {}
-    for ratio_agn in ratio_agn_arr:
-        N_agn_test = int(N_gal_test * ratio_agn)
-        frac_agn_arr = []
-        
-        for f_agn_test in f_agn_arr:
-            frac_agn_phys = f_agn_test
-            frac_agn_nonphys = (1-f_agn_test) * N_agn_test/(N_gal_test + N_agn_test)
-            frac_gal_test = (1-f_agn_test) * N_gal_test/(N_gal_test + N_agn_test)
-            frac_agn_test = frac_agn_phys + frac_agn_nonphys
-            frac_tot = frac_agn_test + frac_gal_test
-            
-            frac_agn_arr.append(frac_agn_test)
-        
-        frac_agn_dict[ratio_agn] = np.array(frac_agn_arr)
-    
-    return frac_agn_dict
 
 
 if __name__ == "__main__":
