@@ -51,7 +51,7 @@ def main():
     print("Starting preprocessing...")
     
     # Load the catalog
-    file = 'data/mocks_glass/mock_seed42_ratioNgalNagn100_fagn0.25.hdf5'
+    file = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/mock_catalog.hdf5'
     print(f"Loading catalog from {file}")
     
     with h5py.File(file, 'r') as f:

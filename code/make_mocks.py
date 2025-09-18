@@ -36,10 +36,10 @@ def main():
     seed = 42
     nbar_gal = 1e-1  # 1e-1 gives ~11M; 1e-2 gives 1.1M
     nbar_agn = 1e-3  # 1e-2 gives 1.1M; 1e-3 gives ~110k; 1e-4 gives 11k
-    bias_gal = 1.5
-    bias_agn = 2.5
-    # bias_gal = 1.0
-    # bias_agn = 1.0
+    # bias_gal = 1.5
+    # bias_agn = 2.5
+    bias_gal = 1.0
+    bias_agn = 1.0
     z_min = 0.0
     z_max = 1.5
     nside = lmax = 128
