@@ -50,9 +50,10 @@ from jaxinterp2d import interp2d, CartesianGrid
 def main():
     print("Starting preprocessing...")
     
-    # Load the catalog
-    file = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/mock_catalog.hdf5'
-    print(f"Loading catalog from {file}")
+    # Load the catalog 
+    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/'
+    file = filepath + 'mock_catalog.hdf5'
+    print(f"Loading catalog from {filepath}")
     
     with h5py.File(file, 'r') as f:
         ras_ = np.asarray(f['ra_gal'])*np.pi/180
@@ -95,7 +96,7 @@ def main():
     m = np.asarray(ngalaxies)
     print(f"Max galaxies per pixel: {m.max()}")
     
-    with h5py.File(f'lognormal_pixelated_nside_{nside}_galaxies.h5', 'w') as f:
+    with h5py.File(f'{filepath}lognormal_pixelated_nside_{nside}_galaxies.h5', 'w') as f:
         f.attrs['nside'] = nside
         f.create_dataset('zgals', data=np.asarray(cats), compression='gzip', shuffle=False)
         f.create_dataset('ngals', data=m, compression='gzip', shuffle=False)
@@ -135,7 +136,7 @@ def main():
     m_agn = np.asarray(nagn_pix)
     print(f"Max AGN per pixel: {m_agn.max()}")
     
-    with h5py.File(f'lognormal_pixelated_nside_{nside}_agn.h5', 'w') as f:
+    with h5py.File(f'{filepath}lognormal_pixelated_nside_{nside}_agn.h5', 'w') as f:
         f.attrs['nside'] = nside
         f.create_dataset('zagn', data=np.asarray(cats_agn), compression='gzip', shuffle=False)
         f.create_dataset('nagn', data=m_agn, compression='gzip', shuffle=False)
