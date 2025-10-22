@@ -51,7 +51,7 @@ def main():
     print("Starting preprocessing...")
     
     # Load the catalog 
-    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/'
+    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal0.0_bagn0.0/'
     file = filepath + 'mock_catalog.hdf5'
     print(f"Loading catalog from {filepath}")
     

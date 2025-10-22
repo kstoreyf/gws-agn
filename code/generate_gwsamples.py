@@ -26,9 +26,12 @@ from scipy.stats import multivariate_normal
 jax.config.update("jax_enable_x64", True)
 jax.config.update('jax_default_matmul_precision', 'highest')
 
+fagn=0.0
+lam=1.0
+
 filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/'
 mockpath = filepath + 'mock_catalog.hdf5'
-mockgwpath = filepath + 'gws_fagn1.0_lambdaagn1.0_N1000_seed1042.hdf5'
+mockgwpath = filepath + 'gws_fagn'+str(fagn)+'_lambdaagn'+str(lam)+'_N1000_seed1042.hdf5'
 
 with h5py.File(mockpath, 'r') as f:
     ra_gal = np.asarray(f['ra_gal'])*np.pi/180
@@ -174,7 +177,7 @@ ras = np.concatenate(ras)
 decs = np.concatenate(decs)
 dLs = np.concatenate(dLs)
 
-with h5py.File(f'{filepath}gwsamples_fagn1.0_lambdaagn1.0_N1000_seed1042.h5', 'w') as f:
+with h5py.File(f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N1000_seed1042.h5', 'w') as f:
     f.attrs['nsamp'] = 4096
     f.attrs['nobs'] = 1000
     f.create_dataset('m1det', data=m1dets, compression='gzip', shuffle=False)
@@ -229,7 +232,7 @@ for k in range(int(len(i_gw_agn))):
     ras.append(samples[:,1] % (2 * np.pi))
     decs.append(samples[:,2])
 
-with h5py.File(f'{filepath}gwsamples_fagn1.0_lambdaagn1.0_N1000_seed1042_pos_only.h5', 'w') as f:
+with h5py.File(f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N1000_seed1042_pos_only.h5', 'w') as f:
     f.attrs['nsamp'] = 4096
     f.attrs['nobs'] = 1000
     f.create_dataset('dL', data=dLs, compression='gzip', shuffle=False)
