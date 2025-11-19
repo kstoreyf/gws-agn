@@ -51,7 +51,7 @@ def main():
     print("Starting preprocessing...")
     
     # Load the catalog 
-    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal0.0_bagn0.0/'
+    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/'
     file = filepath + 'mock_catalog.hdf5'
     print(f"Loading catalog from {filepath}")
     
@@ -65,7 +65,7 @@ def main():
     
     # Process galaxies
     print("Processing galaxies...")
-    nside = 64
+    nside = 256
     npix = hp.pixelfunc.nside2npix(nside)
     apix = hp.pixelfunc.nside2pixarea(nside)
     pixgrid = np.arange(npix)
@@ -77,7 +77,7 @@ def main():
     cats = []
     ngalaxies = []
     
-    maxgals = 350
+    maxgals = 15
     for pix in tqdm(pixgrid, desc="Processing galaxies"):
         id_pix = np.where(ind == pix)[0]
         gals = zs_[id_pix]

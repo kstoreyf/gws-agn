@@ -34,20 +34,20 @@ def main():
     
     # Configuration parameters for mock catalog
     seed = 42
-    nbar_gal = 1e-1  # 1e-1 gives ~11M; 1e-2 gives 1.1M
-    nbar_agn = 1e-3  # 1e-2 gives 1.1M; 1e-3 gives ~110k; 1e-4 gives 11k
+    nbar_gal = 1e-2  # 1e-1 gives ~11M; 1e-2 gives 1.1M
+    nbar_agn = 1e-2  # 1e-2 gives 1.1M; 1e-3 gives ~110k; 1e-4 gives 11k
     # bias_gal = 1.5
     # bias_agn = 2.5
     bias_gal = 1.0
     bias_agn = 1.0
     z_min = 0.0
     z_max = 1.5
-    nside = lmax = 128
+    nside = lmax = 256
     tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
     
     # Configuration parameters for GW injection
-    f_agn = 0.0#0.25
-    lambda_agn = 1.0#0.5
+    f_agn = 0.5#0.25
+    lambda_agn = 0.5#0.5
     N_gw = 1000
     gw_seed = None  # Will use catalog seed + 1000
     
@@ -355,9 +355,12 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
     
     N_gw_gal = round(frac_gal * N_gw)
     N_gw_agn = round(frac_agn * N_gw)
+    
     print(f"Number of GW sources in galaxies: {N_gw_gal}")
     print(f"Number of GW sources in AGN: {N_gw_agn}")
-    
+    print(f"Fraction in galaxies: {frac_gal}")
+    print(f"Fraction in AGN: {frac_agn}")
+
     # Randomly select indices for GW sources in galaxies and AGN
     i_gw_gal = rng.choice(np.arange(N_gal), N_gw_gal, replace=False)
     i_gw_agn = rng.choice(np.arange(N_agn), N_gw_agn, replace=False)
