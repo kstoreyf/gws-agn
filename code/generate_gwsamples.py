@@ -49,10 +49,10 @@ from scipy.stats import multivariate_normal
 jax.config.update("jax_enable_x64", True)
 jax.config.update('jax_default_matmul_precision', 'highest')
 
-fagn=0.25
+fagn=0.5
 lam=0.5
 
-filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/'
+filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/'
 mockpath = filepath + 'mock_catalog.hdf5'
 mockgwpath = filepath + 'gws_fagn'+str(fagn)+'_lambdaagn'+str(lam)+'_N1000_seed1042.hdf5'
 
@@ -66,7 +66,10 @@ with h5py.File(mockpath, 'r') as f:
 
 with h5py.File(mockgwpath, 'r') as f:    
     i_gw_gal = np.asarray(f['i_gw_gal'])    
-    i_gw_agn = np.asarray(f['i_gw_agn'])   
+    i_gw_agn = np.asarray(f['i_gw_agn'])
+    
+nsamp = 10000
+nobs = len(i_gw_agn) + len(i_gw_gal)
 
 zMax_1 = 0.5
 zMax_2 = 5
@@ -138,83 +141,83 @@ m1sdet_agn_gw = m1s_agn_gw*(1+z_agn[i_gw_agn])
 m2sdet_agn_gw = m2s_agn_gw*(1+z_agn[i_gw_agn])
 
 
-m1dets = []
-m2dets = []
+# m1dets = []
+# m2dets = []
+# dLs = []
+# ras = []
+# decs = []
+
+# for k in tqdm(range(int(len(i_gw_gal)))):
+#     m1det = m1sdet_gal_gw[k]
+#     m2det = m2sdet_gal_gw[k]
+#     dL = dL_gal_gw[k]
+#     ra = ra_gal_gw[k]
+#     dec = dec_gal_gw[k]
+#     mean = np.array([m1det, m2det, dL, ra, dec])
+    
+#     cov = np.diag([1.5**2,1.5**2,(dL),0.01**2,0.01**2])
+#     rv = multivariate_normal(mean, cov)
+#     samples = rv.rvs([256000])
+    
+#     dec_samples = samples[:,4]
+#     mask = np.where((dec_samples>-np.pi/2)&(dec_samples<np.pi/2))
+#     samples = samples[mask]
+    
+#     choose = np.random.randint(0,len(samples),nsamp)
+#     samples = samples[choose]
+    
+#     m1dets.append(samples[:,0])
+#     m2dets.append(samples[:,1])
+#     dLs.append(samples[:,2])
+#     ras.append(samples[:,3] % (2 * np.pi))
+#     decs.append(samples[:,4])
+
+# for k in tqdm(range(int(len(i_gw_agn)))):
+#     m1det = m1sdet_agn_gw[k]
+#     m2det = m2sdet_agn_gw[k]
+#     dL = dL_agn_gw[k]
+#     ra = ra_agn_gw[k]
+#     dec = dec_agn_gw[k]
+#     mean = np.array([m1det, m2det, dL, ra, dec])
+    
+#     cov = np.diag([1.5**2,1.5**2,(dL),0.01**2,0.01**2])
+#     rv = multivariate_normal(mean, cov)
+#     samples = rv.rvs([256000])
+    
+#     dec_samples = samples[:,4]
+#     mask = np.where((dec_samples>-np.pi/2)&(dec_samples<np.pi/2))
+#     samples = samples[mask]
+    
+#     choose = np.random.randint(0,len(samples),nsamp)
+#     samples = samples[choose]
+    
+#     m1dets.append(samples[:,0])
+#     m2dets.append(samples[:,1])
+#     dLs.append(samples[:,2])
+#     ras.append(samples[:,3] % (2 * np.pi))
+#     decs.append(samples[:,4])
+
+# m1dets = np.concatenate(m1dets)
+# m2dets = np.concatenate(m2dets)
+# ras = np.concatenate(ras)
+# decs = np.concatenate(decs)
+# dLs = np.concatenate(dLs)
+
+# with h5py.File(f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N1000_seed1042.h5', 'w') as f:
+#     f.attrs['nsamp'] = nsamp
+#     f.attrs['nobs'] = nobs
+#     f.create_dataset('m1det', data=m1dets, compression='gzip', shuffle=False)
+#     f.create_dataset('m2det', data=m2dets, compression='gzip', shuffle=False)
+#     f.create_dataset('dL', data=dLs, compression='gzip', shuffle=False)
+#     f.create_dataset('ra', data=ras, compression='gzip', shuffle=False)
+#     f.create_dataset('dec', data=decs, compression='gzip', shuffle=False)
+
+    
 dLs = []
 ras = []
 decs = []
 
-for k in range(int(len(i_gw_gal))):
-    m1det = m1sdet_gal_gw[k]
-    m2det = m2sdet_gal_gw[k]
-    dL = dL_gal_gw[k]
-    ra = ra_gal_gw[k]
-    dec = dec_gal_gw[k]
-    mean = np.array([m1det, m2det, dL, ra, dec])
-    
-    cov = np.diag([1.5**2,1.5**2,(dL),0.01**2,0.01**2])
-    rv = multivariate_normal(mean, cov)
-    samples = rv.rvs([256000])
-    
-    dec_samples = samples[:,4]
-    mask = np.where((dec_samples>-np.pi/2)&(dec_samples<np.pi/2))
-    samples = samples[mask]
-    
-    choose = np.random.randint(0,len(samples),4096)
-    samples = samples[choose]
-    
-    m1dets.append(samples[:,0])
-    m2dets.append(samples[:,1])
-    dLs.append(samples[:,2])
-    ras.append(samples[:,3] % (2 * np.pi))
-    decs.append(samples[:,4])
-
-for k in range(int(len(i_gw_agn))):
-    m1det = m1sdet_agn_gw[k]
-    m2det = m2sdet_agn_gw[k]
-    dL = dL_agn_gw[k]
-    ra = ra_agn_gw[k]
-    dec = dec_agn_gw[k]
-    mean = np.array([m1det, m2det, dL, ra, dec])
-    
-    cov = np.diag([1.5**2,1.5**2,(dL),0.01**2,0.01**2])
-    rv = multivariate_normal(mean, cov)
-    samples = rv.rvs([256000])
-    
-    dec_samples = samples[:,4]
-    mask = np.where((dec_samples>-np.pi/2)&(dec_samples<np.pi/2))
-    samples = samples[mask]
-    
-    choose = np.random.randint(0,len(samples),4096)
-    samples = samples[choose]
-    
-    m1dets.append(samples[:,0])
-    m2dets.append(samples[:,1])
-    dLs.append(samples[:,2])
-    ras.append(samples[:,3] % (2 * np.pi))
-    decs.append(samples[:,4])
-
-m1dets = np.concatenate(m1dets)
-m2dets = np.concatenate(m2dets)
-ras = np.concatenate(ras)
-decs = np.concatenate(decs)
-dLs = np.concatenate(dLs)
-
-with h5py.File(f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N1000_seed1042.h5', 'w') as f:
-    f.attrs['nsamp'] = 4096
-    f.attrs['nobs'] = 1000
-    f.create_dataset('m1det', data=m1dets, compression='gzip', shuffle=False)
-    f.create_dataset('m2det', data=m2dets, compression='gzip', shuffle=False)
-    f.create_dataset('dL', data=dLs, compression='gzip', shuffle=False)
-    f.create_dataset('ra', data=ras, compression='gzip', shuffle=False)
-    f.create_dataset('dec', data=decs, compression='gzip', shuffle=False)
-
-    
-dLs = []
-ras = []
-decs = []
-
-for k in range(int(len(i_gw_gal))):
+for k in tqdm(range(int(len(i_gw_gal)))):
     dL = dL_gal_gw[k]
     ra = ra_gal_gw[k]
     dec = dec_gal_gw[k]
@@ -228,14 +231,14 @@ for k in range(int(len(i_gw_gal))):
     mask = np.where((dec_samples>-np.pi/2)&(dec_samples<np.pi/2))
     samples = samples[mask]
     
-    choose = np.random.randint(0,len(samples),4096)
+    choose = np.random.randint(0,len(samples),nsamp)
     samples = samples[choose]
 
     dLs.append(samples[:,0])
     ras.append(samples[:,1] % (2 * np.pi))
     decs.append(samples[:,2])
 
-for k in range(int(len(i_gw_agn))):
+for k in tqdm(range(int(len(i_gw_agn)))):
     dL = dL_agn_gw[k]
     ra = ra_agn_gw[k]
     dec = dec_agn_gw[k]
@@ -249,15 +252,15 @@ for k in range(int(len(i_gw_agn))):
     mask = np.where((dec_samples>-np.pi/2)&(dec_samples<np.pi/2))
     samples = samples[mask]
     
-    choose = np.random.randint(0,len(samples),4096)
+    choose = np.random.randint(0,len(samples),nsamp)
     samples = samples[choose]
     dLs.append(samples[:,0])
     ras.append(samples[:,1] % (2 * np.pi))
     decs.append(samples[:,2])
 
 with h5py.File(f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N1000_seed1042_pos_only.h5', 'w') as f:
-    f.attrs['nsamp'] = 4096
-    f.attrs['nobs'] = 1000
+    f.attrs['nsamp'] = nsamp
+    f.attrs['nobs'] = nobs
     f.create_dataset('dL', data=dLs, compression='gzip', shuffle=False)
     f.create_dataset('ra', data=ras, compression='gzip', shuffle=False)
     f.create_dataset('dec', data=decs, compression='gzip', shuffle=False)
