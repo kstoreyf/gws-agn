@@ -1,5 +1,28 @@
 import os
+import sys
+
+# Set environment variables BEFORE any imports
 os.environ['XLA_PYTHON_CLIENT_PREALLOCATE']='false'
+#ksf adding this
+os.environ['JAX_PLATFORMS'] = 'cpu'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow warnings
+
+# Fix for coordination_agent_recoverable flag conflict
+# Add --undefok flag to sys.argv BEFORE any absl imports
+if '--undefok' not in ' '.join(sys.argv):
+    sys.argv.insert(1, '--undefok=coordination_agent_recoverable')
+
+# Parse absl flags early with undefok to prevent redefinition errors
+try:
+    from absl import flags
+    # Parse with undefok before any TensorFlow/JAX initialization
+    flags.FLAGS(sys.argv, known_only=True)
+except (Exception, SystemExit):
+    # Ignore flag parsing errors at this stage
+    pass
+
+import warnings
+warnings.filterwarnings('ignore')
 
 import jax
 
@@ -26,8 +49,8 @@ from scipy.stats import multivariate_normal
 jax.config.update("jax_enable_x64", True)
 jax.config.update('jax_default_matmul_precision', 'highest')
 
-fagn=0.0
-lam=1.0
+fagn=0.25
+lam=0.5
 
 filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/'
 mockpath = filepath + 'mock_catalog.hdf5'

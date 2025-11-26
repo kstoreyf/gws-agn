@@ -70,7 +70,7 @@ def main():
     
     print("\n=== Injecting GW Sources ===")
 
-    i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed = inject_gw_sources(
+    i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed = inject_gw_sources(
         fn_mock, f_agn=f_agn, N_gw=N_gw, gw_seed=gw_seed, lambda_agn=lambda_agn,
         save=True, overwrite_gws=overwrite_gws
     )
@@ -134,7 +134,7 @@ def load_mock_catalog(fn_mock):
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs
 
 
-def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed):
+def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed):
     """Save GW injection data to HDF5 file."""
     compression = 'gzip'
     compression_opts = 9
@@ -146,6 +146,7 @@ def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed):
         # attributes
         f.attrs['n_gw'] = N_gw
         f.attrs['f_agn'] = f_agn
+        f.attrs['lambda_agn'] = lambda_agn
         f.attrs['gw_seed'] = gw_seed
     
     print(f"GW injection saved to {fn_gw}")
@@ -365,9 +366,9 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
     # Save GW injection data
     if save:
         # Create output directory if it doesn't exist
-        save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed)
+        save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed)
     
-    return i_gw_gal, i_gw_agn, N_gw, f_agn, gw_seed
+    return i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed
 
 
 if __name__ == "__main__":
