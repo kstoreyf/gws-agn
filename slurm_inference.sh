@@ -2,7 +2,7 @@
 #SBATCH --job-name=gws_inference
 #SBATCH --output=logs/inference_%j.out
 #SBATCH --error=logs/inference_%j.err
-#SBATCH --time=48:00:00
+#SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
@@ -18,7 +18,7 @@ module load conda
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
 # Activate conda environment
-conda activate gwsagn
+conda activate glassenv
 
 # Create logs directory if it doesn't exist
 mkdir -p logs
@@ -39,6 +39,7 @@ echo "Starting inference job..."
 echo "Using GPU: ${CUDA_VISIBLE_DEVICES:-unset}"
 
 # Run the inference notebook
-jupyter nbconvert --to notebook --execute notebooks/inference/complete_catalog/inference_lognormal_agn-exact-onthefly-nocompleteness.ipynb --output inference_results.ipynb
+python code/run_inference.py
+#jupyter nbconvert --to notebook --execute notebooks/inference/complete_catalog/inference_lognormal_agn-exact-onthefly-nocompleteness.ipynb --output inference_results.ipynb
 
 echo "Inference job completed!" 

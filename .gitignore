@@ -1,5 +1,7 @@
 # my folders
 data/
+logs/
+results/
 
 #other
 .vscode/
@@ -180,5 +182,5 @@ cython_debug/
 .pypirc
 *.pdf
 *.h5
-*.hdf5
+*.h5
 

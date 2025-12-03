@@ -58,7 +58,7 @@ def main():
     # Generate filename for the mock catalog
     tag_mock = f'_seed{seed}_ratioNgalNagn{int(round(nbar_gal/nbar_agn))}{tag_mock_extra}'
     dir_mock = f'../data/mocks_glass/mock{tag_mock}'
-    fn_mock = os.path.join(dir_mock, 'mock_catalog.hdf5')
+    fn_mock = os.path.join(dir_mock, 'mock_catalog.h5')
     
     print("=== Creating Mock Catalog ===")
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, catalog_attrs = create_mock_catalog(
@@ -334,7 +334,7 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
     # Generate filename for GW injection
     dir_mock = os.path.dirname(fn_mock)
     tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}'
-    fn_gw = os.path.join(dir_mock, f'gws{tag_gw}.hdf5')
+    fn_gw = os.path.join(dir_mock, f'gws{tag_gw}.h5')
     
     # Check if GW injection already exists
     if os.path.exists(fn_gw) and not overwrite_gws:

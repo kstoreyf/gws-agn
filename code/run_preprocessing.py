@@ -25,21 +25,6 @@ from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde
 from tqdm import tqdm
 
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend
-import matplotlib.pyplot as plt
-matplotlib.rcParams['font.family'] = 'Times New Roman'
-matplotlib.rcParams['font.sans-serif'] = ['Bitstream Vera Sans']
-matplotlib.rcParams['text.usetex'] = False
-matplotlib.rcParams['mathtext.fontset'] = 'cm'
-matplotlib.rcParams['figure.figsize'] = (16.0, 10.0)
-matplotlib.rcParams['axes.unicode_minus'] = False
-
-import seaborn as sns
-sns.set_context('talk')
-sns.set_style('ticks')
-sns.set_palette('colorblind')
-c=sns.color_palette('colorblind')
 
 jax.config.update("jax_enable_x64", True)
 jax.config.update('jax_default_matmul_precision', 'highest')
@@ -51,9 +36,9 @@ def main():
     print("Starting preprocessing...")
     
     # Load the catalog 
-    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal1.0_bagn1.0/'
+    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/'
     #filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal0.0_bagn0.0/'
-    file = filepath + 'mock_catalog.hdf5'
+    file = filepath + 'mock_catalog.h5'
     print(f"Loading catalog from {filepath}")
     
     with h5py.File(file, 'r') as f:

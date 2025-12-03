@@ -53,8 +53,8 @@ fagn=0.5
 lam=0.5
 
 filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/'
-mockpath = filepath + 'mock_catalog.hdf5'
-mockgwpath = filepath + 'gws_fagn'+str(fagn)+'_lambdaagn'+str(lam)+'_N1000_seed1042.hdf5'
+mockpath = filepath + 'mock_catalog.h5'
+mockgwpath = filepath + 'gws_fagn'+str(fagn)+'_lambdaagn'+str(lam)+'_N1000_seed1042.h5'
 
 with h5py.File(mockpath, 'r') as f:
     ra_gal = np.asarray(f['ra_gal'])*np.pi/180
