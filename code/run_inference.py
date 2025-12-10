@@ -26,7 +26,7 @@ if '--undefok' not in ' '.join(sys.argv):
 try:
     from absl import flags
     # Parse with undefok before any TensorFlow/JAX initialization
-    flags.FLAGS(sys.argv, known_only=True)
+    flags.FLAGS.parse_flags_with_usage(sys.argv)
 except (Exception, SystemExit):
     # Ignore flag parsing errors at this stage
     pass
@@ -58,6 +58,8 @@ from datetime import datetime
 from jaxinterp2d import interp2d, CartesianGrid
 
 import time
+
+import utils
 
 try:
     import emcee
@@ -121,7 +123,8 @@ def main(
         - For 'mcmc': posterior_samples, sampler, config, metadata, mcmc_params
         - For 'likelihood_grid': log_likelihood_grid, H0_grid, f_grid, config, metadata
     """
-    mode = 'likelihood_grid'
+    #mode = 'likelihood_grid'
+    mode = 'mcmc'
 
     ratioNgalNagn = 1
     bias_gal = 1.0
@@ -173,7 +176,9 @@ def main(
             galaxy_file, agn_file, gw_file, nside,
             Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
             n_H0=n_H0, n_f=n_f,
-            output_file=output_file
+            output_file=output_file,
+            f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, gw_seed=gw_seed,
+            seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
         )
     elif mode == 'mcmc':
         results = run_inference_mcmc(
@@ -182,7 +187,9 @@ def main(
             n_walkers=n_walkers, n_steps=n_steps, burnin_frac=burnin_frac,
             Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
             H0_bounds=H0_bounds, f_bounds=f_bounds,
-            seed=seed, output_file=output_file
+            seed=seed, output_file=output_file,
+            f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, gw_seed=gw_seed,
+            ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
         )
     else:
         raise ValueError(f"Unknown mode: {mode}. Must be 'mcmc' or 'likelihood_grid'")
@@ -195,7 +202,9 @@ def run_likelihood_grid(
     galaxy_file, agn_file, gw_file, nside,
     Om0=None, gamma_agn=0, gamma_gal=0,
     n_H0=50, n_f=50,
-    output_file=None
+    output_file=None,
+    f_agn=None, lambda_agn=None, N_gw=None, gw_seed=None,
+    seed=None, ratioNgalNagn=None, bias_gal=None, bias_agn=None
 ):
     """
     Run likelihood grid computation.
@@ -264,7 +273,9 @@ def run_likelihood_grid(
         n_walkers=None, n_steps=None, burnin_frac=None,
         Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
         H0_bounds=(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0]),
-        f_bounds=(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1])
+        f_bounds=(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1]),
+        f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, gw_seed=gw_seed,
+        seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
     )
     config['n_H0'] = n_H0
     config['n_f'] = n_f
@@ -301,7 +312,9 @@ def run_inference_mcmc(
     n_walkers=16, n_steps=1000, burnin_frac=0.2,
     Om0=None, gamma_agn=0, gamma_gal=0,
     H0_bounds=(20, 120), f_bounds=(0, 1),
-    seed=None, output_file=None
+    seed=None, output_file=None,
+    f_agn=None, lambda_agn=None, N_gw=None, gw_seed=None,
+    ratioNgalNagn=None, bias_gal=None, bias_agn=None
 ):
     """
     Run MCMC inference pipeline.
@@ -385,7 +398,9 @@ def run_inference_mcmc(
         gw_data['nEvents'], gw_data['nsamp'],
         n_walkers, n_steps, burnin_frac,
         Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
-        H0_bounds=H0_bounds, f_bounds=f_bounds
+        H0_bounds=H0_bounds, f_bounds=f_bounds,
+        f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, gw_seed=gw_seed,
+        seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
     )
     config['mode'] = 'mcmc'
     
@@ -665,7 +680,9 @@ def create_inference_config(
     galaxy_file, agn_file, gw_file, nside, nEvents, nsamp,
     n_walkers, n_steps, burnin_frac=0.5,
     Om0=None, gamma_agn=0, gamma_gal=0,
-    H0_bounds=(20, 120), f_bounds=(0, 1)
+    H0_bounds=(20, 120), f_bounds=(0, 1),
+    f_agn=None, lambda_agn=None, N_gw=None, gw_seed=None,
+    seed=None, ratioNgalNagn=None, bias_gal=None, bias_agn=None
 ):
     """
     Create configuration dictionary for inference run.
@@ -700,6 +717,22 @@ def create_inference_config(
         Bounds for H0 parameter
     f_bounds : tuple
         Bounds for f parameter
+    f_agn : float, optional
+        Fraction of AGN hosts
+    lambda_agn : float, optional
+        AGN mixing parameter
+    N_gw : int, optional
+        Number of GW events
+    gw_seed : int, optional
+        Random seed for GW samples
+    seed : int, optional
+        Random seed for MCMC initialization
+    ratioNgalNagn : float, optional
+        Ratio of galaxies to AGN
+    bias_gal : float, optional
+        Galaxy bias parameter
+    bias_agn : float, optional
+        AGN bias parameter
     
     Returns
     -------
@@ -725,6 +758,24 @@ def create_inference_config(
     
     if Om0 is not None:
         config['Om0'] = Om0
+    
+    # Add top-level parameters if provided
+    if f_agn is not None:
+        config['f_agn'] = f_agn
+    if lambda_agn is not None:
+        config['lambda_agn'] = lambda_agn
+    if N_gw is not None:
+        config['N_gw'] = N_gw
+    if gw_seed is not None:
+        config['gw_seed'] = gw_seed
+    if seed is not None:
+        config['seed'] = seed
+    if ratioNgalNagn is not None:
+        config['ratioNgalNagn'] = ratioNgalNagn
+    if bias_gal is not None:
+        config['bias_gal'] = bias_gal
+    if bias_agn is not None:
+        config['bias_agn'] = bias_agn
     
     return config
 
@@ -1584,21 +1635,14 @@ def solve_fagn_lambda(frac_agn_obs, N_gal, N_agn):
     tuple
         (f_agn, lambda_agn) solution
     """
-    print(f"Solving for f_agn and lambda_agn: frac_agn_obs={frac_agn_obs}, N_gal={N_gal}, N_agn={N_agn}")
-    def model_frac_agn(f_agn, lambda_agn, N_gal, N_agn):
-        """Model for AGN fraction."""
-        W_agn = lambda_agn * N_agn
-        W_gal = (1 - lambda_agn) * N_gal
-        W_tot = W_agn + W_gal
-        return f_agn + (1 - f_agn) * W_agn / W_tot
     
     def loss(params):
         """Loss function for optimization."""
         f_agn, lambda_agn = params
         if not (0 <= f_agn <= 1 and 0 <= lambda_agn <= 1):
             return np.inf
-        frac_model = model_frac_agn(f_agn, lambda_agn, N_gal, N_agn)
-        return (frac_model - frac_agn_obs)**2
+        _, frac_agn_model = utils.compute_gw_host_fractions(N_gal, N_agn, f_agn, lambda_agn=lambda_agn)
+        return (frac_agn_model - frac_agn_obs)**2
     
     # Initial guess: equal mixing and moderate AGN fraction
     x0 = [0.5, 0.5]

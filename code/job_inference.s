@@ -1,7 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=gws_inference
-#SBATCH --output=logs/inference_%j.out
-#SBATCH --error=logs/inference_%j.err
+#SBATCH --job-name=inference_mcmc
+#SBATCH --output=logs/%x.out
 #SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

@@ -22,10 +22,10 @@ def compute_gw_host_fractions(N_gal, N_agn, f_agn, lambda_agn=0.5):
     frac_agn = frac_agn_disk + frac_agn_field
     frac_tot = frac_agn + frac_gal
 
-    print(f"Frac per object if f=0, lambda=0.5: {1/(N_gal + N_agn):.4e}")
-    print(f"Frac gal: {frac_gal:.4f}")
-    print(f"Frac agn: {frac_agn:.4f}")
-    print(f"Frac agn disk: {frac_agn_disk:.4f}")
-    print(f"Frac agn non-disk: {frac_agn_field:.4f}")
-    print(f"Total fraction (should=1): {frac_tot:.4f}")
+    # print(f"Frac per object if f=0, lambda=0.5: {1/(N_gal + N_agn):.4e}")
+    # print(f"Frac gal: {frac_gal:.4f}")
+    # print(f"Frac agn: {frac_agn:.4f}")
+    # print(f"Frac agn disk: {frac_agn_disk:.4f}")
+    # print(f"Frac agn non-disk: {frac_agn_field:.4f}")
+    # print(f"Total fraction (should=1): {frac_tot:.4f}")
     return frac_gal, frac_agn
