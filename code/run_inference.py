@@ -989,20 +989,20 @@ def load_gw_samples(filename, nEvents=1000, nsamp=None):
     """
     print(f"Loading GW samples from {filename} (nEvents={nEvents}, nsamp={nsamp})")
     with h5py.File(filename, 'r') as inp:
-        nsamps = inp.attrs['nsamp']
+        nsamps_ = inp.attrs['nsamp']
         nEvents_ = inp.attrs['nobs']
         ra = jnp.array(inp['ra'])
         dec = jnp.array(inp['dec'])
         dL = jnp.array((jnp.array(inp['dL']) * u.Mpc).value)
     
-    if nsamp is None:
-        nsamp = nsamps
+    if nsamps is None:
+        nsamps = nsamps_
     if nEvents is None:
         nEvents = nEvents_
     
-    ra = ra.reshape(nEvents_, nsamps)[0:nEvents, 0:nsamp]
-    dec = dec.reshape(nEvents_, nsamps)[0:nEvents, 0:nsamp]
-    dL = dL.reshape(nEvents_, nsamps)[0:nEvents, 0:nsamp]
+    ra = ra.reshape(nEvents_, nsamps_)[0:nEvents, 0:nsamps]
+    dec = dec.reshape(nEvents_, nsamps_)[0:nEvents, 0:nsamps]
+    dL = dL.reshape(nEvents_, nsamps_)[0:nEvents, 0:nsamps]
     
     ra = ra[0:nEvents].flatten()
     dec = dec[0:nEvents].flatten()
