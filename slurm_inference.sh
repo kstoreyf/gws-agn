@@ -6,7 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --mem=128G
+#SBATCH --mem=20G
 #SBATCH --constraint=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --qos=regular
@@ -40,6 +40,5 @@ echo "Using GPU: ${CUDA_VISIBLE_DEVICES:-unset}"
 
 # Run the inference notebook
 python code/run_inference.py
-#jupyter nbconvert --to notebook --execute notebooks/inference/complete_catalog/inference_lognormal_agn-exact-onthefly-nocompleteness.ipynb --output inference_results.ipynb
 
 echo "Inference job completed!" 

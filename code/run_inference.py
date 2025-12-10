@@ -70,7 +70,8 @@ def main(
     f_agn=0.5, lambda_agn=0.5, N_gw=1000, gw_seed=1042, nside=64,
     n_walkers=16, n_steps=1000, burnin_frac=0.2,
     Om0=None, gamma_agn=0, gamma_gal=0,
-    H0_bounds=(20, 120), f_bounds=(0, 1),
+    H0_bounds=(50, 100), f_bounds=(0, 1),
+    mode='mcmc', n_H0=20, n_f=20,
     seed=None
 ):
     """
@@ -78,24 +79,24 @@ def main(
     
     Parameters
     ----------
-    galaxy_file : str, optional
-        Path to galaxy catalog file (default: example path)
-    agn_file : str, optional
-        Path to AGN catalog file (default: example path)
-    gw_file : str, optional
-        Path to GW samples file (default: example path)
-    output_file : str, optional
-        Path to save inference results (default: None, no saving)
+    f_agn : float
+        Fraction of AGN hosts (default: 0.5)
+    lambda_agn : float
+        AGN mixing parameter (default: 0.5)
+    N_gw : int
+        Number of GW events (default: 1000)
+    gw_seed : int
+        Random seed for GW samples (default: 1042)
     nside : int
-        Healpix nside parameter (default: 256)
+        Healpix nside parameter (default: 64)
     n_walkers : int
-        Number of MCMC walkers (default: 64)
+        Number of MCMC walkers (default: 16)
     n_steps : int
         Number of MCMC steps (default: 1000)
     burnin_frac : float
-        Burn-in fraction (default: 0.5)
+        Burn-in fraction (default: 0.2)
     Om0 : float, optional
-        Matter density parameter (default: Planck value)
+        Matter density parameter (default: None, uses Planck value)
     gamma_agn : float
         AGN evolution parameter (default: 0)
     gamma_gal : float
@@ -104,19 +105,23 @@ def main(
         Bounds for H0 parameter (default: (20, 120))
     f_bounds : tuple
         Bounds for f parameter (default: (0, 1))
+    mode : str
+        Mode to run: 'mcmc' or 'likelihood_grid' (default: 'mcmc')
+    n_H0 : int
+        Number of H0 grid points for likelihood_grid mode (default: 50)
+    n_f : int
+        Number of f grid points for likelihood_grid mode (default: 50)
     seed : int, optional
-        Random seed for MCMC initialization
+        Random seed for MCMC initialization (default: None)
     
     Returns
     -------
     dict
-        Dictionary containing:
-        - posterior_samples: posterior samples array
-        - sampler: emcee sampler object
-        - config: configuration dictionary
-        - metadata: metadata dictionary
+        Dictionary containing results depending on mode:
+        - For 'mcmc': posterior_samples, sampler, config, metadata, mcmc_params
+        - For 'likelihood_grid': log_likelihood_grid, H0_grid, f_grid, config, metadata
     """
-    print(f"Running main inference pipeline: f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, n_walkers={n_walkers}, n_steps={n_steps}")
+    mode = 'likelihood_grid'
 
     ratioNgalNagn = 1
     bias_gal = 1.0
@@ -126,6 +131,8 @@ def main(
     N_gw = 1000
     seed = 42
     gw_seed = 1042
+
+    print(f"Running main inference pipeline: mode={mode}, f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, n_walkers={n_walkers}, n_steps={n_steps}")
 
     tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
     tag_mock = f'_seed{seed}_ratioNgalNagn{ratioNgalNagn}{tag_mock_extra}'
@@ -142,7 +149,7 @@ def main(
     print(f"JAX devices: {jax.devices()}")
     print(f"JAX default backend: {jax.default_backend()}")
     print(f"GPU devices: {[d for d in jax.devices() if d.device_kind == 'gpu']}")
-    print(f"Test array device: {jnp.array([1.0]).device()}")
+    #print(f"Test array device: {jnp.array([1.0]).device()}")
 
     # Load catalog data
     catalog_data = load_catalog_data(galaxy_file, agn_file, nside=nside)
@@ -159,6 +166,199 @@ def main(
     # Set up MCMC parameters
     mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, f_bounds=f_bounds)
 
+    # Run inference based on mode
+    if mode == 'likelihood_grid':
+        results = run_likelihood_grid(
+            gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
+            galaxy_file, agn_file, gw_file, nside,
+            Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
+            n_H0=n_H0, n_f=n_f,
+            output_file=output_file
+        )
+    elif mode == 'mcmc':
+        results = run_inference_mcmc(
+            gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
+            galaxy_file, agn_file, gw_file, nside,
+            n_walkers=n_walkers, n_steps=n_steps, burnin_frac=burnin_frac,
+            Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
+            H0_bounds=H0_bounds, f_bounds=f_bounds,
+            seed=seed, output_file=output_file
+        )
+    else:
+        raise ValueError(f"Unknown mode: {mode}. Must be 'mcmc' or 'likelihood_grid'")
+    
+    return results
+
+
+def run_likelihood_grid(
+    gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
+    galaxy_file, agn_file, gw_file, nside,
+    Om0=None, gamma_agn=0, gamma_gal=0,
+    n_H0=50, n_f=50,
+    output_file=None
+):
+    """
+    Run likelihood grid computation.
+    
+    Parameters
+    ----------
+    gw_data : dict
+        Dictionary from load_gw_samples()
+    catalog_data : dict
+        Dictionary from load_catalog_data()
+    cosmo_funcs : dict
+        Dictionary from setup_cosmology()
+    prob_funcs : dict
+        Dictionary from create_catalog_probability_functions()
+    mcmc_params : dict
+        Dictionary from setup_mcmc_parameters()
+    galaxy_file : str
+        Path to galaxy catalog file
+    agn_file : str
+        Path to AGN catalog file
+    gw_file : str
+        Path to GW samples file
+    nside : int
+        Healpix nside parameter
+    Om0 : float, optional
+        Matter density parameter (default: None, uses Planck value)
+    gamma_agn : float
+        AGN evolution parameter (default: 0)
+    gamma_gal : float
+        Galaxy evolution parameter (default: 0)
+    n_H0 : int
+        Number of H0 grid points (default: 50)
+    n_f : int
+        Number of f grid points (default: 50)
+    output_file : str, optional
+        Path to save likelihood grid (default: None)
+    
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - log_likelihood_grid: 2D array of log-likelihood values
+        - H0_grid: 1D array of H0 values
+        - f_grid: 1D array of f values
+        - config: configuration dictionary
+        - metadata: metadata dictionary
+    """
+    print(f"Running likelihood grid computation: n_H0={n_H0}, n_f={n_f}")
+    
+    # Create parameter grids from bounds
+    H0_grid = np.linspace(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0], n_H0)
+    f_grid = np.linspace(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1], n_f)
+    
+    # Compute likelihood grid
+    log_likelihood_grid = compute_likelihood_grid(
+        gw_data, catalog_data, cosmo_funcs, prob_funcs,
+        H0_grid, f_grid,
+        Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
+        progress=True
+    )
+    
+    # Create configuration and metadata
+    config = create_inference_config(
+        galaxy_file, agn_file, gw_file, nside,
+        gw_data['nEvents'], gw_data['nsamp'],
+        n_walkers=None, n_steps=None, burnin_frac=None,
+        Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
+        H0_bounds=(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0]),
+        f_bounds=(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1])
+    )
+    config['n_H0'] = n_H0
+    config['n_f'] = n_f
+    config['mode'] = 'likelihood_grid'
+    
+    metadata = create_inference_metadata(catalog_data, cosmo_funcs, gw_data)
+    
+    # Save results if output file specified
+    if output_file is not None:
+        # Modify output filename for grid mode
+        grid_output_file = output_file.replace('inference_results', 'likelihood_grid')
+        save_likelihood_grid(
+            grid_output_file,
+            log_likelihood_grid, H0_grid, f_grid,
+            config=config,
+            metadata=metadata,
+            grid_params={'Om0': Om0, 'gamma_agn': gamma_agn, 'gamma_gal': gamma_gal}
+        )
+        print(f"Likelihood grid saved to {grid_output_file}")
+    
+    return {
+        'log_likelihood_grid': log_likelihood_grid,
+        'H0_grid': H0_grid,
+        'f_grid': f_grid,
+        'config': config,
+        'metadata': metadata,
+        'mcmc_params': mcmc_params
+    }
+
+
+def run_inference_mcmc(
+    gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
+    galaxy_file, agn_file, gw_file, nside,
+    n_walkers=16, n_steps=1000, burnin_frac=0.2,
+    Om0=None, gamma_agn=0, gamma_gal=0,
+    H0_bounds=(20, 120), f_bounds=(0, 1),
+    seed=None, output_file=None
+):
+    """
+    Run MCMC inference pipeline.
+    
+    Parameters
+    ----------
+    gw_data : dict
+        Dictionary from load_gw_samples()
+    catalog_data : dict
+        Dictionary from load_catalog_data()
+    cosmo_funcs : dict
+        Dictionary from setup_cosmology()
+    prob_funcs : dict
+        Dictionary from create_catalog_probability_functions()
+    mcmc_params : dict
+        Dictionary from setup_mcmc_parameters()
+    galaxy_file : str
+        Path to galaxy catalog file
+    agn_file : str
+        Path to AGN catalog file
+    gw_file : str
+        Path to GW samples file
+    nside : int
+        Healpix nside parameter
+    n_walkers : int
+        Number of MCMC walkers (default: 16)
+    n_steps : int
+        Number of MCMC steps (default: 1000)
+    burnin_frac : float
+        Burn-in fraction (default: 0.2)
+    Om0 : float, optional
+        Matter density parameter (default: None, uses Planck value)
+    gamma_agn : float
+        AGN evolution parameter (default: 0)
+    gamma_gal : float
+        Galaxy evolution parameter (default: 0)
+    H0_bounds : tuple
+        Bounds for H0 parameter (default: (20, 120))
+    f_bounds : tuple
+        Bounds for f parameter (default: (0, 1))
+    seed : int, optional
+        Random seed for MCMC initialization (default: None)
+    output_file : str, optional
+        Path to save inference results (default: None)
+    
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - posterior_samples: posterior samples array
+        - sampler: emcee sampler object
+        - config: configuration dictionary
+        - metadata: metadata dictionary
+        - mcmc_params: MCMC parameter dictionary
+    """
+    print(f"Running MCMC inference: n_walkers={n_walkers}, n_steps={n_steps}, burnin_frac={burnin_frac}")
+    
     # Create MCMC likelihood function
     likelihood_func = create_mcmc_likelihood_function(
         gw_data, catalog_data, cosmo_funcs, prob_funcs,
@@ -187,6 +387,7 @@ def main(
         Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
         H0_bounds=H0_bounds, f_bounds=f_bounds
     )
+    config['mode'] = 'mcmc'
     
     metadata = create_inference_metadata(catalog_data, cosmo_funcs, gw_data)
     
@@ -711,7 +912,7 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
     }
 
 
-def load_gw_samples(filename, nEvents=100, nsamp=None):
+def load_gw_samples(filename, nEvents=1000, nsamp=None):
     """
     Load gravitational wave samples from HDF5 file.
     
@@ -822,10 +1023,23 @@ def create_catalog_probability_functions(catalog_data):
         """Log probability of redshift given galaxy catalog."""
         zs = zgals[pix]
         ddzs = dzgals[pix]
+        valid_mask = zs != 100
+        ngals = jnp.sum(valid_mask)
+        # Only normalize over valid entries
         wts = wgals[pix] * (1 + zs)**(gamma)
-        ngals = jnp.sum(zs != 100)
-        wts = wts / jnp.sum(wts)
-        return logsumexp(jnp.log(wts) + norm.logpdf(z, zs, ddzs)), ngals
+        wts_valid = jnp.where(valid_mask, wts, 0.0)
+        wts_sum = jnp.sum(wts_valid)
+        # Normalize only if there are valid entries
+        wts_normalized = jnp.where(wts_sum > 0, wts_valid / wts_sum, 0.0)
+        # Compute log probability - only include valid entries in the sum
+        # Use a mask to exclude invalid entries from logsumexp
+        log_wts = jnp.where(valid_mask & (wts_normalized > 0), 
+                           jnp.log(wts_normalized) + norm.logpdf(z, zs, ddzs), 
+                           -jnp.inf)
+        log_prob = logsumexp(log_wts)
+        # If no valid entries, return very low probability
+        log_prob = jnp.where(ngals > 0, log_prob, -1e10)
+        return log_prob, ngals
     
     logpcatalog_gals_vmap = jit(vmap(logpcatalog_gals, in_axes=(0, 0, None, None), out_axes=0))
     
@@ -834,10 +1048,23 @@ def create_catalog_probability_functions(catalog_data):
         """Log probability of redshift given AGN catalog."""
         zs = zagns[pix]
         ddzs = dzagns[pix]
+        valid_mask = zs != 100
+        nagns = jnp.sum(valid_mask)
+        # Only normalize over valid entries
         wts = wagns[pix] * (1 + zs)**(gamma)
-        nagns = jnp.sum(zs != 100)
-        wts = wts / jnp.sum(wts)
-        return logsumexp(jnp.log(wts) + norm.logpdf(z, zs, ddzs)), nagns
+        wts_valid = jnp.where(valid_mask, wts, 0.0)
+        wts_sum = jnp.sum(wts_valid)
+        # Normalize only if there are valid entries
+        wts_normalized = jnp.where(wts_sum > 0, wts_valid / wts_sum, 0.0)
+        # Compute log probability - only include valid entries in the sum
+        # Use a mask to exclude invalid entries from logsumexp
+        log_wts = jnp.where(valid_mask & (wts_normalized > 0), 
+                           jnp.log(wts_normalized) + norm.logpdf(z, zs, ddzs), 
+                           -jnp.inf)
+        log_prob = logsumexp(log_wts)
+        # If no valid entries, return very low probability
+        log_prob = jnp.where(nagns > 0, log_prob, -1e10)
+        return log_prob, nagns
     
     logpcatalog_agns_vmap = jit(vmap(logpcatalog_agns, in_axes=(0, 0, None, None), out_axes=0))
     
@@ -872,8 +1099,16 @@ def create_catalog_probability_functions(catalog_data):
         logpcat_gals, ngals = logpcatalog_gals_vmap(z, pix, Om0, gamma_gal)
         #logpcat_gals, ngals = logpcatalog_gals(z, pix, Om0, gamma_gal)
         #print("log terms")
-        log_term1 = jnp.log(f) + logpcat_agns
-        log_term2 = jnp.log1p(-f) + logpcat_gals
+        # Handle edge cases: if no valid AGN/galaxies, set probability to very low value
+        logpcat_agns = jnp.where(nagns > 0, logpcat_agns, -1e10)
+        logpcat_gals = jnp.where(ngals > 0, logpcat_gals, -1e10)
+        
+        # Use safe log operations to avoid numerical issues
+        log_f = jnp.where(f > 1e-10, jnp.log(f), -1e10)
+        log_1mf = jnp.where(f < 1.0 - 1e-10, jnp.log1p(-f), -1e10)
+        
+        log_term1 = log_f + logpcat_agns
+        log_term2 = log_1mf + logpcat_gals
         #print("sum")
         log_prob = jnp.logaddexp(log_term1, log_term2)
         return log_prob
@@ -955,6 +1190,280 @@ def compute_darksiren_log_likelihood(
     ll = jnp.sum(-jnp.log(nsamp) + logsumexp(log_weights, axis=-1))
     
     return ll
+
+
+def compute_likelihood_grid(
+    gw_data, catalog_data, cosmo_funcs, prob_funcs,
+    H0_grid, f_grid, Om0=None, gamma_agn=0, gamma_gal=0,
+    progress=True
+):
+    """
+    Compute dark siren log-likelihood for a grid of parameters.
+    
+    Parameters
+    ----------
+    gw_data : dict
+        Dictionary from load_gw_samples()
+    catalog_data : dict
+        Dictionary from load_catalog_data()
+    cosmo_funcs : dict
+        Dictionary from setup_cosmology()
+    prob_funcs : dict
+        Dictionary from create_catalog_probability_functions()
+    H0_grid : array
+        1D array of H0 values to evaluate
+    f_grid : array
+        1D array of f values to evaluate
+    Om0 : float, optional
+        Matter density parameter (default: Planck value)
+    gamma_agn : float
+        AGN evolution parameter (default: 0)
+    gamma_gal : float
+        Galaxy evolution parameter (default: 0)
+    progress : bool
+        Whether to show progress bar (default: True)
+    
+    Returns
+    -------
+    array
+        2D array of log-likelihood values with shape (len(H0_grid), len(f_grid))
+        where log_likelihood[i, j] corresponds to H0_grid[i], f_grid[j]
+    """
+    print(f"Computing likelihood grid: H0_grid shape={len(H0_grid)}, f_grid shape={len(f_grid)}, Om0={Om0}, gamma_agn={gamma_agn}, gamma_gal={gamma_gal}")
+    
+    # Precompute pixel indices once (they don't depend on H0, f, Om0, or gammas)
+    nside = catalog_data['nside']
+    samples_ind = compute_pixel_indices(gw_data['ra'], gw_data['dec'], nside)
+    
+    if Om0 is None:
+        Om0 = cosmo_funcs['Om0Planck']
+    
+    # Convert to JAX arrays if needed
+    H0_grid = jnp.asarray(H0_grid)
+    f_grid = jnp.asarray(f_grid)
+    
+    # Initialize output array
+    log_likelihood_grid = jnp.zeros((len(H0_grid), len(f_grid)))
+    
+    # Compute likelihood for each combination
+    if progress:
+        total = len(H0_grid) * len(f_grid)
+        pbar = tqdm(total=total, desc="Computing likelihood grid")
+    
+    for i, H0 in enumerate(H0_grid):
+        for j, f in enumerate(f_grid):
+            ll = compute_darksiren_log_likelihood(
+                gw_data, catalog_data, cosmo_funcs, prob_funcs,
+                float(H0), float(f), samples_ind, Om0, gamma_agn, gamma_gal
+            )
+            log_likelihood_grid = log_likelihood_grid.at[i, j].set(float(ll))
+            if progress:
+                pbar.update(1)
+    
+    if progress:
+        pbar.close()
+    
+    return np.array(log_likelihood_grid)
+
+
+def save_likelihood_grid(
+    filename, log_likelihood_grid, H0_grid, f_grid,
+    config=None, metadata=None, grid_params=None
+):
+    """
+    Save likelihood grid and associated parameters to HDF5 file.
+    
+    Parameters
+    ----------
+    filename : str
+        Output HDF5 filename
+    log_likelihood_grid : array
+        2D array of log-likelihood values with shape (len(H0_grid), len(f_grid))
+    H0_grid : array
+        1D array of H0 values used
+    f_grid : array
+        1D array of f values used
+    config : dict, optional
+        Configuration dictionary with:
+        - galaxy_file: path to galaxy catalog
+        - agn_file: path to AGN catalog
+        - gw_file: path to GW samples
+        - nside: healpix nside
+        - nEvents: number of GW events
+        - nsamp: number of samples per event
+    metadata : dict, optional
+        Additional metadata to save
+    grid_params : dict, optional
+        Dictionary with grid computation parameters:
+        - Om0: matter density parameter
+        - gamma_agn: AGN evolution parameter
+        - gamma_gal: galaxy evolution parameter
+    """
+    print(f"Saving likelihood grid to {filename} (shape={log_likelihood_grid.shape})")
+    os.makedirs(os.path.dirname(filename) if os.path.dirname(filename) else '.', exist_ok=True)
+    
+    with h5py.File(filename, 'w') as f:
+        # Save likelihood grid
+        f.create_dataset('log_likelihood_grid', data=np.array(log_likelihood_grid))
+        
+        # Save parameter grids
+        f.create_dataset('H0_grid', data=np.array(H0_grid))
+        f.create_dataset('f_grid', data=np.array(f_grid))
+        
+        # Save grid parameters
+        if grid_params is not None:
+            grid_group = f.create_group('grid_params')
+            for key, value in grid_params.items():
+                if isinstance(value, str):
+                    grid_group.attrs[key] = value
+                elif isinstance(value, (int, float)):
+                    grid_group.attrs[key] = value
+                elif isinstance(value, bool):
+                    grid_group.attrs[key] = int(value)
+                elif value is None:
+                    grid_group.attrs[key] = 'None'
+                else:
+                    grid_group.attrs[key] = str(value)
+        
+        # Save configuration
+        if config is not None:
+            config_group = f.create_group('config')
+            for key, value in config.items():
+                if isinstance(value, str):
+                    config_group.attrs[key] = value
+                elif isinstance(value, (int, float)):
+                    config_group.attrs[key] = value
+                elif isinstance(value, bool):
+                    config_group.attrs[key] = int(value)
+                elif isinstance(value, (tuple, list)):
+                    # Convert tuples/lists to JSON string
+                    config_group.attrs[key] = json.dumps(value)
+                elif value is None:
+                    config_group.attrs[key] = 'None'
+                else:
+                    # Convert other types to string
+                    config_group.attrs[key] = str(value)
+        
+        # Save metadata
+        if metadata is not None:
+            metadata_group = f.create_group('metadata')
+            for key, value in metadata.items():
+                if isinstance(value, str):
+                    metadata_group.attrs[key] = value
+                elif isinstance(value, (int, float)):
+                    metadata_group.attrs[key] = value
+                elif isinstance(value, bool):
+                    metadata_group.attrs[key] = int(value)
+                elif value is None:
+                    metadata_group.attrs[key] = 'None'
+                else:
+                    metadata_group.attrs[key] = str(value)
+        
+        # Save attributes
+        f.attrs['timestamp'] = datetime.now().isoformat()
+        f.attrs['n_H0'] = len(H0_grid)
+        f.attrs['n_f'] = len(f_grid)
+        f.attrs['H0_min'] = float(np.min(H0_grid))
+        f.attrs['H0_max'] = float(np.max(H0_grid))
+        f.attrs['f_min'] = float(np.min(f_grid))
+        f.attrs['f_max'] = float(np.max(f_grid))
+
+
+def load_likelihood_grid(filename):
+    """
+    Load likelihood grid and associated parameters from HDF5 file.
+    
+    Parameters
+    ----------
+    filename : str
+        Input HDF5 filename
+    
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - log_likelihood_grid: 2D array of log-likelihood values
+        - H0_grid: 1D array of H0 values
+        - f_grid: 1D array of f values
+        - grid_params: dictionary with grid computation parameters
+        - config: configuration dictionary
+        - metadata: metadata dictionary
+        - timestamp: timestamp string
+    """
+    print(f"Loading likelihood grid from {filename}")
+    results = {}
+    
+    with h5py.File(filename, 'r') as f:
+        # Load likelihood grid
+        results['log_likelihood_grid'] = np.array(f['log_likelihood_grid'])
+        
+        # Load parameter grids
+        results['H0_grid'] = np.array(f['H0_grid'])
+        results['f_grid'] = np.array(f['f_grid'])
+        
+        # Load grid parameters
+        if 'grid_params' in f:
+            grid_params = {}
+            for key in f['grid_params'].attrs:
+                value = f['grid_params'].attrs[key]
+                # Try to convert back to appropriate type
+                if isinstance(value, bytes):
+                    value = value.decode('utf-8')
+                if value == 'None':
+                    value = None
+                elif isinstance(value, str):
+                    # Try to parse as float/int if possible
+                    try:
+                        if '.' in value:
+                            value = float(value)
+                        else:
+                            value = int(value)
+                    except (ValueError, TypeError):
+                        pass
+                grid_params[key] = value
+            results['grid_params'] = grid_params
+        
+        # Load configuration
+        if 'config' in f:
+            config = {}
+            for key in f['config'].attrs:
+                value = f['config'].attrs[key]
+                # Try to convert back to appropriate type
+                if isinstance(value, bytes):
+                    value = value.decode('utf-8')
+                if value == 'None':
+                    value = None
+                # Try to parse as JSON (for tuples/lists)
+                elif isinstance(value, str) and (value.startswith('[') or value.startswith('(')):
+                    try:
+                        value = json.loads(value)
+                    except (json.JSONDecodeError, ValueError):
+                        pass
+                config[key] = value
+            results['config'] = config
+        
+        # Load metadata
+        if 'metadata' in f:
+            metadata = {}
+            for key in f['metadata'].attrs:
+                value = f['metadata'].attrs[key]
+                if isinstance(value, bytes):
+                    value = value.decode('utf-8')
+                if value == 'None':
+                    value = None
+                metadata[key] = value
+            results['metadata'] = metadata
+        
+        # Load attributes
+        results['timestamp'] = f.attrs.get('timestamp', None)
+        results['n_H0'] = f.attrs.get('n_H0', None)
+        results['n_f'] = f.attrs.get('n_f', None)
+        results['H0_min'] = f.attrs.get('H0_min', None)
+        results['H0_max'] = f.attrs.get('H0_max', None)
+        results['f_min'] = f.attrs.get('f_min', None)
+        results['f_max'] = f.attrs.get('f_max', None)
+    
+    return results
 
 
 def setup_mcmc_parameters(
