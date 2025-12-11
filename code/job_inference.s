@@ -1,11 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=inference_mcmc
+##SBATCH --job-name=inference_mcmc
+#SBATCH --job-name=inference_like
 #SBATCH --output=logs/%x.out
+##SBATCH --time=0:20:00
 #SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=32
-#SBATCH --mem=20G
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=5G
 #SBATCH --constraint=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --qos=regular
@@ -26,18 +28,18 @@ mkdir -p logs
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export XLA_PYTHON_CLIENT_MEM_FRACTION=0.8
 
-# Check if preprocessing files exist
-if [ ! -f "lognormal_pixelated_nside_64_galaxies.h5" ] || [ ! -f "lognormal_pixelated_nside_64_agn.h5" ]; then
-    echo "Error: Preprocessing files not found!"
-    echo "Please run preprocessing first: sbatch slurm_preprocessing.sh"
-    exit 1
-fi
+# # Check if preprocessing files exist
+# if [ ! -f "lognormal_pixelated_nside_64_galaxies.h5" ] || [ ! -f "lognormal_pixelated_nside_64_agn.h5" ]; then
+#     echo "Error: Preprocessing files not found!"
+#     echo "Please run preprocessing first: sbatch slurm_preprocessing.sh"
+#     exit 1
+# fi
 
 # Run inference
 echo "Starting inference job..."
 echo "Using GPU: ${CUDA_VISIBLE_DEVICES:-unset}"
 
 # Run the inference notebook
-python code/run_inference.py
+python run_inference.py
 
 echo "Inference job completed!" 

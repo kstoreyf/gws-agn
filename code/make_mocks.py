@@ -46,8 +46,8 @@ def main():
     tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
     
     # Configuration parameters for GW injection
-    f_agn = 0.5#0.25
-    lambda_agn = 0.5#0.5
+    f_agn = 0.25
+    lambda_agn = 0.25
     N_gw = 1000
     gw_seed = None  # Will use catalog seed + 1000
     

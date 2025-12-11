@@ -69,7 +69,7 @@ except ImportError:
 
 
 def main(
-    f_agn=0.5, lambda_agn=0.5, N_gw=1000, gw_seed=1042, nside=64,
+    f_agn=0.5, lambda_agn=0.5, N_gw=1000, gw_seed=1042, nside=256,
     n_walkers=16, n_steps=1000, burnin_frac=0.2,
     Om0=None, gamma_agn=0, gamma_gal=0,
     H0_bounds=(50, 100), f_bounds=(0, 1),
@@ -130,7 +130,7 @@ def main(
     bias_gal = 1.0
     bias_agn = 1.0
     f_agn = 0.5
-    lambda_agn = 0.5
+    lambda_agn = 0.0
     N_gw = 1000
     seed = 42
     gw_seed = 1042
@@ -143,9 +143,10 @@ def main(
     galaxy_file = os.path.join(dir_mock, f'lognormal_pixelated_nside_{nside}_galaxies.h5')
     agn_file = os.path.join(dir_mock, f'lognormal_pixelated_nside_{nside}_agn.h5')
     # NOTE rn named pos_only; think about when we move to more complex inf
-    gw_file = os.path.join(dir_mock, f'gwsamples_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}_pos_only.h5')
+    #gw_file = os.path.join(dir_mock, f'gwsamples_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}_pos_only.h5')
+    gw_file = os.path.join(dir_mock, f'gwsamples_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}.h5')
 
-    tag_inf = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}'
+    tag_inf = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}_nside{nside}_norm'
     output_file = f'../results/inference/inference_results{tag_inf}.h5'
 
     #Check JAX GPU status
@@ -843,16 +844,18 @@ def load_catalog_data(galaxy_file, agn_file, nside=256):
     """
     print(f"Loading catalog data: galaxy_file={galaxy_file}, agn_file={agn_file}, nside={nside}")
     with h5py.File(galaxy_file, 'r') as f:
-        zgals = jnp.asarray(f['zgals'])
+        # Use 'z' and 'n_in_pixel' dataset names (as saved by pixelize_catalogs.py)
+        zgals = jnp.asarray(f['z'])
         dzgals = 0.0001 * (1 + zgals)
         wgals = jnp.ones(zgals.shape)
-        ngals = jnp.asarray(f['ngals'])
+        ngals = jnp.asarray(f['n_in_pixel'])
     
     with h5py.File(agn_file, 'r') as f:
-        zagns = jnp.asarray(f['zagn'])
+        # Use 'z' and 'n_in_pixel' dataset names (as saved by pixelize_catalogs.py)
+        zagns = jnp.asarray(f['z'])
         dzagns = 0.0001 * (1 + zagns)
         wagns = jnp.ones(zagns.shape)
-        nagns = jnp.asarray(f['nagn'])
+        nagns = jnp.asarray(f['n_in_pixel'])
     
     print("Loaded!")
     return {
@@ -989,24 +992,22 @@ def load_gw_samples(filename, nEvents=1000, nsamp=None):
     """
     print(f"Loading GW samples from {filename} (nEvents={nEvents}, nsamp={nsamp})")
     with h5py.File(filename, 'r') as inp:
-        nsamps_ = inp.attrs['nsamp']
+        nsamp_ = inp.attrs['nsamp']
         nEvents_ = inp.attrs['nobs']
-        ra = jnp.array(inp['ra'])
-        dec = jnp.array(inp['dec'])
-        dL = jnp.array((jnp.array(inp['dL']) * u.Mpc).value)
+        # Read as 2D arrays with shape (nEvents_, nsamp_)
+        ra = jnp.array(inp['ra'])  # Shape: (nEvents_, nsamp_)
+        dec = jnp.array(inp['dec'])  # Shape: (nEvents_, nsamp_)
+        dL = jnp.array((jnp.array(inp['dL']) * u.Mpc).value)  # Shape: (nEvents_, nsamp_)
     
-    if nsamps is None:
-        nsamps = nsamps_
+    if nsamp is None:
+        nsamp = nsamp_
     if nEvents is None:
         nEvents = nEvents_
     
-    ra = ra.reshape(nEvents_, nsamps_)[0:nEvents, 0:nsamps]
-    dec = dec.reshape(nEvents_, nsamps_)[0:nEvents, 0:nsamps]
-    dL = dL.reshape(nEvents_, nsamps_)[0:nEvents, 0:nsamps]
-    
-    ra = ra[0:nEvents].flatten()
-    dec = dec[0:nEvents].flatten()
-    dL = dL[0:nEvents].flatten()
+    # Slice to requested number of events and samples, then flatten to 1D
+    ra = ra[0:nEvents, 0:nsamp].flatten()
+    dec = dec[0:nEvents, 0:nsamp].flatten()
+    dL = dL[0:nEvents, 0:nsamp].flatten()
     
     p_pe = jnp.ones(len(dL))
     
@@ -1074,7 +1075,7 @@ def create_catalog_probability_functions(catalog_data):
         """Log probability of redshift given galaxy catalog."""
         zs = zgals[pix]
         ddzs = dzgals[pix]
-        valid_mask = zs != 100
+        valid_mask = jnp.isfinite(zs)  # Check for NaN (and inf) values used for padding
         ngals = jnp.sum(valid_mask)
         # Only normalize over valid entries
         wts = wgals[pix] * (1 + zs)**(gamma)
@@ -1099,7 +1100,7 @@ def create_catalog_probability_functions(catalog_data):
         """Log probability of redshift given AGN catalog."""
         zs = zagns[pix]
         ddzs = dzagns[pix]
-        valid_mask = zs != 100
+        valid_mask = jnp.isfinite(zs)  # Check for NaN (and inf) values used for padding
         nagns = jnp.sum(valid_mask)
         # Only normalize over valid entries
         wts = wagns[pix] * (1 + zs)**(gamma)
@@ -1158,8 +1159,22 @@ def create_catalog_probability_functions(catalog_data):
         log_f = jnp.where(f > 1e-10, jnp.log(f), -1e10)
         log_1mf = jnp.where(f < 1.0 - 1e-10, jnp.log1p(-f), -1e10)
         
-        log_term1 = log_f + logpcat_agns
-        log_term2 = log_1mf + logpcat_gals
+        ### original
+        # log_term1 = log_f + logpcat_agns
+        # log_term2 = log_1mf + logpcat_gals
+        
+        ### trying this cursor suggestion:
+        # Account for relative number of sources per pixel when combining probabilities
+        # The catalog probabilities are normalized per pixel, but we need to weight them
+        # by the relative probability of finding AGN vs galaxies in each pixel.
+        # This prevents bias when pixels have different numbers of AGN vs galaxies.
+        n_tot = nagns + ngals
+        # Weight by relative number of sources (avoid division by zero)
+        log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        
+        log_term1 = log_f + logpcat_agns + log_weight_agn
+        log_term2 = log_1mf + logpcat_gals + log_weight_gal
         #print("sum")
         log_prob = jnp.logaddexp(log_term1, log_term2)
         return log_prob
