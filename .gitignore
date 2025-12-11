@@ -2,6 +2,7 @@
 data/
 logs/
 results/
+configs/
 
 #other
 .vscode/

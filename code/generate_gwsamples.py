@@ -35,6 +35,9 @@ except (Exception, SystemExit):
 import warnings
 warnings.filterwarnings('ignore')
 
+import argparse
+import yaml
+
 import jax
 
 # JAX imports for numerical computation and automatic differentiation
@@ -66,36 +69,97 @@ jax.config.update("jax_enable_x64", True)  # Use 64-bit floats for accuracy
 jax.config.update('jax_default_matmul_precision', 'highest')  # Highest precision matrix multiplication
 
 
-def main():
+def parse_args():
+    """
+    Parse command line arguments for config file.
+    
+    Returns:
+    --------
+    config : dict
+        Configuration dictionary loaded from YAML file
+    """
+    parser = argparse.ArgumentParser(description='Generate GW samples from mock catalogs')
+    parser.add_argument('--config', type=str, required=True,
+                        help='Path to YAML configuration file')
+    args = parser.parse_args()
+    
+    # Load YAML config file
+    with open(args.config, 'r') as f:
+        config = yaml.safe_load(f)
+    
+    return config
+
+
+def main(config):
     """
     Main function to generate GW samples from mock catalogs.
     Always includes black hole masses in the samples.
     All samples are saved as 2D arrays with shape (nEvents, nsamp).
+    
+    Parameters:
+    -----------
+    config : dict
+        Configuration dictionary from YAML file
     """
-    # Parameters for the mock catalog
-    fagn = 0.25  # Fraction of AGNs (not used in this script but part of filename)
-    lam = 0.25   # Lambda parameter for AGNs (not used in this script but part of filename)
-
+    # Extract parameters from config
+    # Get f_agn and lambda_agn from gw_injection section
+    fagn = config['gw_injection']['f_agn']
+    lam = config['gw_injection']['lambda_agn']
+    
     # File paths for input data
-    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/'
-    mockpath = filepath + 'mock_catalog.h5'  # Mock catalog with galaxy and AGN positions
-    mockgwpath = filepath + 'gws_fagn'+str(fagn)+'_lambdaagn'+str(lam)+'_N1000_seed1042.h5'  # GW event indices
+    filepath = config['paths']['base_path']
+    mockpath = filepath + config['paths']['mock_catalog']
+    # Build mockgwpath from config or use explicit path if provided
+    if 'mock_gw_indices' in config['paths']:
+        mockgwpath = filepath + config['paths']['mock_gw_indices']
+    else:
+        # Fallback to constructing from parameters
+        N_gw = config['gw_injection']['N_gw']
+        gw_seed = config['gw_injection']['gw_seed']
+        # If gw_seed is None, calculate from mock catalog seed
+        if gw_seed is None:
+            seed = config['mock_catalog']['seed']
+            gw_seed = seed + 1000
+        mockgwpath = filepath + f'gws_fagn{str(fagn)}_lambdaagn{str(lam)}_N{N_gw}_seed{gw_seed}.h5'
 
     # Load data
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn = load_data(mockpath, mockgwpath)
     
     # Number of samples to generate per GW event
-    nsamp = 10000
+    nsamp = config['gw_samples']['nsamp']
     # Total number of observed GW events (from both galaxies and AGNs)
     nobs = len(i_gw_agn) + len(i_gw_gal)
 
-    # Redshift grid boundaries for cosmology calculations
+    # Redshift grid boundaries for cosmology calculations (fixed values)
     zMax_1 = 0.5  # Low redshift boundary
-    zMax_2 = 5    # High redshift boundary
+    zMax_2 = 5.0  # High redshift boundary
 
-    # Cosmological parameters from Planck 2015
-    H0Planck = Planck15.H0.value  # Hubble constant in km/s/Mpc
-    Om0Planck = Planck15.Om0      # Matter density parameter
+    # Cosmological parameters (default to Planck 2015 if not in config)
+    if 'cosmology' in config:
+        if 'h' in config['cosmology']:
+            h = config['cosmology']['h']
+            # H0 should equal 100*h, but use explicit H0 if provided
+            if 'H0' in config['cosmology']:
+                H0Planck = config['cosmology']['H0']
+            else:
+                H0Planck = 100 * h  # Calculate from h
+        elif 'H0' in config['cosmology']:
+            H0Planck = config['cosmology']['H0']
+            h = H0Planck / 100.0  # Calculate h from H0
+        else:
+            # Default to Planck 2015
+            H0Planck = Planck15.H0.value
+            h = H0Planck / 100.0  # Calculate h from H0
+        
+        if 'Om0' in config['cosmology']:
+            Om0Planck = config['cosmology']['Om0']
+        else:
+            Om0Planck = Planck15.Om0  # Default to Planck 2015
+    else:
+        # Default to Planck 2015
+        H0Planck = Planck15.H0.value
+        h = H0Planck / 100.0  # Calculate h from H0
+        Om0Planck = Planck15.Om0
 
     # Set up cosmology
     zgrid, rs, Om0grid, speed_of_light = setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck)
@@ -111,17 +175,30 @@ def main():
     )
 
     # Generate black hole masses
-    m1sdet_gal_gw, m2sdet_gal_gw = generate_black_hole_masses(z_gal[i_gw_gal], len(i_gw_gal))
-    m1sdet_agn_gw, m2sdet_agn_gw = generate_black_hole_masses(z_agn[i_gw_agn], len(i_gw_agn))
+    mass_mean = config['gw_samples']['mass_mean']
+    mass_std = config['gw_samples']['mass_std']
+    m1sdet_gal_gw, m2sdet_gal_gw = generate_black_hole_masses(z_gal[i_gw_gal], len(i_gw_gal), 
+                                                               mass_mean=mass_mean, mass_std=mass_std)
+    m1sdet_agn_gw, m2sdet_agn_gw = generate_black_hole_masses(z_agn[i_gw_agn], len(i_gw_agn),
+                                                               mass_mean=mass_mean, mass_std=mass_std)
 
     # Generate samples for galaxy-hosted GW events (order: ra, dec, dL, m1det, m2det)
+    ra_unc = config['gw_samples']['ra_uncertainty']
+    dec_unc = config['gw_samples']['dec_uncertainty']
+    mass_unc = config['gw_samples']['mass_uncertainty']
+    n_initial_samples = 256000  # Fixed value
+    
     ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal = generate_all_samples(
-        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, nsamp
+        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, nsamp,
+        n_initial_samples=n_initial_samples, ra_uncertainty=ra_unc, 
+        dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
     )
 
     # Generate samples for AGN-hosted GW events (order: ra, dec, dL, m1det, m2det)
     ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn = generate_all_samples(
-        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, nsamp
+        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, nsamp,
+        n_initial_samples=n_initial_samples, ra_uncertainty=ra_unc,
+        dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
     )
 
     # Combine all samples (order: ra, dec, dL, m1det, m2det)
@@ -135,7 +212,18 @@ def main():
     ras, decs, dLs, m1dets, m2dets = shuffle_events(ras, decs, dLs, m1dets, m2dets)
 
     # Save samples (2D array format, order: ra, dec, dL, m1det, m2det)
-    output_filename = f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N1000_seed1042.h5'
+    if 'gw_samples_output' in config['paths']:
+        output_filename = filepath + config['paths']['gw_samples_output']
+    else:
+        # Fallback to constructing from parameters
+        N_gw = config['gw_injection']['N_gw']
+        gw_seed = config['gw_injection']['gw_seed']
+        # If gw_seed is None, calculate from mock catalog seed
+        if gw_seed is None:
+            seed = config['mock_catalog']['seed']
+            gw_seed = seed + 1000
+        output_filename = f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N{N_gw}_seed{gw_seed}.h5'
+    
     save_samples(output_filename, ras, decs, dLs, m1dets, m2dets, nsamp, nobs)
     
     print(f"Saved {nobs} GW events with {nsamp} samples each (including masses) to {output_filename}")
@@ -450,7 +538,9 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, nsamp, n_initial_samples=2
     return ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples
 
 
-def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp):
+def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp, 
+                        n_initial_samples=256000, ra_uncertainty=0.01, 
+                        dec_uncertainty=0.01, mass_uncertainty=1.5):
     """
     Generate samples for all GW events of a given type.
     Order: ra, dec, dL, m1det, m2det
@@ -463,6 +553,14 @@ def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp):
         Detector-frame masses
     nsamp : int
         Number of samples per event
+    n_initial_samples : int
+        Number of initial samples to generate (before filtering)
+    ra_uncertainty : float
+        Standard deviation of RA uncertainty in radians
+    dec_uncertainty : float
+        Standard deviation of dec uncertainty in radians
+    mass_uncertainty : float
+        Standard deviation of mass uncertainty in solar masses
         
     Returns:
     --------
@@ -477,7 +575,9 @@ def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp):
     
     for k in tqdm(range(len(ra_gw))):
         ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples = generate_event_samples(
-            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], nsamp
+            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], nsamp,
+            n_initial_samples=n_initial_samples, ra_uncertainty=ra_uncertainty,
+            dec_uncertainty=dec_uncertainty, mass_uncertainty=mass_uncertainty
         )
         ras.append(ra_samples)
         decs.append(dec_samples)
@@ -551,4 +651,5 @@ def save_samples(output_filename, ras, decs, dLs, m1dets, m2dets, nsamp, nobs):
 
 
 if __name__ == '__main__':
-    main()
+    config = parse_args()
+    main(config)

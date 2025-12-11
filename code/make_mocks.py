@@ -25,37 +25,63 @@ import glass.ext.camb
 import h5py
 import sys
 import os
+import argparse
+import yaml
 sys.path.append(os.path.join(os.path.dirname(__file__), 'code'))
 import utils
 
 
-def main():
+def parse_args():
+    """
+    Parse command line arguments for config file.
+    
+    Returns:
+    --------
+    config : dict
+        Configuration dictionary loaded from YAML file
+    overwrite_mock : bool
+        Whether to overwrite existing mock catalog
+    overwrite_gws : bool
+        Whether to overwrite existing GW injection
+    """
+    parser = argparse.ArgumentParser(description='Generate mock galaxy and AGN catalogs')
+    parser.add_argument('--config', type=str, required=True,
+                        help='Path to YAML configuration file')
+    parser.add_argument('--overwrite-mock', action='store_true',
+                        help='Overwrite existing mock catalog if it exists')
+    parser.add_argument('--overwrite-gws', action='store_true',
+                        help='Overwrite existing GW injection if it exists')
+    args = parser.parse_args()
+    
+    # Load YAML config file
+    with open(args.config, 'r') as f:
+        config = yaml.safe_load(f)
+    
+    return config, args.overwrite_mock, args.overwrite_gws
+
+
+def main(config, overwrite_mock=False, overwrite_gws=False):
     """Main function to create mock catalog and inject GW sources."""
     
-    # Configuration parameters for mock catalog
-    seed = 42
-    nbar_gal = 1e-2  # 1e-1 gives ~11M; 1e-2 gives 1.1M
-    nbar_agn = 1e-2  # 1e-2 gives 1.1M; 1e-3 gives ~110k; 1e-4 gives 11k
-    # bias_gal = 1.5
-    # bias_agn = 2.5
-    bias_gal = 1.0
-    bias_agn = 1.0
-    z_min = 0.0
-    z_max = 1.5
-    nside = lmax = 256
-    tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
+    # Extract parameters from config
+    seed = config['mock_catalog']['seed']
+    nbar_gal = config['mock_catalog']['nbar_gal']
+    nbar_agn = config['mock_catalog']['nbar_agn']
+    bias_gal = config['mock_catalog']['bias_gal']
+    bias_agn = config['mock_catalog']['bias_agn']
+    z_min = config['mock_catalog']['z_min']
+    z_max = config['mock_catalog']['z_max']
+    nside = config['mock_catalog']['nside']
+    lmax = nside  # Set lmax equal to nside (as in original code)
     
-    # Configuration parameters for GW injection
-    f_agn = 0.25
-    lambda_agn = 0.25
-    N_gw = 1000
-    gw_seed = None  # Will use catalog seed + 1000
-    
-    # Overwrite options
-    overwrite_mock = False
-    overwrite_gws = False
+    # GW injection parameters
+    f_agn = config['gw_injection']['f_agn']
+    lambda_agn = config['gw_injection']['lambda_agn']
+    N_gw = config['gw_injection']['N_gw']
+    gw_seed = config['gw_injection']['gw_seed']  # Can be None
     
     # Generate filename for the mock catalog
+    tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
     tag_mock = f'_seed{seed}_ratioNgalNagn{int(round(nbar_gal/nbar_agn))}{tag_mock_extra}'
     dir_mock = f'../data/mocks_glass/mock{tag_mock}'
     fn_mock = os.path.join(dir_mock, 'mock_catalog.h5')
@@ -375,4 +401,5 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
 
 
 if __name__ == "__main__":
-    main()
+    config, overwrite_mock, overwrite_gws = parse_args()
+    main(config, overwrite_mock=overwrite_mock, overwrite_gws=overwrite_gws)

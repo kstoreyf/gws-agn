@@ -58,6 +58,8 @@ from datetime import datetime
 from jaxinterp2d import interp2d, CartesianGrid
 
 import time
+import argparse
+import yaml
 
 import utils
 
@@ -68,53 +70,49 @@ except ImportError:
 
 
 
-def main(
-    f_agn=0.5, lambda_agn=0.5, N_gw=1000, gw_seed=1042, nside=256,
-    n_walkers=16, n_steps=1000, burnin_frac=0.2,
-    Om0=None, gamma_agn=0, gamma_gal=0,
-    H0_bounds=(50, 100), f_bounds=(0, 1),
-    mode='mcmc', n_H0=20, n_f=20,
-    seed=None
-):
+def parse_args():
+    """
+    Parse command line arguments for config file.
+    
+    Returns:
+    --------
+    config_inference : dict
+        Configuration dictionary for inference (from YAML file)
+    """
+    parser = argparse.ArgumentParser(description='Run dark siren inference')
+    parser.add_argument('--config_inference', type=str, required=True,
+                        help='Path to YAML configuration file for inference')
+    args = parser.parse_args()
+    
+    # Load inference config file
+    with open(args.config_inference, 'r') as f:
+        config_inference = yaml.safe_load(f)
+    
+    # Load data config file referenced in inference config
+    config_data_path = config_inference['config_data_path']
+    # Handle relative paths - make relative to inference config file location
+    if not os.path.isabs(config_data_path):
+        inference_config_dir = os.path.dirname(os.path.abspath(args.config_inference))
+        config_data_path = os.path.join(inference_config_dir, config_data_path)
+        # Normalize path
+        config_data_path = os.path.normpath(config_data_path)
+    
+    with open(config_data_path, 'r') as f:
+        config_data = yaml.safe_load(f)
+    
+    return config_inference, config_data
+
+
+def main(config_inference, config_data):
     """
     Main function to run the inference pipeline.
     
     Parameters
     ----------
-    f_agn : float
-        Fraction of AGN hosts (default: 0.5)
-    lambda_agn : float
-        AGN mixing parameter (default: 0.5)
-    N_gw : int
-        Number of GW events (default: 1000)
-    gw_seed : int
-        Random seed for GW samples (default: 1042)
-    nside : int
-        Healpix nside parameter (default: 64)
-    n_walkers : int
-        Number of MCMC walkers (default: 16)
-    n_steps : int
-        Number of MCMC steps (default: 1000)
-    burnin_frac : float
-        Burn-in fraction (default: 0.2)
-    Om0 : float, optional
-        Matter density parameter (default: None, uses Planck value)
-    gamma_agn : float
-        AGN evolution parameter (default: 0)
-    gamma_gal : float
-        Galaxy evolution parameter (default: 0)
-    H0_bounds : tuple
-        Bounds for H0 parameter (default: (20, 120))
-    f_bounds : tuple
-        Bounds for f parameter (default: (0, 1))
-    mode : str
-        Mode to run: 'mcmc' or 'likelihood_grid' (default: 'mcmc')
-    n_H0 : int
-        Number of H0 grid points for likelihood_grid mode (default: 50)
-    n_f : int
-        Number of f grid points for likelihood_grid mode (default: 50)
-    seed : int, optional
-        Random seed for MCMC initialization (default: None)
+    config_data : dict
+        Configuration dictionary for data (from YAML file)
+    config_inference : dict
+        Configuration dictionary for inference (from YAML file)
     
     Returns
     -------
@@ -123,31 +121,71 @@ def main(
         - For 'mcmc': posterior_samples, sampler, config, metadata, mcmc_params
         - For 'likelihood_grid': log_likelihood_grid, H0_grid, f_grid, config, metadata
     """
-    #mode = 'likelihood_grid'
-    mode = 'mcmc'
-
-    ratioNgalNagn = 1
-    bias_gal = 1.0
-    bias_agn = 1.0
-    f_agn = 0.5
-    lambda_agn = 0.0
-    N_gw = 1000
-    seed = 42
-    gw_seed = 1042
+    # Extract parameters from config_data
+    seed = config_data['mock_catalog']['seed']
+    nside = config_data['pixelization']['nside']
+    bias_gal = config_data['mock_catalog']['bias_gal']
+    bias_agn = config_data['mock_catalog']['bias_agn']
+    nbar_gal = config_data['mock_catalog']['nbar_gal']
+    nbar_agn = config_data['mock_catalog']['nbar_agn']
+    ratioNgalNagn = int(round(nbar_gal / nbar_agn))
+    
+    f_agn = config_data['gw_injection']['f_agn']
+    lambda_agn = config_data['gw_injection']['lambda_agn']
+    N_gw = config_data['gw_injection']['N_gw']
+    gw_seed = config_data['gw_injection']['gw_seed']
+    if gw_seed is None:
+        gw_seed = seed + 1000
+    
+    # Extract parameters from config_inference
+    mode = config_inference['method']
+    
+    # MCMC parameters
+    n_walkers = config_inference['mcmc']['n_walkers']
+    n_steps = config_inference['mcmc']['n_steps']
+    burnin_frac = config_inference['mcmc']['burnin_frac']
+    mcmc_seed = config_inference['mcmc']['seed']
+    
+    # Likelihood grid parameters
+    n_H0 = config_inference['likelihood_grid']['n_H0']
+    n_f = config_inference['likelihood_grid']['n_f']
+    
+    # Parameter bounds
+    H0_bounds = tuple(config_inference['parameter_bounds']['H0_bounds'])
+    f_bounds = tuple(config_inference['parameter_bounds']['f_bounds'])
+    Om0_bounds = config_inference['parameter_bounds']['Om0_bounds']
+    if Om0_bounds is not None:
+        Om0_bounds = tuple(Om0_bounds)
+    
+    # Cosmology parameters
+    Om0 = config_inference['cosmology']['Om0']
+    gamma_agn = config_inference['cosmology']['gamma_agn']
+    gamma_gal = config_inference['cosmology']['gamma_gal']
+    
+    # Output settings - get filename from config
+    fn_inf = config_inference['output']['fn_inf']
+    # Handle relative paths for output file
+    if not os.path.isabs(fn_inf):
+        # Get project root (parent of code directory)
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        fn_inf = os.path.normpath(os.path.join(project_root, fn_inf))
 
     print(f"Running main inference pipeline: mode={mode}, f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, n_walkers={n_walkers}, n_steps={n_steps}")
 
-    tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
-    tag_mock = f'_seed{seed}_ratioNgalNagn{ratioNgalNagn}{tag_mock_extra}'
-    dir_mock = f'../data/mocks_glass/mock{tag_mock}'
+    # Get tag_cat from config (or construct if not present for backward compatibility)
+    if 'tag_cat' in config_inference['output']:
+        tag_cat = config_inference['output']['tag_cat']
+    else:
+        # Fallback for old configs
+        tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
+        tag_cat = f'_seed{seed}_ratioNgalNagn{ratioNgalNagn}{tag_mock_extra}'
+    
+    dir_mock = f'../data/mocks_glass/mock{tag_cat}'
     galaxy_file = os.path.join(dir_mock, f'lognormal_pixelated_nside_{nside}_galaxies.h5')
     agn_file = os.path.join(dir_mock, f'lognormal_pixelated_nside_{nside}_agn.h5')
     # NOTE rn named pos_only; think about when we move to more complex inf
     #gw_file = os.path.join(dir_mock, f'gwsamples_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}_pos_only.h5')
     gw_file = os.path.join(dir_mock, f'gwsamples_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}.h5')
-
-    tag_inf = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}_nside{nside}_norm'
-    output_file = f'../results/inference/inference_results{tag_inf}.h5'
 
     #Check JAX GPU status
     print(f"JAX devices: {jax.devices()}")
@@ -168,7 +206,7 @@ def main(
     gw_data = load_gw_samples(gw_file)
 
     # Set up MCMC parameters
-    mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, f_bounds=f_bounds)
+    mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, f_bounds=f_bounds, Om0_bounds=Om0_bounds)
 
     # Run inference based on mode
     if mode == 'likelihood_grid':
@@ -177,7 +215,7 @@ def main(
             galaxy_file, agn_file, gw_file, nside,
             Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
             n_H0=n_H0, n_f=n_f,
-            output_file=output_file,
+            output_file=fn_inf,
             f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, gw_seed=gw_seed,
             seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
         )
@@ -188,7 +226,7 @@ def main(
             n_walkers=n_walkers, n_steps=n_steps, burnin_frac=burnin_frac,
             Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
             H0_bounds=H0_bounds, f_bounds=f_bounds,
-            seed=seed, output_file=output_file,
+            seed=mcmc_seed, output_file=output_file,
             f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, gw_seed=gw_seed,
             ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
         )
@@ -1753,4 +1791,5 @@ def get_posterior_samples(sampler, burnin_frac=0.5, n_samples=None):
 
 
 if __name__ == "__main__":
-    main()
+    config_inference, config_data = parse_args()
+    main(config_inference, config_data)

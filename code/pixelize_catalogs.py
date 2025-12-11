@@ -8,6 +8,9 @@ Converts the catalog into a pixelated format for inference
 import os
 os.environ['XLA_PYTHON_CLIENT_PREALLOCATE']='false'
 
+import argparse
+import yaml
+
 # JAX imports for numerical computing (though most of this script uses NumPy)
 import jax
 from jax import random, jit, vmap, grad
@@ -37,19 +40,46 @@ jax.config.update('jax_default_matmul_precision', 'highest')
 from jaxinterp2d import interp2d, CartesianGrid
 
 
-def main():
+def parse_args():
+    """
+    Parse command line arguments for config file.
+    
+    Returns:
+    --------
+    config : dict
+        Configuration dictionary loaded from YAML file
+    """
+    parser = argparse.ArgumentParser(description='Pixelize catalogs for inference')
+    parser.add_argument('--config', type=str, required=True,
+                        help='Path to YAML configuration file')
+    args = parser.parse_args()
+    
+    # Load YAML config file
+    with open(args.config, 'r') as f:
+        config = yaml.safe_load(f)
+    
+    return config
+
+
+def main(config):
+    """
+    Main function to pixelize catalogs.
+    
+    Parameters:
+    -----------
+    config : dict
+        Configuration dictionary from YAML file
+    """
     print("Starting preprocessing...")
     
-    # Define path to the mock catalog HDF5 file
-    # This contains galaxy and AGN positions and redshifts
-    filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/'
-    #filepath = '../data/mocks_glass/mock_seed42_ratioNgalNagn100_bgal0.0_bagn0.0/'
-    file = filepath + 'mock_catalog.h5'
+    # Extract parameters from config
+    filepath = config['paths']['base_path']
+    catalog_filename = config['paths']['mock_catalog']
+    file = filepath + catalog_filename
     print(f"Loading catalog from {filepath}")
     
     # Set up HEALPix pixelation scheme
-    # nside=64 means 12*nside^2 = 49,152 pixels covering the full sky
-    nside = 256
+    nside = config['pixelization']['nside']
     npix = hp.pixelfunc.nside2npix(nside)  # Total number of pixels
     print(f"Number of pixels: {npix}")
     
@@ -64,7 +94,13 @@ def main():
     )
     
     print("Saving galaxy data...")
-    save_pixelated_data(filepath, nside, z_gal_pixelated, n_gal_per_pixel, 'galaxies')
+    # Use config output filename if provided, otherwise construct from nside
+    if 'pixelated_galaxies' in config['paths']:
+        output_file_gal = filepath + config['paths']['pixelated_galaxies']
+    else:
+        output_file_gal = None  # Will use default in save_pixelated_data
+    save_pixelated_data(filepath, nside, z_gal_pixelated, n_gal_per_pixel, 'galaxies', 
+                       output_file=output_file_gal)
     
     # Process AGN (Active Galactic Nuclei) - same procedure as galaxies
     # max_sources will be calculated dynamically (may be different from galaxies)
@@ -77,7 +113,13 @@ def main():
     )
     
     print("Saving AGN data...")
-    save_pixelated_data(filepath, nside, z_agn_pixelated, n_agn_per_pixel, 'agn')
+    # Use config output filename if provided, otherwise construct from nside
+    if 'pixelated_agn' in config['paths']:
+        output_file_agn = filepath + config['paths']['pixelated_agn']
+    else:
+        output_file_agn = None  # Will use default in save_pixelated_data
+    save_pixelated_data(filepath, nside, z_agn_pixelated, n_agn_per_pixel, 'agn',
+                       output_file=output_file_agn)
     
     print(f"\nSummary:")
     print(f"  Max galaxies per pixel: {max_sources_gal}")
@@ -212,7 +254,7 @@ def process_objects_to_pixels(ras, decs, zs, nside, max_sources=None, desc="Proc
     return z_per_pixel, n_per_pixel, max_sources
 
 
-def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type):
+def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type, output_file=None):
     """
     Save pixelated data to HDF5 file.
     
@@ -228,6 +270,8 @@ def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type):
         List of actual source counts per pixel
     source_type : str
         Source type string (e.g., 'galaxies' or 'agn') used in output filename
+    output_file : str, optional
+        Full path to output file. If None, constructs from filepath, nside, and source_type
     """
     n_per_pixel_array = np.asarray(n_per_pixel)  # Convert to numpy array
     
@@ -235,7 +279,8 @@ def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type):
     
     # Write pixelated data to HDF5 file
     # Use simplified dataset names: 'z' and 'n_in_pixel'
-    output_file = f'{filepath}lognormal_pixelated_nside_{nside}_{source_type}.h5'
+    if output_file is None:
+        output_file = f'{filepath}lognormal_pixelated_nside_{nside}_{source_type}.h5'
     with h5py.File(output_file, 'w') as f:
         f.attrs['nside'] = nside  # Store HEALPix resolution as metadata
         f.create_dataset('z', data=np.asarray(z_per_pixel), compression='gzip', shuffle=False)
@@ -245,4 +290,5 @@ def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type):
 
 
 if __name__ == "__main__":
-    main() 
+    config = parse_args()
+    main(config) 
