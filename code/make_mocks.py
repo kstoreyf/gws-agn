@@ -78,12 +78,11 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     f_agn = config['gw_injection']['f_agn']
     lambda_agn = config['gw_injection']['lambda_agn']
     N_gw = config['gw_injection']['N_gw']
-    gw_seed = config['gw_injection']['gw_seed']  # Can be None
+    seed_gw = config['gw_injection']['seed_gw']  
     
-    # Generate filename for the mock catalog
-    tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
-    tag_mock = f'_seed{seed}_ratioNgalNagn{int(round(nbar_gal/nbar_agn))}{tag_mock_extra}'
-    dir_mock = f'../data/mocks_glass/mock{tag_mock}'
+    # Generate filename for the mock catalog using tag_cat from config
+    tag_cat = config['paths']['tag_cat']
+    dir_mock = f'../data/mocks_glass/mock{tag_cat}'
     fn_mock = os.path.join(dir_mock, 'mock_catalog.h5')
     
     print("=== Creating Mock Catalog ===")
@@ -96,8 +95,8 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     
     print("\n=== Injecting GW Sources ===")
 
-    i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed = inject_gw_sources(
-        fn_mock, f_agn=f_agn, N_gw=N_gw, gw_seed=gw_seed, lambda_agn=lambda_agn,
+    i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw = inject_gw_sources(
+        fn_mock, f_agn=f_agn, N_gw=N_gw, seed_gw=seed_gw, lambda_agn=lambda_agn,
         save=True, overwrite_gws=overwrite_gws
     )
     
@@ -160,7 +159,7 @@ def load_mock_catalog(fn_mock):
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs
 
 
-def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed):
+def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw):
     """Save GW injection data to HDF5 file."""
     compression = 'gzip'
     compression_opts = 9
@@ -173,7 +172,7 @@ def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_see
         f.attrs['n_gw'] = N_gw
         f.attrs['f_agn'] = f_agn
         f.attrs['lambda_agn'] = lambda_agn
-        f.attrs['gw_seed'] = gw_seed
+        f.attrs['seed_gw'] = seed_gw
     
     print(f"GW injection saved to {fn_gw}")
 
@@ -344,7 +343,7 @@ def create_mock_catalog(seed=42, nbar_gal=1e-1, nbar_agn=1e-3, bias_gal=1.5, bia
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs
 
 
-def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0.5,
+def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, seed_gw=None, lambda_agn=0.5,
                       save=True, overwrite_gws=False):
     """Inject GW sources into an existing mock catalog."""
     
@@ -353,13 +352,11 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, catalog_attrs = load_mock_catalog(fn_mock)
     
     # Set up random number generator for GW selection
-    if gw_seed is None:
-        gw_seed = catalog_attrs['seed'] + 1000  # Different seed for GW selection
-    rng = np.random.default_rng(seed=gw_seed)
+    rng = np.random.default_rng(seed=seed_gw)
     
     # Generate filename for GW injection
     dir_mock = os.path.dirname(fn_mock)
-    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed}'
+    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{seed_gw}'
     fn_gw = os.path.join(dir_mock, f'gws{tag_gw}.h5')
     
     # Check if GW injection already exists
@@ -378,10 +375,10 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
     N_agn = len(ra_agn)
     
     # Calculate fractions
-    frac_gal, frac_agn = utils.compute_gw_host_fractions(N_gal, N_agn, f_agn, lambda_agn=lambda_agn)
+    frac_gal, frac_agn = utils.compute_gw_host_fractions(N_gal, N_agn, f_agn, lambda_agn)
     
     N_gw_gal = round(frac_gal * N_gw)
-    N_gw_agn = round(frac_agn * N_gw)
+    N_gw_agn = N_gw - N_gw_gal
     
     print(f"Number of GW sources in galaxies: {N_gw_gal}")
     print(f"Number of GW sources in AGN: {N_gw_agn}")
@@ -395,9 +392,9 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, gw_seed=None, lambda_agn=0
     # Save GW injection data
     if save:
         # Create output directory if it doesn't exist
-        save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed)
+        save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw)
     
-    return i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, gw_seed
+    return i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw
 
 
 if __name__ == "__main__":

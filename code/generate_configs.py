@@ -5,26 +5,25 @@ Script to generate YAML configuration files for generate_gwsamples.py and pixeli
 
 import yaml
 import os
-from pathlib import Path
 
 # Try to import astropy for Planck15, fallback to hardcoded values
 try:
     from astropy.cosmology import Planck15
-    PLANCK15_H0 = Planck15.H0.value  # H0 in km/s/Mpc
-    PLANCK15_H = PLANCK15_H0 / 100.0  # Dimensionless Hubble parameter (h = H0/100)
-    PLANCK15_OM0 = Planck15.Om0
-    PLANCK15_OB0 = Planck15.Ob0  # Baryon density parameter
+    PLANCK15_H0 = float(Planck15.H0.value)  # H0 in km/s/Mpc (convert to native float)
+    PLANCK15_H = float(PLANCK15_H0 / 100.0)  # Dimensionless Hubble parameter (h = H0/100)
+    PLANCK15_OM0 = float(Planck15.Om0)  # Convert to native float
+    PLANCK15_OB0 = float(Planck15.Ob0)  # Baryon density parameter (convert to native float)
 except ImportError:
     # Fallback values if astropy not available
     PLANCK15_H0 = 67.74  # km/s/Mpc
-    PLANCK15_H = PLANCK15_H0 / 100.0
+    PLANCK15_H = 0.6774  # Dimensionless Hubble parameter
     PLANCK15_OM0 = 0.3075
     PLANCK15_OB0 = 0.0486  # Baryon density parameter
 
 
 def create_config_data(
-    config_name,
-    base_path='../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/',
+    fn_config=None,
+    dir_mock=None,  # Will be auto-generated from tag_cat
     # Mock catalog parameters
     seed=42,
     nbar_gal=1e-2,
@@ -38,7 +37,7 @@ def create_config_data(
     f_agn=0.25,
     lambda_agn=0.25,
     N_gw=1000,
-    gw_seed=None,
+    seed_gw=None,
     # GW sample generation parameters
     nsamp=10000,
     mass_mean=35.0,
@@ -51,17 +50,18 @@ def create_config_data(
     H0=None,
     Om0=None,
     Ob0=None,
-    output_dir='../configs/configs_data/'
+    dir_configs='../configs/configs_data/',
+    overwrite_config=False
 ):
     """
     Create a YAML configuration file for data generation and pixelization.
     
     Parameters:
     -----------
-    config_name : str
-        Name of the config file (without .yaml extension)
-    base_path : str
-        Base path for input/output data files
+    fn_config : str, optional
+        Full path to config file (directory + filename + .yaml). If None, auto-generated from tags.
+    dir_mock : str
+        Directory for mock catalog data files
     seed : int
         Seed for mock generation
     nbar_gal : float
@@ -84,7 +84,7 @@ def create_config_data(
         Lambda parameter for AGN GW selection
     N_gw : int
         Number of GW events to inject
-    gw_seed : int, optional
+    seed_gw : int, optional
         Seed for GW injection (None = seed + 1000)
     nsamp : int
         Number of samples per GW event
@@ -106,42 +106,37 @@ def create_config_data(
         Matter density parameter (defaults to Planck 2015 value)
     Ob0 : float, optional
         Baryon density parameter (defaults to Planck 2015 value)
-    output_dir : str
+    dir_configs : str
         Directory to save config file
+    overwrite_config : bool
+        If True, overwrite existing config file. If False, skip if file exists.
     """
     # Use Planck 2015 defaults if not specified
-    if h is None:
-        h = PLANCK15_H
-    if H0 is None:
-        H0 = PLANCK15_H0
-    if Om0 is None:
-        Om0 = PLANCK15_OM0
-    if Ob0 is None:
-        Ob0 = PLANCK15_OB0
-    # Get absolute path for output directory (relative to script location)
-    script_dir = Path(__file__).parent.parent  # Go up from code/ to project root
-    if not os.path.isabs(output_dir):
-        # Handle relative paths like '../configs/configs_data/'
-        if output_dir.startswith('../'):
-            output_dir = str(script_dir / output_dir[3:])  # Remove '../' prefix
-        else:
-            output_dir = str(script_dir / output_dir)
-    # else: output_dir is already absolute
+    # Convert all to native Python floats to avoid numpy serialization issues in YAML
+    h = float(PLANCK15_H if h is None else h)
+    H0 = float(PLANCK15_H0 if H0 is None else H0)
+    Om0 = float(PLANCK15_OM0 if Om0 is None else Om0)
+    Ob0 = float(PLANCK15_OB0 if Ob0 is None else Ob0)
     
-    # Construct filenames based on parameters
-    # Calculate ratio for path construction
+    # Build tags
     ratio_ngal_nagn = int(round(nbar_gal / nbar_agn))
-    tag_mock_extra = f'_bgal{bias_gal}_bagn{bias_agn}'
-    tag_mock = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}{tag_mock_extra}'
+    tag_cat = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}_bgal{bias_gal}_bagn{bias_agn}'
+    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}'
     
-    # Determine gw_seed for filename if None
-    gw_seed_for_filename = gw_seed if gw_seed is not None else seed + 1000
+    # Construct dir_mock using tag_cat (auto-generate if not provided)
+    if dir_mock is None:
+        dir_mock = f'../data/mocks_glass/mock{tag_cat}/'
     
-    mock_catalog = 'mock_catalog.h5'
-    mock_gw_indices = f'gws_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed_for_filename}.h5'
-    gw_samples_output = f'gwsamples_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{gw_seed_for_filename}.h5'
-    pixelated_galaxies = f'lognormal_pixelated_nside_{nside}_galaxies.h5'
-    pixelated_agn = f'lognormal_pixelated_nside_{nside}_agn.h5'
+    # Auto-generate fn_config from tags if not provided
+    if fn_config is None:
+        fn_config = os.path.join(dir_configs, f'config_data{tag_cat}{tag_gw}.yaml')
+    
+    # Construct filenames using tags
+    name_cat = 'mock_catalog.h5'
+    name_gw = f'gws{tag_gw}.h5'
+    name_gwsamples = f'gwsamples{tag_gw}.h5'
+    name_cat_gal_pixelated = f'cat_gal_pixelated_nside{nside}.h5'
+    name_cat_agn_pixelated = f'cat_agn_pixelated_nside{nside}.h5'
     
     # Create config dictionary
     config = {
@@ -159,15 +154,17 @@ def create_config_data(
             'f_agn': f_agn,
             'lambda_agn': lambda_agn,
             'N_gw': N_gw,
-            'gw_seed': gw_seed
+            'seed_gw': seed_gw
         },
         'paths': {
-            'base_path': base_path,
-            'mock_catalog': mock_catalog,
-            'mock_gw_indices': mock_gw_indices,
-            'gw_samples_output': gw_samples_output,
-            'pixelated_galaxies': pixelated_galaxies,
-            'pixelated_agn': pixelated_agn
+            'dir_mock': dir_mock,
+            'name_cat': name_cat,
+            'name_gw': name_gw,
+            'name_gwsamples': name_gwsamples,
+            'name_cat_gal_pixelated': name_cat_gal_pixelated,
+            'name_cat_agn_pixelated': name_cat_agn_pixelated,
+            'tag_cat': tag_cat,
+            'tag_gw': tag_gw
         },
         'gw_samples': {
             'nsamp': nsamp,
@@ -189,26 +186,34 @@ def create_config_data(
     }
     
     # Ensure output directory exists
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(os.path.dirname(fn_config), exist_ok=True)
     
-    # Write YAML file
-    output_path = os.path.join(output_dir, f'{config_name}.yaml')
-    with open(output_path, 'w') as f:
+    # Check if file exists and overwrite_config flag
+    if os.path.exists(fn_config) and not overwrite_config:
+        print(f"Config file already exists (skipping): {fn_config}")
+        return fn_config
+    
+    with open(fn_config, 'w') as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
     
-    print(f"Created config file: {output_path}")
-    return output_path
+    print(f"Created config file: {fn_config}")
+    return fn_config
 
 
-def main():
+def main(overwrite_config=False):
     """
     Main function to create config files.
     Modify the parameters below to create different configs.
+    
+    Parameters
+    ----------
+    overwrite_config : bool
+        If True, overwrite existing config files. If False, skip if files exist.
     """
-    # Example: Create a default config
+    # Example: Create a default config (fn_config and dir_mock will be auto-generated from tags)
     create_config_data(
-        config_name='config_data_default',
-        base_path='../data/mocks_glass/mock_seed42_ratioNgalNagn1_bgal1.0_bagn1.0/',
+        fn_config=None,  # Auto-generate from tags
+        dir_mock=None,  # Auto-generate from tag_cat
         seed=42,
         nbar_gal=1e-2,
         nbar_agn=1e-2,
@@ -220,59 +225,47 @@ def main():
         f_agn=0.25,
         lambda_agn=0.25,
         N_gw=1000,
-        gw_seed=None,  # Will default to seed + 1000
+        seed_gw=1042,  # Will default to seed + 1000
         nsamp=10000,
         # Cosmology will default to Planck 2015 values
         mass_mean=35.0,
         mass_std=5.0,
         ra_uncertainty=0.01,
         dec_uncertainty=0.01,
-        mass_uncertainty=1.5
+        mass_uncertainty=1.5,
+        overwrite_config=overwrite_config
     )
-    
-    # Add more configs here as needed
-    # Example: Create a high-resolution config
-    # create_config_data(
-    #     config_name='config_data_highres',
-    #     nside=512,
-    #     nsamp=20000,
-    #     ...
-    # )
 
 
 def create_config_inference(
-    config_name,
+    fn_config=None,
     config_data_path='../configs/configs_data/config_data_default.yaml',
     method='mcmc',
     # MCMC parameters
     n_walkers=32,
     n_steps=10000,
     burnin_frac=0.2,
-    mcmc_seed=None,
+    seed_mcmc=0,
     # Likelihood grid parameters
     n_H0=20,
-    n_f=20,
-    # Parameter bounds
-    H0_bounds=[50, 100],
-    f_bounds=[0, 1],
-    Om0_bounds=None,
-    gamma_bounds=[-30, 30],
-    # Cosmology parameters
+    n_alpha_agn=20,
+    # Other parameters
     Om0=None,
     gamma_agn=0,
     gamma_gal=0,
     # Output settings
-    output_dir='../results/inference/',
-    tag_inf_extra='_norm',
-    output_config_dir='../configs/configs_inference/'
+    dir_inference='../results/inference/',
+    tag_inf_extra='',
+    dir_configs='../configs/configs_inference/',
+    overwrite_config=False
 ):
     """
     Create a YAML configuration file for inference.
     
     Parameters:
     -----------
-    config_name : str
-        Name of the config file (without .yaml extension)
+    fn_config : str, optional
+        Full path to config file (directory + filename + .yaml). If None, auto-generated from tags.
     config_data_path : str
         Path to the data configuration file (relative to project root)
     method : str
@@ -283,87 +276,49 @@ def create_config_inference(
         Number of MCMC steps
     burnin_frac : float
         Fraction of chain to discard as burn-in
-    mcmc_seed : int, optional
+    seed_mcmc : int, optional
         Random seed for MCMC initialization
     n_H0 : int
         Number of H0 grid points for likelihood_grid
     n_f : int
         Number of f grid points for likelihood_grid
-    H0_bounds : list
-        [lower, upper] bounds for H0
-    f_bounds : list
-        [lower, upper] bounds for f
-    Om0_bounds : list, optional
-        [lower, upper] bounds for Om0
-    gamma_bounds : list
-        [lower, upper] bounds for gamma parameters
     Om0 : float, optional
         Matter density parameter (None = use Planck default)
     gamma_agn : float
         AGN evolution parameter
     gamma_gal : float
         Galaxy evolution parameter
-    output_dir : str
-        Directory for output files
+    dir_inference : str
+        Directory for inference output files
     tag_inf_extra : str
         Extra suffix for inference output (replaces output_suffix)
-    output_config_dir : str
+    dir_configs : str
         Directory to save config file
     """
-    # Get absolute path for output directory
-    script_dir = Path(__file__).parent.parent
-    if not os.path.isabs(output_config_dir):
-        if output_config_dir.startswith('../'):
-            output_config_dir = str(script_dir / output_config_dir[3:])
-        else:
-            output_config_dir = str(script_dir / output_config_dir)
-    
     # Load config_data to extract parameters for filename construction
-    if not os.path.isabs(config_data_path):
-        if config_data_path.startswith('../'):
-            config_data_abs_path = str(script_dir / config_data_path[3:])
-        else:
-            config_data_abs_path = str(script_dir / config_data_path)
-    else:
-        config_data_abs_path = config_data_path
-    
-    with open(config_data_abs_path, 'r') as f:
+    with open(config_data_path, 'r') as f:
         config_data = yaml.safe_load(f)
     
-    # Extract parameters from config_data for filename construction
-    seed = config_data['mock_catalog']['seed']
-    nside = config_data['pixelization']['nside']
-    bias_gal = config_data['mock_catalog']['bias_gal']
-    bias_agn = config_data['mock_catalog']['bias_agn']
-    nbar_gal = config_data['mock_catalog']['nbar_gal']
-    nbar_agn = config_data['mock_catalog']['nbar_agn']
-    ratioNgalNagn = int(round(nbar_gal / nbar_agn))
-    f_agn = config_data['gw_injection']['f_agn']
-    lambda_agn = config_data['gw_injection']['lambda_agn']
-    N_gw = config_data['gw_injection']['N_gw']
-    gw_seed = config_data['gw_injection']['gw_seed']
-    if gw_seed is None:
-        gw_seed = seed + 1000
-    
-    # Build tags in structured format
-    tag_cat = f'_seed{seed}_ratioNgalNagn{ratioNgalNagn}_bgal{bias_gal}_bagn{bias_agn}'
-    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}'
+    tag_cat = config_data['tags']['tag_cat']
+    tag_gw = config_data['tags']['tag_gw']
     
     # Build tag_inf (inference-specific)
     if method == 'mcmc':
-        tag_inf = f'_mcmc_nw{n_walkers}_ns{n_steps}'
+        tag_inf = f'_mcmc_nw{n_walkers}_nsteps{n_steps}'
     elif method == 'likelihood_grid':
-        tag_inf = f'_grid_nH0_{n_H0}_nf_{n_f}'
+        tag_inf = f'_grid_nH0{n_H0}_nalphaagn{n_alpha_agn}'
     else:
         tag_inf = ''
     
-    # tag_inf_extra is the extra suffix parameter
-    
     # Build full tag for output filename
-    tag_full = f'{tag_cat}{tag_gw}_N{N_gw}_seed{gw_seed}_nside{nside}{tag_inf}{tag_inf_extra}'
+    tag_full = f'{tag_cat}{tag_gw}{tag_inf}{tag_inf_extra}'
+    
+    # Auto-generate fn_config from tags if not provided
+    if fn_config is None:
+        fn_config = os.path.join(dir_configs, f'config_inference{tag_full}.yaml')
     
     # Build full output filename
-    fn_inf = os.path.join(output_dir, f'inference_results{tag_full}.h5')
+    fn_inf = os.path.join(dir_inference, f'inference_results{tag_full}.h5')
     
     # Create config dictionary
     config = {
@@ -373,25 +328,19 @@ def create_config_inference(
             'n_walkers': n_walkers,
             'n_steps': n_steps,
             'burnin_frac': burnin_frac,
-            'seed': mcmc_seed
+            'seed_mcmc': seed_mcmc
         },
         'likelihood_grid': {
             'n_H0': n_H0,
-            'n_f': n_f
+            'n_alpha_agn': n_alpha_agn
         },
-        'parameter_bounds': {
-            'H0_bounds': H0_bounds,
-            'f_bounds': f_bounds,
-            'Om0_bounds': Om0_bounds,
-            'gamma_bounds': gamma_bounds
-        },
-        'cosmology': {
-            'Om0': Om0,
+        'parameters': {
+            'Om0': Om0, #could be diff from data cosmo, if we assume we don't know data
             'gamma_agn': gamma_agn,
             'gamma_gal': gamma_gal
         },
-        'output': {
-            'output_dir': output_dir,
+        'paths': {
+            'dir_inference': dir_inference,
             'tag_cat': tag_cat,
             'tag_gw': tag_gw,
             'tag_inf': tag_inf,
@@ -401,55 +350,102 @@ def create_config_inference(
         }
     }
     
-    # Ensure output directory exists
-    os.makedirs(output_config_dir, exist_ok=True)
+    # Ensure output directories exist
+    os.makedirs(os.path.dirname(fn_config), exist_ok=True)
+    os.makedirs(dir_inference, exist_ok=True)
     
-    # Write YAML file
-    output_path = os.path.join(output_config_dir, f'{config_name}.yaml')
-    with open(output_path, 'w') as f:
+    # Check if file exists and overwrite_config flag
+    if os.path.exists(fn_config) and not overwrite_config:
+        print(f"Inference config file already exists (skipping): {fn_config}")
+        return fn_config
+    
+    with open(fn_config, 'w') as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
     
-    print(f"Created inference config file: {output_path}")
-    return output_path
+    print(f"Created inference config file: {fn_config}")
+    return fn_config
 
 
-def main_inference():
+def main_inference(overwrite_config=False):
     """
     Main function to create inference config files.
     Modify the parameters below to create different configs.
+    
+    Parameters
+    ----------
+    overwrite_config : bool
+        If True, overwrite existing config files. If False, skip if files exist.
     """
-    # Example: Create an MCMC config
+    # Example: Create an MCMC config (name will be auto-generated from tags)
+    # First, we need to create the data config, then reference it
+    create_config_data(
+        fn_config=None,  # Auto-generate from tags
+        seed=42,
+        nbar_gal=1e-2,
+        nbar_agn=1e-2,
+        bias_gal=1.0,
+        bias_agn=1.0,
+        z_min=0.0,
+        z_max=1.5,
+        nside=256,
+        f_agn=0.25,
+        lambda_agn=0.25,
+        N_gw=1000,
+        seed_gw=1042,
+        nsamp=10000,
+        mass_mean=35.0,
+        mass_std=5.0,
+        ra_uncertainty=0.01,
+        dec_uncertainty=0.01,
+        mass_uncertainty=1.5,
+        overwrite_config=overwrite_config
+    )
+    
+    # build config_data name
+    tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
+    tag_gw = f'_fagn0.25_lambdaagn0.25'
+    config_data_name = f'config_data{tag_cat}{tag_gw}'
+    # Now create inference configs referencing the data config
     create_config_inference(
-        config_name='config_inference_mcmc_default',
-        config_data_path='../configs/configs_data/config_data_default.yaml',
+        fn_config=None,  # Auto-generate from tags
+        config_data_path=f'../configs/configs_data/{config_data_name}.yaml',
         method='mcmc',
         n_walkers=32,
         n_steps=10000,
         burnin_frac=0.2,
-        mcmc_seed=None,
-        H0_bounds=[50, 100],
-        f_bounds=[0, 1],
-        tag_inf_extra='_norm'
+        seed_mcmc=0,
+        tag_inf_extra='',
+        overwrite_config=overwrite_config
     )
     
-    # Example: Create a likelihood grid config
+    # Example: Create a likelihood grid config (fn_config will be auto-generated from tags)
     create_config_inference(
-        config_name='config_inference_grid_default',
-        config_data_path='../configs/configs_data/config_data_default.yaml',
+        fn_config=None,  # Auto-generate from tags
+        config_data_path=f'../configs/configs_data/{config_data_name}.yaml',
         method='likelihood_grid',
         n_H0=20,
-        n_f=20,
-        H0_bounds=[50, 100],
-        f_bounds=[0, 1],
-        tag_inf_extra='_norm'
+        n_alpha_agn=20,
+        tag_inf_extra='',
+        overwrite_config=overwrite_config
     )
 
 
 if __name__ == '__main__':
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1] == '--inference':
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Generate configuration files for GW-AGN pipeline')
+    parser.add_argument('--inference', action='store_true',
+                        help='Generate inference configs instead of data configs')
+    parser.add_argument('--overwrite', action='store_true',
+                        help='Overwrite existing config files if they exist')
+    
+    args = parser.parse_args()
+    
+    overwrite_config = args.overwrite
+    
+    if args.inference:
         # Create inference configs
-        main_inference()
+        main_inference(overwrite_config=overwrite_config)
     else:
         # Create data configs
-        main()
+        main(overwrite_config=overwrite_config)

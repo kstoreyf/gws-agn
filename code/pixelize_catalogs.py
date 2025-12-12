@@ -73,10 +73,10 @@ def main(config):
     print("Starting preprocessing...")
     
     # Extract parameters from config
-    filepath = config['paths']['base_path']
-    catalog_filename = config['paths']['mock_catalog']
-    file = filepath + catalog_filename
-    print(f"Loading catalog from {filepath}")
+    dir_mock = config['paths']['dir_mock']
+    catalog_filename = config['paths']['name_mock']
+    file = os.path.join(dir_mock, catalog_filename)
+    print(f"Loading catalog from {dir_mock}")
     
     # Set up HEALPix pixelation scheme
     nside = config['pixelization']['nside']
@@ -94,13 +94,8 @@ def main(config):
     )
     
     print("Saving galaxy data...")
-    # Use config output filename if provided, otherwise construct from nside
-    if 'pixelated_galaxies' in config['paths']:
-        output_file_gal = filepath + config['paths']['pixelated_galaxies']
-    else:
-        output_file_gal = None  # Will use default in save_pixelated_data
-    save_pixelated_data(filepath, nside, z_gal_pixelated, n_gal_per_pixel, 'galaxies', 
-                       output_file=output_file_gal)
+    fn_cat_gal_pixelated = os.path.join(dir_mock, config['paths']['name_cat_gal_pixelated'])
+    save_pixelated_data(fn_cat_gal_pixelated, nside, z_gal_pixelated, n_gal_per_pixel, 'galaxies')
     
     # Process AGN (Active Galactic Nuclei) - same procedure as galaxies
     # max_sources will be calculated dynamically (may be different from galaxies)
@@ -113,13 +108,8 @@ def main(config):
     )
     
     print("Saving AGN data...")
-    # Use config output filename if provided, otherwise construct from nside
-    if 'pixelated_agn' in config['paths']:
-        output_file_agn = filepath + config['paths']['pixelated_agn']
-    else:
-        output_file_agn = None  # Will use default in save_pixelated_data
-    save_pixelated_data(filepath, nside, z_agn_pixelated, n_agn_per_pixel, 'agn',
-                       output_file=output_file_agn)
+    fn_cat_agn_pixelated = os.path.join(dir_mock, config['paths']['name_cat_agn_pixelated'])
+    save_pixelated_data(fn_cat_agn_pixelated, nside, z_agn_pixelated, n_agn_per_pixel, 'agn')
     
     print(f"\nSummary:")
     print(f"  Max galaxies per pixel: {max_sources_gal}")
@@ -254,14 +244,14 @@ def process_objects_to_pixels(ras, decs, zs, nside, max_sources=None, desc="Proc
     return z_per_pixel, n_per_pixel, max_sources
 
 
-def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type, output_file=None):
+def save_pixelated_data(fn_cat_pixelated, nside, z_per_pixel, n_per_pixel, source_type):
     """
     Save pixelated data to HDF5 file.
     
     Parameters:
     -----------
-    filepath : str
-        Base path for output file (without filename)
+    fn_cat_pixelated : str
+        Full path to output file
     nside : int
         HEALPix resolution parameter
     z_per_pixel : list
@@ -269,9 +259,7 @@ def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type, 
     n_per_pixel : list
         List of actual source counts per pixel
     source_type : str
-        Source type string (e.g., 'galaxies' or 'agn') used in output filename
-    output_file : str, optional
-        Full path to output file. If None, constructs from filepath, nside, and source_type
+        Source type string (e.g., 'galaxies' or 'agn') used for logging
     """
     n_per_pixel_array = np.asarray(n_per_pixel)  # Convert to numpy array
     
@@ -279,9 +267,7 @@ def save_pixelated_data(filepath, nside, z_per_pixel, n_per_pixel, source_type, 
     
     # Write pixelated data to HDF5 file
     # Use simplified dataset names: 'z' and 'n_in_pixel'
-    if output_file is None:
-        output_file = f'{filepath}lognormal_pixelated_nside_{nside}_{source_type}.h5'
-    with h5py.File(output_file, 'w') as f:
+    with h5py.File(fn_cat_pixelated, 'w') as f:
         f.attrs['nside'] = nside  # Store HEALPix resolution as metadata
         f.create_dataset('z', data=np.asarray(z_per_pixel), compression='gzip', shuffle=False)
         f.create_dataset('n_in_pixel', data=n_per_pixel_array, compression='gzip', shuffle=False)

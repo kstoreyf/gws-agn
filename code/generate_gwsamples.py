@@ -55,7 +55,7 @@ import h5py
 import astropy.units as u
 
 # Cosmology and physical constants
-from astropy.cosmology import Planck15, FlatLambdaCDM, z_at_value
+from astropy.cosmology import FlatLambdaCDM
 import astropy.constants as constants
 from jax.scipy.special import logsumexp
 from scipy.interpolate import interp1d
@@ -94,7 +94,7 @@ def main(config):
     """
     Main function to generate GW samples from mock catalogs.
     Always includes black hole masses in the samples.
-    All samples are saved as 2D arrays with shape (nEvents, nsamp).
+    All samples are saved as 2D arrays with shape (N_gw, nsamp).
     
     Parameters:
     -----------
@@ -102,76 +102,37 @@ def main(config):
         Configuration dictionary from YAML file
     """
     # Extract parameters from config
-    # Get f_agn and lambda_agn from gw_injection section
-    fagn = config['gw_injection']['f_agn']
-    lam = config['gw_injection']['lambda_agn']
     
     # File paths for input data
-    filepath = config['paths']['base_path']
-    mockpath = filepath + config['paths']['mock_catalog']
-    # Build mockgwpath from config or use explicit path if provided
-    if 'mock_gw_indices' in config['paths']:
-        mockgwpath = filepath + config['paths']['mock_gw_indices']
-    else:
-        # Fallback to constructing from parameters
-        N_gw = config['gw_injection']['N_gw']
-        gw_seed = config['gw_injection']['gw_seed']
-        # If gw_seed is None, calculate from mock catalog seed
-        if gw_seed is None:
-            seed = config['mock_catalog']['seed']
-            gw_seed = seed + 1000
-        mockgwpath = filepath + f'gws_fagn{str(fagn)}_lambdaagn{str(lam)}_N{N_gw}_seed{gw_seed}.h5'
+    dir_mock = config['paths']['dir_mock']
+    fn_cat = os.path.join(dir_mock, config['paths']['name_cat'])
+    fn_gw = os.path.join(dir_mock, config['paths']['name_gw'])
 
     # Load data
-    ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn = load_data(mockpath, mockgwpath)
+    ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn = load_data(fn_cat, fn_gw)
     
     # Number of samples to generate per GW event
     nsamp = config['gw_samples']['nsamp']
-    # Total number of observed GW events (from both galaxies and AGNs)
-    nobs = len(i_gw_agn) + len(i_gw_gal)
 
     # Redshift grid boundaries for cosmology calculations (fixed values)
     zMax_1 = 0.5  # Low redshift boundary
     zMax_2 = 5.0  # High redshift boundary
 
-    # Cosmological parameters (default to Planck 2015 if not in config)
-    if 'cosmology' in config:
-        if 'h' in config['cosmology']:
-            h = config['cosmology']['h']
-            # H0 should equal 100*h, but use explicit H0 if provided
-            if 'H0' in config['cosmology']:
-                H0Planck = config['cosmology']['H0']
-            else:
-                H0Planck = 100 * h  # Calculate from h
-        elif 'H0' in config['cosmology']:
-            H0Planck = config['cosmology']['H0']
-            h = H0Planck / 100.0  # Calculate h from H0
-        else:
-            # Default to Planck 2015
-            H0Planck = Planck15.H0.value
-            h = H0Planck / 100.0  # Calculate h from H0
-        
-        if 'Om0' in config['cosmology']:
-            Om0Planck = config['cosmology']['Om0']
-        else:
-            Om0Planck = Planck15.Om0  # Default to Planck 2015
-    else:
-        # Default to Planck 2015
-        H0Planck = Planck15.H0.value
-        h = H0Planck / 100.0  # Calculate h from H0
-        Om0Planck = Planck15.Om0
+    # Cosmological parameters from config
+    H0 = config['cosmology']['H0']
+    Om0 = config['cosmology']['Om0']
 
     # Set up cosmology
-    zgrid, rs, Om0grid, speed_of_light = setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck)
+    zgrid, rs, Om0grid, speed_of_light = setup_cosmology(zMax_1, zMax_2, H0, Om0)
     
     # Create cosmology functions
-    cosmo_funcs = create_cosmology_functions(Om0grid, zgrid, rs, Om0Planck, H0Planck, speed_of_light)
+    cosmo_funcs = create_cosmology_functions(Om0grid, zgrid, rs, Om0, H0, speed_of_light)
     dL_of_z = cosmo_funcs['dL_of_z']
 
     # Extract GW event positions and compute distances
     ra_gal_gw, dec_gal_gw, dL_gal_gw, ra_agn_gw, dec_agn_gw, dL_agn_gw = extract_gw_positions(
         ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, 
-        i_gw_gal, i_gw_agn, dL_of_z, H0Planck
+        i_gw_gal, i_gw_agn, dL_of_z, H0
     )
 
     # Generate black hole masses
@@ -201,43 +162,32 @@ def main(config):
         dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
     )
 
-    # Combine all samples (order: ra, dec, dL, m1det, m2det)
-    ras = ras_gal + ras_agn
-    decs = decs_gal + decs_agn
-    dLs = dLs_gal + dLs_agn
-    m1dets = m1dets_gal + m1dets_agn
-    m2dets = m2dets_gal + m2dets_agn
-
-    # Shuffle events to mix galaxies and AGNs (order: ra, dec, dL, m1det, m2det)
-    ras, decs, dLs, m1dets, m2dets = shuffle_events(ras, decs, dLs, m1dets, m2dets)
-
-    # Save samples (2D array format, order: ra, dec, dL, m1det, m2det)
-    if 'gw_samples_output' in config['paths']:
-        output_filename = filepath + config['paths']['gw_samples_output']
-    else:
-        # Fallback to constructing from parameters
-        N_gw = config['gw_injection']['N_gw']
-        gw_seed = config['gw_injection']['gw_seed']
-        # If gw_seed is None, calculate from mock catalog seed
-        if gw_seed is None:
-            seed = config['mock_catalog']['seed']
-            gw_seed = seed + 1000
-        output_filename = f'{filepath}gwsamples_fagn{str(fagn)}_lambdaagn{str(lam)}_N{N_gw}_seed{gw_seed}.h5'
+    # Keep galaxy and AGN samples separate (order: ra, dec, dL, m1det, m2det)
+    # No longer shuffling to maintain consistent order with mock catalog indices
     
-    save_samples(output_filename, ras, decs, dLs, m1dets, m2dets, nsamp, nobs)
+    # Get number of events for each type
+    N_gw_gal = len(ras_gal)
+    N_gw_agn = len(ras_agn)
     
-    print(f"Saved {nobs} GW events with {nsamp} samples each (including masses) to {output_filename}")
+    # Save samples (2D array format, separate arrays for galaxies and AGNs)
+    fn_gwsamples = os.path.join(dir_mock, config['paths']['name_gwsamples'])
+    
+    save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal,
+                 ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn, 
+                 nsamp, N_gw_gal, N_gw_agn)
+    
+    print(f"Saved {N_gw_gal} galaxy-hosted and {N_gw_agn} AGN-hosted GW events ({N_gw_gal + N_gw_agn} total) with {nsamp} samples each to {fn_gwsamples}")
 
 
-def load_data(mockpath, mockgwpath):
+def load_data(fn_cat, fn_gw):
     """
     Load mock catalog data and GW event indices.
     
     Parameters:
     -----------
-    mockpath : str
+    fn_cat : str
         Path to mock catalog HDF5 file
-    mockgwpath : str
+    fn_gw : str
         Path to GW event indices HDF5 file
         
     Returns:
@@ -250,7 +200,7 @@ def load_data(mockpath, mockgwpath):
         Indices of galaxies/AGNs with GW events
     """
     # Load mock catalog data: positions and redshifts for galaxies and AGNs
-    with h5py.File(mockpath, 'r') as f:
+    with h5py.File(fn_cat, 'r') as f:
         # Galaxy positions (convert from degrees to radians)
         ra_gal = np.asarray(f['ra_gal'])*np.pi/180   # Right ascension in radians
         dec_gal = np.asarray(f['dec_gal'])*np.pi/180  # Declination in radians
@@ -262,14 +212,15 @@ def load_data(mockpath, mockgwpath):
         z_agn = np.asarray(f['z_agn'])                # Redshift
 
     # Load indices of which galaxies/AGNs have associated GW events
-    with h5py.File(mockgwpath, 'r') as f:    
+    with h5py.File(fn_gw, 'r') as f:    
         i_gw_gal = np.asarray(f['i_gw_gal'])  # Indices of galaxies with GW events
         i_gw_agn = np.asarray(f['i_gw_agn'])  # Indices of AGNs with GW events
     
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn
 
 
-def setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck):
+
+def setup_cosmology(zMax_1, zMax_2, H0, Om0):
     """
     Set up redshift grids and pre-compute comoving distance lookup table.
     
@@ -279,9 +230,9 @@ def setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck):
         Low redshift boundary
     zMax_2 : float
         High redshift boundary
-    H0Planck : float
+    H0 : float
         Hubble constant in km/s/Mpc
-    Om0Planck : float
+    Om0 : float
         Matter density parameter
         
     Returns:
@@ -295,8 +246,8 @@ def setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck):
     speed_of_light : float
         Speed of light in km/s
     """
-    # Initialize cosmology with Planck parameters
-    cosmo = FlatLambdaCDM(H0=H0Planck, Om0=Om0Planck)
+    # Initialize cosmology
+    cosmo = FlatLambdaCDM(H0=H0, Om0=Om0)
     speed_of_light = constants.c.to('km/s').value  # Speed of light in km/s
 
     # Create redshift grid with logarithmic spacing for better resolution at low z
@@ -308,9 +259,9 @@ def setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck):
     # Pre-compute comoving distances for a range of Om0 values
     # This creates a 2D lookup table for fast distance calculations during inference
     rs = []
-    Om0grid = jnp.linspace(Om0Planck-0.1, Om0Planck+0.1, 100)  # Grid of Om0 values around Planck value
-    for Om0 in tqdm(Om0grid):
-        cosmo = FlatLambdaCDM(H0=H0Planck, Om0=Om0)
+    Om0grid = jnp.linspace(Om0-0.1, Om0+0.1, 100)  # Grid of Om0 values around input value
+    for Om0_val in tqdm(Om0grid):
+        cosmo = FlatLambdaCDM(H0=H0, Om0=Om0_val)
         # Compute comoving distance for each redshift in the grid
         rs.append(cosmo.comoving_distance(zgrid).to(u.Mpc).value)
 
@@ -322,7 +273,7 @@ def setup_cosmology(zMax_1, zMax_2, H0Planck, Om0Planck):
     return zgrid, rs, Om0grid, speed_of_light
 
 
-def create_cosmology_functions(Om0grid, zgrid, rs, Om0Planck, H0Planck, speed_of_light):
+def create_cosmology_functions(Om0grid, zgrid, rs, Om0, H0, speed_of_light):
     """
     Create JIT-compiled cosmological functions.
     
@@ -330,7 +281,7 @@ def create_cosmology_functions(Om0grid, zgrid, rs, Om0Planck, H0Planck, speed_of
     -----------
     Om0grid, zgrid, rs : arrays
         Cosmology lookup tables
-    Om0Planck, H0Planck : float
+    Om0, H0 : float
         Cosmological parameters
     speed_of_light : float
         Speed of light in km/s
@@ -343,52 +294,52 @@ def create_cosmology_functions(Om0grid, zgrid, rs, Om0Planck, H0Planck, speed_of
     # These functions compute distances and related quantities in a flat Lambda-CDM universe
 
     @jit
-    def E(z, Om0=Om0Planck):
+    def E(z, Om0_val=Om0):
         """
         Hubble parameter normalized by H0: E(z) = H(z)/H0
         For flat Lambda-CDM: E(z) = sqrt(Om0*(1+z)^3 + (1-Om0))
         """
-        return jnp.sqrt(Om0*(1+z)**3 + (1.0-Om0))
+        return jnp.sqrt(Om0_val*(1+z)**3 + (1.0-Om0_val))
 
     @jit
-    def r_of_z(z, H0, Om0=Om0Planck):
+    def r_of_z(z, H0_val, Om0_val=Om0):
         """
         Comoving distance as a function of redshift.
         Uses 2D interpolation from pre-computed lookup table, scaled by H0.
         """
-        return interp2d(Om0, z, Om0grid, zgrid, rs)*(H0Planck/H0)
+        return interp2d(Om0_val, z, Om0grid, zgrid, rs)*(H0/H0_val)
 
     @jit
-    def dL_of_z(z, H0, Om0=Om0Planck):
+    def dL_of_z(z, H0_val, Om0_val=Om0):
         """
         Luminosity distance as a function of redshift.
         dL = (1+z) * r, where r is the comoving distance.
         """
-        return (1+z)*r_of_z(z, H0, Om0)
+        return (1+z)*r_of_z(z, H0_val, Om0_val)
 
     @jit
-    def z_of_dL(dL, H0, Om0=Om0Planck):
+    def z_of_dL(dL, H0_val, Om0_val=Om0):
         """
         Inverse function: redshift as a function of luminosity distance.
         Uses interpolation to invert dL_of_z.
         """
-        return jnp.interp(dL, dL_of_z(zgrid, H0, Om0), zgrid)
+        return jnp.interp(dL, dL_of_z(zgrid, H0_val, Om0_val), zgrid)
 
     @jit
-    def dV_of_z(z, H0, Om0=Om0Planck):
+    def dV_of_z(z, H0_val, Om0_val=Om0):
         """
         Comoving volume element per unit redshift: dV/dz.
         Used for computing number densities and selection functions.
         """
-        return speed_of_light*r_of_z(z, H0, Om0)**2/(H0*E(z, Om0))
+        return speed_of_light*r_of_z(z, H0_val, Om0_val)**2/(H0_val*E(z, Om0_val))
 
     @jit
-    def ddL_of_z(z, dL, H0, Om0=Om0Planck):
+    def ddL_of_z(z, dL, H0_val, Om0_val=Om0):
         """
         Derivative of luminosity distance with respect to redshift: ddL/dz.
         Used for converting between distance and redshift uncertainties.
         """
-        return dL/(1+z) + speed_of_light*(1+z)/(H0*E(z, Om0))
+        return dL/(1+z) + speed_of_light*(1+z)/(H0_val*E(z, Om0_val))
     
     return {
         'E': E,
@@ -401,7 +352,7 @@ def create_cosmology_functions(Om0grid, zgrid, rs, Om0Planck, H0Planck, speed_of
 
 
 def extract_gw_positions(ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, 
-                         i_gw_gal, i_gw_agn, dL_of_z, H0Planck):
+                         i_gw_gal, i_gw_agn, dL_of_z, H0):
     """
     Extract positions and compute luminosity distances for GW events.
     
@@ -415,7 +366,7 @@ def extract_gw_positions(ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn,
         Indices of galaxies/AGNs with GW events
     dL_of_z : function
         Function to compute luminosity distance from redshift
-    H0Planck : float
+    H0 : float
         Hubble constant
         
     Returns:
@@ -428,17 +379,17 @@ def extract_gw_positions(ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn,
     # Extract positions and compute luminosity distances for GW events from galaxies
     ra_gal_gw = ra_gal[i_gw_gal]      # Right ascension of galaxies with GW events
     dec_gal_gw = dec_gal[i_gw_gal]    # Declination of galaxies with GW events
-    dL_gal_gw = dL_of_z(z_gal[i_gw_gal], H0Planck)  # Luminosity distance in Mpc
+    dL_gal_gw = dL_of_z(z_gal[i_gw_gal], H0)  # Luminosity distance in Mpc
 
     # Extract positions and compute luminosity distances for GW events from AGNs
     ra_agn_gw = ra_agn[i_gw_agn]      # Right ascension of AGNs with GW events
     dec_agn_gw = dec_agn[i_gw_agn]    # Declination of AGNs with GW events
-    dL_agn_gw = dL_of_z(z_agn[i_gw_agn], H0Planck)  # Luminosity distance in Mpc
+    dL_agn_gw = dL_of_z(z_agn[i_gw_agn], H0)  # Luminosity distance in Mpc
     
     return ra_gal_gw, dec_gal_gw, dL_gal_gw, ra_agn_gw, dec_agn_gw, dL_agn_gw
 
 
-def generate_black_hole_masses(z, n_events, mass_mean=35, mass_std=5):
+def generate_black_hole_masses(z, N_gw, mass_mean=35, mass_std=5):
     """
     Generate black hole masses for GW events.
     
@@ -446,8 +397,8 @@ def generate_black_hole_masses(z, n_events, mass_mean=35, mass_std=5):
     -----------
     z : array
         Redshifts of the events
-    n_events : int
-        Number of events
+    N_gw : int
+        Number of GW events
     mass_mean : float
         Mean black hole mass in solar masses
     mass_std : float
@@ -459,8 +410,8 @@ def generate_black_hole_masses(z, n_events, mass_mean=35, mass_std=5):
         Detector-frame (redshifted) masses
     """
     # Generate masses from normal distribution
-    m1s = np.random.normal(mass_mean, mass_std, n_events)
-    m2s = np.random.normal(mass_mean, mass_std, n_events)
+    m1s = np.random.normal(mass_mean, mass_std, N_gw)
+    m2s = np.random.normal(mass_mean, mass_std, N_gw)
     # Sort so m1 >= m2 (convention: m1 is the more massive black hole)
     m2s_gw, m1s_gw = np.sort([m1s, m2s], axis=0)
     
@@ -614,40 +565,114 @@ def shuffle_events(ras, decs, dLs, m1dets, m2dets):
     return ras, decs, dLs, m1dets, m2dets
 
 
-def save_samples(output_filename, ras, decs, dLs, m1dets, m2dets, nsamp, nobs):
+def save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal,
+                 ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn, nsamp, N_gw_gal, N_gw_agn):
     """
-    Save all samples to HDF5 file as 2D arrays with shape (nEvents, nsamp).
+    Save samples to HDF5 file as 2D arrays with shape (N_gw, nsamp).
+    Separate arrays for galaxies and AGNs with suffixes.
     Order: ra, dec, dL, m1det, m2det
     
     Parameters:
     -----------
-    output_filename : str
+    fn_gwsamples : str
         Path to output file
-    ras, decs, dLs, m1dets, m2dets : lists
-        Lists of sample arrays (one array per event), in order: ra, dec, dL, m1det, m2det
+    ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal : lists
+        Lists of sample arrays for galaxies (one array per event)
+    ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn : lists
+        Lists of sample arrays for AGNs (one array per event)
     nsamp : int
         Number of samples per event
-    nobs : int
-        Total number of events
+    N_gw_gal : int
+        Number of galaxy-hosted GW events
+    N_gw_agn : int
+        Number of AGN-hosted GW events
     """
-    with h5py.File(output_filename, 'w') as f:
+    with h5py.File(fn_gwsamples, 'w') as f:
         # Store metadata as attributes
         f.attrs['nsamp'] = nsamp  # Number of samples per GW event
-        f.attrs['nobs'] = nobs     # Total number of GW events
+        f.attrs['N_gw_gal'] = N_gw_gal  # Number of galaxy-hosted GW events
+        f.attrs['N_gw_agn'] = N_gw_agn  # Number of AGN-hosted GW events
+        f.attrs['N_gw'] = N_gw_gal + N_gw_agn  # Total number of GW events
         
-        # Convert lists of arrays to 2D arrays with shape (nEvents, nsamp)
-        ra_array = np.array(ras)  # Shape: (nEvents, nsamp)
-        dec_array = np.array(decs)  # Shape: (nEvents, nsamp)
-        dL_array = np.array(dLs)  # Shape: (nEvents, nsamp)
-        m1det_array = np.array(m1dets)  # Shape: (nEvents, nsamp)
-        m2det_array = np.array(m2dets)  # Shape: (nEvents, nsamp)
+        # Convert lists of arrays to 2D arrays with shape (N_gw, nsamp) for galaxies
+        ra_array_gal = np.array(ras_gal)  # Shape: (N_gw_gal, nsamp)
+        dec_array_gal = np.array(decs_gal)
+        dL_array_gal = np.array(dLs_gal)
+        m1det_array_gal = np.array(m1dets_gal)
+        m2det_array_gal = np.array(m2dets_gal)
         
-        # Store samples as 2D arrays (compressed to save space), in order: ra, dec, dL, m1det, m2det
-        f.create_dataset('ra', data=ra_array, compression='gzip', shuffle=False)  # Right ascensions
-        f.create_dataset('dec', data=dec_array, compression='gzip', shuffle=False) # Declinations
-        f.create_dataset('dL', data=dL_array, compression='gzip', shuffle=False)   # Luminosity distances
-        f.create_dataset('m1det', data=m1det_array, compression='gzip', shuffle=False)  # Mass 1
-        f.create_dataset('m2det', data=m2det_array, compression='gzip', shuffle=False)  # Mass 2
+        # Convert lists of arrays to 2D arrays with shape (N_gw, nsamp) for AGNs
+        ra_array_agn = np.array(ras_agn)  # Shape: (N_gw_agn, nsamp)
+        dec_array_agn = np.array(decs_agn)
+        dL_array_agn = np.array(dLs_agn)
+        m1det_array_agn = np.array(m1dets_agn)
+        m2det_array_agn = np.array(m2dets_agn)
+        
+        # Store galaxy samples as 2D arrays (compressed to save space)
+        f.create_dataset('ra_gal', data=ra_array_gal, compression='gzip', shuffle=False)
+        f.create_dataset('dec_gal', data=dec_array_gal, compression='gzip', shuffle=False)
+        f.create_dataset('dL_gal', data=dL_array_gal, compression='gzip', shuffle=False)
+        f.create_dataset('m1det_gal', data=m1det_array_gal, compression='gzip', shuffle=False)
+        f.create_dataset('m2det_gal', data=m2det_array_gal, compression='gzip', shuffle=False)
+        
+        # Store AGN samples as 2D arrays (compressed to save space)
+        f.create_dataset('ra_agn', data=ra_array_agn, compression='gzip', shuffle=False)
+        f.create_dataset('dec_agn', data=dec_array_agn, compression='gzip', shuffle=False)
+        f.create_dataset('dL_agn', data=dL_array_agn, compression='gzip', shuffle=False)
+        f.create_dataset('m1det_agn', data=m1det_array_agn, compression='gzip', shuffle=False)
+        f.create_dataset('m2det_agn', data=m2det_array_agn, compression='gzip', shuffle=False)
+
+
+def load_samples(filename, nsamp=None):
+    """
+    Load gravitational wave samples from HDF5 file.
+    Returns numpy arrays as 2D arrays (not flattened). No JAX dependency.
+    Returns separate arrays for galaxies and AGNs.
+    
+    Parameters
+    ----------
+    filename : str
+        Path to GW samples HDF5 file
+    nsamp : int, optional
+        Number of samples per event to use (default: None, uses all)
+    
+    Returns
+    -------
+    tuple
+        (ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, 
+         ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn)
+        Each is a numpy array with shape (N_gw, nsamp)
+    """
+    print(f"Loading GW samples from {filename} (nsamp={nsamp})")
+    with h5py.File(filename, 'r') as inp:
+        nsamp_ = inp.attrs['nsamp']
+        # Support both new (N_gw_*) and old (nobs_*) attribute names for backward compatibility
+        N_gw_gal = inp.attrs.get('N_gw_gal', inp.attrs.get('nobs_gal', 0))
+        N_gw_agn = inp.attrs.get('N_gw_agn', inp.attrs.get('nobs_agn', 0))
+        
+        # Determine slice sizes
+        if nsamp is None:
+            nsamp = nsamp_
+        nsamp = min(nsamp, nsamp_)
+        
+        # Load galaxy samples
+        ra_gal = np.array(inp['ra_gal'][:, 0:nsamp])
+        dec_gal = np.array(inp['dec_gal'][:, 0:nsamp])
+        dL_gal_data = inp['dL_gal'][:, 0:nsamp]
+        dL_gal = np.array((np.array(dL_gal_data) * u.Mpc).value)
+        m1det_gal = np.array(inp['m1det_gal'][:, 0:nsamp])
+        m2det_gal = np.array(inp['m2det_gal'][:, 0:nsamp])
+        
+        # Load AGN samples
+        ra_agn = np.array(inp['ra_agn'][:, 0:nsamp])
+        dec_agn = np.array(inp['dec_agn'][:, 0:nsamp])
+        dL_agn_data = inp['dL_agn'][:, 0:nsamp]
+        dL_agn = np.array((np.array(dL_agn_data) * u.Mpc).value)
+        m1det_agn = np.array(inp['m1det_agn'][:, 0:nsamp])
+        m2det_agn = np.array(inp['m2det_agn'][:, 0:nsamp])
+    
+    return ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn
+
 
 
 if __name__ == '__main__':
