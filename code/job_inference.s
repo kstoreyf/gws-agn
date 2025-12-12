@@ -40,6 +40,7 @@ echo "Starting inference job..."
 echo "Using GPU: ${CUDA_VISIBLE_DEVICES:-unset}"
 
 # Run the inference notebook
-python run_inference.py
+python run_inference.py --config ../configs/configs_inference/config_inference_seed42_ratioNgalNagn1_bgal1.0_bagn1.0_fagn0.25_lambdaagn0.0_mcmc_nw32_nsteps5000.yaml
+#python run_inference.py
 
 echo "Inference job completed!" 

@@ -70,11 +70,14 @@ def main(config):
     config : dict
         Configuration dictionary from YAML file
     """
+    import time
+    t_start = time.perf_counter()
+    
     print("Starting preprocessing...")
     
     # Extract parameters from config
     dir_mock = config['paths']['dir_mock']
-    catalog_filename = config['paths']['name_mock']
+    catalog_filename = config['paths']['name_cat']
     file = os.path.join(dir_mock, catalog_filename)
     print(f"Loading catalog from {dir_mock}")
     
@@ -115,6 +118,11 @@ def main(config):
     print(f"  Max galaxies per pixel: {max_sources_gal}")
     print(f"  Max AGN per pixel: {max_sources_agn}")
     print("Preprocessing finished successfully!")
+    
+    t_end = time.perf_counter()
+    elapsed = t_end - t_start
+    minutes = elapsed / 60
+    print(f"Total time: {elapsed:.2f} s = {minutes:.2f} min")
     
 
 def load_catalog_data(filepath, object_type):

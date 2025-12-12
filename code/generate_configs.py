@@ -39,7 +39,7 @@ def create_config_data(
     N_gw=1000,
     seed_gw=None,
     # GW sample generation parameters
-    nsamp=10000,
+    N_samples_gw=10000,
     mass_mean=35.0,
     mass_std=5.0,
     ra_uncertainty=0.01,
@@ -86,7 +86,7 @@ def create_config_data(
         Number of GW events to inject
     seed_gw : int, optional
         Seed for GW injection (None = seed + 1000)
-    nsamp : int
+    N_samples_gw : int
         Number of samples per GW event
     mass_mean : float
         Mean black hole mass in solar masses
@@ -167,7 +167,7 @@ def create_config_data(
             'tag_gw': tag_gw
         },
         'gw_samples': {
-            'nsamp': nsamp,
+            'N_samples_gw': N_samples_gw,
             'mass_mean': mass_mean,
             'mass_std': mass_std,
             'ra_uncertainty': ra_uncertainty,
@@ -195,12 +195,13 @@ def create_config_data(
     
     with open(fn_config, 'w') as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
-    
+
     print(f"Created config file: {fn_config}")
+    
     return fn_config
 
 
-def main(overwrite_config=False):
+def main_data(overwrite_config=False):
     """
     Main function to create config files.
     Modify the parameters below to create different configs.
@@ -223,10 +224,10 @@ def main(overwrite_config=False):
         z_max=1.5,
         nside=256,
         f_agn=0.25,
-        lambda_agn=0.25,
+        lambda_agn=0.0,
         N_gw=1000,
         seed_gw=1042,  # Will default to seed + 1000
-        nsamp=10000,
+        N_samples_gw=10000,
         # Cosmology will default to Planck 2015 values
         mass_mean=35.0,
         mass_std=5.0,
@@ -239,16 +240,16 @@ def main(overwrite_config=False):
 
 def create_config_inference(
     fn_config=None,
-    config_data_path='../configs/configs_data/config_data_default.yaml',
-    method='mcmc',
+    fn_config_data='../configs/configs_data/config_data_default.yaml',
+    mode_inf='mcmc',
     # MCMC parameters
-    n_walkers=32,
-    n_steps=10000,
+    N_walkers=32,
+    N_steps=10000,
     burnin_frac=0.2,
     seed_mcmc=0,
     # Likelihood grid parameters
-    n_H0=20,
-    n_alpha_agn=20,
+    N_H0=20,
+    N_alpha_agn=20,
     # Other parameters
     Om0=None,
     gamma_agn=0,
@@ -266,22 +267,22 @@ def create_config_inference(
     -----------
     fn_config : str, optional
         Full path to config file (directory + filename + .yaml). If None, auto-generated from tags.
-    config_data_path : str
+    fn_config_data : str
         Path to the data configuration file (relative to project root)
-    method : str
-        Inference method: 'mcmc' or 'likelihood_grid'
-    n_walkers : int
+    mode_inf : str
+        Inference mode: 'mcmc' or 'grid'
+    N_walkers : int
         Number of MCMC walkers
-    n_steps : int
+    N_steps : int
         Number of MCMC steps
     burnin_frac : float
         Fraction of chain to discard as burn-in
     seed_mcmc : int, optional
         Random seed for MCMC initialization
-    n_H0 : int
-        Number of H0 grid points for likelihood_grid
-    n_f : int
-        Number of f grid points for likelihood_grid
+    N_H0 : int
+        Number of H0 grid points for grid
+    N_alpha_agn : int
+        Number of alpha_agn grid points for grid
     Om0 : float, optional
         Matter density parameter (None = use Planck default)
     gamma_agn : float
@@ -296,17 +297,17 @@ def create_config_inference(
         Directory to save config file
     """
     # Load config_data to extract parameters for filename construction
-    with open(config_data_path, 'r') as f:
+    with open(fn_config_data, 'r') as f:
         config_data = yaml.safe_load(f)
     
-    tag_cat = config_data['tags']['tag_cat']
-    tag_gw = config_data['tags']['tag_gw']
+    tag_cat = config_data['paths']['tag_cat']
+    tag_gw = config_data['paths']['tag_gw']
     
     # Build tag_inf (inference-specific)
-    if method == 'mcmc':
-        tag_inf = f'_mcmc_nw{n_walkers}_nsteps{n_steps}'
-    elif method == 'likelihood_grid':
-        tag_inf = f'_grid_nH0{n_H0}_nalphaagn{n_alpha_agn}'
+    if mode_inf == 'mcmc':
+        tag_inf = f'_mcmc_nw{N_walkers}_nsteps{N_steps}'
+    elif mode_inf == 'grid':
+        tag_inf = f'_grid_nH0{N_H0}_nalphaagn{N_alpha_agn}'
     else:
         tag_inf = ''
     
@@ -322,17 +323,17 @@ def create_config_inference(
     
     # Create config dictionary
     config = {
-        'config_data_path': config_data_path,
-        'method': method,
+        'fn_config_data': fn_config_data,
+        'mode_inf': mode_inf,
         'mcmc': {
-            'n_walkers': n_walkers,
-            'n_steps': n_steps,
+            'N_walkers': N_walkers,
+            'N_steps': N_steps,
             'burnin_frac': burnin_frac,
             'seed_mcmc': seed_mcmc
         },
-        'likelihood_grid': {
-            'n_H0': n_H0,
-            'n_alpha_agn': n_alpha_agn
+        'grid': {
+            'N_H0': N_H0,
+            'N_alpha_agn': N_alpha_agn
         },
         'parameters': {
             'Om0': Om0, #could be diff from data cosmo, if we assume we don't know data
@@ -363,6 +364,7 @@ def create_config_inference(
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
     
     print(f"Created inference config file: {fn_config}")
+    
     return fn_config
 
 
@@ -376,42 +378,18 @@ def main_inference(overwrite_config=False):
     overwrite_config : bool
         If True, overwrite existing config files. If False, skip if files exist.
     """
-    # Example: Create an MCMC config (name will be auto-generated from tags)
-    # First, we need to create the data config, then reference it
-    create_config_data(
-        fn_config=None,  # Auto-generate from tags
-        seed=42,
-        nbar_gal=1e-2,
-        nbar_agn=1e-2,
-        bias_gal=1.0,
-        bias_agn=1.0,
-        z_min=0.0,
-        z_max=1.5,
-        nside=256,
-        f_agn=0.25,
-        lambda_agn=0.25,
-        N_gw=1000,
-        seed_gw=1042,
-        nsamp=10000,
-        mass_mean=35.0,
-        mass_std=5.0,
-        ra_uncertainty=0.01,
-        dec_uncertainty=0.01,
-        mass_uncertainty=1.5,
-        overwrite_config=overwrite_config
-    )
     
     # build config_data name
     tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
-    tag_gw = f'_fagn0.25_lambdaagn0.25'
+    tag_gw = f'_fagn0.25_lambdaagn0.0'
     config_data_name = f'config_data{tag_cat}{tag_gw}'
     # Now create inference configs referencing the data config
     create_config_inference(
         fn_config=None,  # Auto-generate from tags
-        config_data_path=f'../configs/configs_data/{config_data_name}.yaml',
-        method='mcmc',
-        n_walkers=32,
-        n_steps=10000,
+        fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+        mode_inf='mcmc',
+        N_walkers=32,
+        N_steps=5000,
         burnin_frac=0.2,
         seed_mcmc=0,
         tag_inf_extra='',
@@ -421,10 +399,10 @@ def main_inference(overwrite_config=False):
     # Example: Create a likelihood grid config (fn_config will be auto-generated from tags)
     create_config_inference(
         fn_config=None,  # Auto-generate from tags
-        config_data_path=f'../configs/configs_data/{config_data_name}.yaml',
-        method='likelihood_grid',
-        n_H0=20,
-        n_alpha_agn=20,
+        fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+        mode_inf='grid',
+        N_H0=30,
+        N_alpha_agn=30,
         tag_inf_extra='',
         overwrite_config=overwrite_config
     )
@@ -448,4 +426,4 @@ if __name__ == '__main__':
         main_inference(overwrite_config=overwrite_config)
     else:
         # Create data configs
-        main(overwrite_config=overwrite_config)
+        main_data(overwrite_config=overwrite_config)

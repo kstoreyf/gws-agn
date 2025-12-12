@@ -61,6 +61,8 @@ def parse_args():
 
 
 def main(config, overwrite_mock=False, overwrite_gws=False):
+    import time
+    t_start = time.perf_counter()
     """Main function to create mock catalog and inject GW sources."""
     
     # Extract parameters from config
@@ -80,10 +82,12 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     N_gw = config['gw_injection']['N_gw']
     seed_gw = config['gw_injection']['seed_gw']  
     
-    # Generate filename for the mock catalog using tag_cat from config
-    tag_cat = config['paths']['tag_cat']
-    dir_mock = f'../data/mocks_glass/mock{tag_cat}'
-    fn_mock = os.path.join(dir_mock, 'mock_catalog.h5')
+    # Get paths from config
+    dir_mock = config['paths']['dir_mock']
+    name_mock = config['paths']['name_mock']
+    name_gw = config['paths']['name_gw']
+    fn_mock = os.path.join(dir_mock, name_mock)
+    fn_gw = os.path.join(dir_mock, name_gw)
     
     print("=== Creating Mock Catalog ===")
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, catalog_attrs = create_mock_catalog(
@@ -96,11 +100,16 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     print("\n=== Injecting GW Sources ===")
 
     i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw = inject_gw_sources(
-        fn_mock, f_agn=f_agn, N_gw=N_gw, seed_gw=seed_gw, lambda_agn=lambda_agn,
+        fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
         save=True, overwrite_gws=overwrite_gws
     )
     
     print("\nMock catalog generation and GW injection complete!")
+    
+    t_end = time.perf_counter()
+    elapsed = t_end - t_start
+    minutes = elapsed / 60
+    print(f"Total time: {elapsed:.2f} s = {minutes:.2f} min")
 
 
 def compute_3d_positions(lon, lat, redshift):
@@ -190,7 +199,7 @@ def load_gw_injection(fn_gw):
     return i_gw_gal, i_gw_agn, attrs
 
 
-def create_mock_catalog(seed=42, nbar_gal=1e-1, nbar_agn=1e-3, bias_gal=1.5, bias_agn=2.5,
+def create_mock_catalog(seed, nbar_gal, nbar_agn, bias_gal, bias_agn,
                        z_min=0.0, z_max=1.5, nside=128, lmax=128, fn_mock=None, save=True, overwrite_mock=False):
     """Create a mock galaxy and AGN catalog."""
     
@@ -343,7 +352,7 @@ def create_mock_catalog(seed=42, nbar_gal=1e-1, nbar_agn=1e-3, bias_gal=1.5, bia
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs
 
 
-def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, seed_gw=None, lambda_agn=0.5,
+def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
                       save=True, overwrite_gws=False):
     """Inject GW sources into an existing mock catalog."""
     
@@ -353,11 +362,6 @@ def inject_gw_sources(fn_mock, f_agn=0.25, N_gw=1000, seed_gw=None, lambda_agn=0
     
     # Set up random number generator for GW selection
     rng = np.random.default_rng(seed=seed_gw)
-    
-    # Generate filename for GW injection
-    dir_mock = os.path.dirname(fn_mock)
-    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}_N{N_gw}_seed{seed_gw}'
-    fn_gw = os.path.join(dir_mock, f'gws{tag_gw}.h5')
     
     # Check if GW injection already exists
     if os.path.exists(fn_gw) and not overwrite_gws:

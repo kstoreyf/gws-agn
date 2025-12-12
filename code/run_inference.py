@@ -19,8 +19,8 @@ os.environ['XLA_PYTHON_CLIENT_PREALLOCATE']='false'
 
 # Fix for coordination_agent_recoverable flag conflict
 # Add --undefok flag to sys.argv BEFORE any absl imports
-if '--undefok' not in ' '.join(sys.argv):
-    sys.argv.insert(1, '--undefok=coordination_agent_recoverable')
+# if '--undefok' not in ' '.join(sys.argv):
+#     sys.argv.insert(1, '--undefok=coordination_agent_recoverable')
 
 # Parse absl flags early with undefok to prevent redefinition errors
 try:
@@ -76,32 +76,26 @@ def parse_args():
     
     Returns:
     --------
-    config_inference : dict
+    config : dict
         Configuration dictionary for inference (from YAML file)
     """
     parser = argparse.ArgumentParser(description='Run dark siren inference')
-    parser.add_argument('--config_inference', type=str, required=True,
+    parser.add_argument('--config', type=str, required=True,
                         help='Path to YAML configuration file for inference')
     args = parser.parse_args()
     
     # Load inference config file
-    with open(args.config_inference, 'r') as f:
+    with open(args.config, 'r') as f:
         config_inference = yaml.safe_load(f)
     
     # Load data config file referenced in inference config
-    config_data_path = config_inference['config_data_path']
-    # Handle relative paths - make relative to inference config file location
-    if not os.path.isabs(config_data_path):
-        inference_config_dir = os.path.dirname(os.path.abspath(args.config_inference))
-        config_data_path = os.path.join(inference_config_dir, config_data_path)
-        # Normalize path
-        config_data_path = os.path.normpath(config_data_path)
+    fn_config_data = config_inference['fn_config_data']
     
-    with open(config_data_path, 'r') as f:
+    with open(fn_config_data, 'r') as f:
         config_data = yaml.safe_load(f)
     
     # Get absolute path to inference config file
-    fn_config = os.path.abspath(args.config_inference)
+    fn_config = os.path.abspath(args.config)
     
     return config_inference, config_data, fn_config
 
@@ -121,10 +115,13 @@ def main(config_inference, config_data, fn_config):
     Returns
     -------
     dict
-        Dictionary containing results depending on mode:
+        Dictionary containing results depending on mode_inf:
         - For 'mcmc': posterior_samples, sampler, config, mcmc_params
-        - For 'likelihood_grid': log_likelihood_grid, H0_grid, alpha_agn_grid, config
+        - For 'grid': log_likelihood_grid, H0_grid, alpha_agn_grid, config
     """
+    import time
+    t_start = time.perf_counter()
+    
     # Extract parameters from config_data
     seed = config_data['mock_catalog']['seed']
     nside = config_data['pixelization']['nside']
@@ -142,17 +139,17 @@ def main(config_inference, config_data, fn_config):
         seed_gw = seed + 1000
     
     # Extract parameters from config_inference
-    mode = config_inference['method']
+    mode_inf = config_inference['mode_inf']
     
     # MCMC parameters
-    n_walkers = config_inference['mcmc']['n_walkers']
-    n_steps = config_inference['mcmc']['n_steps']
+    N_walkers = config_inference['mcmc']['N_walkers']
+    N_steps = config_inference['mcmc']['N_steps']
     burnin_frac = config_inference['mcmc']['burnin_frac']
     seed_mcmc = config_inference['mcmc']['seed_mcmc']
     
     # Likelihood grid parameters
-    n_H0 = config_inference['likelihood_grid']['n_H0']
-    n_alpha_agn = config_inference['likelihood_grid']['n_alpha_agn']
+    N_H0 = config_inference['grid']['N_H0']
+    N_alpha_agn = config_inference['grid']['N_alpha_agn']
     
     # Parameter bounds (set directly, not from config)
     H0_bounds = (50, 100)
@@ -171,13 +168,8 @@ def main(config_inference, config_data, fn_config):
     
     # Output settings - get filename from config
     fn_inf = config_inference['paths']['fn_inf']
-    # Handle relative paths for output file
-    if not os.path.isabs(fn_inf):
-        # Get project root (parent of code directory)
-        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        fn_inf = os.path.normpath(os.path.join(project_root, fn_inf))
 
-    print(f"Running main inference pipeline: mode={mode}, f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, n_walkers={n_walkers}, n_steps={n_steps}")
+    print(f"Running main inference pipeline: mode_inf={mode_inf}, f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, N_walkers={N_walkers}, N_steps={N_steps}")
 
     # Get tags and paths from config_data
     tag_cat = config_data['paths']['tag_cat']
@@ -211,45 +203,40 @@ def main(config_inference, config_data, fn_config):
     mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, alpha_agn_bounds=alpha_agn_bounds, Om0_bounds=Om0_bounds, 
                                         gamma_agn_bounds=gamma_agn_bounds, gamma_gal_bounds=gamma_gal_bounds)
 
-    # Run inference based on mode
-    if mode == 'likelihood_grid':
+    # Run inference based on mode_inf
+    if mode_inf == 'grid':
         results = run_likelihood_grid(
             gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
-            galaxy_file, agn_file, gw_file, nside,
+            config_inference, fn_config,
             Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
-            n_H0=n_H0, n_alpha_agn=n_alpha_agn,
-            output_file=fn_inf,
-            N_gw_inf=N_gw_inf,
-            f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, seed_gw=seed_gw,
-            seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
+            N_H0=N_H0, N_alpha_agn=N_alpha_agn,
+            fn_inf=fn_inf
         )
-    elif mode == 'mcmc':
+    elif mode_inf == 'mcmc':
         results = run_inference_mcmc(
             gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
-            galaxy_file, agn_file, gw_file, nside,
-            n_walkers=n_walkers, n_steps=n_steps, burnin_frac=burnin_frac,
+            config_inference, fn_config,
+            N_walkers=N_walkers, N_steps=N_steps, burnin_frac=burnin_frac,
             Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
-            H0_bounds=H0_bounds, alpha_agn_bounds=alpha_agn_bounds,
-            seed=seed_mcmc, output_file=fn_inf,
-            N_gw_inf=N_gw_inf,
-            f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, seed_gw=seed_gw,
-            ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
+            seed=seed_mcmc, fn_inf=fn_inf
         )
     else:
-        raise ValueError(f"Unknown mode: {mode}. Must be 'mcmc' or 'likelihood_grid'")
+        raise ValueError(f"Unknown mode_inf: {mode_inf}. Must be 'mcmc' or 'grid'")
+    
+    t_end = time.perf_counter()
+    elapsed = t_end - t_start
+    minutes = elapsed / 60
+    print(f"Total time: {elapsed:.2f} s = {minutes:.2f} min")
     
     return results
 
 
 def run_likelihood_grid(
     gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
-    galaxy_file, agn_file, gw_file, nside,
+    config_inference, fn_config,
     Om0=None, gamma_agn=0, gamma_gal=0,
-    n_H0=50, n_alpha_agn=50,
-    output_file=None,
-    N_gw_inf=None,
-    f_agn=None, lambda_agn=None, N_gw=None, seed_gw=None,
-    seed=None, ratioNgalNagn=None, bias_gal=None, bias_agn=None
+    N_H0=30, N_alpha_agn=30,
+    fn_inf=None
 ):
     """
     Run likelihood grid computation.
@@ -266,25 +253,17 @@ def run_likelihood_grid(
         Dictionary from create_catalog_probability_functions()
     mcmc_params : dict
         Dictionary from setup_mcmc_parameters()
-    galaxy_file : str
-        Path to galaxy catalog file
-    agn_file : str
-        Path to AGN catalog file
-    gw_file : str
-        Path to GW samples file
-    nside : int
-        Healpix nside parameter
     Om0 : float, optional
         Matter density parameter (default: None, uses Planck value)
     gamma_agn : float
         AGN evolution parameter (default: 0)
     gamma_gal : float
         Galaxy evolution parameter (default: 0)
-    n_H0 : int
+    N_H0 : int
         Number of H0 grid points (default: 50)
-    n_alpha_agn : int
+    N_alpha_agn : int
         Number of alpha_agn grid points (default: 50)
-    output_file : str, optional
+    fn_inf : str, optional
         Path to save likelihood grid (default: None)
     
     Returns
@@ -296,11 +275,11 @@ def run_likelihood_grid(
         - alpha_agn_grid: 1D array of alpha_agn values
         - config: configuration dictionary
     """
-    print(f"Running likelihood grid computation: n_H0={n_H0}, n_alpha_agn={n_alpha_agn}")
+    print(f"Running likelihood grid computation: N_H0={N_H0}, N_alpha_agn={N_alpha_agn}")
     
     # Create parameter grids from bounds
-    H0_grid = np.linspace(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0], n_H0)
-    alpha_agn_grid = np.linspace(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1], n_alpha_agn)
+    H0_grid = np.linspace(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0], N_H0)
+    alpha_agn_grid = np.linspace(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1], N_alpha_agn)
     
     # Compute likelihood grid
     log_likelihood_grid = compute_likelihood_grid(
@@ -310,53 +289,33 @@ def run_likelihood_grid(
         progress=True
     )
     
-    # Create configuration
-    config = create_inference_config(
-        galaxy_file, agn_file, gw_file, nside,
-        gw_data['N_gw'], gw_data['nsamp'],
-        n_walkers=None, n_steps=None, burnin_frac=None,
-        Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
-        H0_bounds=(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0]),
-        alpha_agn_bounds=(mcmc_params['lower_bound'][1], mcmc_params['upper_bound'][1]),
-        catalog_data=catalog_data,
-        f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, seed_gw=seed_gw,
-        seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
-    )
-    config['n_H0'] = n_H0
-    config['n_alpha_agn'] = n_alpha_agn
-    config['mode'] = 'likelihood_grid'
+    # Use config_inference directly (read-only, no modifications)
     
     # Save results if output file specified
-    if output_file is not None:
-        # Modify output filename for grid mode
-        grid_output_file = output_file.replace('inference_results', 'likelihood_grid')
+    if fn_inf is not None:
         save_likelihood_grid(
-            grid_output_file,
+            fn_inf,
             log_likelihood_grid, H0_grid, alpha_agn_grid,
             fn_config=fn_config,
             grid_params={'Om0': Om0, 'gamma_agn': gamma_agn, 'gamma_gal': gamma_gal}
         )
-        print(f"Likelihood grid saved to {grid_output_file}")
+        print(f"Likelihood grid saved to {fn_inf}")
     
     return {
         'log_likelihood_grid': log_likelihood_grid,
         'H0_grid': H0_grid,
         'alpha_agn_grid': alpha_agn_grid,
-        'config': config,
+        'config': config_inference,
         'mcmc_params': mcmc_params
     }
 
 
 def run_inference_mcmc(
     gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
-    galaxy_file, agn_file, gw_file, nside,
-    n_walkers=16, n_steps=1000, burnin_frac=0.2,
+    config_inference, fn_config,
+    N_walkers=16, N_steps=1000, burnin_frac=0.2,
     Om0=None, gamma_agn=0, gamma_gal=0,
-    H0_bounds=(20, 120), alpha_agn_bounds=(0, 1),
-    seed=None, output_file=None,
-    N_gw_inf=None,
-    f_agn=None, lambda_agn=None, N_gw=None, seed_gw=None,
-    ratioNgalNagn=None, bias_gal=None, bias_agn=None
+    seed=None, fn_inf=None
 ):
     """
     Run MCMC inference pipeline.
@@ -373,17 +332,9 @@ def run_inference_mcmc(
         Dictionary from create_catalog_probability_functions()
     mcmc_params : dict
         Dictionary from setup_mcmc_parameters()
-    galaxy_file : str
-        Path to galaxy catalog file
-    agn_file : str
-        Path to AGN catalog file
-    gw_file : str
-        Path to GW samples file
-    nside : int
-        Healpix nside parameter
-    n_walkers : int
+    N_walkers : int
         Number of MCMC walkers (default: 16)
-    n_steps : int
+    N_steps : int
         Number of MCMC steps (default: 1000)
     burnin_frac : float
         Burn-in fraction (default: 0.2)
@@ -393,13 +344,9 @@ def run_inference_mcmc(
         AGN evolution parameter (default: 0)
     gamma_gal : float
         Galaxy evolution parameter (default: 0)
-    H0_bounds : tuple
-        Bounds for H0 parameter (default: (20, 120))
-    alpha_agn_bounds : tuple
-        Bounds for alpha_agn parameter (default: (0, 1))
     seed : int, optional
         Random seed for MCMC initialization (default: None)
-    output_file : str, optional
+    fn_inf : str, optional
         Path to save inference results (default: None)
     
     Returns
@@ -411,7 +358,7 @@ def run_inference_mcmc(
         - config: configuration dictionary
         - mcmc_params: MCMC parameter dictionary
     """
-    print(f"Running MCMC inference: n_walkers={n_walkers}, n_steps={n_steps}, burnin_frac={burnin_frac}")
+    print(f"Running MCMC inference: N_walkers={N_walkers}, N_steps={N_steps}, burnin_frac={burnin_frac}")
     
     # Create MCMC likelihood function
     likelihood_func = create_mcmc_likelihood_function(
@@ -425,48 +372,37 @@ def run_inference_mcmc(
         likelihood_func,
         mcmc_params['lower_bound'],
         mcmc_params['upper_bound'],
-        n_walkers=n_walkers,
-        n_steps=n_steps,
+        N_walkers=N_walkers,
+        N_steps=N_steps,
         seed=seed
     )
 
     # Get posterior samples
     posterior_samples = get_posterior_samples(sampler, burnin_frac=burnin_frac)
     
-    # Create configuration
-    config = create_inference_config(
-        galaxy_file, agn_file, gw_file, nside,
-        gw_data['N_gw'], gw_data['nsamp'],
-        n_walkers, n_steps, burnin_frac,
-        Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
-        H0_bounds=H0_bounds, alpha_agn_bounds=alpha_agn_bounds,
-        catalog_data=catalog_data,
-        f_agn=f_agn, lambda_agn=lambda_agn, N_gw=N_gw, seed_gw=seed_gw,
-        seed=seed, ratioNgalNagn=ratioNgalNagn, bias_gal=bias_gal, bias_agn=bias_agn
-    )
-    config['mode'] = 'mcmc'
+    # Use config_inference directly (read-only, no modifications)
     
     # Save results if output file specified
-    if output_file is not None:
+    if fn_inf is not None:
         save_inference_results(
-            output_file,
+            fn_inf,
             posterior_samples,
             sampler=sampler,
             mcmc_params=mcmc_params,
             fn_config=fn_config
         )
-        print(f"Inference results saved to {output_file}")
+        print(f"Inference results saved to {fn_inf}")
     
     return {
         'posterior_samples': posterior_samples,
         'sampler': sampler,
-        'config': config,
+        'config': config_inference,
         'mcmc_params': mcmc_params
     }
 
 
 def save_inference_results(
-    filename, posterior_samples, sampler=None, mcmc_params=None,
+    fn_inf, posterior_samples, sampler=None, mcmc_params=None,
     fn_config=None
 ):
     """
@@ -474,10 +410,10 @@ def save_inference_results(
     
     Parameters
     ----------
-    filename : str
-        Output HDF5 filename
+    fn_inf : str
+        Output HDF5 filename for inference results
     posterior_samples : array
-        Posterior samples array (n_samples, n_params)
+        Posterior samples array (N_samples, N_params)
     sampler : emcee.EnsembleSampler, optional
         Full sampler object (saves full chain if provided)
     mcmc_params : dict, optional
@@ -485,9 +421,9 @@ def save_inference_results(
     fn_config : str, optional
         Path to inference config file
     """
-    print(f"Saving inference results to {filename} (n_samples={len(posterior_samples)})")
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    with h5py.File(filename, 'w') as f:
+    print(f"Saving inference results to {fn_inf} (N_samples={len(posterior_samples)})")
+    os.makedirs(os.path.dirname(fn_inf), exist_ok=True)
+    with h5py.File(fn_inf, 'w') as f:
         # Save posterior samples
         f.create_dataset('posterior_samples', data=np.array(posterior_samples))
         
@@ -495,8 +431,8 @@ def save_inference_results(
         if sampler is not None:
             f.create_dataset('mcmc_chain', data=np.array(sampler.chain))
             f.create_dataset('mcmc_log_prob', data=np.array(sampler.lnprobability))
-            f.attrs['n_walkers'] = sampler.nwalkers
-            f.attrs['n_steps'] = sampler.iteration
+            f.attrs['N_walkers'] = sampler.nwalkers
+            f.attrs['N_steps'] = sampler.iteration
         
         # Save MCMC parameters
         if mcmc_params is not None:
@@ -513,18 +449,18 @@ def save_inference_results(
         
         # Save timestamp
         f.attrs['timestamp'] = datetime.now().isoformat()
-        f.attrs['n_samples'] = len(posterior_samples)
-        f.attrs['n_params'] = posterior_samples.shape[1] if len(posterior_samples.shape) > 1 else 1
+        f.attrs['N_samples'] = len(posterior_samples)
+        f.attrs['N_params'] = posterior_samples.shape[1] if len(posterior_samples.shape) > 1 else 1
 
 
-def load_inference_results(filename):
+def load_inference_results(fn_inf):
     """
     Load inference results from HDF5 file.
     
     Parameters
     ----------
-    filename : str
-        Input HDF5 filename
+    fn_inf : str
+        Input HDF5 filename for inference results
     
     Returns
     -------
@@ -536,13 +472,13 @@ def load_inference_results(filename):
         - mcmc_params: MCMC parameter dictionary
         - fn_config: path to inference config file
         - timestamp: timestamp string
-        - n_samples: number of samples
-        - n_params: number of parameters
+        - N_samples: number of samples
+        - N_params: number of parameters
     """
-    print(f"Loading inference results from {filename}")
+    print(f"Loading inference results from {fn_inf}")
     results = {}
     
-    with h5py.File(filename, 'r') as f:
+    with h5py.File(fn_inf, 'r') as f:
         # Load posterior samples
         results['posterior_samples'] = np.array(f['posterior_samples'])
         
@@ -550,8 +486,8 @@ def load_inference_results(filename):
         if 'mcmc_chain' in f:
             results['mcmc_chain'] = np.array(f['mcmc_chain'])
             results['mcmc_log_prob'] = np.array(f['mcmc_log_prob'])
-            results['n_walkers'] = f.attrs.get('n_walkers', None)
-            results['n_steps'] = f.attrs.get('n_steps', None)
+        results['N_walkers'] = f.attrs.get('N_walkers', f.attrs.get('n_walkers', None))
+        results['N_steps'] = f.attrs.get('N_steps', f.attrs.get('n_steps', None))
         
         # Load MCMC parameters
         if 'lower_bound' in f:
@@ -567,8 +503,8 @@ def load_inference_results(filename):
         # Load attributes
         results['fn_config'] = f.attrs.get('fn_config', None)
         results['timestamp'] = f.attrs.get('timestamp', None)
-        results['n_samples'] = f.attrs.get('n_samples', None)
-        results['n_params'] = f.attrs.get('n_params', None)
+        results['N_samples'] = f.attrs.get('N_samples', f.attrs.get('n_samples', None))
+        results['N_params'] = f.attrs.get('N_params', f.attrs.get('n_params', None))
     
     return results
 
@@ -590,10 +526,14 @@ def print_inference_summary(results):
     if 'timestamp' in results and results['timestamp']:
         print(f"Timestamp: {results['timestamp']}")
     
-    if 'n_samples' in results and results['n_samples']:
+    if 'N_samples' in results and results['N_samples']:
+        print(f"Number of samples: {results['N_samples']}")
+    elif 'n_samples' in results and results['n_samples']:
         print(f"Number of samples: {results['n_samples']}")
     
-    if 'n_params' in results and results['n_params']:
+    if 'N_params' in results and results['N_params']:
+        print(f"Number of parameters: {results['N_params']}")
+    elif 'n_params' in results and results['n_params']:
         print(f"Number of parameters: {results['n_params']}")
     
     if 'mcmc_params' in results:
@@ -623,109 +563,6 @@ def print_inference_summary(results):
                 print(f"  {label}: {mean:.4f} ± {std:.4f}")
     
     print("=" * 60)
-
-
-def create_inference_config(
-    galaxy_file, agn_file, gw_file, nside, N_gw, nsamp,
-    n_walkers, n_steps, burnin_frac=0.5,
-    Om0=None, gamma_agn=0, gamma_gal=0,
-    H0_bounds=(20, 120), alpha_agn_bounds=(0, 1),
-    catalog_data=None,
-    f_agn=None, lambda_agn=None, seed_gw=None,
-    seed=None, ratioNgalNagn=None, bias_gal=None, bias_agn=None
-):
-    """
-    Create configuration dictionary for inference run.
-    
-    Parameters
-    ----------
-    galaxy_file : str
-        Path to galaxy catalog file
-    agn_file : str
-        Path to AGN catalog file
-    gw_file : str
-        Path to GW samples file
-    nside : int
-        Healpix nside parameter
-    N_gw : int
-        Number of GW events
-    nsamp : int
-        Number of samples per event
-    n_walkers : int
-        Number of MCMC walkers
-    n_steps : int
-        Number of MCMC steps
-    burnin_frac : float
-        Burn-in fraction (default: 0.5)
-    Om0 : float, optional
-        Matter density parameter
-    gamma_agn : float
-        AGN evolution parameter (default: 0)
-    gamma_gal : float
-        Galaxy evolution parameter (default: 0)
-    H0_bounds : tuple
-        Bounds for H0 parameter
-    alpha_agn_bounds : tuple
-        Bounds for alpha_agn parameter
-    f_agn : float, optional
-        Fraction of AGN hosts
-    lambda_agn : float, optional
-        AGN mixing parameter
-    N_gw : int, optional
-        Number of GW events
-    seed_gw : int, optional
-        Random seed for GW samples
-    seed : int, optional
-        Random seed for MCMC initialization
-    ratioNgalNagn : float, optional
-        Ratio of galaxies to AGN
-    bias_gal : float, optional
-        Galaxy bias parameter
-    bias_agn : float, optional
-        AGN bias parameter
-    
-    Returns
-    -------
-    dict
-        Configuration dictionary
-    """
-    print(f"Creating inference config: N_gw={N_gw}, nsamp={nsamp}, n_walkers={n_walkers}, n_steps={n_steps}, Om0={Om0}")
-    config = {
-        'galaxy_file': galaxy_file,
-        'agn_file': agn_file,
-        'gw_file': gw_file,
-        'nside': nside,
-        'N_gw': N_gw,
-        'nsamp': nsamp,
-        'n_walkers': n_walkers,
-        'n_steps': n_steps,
-        'burnin_frac': burnin_frac,
-        'gamma_agn': gamma_agn,
-        'gamma_gal': gamma_gal,
-        'H0_bounds': H0_bounds,
-        'alpha_agn_bounds': alpha_agn_bounds
-    }
-    
-    if Om0 is not None:
-        config['Om0'] = Om0
-    
-    # Add top-level parameters if provided
-    if f_agn is not None:
-        config['f_agn'] = f_agn
-    if lambda_agn is not None:
-        config['lambda_agn'] = lambda_agn
-    if seed_gw is not None:
-        config['seed_gw'] = seed_gw
-    if seed is not None:
-        config['seed'] = seed
-    if ratioNgalNagn is not None:
-        config['ratioNgalNagn'] = ratioNgalNagn
-    if bias_gal is not None:
-        config['bias_gal'] = bias_gal
-    if bias_agn is not None:
-        config['bias_agn'] = bias_agn
-    
-    return config
 
 
 def load_catalog_data(galaxy_file, agn_file, nside=256):
@@ -879,7 +716,7 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
     }
 
 
-def load_gw_samples(filename, N_gw_inf=None, nsamp=None):
+def load_gw_samples(filename, N_gw_inf=None, N_samples_gw=None):
     """
     Load gravitational wave samples from HDF5 file.
     Loads separate galaxy and AGN arrays, concatenates them, shuffles, then selects N_gw_inf events.
@@ -892,7 +729,7 @@ def load_gw_samples(filename, N_gw_inf=None, nsamp=None):
     N_gw_inf : int, optional
         Number of GW events to use in inference. If None, uses all events.
         Must not exceed the total number of events available.
-    nsamp : int, optional
+    N_samples_gw : int, optional
         Number of samples per event to use (default: None, uses all)
     
     Returns
@@ -903,7 +740,7 @@ def load_gw_samples(filename, N_gw_inf=None, nsamp=None):
         - dec: declination samples (JAX array, flattened to 1D)
         - dL: luminosity distance samples (JAX array, flattened to 1D)
         - p_pe: prior probability for each sample (JAX array, flattened to 1D)
-        - nsamp: number of samples per event
+        - N_samples_gw: number of samples per event
     """
     # Import here to avoid circular dependencies
     import generate_gwsamples
@@ -912,7 +749,7 @@ def load_gw_samples(filename, N_gw_inf=None, nsamp=None):
     # Returns separate arrays for galaxies and AGNs: (ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, 
     #                                                   ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn)
     ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn = \
-        generate_gwsamples.load_samples(filename, nsamp=nsamp)
+        generate_gwsamples.load_samples(filename, N_samples_gw=N_samples_gw)
     
     # Concatenate galaxies and AGNs
     ra = np.concatenate([ra_gal, ra_agn], axis=0)
@@ -946,8 +783,8 @@ def load_gw_samples(filename, N_gw_inf=None, nsamp=None):
     dL_flat = dL.flatten()
     p_pe = jnp.ones(len(ra_flat))
     
-    # Get nsamp and N_gw from the shape
-    nsamp_loaded = ra.shape[1] if len(ra) > 0 else 0
+    # Get N_samples_gw and N_gw from the shape
+    N_samples_gw_loaded = ra.shape[1] if len(ra) > 0 else 0
     N_gw_loaded = ra.shape[0] if len(ra) > 0 else 0
     
     return {
@@ -955,7 +792,7 @@ def load_gw_samples(filename, N_gw_inf=None, nsamp=None):
         'dec': jnp.array(dec_flat),
         'dL': jnp.array(dL_flat),
         'p_pe': p_pe,
-        'nsamp': nsamp_loaded,
+        'N_samples_gw': N_samples_gw_loaded,
         'N_gw': N_gw_loaded
     }
 
@@ -978,7 +815,7 @@ def compute_pixel_indices(ra, dec, nside):
     array
         Pixel indices
     """
-    print(f"Computing pixel indices: nside={nside}, n_samples={len(ra)}")
+    print(f"Computing pixel indices: nside={nside}, N_samples={len(ra)}")
     return hp.pixelfunc.ang2pix(nside, np.pi/2 - dec, ra)
 
 
@@ -1169,10 +1006,10 @@ def compute_darksiren_log_likelihood(
     
     dL = gw_data['dL']
     p_pe = gw_data['p_pe']
-    nsamp = gw_data['nsamp']
+    N_samples_gw = gw_data['N_samples_gw']
     
     # Calculate N_gw from the flattened array length
-    N_gw = len(dL) // nsamp
+    N_gw = len(dL) // N_samples_gw
     
     z_of_dL = cosmo_funcs['z_of_dL']
     ddL_of_z = cosmo_funcs['ddL_of_z']
@@ -1183,7 +1020,7 @@ def compute_darksiren_log_likelihood(
     z = z_of_dL(dL, H0, Om0)
     
     # Compute log weights
-    #print(f"Computing log weights: z={z}, p_pe={p_pe}, N_gw={N_gw}, nsamp={nsamp}")
+    #print(f"Computing log weights: z={z}, p_pe={p_pe}, N_gw={N_gw}, N_samples_gw={N_samples_gw}")
     log_weights = (
         -jnp.log(ddL_of_z(z, dL, H0, Om0)) 
         - jnp.log(p_pe) 
@@ -1192,9 +1029,9 @@ def compute_darksiren_log_likelihood(
     e = time.time()
     #print(f"likelihood call time: {e - s} seconds")
     # Reshape and compute log-likelihood
-    #print(f"Reshaping and computing log-likelihood: log_weights={log_weights}, N_gw={N_gw}, nsamp={nsamp}")
-    log_weights = log_weights.reshape((N_gw, nsamp))
-    ll = jnp.sum(-jnp.log(nsamp) + logsumexp(log_weights, axis=-1))
+    #print(f"Reshaping and computing log-likelihood: log_weights={log_weights}, N_gw={N_gw}, N_samples_gw={N_samples_gw}")
+    log_weights = log_weights.reshape((N_gw, N_samples_gw))
+    ll = jnp.sum(-jnp.log(N_samples_gw) + logsumexp(log_weights, axis=-1))
     
     return ll
 
@@ -1274,7 +1111,7 @@ def compute_likelihood_grid(
 
 
 def save_likelihood_grid(
-    filename, log_likelihood_grid, H0_grid, alpha_agn_grid,
+    fn_inf, log_likelihood_grid, H0_grid, alpha_agn_grid,
     fn_config=None, grid_params=None
 ):
     """
@@ -1282,8 +1119,8 @@ def save_likelihood_grid(
     
     Parameters
     ----------
-    filename : str
-        Output HDF5 filename
+    fn_inf : str
+        Output HDF5 filename for inference results
     log_likelihood_grid : array
         2D array of log-likelihood values with shape (len(H0_grid), len(alpha_agn_grid))
     H0_grid : array
@@ -1298,10 +1135,10 @@ def save_likelihood_grid(
         - gamma_agn: AGN evolution parameter
         - gamma_gal: galaxy evolution parameter
     """
-    print(f"Saving likelihood grid to {filename} (shape={log_likelihood_grid.shape})")
-    os.makedirs(os.path.dirname(filename) if os.path.dirname(filename) else '.', exist_ok=True)
+    print(f"Saving likelihood grid to {fn_inf} (shape={log_likelihood_grid.shape})")
+    os.makedirs(os.path.dirname(fn_inf) if os.path.dirname(fn_inf) else '.', exist_ok=True)
     
-    with h5py.File(filename, 'w') as f:
+    with h5py.File(fn_inf, 'w') as f:
         # Save likelihood grid
         f.create_dataset('log_likelihood_grid', data=np.array(log_likelihood_grid))
         
@@ -1330,22 +1167,22 @@ def save_likelihood_grid(
         
         # Save attributes
         f.attrs['timestamp'] = datetime.now().isoformat()
-        f.attrs['n_H0'] = len(H0_grid)
-        f.attrs['n_alpha_agn'] = len(alpha_agn_grid)
+        f.attrs['N_H0'] = len(H0_grid)
+        f.attrs['N_alpha_agn'] = len(alpha_agn_grid)
         f.attrs['H0_min'] = float(np.min(H0_grid))
         f.attrs['H0_max'] = float(np.max(H0_grid))
         f.attrs['alpha_agn_min'] = float(np.min(alpha_agn_grid))
         f.attrs['alpha_agn_max'] = float(np.max(alpha_agn_grid))
 
 
-def load_likelihood_grid(filename):
+def load_likelihood_grid(fn_inf):
     """
     Load likelihood grid and associated parameters from HDF5 file.
     
     Parameters
     ----------
-    filename : str
-        Input HDF5 filename
+    fn_inf : str
+        Input HDF5 filename for inference results
     
     Returns
     -------
@@ -1358,16 +1195,16 @@ def load_likelihood_grid(filename):
         - fn_config: path to inference config file
         - timestamp: timestamp string
     """
-    print(f"Loading likelihood grid from {filename}")
+    print(f"Loading likelihood grid from {fn_inf}")
     results = {}
     
-    with h5py.File(filename, 'r') as f:
+    with h5py.File(fn_inf, 'r') as f:
         # Load likelihood grid
         results['log_likelihood_grid'] = np.array(f['log_likelihood_grid'])
         
         # Load parameter grids
         results['H0_grid'] = np.array(f['H0_grid'])
-        results['f_grid'] = np.array(f['f_grid'])
+        results['alpha_agn_grid'] = np.array(f['alpha_agn_grid'])
         
         # Load grid parameters
         if 'grid_params' in f:
@@ -1394,18 +1231,18 @@ def load_likelihood_grid(filename):
         # Load attributes
         results['fn_config'] = f.attrs.get('fn_config', None)
         results['timestamp'] = f.attrs.get('timestamp', None)
-        results['n_H0'] = f.attrs.get('n_H0', None)
-        results['n_f'] = f.attrs.get('n_f', None)
+        results['N_H0'] = f.attrs.get('N_H0', f.attrs.get('n_H0', None))
+        results['N_alpha_agn'] = f.attrs.get('N_alpha_agn', None)
         results['H0_min'] = f.attrs.get('H0_min', None)
         results['H0_max'] = f.attrs.get('H0_max', None)
-        results['f_min'] = f.attrs.get('f_min', None)
-        results['f_max'] = f.attrs.get('f_max', None)
+        results['alpha_agn_min'] = f.attrs.get('alpha_agn_min', None)
+        results['alpha_agn_max'] = f.attrs.get('alpha_agn_max', None)
     
     return results
 
 
 def setup_mcmc_parameters(
-    H0_bounds=(20, 120),
+    H0_bounds=(50, 100),
     alpha_agn_bounds=(0, 1),
     Om0_bounds=None,
     gamma_agn_bounds=(-5, 5),
@@ -1547,7 +1384,7 @@ def solve_fagn_lambda(alpha_agn_obs, N_gal, N_agn):
 
 
 def run_mcmc_sampling(
-    likelihood_func, lower_bound, upper_bound, n_walkers=64, n_steps=1000,
+    likelihood_func, lower_bound, upper_bound, N_walkers=64, N_steps=1000,
     seed=None
 ):
     """
@@ -1561,9 +1398,9 @@ def run_mcmc_sampling(
         Lower bounds for parameters
     upper_bound : list
         Upper bounds for parameters
-    n_walkers : int
+    N_walkers : int
         Number of walkers (default: 64)
-    n_steps : int
+    N_steps : int
         Number of MCMC steps (default: 1000)
     seed : int, optional
         Random seed for initialization
@@ -1573,7 +1410,7 @@ def run_mcmc_sampling(
     emcee.EnsembleSampler
         Sampler object with chain
     """
-    print(f"Running MCMC sampling: n_walkers={n_walkers}, n_steps={n_steps}, seed={seed}, ndims={len(lower_bound)}")
+    print(f"Running MCMC sampling: N_walkers={N_walkers}, N_steps={N_steps}, seed={seed}, ndims={len(lower_bound)}")
     if emcee is None:
         raise ImportError("emcee is required for MCMC sampling. Install with: pip install emcee")
     
@@ -1582,22 +1419,22 @@ def run_mcmc_sampling(
     if seed is not None:
         np.random.seed(seed)
     
-    p0 = np.random.uniform(lower_bound, upper_bound, size=(n_walkers, ndims))
+    p0 = np.random.uniform(lower_bound, upper_bound, size=(N_walkers, ndims))
     
     sampler = emcee.EnsembleSampler(
-        n_walkers, ndims, likelihood_func,
+        N_walkers, ndims, likelihood_func,
         moves=[
             (emcee.moves.DEMove(), 0.8),
             (emcee.moves.DESnookerMove(), 0.2),
         ]
     )
     
-    sampler.run_mcmc(p0, n_steps, progress=True)
+    sampler.run_mcmc(p0, N_steps, progress=True)
     
     return sampler
 
 
-def get_posterior_samples(sampler, burnin_frac=0.5, n_samples=None):
+def get_posterior_samples(sampler, burnin_frac=0.5, N_samples=None):
     """
     Extract posterior samples from MCMC chain.
     
@@ -1607,7 +1444,7 @@ def get_posterior_samples(sampler, burnin_frac=0.5, n_samples=None):
         Sampler object with chain
     burnin_frac : float
         Fraction of chain to discard as burn-in (default: 0.5)
-    n_samples : int, optional
+    N_samples : int, optional
         Number of samples to return (default: all post-burnin)
     
     Returns
@@ -1615,13 +1452,13 @@ def get_posterior_samples(sampler, burnin_frac=0.5, n_samples=None):
     array
         Posterior samples
     """
-    print(f"Extracting posterior samples: burnin_frac={burnin_frac}, n_samples={n_samples}")
+    print(f"Extracting posterior samples: burnin_frac={burnin_frac}, N_samples={N_samples}")
     shape = sampler.flatchain.shape[0]
     burnin_idx = int(shape * burnin_frac)
     samples = sampler.flatchain[burnin_idx:, :]
     
-    if n_samples is not None and n_samples < len(samples):
-        choose = np.random.randint(0, len(samples), n_samples)
+    if N_samples is not None and N_samples < len(samples):
+        choose = np.random.randint(0, len(samples), N_samples)
         samples = samples[choose]
     
     return samples

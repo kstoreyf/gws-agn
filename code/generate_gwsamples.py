@@ -20,8 +20,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow warnings
 # Fix for coordination_agent_recoverable flag conflict
 # Add --undefok flag to sys.argv BEFORE any absl imports
 # This prevents errors when TensorFlow/JAX libraries try to redefine flags
-if '--undefok' not in ' '.join(sys.argv):
-    sys.argv.insert(1, '--undefok=coordination_agent_recoverable')
+# if '--undefok' not in ' '.join(sys.argv):
+#     sys.argv.insert(1, '--undefok=coordination_agent_recoverable')
 
 # Parse absl flags early with undefok to prevent redefinition errors
 try:
@@ -94,13 +94,16 @@ def main(config):
     """
     Main function to generate GW samples from mock catalogs.
     Always includes black hole masses in the samples.
-    All samples are saved as 2D arrays with shape (N_gw, nsamp).
+    All samples are saved as 2D arrays with shape (N_gw, N_samples_gw).
     
     Parameters:
     -----------
     config : dict
         Configuration dictionary from YAML file
     """
+    import time
+    t_start = time.perf_counter()
+    
     # Extract parameters from config
     
     # File paths for input data
@@ -112,7 +115,7 @@ def main(config):
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn = load_data(fn_cat, fn_gw)
     
     # Number of samples to generate per GW event
-    nsamp = config['gw_samples']['nsamp']
+    N_samples_gw = config['gw_samples']['N_samples_gw']
 
     # Redshift grid boundaries for cosmology calculations (fixed values)
     zMax_1 = 0.5  # Low redshift boundary
@@ -150,14 +153,14 @@ def main(config):
     n_initial_samples = 256000  # Fixed value
     
     ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal = generate_all_samples(
-        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, nsamp,
+        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, N_samples_gw,
         n_initial_samples=n_initial_samples, ra_uncertainty=ra_unc, 
         dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
     )
 
     # Generate samples for AGN-hosted GW events (order: ra, dec, dL, m1det, m2det)
     ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn = generate_all_samples(
-        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, nsamp,
+        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, N_samples_gw,
         n_initial_samples=n_initial_samples, ra_uncertainty=ra_unc,
         dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
     )
@@ -174,9 +177,14 @@ def main(config):
     
     save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal,
                  ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn, 
-                 nsamp, N_gw_gal, N_gw_agn)
+                 N_samples_gw, N_gw_gal, N_gw_agn)
     
-    print(f"Saved {N_gw_gal} galaxy-hosted and {N_gw_agn} AGN-hosted GW events ({N_gw_gal + N_gw_agn} total) with {nsamp} samples each to {fn_gwsamples}")
+    print(f"Saved {N_gw_gal} galaxy-hosted and {N_gw_agn} AGN-hosted GW events ({N_gw_gal + N_gw_agn} total) with {N_samples_gw} samples each to {fn_gwsamples}")
+    
+    t_end = time.perf_counter()
+    elapsed = t_end - t_start
+    minutes = elapsed / 60
+    print(f"Total time: {elapsed:.2f} s = {minutes:.2f} min")
 
 
 def load_data(fn_cat, fn_gw):
@@ -423,7 +431,7 @@ def generate_black_hole_masses(z, N_gw, mass_mean=35, mass_std=5):
     return m1sdet, m2sdet
 
 
-def generate_event_samples(ra, dec, dL, m1det, m2det, nsamp, n_initial_samples=256000, 
+def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw, n_initial_samples=256000, 
                            ra_uncertainty=0.01, dec_uncertainty=0.01, mass_uncertainty=1.5):
     """
     Generate samples for a single GW event with measurement uncertainties.
@@ -441,7 +449,7 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, nsamp, n_initial_samples=2
         True detector-frame mass 1
     m2det : float
         True detector-frame mass 2
-    nsamp : int
+    N_samples_gw : int
         Number of samples to generate
     n_initial_samples : int
         Number of initial samples to generate (before filtering)
@@ -475,8 +483,8 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, nsamp, n_initial_samples=2
     mask = np.where((dec_samples > -np.pi/2) & (dec_samples < np.pi/2))
     samples = samples[mask]
     
-    # Randomly select nsamp samples from the valid ones
-    choose = np.random.randint(0, len(samples), nsamp)
+    # Randomly select N_samples_gw samples from the valid ones
+    choose = np.random.randint(0, len(samples), N_samples_gw)
     samples = samples[choose]
 
     # Return samples in order: ra, dec, dL, m1det, m2det, wrapping RA to [0, 2*pi)
@@ -489,7 +497,7 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, nsamp, n_initial_samples=2
     return ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples
 
 
-def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp, 
+def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, N_samples_gw, 
                         n_initial_samples=256000, ra_uncertainty=0.01, 
                         dec_uncertainty=0.01, mass_uncertainty=1.5):
     """
@@ -502,7 +510,7 @@ def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp,
         Positions and distances for GW events
     m1det_gw, m2det_gw : arrays
         Detector-frame masses
-    nsamp : int
+    N_samples_gw : int
         Number of samples per event
     n_initial_samples : int
         Number of initial samples to generate (before filtering)
@@ -526,7 +534,7 @@ def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, nsamp,
     
     for k in tqdm(range(len(ra_gw))):
         ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples = generate_event_samples(
-            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], nsamp,
+            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], N_samples_gw,
             n_initial_samples=n_initial_samples, ra_uncertainty=ra_uncertainty,
             dec_uncertainty=dec_uncertainty, mass_uncertainty=mass_uncertainty
         )
@@ -566,9 +574,9 @@ def shuffle_events(ras, decs, dLs, m1dets, m2dets):
 
 
 def save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal,
-                 ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn, nsamp, N_gw_gal, N_gw_agn):
+                 ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn, N_samples_gw, N_gw_gal, N_gw_agn):
     """
-    Save samples to HDF5 file as 2D arrays with shape (N_gw, nsamp).
+    Save samples to HDF5 file as 2D arrays with shape (N_gw, N_samples_gw).
     Separate arrays for galaxies and AGNs with suffixes.
     Order: ra, dec, dL, m1det, m2det
     
@@ -580,7 +588,7 @@ def save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_ga
         Lists of sample arrays for galaxies (one array per event)
     ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn : lists
         Lists of sample arrays for AGNs (one array per event)
-    nsamp : int
+    N_samples_gw : int
         Number of samples per event
     N_gw_gal : int
         Number of galaxy-hosted GW events
@@ -589,20 +597,20 @@ def save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_ga
     """
     with h5py.File(fn_gwsamples, 'w') as f:
         # Store metadata as attributes
-        f.attrs['nsamp'] = nsamp  # Number of samples per GW event
+        f.attrs['N_samples_gw'] = N_samples_gw  # Number of samples per GW event
         f.attrs['N_gw_gal'] = N_gw_gal  # Number of galaxy-hosted GW events
         f.attrs['N_gw_agn'] = N_gw_agn  # Number of AGN-hosted GW events
         f.attrs['N_gw'] = N_gw_gal + N_gw_agn  # Total number of GW events
         
-        # Convert lists of arrays to 2D arrays with shape (N_gw, nsamp) for galaxies
-        ra_array_gal = np.array(ras_gal)  # Shape: (N_gw_gal, nsamp)
+        # Convert lists of arrays to 2D arrays with shape (N_gw, N_samples_gw) for galaxies
+        ra_array_gal = np.array(ras_gal)  # Shape: (N_gw_gal, N_samples_gw)
         dec_array_gal = np.array(decs_gal)
         dL_array_gal = np.array(dLs_gal)
         m1det_array_gal = np.array(m1dets_gal)
         m2det_array_gal = np.array(m2dets_gal)
         
-        # Convert lists of arrays to 2D arrays with shape (N_gw, nsamp) for AGNs
-        ra_array_agn = np.array(ras_agn)  # Shape: (N_gw_agn, nsamp)
+        # Convert lists of arrays to 2D arrays with shape (N_gw, N_samples_gw) for AGNs
+        ra_array_agn = np.array(ras_agn)  # Shape: (N_gw_agn, N_samples_gw)
         dec_array_agn = np.array(decs_agn)
         dL_array_agn = np.array(dLs_agn)
         m1det_array_agn = np.array(m1dets_agn)
@@ -623,7 +631,7 @@ def save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_ga
         f.create_dataset('m2det_agn', data=m2det_array_agn, compression='gzip', shuffle=False)
 
 
-def load_samples(filename, nsamp=None):
+def load_samples(filename, N_samples_gw=None):
     """
     Load gravitational wave samples from HDF5 file.
     Returns numpy arrays as 2D arrays (not flattened). No JAX dependency.
@@ -633,7 +641,7 @@ def load_samples(filename, nsamp=None):
     ----------
     filename : str
         Path to GW samples HDF5 file
-    nsamp : int, optional
+    N_samples_gw : int, optional
         Number of samples per event to use (default: None, uses all)
     
     Returns
@@ -641,35 +649,38 @@ def load_samples(filename, nsamp=None):
     tuple
         (ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, 
          ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn)
-        Each is a numpy array with shape (N_gw, nsamp)
+        Each is a numpy array with shape (N_gw, N_samples_gw)
     """
-    print(f"Loading GW samples from {filename} (nsamp={nsamp})")
+    print(f"Loading GW samples from {filename} (N_samples_gw={N_samples_gw})")
     with h5py.File(filename, 'r') as inp:
-        nsamp_ = inp.attrs['nsamp']
+        # Support both new (N_samples_gw) and old (nsamp) attribute names for backward compatibility
+        N_samples_gw_ = inp.attrs.get('N_samples_gw', inp.attrs.get('nsamp', None))
+        if N_samples_gw_ is None:
+            raise ValueError("File missing N_samples_gw or nsamp attribute")
         # Support both new (N_gw_*) and old (nobs_*) attribute names for backward compatibility
         N_gw_gal = inp.attrs.get('N_gw_gal', inp.attrs.get('nobs_gal', 0))
         N_gw_agn = inp.attrs.get('N_gw_agn', inp.attrs.get('nobs_agn', 0))
         
         # Determine slice sizes
-        if nsamp is None:
-            nsamp = nsamp_
-        nsamp = min(nsamp, nsamp_)
+        if N_samples_gw is None:
+            N_samples_gw = N_samples_gw_
+        N_samples_gw = min(N_samples_gw, N_samples_gw_)
         
         # Load galaxy samples
-        ra_gal = np.array(inp['ra_gal'][:, 0:nsamp])
-        dec_gal = np.array(inp['dec_gal'][:, 0:nsamp])
-        dL_gal_data = inp['dL_gal'][:, 0:nsamp]
+        ra_gal = np.array(inp['ra_gal'][:, 0:N_samples_gw])
+        dec_gal = np.array(inp['dec_gal'][:, 0:N_samples_gw])
+        dL_gal_data = inp['dL_gal'][:, 0:N_samples_gw]
         dL_gal = np.array((np.array(dL_gal_data) * u.Mpc).value)
-        m1det_gal = np.array(inp['m1det_gal'][:, 0:nsamp])
-        m2det_gal = np.array(inp['m2det_gal'][:, 0:nsamp])
+        m1det_gal = np.array(inp['m1det_gal'][:, 0:N_samples_gw])
+        m2det_gal = np.array(inp['m2det_gal'][:, 0:N_samples_gw])
         
         # Load AGN samples
-        ra_agn = np.array(inp['ra_agn'][:, 0:nsamp])
-        dec_agn = np.array(inp['dec_agn'][:, 0:nsamp])
-        dL_agn_data = inp['dL_agn'][:, 0:nsamp]
+        ra_agn = np.array(inp['ra_agn'][:, 0:N_samples_gw])
+        dec_agn = np.array(inp['dec_agn'][:, 0:N_samples_gw])
+        dL_agn_data = inp['dL_agn'][:, 0:N_samples_gw]
         dL_agn = np.array((np.array(dL_agn_data) * u.Mpc).value)
-        m1det_agn = np.array(inp['m1det_agn'][:, 0:nsamp])
-        m2det_agn = np.array(inp['m2det_agn'][:, 0:nsamp])
+        m1det_agn = np.array(inp['m1det_agn'][:, 0:N_samples_gw])
+        m2det_agn = np.array(inp['m2det_agn'][:, 0:N_samples_gw])
     
     return ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn
 
