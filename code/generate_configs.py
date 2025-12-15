@@ -223,8 +223,8 @@ def main_data(overwrite_config=False):
         z_min=0.0,
         z_max=1.5,
         nside=256,
-        f_agn=0.25,
-        lambda_agn=0.0,
+        f_agn=0.5,
+        lambda_agn=0.5,
         N_gw=1000,
         seed_gw=1042,  # Will default to seed + 1000
         N_samples_gw=10000,
@@ -381,7 +381,7 @@ def main_inference(overwrite_config=False):
     
     # build config_data name
     tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
-    tag_gw = f'_fagn0.25_lambdaagn0.0'
+    tag_gw = f'_fagn0.5_lambdaagn0.5'
     config_data_name = f'config_data{tag_cat}{tag_gw}'
     # Now create inference configs referencing the data config
     create_config_inference(

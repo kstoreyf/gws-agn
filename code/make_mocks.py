@@ -45,16 +45,22 @@ def parse_args():
         Whether to overwrite existing GW injection
     """
     parser = argparse.ArgumentParser(description='Generate mock galaxy and AGN catalogs')
-    parser.add_argument('--config', type=str, required=True,
-                        help='Path to YAML configuration file')
+    parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
+    parser.add_argument('--config', dest='config_flag', type=str,
+                        help='Path to YAML configuration file (legacy flag)')
     parser.add_argument('--overwrite-mock', action='store_true',
                         help='Overwrite existing mock catalog if it exists')
     parser.add_argument('--overwrite-gws', action='store_true',
                         help='Overwrite existing GW injection if it exists')
     args = parser.parse_args()
     
+    # Prefer positional config, fall back to --config for backwards compatibility
+    config_path = args.config or args.config_flag
+    if not config_path:
+        parser.error('Please provide the config file as the first argument or via --config.')
+
     # Load YAML config file
-    with open(args.config, 'r') as f:
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
     return config, args.overwrite_mock, args.overwrite_gws
@@ -84,9 +90,9 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     
     # Get paths from config
     dir_mock = config['paths']['dir_mock']
-    name_mock = config['paths']['name_mock']
+    name_cat = config['paths']['name_cat']
     name_gw = config['paths']['name_gw']
-    fn_mock = os.path.join(dir_mock, name_mock)
+    fn_mock = os.path.join(dir_mock, name_cat)
     fn_gw = os.path.join(dir_mock, name_gw)
     
     print("=== Creating Mock Catalog ===")
@@ -99,7 +105,7 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     
     print("\n=== Injecting GW Sources ===")
 
-    i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw = inject_gw_sources(
+    i_gw_gal, i_gw_agn = inject_gw_sources(
         fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
         save=True, overwrite_gws=overwrite_gws
     )
@@ -367,7 +373,9 @@ def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
     if os.path.exists(fn_gw) and not overwrite_gws:
         print(f"GW injection already exists: {fn_gw}")
         print("Loading existing GW injection...")
-        return load_gw_injection(fn_gw)
+        i_gw_gal, i_gw_agn, _ =load_gw_injection(fn_gw)
+        return i_gw_gal, i_gw_agn
+    
     
     if os.path.exists(fn_gw) and overwrite_gws:
         print(f"GW injection exists but overwrite_gws=True, regenerating: {fn_gw}")
@@ -398,7 +406,7 @@ def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
         # Create output directory if it doesn't exist
         save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw)
     
-    return i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw
+    return i_gw_gal, i_gw_agn
 
 
 if __name__ == "__main__":

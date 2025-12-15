@@ -48,20 +48,30 @@ def parse_args():
     --------
     config : dict
         Configuration dictionary loaded from YAML file
+    overwrite : bool
+        Whether to overwrite existing outputs
     """
     parser = argparse.ArgumentParser(description='Pixelize catalogs for inference')
-    parser.add_argument('--config', type=str, required=True,
-                        help='Path to YAML configuration file')
+    parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
+    parser.add_argument('--config', dest='config_flag', type=str,
+                        help='Path to YAML configuration file (legacy flag)')
+    parser.add_argument('--overwrite', action='store_true', default=False,
+                        help='Overwrite existing pixelized catalogs if they exist')
     args = parser.parse_args()
     
+    # Prefer positional config, fall back to --config for backwards compatibility
+    config_path = args.config or args.config_flag
+    if not config_path:
+        parser.error('Please provide the config file as the first argument or via --config.')
+
     # Load YAML config file
-    with open(args.config, 'r') as f:
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
-    return config
+    return config, args.overwrite
 
 
-def main(config):
+def main(config, overwrite=False):
     """
     Main function to pixelize catalogs.
     
@@ -85,38 +95,61 @@ def main(config):
     nside = config['pixelization']['nside']
     npix = hp.pixelfunc.nside2npix(nside)  # Total number of pixels
     print(f"Number of pixels: {npix}")
+
+    # Determine output paths and optionally short-circuit if outputs already exist
+    fn_cat_gal_pixelated = os.path.join(dir_mock, config['paths']['name_cat_gal_pixelated'])
+    fn_cat_agn_pixelated = os.path.join(dir_mock, config['paths']['name_cat_agn_pixelated'])
+    gal_exists = os.path.exists(fn_cat_gal_pixelated)
+    agn_exists = os.path.exists(fn_cat_agn_pixelated)
+
+    run_gal = overwrite or not gal_exists
+    run_agn = overwrite or not agn_exists
+
+    if not run_gal and not run_agn:
+        print("Pixelized catalogs already exist. Skipping. Use --overwrite to regenerate:")
+        print(f"  {fn_cat_gal_pixelated}")
+        print(f"  {fn_cat_agn_pixelated}")
+        return
     
     # Process galaxies
     # max_sources will be calculated dynamically from the data
-    print("Processing galaxies...")
-    ras_gal, decs_gal, zs_gal = load_catalog_data(file, 'gal')
-    print(f"Loaded {len(ras_gal)} galaxies")
-    
-    z_gal_pixelated, n_gal_per_pixel, max_sources_gal = process_objects_to_pixels(
-        ras_gal, decs_gal, zs_gal, nside, max_sources=None, desc="Processing galaxies"
-    )
-    
-    print("Saving galaxy data...")
-    fn_cat_gal_pixelated = os.path.join(dir_mock, config['paths']['name_cat_gal_pixelated'])
-    save_pixelated_data(fn_cat_gal_pixelated, nside, z_gal_pixelated, n_gal_per_pixel, 'galaxies')
+    if run_gal:
+        print("Processing galaxies...")
+        ras_gal, decs_gal, zs_gal = load_catalog_data(file, 'gal')
+        print(f"Loaded {len(ras_gal)} galaxies")
+        
+        z_gal_pixelated, n_gal_per_pixel, max_sources_gal = process_objects_to_pixels(
+            ras_gal, decs_gal, zs_gal, nside, max_sources=None, desc="Processing galaxies"
+        )
+        
+        print("Saving galaxy data...")
+        save_pixelated_data(fn_cat_gal_pixelated, nside, z_gal_pixelated, n_gal_per_pixel, 'galaxies')
+    else:
+        max_sources_gal = None
+        print(f"Galaxy pixelized catalog exists, skipping (use --overwrite to regenerate): {fn_cat_gal_pixelated}")
     
     # Process AGN (Active Galactic Nuclei) - same procedure as galaxies
     # max_sources will be calculated dynamically (may be different from galaxies)
-    print("Processing AGN...")
-    ras_agn, decs_agn, zs_agn = load_catalog_data(file, 'agn')
-    print(f"Loaded {len(ras_agn)} AGN")
-    
-    z_agn_pixelated, n_agn_per_pixel, max_sources_agn = process_objects_to_pixels(
-        ras_agn, decs_agn, zs_agn, nside, max_sources=None, desc="Processing AGN"
-    )
-    
-    print("Saving AGN data...")
-    fn_cat_agn_pixelated = os.path.join(dir_mock, config['paths']['name_cat_agn_pixelated'])
-    save_pixelated_data(fn_cat_agn_pixelated, nside, z_agn_pixelated, n_agn_per_pixel, 'agn')
+    if run_agn:
+        print("Processing AGN...")
+        ras_agn, decs_agn, zs_agn = load_catalog_data(file, 'agn')
+        print(f"Loaded {len(ras_agn)} AGN")
+        
+        z_agn_pixelated, n_agn_per_pixel, max_sources_agn = process_objects_to_pixels(
+            ras_agn, decs_agn, zs_agn, nside, max_sources=None, desc="Processing AGN"
+        )
+        
+        print("Saving AGN data...")
+        save_pixelated_data(fn_cat_agn_pixelated, nside, z_agn_pixelated, n_agn_per_pixel, 'agn')
+    else:
+        max_sources_agn = None
+        print(f"AGN pixelized catalog exists, skipping (use --overwrite to regenerate): {fn_cat_agn_pixelated}")
     
     print(f"\nSummary:")
-    print(f"  Max galaxies per pixel: {max_sources_gal}")
-    print(f"  Max AGN per pixel: {max_sources_agn}")
+    if max_sources_gal is not None:
+        print(f"  Max galaxies per pixel: {max_sources_gal}")
+    if max_sources_agn is not None:
+        print(f"  Max AGN per pixel: {max_sources_agn}")
     print("Preprocessing finished successfully!")
     
     t_end = time.perf_counter()
@@ -284,5 +317,5 @@ def save_pixelated_data(fn_cat_pixelated, nside, z_per_pixel, n_per_pixel, sourc
 
 
 if __name__ == "__main__":
-    config = parse_args()
-    main(config) 
+    config, overwrite = parse_args()
+    main(config, overwrite)

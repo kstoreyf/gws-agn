@@ -78,14 +78,24 @@ def parse_args():
     --------
     config : dict
         Configuration dictionary for inference (from YAML file)
+    overwrite : bool
+        Whether to overwrite existing output files
     """
     parser = argparse.ArgumentParser(description='Run dark siren inference')
-    parser.add_argument('--config', type=str, required=True,
-                        help='Path to YAML configuration file for inference')
+    parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file for inference')
+    parser.add_argument('--config', dest='config_flag', type=str,
+                        help='Path to YAML configuration file for inference (legacy flag)')
+    parser.add_argument('--overwrite', action='store_true', default=False,
+                        help='Overwrite existing output file if it exists (default: False)')
     args = parser.parse_args()
     
+    # Prefer positional config, fall back to --config for backwards compatibility
+    config_path = args.config or args.config_flag
+    if not config_path:
+        parser.error('Please provide the config file as the first argument or via --config.')
+
     # Load inference config file
-    with open(args.config, 'r') as f:
+    with open(config_path, 'r') as f:
         config_inference = yaml.safe_load(f)
     
     # Load data config file referenced in inference config
@@ -95,12 +105,12 @@ def parse_args():
         config_data = yaml.safe_load(f)
     
     # Get absolute path to inference config file
-    fn_config = os.path.abspath(args.config)
+    fn_config = os.path.abspath(config_path)
     
-    return config_inference, config_data, fn_config
+    return config_inference, config_data, fn_config, args.overwrite
 
 
-def main(config_inference, config_data, fn_config):
+def main(config_inference, config_data, fn_config, overwrite=False):
     """
     Main function to run the inference pipeline.
     
@@ -112,6 +122,8 @@ def main(config_inference, config_data, fn_config):
         Configuration dictionary for inference (from YAML file)
     fn_config : str
         Path to inference config file
+    overwrite : bool
+        Whether to overwrite existing output files (default: False)
     Returns
     -------
     dict
@@ -168,6 +180,15 @@ def main(config_inference, config_data, fn_config):
     
     # Output settings - get filename from config
     fn_inf = config_inference['paths']['fn_inf']
+    
+    # Check if output file exists and handle overwrite flag
+    if fn_inf is not None and os.path.exists(fn_inf):
+        if not overwrite:
+            raise FileExistsError(
+                f"Output file {fn_inf} already exists. Use --overwrite to overwrite it."
+            )
+        else:
+            print(f"Warning: Output file {fn_inf} exists and will be overwritten (--overwrite flag set)")
 
     print(f"Running main inference pipeline: mode_inf={mode_inf}, f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, N_walkers={N_walkers}, N_steps={N_steps}")
 
@@ -198,6 +219,9 @@ def main(config_inference, config_data, fn_config):
 
     # Load GW samples
     gw_data = load_gw_samples(gw_file, N_gw_inf=N_gw_inf)
+    print(gw_data['ra'].shape, gw_data['dec'].shape)
+    print(gw_data['N_samples_gw'])
+    print(gw_data['N_gw'])
 
     # Set up MCMC parameters
     mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, alpha_agn_bounds=alpha_agn_bounds, Om0_bounds=Om0_bounds, 
@@ -936,21 +960,21 @@ def create_catalog_probability_functions(catalog_data):
         log_1malpha_agn = jnp.where(alpha_agn < 1.0 - 1e-10, jnp.log1p(-alpha_agn), -1e10)
         
         ### original
-        # log_term1 = log_alpha_agn + logpcat_agns
-        # log_term2 = log_1malpha_agn + logpcat_gals
+        log_term1 = log_alpha_agn + logpcat_agns
+        log_term2 = log_1malpha_agn + logpcat_gals
         
         ### trying this cursor suggestion:
         # Account for relative number of sources per pixel when combining probabilities
         # The catalog probabilities are normalized per pixel, but we need to weight them
         # by the relative probability of finding AGN vs galaxies in each pixel.
         # This prevents bias when pixels have different numbers of AGN vs galaxies.
-        n_tot = nagns + ngals
-        # Weight by relative number of sources (avoid division by zero)
-        log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
-        log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        # n_tot = nagns + ngals
+        # # Weight by relative number of sources (avoid division by zero)
+        # log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        # log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        # log_term1 = log_alpha_agn + logpcat_agns + log_weight_agn
+        # log_term2 = log_1malpha_agn + logpcat_gals + log_weight_gal
         
-        log_term1 = log_alpha_agn + logpcat_agns + log_weight_agn
-        log_term2 = log_1malpha_agn + logpcat_gals + log_weight_gal
         #print("sum")
         log_prob = jnp.logaddexp(log_term1, log_term2)
         return log_prob
@@ -1465,5 +1489,5 @@ def get_posterior_samples(sampler, burnin_frac=0.5, N_samples=None):
 
 
 if __name__ == "__main__":
-    config_inference, config_data, fn_config = parse_args()
-    main(config_inference, config_data, fn_config)        
+    config_inference, config_data, fn_config, overwrite = parse_args()
+    main(config_inference, config_data, fn_config, overwrite=overwrite)        

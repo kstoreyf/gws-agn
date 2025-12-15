@@ -77,20 +77,30 @@ def parse_args():
     --------
     config : dict
         Configuration dictionary loaded from YAML file
+    overwrite : bool
+        Whether to overwrite existing GW samples
     """
     parser = argparse.ArgumentParser(description='Generate GW samples from mock catalogs')
-    parser.add_argument('--config', type=str, required=True,
-                        help='Path to YAML configuration file')
+    parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
+    parser.add_argument('--config', dest='config_flag', type=str,
+                        help='Path to YAML configuration file (legacy flag)')
+    parser.add_argument('--overwrite', action='store_true', default=False,
+                        help='Overwrite existing GW samples if they exist')
     args = parser.parse_args()
     
+    # Prefer positional config, fall back to --config for backwards compatibility
+    config_path = args.config or args.config_flag
+    if not config_path:
+        parser.error('Please provide the config file as the first argument or via --config.')
+
     # Load YAML config file
-    with open(args.config, 'r') as f:
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
-    return config
+    return config, args.overwrite
 
 
-def main(config):
+def main(config, overwrite=False):
     """
     Main function to generate GW samples from mock catalogs.
     Always includes black hole masses in the samples.
@@ -110,6 +120,12 @@ def main(config):
     dir_mock = config['paths']['dir_mock']
     fn_cat = os.path.join(dir_mock, config['paths']['name_cat'])
     fn_gw = os.path.join(dir_mock, config['paths']['name_gw'])
+    fn_gwsamples = os.path.join(dir_mock, config['paths']['name_gwsamples'])
+
+    if not overwrite and os.path.exists(fn_gwsamples):
+        print("GW samples already exist. Skipping. Use --overwrite to regenerate:")
+        print(f"  {fn_gwsamples}")
+        return
 
     # Load data
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn = load_data(fn_cat, fn_gw)
@@ -173,8 +189,6 @@ def main(config):
     N_gw_agn = len(ras_agn)
     
     # Save samples (2D array format, separate arrays for galaxies and AGNs)
-    fn_gwsamples = os.path.join(dir_mock, config['paths']['name_gwsamples'])
-    
     save_samples(fn_gwsamples, ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal,
                  ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn, 
                  N_samples_gw, N_gw_gal, N_gw_agn)
@@ -667,25 +681,41 @@ def load_samples(filename, N_samples_gw=None):
         N_samples_gw = min(N_samples_gw, N_samples_gw_)
         
         # Load galaxy samples
-        ra_gal = np.array(inp['ra_gal'][:, 0:N_samples_gw])
-        dec_gal = np.array(inp['dec_gal'][:, 0:N_samples_gw])
-        dL_gal_data = inp['dL_gal'][:, 0:N_samples_gw]
-        dL_gal = np.array((np.array(dL_gal_data) * u.Mpc).value)
-        m1det_gal = np.array(inp['m1det_gal'][:, 0:N_samples_gw])
-        m2det_gal = np.array(inp['m2det_gal'][:, 0:N_samples_gw])
+        if N_gw_gal > 0:
+            ra_gal = np.array(inp['ra_gal'][:, 0:N_samples_gw])
+            dec_gal = np.array(inp['dec_gal'][:, 0:N_samples_gw])
+            dL_gal_data = inp['dL_gal'][:, 0:N_samples_gw]
+            dL_gal = np.array((np.array(dL_gal_data) * u.Mpc).value)
+            m1det_gal = np.array(inp['m1det_gal'][:, 0:N_samples_gw])
+            m2det_gal = np.array(inp['m2det_gal'][:, 0:N_samples_gw])
+        else:
+            # Handle edge case when there are no galaxy events
+            ra_gal = np.empty((0, N_samples_gw))
+            dec_gal = np.empty((0, N_samples_gw))
+            dL_gal = np.empty((0, N_samples_gw))
+            m1det_gal = np.empty((0, N_samples_gw))
+            m2det_gal = np.empty((0, N_samples_gw))
         
-        # Load AGN samples
-        ra_agn = np.array(inp['ra_agn'][:, 0:N_samples_gw])
-        dec_agn = np.array(inp['dec_agn'][:, 0:N_samples_gw])
-        dL_agn_data = inp['dL_agn'][:, 0:N_samples_gw]
-        dL_agn = np.array((np.array(dL_agn_data) * u.Mpc).value)
-        m1det_agn = np.array(inp['m1det_agn'][:, 0:N_samples_gw])
-        m2det_agn = np.array(inp['m2det_agn'][:, 0:N_samples_gw])
+        # Load AGN samples (can be empty when f_agn=0)
+        if N_gw_agn > 0:
+            ra_agn = np.array(inp['ra_agn'][:, 0:N_samples_gw])
+            dec_agn = np.array(inp['dec_agn'][:, 0:N_samples_gw])
+            dL_agn_data = inp['dL_agn'][:, 0:N_samples_gw]
+            dL_agn = np.array((np.array(dL_agn_data) * u.Mpc).value)
+            m1det_agn = np.array(inp['m1det_agn'][:, 0:N_samples_gw])
+            m2det_agn = np.array(inp['m2det_agn'][:, 0:N_samples_gw])
+        else:
+            # Avoid slicing 1D datasets when there are zero AGN events
+            ra_agn = np.empty((0, N_samples_gw))
+            dec_agn = np.empty((0, N_samples_gw))
+            dL_agn = np.empty((0, N_samples_gw))
+            m1det_agn = np.empty((0, N_samples_gw))
+            m2det_agn = np.empty((0, N_samples_gw))
     
     return ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn
 
 
 
 if __name__ == '__main__':
-    config = parse_args()
-    main(config)
+    config, overwrite = parse_args()
+    main(config, overwrite)

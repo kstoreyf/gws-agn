@@ -28,13 +28,6 @@ mkdir -p logs
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export XLA_PYTHON_CLIENT_MEM_FRACTION=0.8
 
-# # Check if preprocessing files exist
-# if [ ! -f "lognormal_pixelated_nside_64_galaxies.h5" ] || [ ! -f "lognormal_pixelated_nside_64_agn.h5" ]; then
-#     echo "Error: Preprocessing files not found!"
-#     echo "Please run preprocessing first: sbatch slurm_preprocessing.sh"
-#     exit 1
-# fi
-
 # Run inference
 echo "Starting inference job..."
 echo "Using GPU: ${CUDA_VISIBLE_DEVICES:-unset}"
