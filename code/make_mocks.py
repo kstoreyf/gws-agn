@@ -88,6 +88,46 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     N_gw = config['gw_injection']['N_gw']
     seed_gw = config['gw_injection']['seed_gw']  
     
+    # Extract cosmology parameters from config
+    if 'cosmology' in config:
+        h = config['cosmology'].get('h', None)
+        H0 = config['cosmology'].get('H0', None)
+        Om0 = config['cosmology'].get('Om0', None)
+        Ob0 = config['cosmology'].get('Ob0', None)
+        
+        # Validate h and H0 consistency if both are provided
+        if h is not None and H0 is not None:
+            expected_H0 = 100.0 * h
+            if abs(H0 - expected_H0) > 0.01:  # Allow small floating point differences
+                raise ValueError(f"Inconsistent cosmology: h={h} implies H0={expected_H0}, but config has H0={H0}")
+        
+        # Use h from config if provided, otherwise derive from H0, otherwise use Planck15
+        if h is None:
+            if H0 is not None:
+                h = H0 / 100.0
+            else:
+                h = cosmo_astropy.h
+                print(f"Warning: No cosmology specified in config, using Planck15: h={h}")
+        else:
+            # If h is provided, ensure H0 matches
+            if H0 is None:
+                H0 = 100.0 * h
+            elif abs(H0 - 100.0 * h) > 0.01:
+                raise ValueError(f"Inconsistent cosmology: h={h} and H0={H0} don't match (expected H0={100.0*h})")
+        
+        # Use Om0 and Ob0 from config if provided, otherwise use Planck15
+        if Om0 is None:
+            Om0 = cosmo_astropy.Om0
+        if Ob0 is None:
+            Ob0 = cosmo_astropy.Ob0
+    else:
+        # No cosmology section in config, use Planck15 defaults
+        h = cosmo_astropy.h
+        H0 = 100.0 * h
+        Om0 = cosmo_astropy.Om0
+        Ob0 = cosmo_astropy.Ob0
+        print(f"Warning: No cosmology section in config, using Planck15 defaults: h={h}, H0={H0}, Om0={Om0}, Ob0={Ob0}")
+    
     # Get paths from config
     dir_mock = config['paths']['dir_mock']
     name_cat = config['paths']['name_cat']
@@ -100,7 +140,8 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
         seed=seed, nbar_gal=nbar_gal, nbar_agn=nbar_agn, 
         bias_gal=bias_gal, bias_agn=bias_agn,
         z_min=z_min, z_max=z_max, nside=nside, lmax=lmax,
-        fn_mock=fn_mock, save=True, overwrite_mock=overwrite_mock
+        fn_mock=fn_mock, save=True, overwrite_mock=overwrite_mock,
+        h=h, Om0=Om0, Ob0=Ob0
     )
     
     print("\n=== Injecting GW Sources ===")
@@ -206,9 +247,44 @@ def load_gw_injection(fn_gw):
 
 
 def create_mock_catalog(seed, nbar_gal, nbar_agn, bias_gal, bias_agn,
-                       z_min=0.0, z_max=1.5, nside=128, lmax=128, fn_mock=None, save=True, overwrite_mock=False):
-    """Create a mock galaxy and AGN catalog."""
+                       z_min=0.0, z_max=1.5, nside=128, lmax=128, fn_mock=None, save=True, overwrite_mock=False,
+                       h=None, Om0=None, Ob0=None):
+    """
+    Create a mock galaxy and AGN catalog.
     
+    Parameters
+    ----------
+    seed : int
+        Random seed for catalog generation
+    nbar_gal : float
+        Number density of galaxies
+    nbar_agn : float
+        Number density of AGN
+    bias_gal : float
+        Bias parameter for galaxies
+    bias_agn : float
+        Bias parameter for AGN
+    z_min : float
+        Minimum redshift (default: 0.0)
+    z_max : float
+        Maximum redshift (default: 1.5)
+    nside : int
+        HEALPix resolution parameter (default: 128)
+    lmax : int
+        Maximum multipole (default: 128)
+    fn_mock : str
+        Output filename for mock catalog
+    save : bool
+        Whether to save the catalog (default: True)
+    overwrite_mock : bool
+        Whether to overwrite existing catalog (default: False)
+    h : float, optional
+        Dimensionless Hubble parameter (default: None, uses Planck15)
+    Om0 : float, optional
+        Matter density parameter (default: None, uses Planck15)
+    Ob0 : float, optional
+        Baryon density parameter (default: None, uses Planck15)
+    """
     # Create output directory if it doesn't exist
     dir_mock = os.path.dirname(fn_mock)
     os.makedirs(dir_mock, exist_ok=True)
@@ -227,17 +303,22 @@ def create_mock_catalog(seed, nbar_gal, nbar_agn, bias_gal, bias_agn,
     # Creating a numpy random number generator for sampling
     rng = np.random.default_rng(seed=seed)
     
-    # Cosmology for the simulation
-    h = cosmo_astropy.h
-    Oc = cosmo_astropy.Om0 - cosmo_astropy.Ob0
-    Ob = cosmo_astropy.Ob0
-    print(f"Using cosmology: h = {h}, Oc = {Oc}, Ob = {Ob}")
+    # Cosmology for the simulation - use provided values or fall back to Planck15
+    if h is None:
+        h = cosmo_astropy.h
+    if Om0 is None:
+        Om0 = cosmo_astropy.Om0
+    if Ob0 is None:
+        Ob0 = cosmo_astropy.Ob0
+    
+    Oc = Om0 - Ob0
+    print(f"Using cosmology: h = {h}, H0 = {100.0*h}, Om0 = {Om0}, Oc = {Oc}, Ob = {Ob0}")
     
     # Set up CAMB parameters for matter angular power spectrum
     pars = camb.set_params(
         H0=100 * h,
         omch2=Oc * h**2,
-        ombh2=Ob * h**2,
+        ombh2=Ob0 * h**2,
         NonLinear=camb.model.NonLinear_both,
     )
     
@@ -339,7 +420,7 @@ def create_mock_catalog(seed, nbar_gal, nbar_agn, bias_gal, bias_agn,
     if save:
         save_mock_catalog(fn_mock, ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn,
                          len(ra_gal), len(ra_agn), bias_gal, bias_agn,
-                         z_max, nside, seed, h, Oc, Ob)
+                         z_max, nside, seed, h, Oc, Ob0)
     
     # Return the catalog data
     attrs = {
@@ -352,7 +433,7 @@ def create_mock_catalog(seed, nbar_gal, nbar_agn, bias_gal, bias_agn,
         'seed': seed,
         'h': h,
         'Oc': Oc,
-        'Ob': Ob
+        'Ob': Ob0
     }
     
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs

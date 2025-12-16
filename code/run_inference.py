@@ -135,20 +135,11 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     t_start = time.perf_counter()
     
     # Extract parameters from config_data
-    seed = config_data['mock_catalog']['seed']
     nside = config_data['pixelization']['nside']
-    bias_gal = config_data['mock_catalog']['bias_gal']
-    bias_agn = config_data['mock_catalog']['bias_agn']
-    nbar_gal = config_data['mock_catalog']['nbar_gal']
-    nbar_agn = config_data['mock_catalog']['nbar_agn']
-    ratioNgalNagn = int(round(nbar_gal / nbar_agn))
     
     f_agn = config_data['gw_injection']['f_agn']
     lambda_agn = config_data['gw_injection']['lambda_agn']
     N_gw = config_data['gw_injection']['N_gw']
-    seed_gw = config_data['gw_injection']['seed_gw']
-    if seed_gw is None:
-        seed_gw = seed + 1000
     
     # Extract parameters from config_inference
     mode_inf = config_inference['mode_inf']
@@ -675,8 +666,8 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
         - ddL_of_z: derivative of luminosity distance function
     """
     print(f"Setting up cosmology: zMax_1={zMax_1}, zMax_2={zMax_2}, Om0_range={Om0_range}, n_Om0={n_Om0}")
-    H0Planck = Planck15.H0.value
-    Om0Planck = Planck15.Om0
+    H0_fiducial = Planck15.H0.value
+    Om0_fiducial = Planck15.Om0
     speed_of_light = constants.c.to('km/s').value
     
     # Create redshift grid
@@ -685,10 +676,10 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
     zgrid = np.concatenate([zgrid_1, zgrid_2])
     
     # Create Om0 grid and compute comoving distances
-    Om0grid = jnp.linspace(Om0Planck - Om0_range, Om0Planck + Om0_range, n_Om0)
+    Om0grid = jnp.linspace(Om0_fiducial - Om0_range, Om0_fiducial + Om0_range, n_Om0)
     rs = []
     for Om0 in tqdm(Om0grid):
-        cosmo = FlatLambdaCDM(H0=H0Planck, Om0=Om0)
+        cosmo = FlatLambdaCDM(H0=H0_fiducial, Om0=Om0)
         rs.append(cosmo.comoving_distance(zgrid).to(u.Mpc).value)
     
     zgrid = jnp.array(zgrid)
@@ -696,32 +687,32 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
     rs = rs.reshape(len(Om0grid), len(zgrid))
     
     @jit
-    def E(z, Om0=Om0Planck):
+    def E(z, Om0=Om0_fiducial):
         """Hubble parameter as function of redshift."""
         return jnp.sqrt(Om0 * (1 + z)**3 + (1.0 - Om0))
     
     @jit
-    def r_of_z(z, H0, Om0=Om0Planck):
+    def r_of_z(z, H0, Om0=Om0_fiducial):
         """Comoving distance as function of redshift."""
-        return interp2d(Om0, z, Om0grid, zgrid, rs) * (H0Planck / H0)
+        return interp2d(Om0, z, Om0grid, zgrid, rs) * (H0_fiducial / H0)
     
     @jit
-    def dL_of_z(z, H0, Om0=Om0Planck):
+    def dL_of_z(z, H0, Om0=Om0_fiducial):
         """Luminosity distance as function of redshift."""
         return (1 + z) * r_of_z(z, H0, Om0)
     
     @jit
-    def z_of_dL(dL, H0, Om0=Om0Planck):
+    def z_of_dL(dL, H0, Om0=Om0_fiducial):
         """Redshift as function of luminosity distance."""
         return jnp.interp(dL, dL_of_z(zgrid, H0, Om0), zgrid)
     
     @jit
-    def dV_of_z(z, H0, Om0=Om0Planck):
+    def dV_of_z(z, H0, Om0=Om0_fiducial):
         """Comoving volume element as function of redshift."""
         return speed_of_light * r_of_z(z, H0, Om0)**2 / (H0 * E(z, Om0))
     
     @jit
-    def ddL_of_z(z, dL, H0, Om0=Om0Planck):
+    def ddL_of_z(z, dL, H0, Om0=Om0_fiducial):
         """Derivative of luminosity distance with respect to redshift."""
         return dL / (1 + z) + speed_of_light * (1 + z) / (H0 * E(z, Om0))
     
@@ -735,8 +726,8 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
         'z_of_dL': z_of_dL,
         'dV_of_z': dV_of_z,
         'ddL_of_z': ddL_of_z,
-        'H0Planck': H0Planck,
-        'Om0Planck': Om0Planck
+        'H0_fiducial': H0_fiducial,
+        'Om0_fiducial': Om0_fiducial
     }
 
 
@@ -810,6 +801,7 @@ def load_gw_samples(filename, N_gw_inf=None, N_samples_gw=None):
     # Get N_samples_gw and N_gw from the shape
     N_samples_gw_loaded = ra.shape[1] if len(ra) > 0 else 0
     N_gw_loaded = ra.shape[0] if len(ra) > 0 else 0
+    print(f"N_samples_gw_loaded: {N_samples_gw_loaded}, N_gw_loaded: {N_gw_loaded}")
     
     return {
         'ra': jnp.array(ra_flat),
@@ -956,6 +948,7 @@ def create_catalog_probability_functions(catalog_data):
         logpcat_gals = jnp.where(ngals > 0, logpcat_gals, -1e10)
         
         # Use safe log operations to avoid numerical issues
+        # log1p(x) = log(1 + x)
         log_alpha_agn = jnp.where(alpha_agn > 1e-10, jnp.log(alpha_agn), -1e10)
         log_1malpha_agn = jnp.where(alpha_agn < 1.0 - 1e-10, jnp.log1p(-alpha_agn), -1e10)
         
@@ -1026,7 +1019,9 @@ def compute_darksiren_log_likelihood(
     s = time.time()
     #print(f"Computing dark siren log-likelihood: H0={H0}, alpha_agn={alpha_agn}, Om0={Om0}, gamma_agn={gamma_agn}, gamma_gal={gamma_gal}")
     if Om0 is None:
-        Om0 = cosmo_funcs['Om0Planck']
+        # TODO for now using fiducial Om0, but should use Om0 from config
+        # if we are not varying it
+        Om0 = cosmo_funcs['Om0_fiducial']
     
     dL = gw_data['dL']
     p_pe = gw_data['p_pe']
@@ -1104,7 +1099,7 @@ def compute_likelihood_grid(
     samples_ind = compute_pixel_indices(gw_data['ra'], gw_data['dec'], nside)
     
     if Om0 is None:
-        Om0 = cosmo_funcs['Om0Planck']
+        Om0 = cosmo_funcs['Om0_fiducial']
     
     # Convert to JAX arrays if needed
     H0_grid = jnp.asarray(H0_grid)

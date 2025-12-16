@@ -118,6 +118,14 @@ def create_config_data(
     Om0 = float(PLANCK15_OM0 if Om0 is None else Om0)
     Ob0 = float(PLANCK15_OB0 if Ob0 is None else Ob0)
     
+    # Validate h and H0 consistency
+    expected_H0_from_h = 100.0 * h
+    if abs(H0 - expected_H0_from_h) > 0.01:  # Allow small floating point differences
+        raise ValueError(
+            f"Inconsistent cosmology parameters: h={h} implies H0={expected_H0_from_h:.2f} km/s/Mpc, "
+            f"but H0={H0:.2f} km/s/Mpc was provided. They must satisfy H0 = 100 * h."
+        )
+    
     # Build tags
     ratio_ngal_nagn = int(round(nbar_gal / nbar_agn))
     tag_cat = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}_bgal{bias_gal}_bagn{bias_agn}'
@@ -401,9 +409,9 @@ def main_inference(overwrite_config=False):
         fn_config=None,  # Auto-generate from tags
         fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
         mode_inf='grid',
-        N_H0=30,
-        N_alpha_agn=30,
-        tag_inf_extra='',
+        N_H0=20,
+        N_alpha_agn=20,
+        tag_inf_extra='_noshuffle',
         overwrite_config=overwrite_config
     )
 

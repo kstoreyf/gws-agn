@@ -1,17 +1,19 @@
 #!/bin/bash
-#SBATCH --job-name=inference_mcmc
-##SBATCH --job-name=inference_like
+##SBATCH --job-name=inference_mcmc
+#SBATCH --job-name=inference_like_noshuffle
 #SBATCH --output=logs/%x.out
 ##SBATCH --time=0:20:00
-#SBATCH --time=4:00:00
+#SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --mem=20G
+#SBATCH --mem=5G
 #SBATCH --constraint=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --qos=regular
 #SBATCH --account=desi
+
+config_inf='../configs/configs_inference/config_inference_seed42_ratioNgalNagn1_bgal1.0_bagn1.0_fagn0.5_lambdaagn0.5_grid_nH020_nalphaagn20_noshuffle.yaml'
 
 # Load modules
 module load conda
@@ -33,7 +35,6 @@ echo "Starting inference job..."
 echo "Using GPU: ${CUDA_VISIBLE_DEVICES:-unset}"
 
 # Run the inference notebook
-python run_inference.py --config ../configs/configs_inference/config_inference_seed42_ratioNgalNagn1_bgal1.0_bagn1.0_fagn0.25_lambdaagn0.0_mcmc_nw32_nsteps5000.yaml
-#python run_inference.py
+python run_inference.py --config $config_inf
 
 echo "Inference job completed!" 
