@@ -998,6 +998,7 @@ def create_catalog_probability_functions(catalog_data):
         # of finding a GW host among AGN should be proportionally higher (all else being equal).
         
         ### OPTION 0: Original formulation (biased when N_agn != N_gal)
+        # prior = alpha_agn * p_cat_agn + (1-alpha_agn) * p_cat_gal
         # log_term1 = log_alpha_agn + logpcat_agns
         # log_term2 = log_1malpha_agn + logpcat_gals
         
