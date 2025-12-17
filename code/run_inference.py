@@ -867,6 +867,28 @@ def create_catalog_probability_functions(catalog_data):
     zagns = catalog_data['zagns']
     dzagns = catalog_data['dzagns']
     wagns = catalog_data['wagns']
+    ngals_per_pixel = catalog_data['ngals']
+    nagns_per_pixel = catalog_data['nagns']
+    
+    # Compute global weight totals (sum over all pixels)
+    # These represent the total weights for galaxies and AGN in the entire catalog
+    # We need to compute these by summing weights over all pixels with evolution factors
+    # For now, we'll compute approximate totals from pixel counts, but ideally we'd
+    # sum the actual weights. Since weights are typically 1.0, we can use counts as proxy.
+    # Actually, we need to compute the total weights properly accounting for gamma evolution.
+    # For simplicity, if weights are uniform (wgals = wagns = 1), then total weights
+    # are just the total counts. But we should compute this properly.
+    
+    # Compute global totals from pixel counts (assuming uniform weights = 1)
+    # In the future, we might want to compute actual weight totals accounting for gamma
+    N_gal_total = float(jnp.sum(ngals_per_pixel))
+    N_agn_total = float(jnp.sum(nagns_per_pixel))
+    print(f"Global catalog totals: N_gal_total={N_gal_total:.0f}, N_agn_total={N_agn_total:.0f}")
+    
+    # Note: The actual weights (W_agn_total, W_gal_total) will be computed per-pixel
+    # in the logPriorUniverse function using the evolution factors (gamma_agn, gamma_gal)
+    # For now, we'll use the pixel counts as a proxy, but the correct implementation
+    # should sum the actual weights: w * (1+z)^gamma over all sources
     
     @jit
     def logpcatalog_gals(z, pix, Om0, gamma):
@@ -890,6 +912,8 @@ def create_catalog_probability_functions(catalog_data):
         # If no valid entries, return very low probability
         log_prob = jnp.where(ngals > 0, log_prob, -1e10)
         return log_prob, ngals
+        # TRYING THIS
+        #return log_prob, wts_sum
     
     logpcatalog_gals_vmap = jit(vmap(logpcatalog_gals, in_axes=(0, 0, None, None), out_axes=0))
     
@@ -915,8 +939,14 @@ def create_catalog_probability_functions(catalog_data):
         # If no valid entries, return very low probability
         log_prob = jnp.where(nagns > 0, log_prob, -1e10)
         return log_prob, nagns
+        # TRYING THIS
+        #return log_prob, wts_sum
     
     logpcatalog_agns_vmap = jit(vmap(logpcatalog_agns, in_axes=(0, 0, None, None), out_axes=0))
+    
+    # Convert global totals to JAX arrays for use in JIT-compiled functions
+    N_agn_total_jax = jnp.array(N_agn_total)
+    N_gal_total_jax = jnp.array(N_gal_total)
     
     def logPriorUniverse(z, pix, alpha_agn, Om0, gamma_agn, gamma_gal):
         """
@@ -958,25 +988,99 @@ def create_catalog_probability_functions(catalog_data):
         log_alpha_agn = jnp.where(alpha_agn > 1e-10, jnp.log(alpha_agn), -1e10)
         log_1malpha_agn = jnp.where(alpha_agn < 1.0 - 1e-10, jnp.log1p(-alpha_agn), -1e10)
         
-        ### original
-        ## alpha_agn * p_cat_agn + (1 - alpha_agn) * p_cat_gals
+        ### Correct formulation to avoid bias when N_agn != N_gal:
+        # The issue: When N_agn != N_gal, the catalog probabilities p_cat_agn and p_cat_gal
+        # are normalized within each catalog separately. This means if N_agn >> N_gal in a pixel,
+        # p_cat_agn is normalized over more sources, making it systematically smaller per source.
+        #
+        # The problem: The original formulation alpha_agn * p_cat_agn + (1-alpha_agn) * p_cat_gal
+        # doesn't account for the fact that when there are more AGN than galaxies, the probability
+        # of finding a GW host among AGN should be proportionally higher (all else being equal).
+        
+        ### OPTION 0: Original formulation (biased when N_agn != N_gal)
         # log_term1 = log_alpha_agn + logpcat_agns
         # log_term2 = log_1malpha_agn + logpcat_gals
         
-        ### trying this cursor suggestion:
-        # alpha_agn * N_agn * p_cat_agn + (1 - alpha_agn) * N_gal * p_cat_gals
-        # Account for relative number of sources per pixel when combining probabilities
-        # The catalog probabilities are normalized per pixel, but we need to weight them
-        # by the relative probability of finding AGN vs galaxies in each pixel.
-        # This prevents bias when pixels have different numbers of AGN vs galaxies.
-        # Weight by relative number of sources (avoid division by zero)
-        n_tot = nagns + ngals
-        log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
-        log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
-        log_term1 = log_alpha_agn + logpcat_agns + log_weight_agn
-        log_term2 = log_1malpha_agn + logpcat_gals + log_weight_gal
+        ### OPTION 1: Weight by relative number of sources (previous attempt - didn't work)
+        # # Account for relative number of sources per pixel when combining probabilities
+        # # The catalog probabilities are normalized per pixel, but we need to weight them
+        # # by the relative probability of finding AGN vs galaxies in each pixel.
+        # # This prevents bias when pixels have different numbers of AGN vs galaxies.
+        # # Weight by relative number of sources (avoid division by zero)
+        # n_tot = nagns + ngals
+        # log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        # log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        # log_term1 = log_alpha_agn + logpcat_agns + log_weight_agn
+        # log_term2 = log_1malpha_agn + logpcat_gals + log_weight_gal
         
-        #print("sum")
+        ### OPTION 2: Use Bayes' theorem with per-pixel counts (over-corrects, biased high)
+        # # The solution: We need to account for the relative abundance when combining the probabilities.
+        # # The key insight is that alpha_agn represents the global fraction of GW hosts that are AGN,
+        # # but this should be modulated by the relative abundance in each pixel to get the local probability.
+        # #
+        # # The correct formulation uses Bayes' theorem:
+        # # P(AGN | pixel) = P(pixel | AGN) * P(AGN) / P(pixel)
+        # # where P(pixel | AGN) ∝ N_agn and P(pixel | galaxy) ∝ N_gal
+        # #
+        # # This gives us:
+        # # P(AGN | pixel) = alpha_agn * N_agn / (alpha_agn * N_agn + (1-alpha_agn) * N_gal)
+        # # P(galaxy | pixel) = (1-alpha_agn) * N_gal / (alpha_agn * N_agn + (1-alpha_agn) * N_gal)
+        # #
+        # # Then: P(z | pixel) = P(AGN | pixel) * P(z | AGN catalog, pixel) + P(galaxy | pixel) * P(z | galaxy catalog, pixel)
+        # #
+        # # In log space:
+        # # Compute the local probability that host is AGN given the pixel
+        # n_tot_weighted = alpha_agn * nagns + (1 - alpha_agn) * ngals
+        # log_p_agn_local = jnp.where(n_tot_weighted > 0,
+        #                             log_alpha_agn + jnp.log(nagns + 1e-10) - jnp.log(n_tot_weighted + 1e-10),
+        #                             log_alpha_agn)
+        # log_p_gal_local = jnp.where(n_tot_weighted > 0,
+        #                             log_1malpha_agn + jnp.log(ngals + 1e-10) - jnp.log(n_tot_weighted + 1e-10),
+        #                             log_1malpha_agn)
+        # # Combine with catalog probabilities
+        # log_term1 = log_p_agn_local + logpcat_agns
+        # log_term2 = log_p_gal_local + logpcat_gals
+        ### OPTION 3: this but with w instead of n
+
+        ### OPTION 4 CORRECT FORMULATION - Account for global catalog weights
+        ### OPTION 5: this but back to n
+        # The correct answer: We need to include the total weights of AGN and galaxies in the
+        # entire catalog (W_agn_total, W_gal_total), not just per-pixel weights.
+        #
+        # The issue: alpha_agn is a global parameter representing the fraction of GW hosts
+        # that are AGN. The catalog probabilities p_cat_agn and p_cat_gal are normalized
+        # within each pixel separately. When combining them, we need to account for:
+        # 1. The global ratio W_agn_total / W_gal_total (which affects the prior probability)
+        # 2. The local pixel weights W_agn_pix and W_gal_pix (which affect the likelihood)
+        #
+        # The correct formulation:
+        # P(z | pixel) = [alpha_agn * (W_agn_pix/W_agn_total)] * P(z | AGN catalog, pixel) 
+        #                + [(1-alpha_agn) * (W_gal_pix/W_gal_total)] * P(z | galaxy catalog, pixel)
+        #
+        # In log space:
+        # Note: nagns and ngals here are actually wts_sum (sum of weights) from the catalog functions
+        # These represent W_agn_pix and W_gal_pix for each pixel
+        
+        # Get pixel weights (sum of weights per pixel, returned from catalog functions)
+        W_agn_pix = nagns  # This is actually wts_sum from logpcatalog_agns
+        W_gal_pix = ngals  # This is actually wts_sum from logpcatalog_gals
+        
+        # Compute global weight totals
+        # These should be computed by summing weights over all pixels, accounting for evolution
+        # For now, we approximate using pixel counts, but ideally we'd sum actual weights
+        # W_agn_total = sum over all pixels of [sum of wagns * (1+z)^gamma_agn in each pixel]
+        # W_gal_total = sum over all pixels of [sum of wgals * (1+z)^gamma_gal in each pixel]
+        # 
+        # Since computing this exactly would require iterating over all pixels, we use
+        # the total counts as a proxy (assuming uniform weights = 1)
+        W_agn_total = N_agn_total_jax
+        W_gal_total = N_gal_total_jax
+        
+        # Compute mixture for this pixel
+        log_term1 = log_alpha_agn + jnp.log(W_agn_pix + 1e-10) - jnp.log(W_agn_total + 1e-10) + logpcat_agns
+        log_term2 = log_1malpha_agn + jnp.log(W_gal_pix + 1e-10) - jnp.log(W_gal_total + 1e-10) + logpcat_gals
+        
+        # Final mixture
         log_prob = jnp.logaddexp(log_term1, log_term2)
         return log_prob
     

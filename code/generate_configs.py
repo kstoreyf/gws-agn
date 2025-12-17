@@ -414,7 +414,7 @@ def main_inference(overwrite_config=False):
         N_H0=30,
         N_alpha_agn=30,
         N_gw_inf=None,
-        tag_inf_extra='_norm',
+        tag_inf_extra='_norm5',
         overwrite_config=overwrite_config
     )
 
