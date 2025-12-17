@@ -225,14 +225,14 @@ def main_data(overwrite_config=False):
         dir_mock=None,  # Auto-generate from tag_cat
         seed=42,
         nbar_gal=1e-2,
-        nbar_agn=1e-2,
+        nbar_agn=1e-3,
         bias_gal=1.0,
         bias_agn=1.0,
         z_min=0.0,
         z_max=1.5,
         nside=256,
         f_agn=0.5,
-        lambda_agn=0.5,
+        lambda_agn=0.0,
         N_gw=1000,
         seed_gw=1042,  # Will default to seed + 1000
         N_samples_gw=10000,
@@ -258,6 +258,7 @@ def create_config_inference(
     # Likelihood grid parameters
     N_H0=20,
     N_alpha_agn=20,
+    N_gw_inf=None,
     # Other parameters
     Om0=None,
     gamma_agn=0,
@@ -333,6 +334,7 @@ def create_config_inference(
     config = {
         'fn_config_data': fn_config_data,
         'mode_inf': mode_inf,
+        'N_gw_inf': N_gw_inf,
         'mcmc': {
             'N_walkers': N_walkers,
             'N_steps': N_steps,
@@ -388,8 +390,8 @@ def main_inference(overwrite_config=False):
     """
     
     # build config_data name
-    tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
-    tag_gw = f'_fagn0.5_lambdaagn0.5'
+    tag_cat = f'_seed42_ratioNgalNagn10_bgal1.0_bagn1.0'
+    tag_gw = f'_fagn0.5_lambdaagn0.0'
     config_data_name = f'config_data{tag_cat}{tag_gw}'
     # Now create inference configs referencing the data config
     create_config_inference(
@@ -397,7 +399,7 @@ def main_inference(overwrite_config=False):
         fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
         mode_inf='mcmc',
         N_walkers=32,
-        N_steps=5000,
+        N_steps=500,
         burnin_frac=0.2,
         seed_mcmc=0,
         tag_inf_extra='',
@@ -409,9 +411,10 @@ def main_inference(overwrite_config=False):
         fn_config=None,  # Auto-generate from tags
         fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
         mode_inf='grid',
-        N_H0=20,
-        N_alpha_agn=20,
-        tag_inf_extra='_noshuffle',
+        N_H0=30,
+        N_alpha_agn=30,
+        N_gw_inf=None,
+        tag_inf_extra='_norm',
         overwrite_config=overwrite_config
     )
 

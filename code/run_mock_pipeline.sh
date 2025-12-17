@@ -13,10 +13,10 @@ fi
 
 # --- User-adjustable parameters (lowercase to match other scripts) -------------
 seed=42
-ratio_ngal_nagn=1
+ratio_ngal_nagn=10
 bgal=1.0
 bagn=1.0
-fagn=0.0
+fagn=0.5
 lambdaagn=0.0
 # -------------------------------------------------------------------------------
 

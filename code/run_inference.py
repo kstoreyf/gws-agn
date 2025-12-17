@@ -136,11 +136,7 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     
     # Extract parameters from config_data
     nside = config_data['pixelization']['nside']
-    
-    f_agn = config_data['gw_injection']['f_agn']
-    lambda_agn = config_data['gw_injection']['lambda_agn']
-    N_gw = config_data['gw_injection']['N_gw']
-    
+
     # Extract parameters from config_inference
     mode_inf = config_inference['mode_inf']
     
@@ -181,17 +177,14 @@ def main(config_inference, config_data, fn_config, overwrite=False):
         else:
             print(f"Warning: Output file {fn_inf} exists and will be overwritten (--overwrite flag set)")
 
-    print(f"Running main inference pipeline: mode_inf={mode_inf}, f_agn={f_agn}, lambda_agn={lambda_agn}, N_gw={N_gw}, nside={nside}, N_walkers={N_walkers}, N_steps={N_steps}")
-
-    # Get tags and paths from config_data
-    tag_cat = config_data['paths']['tag_cat']
-    tag_gw = config_data['paths']['tag_gw']
-    dir_mock = config_data['paths']['dir_mock']
+    print(f"Running main inference pipeline: mode_inf={mode_inf}, fn_config={fn_config}, \
+            N_gw_inf={N_gw_inf}")
     
     # Construct file paths using new naming convention
-    galaxy_file = os.path.join(dir_mock, f'cat_gal_pixelated_nside{nside}.h5')
-    agn_file = os.path.join(dir_mock, f'cat_agn_pixelated_nside{nside}.h5')
-    gw_file = os.path.join(dir_mock, f'gwsamples{tag_gw}.h5')
+    dir_mock = config_data['paths']['dir_mock']
+    fn_cat_gal_pixelated = os.path.join(dir_mock, config_data['paths']['name_cat_gal_pixelated'])
+    fn_cat_agn_pixelated = os.path.join(dir_mock, config_data['paths']['name_cat_agn_pixelated'])
+    fn_gwsamples = os.path.join(dir_mock, config_data['paths']['name_gwsamples'])
 
     #Check JAX GPU status
     print(f"JAX devices: {jax.devices()}")
@@ -200,7 +193,7 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     #print(f"Test array device: {jnp.array([1.0]).device()}")
 
     # Load catalog data
-    catalog_data = load_catalog_data(galaxy_file, agn_file, nside=nside)
+    catalog_data = load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=nside)
     
     # Setup cosmology
     cosmo_funcs = setup_cosmology()
@@ -209,10 +202,7 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     prob_funcs = create_catalog_probability_functions(catalog_data)
 
     # Load GW samples
-    gw_data = load_gw_samples(gw_file, N_gw_inf=N_gw_inf)
-    print(gw_data['ra'].shape, gw_data['dec'].shape)
-    print(gw_data['N_samples_gw'])
-    print(gw_data['N_gw'])
+    gw_data = load_gw_samples(fn_gwsamples, N_gw_inf=N_gw_inf)
 
     # Set up MCMC parameters
     mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, alpha_agn_bounds=alpha_agn_bounds, Om0_bounds=Om0_bounds, 
@@ -495,6 +485,7 @@ def load_inference_results(fn_inf):
     
     with h5py.File(fn_inf, 'r') as f:
         # Load posterior samples
+        print(f.keys())
         results['posterior_samples'] = np.array(f['posterior_samples'])
         
         # Load full chain if available
@@ -580,18 +571,19 @@ def print_inference_summary(results):
     print("=" * 60)
 
 
-def load_catalog_data(galaxy_file, agn_file, nside=256):
+def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None):
     """
     Load galaxy and AGN catalog data from HDF5 files.
     
     Parameters
     ----------
-    galaxy_file : str
+    fn_cat_gal_pixelated : str
         Path to galaxy catalog HDF5 file
-    agn_file : str
+    fn_cat_agn_pixelated : str
         Path to AGN catalog HDF5 file
-    nside : int
-        Healpix nside parameter (default: 256)
+    nside : int, optional
+        Healpix nside parameter. If None, computed from number of pixels.
+        If provided, verified against number of pixels.
     
     Returns
     -------
@@ -607,21 +599,35 @@ def load_catalog_data(galaxy_file, agn_file, nside=256):
         - nagns: AGN counts
         - nside: healpix nside
     """
-    print(f"Loading catalog data: galaxy_file={galaxy_file}, agn_file={agn_file}, nside={nside}")
-    with h5py.File(galaxy_file, 'r') as f:
+    print(f"Loading catalog data: fn_cat_gal_pixelated={fn_cat_gal_pixelated}, fn_cat_agn_pixelated={fn_cat_agn_pixelated}, nside={nside}")
+    with h5py.File(fn_cat_gal_pixelated, 'r') as f:
         # Use 'z' and 'n_in_pixel' dataset names (as saved by pixelize_catalogs.py)
         zgals = jnp.asarray(f['z'])
         dzgals = 0.0001 * (1 + zgals)
         wgals = jnp.ones(zgals.shape)
         ngals = jnp.asarray(f['n_in_pixel'])
     
-    with h5py.File(agn_file, 'r') as f:
+    with h5py.File(fn_cat_agn_pixelated, 'r') as f:
         # Use 'z' and 'n_in_pixel' dataset names (as saved by pixelize_catalogs.py)
         zagns = jnp.asarray(f['z'])
         dzagns = 0.0001 * (1 + zagns)
         wagns = jnp.ones(zagns.shape)
         nagns = jnp.asarray(f['n_in_pixel'])
     
+    npix = len(zgals)
+    assert npix == len(zagns), "Number of galaxies and AGNs do not match"
+    
+    # Handle nside: compute if None, verify if provided
+    if nside is None:
+        # Convert number of pixels to nside: npix = 12 * nside^2
+        nside = hp.pixelfunc.npix2nside(npix)
+        print(f"Computed nside={nside} from number of pixels ({npix})")
+    else:
+        # Verify that nside matches the number of pixels: npix = 12 * nside^2
+        npix_expected = hp.pixelfunc.nside2npix(nside)
+        assert npix == npix_expected, f"Number of pixels ({npix}) does not match expected for nside={nside} (expected {npix_expected})"
+        print(f"Verified nside={nside} matches number of pixels ({npix})")
+
     print("Loaded!")
     return {
         'zgals': zgals,
@@ -731,7 +737,7 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
     }
 
 
-def load_gw_samples(filename, N_gw_inf=None, N_samples_gw=None):
+def load_gw_samples(fn_gwsamples, N_gw_inf=None, N_samples_gw=None):
     """
     Load gravitational wave samples from HDF5 file.
     Loads separate galaxy and AGN arrays, concatenates them, shuffles, then selects N_gw_inf events.
@@ -739,7 +745,7 @@ def load_gw_samples(filename, N_gw_inf=None, N_samples_gw=None):
     
     Parameters
     ----------
-    filename : str
+    fn_gwsamples : str
         Path to GW samples HDF5 file
     N_gw_inf : int, optional
         Number of GW events to use in inference. If None, uses all events.
@@ -764,7 +770,7 @@ def load_gw_samples(filename, N_gw_inf=None, N_samples_gw=None):
     # Returns separate arrays for galaxies and AGNs: (ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, 
     #                                                   ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn)
     ra_gal, dec_gal, dL_gal, m1det_gal, m2det_gal, ra_agn, dec_agn, dL_agn, m1det_agn, m2det_agn = \
-        generate_gwsamples.load_samples(filename, N_samples_gw=N_samples_gw)
+        generate_gwsamples.load_samples(fn_gwsamples, N_samples_gw=N_samples_gw)
     
     # Concatenate galaxies and AGNs
     ra = np.concatenate([ra_gal, ra_agn], axis=0)
@@ -953,20 +959,22 @@ def create_catalog_probability_functions(catalog_data):
         log_1malpha_agn = jnp.where(alpha_agn < 1.0 - 1e-10, jnp.log1p(-alpha_agn), -1e10)
         
         ### original
-        log_term1 = log_alpha_agn + logpcat_agns
-        log_term2 = log_1malpha_agn + logpcat_gals
+        ## alpha_agn * p_cat_agn + (1 - alpha_agn) * p_cat_gals
+        # log_term1 = log_alpha_agn + logpcat_agns
+        # log_term2 = log_1malpha_agn + logpcat_gals
         
         ### trying this cursor suggestion:
+        # alpha_agn * N_agn * p_cat_agn + (1 - alpha_agn) * N_gal * p_cat_gals
         # Account for relative number of sources per pixel when combining probabilities
         # The catalog probabilities are normalized per pixel, but we need to weight them
         # by the relative probability of finding AGN vs galaxies in each pixel.
         # This prevents bias when pixels have different numbers of AGN vs galaxies.
-        # n_tot = nagns + ngals
-        # # Weight by relative number of sources (avoid division by zero)
-        # log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
-        # log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
-        # log_term1 = log_alpha_agn + logpcat_agns + log_weight_agn
-        # log_term2 = log_1malpha_agn + logpcat_gals + log_weight_gal
+        # Weight by relative number of sources (avoid division by zero)
+        n_tot = nagns + ngals
+        log_weight_agn = jnp.where(n_tot > 0, jnp.log(nagns + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        log_weight_gal = jnp.where(n_tot > 0, jnp.log(ngals + 1e-10) - jnp.log(n_tot + 1e-10), 0.0)
+        log_term1 = log_alpha_agn + logpcat_agns + log_weight_agn
+        log_term2 = log_1malpha_agn + logpcat_gals + log_weight_gal
         
         #print("sum")
         log_prob = jnp.logaddexp(log_term1, log_term2)
@@ -1026,10 +1034,9 @@ def compute_darksiren_log_likelihood(
     dL = gw_data['dL']
     p_pe = gw_data['p_pe']
     N_samples_gw = gw_data['N_samples_gw']
-    
-    # Calculate N_gw from the flattened array length
-    N_gw = len(dL) // N_samples_gw
-    
+    N_gw = gw_data['N_gw']
+    assert N_gw == len(dL) // N_samples_gw, "N_gw and N_samples_gw doe not match the loaded number of samples"
+
     z_of_dL = cosmo_funcs['z_of_dL']
     ddL_of_z = cosmo_funcs['ddL_of_z']
     logPriorUniverse = prob_funcs['logPriorUniverse']
