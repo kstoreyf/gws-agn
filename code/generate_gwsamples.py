@@ -82,8 +82,6 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Generate GW samples from mock catalogs')
     parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
-    parser.add_argument('--config', dest='config_flag', type=str,
-                        help='Path to YAML configuration file (legacy flag)')
     parser.add_argument('--overwrite', action='store_true', default=False,
                         help='Overwrite existing GW samples if they exist')
     args = parser.parse_args()
@@ -165,20 +163,23 @@ def main(config, overwrite=False):
     # Generate samples for galaxy-hosted GW events (order: ra, dec, dL, m1det, m2det)
     ra_unc = config['gw_samples']['ra_uncertainty']
     dec_unc = config['gw_samples']['dec_uncertainty']
+    dL_unc_fac = config['gw_samples']['dL_uncertainty_fac']
     mass_unc = config['gw_samples']['mass_uncertainty']
     n_initial_samples = 256000  # Fixed value
     
     ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal = generate_all_samples(
-        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, N_samples_gw,
-        n_initial_samples=n_initial_samples, ra_uncertainty=ra_unc, 
-        dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
+        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, 
+        N_samples_gw, n_initial_samples=n_initial_samples, 
+        ra_uncertainty=ra_unc, dec_uncertainty=dec_unc, 
+        dL_uncertainty_fac=dL_unc_fac, mass_uncertainty=mass_unc
     )
 
     # Generate samples for AGN-hosted GW events (order: ra, dec, dL, m1det, m2det)
     ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn = generate_all_samples(
-        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, N_samples_gw,
-        n_initial_samples=n_initial_samples, ra_uncertainty=ra_unc,
-        dec_uncertainty=dec_unc, mass_uncertainty=mass_unc
+        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, 
+        N_samples_gw, n_initial_samples=n_initial_samples, 
+        ra_uncertainty=ra_unc, dec_uncertainty=dec_unc, 
+        dL_uncertainty_fac=dL_unc_fac, mass_uncertainty=mass_unc
     )
 
     # Keep galaxy and AGN samples separate (order: ra, dec, dL, m1det, m2det)
@@ -445,8 +446,10 @@ def generate_black_hole_masses(z, N_gw, mass_mean=35, mass_std=5):
     return m1sdet, m2sdet
 
 
-def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw, n_initial_samples=256000, 
-                           ra_uncertainty=0.01, dec_uncertainty=0.01, mass_uncertainty=1.5):
+def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw, 
+                           n_initial_samples=256000, 
+                           ra_uncertainty=0.01, dec_uncertainty=0.01, 
+                           dL_uncertainty_fac=1.0, mass_uncertainty=1.5):
     """
     Generate samples for a single GW event with measurement uncertainties.
     Order: ra, dec, dL, m1det, m2det
@@ -482,8 +485,11 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw, n_initial_sa
     # Mean vector in order: ra, dec, dL, m1det, m2det
     mean = np.array([ra, dec, dL, m1det, m2det])
     # Covariance matrix (diagonal, independent uncertainties)
-    cov = np.diag([ra_uncertainty**2, dec_uncertainty**2, dL, 
-                  mass_uncertainty**2, mass_uncertainty**2])
+    #dL_uncertainty_fac = np.sqrt(dL)
+    dL_uncertainty = dL_uncertainty_fac*dL
+    cov = np.diag([ra_uncertainty**2, dec_uncertainty**2, 
+                   dL_uncertainty**2, 
+                   mass_uncertainty**2, mass_uncertainty**2])
     dec_idx = 1  # Declination is at index 1 in the 5D samples
     
     rv = multivariate_normal(mean, cov)
@@ -512,8 +518,9 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw, n_initial_sa
 
 
 def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, N_samples_gw, 
-                        n_initial_samples=256000, ra_uncertainty=0.01, 
-                        dec_uncertainty=0.01, mass_uncertainty=1.5):
+                        n_initial_samples=256000, 
+                        ra_uncertainty=0.01, dec_uncertainty=0.01, 
+                        dL_uncertainty_fac=1.0, mass_uncertainty=1.5):
     """
     Generate samples for all GW events of a given type.
     Order: ra, dec, dL, m1det, m2det
@@ -548,9 +555,10 @@ def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, N_samples_gw,
     
     for k in tqdm(range(len(ra_gw))):
         ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples = generate_event_samples(
-            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], N_samples_gw,
-            n_initial_samples=n_initial_samples, ra_uncertainty=ra_uncertainty,
-            dec_uncertainty=dec_uncertainty, mass_uncertainty=mass_uncertainty
+            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], 
+            N_samples_gw, n_initial_samples=n_initial_samples, 
+            ra_uncertainty=ra_uncertainty, dec_uncertainty=dec_uncertainty, 
+            dL_uncertainty_fac=dL_uncertainty_fac, mass_uncertainty=mass_uncertainty
         )
         ras.append(ra_samples)
         decs.append(dec_samples)

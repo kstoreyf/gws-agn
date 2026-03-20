@@ -772,7 +772,8 @@ def get_mcmc_data(fn_config_inference):
     }
 
 
-def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50):
+def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
+                       range_min=None, range_max=None):
     """
     Plot MCMC data as a corner plot showing contours and correlations.
     
@@ -801,7 +802,8 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50):
     # For 1D posteriors, use a simple marginalized plot instead of corner
     if n_params == 1:
         print("Only 1 parameter varied; using 1D marginalized plot instead of corner.")
-        plot_mcmc_marginalized(mcmc_data, figsize=figsize, bins=bins)
+        plot_mcmc_marginalized(mcmc_data, figsize=figsize, bins=bins,
+                               range_min=range_min, range_max=range_max)
         return
     
     # Corner plot
@@ -823,8 +825,11 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50):
         truth_val = truth_values[i]
         
         # Ensure range includes truth value
-        range_min = min(sample_min, truth_val) * (1 - buffer_factor)
-        range_max = max(sample_max, truth_val) * (1 + buffer_factor)
+        if range_min is None:
+            range_min = min(sample_min, truth_val) * (1 - buffer_factor)
+        if range_max is None:
+            range_max = max(sample_max, truth_val) * (1 + buffer_factor)
+        
         ranges.append([range_min, range_max])
     
     fig = corner.corner(
@@ -842,7 +847,8 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50):
     plt.show()
 
 
-def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50):
+def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50,
+                           range_min=None, range_max=None):
     """
     Plot marginalized posterior distributions for each parameter.
     
@@ -872,11 +878,18 @@ def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50):
     if n_params == 1:
         axes = [axes]
     
+    if range_min is not None and range_max is not None:
+        bins = np.linspace(range_min, range_max, bins)
+    else:
+        bins = bins
+    
     for i, (ax, label) in enumerate(zip(axes, labels)):
         ax.hist(samples[:, i], bins=bins, density=True, lw=2, color='black', histtype='step')
         # Overplot truth value
         ax.axvline(truth_values[i], color='green', linestyle='-', linewidth=2,
                    label=f'Truth: {truth_values[i]:.3f}')
+        # if range_min is not None and range_max is not None:
+        #     ax.set_xlim(range_min, range_max)
         ax.set_xlabel(label)
         ax.set_ylabel('Density')
         ax.set_title(f'Posterior: {label}')

@@ -21,6 +21,113 @@ except ImportError:
     PLANCK15_OB0 = 0.0486  # Baryon density parameter
 
 
+
+def main_inference(overwrite_config=False):
+    """
+    Main function to create inference config files.
+    Modify the parameters below to create different configs.
+    
+    Parameters
+    ----------
+    overwrite_config : bool
+        If True, overwrite existing config files. If False, skip if files exist.
+    """
+    
+    # build config_data name
+    tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
+    #tag_pix = f'_nside64'
+    tag_pix = f'_nside256'
+    tag_gw = f'_fagn0.0_lambdaagn0.0_zmaxgw1.0'
+    tag_gwsamp = f'_dLunc0.0'
+    config_data_name = f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
+    # Now create inference configs referencing the data config
+    # create_config_inference(
+    #     fn_config=None,  # Auto-generate from tags
+    #     fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+    #     mode_inf='mcmc',
+    #     N_walkers=32,
+    #     N_steps=500,
+    #     burnin_frac=0.2,
+    #     seed_mcmc=0,
+    #     parameters_vary=['alpha_agn'],
+    #     parameters_fix=['H0', 'Om0', 'gamma_agn', 'gamma_gal'],
+    #     tag_inf_extra='_vary-alphaagn',
+    #     overwrite_config=overwrite_config
+    # )
+    # Inference config with alpha_agn fixed to zero and H0 free
+    create_config_inference(
+        fn_config=None,  # Auto-generate from tags
+        fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+        mode_inf='mcmc',
+        N_walkers=32,
+        N_steps=500,
+        burnin_frac=0.2,
+        seed_mcmc=0,
+        # Dz_gal=0.0001,
+        # Dz_agn=0.0001,
+        Dz_gal=0.03,
+        Dz_agn=0.03,
+        parameters_vary=['H0'],
+        parameters_fix=['alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal'],
+        tag_inf_extra='_Dz0.03_betaH0_vary-H0',
+        overwrite_config=overwrite_config
+    )
+    
+    # Example: Create a likelihood grid config (fn_config will be auto-generated from tags)
+    # create_config_inference(
+    #     fn_config=None,  # Auto-generate from tags
+    #     fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+    #     mode_inf='grid',
+    #     N_H0=30,
+    #     N_alpha_agn=30,
+    #     N_gw_inf=None,
+    #     tag_inf_extra='_norm5',
+    #     overwrite_config=overwrite_config
+    # )
+
+
+def main_data(overwrite_config=False):
+    """
+    Main function to create config files.
+    Modify the parameters below to create different configs.
+    
+    Parameters
+    ----------
+    overwrite_config : bool
+        If True, overwrite existing config files. If False, skip if files exist.
+    """
+    # Example: Create a default config (fn_config and dir_mock will be auto-generated from tags)
+    create_config_data(
+        fn_config=None,  # Auto-generate from tags
+        dir_mock=None,  # Auto-generate from tag_cat
+        seed=42,
+        nbar_gal=1e-2,
+        nbar_agn=1e-2,
+        bias_gal=1.0,
+        bias_agn=1.0,
+        z_min=0.0,
+        z_max=1.5,
+        nside=256,
+        #nside=64,
+        f_agn=0.0,
+        lambda_agn=0.0,
+        N_gw=1000,
+        seed_gw=1042,
+        z_max_gw=1.0,
+        N_samples_gw=10000,
+        # Cosmology will default to Planck 2015 values
+        mass_mean=35.0,
+        mass_std=5.0,
+        ra_uncertainty=0.01,
+        dec_uncertainty=0.01,
+        dL_uncertainty_fac=0.0,
+        mass_uncertainty=1.5,
+        overwrite_config=overwrite_config
+    )
+
+
+
+
 def create_config_data(
     fn_config=None,
     dir_mock=None,  # Will be auto-generated from tag_cat
@@ -47,6 +154,7 @@ def create_config_data(
     mass_std=5.0,
     ra_uncertainty=0.01,
     dec_uncertainty=0.01,
+    dL_uncertainty_fac=1.0,
     mass_uncertainty=1.5,
     # Cosmology parameters
     h=None,
@@ -101,6 +209,8 @@ def create_config_data(
         RA uncertainty in radians
     dec_uncertainty : float
         Dec uncertainty in radians
+    dL_uncertainty_fac : float
+        Uncertainty as a multiplicative factor of the luminosity distance
     mass_uncertainty : float
         Mass uncertainty in solar masses
     h : float, optional
@@ -138,14 +248,18 @@ def create_config_data(
     tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}'
     if z_max_gw is not None:
         tag_gw += f'_zmaxgw{z_max_gw}'
-    
+
+    tag_gwsamp = ''
+    if dL_uncertainty_fac != 1.0:
+        tag_gwsamp += f'_dLunc{dL_uncertainty_fac}'
+
     # Construct dir_mock using tag_cat (auto-generate if not provided)
     if dir_mock is None:
         dir_mock = f'../data/mocks_glass/mock{tag_cat}/'
     
     # Auto-generate fn_config from tags if not provided
     if fn_config is None:
-        fn_config = os.path.join(dir_configs, f'config_data{tag_cat}{tag_pix}{tag_gw}.yaml')
+        fn_config = os.path.join(dir_configs, f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}.yaml')
     
     # Construct filenames using tags
     name_cat = 'mock_catalog.h5'
@@ -184,7 +298,8 @@ def create_config_data(
             'name_cat_agn_pixelated': name_cat_agn_pixelated,
             'tag_cat': tag_cat,
             'tag_pix': tag_pix,
-            'tag_gw': tag_gw
+            'tag_gw': tag_gw,
+            'tag_gwsamp': tag_gwsamp,
         },
         'gw_samples': {
             'N_samples_gw': N_samples_gw,
@@ -192,6 +307,7 @@ def create_config_data(
             'mass_std': mass_std,
             'ra_uncertainty': ra_uncertainty,
             'dec_uncertainty': dec_uncertainty,
+            'dL_uncertainty_fac': dL_uncertainty_fac,
             'mass_uncertainty': mass_uncertainty
         },
         'cosmology': {
@@ -216,48 +332,9 @@ def create_config_data(
     with open(fn_config, 'w') as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
 
-    print(f"Created config file: {fn_config}")
+    print(f"Created data config file: {fn_config}")
     
     return fn_config
-
-
-def main_data(overwrite_config=False):
-    """
-    Main function to create config files.
-    Modify the parameters below to create different configs.
-    
-    Parameters
-    ----------
-    overwrite_config : bool
-        If True, overwrite existing config files. If False, skip if files exist.
-    """
-    # Example: Create a default config (fn_config and dir_mock will be auto-generated from tags)
-    create_config_data(
-        fn_config=None,  # Auto-generate from tags
-        dir_mock=None,  # Auto-generate from tag_cat
-        seed=42,
-        nbar_gal=1e-2,
-        nbar_agn=1e-2,
-        bias_gal=1.0,
-        bias_agn=1.0,
-        z_min=0.0,
-        z_max=1.5,
-        #nside=256,
-        nside=64,
-        f_agn=0.0,
-        lambda_agn=0.0,
-        N_gw=1000,
-        seed_gw=1042,
-        z_max_gw=1.0,
-        N_samples_gw=10000,
-        # Cosmology will default to Planck 2015 values
-        mass_mean=35.0,
-        mass_std=5.0,
-        ra_uncertainty=0.01,
-        dec_uncertainty=0.01,
-        mass_uncertainty=1.5,
-        overwrite_config=overwrite_config
-    )
 
 
 def create_config_inference(
@@ -335,6 +412,7 @@ def create_config_inference(
     tag_cat = config_data['paths']['tag_cat']
     tag_pix = config_data['paths']['tag_pix']
     tag_gw = config_data['paths']['tag_gw']
+    tag_gwsamp = config_data['paths']['tag_gwsamp']
     
     # Default parameter role lists if not provided
     if parameters_vary is None:
@@ -351,7 +429,7 @@ def create_config_inference(
         tag_inf = ''
     
     # Build full tag for output filename
-    tag_full = f'{tag_cat}{tag_pix}{tag_gw}{tag_inf}{tag_inf_extra}'
+    tag_full = f'{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}{tag_inf}{tag_inf_extra}'
     
     # Auto-generate fn_config from tags if not provided
     if fn_config is None:
@@ -388,6 +466,7 @@ def create_config_inference(
             'tag_cat': tag_cat,
             'tag_pix': tag_pix,
             'tag_gw': tag_gw,
+            'tag_gwsamp': tag_gwsamp,
             'tag_inf': tag_inf,
             'tag_inf_extra': tag_inf_extra,
             'tag_full': tag_full,
@@ -411,65 +490,6 @@ def create_config_inference(
     
     return fn_config
 
-
-def main_inference(overwrite_config=False):
-    """
-    Main function to create inference config files.
-    Modify the parameters below to create different configs.
-    
-    Parameters
-    ----------
-    overwrite_config : bool
-        If True, overwrite existing config files. If False, skip if files exist.
-    """
-    
-    # build config_data name
-    tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
-    tag_gw = f'_fagn0.0_lambdaagn0.0_zmaxgw1.0'
-    tag_pix = f'_nside64'
-    config_data_name = f'config_data{tag_cat}{tag_pix}{tag_gw}'
-    # Now create inference configs referencing the data config
-    # create_config_inference(
-    #     fn_config=None,  # Auto-generate from tags
-    #     fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
-    #     mode_inf='mcmc',
-    #     N_walkers=32,
-    #     N_steps=500,
-    #     burnin_frac=0.2,
-    #     seed_mcmc=0,
-    #     parameters_vary=['alpha_agn'],
-    #     parameters_fix=['H0', 'Om0', 'gamma_agn', 'gamma_gal'],
-    #     tag_inf_extra='_vary-alphaagn',
-    #     overwrite_config=overwrite_config
-    # )
-    # Inference config with alpha_agn fixed to zero and H0 free
-    create_config_inference(
-        fn_config=None,  # Auto-generate from tags
-        fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
-        mode_inf='mcmc',
-        N_walkers=32,
-        N_steps=500,
-        burnin_frac=0.2,
-        seed_mcmc=0,
-        Dz_gal=0.03,
-        Dz_agn=0.03,
-        parameters_vary=['H0'],
-        parameters_fix=['alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal'],
-        tag_inf_extra='_Dz0.03_betaH0tryorig_vary-H0',
-        overwrite_config=overwrite_config
-    )
-    
-    # Example: Create a likelihood grid config (fn_config will be auto-generated from tags)
-    # create_config_inference(
-    #     fn_config=None,  # Auto-generate from tags
-    #     fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
-    #     mode_inf='grid',
-    #     N_H0=30,
-    #     N_alpha_agn=30,
-    #     N_gw_inf=None,
-    #     tag_inf_extra='_norm5',
-    #     overwrite_config=overwrite_config
-    # )
 
 
 if __name__ == '__main__':
