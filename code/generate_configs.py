@@ -455,7 +455,7 @@ def main_inference(overwrite_config=False):
         Dz_agn=0.03,
         parameters_vary=['H0'],
         parameters_fix=['alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal'],
-        tag_inf_extra='_Dz0.03_betaH0try3_vary-H0',
+        tag_inf_extra='_Dz0.03_betaH0tryorig_vary-H0',
         overwrite_config=overwrite_config
     )
     

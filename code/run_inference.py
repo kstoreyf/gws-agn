@@ -257,36 +257,12 @@ def main(config_inference, config_data, fn_config, overwrite=False):
                 z_max_gw, dL_max
             )
         )
-        z_gal_sorted, z_gal_cdf, z_agn_sorted, z_agn_cdf = precompute_beta_cdf(catalog_data, z_max_gw)
+        z_gal_sorted, z_gal_cdf, z_agn_sorted, z_agn_cdf = precompute_beta_cdf(catalog_data)
         catalog_data['dL_max'] = dL_max
         catalog_data['z_gal_sorted'] = z_gal_sorted
         catalog_data['z_gal_cdf'] = z_gal_cdf
         catalog_data['z_agn_sorted'] = z_agn_sorted
         catalog_data['z_agn_cdf'] = z_agn_cdf
-
-        # Restrict the host prior to z <= z_max_gw by zeroing catalog weights
-        # beyond the GW source population boundary.  Without this, the smooth
-        # catalog prior (p ∝ dV/dz, increasing with z) assigns probability to
-        # galaxies at z > z_max_gw, creating an unconstrained positive bias for
-        # H0 > H0_true that the beta correction cannot fix.
-        import numpy as _np
-        wgals_np = _np.array(catalog_data['wgals'])
-        zgals_np = _np.array(catalog_data['zgals'])
-        n_masked_gal = int(_np.sum((zgals_np > z_max_gw) & _np.isfinite(zgals_np)))
-        wgals_np[zgals_np > z_max_gw] = 0.0
-        catalog_data['wgals'] = jnp.array(wgals_np)
-
-        wagns_np = _np.array(catalog_data['wagns'])
-        zagns_np = _np.array(catalog_data['zagns'])
-        n_masked_agn = int(_np.sum((zagns_np > z_max_gw) & _np.isfinite(zagns_np)))
-        wagns_np[zagns_np > z_max_gw] = 0.0
-        catalog_data['wagns'] = jnp.array(wagns_np)
-
-        print(
-            "Host prior restricted to z <= {:.3f}: zeroed {:d} gal + {:d} AGN weights".format(
-                z_max_gw, n_masked_gal, n_masked_agn
-            )
-        )
     else:
         catalog_data['dL_max'] = None
         print("beta(H0) correction disabled: z_max_gw not set in data config")
@@ -782,45 +758,39 @@ def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None,
     }
 
 
-def precompute_beta_cdf(catalog_data, z_max_gw):
+def precompute_beta_cdf(catalog_data):
     """
-    Precompute sorted redshift CDFs for the GW source population (z <= z_max_gw).
+    Precompute sorted redshift CDFs for galaxy and AGN catalogs.
 
     These are used to evaluate beta(H0), the H0-dependent normalization that
-    accounts for the fraction of GW source population within the detection
-    horizon dL_max at a given H0.  Crucially, the CDF is built from catalog
-    galaxies with z <= z_max_gw only (the true source population), so the CDF
-    is normalized to 1 at z_max_gw.  This means:
-      - H0 >= H0_true  =>  z_max_det >= z_max_gw  =>  beta = 1  (no correction)
-      - H0 <  H0_true  =>  z_max_det <  z_max_gw  =>  beta < 1  (penalises low H0)
-    Using the full catalog (z up to z_max_cat > z_max_gw) would normalise to
-    the wrong denominator and produce a large overcorrection.
+    accounts for the fraction of catalog sources within the GW detection horizon
+    dL_max at a given H0. The horizon shifts with H0 (dL(z,H0) ∝ 1/H0 at
+    fixed z), so beta is H0-dependent and must be subtracted from the
+    log-likelihood to avoid a systematic bias.
 
     Parameters
     ----------
     catalog_data : dict
         Dictionary from load_catalog_data().
-    z_max_gw : float
-        Maximum redshift of GW source population (injection cut).
 
     Returns
     -------
     z_gal_sorted : jnp.array
-        Galaxy redshifts (z <= z_max_gw) sorted in ascending order.
+        Galaxy redshifts sorted in ascending order.
     z_gal_cdf : jnp.array
         Cumulative fraction corresponding to z_gal_sorted (values in (0, 1]).
     z_agn_sorted : jnp.array
-        AGN redshifts (z <= z_max_gw) sorted in ascending order.
+        AGN redshifts sorted in ascending order.
     z_agn_cdf : jnp.array
         Cumulative fraction corresponding to z_agn_sorted.
     """
     import numpy as _np
 
-    # Flatten 2D padded arrays, remove NaN padding, and restrict to source population
+    # Flatten 2D padded arrays and remove NaN padding
     z_gal_all = _np.array(catalog_data['zgals']).flatten()
-    z_gal_all = z_gal_all[_np.isfinite(z_gal_all) & (z_gal_all <= z_max_gw)]
+    z_gal_all = z_gal_all[_np.isfinite(z_gal_all)]
     z_agn_all = _np.array(catalog_data['zagns']).flatten()
-    z_agn_all = z_agn_all[_np.isfinite(z_agn_all) & (z_agn_all <= z_max_gw)]
+    z_agn_all = z_agn_all[_np.isfinite(z_agn_all)]
 
     z_gal_sorted = jnp.array(_np.sort(z_gal_all))
     z_gal_cdf = jnp.arange(1, len(z_gal_sorted) + 1, dtype=float) / len(z_gal_sorted)
@@ -829,10 +799,8 @@ def precompute_beta_cdf(catalog_data, z_max_gw):
     z_agn_cdf = jnp.arange(1, len(z_agn_sorted) + 1, dtype=float) / len(z_agn_sorted)
 
     print(
-        "Precomputed beta CDF (population z <= {:.3f}): "
-        "{:d} galaxies z in [{:.3f}, {:.3f}], "
+        "Precomputed beta CDF: {:d} galaxies z in [{:.3f}, {:.3f}], "
         "{:d} AGN z in [{:.3f}, {:.3f}]".format(
-            z_max_gw,
             len(z_gal_sorted), float(z_gal_sorted[0]), float(z_gal_sorted[-1]),
             len(z_agn_sorted), float(z_agn_sorted[0]), float(z_agn_sorted[-1]),
         )
@@ -1387,13 +1355,12 @@ def compute_darksiren_log_likelihood(
     ll = jnp.sum(-jnp.log(N_samples_gw) + logsumexp(log_weights, axis=-1))
 
     # Beta(H0) correction: subtract N_gw * log beta(H0) where
-    #   beta(H0) = (1-alpha_agn) * CDF_pop_gal(z_max_det(H0))
-    #            +    alpha_agn  * CDF_pop_agn(z_max_det(H0))
-    # CDF_pop is built from sources with z <= z_max_gw only (the true GW source
-    # population), so CDF_pop(z_max_gw) = 1.  The interp right=1.0 clamp then
-    # gives beta = 1 whenever z_max_det >= z_max_gw (i.e. H0 >= H0_true), so
-    # there is no correction for high H0.  Only H0 < H0_true is penalised
-    # (some sources fall outside the horizon).
+    #   beta(H0) = (1-alpha_agn) * CDF_gal(z_max_det(H0))
+    #            +    alpha_agn  * CDF_agn(z_max_det(H0))
+    # and z_max_det(H0) = z_of_dL(dL_max, H0) shifts with H0.
+    # This penalizes H0 values that place more catalog sources inside the
+    # detection horizon, correcting the systematic bias from the rising dV/dz
+    # galaxy density.
     dL_max = catalog_data.get('dL_max')
     if dL_max is not None:
         z_max_det = z_of_dL(jnp.array(dL_max), H0, Om0)
