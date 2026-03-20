@@ -480,10 +480,10 @@ def plot_likelihood_fagn_lambdaagn(likelihood_data, n_fagn=50, n_lambda=50,
     
     # Ensure grid is in correct shape: (n_H0, n_alpha_agn)
     # Check if grid was transposed for plotting (shape would be n_alpha_agn, n_H0)
-    if log_likelihood_grid_work.shape[0] == len(alpha_agn_grid_work) and log_likelihood_grid_work.shape[1] == len(H0_grid_work):
-        # Grid was transposed for plotting, transpose back
-        print("Transposing grid from (n_alpha_agn, n_H0) to (n_H0, n_alpha_agn)")
-        log_likelihood_grid_work = log_likelihood_grid_work.T
+    #if log_likelihood_grid_work.shape[0] == len(alpha_agn_grid_work) and log_likelihood_grid_work.shape[1] == len(H0_grid_work):
+    #    # Grid was transposed for plotting, transpose back
+    #    print("Transposing grid from (n_alpha_agn, n_H0) to (n_H0, n_alpha_agn)")
+    #    log_likelihood_grid_work = log_likelihood_grid_work.T
     
     print(f"Working grid shape: {log_likelihood_grid_work.shape} (should be (n_H0, n_alpha_agn))")
     
@@ -694,7 +694,43 @@ def get_mcmc_data(fn_config_inference):
     # Extract data
     samples = loaded_results['posterior_samples']
     mcmc_params = loaded_results.get('mcmc_params', {})
-    labels = mcmc_params.get('labels', ['H0', 'alpha_agn'])
+    
+    # Determine which parameters were varied.
+    # Prefer the explicit list from the inference config if available,
+    # since this is authoritative even for older result files.
+    params_cfg = config_inference.get('parameters', {})
+    parameters_vary_cfg = params_cfg.get('parameters_vary')
+    
+    if parameters_vary_cfg is not None:
+        parameters_vary = list(parameters_vary_cfg)
+        ndims = samples.shape[1]
+        # If there is a mismatch between config and samples dimensionality,
+        # fall back to inferring names from the samples themselves.
+        if len(parameters_vary) != ndims:
+            print(
+                f"Warning: parameters_vary from config has length {len(parameters_vary)} "
+                f"but posterior samples have {ndims} dimensions. Falling back to "
+                "inferring parameter names from results file."
+            )
+            parameters_vary = None
+    else:
+        parameters_vary = None
+    
+    # If we could not get a consistent list from the config, fall back to
+    # any information stored in the results file, and then to defaults.
+    if parameters_vary is None:
+        parameters_vary = mcmc_params.get('parameters_vary')
+        if parameters_vary is None:
+            # Fall back based on dimensionality if not present
+            ndims = samples.shape[1]
+            if ndims == 2:
+                parameters_vary = ['H0', 'alpha_agn']
+            elif ndims == 1:
+                parameters_vary = ['alpha_agn']
+            else:
+                parameters_vary = [f'param_{i}' for i in range(ndims)]
+    
+    labels = list(parameters_vary)
     
     print(f"Loaded MCMC results with shape: {samples.shape}")
     
@@ -707,12 +743,23 @@ def get_mcmc_data(fn_config_inference):
         N_gal_truth = f.attrs['n_gal']
         N_agn_truth = f.attrs['n_agn']
     
-    _, truth_alpha_agn = utils.compute_gw_host_fractions(N_gal_truth, N_agn_truth, truth_f_agn, lambda_agn=truth_lambda_agn)
+    _, truth_alpha_agn = utils.compute_gw_host_fractions(
+        N_gal_truth, N_agn_truth, truth_f_agn, lambda_agn=truth_lambda_agn
+    )
+    
+    # Build truth values ordered to match labels/parameters_vary
+    truth_map = {
+        'H0': truth_H0,
+        'alpha_agn': truth_alpha_agn,
+    }
+    truth_values = [truth_map.get(name, None) for name in labels]
     
     return {
         'posterior_samples': samples,
         'mcmc_params': mcmc_params,
         'labels': labels,
+        'parameters_vary': parameters_vary,
+        'truth_values': truth_values,
         'truth_H0': truth_H0,
         'truth_alpha_agn': truth_alpha_agn,
         'truth_f_agn': truth_f_agn,
@@ -725,7 +772,7 @@ def get_mcmc_data(fn_config_inference):
     }
 
 
-def plot_mcmc_contours(mcmc_data, figsize=(10, 10), bins=50):
+def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50):
     """
     Plot MCMC data as a corner plot showing contours and correlations.
     
@@ -740,11 +787,22 @@ def plot_mcmc_contours(mcmc_data, figsize=(10, 10), bins=50):
     """
     samples = mcmc_data['posterior_samples']
     labels = mcmc_data['labels']
-    truth_H0 = mcmc_data['truth_H0']
-    truth_alpha_agn = mcmc_data['truth_alpha_agn']
+    # Truth values ordered to match labels/parameters_vary
+    truth_values = mcmc_data.get('truth_values')
+    if truth_values is None:
+        # Fallback for older results: map from known names
+        truth_H0 = mcmc_data['truth_H0']
+        truth_alpha_agn = mcmc_data['truth_alpha_agn']
+        truth_map = {'H0': truth_H0, 'alpha_agn': truth_alpha_agn}
+        truth_values = [truth_map.get(name, None) for name in labels]
     
-    truth_values = [truth_H0, truth_alpha_agn]
     n_params = samples.shape[1]
+    
+    # For 1D posteriors, use a simple marginalized plot instead of corner
+    if n_params == 1:
+        print("Only 1 parameter varied; using 1D marginalized plot instead of corner.")
+        plot_mcmc_marginalized(mcmc_data, figsize=figsize, bins=bins)
+        return
     
     # Corner plot
     try:
@@ -769,11 +827,18 @@ def plot_mcmc_contours(mcmc_data, figsize=(10, 10), bins=50):
         range_max = max(sample_max, truth_val) * (1 + buffer_factor)
         ranges.append([range_min, range_max])
     
-    fig = corner.corner(samples, labels=labels, show_titles=True, 
-                        title_kwargs={"fontsize": 12}, bins=bins,
-                        truths=truth_values, truth_color='green', 
-                        truth_kwargs={'linestyle': '-', 'linewidth': 2},
-                        range=ranges, figsize=figsize)
+    fig = corner.corner(
+        samples,
+        labels=labels,
+        show_titles=True,
+        title_kwargs={"fontsize": 12},
+        bins=bins,
+        truths=truth_values,
+        truth_color='green',
+        truth_kwargs={'linestyle': '-', 'linewidth': 2},
+        range=ranges,
+        figsize=figsize,
+    )
     plt.show()
 
 
@@ -792,10 +857,13 @@ def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50):
     """
     samples = mcmc_data['posterior_samples']
     labels = mcmc_data['labels']
-    truth_H0 = mcmc_data['truth_H0']
-    truth_alpha_agn = mcmc_data['truth_alpha_agn']
-    
-    truth_values = [truth_H0, truth_alpha_agn]
+    # Truth values ordered to match labels/parameters_vary
+    truth_values = mcmc_data.get('truth_values')
+    if truth_values is None:
+        truth_H0 = mcmc_data['truth_H0']
+        truth_alpha_agn = mcmc_data['truth_alpha_agn']
+        truth_map = {'H0': truth_H0, 'alpha_agn': truth_alpha_agn}
+        truth_values = [truth_map.get(name, None) for name in labels]
     
     # Plot histograms for each parameter
     n_params = samples.shape[1]
@@ -819,7 +887,7 @@ def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50):
     plt.show()
 
 
-def plot_mcmc_data(mcmc_data, figsize_hist=(12, 5), figsize_corner=(10, 10), bins=50):
+def plot_mcmc_data(mcmc_data, figsize_hist=(12, 5), figsize_corner=(4, 4), bins=50):
     """
     Plot MCMC data as contours and marginalized distributions.
     
@@ -934,8 +1002,15 @@ def plot_mcmc_fagn_lambdaagn_grid(mcmc_data, n_fagn=100, n_lambda=100,
     N_gal = mcmc_data['N_gal_truth']
     N_agn = mcmc_data['N_agn_truth']
     
-    # Extract alpha_agn samples (assuming it's the second column)
-    alpha_agn_samples = samples[:, 1]
+    # Extract alpha_agn samples using label-based indexing
+    if 'alpha_agn' not in labels:
+        raise ValueError(
+            "plot_mcmc_fagn_lambdaagn_grid requires 'alpha_agn' to be one of the "
+            f"MCMC parameters, but labels are: {labels}. "
+            "Run an inference where alpha_agn is varied to use this function."
+        )
+    alpha_idx = labels.index('alpha_agn')
+    alpha_agn_samples = samples[:, alpha_idx]
     
     # Create grid of (f_agn, lambda_agn) values
     f_agn_grid = np.linspace(0, 1, n_fagn)
@@ -1003,7 +1078,10 @@ def plot_mcmc_fagn_lambdaagn_grid(mcmc_data, n_fagn=100, n_lambda=100,
     
     # Figure 1: 2D posterior
     fig1, ax1 = plt.subplots(1, 1, figsize=figsize_2d)
-    im = ax1.contourf(f_agn_grid, lambda_agn_grid, posterior_density.T, levels=levels, cmap=cmap)
+    # posterior_density has shape (n_lambda, n_fagn); use transpose here to
+    # preserve the original visual orientation used in earlier analyses.
+    # TODO triple check the transpose here...
+    im = ax1.contourf(f_agn_grid, lambda_agn_grid, posterior_density, levels=levels, cmap=cmap)
     # Add truth values
     if truth_f_agn is not None:
         ax1.axvline(truth_f_agn, color='green', linestyle='-', linewidth=2, label=f'Truth f_agn: {truth_f_agn:.3f}')

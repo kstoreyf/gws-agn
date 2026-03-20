@@ -129,7 +129,7 @@ def main(config, overwrite=False):
 
     # Load data
     ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, i_gw_gal, i_gw_agn = load_data(fn_cat, fn_gw)
-    
+
     # Number of samples to generate per GW event
     N_samples_gw = config['gw_samples']['N_samples_gw']
 

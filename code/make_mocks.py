@@ -46,8 +46,6 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Generate mock galaxy and AGN catalogs')
     parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
-    parser.add_argument('--config', dest='config_flag', type=str,
-                        help='Path to YAML configuration file (legacy flag)')
     parser.add_argument('--overwrite-mock', action='store_true',
                         help='Overwrite existing mock catalog if it exists')
     parser.add_argument('--overwrite-gws', action='store_true',
@@ -86,7 +84,8 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
     f_agn = config['gw_injection']['f_agn']
     lambda_agn = config['gw_injection']['lambda_agn']
     N_gw = config['gw_injection']['N_gw']
-    seed_gw = config['gw_injection']['seed_gw']  
+    seed_gw = config['gw_injection']['seed_gw']
+    z_max_gw = config['gw_injection'].get('z_max_gw', None)
     
     # Extract cosmology parameters from config
     if 'cosmology' in config:
@@ -148,7 +147,7 @@ def main(config, overwrite_mock=False, overwrite_gws=False):
 
     i_gw_gal, i_gw_agn = inject_gw_sources(
         fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
-        save=True, overwrite_gws=overwrite_gws
+        z_max_gw=z_max_gw, save=True, overwrite_gws=overwrite_gws
     )
     
     print("\nMock catalog generation and GW injection complete!")
@@ -215,7 +214,7 @@ def load_mock_catalog(fn_mock):
     return ra_gal, dec_gal, z_gal, ra_agn, dec_agn, z_agn, attrs
 
 
-def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw):
+def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw, z_max_gw=None):
     """Save GW injection data to HDF5 file."""
     compression = 'gzip'
     compression_opts = 9
@@ -229,6 +228,8 @@ def save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_g
         f.attrs['f_agn'] = f_agn
         f.attrs['lambda_agn'] = lambda_agn
         f.attrs['seed_gw'] = seed_gw
+        if z_max_gw is not None:
+            f.attrs['z_max_gw'] = z_max_gw
     
     print(f"GW injection saved to {fn_gw}")
 
@@ -440,7 +441,7 @@ def create_mock_catalog(seed, nbar_gal, nbar_agn, bias_gal, bias_agn,
 
 
 def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
-                      save=True, overwrite_gws=False):
+                      z_max_gw=None, save=True, overwrite_gws=False):
     """Inject GW sources into an existing mock catalog."""
     
     # Load the mock catalog
@@ -454,9 +455,8 @@ def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
     if os.path.exists(fn_gw) and not overwrite_gws:
         print(f"GW injection already exists: {fn_gw}")
         print("Loading existing GW injection...")
-        i_gw_gal, i_gw_agn, _ =load_gw_injection(fn_gw)
+        i_gw_gal, i_gw_agn, _ = load_gw_injection(fn_gw)
         return i_gw_gal, i_gw_agn
-    
     
     if os.path.exists(fn_gw) and overwrite_gws:
         print(f"GW injection exists but overwrite_gws=True, regenerating: {fn_gw}")
@@ -464,8 +464,18 @@ def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
         print("Creating new GW injection...")
     
     print("Selecting GW sources...")
-    N_gal = len(ra_gal)
-    N_agn = len(ra_agn)
+
+    # Restrict eligible host pool to z <= z_max_gw if specified
+    eligible_gal = np.arange(len(z_gal))
+    eligible_agn = np.arange(len(z_agn))
+    if z_max_gw is not None:
+        eligible_gal = eligible_gal[z_gal <= z_max_gw]
+        eligible_agn = eligible_agn[z_agn <= z_max_gw]
+        print(f"z_max_gw={z_max_gw}: eligible hosts: {len(eligible_gal)} galaxies, {len(eligible_agn)} AGN "
+              f"(out of {len(z_gal)} gal, {len(z_agn)} AGN total)")
+
+    N_gal = len(eligible_gal)
+    N_agn = len(eligible_agn)
     
     # Calculate fractions
     frac_gal, frac_agn = utils.compute_gw_host_fractions(N_gal, N_agn, f_agn, lambda_agn)
@@ -478,14 +488,17 @@ def inject_gw_sources(fn_mock, fn_gw, f_agn, lambda_agn, N_gw, seed_gw,
     print(f"Fraction in galaxies: {frac_gal}")
     print(f"Fraction in AGN: {frac_agn}")
 
-    # Randomly select indices for GW sources in galaxies and AGN
-    i_gw_gal = rng.choice(np.arange(N_gal), N_gw_gal, replace=False)
-    i_gw_agn = rng.choice(np.arange(N_agn), N_gw_agn, replace=False)
+    # Randomly select from eligible hosts
+    i_gw_gal = rng.choice(eligible_gal, N_gw_gal, replace=False)
+    i_gw_agn = rng.choice(eligible_agn, N_gw_agn, replace=False)
+
+    z_all_gw = np.concatenate([z_gal[i_gw_gal], z_agn[i_gw_agn]]) if N_gw_agn > 0 else z_gal[i_gw_gal]
+    print(f"Injected GW host redshifts: z_min={z_all_gw.min():.4f}, z_max={z_all_gw.max():.4f} "
+          f"(catalog z_max={catalog_attrs['z_max']})")
     
     # Save GW injection data
     if save:
-        # Create output directory if it doesn't exist
-        save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw)
+        save_gw_injection(fn_gw, i_gw_gal, i_gw_agn, N_gw, f_agn, lambda_agn, seed_gw, z_max_gw=z_max_gw)
     
     return i_gw_gal, i_gw_agn
 

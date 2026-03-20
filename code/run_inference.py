@@ -110,6 +110,8 @@ def parse_args():
     return config_inference, config_data, fn_config, args.overwrite
 
 
+
+
 def main(config_inference, config_data, fn_config, overwrite=False):
     """
     Main function to run the inference pipeline.
@@ -153,14 +155,19 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     # Parameter bounds (set directly, not from config)
     H0_bounds = (50, 100)
     alpha_agn_bounds = (0, 1)
-    Om0_bounds = None
+    Om0_bounds = (0.2, 0.4)
     gamma_agn_bounds = (-5, 5)
     gamma_gal_bounds = (-5, 5)
     
-    # Cosmology parameters
-    Om0 = config_inference['parameters']['Om0']
-    gamma_agn = config_inference['parameters']['gamma_agn']
-    gamma_gal = config_inference['parameters']['gamma_gal']
+    # Parameter roles from config: which to vary vs. fix
+    params_cfg = config_inference.get('parameters', {})
+    parameters_vary = params_cfg.get('parameters_vary', ['H0', 'alpha_agn'])
+    # If parameters_fix not provided, treat everything else as fixed
+    if 'parameters_fix' in params_cfg:
+        parameters_fix = params_cfg['parameters_fix']
+    else:
+        all_params = ['H0', 'alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal']
+        parameters_fix = [p for p in all_params if p not in parameters_vary]
     
     # Number of GW events to use in inference
     N_gw_inf = config_inference.get('N_gw_inf', None)
@@ -172,13 +179,16 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     if fn_inf is not None and os.path.exists(fn_inf):
         if not overwrite:
             raise FileExistsError(
-                f"Output file {fn_inf} already exists. Use --overwrite to overwrite it."
+                "Output file {} already exists. Use --overwrite to overwrite it.".format(fn_inf)
             )
         else:
-            print(f"Warning: Output file {fn_inf} exists and will be overwritten (--overwrite flag set)")
+            print("Warning: Output file {} exists and will be overwritten (--overwrite flag set)".format(fn_inf))
 
-    print(f"Running main inference pipeline: mode_inf={mode_inf}, fn_config={fn_config}, \
-            N_gw_inf={N_gw_inf}")
+    print(
+        "Running main inference pipeline: mode_inf={}, fn_config={}, N_gw_inf={}".format(
+            mode_inf, fn_config, N_gw_inf
+        )
+    )
     
     # Construct file paths using new naming convention
     dir_mock = config_data['paths']['dir_mock']
@@ -187,33 +197,122 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     fn_gwsamples = os.path.join(dir_mock, config_data['paths']['name_gwsamples'])
 
     #Check JAX GPU status
-    print(f"JAX devices: {jax.devices()}")
-    print(f"JAX default backend: {jax.default_backend()}")
-    print(f"GPU devices: {[d for d in jax.devices() if d.device_kind == 'gpu']}")
+    print("JAX devices: {}".format(jax.devices()))
+    print("JAX default backend: {}".format(jax.default_backend()))
+    print("GPU devices: {}".format([d for d in jax.devices() if d.device_kind == 'gpu']))
     #print(f"Test array device: {jnp.array([1.0]).device()}")
 
     # Load catalog data
-    catalog_data = load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=nside)
-    
+    catalog_cfg = config_inference.get('catalog', {})
+    Dz_gal = catalog_cfg.get('Dz_gal', 0.0001)
+    Dz_agn = catalog_cfg.get('Dz_agn', 0.0001)
+    catalog_data = load_catalog_data(
+        fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=nside,
+        Dz_gal=Dz_gal, Dz_agn=Dz_agn
+    )
+
+    # Compute true alpha_agn from the actual object counts in the catalog.
+    # Using catalog counts (not nbar * volume) accounts for Poisson fluctuations.
+    N_gal_true = float(jnp.sum(catalog_data['ngals']))
+    N_agn_true = float(jnp.sum(catalog_data['nagns']))
+    f_agn_true = config_data['gw_injection']['f_agn']
+    lambda_agn_true = config_data['gw_injection']['lambda_agn']
+    _, alpha_agn_true = utils.compute_gw_host_fractions(
+        N_gal_true, N_agn_true, f_agn_true, lambda_agn_true
+    )
+    print(
+        "True alpha_agn computed from catalog counts: N_gal={:.0f}, N_agn={:.0f}, "
+        "f_agn={}, lambda_agn={} -> alpha_agn={:.6f}".format(
+            N_gal_true, N_agn_true, f_agn_true, lambda_agn_true, alpha_agn_true
+        )
+    )
+
+    # True parameter values read directly from the data config.
+    # Fixed parameters are looked up from this dict; varied parameters are
+    # overridden by the MCMC/grid coordinate inside the likelihood.
+    params_true_dict = {
+        'H0':        config_data['cosmology']['H0'],
+        'Om0':       config_data['cosmology']['Om0'],
+        'alpha_agn': float(alpha_agn_true),
+        'gamma_agn': config_data['mock_catalog'].get('gamma_agn', 0.0),
+        'gamma_gal': config_data['mock_catalog'].get('gamma_gal', 0.0),
+    }
+
     # Setup cosmology
     cosmo_funcs = setup_cosmology()
-    
+
+    # Beta(H0) correction: compute dL_max from z_max_gw and precompute catalog CDFs.
+    # When GW events are drawn from z < z_max_gw (< z_max_cat), the detection
+    # horizon in luminosity-distance space is dL_max = dL(z_max_gw, H0_true).
+    # For H0 != H0_true, the same dL_max maps to a different z, so the fraction
+    # of catalog galaxies inside the horizon changes — this is the H0-dependent
+    # beta(H0) that must be subtracted from the log-likelihood.
+    z_max_gw = config_data['gw_injection'].get('z_max_gw', None)
+    if z_max_gw is not None:
+        H0_true = config_data['cosmology']['H0']
+        Om0_true = config_data['cosmology']['Om0']
+        dL_max = float(cosmo_funcs['dL_of_z'](jnp.array(z_max_gw), H0_true, Om0_true))
+        print(
+            "beta(H0) correction enabled: z_max_gw={}, dL_max={:.1f} Mpc".format(
+                z_max_gw, dL_max
+            )
+        )
+        z_gal_sorted, z_gal_cdf, z_agn_sorted, z_agn_cdf = precompute_beta_cdf(catalog_data, z_max_gw)
+        catalog_data['dL_max'] = dL_max
+        catalog_data['z_gal_sorted'] = z_gal_sorted
+        catalog_data['z_gal_cdf'] = z_gal_cdf
+        catalog_data['z_agn_sorted'] = z_agn_sorted
+        catalog_data['z_agn_cdf'] = z_agn_cdf
+
+        # Restrict the host prior to z <= z_max_gw by zeroing catalog weights
+        # beyond the GW source population boundary.  Without this, the smooth
+        # catalog prior (p ∝ dV/dz, increasing with z) assigns probability to
+        # galaxies at z > z_max_gw, creating an unconstrained positive bias for
+        # H0 > H0_true that the beta correction cannot fix.
+        import numpy as _np
+        wgals_np = _np.array(catalog_data['wgals'])
+        zgals_np = _np.array(catalog_data['zgals'])
+        n_masked_gal = int(_np.sum((zgals_np > z_max_gw) & _np.isfinite(zgals_np)))
+        wgals_np[zgals_np > z_max_gw] = 0.0
+        catalog_data['wgals'] = jnp.array(wgals_np)
+
+        wagns_np = _np.array(catalog_data['wagns'])
+        zagns_np = _np.array(catalog_data['zagns'])
+        n_masked_agn = int(_np.sum((zagns_np > z_max_gw) & _np.isfinite(zagns_np)))
+        wagns_np[zagns_np > z_max_gw] = 0.0
+        catalog_data['wagns'] = jnp.array(wagns_np)
+
+        print(
+            "Host prior restricted to z <= {:.3f}: zeroed {:d} gal + {:d} AGN weights".format(
+                z_max_gw, n_masked_gal, n_masked_agn
+            )
+        )
+    else:
+        catalog_data['dL_max'] = None
+        print("beta(H0) correction disabled: z_max_gw not set in data config")
+
     # Create catalog probability functions
     prob_funcs = create_catalog_probability_functions(catalog_data)
 
     # Load GW samples
     gw_data = load_gw_samples(fn_gwsamples, N_gw_inf=N_gw_inf)
 
-    # Set up MCMC parameters
-    mcmc_params = setup_mcmc_parameters(H0_bounds=H0_bounds, alpha_agn_bounds=alpha_agn_bounds, Om0_bounds=Om0_bounds, 
-                                        gamma_agn_bounds=gamma_agn_bounds, gamma_gal_bounds=gamma_gal_bounds)
+    # Set up MCMC parameters (only for parameters in parameters_vary)
+    mcmc_params = setup_mcmc_parameters(
+        H0_bounds=H0_bounds,
+        alpha_agn_bounds=alpha_agn_bounds,
+        Om0_bounds=Om0_bounds,
+        gamma_agn_bounds=gamma_agn_bounds,
+        gamma_gal_bounds=gamma_gal_bounds,
+        parameters_vary=parameters_vary,
+    )
 
     # Run inference based on mode_inf
     if mode_inf == 'grid':
         results = run_likelihood_grid(
             gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
             config_inference, fn_config,
-            Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
+            params_true_dict=params_true_dict,
             N_H0=N_H0, N_alpha_agn=N_alpha_agn,
             fn_inf=fn_inf
         )
@@ -222,16 +321,18 @@ def main(config_inference, config_data, fn_config, overwrite=False):
             gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
             config_inference, fn_config,
             N_walkers=N_walkers, N_steps=N_steps, burnin_frac=burnin_frac,
-            Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal,
+            params_true_dict=params_true_dict,
             seed=seed_mcmc, fn_inf=fn_inf
         )
     else:
-        raise ValueError(f"Unknown mode_inf: {mode_inf}. Must be 'mcmc' or 'grid'")
+        raise ValueError(
+            "Unknown mode_inf: {}. Must be 'mcmc' or 'grid'".format(mode_inf)
+        )
     
     t_end = time.perf_counter()
     elapsed = t_end - t_start
     minutes = elapsed / 60
-    print(f"Total time: {elapsed:.2f} s = {minutes:.2f} min")
+    print("Total time: {:.2f} s = {:.2f} min".format(elapsed, minutes))
     
     return results
 
@@ -239,7 +340,7 @@ def main(config_inference, config_data, fn_config, overwrite=False):
 def run_likelihood_grid(
     gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
     config_inference, fn_config,
-    Om0=None, gamma_agn=0, gamma_gal=0,
+    params_true_dict=None,
     N_H0=30, N_alpha_agn=30,
     fn_inf=None
 ):
@@ -258,12 +359,10 @@ def run_likelihood_grid(
         Dictionary from create_catalog_probability_functions()
     mcmc_params : dict
         Dictionary from setup_mcmc_parameters()
-    Om0 : float, optional
-        Matter density parameter (default: None, uses Planck value)
-    gamma_agn : float
-        AGN evolution parameter (default: 0)
-    gamma_gal : float
-        Galaxy evolution parameter (default: 0)
+    params_true_dict : dict, optional
+        True parameter values for all supported parameters
+        (H0, alpha_agn, Om0, gamma_agn, gamma_gal). Fixed parameters
+        (those not on the grid) are looked up from here.
     N_H0 : int
         Number of H0 grid points (default: 50)
     N_alpha_agn : int
@@ -280,7 +379,17 @@ def run_likelihood_grid(
         - alpha_agn_grid: 1D array of alpha_agn values
         - config: configuration dictionary
     """
-    print(f"Running likelihood grid computation: N_H0={N_H0}, N_alpha_agn={N_alpha_agn}")
+    if params_true_dict is None:
+        params_true_dict = {}
+    Om0 = params_true_dict.get('Om0', float(Planck15.Om0))
+    gamma_agn = params_true_dict.get('gamma_agn', 0.0)
+    gamma_gal = params_true_dict.get('gamma_gal', 0.0)
+
+    print(
+        "Running likelihood grid computation: N_H0={}, N_alpha_agn={}".format(
+            N_H0, N_alpha_agn
+        )
+    )
     
     # Create parameter grids from bounds
     H0_grid = np.linspace(mcmc_params['lower_bound'][0], mcmc_params['upper_bound'][0], N_H0)
@@ -294,8 +403,6 @@ def run_likelihood_grid(
         progress=True
     )
     
-    # Use config_inference directly (read-only, no modifications)
-    
     # Save results if output file specified
     if fn_inf is not None:
         save_likelihood_grid(
@@ -304,7 +411,7 @@ def run_likelihood_grid(
             fn_config=fn_config,
             grid_params={'Om0': Om0, 'gamma_agn': gamma_agn, 'gamma_gal': gamma_gal}
         )
-        print(f"Likelihood grid saved to {fn_inf}")
+        print("Likelihood grid saved to {}".format(fn_inf))
     
     return {
         'log_likelihood_grid': log_likelihood_grid,
@@ -319,7 +426,7 @@ def run_inference_mcmc(
     gw_data, catalog_data, cosmo_funcs, prob_funcs, mcmc_params,
     config_inference, fn_config,
     N_walkers=16, N_steps=1000, burnin_frac=0.2,
-    Om0=None, gamma_agn=0, gamma_gal=0,
+    params_true_dict=None,
     seed=None, fn_inf=None
 ):
     """
@@ -343,12 +450,11 @@ def run_inference_mcmc(
         Number of MCMC steps (default: 1000)
     burnin_frac : float
         Burn-in fraction (default: 0.2)
-    Om0 : float, optional
-        Matter density parameter (default: None, uses Planck value)
-    gamma_agn : float
-        AGN evolution parameter (default: 0)
-    gamma_gal : float
-        Galaxy evolution parameter (default: 0)
+    params_true_dict : dict, optional
+        True parameter values for all supported parameters
+        (H0, alpha_agn, Om0, gamma_agn, gamma_gal). Any parameter that
+        appears in ``mcmc_params['labels']`` will be overridden by the
+        MCMC coordinate; others are read from this dict as fixed values.
     seed : int, optional
         Random seed for MCMC initialization (default: None)
     fn_inf : str, optional
@@ -363,13 +469,19 @@ def run_inference_mcmc(
         - config: configuration dictionary
         - mcmc_params: MCMC parameter dictionary
     """
-    print(f"Running MCMC inference: N_walkers={N_walkers}, N_steps={N_steps}, burnin_frac={burnin_frac}")
+    if params_true_dict is None:
+        params_true_dict = {}
+    print(
+        "Running MCMC inference: N_walkers={}, N_steps={}, burnin_frac={}".format(
+            N_walkers, N_steps, burnin_frac
+        )
+    )
     
     # Create MCMC likelihood function
     likelihood_func = create_mcmc_likelihood_function(
         gw_data, catalog_data, cosmo_funcs, prob_funcs,
-        mcmc_params['lower_bound'], mcmc_params['upper_bound'],
-        Om0=Om0, gamma_agn=gamma_agn, gamma_gal=gamma_gal
+        mcmc_params['lower_bound'], mcmc_params['upper_bound'], mcmc_params['labels'],
+        params_true_dict=params_true_dict
     )
 
     # Run MCMC sampling
@@ -396,7 +508,7 @@ def run_inference_mcmc(
             mcmc_params=mcmc_params,
             fn_config=fn_config
         )
-        print(f"Inference results saved to {fn_inf}")
+        print("Inference results saved to {}".format(fn_inf))
     
     return {
         'posterior_samples': posterior_samples,
@@ -426,7 +538,11 @@ def save_inference_results(
     fn_config : str, optional
         Path to inference config file
     """
-    print(f"Saving inference results to {fn_inf} (N_samples={len(posterior_samples)})")
+    print(
+        "Saving inference results to {} (N_samples={})".format(
+            fn_inf, len(posterior_samples)
+        )
+    )
     os.makedirs(os.path.dirname(fn_inf), exist_ok=True)
     with h5py.File(fn_inf, 'w') as f:
         # Save posterior samples
@@ -480,7 +596,7 @@ def load_inference_results(fn_inf):
         - N_samples: number of samples
         - N_params: number of parameters
     """
-    print(f"Loading inference results from {fn_inf}")
+    print("Loading inference results from {}".format(fn_inf))
     results = {}
     
     with h5py.File(fn_inf, 'r') as f:
@@ -530,17 +646,17 @@ def print_inference_summary(results):
     print("=" * 60)
     
     if 'timestamp' in results and results['timestamp']:
-        print(f"Timestamp: {results['timestamp']}")
+        print("Timestamp: {}".format(results['timestamp']))
     
     if 'N_samples' in results and results['N_samples']:
-        print(f"Number of samples: {results['N_samples']}")
+        print("Number of samples: {}".format(results['N_samples']))
     elif 'n_samples' in results and results['n_samples']:
-        print(f"Number of samples: {results['n_samples']}")
+        print("Number of samples: {}".format(results['n_samples']))
     
     if 'N_params' in results and results['N_params']:
-        print(f"Number of parameters: {results['N_params']}")
+        print("Number of parameters: {}".format(results['N_params']))
     elif 'n_params' in results and results['n_params']:
-        print(f"Number of parameters: {results['n_params']}")
+        print("Number of parameters: {}".format(results['n_params']))
     
     if 'mcmc_params' in results:
         print("\nMCMC Parameters:")
@@ -549,29 +665,30 @@ def print_inference_summary(results):
             for i, label in enumerate(mcmc['labels']):
                 lower = mcmc['lower_bound'][i]
                 upper = mcmc['upper_bound'][i]
-                print(f"  {label}: [{lower}, {upper}]")
+                print("  {}: [{}, {}]".format(label, lower, upper))
     
     if 'fn_config' in results and results['fn_config']:
-        print(f"\nConfig file: {results['fn_config']}")
+        print("\nConfig file: {}".format(results['fn_config']))
     
     if 'posterior_samples' in results:
         samples = results['posterior_samples']
-        print(f"\nPosterior Samples Shape: {samples.shape}")
+        print("\nPosterior Samples Shape: {}".format(samples.shape))
         if len(samples) > 0:
             print("Parameter means:")
             for i in range(samples.shape[1]):
                 mean = np.mean(samples[:, i])
                 std = np.std(samples[:, i])
-                label = f"param_{i}"
+                label = "param_{}".format(i)
                 if 'mcmc_params' in results and 'labels' in results['mcmc_params']:
                     if i < len(results['mcmc_params']['labels']):
                         label = results['mcmc_params']['labels'][i]
-                print(f"  {label}: {mean:.4f} ± {std:.4f}")
+                print("  {}: {:.4f} ± {:.4f}".format(label, mean, std))
     
     print("=" * 60)
 
 
-def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None):
+def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None,
+                      Dz_gal=0.0001, Dz_agn=0.0001):
     """
     Load galaxy and AGN catalog data from HDF5 files.
     
@@ -584,6 +701,12 @@ def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None):
     nside : int, optional
         Healpix nside parameter. If None, computed from number of pixels.
         If provided, verified against number of pixels.
+    Dz_gal : float, optional
+        Fractional redshift uncertainty for galaxies: sigma_z = Dz_gal * (1 + z).
+        Default: 0.0001 (spectroscopic quality).
+    Dz_agn : float, optional
+        Fractional redshift uncertainty for AGN: sigma_z = Dz_agn * (1 + z).
+        Default: 0.0001 (spectroscopic quality).
     
     Returns
     -------
@@ -599,18 +722,25 @@ def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None):
         - nagns: AGN counts
         - nside: healpix nside
     """
-    print(f"Loading catalog data: fn_cat_gal_pixelated={fn_cat_gal_pixelated}, fn_cat_agn_pixelated={fn_cat_agn_pixelated}, nside={nside}")
+    print(
+        "Loading catalog data: fn_cat_gal_pixelated={}, fn_cat_agn_pixelated={}, nside={}, "
+        "Dz_gal={}, Dz_agn={}".format(
+            fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside, Dz_gal, Dz_agn
+        )
+    )
+    # TODO the Dzs should really be saved in pixelization, but that takes a while 
+    # and dzs are just postprocessing, so doing here for now
     with h5py.File(fn_cat_gal_pixelated, 'r') as f:
         # Use 'z' and 'n_in_pixel' dataset names (as saved by pixelize_catalogs.py)
         zgals = jnp.asarray(f['z'])
-        dzgals = 0.0001 * (1 + zgals)
+        dzgals = Dz_gal * (1 + zgals)
         wgals = jnp.ones(zgals.shape)
         ngals = jnp.asarray(f['n_in_pixel'])
     
     with h5py.File(fn_cat_agn_pixelated, 'r') as f:
         # Use 'z' and 'n_in_pixel' dataset names (as saved by pixelize_catalogs.py)
         zagns = jnp.asarray(f['z'])
-        dzagns = 0.0001 * (1 + zagns)
+        dzagns = Dz_agn * (1 + zagns)
         wagns = jnp.ones(zagns.shape)
         nagns = jnp.asarray(f['n_in_pixel'])
     
@@ -621,12 +751,22 @@ def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None):
     if nside is None:
         # Convert number of pixels to nside: npix = 12 * nside^2
         nside = hp.pixelfunc.npix2nside(npix)
-        print(f"Computed nside={nside} from number of pixels ({npix})")
+        print(
+            "Computed nside={} from number of pixels ({})".format(
+                nside, npix
+            )
+        )
     else:
         # Verify that nside matches the number of pixels: npix = 12 * nside^2
         npix_expected = hp.pixelfunc.nside2npix(nside)
-        assert npix == npix_expected, f"Number of pixels ({npix}) does not match expected for nside={nside} (expected {npix_expected})"
-        print(f"Verified nside={nside} matches number of pixels ({npix})")
+        assert npix == npix_expected, "Number of pixels ({}) does not match expected for nside={} (expected {})".format(
+            npix, nside, npix_expected
+        )
+        print(
+            "Verified nside={} matches number of pixels ({})".format(
+                nside, npix
+            )
+        )
 
     print("Loaded!")
     return {
@@ -640,6 +780,64 @@ def load_catalog_data(fn_cat_gal_pixelated, fn_cat_agn_pixelated, nside=None):
         'nagns': nagns,
         'nside': nside
     }
+
+
+def precompute_beta_cdf(catalog_data, z_max_gw):
+    """
+    Precompute sorted redshift CDFs for the GW source population (z <= z_max_gw).
+
+    These are used to evaluate beta(H0), the H0-dependent normalization that
+    accounts for the fraction of GW source population within the detection
+    horizon dL_max at a given H0.  Crucially, the CDF is built from catalog
+    galaxies with z <= z_max_gw only (the true source population), so the CDF
+    is normalized to 1 at z_max_gw.  This means:
+      - H0 >= H0_true  =>  z_max_det >= z_max_gw  =>  beta = 1  (no correction)
+      - H0 <  H0_true  =>  z_max_det <  z_max_gw  =>  beta < 1  (penalises low H0)
+    Using the full catalog (z up to z_max_cat > z_max_gw) would normalise to
+    the wrong denominator and produce a large overcorrection.
+
+    Parameters
+    ----------
+    catalog_data : dict
+        Dictionary from load_catalog_data().
+    z_max_gw : float
+        Maximum redshift of GW source population (injection cut).
+
+    Returns
+    -------
+    z_gal_sorted : jnp.array
+        Galaxy redshifts (z <= z_max_gw) sorted in ascending order.
+    z_gal_cdf : jnp.array
+        Cumulative fraction corresponding to z_gal_sorted (values in (0, 1]).
+    z_agn_sorted : jnp.array
+        AGN redshifts (z <= z_max_gw) sorted in ascending order.
+    z_agn_cdf : jnp.array
+        Cumulative fraction corresponding to z_agn_sorted.
+    """
+    import numpy as _np
+
+    # Flatten 2D padded arrays, remove NaN padding, and restrict to source population
+    z_gal_all = _np.array(catalog_data['zgals']).flatten()
+    z_gal_all = z_gal_all[_np.isfinite(z_gal_all) & (z_gal_all <= z_max_gw)]
+    z_agn_all = _np.array(catalog_data['zagns']).flatten()
+    z_agn_all = z_agn_all[_np.isfinite(z_agn_all) & (z_agn_all <= z_max_gw)]
+
+    z_gal_sorted = jnp.array(_np.sort(z_gal_all))
+    z_gal_cdf = jnp.arange(1, len(z_gal_sorted) + 1, dtype=float) / len(z_gal_sorted)
+
+    z_agn_sorted = jnp.array(_np.sort(z_agn_all))
+    z_agn_cdf = jnp.arange(1, len(z_agn_sorted) + 1, dtype=float) / len(z_agn_sorted)
+
+    print(
+        "Precomputed beta CDF (population z <= {:.3f}): "
+        "{:d} galaxies z in [{:.3f}, {:.3f}], "
+        "{:d} AGN z in [{:.3f}, {:.3f}]".format(
+            z_max_gw,
+            len(z_gal_sorted), float(z_gal_sorted[0]), float(z_gal_sorted[-1]),
+            len(z_agn_sorted), float(z_agn_sorted[0]), float(z_agn_sorted[-1]),
+        )
+    )
+    return z_gal_sorted, z_gal_cdf, z_agn_sorted, z_agn_cdf
 
 
 def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
@@ -671,7 +869,11 @@ def setup_cosmology(zMax_1=0.5, zMax_2=5, Om0_range=0.1, n_Om0=100):
         - dV_of_z: comoving volume element function
         - ddL_of_z: derivative of luminosity distance function
     """
-    print(f"Setting up cosmology: zMax_1={zMax_1}, zMax_2={zMax_2}, Om0_range={Om0_range}, n_Om0={n_Om0}")
+    print(
+        "Setting up cosmology: zMax_1={}, zMax_2={}, Om0_range={}, n_Om0={}".format(
+            zMax_1, zMax_2, Om0_range, n_Om0
+        )
+    )
     H0_fiducial = Planck15.H0.value
     Om0_fiducial = Planck15.Om0
     speed_of_light = constants.c.to('km/s').value
@@ -791,7 +993,11 @@ def load_gw_samples(fn_gwsamples, N_gw_inf=None, N_samples_gw=None):
     # Select N_gw_inf events
     if N_gw_inf is not None:
         if N_gw_inf > N_gw_total:
-            raise ValueError(f"N_gw_inf ({N_gw_inf}) exceeds total number of available events ({N_gw_total})")
+            raise ValueError(
+                "N_gw_inf ({}) exceeds total number of available events ({})".format(
+                    N_gw_inf, N_gw_total
+                )
+            )
         ra = ra[:N_gw_inf]
         dec = dec[:N_gw_inf]
         dL = dL[:N_gw_inf]
@@ -807,7 +1013,11 @@ def load_gw_samples(fn_gwsamples, N_gw_inf=None, N_samples_gw=None):
     # Get N_samples_gw and N_gw from the shape
     N_samples_gw_loaded = ra.shape[1] if len(ra) > 0 else 0
     N_gw_loaded = ra.shape[0] if len(ra) > 0 else 0
-    print(f"N_samples_gw_loaded: {N_samples_gw_loaded}, N_gw_loaded: {N_gw_loaded}")
+    print(
+        "N_samples_gw_loaded: {}, N_gw_loaded: {}".format(
+            N_samples_gw_loaded, N_gw_loaded
+        )
+    )
     
     return {
         'ra': jnp.array(ra_flat),
@@ -837,7 +1047,11 @@ def compute_pixel_indices(ra, dec, nside):
     array
         Pixel indices
     """
-    print(f"Computing pixel indices: nside={nside}, N_samples={len(ra)}")
+    print(
+        "Computing pixel indices: nside={}, N_samples={}".format(
+            nside, len(ra)
+        )
+    )
     return hp.pixelfunc.ang2pix(nside, np.pi/2 - dec, ra)
 
 
@@ -860,7 +1074,11 @@ def create_catalog_probability_functions(catalog_data):
         - logpcatalog_agns_vmap: vectorized version
         - logPriorUniverse: combined prior function
     """
-    print(f"Creating catalog probability functions: nside={catalog_data['nside']}")
+    print(
+        "Creating catalog probability functions: nside={}".format(
+            catalog_data['nside']
+        )
+    )
     zgals = catalog_data['zgals']
     dzgals = catalog_data['dzgals']
     wgals = catalog_data['wgals']
@@ -883,7 +1101,11 @@ def create_catalog_probability_functions(catalog_data):
     # In the future, we might want to compute actual weight totals accounting for gamma
     N_gal_total = float(jnp.sum(ngals_per_pixel))
     N_agn_total = float(jnp.sum(nagns_per_pixel))
-    print(f"Global catalog totals: N_gal_total={N_gal_total:.0f}, N_agn_total={N_agn_total:.0f}")
+    print(
+        "Global catalog totals: N_gal_total={:.0f}, N_agn_total={:.0f}".format(
+            N_gal_total, N_agn_total
+        )
+    )
     
     # Note: The actual weights (W_agn_total, W_gal_total) will be computed per-pixel
     # in the logPriorUniverse function using the evolution factors (gamma_agn, gamma_gal)
@@ -1163,7 +1385,28 @@ def compute_darksiren_log_likelihood(
     #print(f"Reshaping and computing log-likelihood: log_weights={log_weights}, N_gw={N_gw}, N_samples_gw={N_samples_gw}")
     log_weights = log_weights.reshape((N_gw, N_samples_gw))
     ll = jnp.sum(-jnp.log(N_samples_gw) + logsumexp(log_weights, axis=-1))
-    
+
+    # Beta(H0) correction: subtract N_gw * log beta(H0) where
+    #   beta(H0) = (1-alpha_agn) * CDF_pop_gal(z_max_det(H0))
+    #            +    alpha_agn  * CDF_pop_agn(z_max_det(H0))
+    # CDF_pop is built from sources with z <= z_max_gw only (the true GW source
+    # population), so CDF_pop(z_max_gw) = 1.  The interp right=1.0 clamp then
+    # gives beta = 1 whenever z_max_det >= z_max_gw (i.e. H0 >= H0_true), so
+    # there is no correction for high H0.  Only H0 < H0_true is penalised
+    # (some sources fall outside the horizon).
+    dL_max = catalog_data.get('dL_max')
+    if dL_max is not None:
+        z_max_det = z_of_dL(jnp.array(dL_max), H0, Om0)
+        frac_gal = jnp.interp(z_max_det,
+                               catalog_data['z_gal_sorted'], catalog_data['z_gal_cdf'],
+                               left=0.0, right=1.0)
+        frac_agn = jnp.interp(z_max_det,
+                               catalog_data['z_agn_sorted'], catalog_data['z_agn_cdf'],
+                               left=0.0, right=1.0)
+        beta = (1.0 - alpha_agn) * frac_gal + alpha_agn * frac_agn
+        log_beta = jnp.log(jnp.maximum(beta, 1e-10))
+        ll = ll - N_gw * log_beta
+
     return ll
 
 
@@ -1204,7 +1447,11 @@ def compute_likelihood_grid(
         2D array of log-likelihood values with shape (len(H0_grid), len(alpha_agn_grid))
         where log_likelihood[i, j] corresponds to H0_grid[i], alpha_agn_grid[j]
     """
-    print(f"Computing likelihood grid: H0_grid shape={len(H0_grid)}, alpha_agn_grid shape={len(alpha_agn_grid)}, Om0={Om0}, gamma_agn={gamma_agn}, gamma_gal={gamma_gal}")
+    print(
+        "Computing likelihood grid: H0_grid shape={}, alpha_agn_grid shape={}, Om0={}, gamma_agn={}, gamma_gal={}".format(
+            len(H0_grid), len(alpha_agn_grid), Om0, gamma_agn, gamma_gal
+        )
+    )
     
     # Precompute pixel indices once (they don't depend on H0, alpha_agn, Om0, or gammas)
     nside = catalog_data['nside']
@@ -1266,7 +1513,11 @@ def save_likelihood_grid(
         - gamma_agn: AGN evolution parameter
         - gamma_gal: galaxy evolution parameter
     """
-    print(f"Saving likelihood grid to {fn_inf} (shape={log_likelihood_grid.shape})")
+    print(
+        "Saving likelihood grid to {} (shape={})".format(
+            fn_inf, log_likelihood_grid.shape
+        )
+    )
     os.makedirs(os.path.dirname(fn_inf) if os.path.dirname(fn_inf) else '.', exist_ok=True)
     
     with h5py.File(fn_inf, 'w') as f:
@@ -1326,7 +1577,7 @@ def load_likelihood_grid(fn_inf):
         - fn_config: path to inference config file
         - timestamp: timestamp string
     """
-    print(f"Loading likelihood grid from {fn_inf}")
+    print("Loading likelihood grid from {}".format(fn_inf))
     results = {}
     
     with h5py.File(fn_inf, 'r') as f:
@@ -1373,17 +1624,20 @@ def load_likelihood_grid(fn_inf):
 
 
 def setup_mcmc_parameters(
+    parameters_vary=None,
     H0_bounds=(50, 100),
     alpha_agn_bounds=(0, 1),
-    Om0_bounds=None,
+    Om0_bounds=(0.2, 0.4),
     gamma_agn_bounds=(-5, 5),
-    gamma_gal_bounds=(-5, 5)
+    gamma_gal_bounds=(-5, 5),
 ):
     """
     Set up MCMC parameter bounds and labels.
     
     Parameters
     ----------
+    parameters_vary : list of str, optional
+        Names of parameters to vary in the MCMC (default: ['H0', 'alpha_agn']).
     H0_bounds : tuple
         (lower, upper) bounds for H0
     alpha_agn_bounds : tuple
@@ -1399,16 +1653,35 @@ def setup_mcmc_parameters(
     -------
     dict
         Dictionary containing:
-        - lower_bound: list of lower bounds
-        - upper_bound: list of upper bounds
-        - labels: list of parameter labels
+        - lower_bound: list of lower bounds (one per varied parameter)
+        - upper_bound: list of upper bounds (one per varied parameter)
+        - labels: list of parameter labels (names of varied parameters)
         - ndims: number of dimensions
     """
-    print(f"Setting up MCMC parameters: H0_bounds={H0_bounds}, alpha_agn_bounds={alpha_agn_bounds}")
-    lower_bound = [H0_bounds[0], alpha_agn_bounds[0]]
-    upper_bound = [H0_bounds[1], alpha_agn_bounds[1]]
-    
-    labels = ['H0', 'alpha_agn']
+    # Default: vary H0 and alpha_agn
+    if parameters_vary is None:
+        parameters_vary = ['H0', 'alpha_agn']
+    print(
+        "Setting up MCMC parameters: parameters_vary={}".format(
+            H0_bounds, alpha_agn_bounds, parameters_vary
+        )
+    )
+    bound_map = {
+        'H0': H0_bounds,
+        'alpha_agn': alpha_agn_bounds,
+        'Om0': Om0_bounds,
+        'gamma_agn': gamma_agn_bounds,
+        'gamma_gal': gamma_gal_bounds,
+    }
+
+    # Ensure all requested parameters have defined bounds
+    for name in parameters_vary:
+        if name not in bound_map:
+            raise ValueError("Unsupported parameter in parameters_vary: {}".format(name))
+
+    lower_bound = [bound_map[name][0] for name in parameters_vary]
+    upper_bound = [bound_map[name][1] for name in parameters_vary]
+    labels = list(parameters_vary)
     
     return {
         'lower_bound': lower_bound,
@@ -1420,7 +1693,7 @@ def setup_mcmc_parameters(
 
 def create_mcmc_likelihood_function(
     gw_data, catalog_data, cosmo_funcs, prob_funcs,
-    lower_bound, upper_bound, Om0=None, gamma_agn=0, gamma_gal=0
+    lower_bound, upper_bound, labels, params_true_dict
 ):
     """
     Create MCMC likelihood function with bounds checking.
@@ -1436,22 +1709,27 @@ def create_mcmc_likelihood_function(
     prob_funcs : dict
         Dictionary from create_catalog_probability_functions()
     lower_bound : list
-        Lower bounds for parameters
+        Lower bounds for parameters (ordered to match ``labels``)
     upper_bound : list
-        Upper bounds for parameters
-    Om0 : float, optional
-        Matter density parameter (default: Planck value)
-    gamma_agn : float
-        AGN evolution parameter (default: 0)
-    gamma_gal : float
-        Galaxy evolution parameter (default: 0)
+        Upper bounds for parameters (ordered to match ``labels``)
+    labels : list of str
+        Names of the parameters being varied (subset of
+        ['H0', 'alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal']).
+    params_true_dict : dict
+        True parameter values for all supported parameters. For each
+        parameter not in ``labels`` (i.e. fixed), the value from
+        ``params_true_dict`` is used.
     
     Returns
     -------
     function
         Likelihood function for MCMC
     """
-    print(f"Creating MCMC likelihood function: lower_bound={lower_bound}, upper_bound={upper_bound}, Om0={Om0}, gamma_agn={gamma_agn}, gamma_gal={gamma_gal}")
+    print(
+        "Creating MCMC likelihood function: lower_bound={}, upper_bound={}, labels={}, params_true_dict={}".format(
+            lower_bound, upper_bound, labels, params_true_dict
+        )
+    )
     
     # Precompute pixel indices once (they don't depend on H0, alpha_agn, Om0, or gammas)
     nside = catalog_data['nside']
@@ -1462,7 +1740,30 @@ def create_mcmc_likelihood_function(
         for i in range(len(coord)):
             if (coord[i] < lower_bound[i] or coord[i] > upper_bound[i]):
                 return -np.inf
-        H0, alpha_agn = coord
+
+        # Map coordinate vector onto named parameters, using the ordering in labels
+        param_values = {name: coord[i] for i, name in enumerate(labels)}
+
+        # Combine varied and fixed parameters into a full set
+        full_params = {}
+        for name in ['H0', 'alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal']:
+            if name in param_values:
+                full_params[name] = param_values[name]
+            else:
+                if name not in params_true_dict:
+                    raise ValueError(
+                        "Missing fixed value for parameter '{}' in params_true_dict".format(
+                            name
+                        )
+                    )
+                full_params[name] = params_true_dict[name]
+
+        H0 = full_params['H0']
+        alpha_agn = full_params['alpha_agn']
+        Om0 = full_params['Om0']
+        gamma_agn = full_params['gamma_agn']
+        gamma_gal = full_params['gamma_gal']
+
         ll = compute_darksiren_log_likelihood(
             gw_data, catalog_data, cosmo_funcs, prob_funcs,
             H0, alpha_agn, samples_ind, Om0, gamma_agn, gamma_gal
@@ -1541,7 +1842,11 @@ def run_mcmc_sampling(
     emcee.EnsembleSampler
         Sampler object with chain
     """
-    print(f"Running MCMC sampling: N_walkers={N_walkers}, N_steps={N_steps}, seed={seed}, ndims={len(lower_bound)}")
+    print(
+        "Running MCMC sampling: N_walkers={}, N_steps={}, seed={}, ndims={}".format(
+            N_walkers, N_steps, seed, len(lower_bound)
+        )
+    )
     if emcee is None:
         raise ImportError("emcee is required for MCMC sampling. Install with: pip install emcee")
     
@@ -1583,7 +1888,11 @@ def get_posterior_samples(sampler, burnin_frac=0.5, N_samples=None):
     array
         Posterior samples
     """
-    print(f"Extracting posterior samples: burnin_frac={burnin_frac}, N_samples={N_samples}")
+    print(
+        "Extracting posterior samples: burnin_frac={}, N_samples={}".format(
+            burnin_frac, N_samples
+        )
+    )
     shape = sampler.flatchain.shape[0]
     burnin_idx = int(shape * burnin_frac)
     samples = sampler.flatchain[burnin_idx:, :]

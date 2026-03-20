@@ -53,8 +53,6 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Pixelize catalogs for inference')
     parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
-    parser.add_argument('--config', dest='config_flag', type=str,
-                        help='Path to YAML configuration file (legacy flag)')
     parser.add_argument('--overwrite', action='store_true', default=False,
                         help='Overwrite existing pixelized catalogs if they exist')
     args = parser.parse_args()
