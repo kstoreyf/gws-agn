@@ -241,16 +241,27 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     # Setup cosmology
     cosmo_funcs = setup_cosmology()
 
-    # Beta(H0) correction: compute dL_max from z_max_gw and precompute catalog CDFs.
-    # When GW events are drawn from z < z_max_gw (< z_max_cat), the detection
-    # horizon in luminosity-distance space is dL_max = dL(z_max_gw, H0_true).
-    # For H0 != H0_true, the same dL_max maps to a different z, so the fraction
-    # of catalog galaxies inside the horizon changes — this is the H0-dependent
-    # beta(H0) that must be subtracted from the log-likelihood.
+    # Beta(H0) correction setup.
+    #
+    # The correction requires two things precomputed once at startup:
+    #   1. dL_max  — the luminosity-distance threshold that defines "detectable".
+    #                Set to dL(z_max_gw, H0_true): the distance to the injection
+    #                redshift cut at the fiducial cosmology.  This is a fixed
+    #                number in Mpc; it does NOT change as H0 is varied during MCMC.
+    #   2. Sorted catalog CDFs — used to look up the fraction of catalog sources
+    #                inside the horizon at any trial H0 via fast interpolation.
+    #
+    # At each MCMC step, z_max_det(H0) = z_of_dL(dL_max, H0) is computed; it
+    # shifts up/down with H0.  beta(H0) = CDF(z_max_det) is then the fraction of
+    # catalog galaxies within that shifted horizon.  See precompute_beta_cdf() for
+    # the full motivation and a worked numerical example.
     z_max_gw = config_data['gw_injection'].get('z_max_gw', None)
     if z_max_gw is not None:
         H0_true = config_data['cosmology']['H0']
         Om0_true = config_data['cosmology']['Om0']
+        # In a real analysis dL_max would come directly from detector sensitivity
+        # (noise PSD + SNR threshold); here we derive it from z_max_gw as a mock
+        # stand-in since we have no detector model.
         dL_max = float(cosmo_funcs['dL_of_z'](jnp.array(z_max_gw), H0_true, Om0_true))
         print(
             "beta(H0) correction enabled: z_max_gw={}, dL_max={:.1f} Mpc".format(
@@ -762,11 +773,38 @@ def precompute_beta_cdf(catalog_data):
     """
     Precompute sorted redshift CDFs for galaxy and AGN catalogs.
 
-    These are used to evaluate beta(H0), the H0-dependent normalization that
-    accounts for the fraction of catalog sources within the GW detection horizon
-    dL_max at a given H0. The horizon shifts with H0 (dL(z,H0) ∝ 1/H0 at
-    fixed z), so beta is H0-dependent and must be subtracted from the
-    log-likelihood to avoid a systematic bias.
+    These CDFs are used at every likelihood evaluation to compute beta(H0),
+    the fraction of catalog sources that fall inside the GW detection horizon
+    at the trial value of H0.  Building sorted arrays + jnp.interp is much
+    faster than re-sorting inside the JIT-compiled likelihood.
+
+    Why do we need beta?
+    --------------------
+    The catalog galaxy density rises with redshift as dV/dz ~ z^2 (more volume
+    at larger z).  When we try a high H0, the inferred redshift z_inf = z_of_dL
+    is pushed to larger values, where the catalog density — and therefore the
+    likelihood — is higher.  This creates a systematic positive bias on H0.
+
+    beta(H0) is the fraction of all catalog sources whose redshift is below the
+    detection horizon z_max_det(H0).  Subtracting N_gw * log(beta) from the
+    log-likelihood penalises H0 values that place more catalog sources inside
+    the horizon, counteracting the dV/dz bias.
+
+    How z_max_det shifts with H0
+    ----------------------------
+    The detection horizon is defined by a fixed luminosity-distance threshold
+    dL_max = dL(z_max_gw, H0_true).  In the Hubble-flow limit dL ~ cz/H0, so
+    for a different trial H0:
+
+        z_max_det(H0) = z_of_dL(dL_max, H0) ≈ z_max_gw * (H0 / H0_true)
+
+    Example (H0_true = 67.74, z_max_gw = 1.0, dL_max ≈ 6600 Mpc):
+      H0 = 67.74  →  z_max_det ≈ 1.00  →  ~CDF(1.0) of catalog inside horizon
+      H0 = 74.0   →  z_max_det ≈ 1.09  →  more catalog inside  →  higher beta
+                                            →  larger penalty  →  pushes H0 down
+      H0 = 60.0   →  z_max_det ≈ 0.89  →  fewer catalog inside →  lower beta
+                                            →  smaller penalty  →  pushes H0 up
+    The net effect is that the correction steers the posterior back toward H0_true.
 
     Parameters
     ----------
@@ -776,22 +814,29 @@ def precompute_beta_cdf(catalog_data):
     Returns
     -------
     z_gal_sorted : jnp.array
-        Galaxy redshifts sorted in ascending order.
+        All galaxy redshifts from the catalog, sorted ascending.
     z_gal_cdf : jnp.array
-        Cumulative fraction corresponding to z_gal_sorted (values in (0, 1]).
+        Empirical CDF values corresponding to z_gal_sorted (values in (0, 1]).
+        jnp.interp(z, z_gal_sorted, z_gal_cdf) gives the fraction of catalog
+        galaxies with redshift <= z.
     z_agn_sorted : jnp.array
-        AGN redshifts sorted in ascending order.
+        Same as z_gal_sorted but for AGN.
     z_agn_cdf : jnp.array
-        Cumulative fraction corresponding to z_agn_sorted.
+        Same as z_gal_cdf but for AGN.
     """
     import numpy as _np
 
-    # Flatten 2D padded arrays and remove NaN padding
+    # The catalog arrays are 2D (n_pixels, max_sources_per_pixel) with NaN
+    # padding for pixels that have fewer sources than the maximum.  Flatten and
+    # drop the padding before sorting.
     z_gal_all = _np.array(catalog_data['zgals']).flatten()
     z_gal_all = z_gal_all[_np.isfinite(z_gal_all)]
     z_agn_all = _np.array(catalog_data['zagns']).flatten()
     z_agn_all = z_agn_all[_np.isfinite(z_agn_all)]
 
+    # Build empirical CDF: rank / total, so the i-th entry is the fraction of
+    # sources with z <= z_sorted[i].  This is equivalent to np.searchsorted
+    # but pre-built so jnp.interp can query it in O(log N) at inference time.
     z_gal_sorted = jnp.array(_np.sort(z_gal_all))
     z_gal_cdf = jnp.arange(1, len(z_gal_sorted) + 1, dtype=float) / len(z_gal_sorted)
 
@@ -1354,24 +1399,60 @@ def compute_darksiren_log_likelihood(
     log_weights = log_weights.reshape((N_gw, N_samples_gw))
     ll = jnp.sum(-jnp.log(N_samples_gw) + logsumexp(log_weights, axis=-1))
 
-    # Beta(H0) correction: subtract N_gw * log beta(H0) where
-    #   beta(H0) = (1-alpha_agn) * CDF_gal(z_max_det(H0))
-    #            +    alpha_agn  * CDF_agn(z_max_det(H0))
-    # and z_max_det(H0) = z_of_dL(dL_max, H0) shifts with H0.
-    # This penalizes H0 values that place more catalog sources inside the
-    # detection horizon, correcting the systematic bias from the rising dV/dz
-    # galaxy density.
+    # -------------------------------------------------------------------------
+    # Beta(H0) selection-bias correction
+    # -------------------------------------------------------------------------
+    # The unnormalized log-likelihood ll computed above has a systematic upward
+    # bias on H0.  The root cause: the catalog galaxy density increases with
+    # redshift (dV/dz ~ z^2), so a trial H0 that is too high pushes the inferred
+    # redshift z_inf upward, landing in a denser region of the catalog — and
+    # therefore producing a higher likelihood — even though H0 is wrong.
+    #
+    # The standard fix is to divide by beta(H0), the fraction of the catalog
+    # that is "observable" (inside the detection horizon) at the trial H0.
+    # Equivalently, subtract N_gw * log(beta) from the log-likelihood:
+    #
+    #   log L_corrected = log L_raw - N_gw * log beta(H0)
+    #
+    # where
+    #   beta(H0) = (1 - alpha_agn) * CDF_gal(z_max_det(H0))
+    #            +      alpha_agn  * CDF_agn(z_max_det(H0))
+    #
+    # CDF_gal(z) is the fraction of catalog galaxies with redshift <= z.
+    # z_max_det(H0) = z_of_dL(dL_max, H0) is the redshift corresponding to the
+    # fixed luminosity-distance threshold dL_max at the trial H0.
+    #
+    # Intuition with numbers (H0_true=67.74, z_max_gw=1.0, dL_max≈6600 Mpc):
+    #   H0 = 74  →  z_max_det ≈ 1.09  →  ~37 % of catalog inside horizon
+    #               beta = 0.37  →  log(beta) = -0.99  →  -N*log(beta) = +99N×...
+    #               This LARGE positive subtraction penalises the too-high H0.
+    #   H0 = 67.74 →  z_max_det = 1.00  →  ~30 % inside  →  smaller penalty.
+    #   H0 = 60  →  z_max_det ≈ 0.89  →  ~21 % inside  →  even smaller penalty.
+    # The correction therefore slopes downward toward high H0 and steers the
+    # posterior back toward H0_true.
     dL_max = catalog_data.get('dL_max')
     if dL_max is not None:
+        # z_max_det shifts proportionally to H0 (≈ z_max_gw * H0/H0_true in
+        # the Hubble-flow limit), so beta grows roughly as H0^3 for a uniform-
+        # in-comoving-volume catalog where CDF ~ z^3.
         z_max_det = z_of_dL(jnp.array(dL_max), H0, Om0)
+
+        # Look up the fraction of catalog sources with z <= z_max_det by
+        # interpolating the pre-sorted empirical CDF arrays.
+        # left=0: no sources inside horizon if z_max_det is below catalog min.
+        # right=1: all sources inside horizon if z_max_det is above catalog max.
         frac_gal = jnp.interp(z_max_det,
                                catalog_data['z_gal_sorted'], catalog_data['z_gal_cdf'],
                                left=0.0, right=1.0)
         frac_agn = jnp.interp(z_max_det,
                                catalog_data['z_agn_sorted'], catalog_data['z_agn_cdf'],
                                left=0.0, right=1.0)
+
+        # Weighted combination: beta is the overall detectable fraction, mixing
+        # galaxy and AGN catalogs by the AGN fraction alpha_agn.
         beta = (1.0 - alpha_agn) * frac_gal + alpha_agn * frac_agn
-        log_beta = jnp.log(jnp.maximum(beta, 1e-10))
+
+        log_beta = jnp.log(jnp.maximum(beta, 1e-10))  # floor avoids log(0)
         ll = ll - N_gw * log_beta
 
     return ll
