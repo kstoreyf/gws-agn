@@ -35,10 +35,12 @@ def main_inference(overwrite_config=False):
     """
     
     # build config_data name
-    tag_cat = f'_seed42_ratioNgalNagn1_bgal1.0_bagn1.0'
+    seed = 0
+    seed_gw = seed + 1000
+    tag_cat = f'_seed0_ratioNgalNagn1_bgal1.0_bagn1.0'
     #tag_pix = f'_nside64'
     tag_pix = f'_nside256'
-    tag_gw = f'_fagn0.0_lambdaagn0.0_zmaxgw1.0'
+    tag_gw = f'_seedgw{seed_gw}_fagn0.0_lambdaagn0.0_zmaxgw1.0'
     tag_gwsamp = f'_dLunc0.0'
     config_data_name = f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
     # Now create inference configs referencing the data config
@@ -248,7 +250,7 @@ def create_config_data(
     ratio_ngal_nagn = int(round(nbar_gal / nbar_agn))
     tag_cat = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}_bgal{bias_gal}_bagn{bias_agn}'
     tag_pix = f'_nside{nside}'
-    tag_gw = f'_fagn{f_agn}_lambdaagn{lambda_agn}'
+    tag_gw = f'_seedgw{seed_gw}_fagn{f_agn}_lambdaagn{lambda_agn}'
     if z_max_gw is not None:
         tag_gw += f'_zmaxgw{z_max_gw}'
 
@@ -267,7 +269,7 @@ def create_config_data(
     # Construct filenames using tags
     name_cat = 'mock_catalog.h5'
     name_gw = f'gws{tag_gw}.h5'
-    name_gwsamples = f'gwsamples{tag_gw}.h5'
+    name_gwsamples = f'gwsamples{tag_gw}{tag_gwsamp}.h5'
     name_cat_gal_pixelated = f'cat_gal_pixelated_nside{nside}.h5'
     name_cat_agn_pixelated = f'cat_agn_pixelated_nside{nside}.h5'
     

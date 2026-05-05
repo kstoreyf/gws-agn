@@ -12,7 +12,8 @@ if [ -z "${BASH_VERSION:-}" ]; then
 fi
 
 # --- User-adjustable parameters (lowercase to match other scripts) -------------
-seed=0
+seed=2
+seedgw=1002
 ratio_ngal_nagn=1
 bgal=1.0
 bagn=1.0
@@ -25,7 +26,7 @@ dLunc=0.0
 
 root_dir="/global/homes/k/kstoreyf/gws-agn"
 config_dir="${root_dir}/configs/configs_data"
-config_basename="config_data_seed${seed}_ratioNgalNagn${ratio_ngal_nagn}_bgal${bgal}_bagn${bagn}_nside${nside}_fagn${fagn}_lambdaagn${lambdaagn}_zmaxgw${zmaxgw}_dLunc${dLunc}.yaml"
+config_basename="config_data_seed${seed}_ratioNgalNagn${ratio_ngal_nagn}_bgal${bgal}_bagn${bagn}_nside${nside}_seedgw${seedgw}_fagn${fagn}_lambdaagn${lambdaagn}_zmaxgw${zmaxgw}_dLunc${dLunc}.yaml"
 config_path="${config_dir}/${config_basename}"
 
 # Allow overriding the config path as the first argument.
