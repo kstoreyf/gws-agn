@@ -62,7 +62,6 @@ from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde
 from tqdm import tqdm  # Progress bars
 from jaxinterp2d import interp2d, CartesianGrid  # 2D interpolation for cosmology
-from scipy.stats import multivariate_normal  # For generating correlated samples
 
 # Configure JAX for high precision calculations
 jax.config.update("jax_enable_x64", True)  # Use 64-bit floats for accuracy
@@ -483,20 +482,19 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
         Samples in order: ra, dec, dL, m1det, m2det
     """
     # Mean vector in order: ra, dec, dL, m1det, m2det
-    mean = np.array([ra, dec, dL, m1det, m2det])
-    # Covariance matrix (diagonal, independent uncertainties)
-    #dL_uncertainty_fac = np.sqrt(dL)
+    mean = np.array([ra, dec, dL, m1det, m2det], dtype=float)
+    # Independent uncertainties (diagonal covariance).
+    # Sample each dimension directly so zero-uncertainty axes remain deterministic.
     dL_uncertainty = dL_uncertainty_fac*dL
-    cov = np.diag([ra_uncertainty**2, dec_uncertainty**2, 
-                   dL_uncertainty**2, 
-                   mass_uncertainty**2, mass_uncertainty**2])
+    std = np.array(
+        [ra_uncertainty, dec_uncertainty, dL_uncertainty, mass_uncertainty, mass_uncertainty],
+        dtype=float,
+    )
     dec_idx = 1  # Declination is at index 1 in the 5D samples
-    
-    rv = multivariate_normal(mean, cov)
-    
+
     # Generate a large number of samples to ensure we have enough valid ones
     # after filtering by declination bounds
-    samples = rv.rvs([n_initial_samples])
+    samples = np.random.normal(loc=mean, scale=std, size=(n_initial_samples, mean.size))
     
     # Filter samples to ensure declination is within valid range [-pi/2, pi/2]
     dec_samples = samples[:,dec_idx]

@@ -5,6 +5,7 @@ Script to generate YAML configuration files for generate_gwsamples.py and pixeli
 
 import yaml
 import os
+import numpy as np
 
 # Try to import astropy for Planck15, fallback to hardcoded values
 try:
@@ -97,33 +98,35 @@ def main_data(overwrite_config=False):
         If True, overwrite existing config files. If False, skip if files exist.
     """
     # Example: Create a default config (fn_config and dir_mock will be auto-generated from tags)
-    create_config_data(
-        fn_config=None,  # Auto-generate from tags
-        dir_mock=None,  # Auto-generate from tag_cat
-        seed=42,
-        nbar_gal=1e-2,
-        nbar_agn=1e-2,
-        bias_gal=1.0,
-        bias_agn=1.0,
-        z_min=0.0,
-        z_max=1.5,
-        nside=256,
-        #nside=64,
-        f_agn=0.0,
-        lambda_agn=0.0,
-        N_gw=1000,
-        seed_gw=1042,
-        z_max_gw=1.0,
-        N_samples_gw=10000,
-        # Cosmology will default to Planck 2015 values
-        mass_mean=35.0,
-        mass_std=5.0,
-        ra_uncertainty=0.01,
-        dec_uncertainty=0.01,
-        dL_uncertainty_fac=0.0,
-        mass_uncertainty=1.5,
-        overwrite_config=overwrite_config
-    )
+    seeds = [0,1,2,3,4,5,6,7,8,9]
+    for seed in seeds:
+        create_config_data(
+            fn_config=None,  # Auto-generate from tags
+            dir_mock=None,  # Auto-generate from tag_cat
+            seed=seed,
+            nbar_gal=1e-2,
+            nbar_agn=1e-2,
+            bias_gal=1.0,
+            bias_agn=1.0,
+            z_min=0.0,
+            z_max=1.5,
+            nside=256,
+            #nside=64,
+            f_agn=0.0,
+            lambda_agn=0.0,
+            N_gw=1000,
+            seed_gw=seed+1000,
+            z_max_gw=1.0,
+            N_samples_gw=10000,
+            # Cosmology will default to Planck 2015 values
+            mass_mean=35.0,
+            mass_std=5.0,
+            ra_uncertainty=0.01,
+            dec_uncertainty=0.01,
+            dL_uncertainty_fac=0.0,
+            mass_uncertainty=1.5,
+            overwrite_config=overwrite_config
+        )
 
 
 
