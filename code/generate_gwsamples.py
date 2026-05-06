@@ -61,6 +61,7 @@ from jax.scipy.special import logsumexp
 from scipy.interpolate import interp1d
 from scipy.stats import gaussian_kde
 from tqdm import tqdm  # Progress bars
+# jaxinterp2d: https://github.com/adam-coogan/jaxinterp2d, install with "pip install ." from its dir
 from jaxinterp2d import interp2d, CartesianGrid  # 2D interpolation for cosmology
 
 # Configure JAX for high precision calculations
@@ -485,7 +486,7 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
     mean = np.array([ra, dec, dL, m1det, m2det], dtype=float)
     # Independent uncertainties (diagonal covariance).
     # Sample each dimension directly so zero-uncertainty axes remain deterministic.
-    dL_uncertainty = dL_uncertainty_fac*dL
+    dL_uncertainty = dL_uncertainty_fac*np.sqrt(dL)
     std = np.array(
         [ra_uncertainty, dec_uncertainty, dL_uncertainty, mass_uncertainty, mass_uncertainty],
         dtype=float,

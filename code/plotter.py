@@ -9,7 +9,7 @@ This module provides functions for:
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import h5py
 import yaml
 from scipy.interpolate import interp1d
@@ -672,13 +672,13 @@ def get_mcmc_data(fn_config_inference):
         - config_data: The loaded data config dict
         - loaded_results: The full loaded results from load_inference_results()
     """
-    print(fn_config_inference)
+    #print(fn_config_inference)
     
     with open(fn_config_inference, 'r') as f:
         config_inference = yaml.safe_load(f)
     
     config_data_path = config_inference['fn_config_data']
-    print(config_data_path)
+    #print(config_data_path)
     
     with open(config_data_path, 'r') as f:
         config_data = yaml.safe_load(f)
@@ -686,7 +686,7 @@ def get_mcmc_data(fn_config_inference):
     # Get output file from config
     fn_inf = config_inference['paths']['fn_inf']
     
-    print(f"Loading MCMC results from: {fn_inf}")
+    #print(f"Loading MCMC results from: {fn_inf}")
     
     # Load inference results
     loaded_results = run_inference.load_inference_results(fn_inf)
@@ -732,7 +732,7 @@ def get_mcmc_data(fn_config_inference):
     
     labels = list(parameters_vary)
     
-    print(f"Loaded MCMC results with shape: {samples.shape}")
+    #print(f"Loaded MCMC results with shape: {samples.shape}")
     
     # Get truth values from config
     truth_H0 = config_data['cosmology']['H0']
@@ -772,78 +772,214 @@ def get_mcmc_data(fn_config_inference):
     }
 
 
+def _mcmc_truth_values(mcmc_data, param_labels):
+    """Truth values ordered to match param_labels (axis names)."""
+    truth_values = mcmc_data.get('truth_values')
+    if truth_values is not None:
+        return truth_values
+    truth_H0 = mcmc_data['truth_H0']
+    truth_alpha_agn = mcmc_data['truth_alpha_agn']
+    truth_map = {'H0': truth_H0, 'alpha_agn': truth_alpha_agn}
+    return [truth_map.get(name, None) for name in param_labels]
+
+
+def _normalize_mcmc_datasets(mcmc_data):
+    """Return a list of MCMC dicts; accept a single dict or a list of dicts."""
+    if isinstance(mcmc_data, dict):
+        return [mcmc_data]
+    return list(mcmc_data)
+
+
+def _default_mcmc_overlay_colors(n):
+    """Qualitative colors for n overlaid chains; tab10 for few, turbo-spaced for many."""
+    if n <= 0:
+        return []
+    if n <= 10:
+        cmap = plt.get_cmap('tab10')
+        return [cmap(i % 10) for i in range(n)]
+    cmap = plt.get_cmap('turbo')
+    return [cmap(0.12 + 0.76 * i / max(n - 1, 1)) for i in range(n)]
+
+
 def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
-                       range_min=None, range_max=None):
+                       range_min=None, range_max=None, colors=None, labels=None,
+                       title=None):
     """
     Plot MCMC data as a corner plot showing contours and correlations.
-    
+
+    Pass a single dict from get_mcmc_data(), or a list of such dicts to overplot
+    all chains on one figure.
+
     Parameters:
     -----------
-    mcmc_data : dict
-        Dictionary returned by get_mcmc_data()
+    mcmc_data : dict or list of dict
+        One or more dictionaries returned by get_mcmc_data()
     figsize : tuple, optional
-        Figure size for corner plot (default: (10, 10))
+        Figure size for corner plot (default: (4, 4))
     bins : int, optional
         Number of bins for histograms (default: 50)
+    range_min, range_max : float, optional
+        If set, applied to every parameter axis (same as before).
+    colors : list, optional
+        Matplotlib colors, one per dataset when ``mcmc_data`` is a list (or one
+        color for a single dict). If omitted, a tab10 / turbo colormap is used.
+    labels : list of str, optional
+        Legend label for each overlaid dataset (same length as the number of
+        runs). If omitted, chain contours/histograms are not listed in the
+        legend (truths are still shown when present).
+    title : str, optional
+        Figure title (suptitle for corner plots; axes title for the 1D fallback).
     """
-    samples = mcmc_data['posterior_samples']
-    labels = mcmc_data['labels']
-    # Truth values ordered to match labels/parameters_vary
-    truth_values = mcmc_data.get('truth_values')
-    if truth_values is None:
-        # Fallback for older results: map from known names
-        truth_H0 = mcmc_data['truth_H0']
-        truth_alpha_agn = mcmc_data['truth_alpha_agn']
-        truth_map = {'H0': truth_H0, 'alpha_agn': truth_alpha_agn}
-        truth_values = [truth_map.get(name, None) for name in labels]
-    
-    n_params = samples.shape[1]
-    
-    # For 1D posteriors, use a simple marginalized plot instead of corner
+    datasets = _normalize_mcmc_datasets(mcmc_data)
+    if not datasets:
+        return
+
+    param_labels = datasets[0]['labels']
+    n_params = datasets[0]['posterior_samples'].shape[1]
+
+    for k, ds in enumerate(datasets):
+        if ds['labels'] != param_labels:
+            raise ValueError(
+                f"mcmc_data[{k}] has labels {ds['labels']!r}; expected {param_labels!r}"
+            )
+        if ds['posterior_samples'].shape[1] != n_params:
+            raise ValueError(
+                f"mcmc_data[{k}] has {ds['posterior_samples'].shape[1]} parameters; "
+                f"expected {n_params}"
+            )
+
+    n_runs = len(datasets)
+    if colors is not None and len(colors) != n_runs:
+        raise ValueError(f"colors length {len(colors)} != number of datasets {n_runs}")
+    if labels is not None and len(labels) != n_runs:
+        raise ValueError(f"labels length {len(labels)} != number of datasets {n_runs}")
+
+    if colors is None:
+        colors = (
+            ['black'] if n_runs == 1 else _default_mcmc_overlay_colors(n_runs)
+        )
+    legend_labels = labels
+
+    truth_values = _mcmc_truth_values(datasets[0], param_labels)
+
+    # For 1D posteriors, use overlaid marginalized histograms
     if n_params == 1:
         print("Only 1 parameter varied; using 1D marginalized plot instead of corner.")
-        plot_mcmc_marginalized(mcmc_data, figsize=figsize, bins=bins,
-                               range_min=range_min, range_max=range_max)
+        fig, ax = plt.subplots(figsize=figsize)
+        label_1d = param_labels[0]
+        tv = truth_values[0]
+
+        if range_min is not None and range_max is not None:
+            bin_edges = np.linspace(range_min, range_max, bins)
+        else:
+            bin_edges = bins
+
+        hist_alpha = 0.7 if n_runs > 1 else 1.0
+        for i, ds in enumerate(datasets):
+            s = ds['posterior_samples'][:, 0]
+            ax.hist(
+                s,
+                bins=bin_edges,
+                density=True,
+                histtype='step',
+                lw=2,
+                color=colors[i],
+                alpha=hist_alpha,
+                label=legend_labels[i] if legend_labels is not None else None,
+            )
+        if tv is not None:
+            ax.axvline(
+                tv,
+                color='green',
+                linestyle='-',
+                linewidth=2,
+                label=f'Truth: {tv:.3f}',
+            )
+        ax.set_xlabel(label_1d)
+        ax.set_ylabel('Density')
+        ax.set_title(title if title is not None else f'Posterior: {label_1d}')
+        if legend_labels is not None or tv is not None:
+            ax.legend()
+        ax.grid(True, alpha=0.3)
+        plt.tight_layout()
+        plt.show()
         return
-    
-    # Corner plot
+
     try:
         import corner
+        from matplotlib.patches import Patch
     except ImportError:
         print("corner package not available, skipping corner plot")
         return
-    
-    # Calculate ranges for each parameter that include truth values and majority of samples
+
     ranges = []
-    buffer_factor = 0.01  # 5% buffer on each side
-    
+    buffer_factor = 0.01
+
     for i in range(n_params):
-        sample_min = np.min(samples[:, i])
-        sample_max = np.max(samples[:, i])
-        # sample_min = np.percentile(samples[:, i], 16)
-        # sample_max = np.percentile(samples[:, i], 84)
-        truth_val = truth_values[i]
-        
-        # Ensure range includes truth value
-        if range_min is None:
-            range_min = min(sample_min, truth_val) * (1 - buffer_factor)
-        if range_max is None:
-            range_max = max(sample_max, truth_val) * (1 + buffer_factor)
-        
-        ranges.append([range_min, range_max])
-    
-    fig = corner.corner(
-        samples,
-        labels=labels,
-        show_titles=True,
-        title_kwargs={"fontsize": 12},
-        bins=bins,
-        truths=truth_values,
-        truth_color='green',
-        truth_kwargs={'linestyle': '-', 'linewidth': 2},
-        range=ranges,
-        figsize=figsize,
-    )
+        sample_mins = []
+        sample_maxs = []
+        for ds in datasets:
+            s = ds['posterior_samples']
+            sample_mins.append(np.min(s[:, i]))
+            sample_maxs.append(np.max(s[:, i]))
+        lo = min(sample_mins)
+        hi = max(sample_maxs)
+        tv = truth_values[i]
+        if tv is not None:
+            lo = min(lo, tv)
+            hi = max(hi, tv)
+        if range_min is not None:
+            lo = range_min
+        if range_max is not None:
+            hi = range_max
+        span = hi - lo
+        if span <= 0:
+            span = max(abs(hi), 1.0) * 0.05 + 1e-12
+        ranges.append([lo - buffer_factor * span, hi + buffer_factor * span])
+
+    fig = None
+    for i, ds in enumerate(datasets):
+        samples = ds['posterior_samples']
+        if fig is None:
+            fig = corner.corner(
+                samples,
+                labels=param_labels,
+                show_titles=True,
+                title_kwargs={"fontsize": 12},
+                bins=bins,
+                range=ranges,
+                figsize=figsize,
+                color=colors[i],
+                truths=truth_values,
+                truth_color='green',
+                truth_kwargs={'linestyle': '-', 'linewidth': 2},
+            )
+        else:
+            fig = corner.corner(
+                samples,
+                fig=fig,
+                bins=bins,
+                range=ranges,
+                color=colors[i],
+                show_titles=False,
+            )
+
+    if legend_labels is not None:
+        handles = [
+            Patch(facecolor=colors[i], edgecolor=colors[i], label=legend_labels[i])
+            for i in range(n_runs)
+        ]
+        fig.legend(
+            handles=handles,
+            loc='upper right',
+            bbox_to_anchor=(0.98, 0.98),
+            framealpha=0.9,
+        )
+
+    if title is not None:
+        fig.suptitle(title, fontsize=13)
+        fig.subplots_adjust(top=0.92)
+
     plt.show()
 
 

@@ -35,46 +35,35 @@ def main_inference(overwrite_config=False):
     """
     
     # build config_data name
+    #seeds = [0,1,2,3,4,5,6,7,8,9]
     seed = 0
-    seed_gw = seed + 1000
-    tag_cat = f'_seed0_ratioNgalNagn1_bgal1.0_bagn1.0'
-    #tag_pix = f'_nside64'
-    tag_pix = f'_nside256'
-    tag_gw = f'_seedgw{seed_gw}_fagn0.0_lambdaagn0.0_zmaxgw1.0'
-    tag_gwsamp = f'_dLunc0.0'
-    config_data_name = f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
-    # Now create inference configs referencing the data config
-    # create_config_inference(
-    #     fn_config=None,  # Auto-generate from tags
-    #     fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
-    #     mode_inf='mcmc',
-    #     N_walkers=32,
-    #     N_steps=500,
-    #     burnin_frac=0.2,
-    #     seed_mcmc=0,
-    #     parameters_vary=['alpha_agn'],
-    #     parameters_fix=['H0', 'Om0', 'gamma_agn', 'gamma_gal'],
-    #     tag_inf_extra='_vary-alphaagn',
-    #     overwrite_config=overwrite_config
-    # )
-    # Inference config with alpha_agn fixed to zero and H0 free
-    create_config_inference(
-        fn_config=None,  # Auto-generate from tags
-        fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
-        mode_inf='mcmc',
-        N_walkers=32,
-        N_steps=500,
-        burnin_frac=0.2,
-        seed_mcmc=0,
-        # Dz_gal=0.0001,
-        # Dz_agn=0.0001,
-        Dz_gal=0.03,
-        Dz_agn=0.03,
-        parameters_vary=['H0'],
-        parameters_fix=['alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal'],
-        tag_inf_extra='_Dz0.03_betaH0_vary-H0',
-        overwrite_config=overwrite_config
-    )
+    dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
+    for dLunc in dLunc_arr:
+    #for seed in seeds:
+        seed_gw = seed + 1000
+        tag_cat = f'_seed{seed}_ratioNgalNagn1_bgal1.0_bagn1.0'
+        #tag_pix = f'_nside256'
+        tag_pix = f'_nside64'
+        tag_gw = f'_seedgw{seed_gw}_fagn0.0_lambdaagn0.0_zmaxgw1.0'
+        tag_gwsamp = f'_dLunc{dLunc}'
+        config_data_name = f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
+        create_config_inference(
+            fn_config=None,  # Auto-generate from tags
+            fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+            mode_inf='mcmc',
+            N_walkers=32,
+            N_steps=500,
+            burnin_frac=0.2,
+            seed_mcmc=0,
+            # Dz_gal=0.0001,
+            # Dz_agn=0.0001,
+            Dz_gal=0.03,
+            Dz_agn=0.03,
+            parameters_vary=['H0'],
+            parameters_fix=['alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal'],
+            tag_inf_extra='_Dz0.03_betaH0_vary-H0',
+            overwrite_config=overwrite_config
+        )
     
     # Example: Create a likelihood grid config (fn_config will be auto-generated from tags)
     # create_config_inference(
@@ -100,8 +89,12 @@ def main_data(overwrite_config=False):
         If True, overwrite existing config files. If False, skip if files exist.
     """
     # Example: Create a default config (fn_config and dir_mock will be auto-generated from tags)
-    seeds = [0,1,2,3,4,5,6,7,8,9]
-    for seed in seeds:
+    #seeds = [0,1,2,3,4,5,6,7,8,9]
+    #seeds = [1]
+    seed = 0
+    #for seed in seeds:
+    dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
+    for dLunc in dLunc_arr:
         create_config_data(
             fn_config=None,  # Auto-generate from tags
             dir_mock=None,  # Auto-generate from tag_cat
@@ -112,8 +105,8 @@ def main_data(overwrite_config=False):
             bias_agn=1.0,
             z_min=0.0,
             z_max=1.5,
-            nside=256,
-            #nside=64,
+            #nside=256,
+            nside=64,
             f_agn=0.0,
             lambda_agn=0.0,
             N_gw=1000,
@@ -125,7 +118,7 @@ def main_data(overwrite_config=False):
             mass_std=5.0,
             ra_uncertainty=0.01,
             dec_uncertainty=0.01,
-            dL_uncertainty_fac=0.0,
+            dL_uncertainty_fac=dLunc,
             mass_uncertainty=1.5,
             overwrite_config=overwrite_config
         )
@@ -254,9 +247,10 @@ def create_config_data(
     if z_max_gw is not None:
         tag_gw += f'_zmaxgw{z_max_gw}'
 
-    tag_gwsamp = ''
-    if dL_uncertainty_fac != 1.0:
-        tag_gwsamp += f'_dLunc{dL_uncertainty_fac}'
+    #tag_gwsamp = ''
+    #if dL_uncertainty_fac != 1.0:
+    #tag_gwsamp += f'_dLunc{dL_uncertainty_fac}'
+    tag_gwsamp = f'_dLunc{dL_uncertainty_fac}'
 
     # Construct dir_mock using tag_cat (auto-generate if not provided)
     if dir_mock is None:

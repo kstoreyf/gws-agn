@@ -11,20 +11,37 @@ if [ -z "${BASH_VERSION:-}" ]; then
   exec bash "$0" "$@"
 fi
 
+# Same conda env as job_inference.s unless overridden (must provide camb, glass, healpy, etc.).
+: "${GWS_AGN_CONDA_ENV:=glassenv}"
+if command -v module >/dev/null 2>&1; then
+  module load conda 2>/dev/null || true
+fi
+if command -v conda >/dev/null 2>&1; then
+  _conda_base="$(conda info --base 2>/dev/null)" || _conda_base=""
+  if [[ -n "${_conda_base}" && -f "${_conda_base}/etc/profile.d/conda.sh" ]]; then
+    # shellcheck source=/dev/null
+    source "${_conda_base}/etc/profile.d/conda.sh"
+  fi
+  conda activate "${GWS_AGN_CONDA_ENV}"
+fi
+
 # --- User-adjustable parameters (lowercase to match other scripts) -------------
-seed=2
-seedgw=1002
+seed=1
+seedgw=1001
 ratio_ngal_nagn=1
 bgal=1.0
 bagn=1.0
-nside=256
+#nside=256
+nside=64
 fagn=0.0
 lambdaagn=0.0
 zmaxgw=1.0
-dLunc=0.0
+dLunc=0.1
+#dLunc=0.75
 # -------------------------------------------------------------------------------
 
-root_dir="/global/homes/k/kstoreyf/gws-agn"
+#root_dir="/global/homes/k/kstoreyf/gws-agn" #perl
+root_dir="/sdf/home/k/ksf/gws-agn" #s3df
 config_dir="${root_dir}/configs/configs_data"
 config_basename="config_data_seed${seed}_ratioNgalNagn${ratio_ngal_nagn}_bgal${bgal}_bagn${bagn}_nside${nside}_seedgw${seedgw}_fagn${fagn}_lambdaagn${lambdaagn}_zmaxgw${zmaxgw}_dLunc${dLunc}.yaml"
 config_path="${config_dir}/${config_basename}"

@@ -588,7 +588,7 @@ def load_inference_results(fn_inf):
     
     with h5py.File(fn_inf, 'r') as f:
         # Load posterior samples
-        print(f.keys())
+        #print(f.keys())
         results['posterior_samples'] = np.array(f['posterior_samples'])
         
         # Load full chain if available
