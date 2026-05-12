@@ -52,15 +52,12 @@ def parse_args():
         Whether to overwrite existing outputs
     """
     parser = argparse.ArgumentParser(description='Pixelize catalogs for inference')
-    parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file')
+    parser.add_argument('config', type=str, help='Path to YAML configuration file')
     parser.add_argument('--overwrite', action='store_true', default=False,
                         help='Overwrite existing pixelized catalogs if they exist')
     args = parser.parse_args()
     
-    # Prefer positional config, fall back to --config for backwards compatibility
-    config_path = args.config or args.config_flag
-    if not config_path:
-        parser.error('Please provide the config file as the first argument or via --config.')
+    config_path = args.config
 
     # Load YAML config file
     with open(config_path, 'r') as f:

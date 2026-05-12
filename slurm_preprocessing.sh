@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=gws_preprocessing
-#SBATCH --output=logs/preprocessing_%j.out
-#SBATCH --error=logs/preprocessing_%j.err
+#SBATCH --output=logs/preprocessing.out
+#SBATCH --error=logs/preprocessing.err
 #SBATCH --time=12:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

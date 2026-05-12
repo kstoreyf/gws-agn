@@ -36,17 +36,21 @@ def main_inference(overwrite_config=False):
     
     # build config_data name
     #seeds = [0,1,2,3,4,5,6,7,8,9]
+    tag_mocktype = '_uniform'
     seed = 0
-    dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
+    #dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
+    dLunc_arr = [0.0]
     for dLunc in dLunc_arr:
     #for seed in seeds:
         seed_gw = seed + 1000
-        tag_cat = f'_seed{seed}_ratioNgalNagn1_bgal1.0_bagn1.0'
+        #tag_cat = f'_seed{seed}_ratioNgalNagn1_bgal1.0_bagn1.0'
+        tag_cat = f'_seed{seed}_ratioNgalNagn1'
         #tag_pix = f'_nside256'
         tag_pix = f'_nside64'
         tag_gw = f'_seedgw{seed_gw}_fagn0.0_lambdaagn0.0_zmaxgw1.0'
         tag_gwsamp = f'_dLunc{dLunc}'
-        config_data_name = f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
+        tag_mt_fn = '' if tag_mocktype == '_glass' else tag_mocktype
+        config_data_name = f'config_data{tag_mt_fn}{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
         create_config_inference(
             fn_config=None,  # Auto-generate from tags
             fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
@@ -93,16 +97,18 @@ def main_data(overwrite_config=False):
     #seeds = [1]
     seed = 0
     #for seed in seeds:
-    dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
+    #dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
+    dLunc_arr = [0.0]
     for dLunc in dLunc_arr:
         create_config_data(
-            fn_config=None,  # Auto-generate from tags
-            dir_mock=None,  # Auto-generate from tag_cat
+            tag_mocktype='_uniform',
             seed=seed,
             nbar_gal=1e-2,
             nbar_agn=1e-2,
-            bias_gal=1.0,
-            bias_agn=1.0,
+            # bias_gal=1.0,
+            # bias_agn=1.0,
+            bias_gal=None,
+            bias_agn=None,
             z_min=0.0,
             z_max=1.5,
             #nside=256,
@@ -128,8 +134,9 @@ def main_data(overwrite_config=False):
 
 def create_config_data(
     fn_config=None,
-    dir_mock=None,  # Will be auto-generated from tag_cat
+    dir_mock=None,  # Will be auto-generated from tag_cat and tag_mocktype
     # Mock catalog parameters
+    tag_mocktype='_glass',
     seed=42,
     nbar_gal=1e-2,
     nbar_agn=1e-2,
@@ -160,7 +167,7 @@ def create_config_data(
     Om0=None,
     Ob0=None,
     dir_configs='../configs/configs_data/',
-    overwrite_config=False
+    overwrite_config=False,
 ):
     """
     Create a YAML configuration file for data generation and pixelization.
@@ -223,6 +230,11 @@ def create_config_data(
         Directory to save config file
     overwrite_config : bool
         If True, overwrite existing config file. If False, skip if file exists.
+    tag_mocktype : str
+        Mock catalog type: '_glass' (GLASS lognormal fields) or '_uniform' (uniform on
+        sky, redshifts uniform in comoving volume). Default '_glass' for backward compatibility.
+        For '_uniform', ``tag_cat`` and auto paths omit ``_bgal*_bagn*`` (biases are not used
+        when building the uniform catalog).
     """
     # Use Planck 2015 defaults if not specified
     # Convert all to native Python floats to avoid numpy serialization issues in YAML
@@ -239,9 +251,18 @@ def create_config_data(
             f"but H0={H0:.2f} km/s/Mpc was provided. They must satisfy H0 = 100 * h."
         )
     
-    # Build tags
+    if tag_mocktype not in ('_glass', '_uniform'):
+        raise ValueError(f"tag_mocktype must be '_glass' or '_uniform', got {tag_mocktype!r}")
+    
+    if seed_gw is None:
+        seed_gw = seed + 1000
+    
+    # Build tags (uniform mocks omit bias from path names; biases are unused for catalog generation)
     ratio_ngal_nagn = int(round(nbar_gal / nbar_agn))
-    tag_cat = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}_bgal{bias_gal}_bagn{bias_agn}'
+    if tag_mocktype == '_uniform':
+        tag_cat = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}'
+    else:
+        tag_cat = f'_seed{seed}_ratioNgalNagn{ratio_ngal_nagn}_bgal{bias_gal}_bagn{bias_agn}'
     tag_pix = f'_nside{nside}'
     tag_gw = f'_seedgw{seed_gw}_fagn{f_agn}_lambdaagn{lambda_agn}'
     if z_max_gw is not None:
@@ -254,11 +275,12 @@ def create_config_data(
 
     # Construct dir_mock using tag_cat (auto-generate if not provided)
     if dir_mock is None:
-        dir_mock = f'../data/mocks_glass/mock{tag_cat}/'
+        dir_mock = f'../data/mocks{tag_mocktype}/mock{tag_cat}/'
     
-    # Auto-generate fn_config from tags if not provided
+    # Auto-generate fn_config from tags if not provided (_glass omits tag from basename for backcompat)
     if fn_config is None:
-        fn_config = os.path.join(dir_configs, f'config_data{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}.yaml')
+        tag_mt_fn = '' if tag_mocktype == '_glass' else tag_mocktype
+        fn_config = os.path.join(dir_configs, f'config_data{tag_mt_fn}{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}.yaml')
     
     # Construct filenames using tags
     name_cat = 'mock_catalog.h5'
@@ -299,6 +321,7 @@ def create_config_data(
             'tag_pix': tag_pix,
             'tag_gw': tag_gw,
             'tag_gwsamp': tag_gwsamp,
+            'tag_mocktype': tag_mocktype,
         },
         'gw_samples': {
             'N_samples_gw': N_samples_gw,
@@ -412,6 +435,7 @@ def create_config_inference(
     tag_pix = config_data['paths']['tag_pix']
     tag_gw = config_data['paths']['tag_gw']
     tag_gwsamp = config_data['paths']['tag_gwsamp']
+    tag_mocktype = config_data['paths'].get('tag_mocktype', '_glass')
     
     # Default parameter role lists if not provided
     if parameters_vary is None:
@@ -427,8 +451,9 @@ def create_config_inference(
     else:
         tag_inf = ''
     
-    # Build full tag for output filename
-    tag_full = f'{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}{tag_inf}{tag_inf_extra}'
+    # Build full tag for output filename (omit _glass in prefix for backward-compatible names)
+    tag_mt_full = '' if tag_mocktype == '_glass' else tag_mocktype
+    tag_full = f'{tag_mt_full}{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}{tag_inf}{tag_inf_extra}'
     
     # Auto-generate fn_config from tags if not provided
     if fn_config is None:
@@ -466,6 +491,7 @@ def create_config_inference(
             'tag_pix': tag_pix,
             'tag_gw': tag_gw,
             'tag_gwsamp': tag_gwsamp,
+            'tag_mocktype': tag_mocktype,
             'tag_inf': tag_inf,
             'tag_inf_extra': tag_inf_extra,
             'tag_full': tag_full,

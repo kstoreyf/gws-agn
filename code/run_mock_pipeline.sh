@@ -2,6 +2,8 @@
 # Wrapper to run the mock → GW samples → pixelization pipeline with one config.
 # Adjust the parameter values below; they are embedded into the expected config
 # filename. You can also pass an explicit config path as the first argument.
+# For ad-hoc Python checks (astropy, repro scripts), use the same env as below, e.g.:
+#   source "$(conda info --base)/etc/profile.d/conda.sh" && conda activate "${GWS_AGN_CONDA_ENV:-glassenv}"
 
 set -euo pipefail
 
@@ -49,11 +51,18 @@ config_path="${config_dir}/${config_basename}"
 # Allow overriding the config path as the first argument.
 if [[ $# -ge 1 ]]; then
   config_path="$1"
+  # Bare filename (e.g. from a loop): resolve under configs_data — cwd is often code/
+  if [[ "$config_path" != /* && "$config_path" != */* ]]; then
+    if [[ -f "${config_dir}/${config_path}" ]]; then
+      config_path="${config_dir}/${config_path}"
+    fi
+  fi
   config_basename="$(basename "$config_path")"
 fi
 
 if [[ ! -f "$config_path" ]]; then
   echo "Config not found: $config_path" >&2
+  echo "Hint: pass absolute path, ../configs/configs_data/<name>.yaml from code/, or just the .yaml basename." >&2
   exit 1
 fi
 

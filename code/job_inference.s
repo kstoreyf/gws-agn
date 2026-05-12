@@ -66,6 +66,6 @@ if backend != "gpu":
 PY
 
 # Run the inference notebook
-python run_inference.py --config $config_inf
+python run_inference.py $config_inf
 
 echo "Inference job completed!" 

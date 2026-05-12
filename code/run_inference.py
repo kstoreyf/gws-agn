@@ -82,17 +82,12 @@ def parse_args():
         Whether to overwrite existing output files
     """
     parser = argparse.ArgumentParser(description='Run dark siren inference')
-    parser.add_argument('config', type=str, nargs='?', help='Path to YAML configuration file for inference')
-    parser.add_argument('--config', dest='config_flag', type=str,
-                        help='Path to YAML configuration file for inference (legacy flag)')
+    parser.add_argument('config', type=str, help='Path to YAML configuration file for inference')
     parser.add_argument('--overwrite', action='store_true', default=False,
                         help='Overwrite existing output file if it exists (default: False)')
     args = parser.parse_args()
     
-    # Prefer positional config, fall back to --config for backwards compatibility
-    config_path = args.config or args.config_flag
-    if not config_path:
-        parser.error('Please provide the config file as the first argument or via --config.')
+    config_path = args.config
 
     # Load inference config file
     with open(config_path, 'r') as f:

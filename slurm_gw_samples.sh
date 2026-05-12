@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=gws_gw_samples
-#SBATCH --output=logs/gw_samples_%j.out
-#SBATCH --error=logs/gw_samples_%j.err
+#SBATCH --output=logs/gw_samples.out
+#SBATCH --error=logs/gw_samples.err
 #SBATCH --time=6:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
