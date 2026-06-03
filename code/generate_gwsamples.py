@@ -480,19 +480,28 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
         Samples in order: ra, dec, dL, m1det, m2det
     """
     # Mean vector in order: ra, dec, dL, m1det, m2det
-    mean = np.array([ra, dec, dL, m1det, m2det], dtype=float)
+    true_params = np.array([ra, dec, dL, m1det, m2det], dtype=float)
+
     # Independent uncertainties (diagonal covariance).
     # Sample each dimension directly so zero-uncertainty axes remain deterministic.
-    dL_uncertainty = dL_uncertainty_fac*np.sqrt(dL)
+    #dL_uncertainty = dL_uncertainty_fac*np.sqrt(dL)
+    dL_uncertainty = dL_uncertainty_fac*dL # fix to just dL
     std = np.array(
         [ra_uncertainty, dec_uncertainty, dL_uncertainty, mass_uncertainty, mass_uncertainty],
         dtype=float,
     )
     dec_idx = 1  # Declination is at index 1 in the 5D samples
 
+    ## NEW METHOD ATTEMPT
+    # # First: draw one noisy realisation — this is the "observed" event
+    # obs = np.random.normal(loc=true_params, scale=std)
+    # # Second: draw PE samples centred on the observation, not the truth
+    # samples = np.random.normal(loc=obs, scale=std, size=(n_initial_samples, true_params.size))
+
+    ## OLD MAYBE WRONG CAUSING BIAS??
     # Generate a large number of samples to ensure we have enough valid ones
     # after filtering by declination bounds
-    samples = np.random.normal(loc=mean, scale=std, size=(n_initial_samples, mean.size))
+    samples = np.random.normal(loc=true_params, scale=std, size=(n_initial_samples, true_params.size))
     
     # Filter samples to ensure declination is within valid range [-pi/2, pi/2]
     dec_samples = samples[:,dec_idx]

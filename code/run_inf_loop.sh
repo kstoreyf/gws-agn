@@ -34,7 +34,7 @@ GWS_AGN_CONDA_ENV=glassenv
 #seeds=(0 1 2 3 4 5 6 7 8 9)
 seeds=(0)
 #dLunc_arr=(0.0 0.25 0.5 0.75 1.0)
-dLunc_arr=(0.0)
+dLunc_arr=(0.0 0.1 0.2 0.3)
 
 for seed in "${seeds[@]}"; do
   for dLunc in "${dLunc_arr[@]}"; do
@@ -46,7 +46,7 @@ for seed in "${seeds[@]}"; do
     fi
     tag_pix="_nside${NSIDE}"
     tag_gw="_seedgw${seedgw}_fagn${FAGN}_lambdaagn${LAMBDAAGN}_zmaxgw${ZMAXGW}"
-    tag_gwsamp="_dLunc${dLunc}"
+    tag_gwsamp="_dLunclin${dLunc}"
     tag_inf="_mcmc_nw${MCMC_NW}_nsteps${MCMC_NSTEPS}"
     tag_inf_extra="_Dz${DZ}_${INFERENCE_SUFFIX}"
 

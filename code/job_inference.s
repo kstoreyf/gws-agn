@@ -20,7 +20,7 @@
 #SBATCH --account=kipac:default
 #SBATCH --gres=gpu:1
 
-config_inf="../configs/configs_inference/config_inference_seed1_ratioNgalNagn1_bgal1.0_bagn1.0_nside64_seedgw1001_fagn0.0_lambdaagn0.0_zmaxgw1.0_dLunc1.0_mcmc_nw32_nsteps500_Dz0.03_betaH0_vary-H0.yaml"
+config_inf="../configs/configs_inference/config_inference_seed1_ratioNgalNagn1_bgal1.0_bagn1.0_nside64_seedgw1001_fagn0.0_lambdaagn0.0_zmaxgw1.0_dLunclin1.0_mcmc_nw32_nsteps500_Dz0.03_betaH0_vary-H0.yaml"
 #config_inf='../configs/configs_inference/config_inference_seed42_ratioNgalNagn10_bgal1.0_bagn1.0_fagn0.5_lambdaagn0.0_mcmc_nw32_nsteps500_vary-alphaagn.yaml'
 #config_inf='../configs/configs_inference/config_inference_seed42_ratioNgalNagn1_bgal1.0_bagn1.0_fagn0.0_lambdaagn0.0_mcmc_nw32_nsteps500_vary-H0.yaml'
 #config_inf='../configs/configs_inference/config_inference_seed42_ratioNgalNagn1_bgal1.0_bagn1.0_nside64_fagn0.0_lambdaagn0.0_zmaxgw1.0_mcmc_nw32_nsteps500_Dz0.03_betaH0try3_vary-H0.yaml'

@@ -29,7 +29,7 @@ ZMAXGW=1.0
 
 seeds=(0)
 #dLunc_arr=(0.0 0.25 0.5 0.75 1.0)
-dLunc_arr=(0.0)
+dLunc_arr=(0.0 0.1 0.2 0.3)
 
 for seed in "${seeds[@]}"; do
   for dLunc in "${dLunc_arr[@]}"; do
@@ -41,7 +41,7 @@ for seed in "${seeds[@]}"; do
     fi
     tag_pix="_nside${NSIDE}"
     tag_gw="_seedgw${seed_gw}_fagn${FAGN}_lambdaagn${LAMBDAAGN}_zmaxgw${ZMAXGW}"
-    tag_gwsamp="_dLunc${dLunc}"
+    tag_gwsamp="_dLunclin${dLunc}"
 
     if [[ "${TAG_MOCKTYPE}" == "_glass" ]]; then
       prefix_data=""

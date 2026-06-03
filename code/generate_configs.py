@@ -39,7 +39,7 @@ def main_inference(overwrite_config=False):
     tag_mocktype = '_uniform'
     seed = 0
     #dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
-    dLunc_arr = [0.0]
+    dLunc_arr = [0.0, 0.1, 0.2, 0.3]
     for dLunc in dLunc_arr:
     #for seed in seeds:
         seed_gw = seed + 1000
@@ -48,7 +48,7 @@ def main_inference(overwrite_config=False):
         #tag_pix = f'_nside256'
         tag_pix = f'_nside64'
         tag_gw = f'_seedgw{seed_gw}_fagn0.0_lambdaagn0.0_zmaxgw1.0'
-        tag_gwsamp = f'_dLunc{dLunc}'
+        tag_gwsamp = f'_dLunclin{dLunc}'
         tag_mt_fn = '' if tag_mocktype == '_glass' else tag_mocktype
         config_data_name = f'config_data{tag_mt_fn}{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
         create_config_inference(
@@ -98,7 +98,7 @@ def main_data(overwrite_config=False):
     seed = 0
     #for seed in seeds:
     #dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
-    dLunc_arr = [0.0]
+    dLunc_arr = [0.0, 0.1, 0.2, 0.3]
     for dLunc in dLunc_arr:
         create_config_data(
             tag_mocktype='_uniform',
@@ -118,7 +118,7 @@ def main_data(overwrite_config=False):
             N_gw=1000,
             seed_gw=seed+1000,
             z_max_gw=1.0,
-            N_samples_gw=10000,
+            N_samples_gw=1000,
             # Cosmology will default to Planck 2015 values
             mass_mean=35.0,
             mass_std=5.0,
@@ -270,8 +270,8 @@ def create_config_data(
 
     #tag_gwsamp = ''
     #if dL_uncertainty_fac != 1.0:
-    #tag_gwsamp += f'_dLunc{dL_uncertainty_fac}'
-    tag_gwsamp = f'_dLunc{dL_uncertainty_fac}'
+    #tag_gwsamp += f'_dLunclin{dL_uncertainty_fac}'
+    tag_gwsamp = f'_dLunclin{dL_uncertainty_fac}'
 
     # Construct dir_mock using tag_cat (auto-generate if not provided)
     if dir_mock is None:
