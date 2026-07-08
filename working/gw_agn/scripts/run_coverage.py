@@ -45,6 +45,23 @@ def run(cmd, log):
         raise RuntimeError('FAILED ({}): {} (log: {})'.format(r.returncode, ' '.join(cmd), log))
 
 
+def check_pixelated(dc):
+    """Guard against silent stale-pixelization inference (review F2-3):
+    the pixelated catalogs must contain exactly the mock catalog's objects."""
+    import h5py
+    import numpy as np
+    d = dc['paths']['dir_mock']
+    with h5py.File(os.path.join(d, dc['paths']['name_cat']), 'r') as f:
+        expect = {'name_cat_gal_pixelated': int(f.attrs['n_gal']),
+                  'name_cat_agn_pixelated': int(f.attrs['n_agn'])}
+    for key, n_expect in expect.items():
+        with h5py.File(os.path.join(d, dc['paths'][key]), 'r') as f:
+            n_pix = int(np.asarray(f['n_in_pixel']).sum())
+        if n_pix != n_expect:
+            raise RuntimeError('stale pixelated catalog {}: {} objects vs catalog {}'.format(
+                dc['paths'][key], n_pix, n_expect))
+
+
 def one_realization(tracer, r):
     t = TRACER[tracer]
     seed_gw = t['seed0'] + r
@@ -73,6 +90,7 @@ def one_realization(tracer, r):
     os.makedirs(outdir, exist_ok=True)
     open(log, 'w').close()
     run([sys.executable, 'make_mocks.py', fn_dc], log)
+    check_pixelated(dc)
     run([sys.executable, 'generate_gwsamples.py', fn_dc], log)
     if not os.path.exists(fn_grid):
         run([sys.executable, 'run_inference.py', fn_ic, '--overwrite'], log)

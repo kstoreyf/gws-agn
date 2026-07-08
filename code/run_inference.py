@@ -302,6 +302,21 @@ def main(config_inference, config_data, fn_config, overwrite=False):
     # Create catalog probability functions
     prob_funcs = create_catalog_probability_functions(catalog_data)
 
+    # WARNING (module review F2-1): the OPTION-4 mixture and the beta
+    # constants weight pixels by raw COUNTS; that is only correct for unit
+    # weights at gamma == 0. Do not quote any gamma != 0 result until the
+    # weight-sum plumbing is fixed end to end.
+    if params_true_dict['gamma_agn'] != 0 or params_true_dict['gamma_gal'] != 0:
+        print('WARNING: gamma != 0 requested but pixel weights/betas are '
+              'count-based (review F2-1) — results are NOT quotable')
+
+    # Optional reproducible event shuffle (review F2-4): load_gw_samples
+    # permutes events with the global RNG; without a seed, N_gw_inf subsets
+    # are irreproducible.
+    seed_shuffle = config_inference.get('seed_shuffle', None)
+    if seed_shuffle is not None:
+        np.random.seed(int(seed_shuffle))
+
     # Load GW samples
     gw_data = load_gw_samples(fn_gwsamples, N_gw_inf=N_gw_inf)
 

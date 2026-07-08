@@ -74,6 +74,8 @@ def one_set(f_agn):
     log = os.path.join(outdir, tag + '.log')
     open(log, 'w').close()
     run([sys.executable, 'make_mocks.py', fn_dc], log)
+    from run_coverage import check_pixelated
+    check_pixelated(dc)
     a_true = alpha_true_from_injection(dc)
     run([sys.executable, 'generate_gwsamples.py', fn_dc], log)
     if not os.path.exists(fn_grid):

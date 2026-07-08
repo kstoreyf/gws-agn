@@ -78,7 +78,9 @@ def inference_config(fn_config_data, fn_inf, *, selection_mode='fixed_z',
         'grid': {'N_H0': N_H0, 'N_alpha_agn': N_alpha_agn},
         'parameters': {'parameters_vary': list(parameters_vary)},
         'N_gw_inf': N_gw_inf,
-        'catalog': {'Dz_gal': 0.0001, 'Dz_agn': 0.0001},
+        # Owner-decision knobs (GATES.md): resolved KDE bandwidth. The legacy
+        # 1e-4 default is the known-bad delta-spike value (finding S0-a).
+        'catalog': {'Dz_gal': 0.003, 'Dz_agn': 0.003},
         'paths': {'fn_inf': fn_inf},
     }
 

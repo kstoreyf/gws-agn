@@ -282,6 +282,14 @@ def compute_log_likelihood(gw_data, prior_funcs, cosmo_funcs, samples_ind,
         # the float32 weights; a float exponent would promote them to f64
         # and break bit-parity with the legacy pipeline.
         gammas = [0] * K
+    if any(g != 0 for g in gammas):
+        # Review finding F2-1: the between-pixel weights (W_pix, W_total) and
+        # the beta constants use raw COUNTS, which is only correct for unit
+        # weights at gamma == 0. Weighted evolution needs weight-sum plumbing
+        # end to end before any gamma != 0 number can be trusted.
+        raise NotImplementedError(
+            'gamma != 0 is not supported: mixture pixel weights and beta '
+            'constants are count-based (see module review F2-1)')
     if use_pair_path is None:
         use_pair_path = (K == 2)
 

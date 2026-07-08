@@ -25,6 +25,27 @@ Envs: `glassenv` (make_mocks only), `jax` (all else). Cosmology truth: H0=67.74,
   pipeline-config bias −1.55±2.04 … obs+indicator+β(H0) worst at +9.97 — β(H0) division is
   the dominant mechanism; v2 sweep = E1 evidence, pending).
 
+## P6 adversarial module review (2026-07-08, fresh Opus reviewer)
+
+Report: reviews/module_review_2026-07-08.md. **No SEV-1 defects; every gate verdict stands.**
+The SEV-1 target (β applied exactly once, per-tracer, in the mixture) verified correct:
+numerical rel-diff 0.0 vs the GOAL §3.2 form; α=0/1 collapse exact; dl_horizon inert under
+fixed_z. 4 SEV-2 + 6 SEV-3 findings, all latent for the as-run configuration. Dispositions:
+- F2-1 (γ≠0 uses count-based W_pix/β — wrong field for weighted evolution): **guarded** —
+  package raises NotImplementedError, legacy prints a not-quotable warning. Fix = weight-sum
+  plumbing end-to-end (future work). NO γ≠0 number may be quoted.
+- F2-2 (mixed precision by import side effect): documented + made explicit in the package
+  (`enable_x64()` sequence); legacy left as-is (parity contract). Noted.
+- F2-3 (drivers could silently use stale pixelated catalogs): **fixed** — drivers now verify
+  pixelated object counts against the mock catalog attrs.
+- F2-4 (unseeded event shuffle irreproducible for N_gw_inf subsets): **fixed** — optional
+  `seed_shuffle` in the inference config (package CLI already had it).
+- F3-1 (make_configs Dz default was the known-bad 1e-4): **fixed** → 3e-3.
+- F3-5 (posterior window cap distorts at fac≥0.119): **warned** at runtime.
+- F3-2 (hardcoded grid bounds), F3-3 (KDE-smeared numerator vs sharp-CDF β at the cut,
+  ~O(density·Dz)), F3-4 (−1e10 sentinels), F3-6 (subsample with replacement): noted,
+  tracked, benign as-run.
+
 ## Owner decisions
 
 - 2026-07-08 (Fable): `selection_mode: fixed_z` is the program default; `dl_horizon` retained

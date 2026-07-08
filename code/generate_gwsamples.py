@@ -528,7 +528,14 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
             # d_obs/(1 - 8*fac) (heavy upper tail — sigma grows with dL), not
             # d_obs*(1 + 8*fac); truncating it biases distances low at large fac.
             lo = max(d_obs / (1.0 + 8.0 * fac), 1e-3)
-            hi = d_obs / (1.0 - 8.0 * fac) if 8.0 * fac < 0.95 else 20.0 * d_obs
+            if 8.0 * fac < 0.95:
+                hi = d_obs / (1.0 - 8.0 * fac)
+            else:
+                # Window cap engages (fac >= ~0.119): the heavy upper tail is
+                # truncated and the posterior is approximate (review F3-5).
+                hi = 20.0 * d_obs
+                print(f'WARNING: dL posterior window capped at 20*d_obs for '
+                      f'fac={fac} — heavy-tail truncation, verify before quoting')
             grid = np.geomspace(lo, max(hi, 2.0 * lo), 8192)
             logp = -0.5 * ((d_obs - grid) / (fac * grid)) ** 2 - np.log(grid)
             p = np.exp(logp - logp.max())
