@@ -206,10 +206,76 @@ def main(config_inference, config_data, fn_config, overwrite=False):
         Dz_gal=Dz_gal, Dz_agn=Dz_agn
     )
 
+    # Setup cosmology (needed by the 'dl_horizon' selection branch below)
+    cosmo_funcs = setup_cosmology()
+
+    # ------------------------------------------------------------------
+    # Selection treatment (set up BEFORE alpha_agn_true so the eligible-pool
+    # counts below can reuse the empirical CDFs).
+    #
+    # The mock's detection process is a hard cut on the TRUE host redshift at
+    # z_max_gw (make_mocks.inject_gw_sources).  For that process the exact
+    # per-tracer selection normalization is beta_X = CDF_X(z_max_gw): a
+    # constant, independent of H0.  The matched estimator ('fixed_z')
+    #   1. truncates the numerator at z(dL_s|H0) <= z_max_gw, and
+    #   2. renormalizes each tracer field by its constant beta_X inside the
+    #      mixture.
+    # The legacy 'dl_horizon' mode divides by an H0-DEPENDENT beta(H0) built
+    # from z_max_det(H0) = z_of_dL(dL_max, H0).  That does not match the
+    # fixed-true-z selection above and injects a nonzero score at the truth
+    # (H0 bias); it is kept only for A/B against historical runs.
+    # ------------------------------------------------------------------
+    selection_mode = config_inference.get('selection_mode', 'fixed_z')
+    if selection_mode not in ('fixed_z', 'dl_horizon', 'none'):
+        raise ValueError(
+            "selection_mode must be 'fixed_z', 'dl_horizon' or 'none', got {!r}".format(selection_mode)
+        )
+    z_max_gw = config_data['gw_injection'].get('z_max_gw', None)
+    if z_max_gw is None and selection_mode != 'none':
+        print("selection_mode forced to 'none': z_max_gw not set in data config")
+        selection_mode = 'none'
+    catalog_data['selection_mode'] = selection_mode
+    catalog_data['dL_max'] = None
+    if selection_mode in ('fixed_z', 'dl_horizon'):
+        z_gal_sorted, z_gal_cdf, z_agn_sorted, z_agn_cdf = precompute_beta_cdf(catalog_data)
+        catalog_data['z_gal_sorted'] = z_gal_sorted
+        catalog_data['z_gal_cdf'] = z_gal_cdf
+        catalog_data['z_agn_sorted'] = z_agn_sorted
+        catalog_data['z_agn_cdf'] = z_agn_cdf
+    if selection_mode == 'fixed_z':
+        beta_gal_fixed = float(np.interp(z_max_gw, z_gal_sorted, z_gal_cdf))
+        beta_agn_fixed = float(np.interp(z_max_gw, z_agn_sorted, z_agn_cdf))
+        catalog_data['z_max_gw'] = float(z_max_gw)
+        catalog_data['beta_gal_fixed'] = beta_gal_fixed
+        catalog_data['beta_agn_fixed'] = beta_agn_fixed
+        print(
+            "Selection 'fixed_z': z_max_gw={} truncation in the numerator; constant "
+            "per-tracer normalizations beta_gal={:.4f}, beta_agn={:.4f} (H0-independent)".format(
+                z_max_gw, beta_gal_fixed, beta_agn_fixed
+            )
+        )
+    elif selection_mode == 'dl_horizon':
+        H0_true_sel = config_data['cosmology']['H0']
+        Om0_true_sel = config_data['cosmology']['Om0']
+        dL_max = float(cosmo_funcs['dL_of_z'](jnp.array(z_max_gw), H0_true_sel, Om0_true_sel))
+        catalog_data['dL_max'] = dL_max
+        print(
+            "Selection 'dl_horizon' (LEGACY, known-mismatched to the fixed-z mock cut): "
+            "z_max_gw={}, dL_max={:.1f} Mpc".format(z_max_gw, dL_max)
+        )
+    else:
+        print("Selection 'none': no truncation, no beta correction")
+
     # Compute true alpha_agn from the actual object counts in the catalog.
     # Using catalog counts (not nbar * volume) accounts for Poisson fluctuations.
+    # The injector drew hosts from the z <= z_max_gw ELIGIBLE pools
+    # (make_mocks.inject_gw_sources), so alpha_true must be computed from the
+    # same eligible counts, not the full catalogs.
     N_gal_true = float(jnp.sum(catalog_data['ngals']))
     N_agn_true = float(jnp.sum(catalog_data['nagns']))
+    if z_max_gw is not None and 'z_gal_sorted' in catalog_data:
+        N_gal_true *= float(np.interp(z_max_gw, catalog_data['z_gal_sorted'], catalog_data['z_gal_cdf']))
+        N_agn_true *= float(np.interp(z_max_gw, catalog_data['z_agn_sorted'], catalog_data['z_agn_cdf']))
     f_agn_true = config_data['gw_injection']['f_agn']
     lambda_agn_true = config_data['gw_injection']['lambda_agn']
     _, alpha_agn_true = utils.compute_gw_host_fractions(
@@ -232,46 +298,6 @@ def main(config_inference, config_data, fn_config, overwrite=False):
         'gamma_agn': config_data['mock_catalog'].get('gamma_agn', 0.0),
         'gamma_gal': config_data['mock_catalog'].get('gamma_gal', 0.0),
     }
-
-    # Setup cosmology
-    cosmo_funcs = setup_cosmology()
-
-    # Beta(H0) correction setup.
-    #
-    # The correction requires two things precomputed once at startup:
-    #   1. dL_max  — the luminosity-distance threshold that defines "detectable".
-    #                Set to dL(z_max_gw, H0_true): the distance to the injection
-    #                redshift cut at the fiducial cosmology.  This is a fixed
-    #                number in Mpc; it does NOT change as H0 is varied during MCMC.
-    #   2. Sorted catalog CDFs — used to look up the fraction of catalog sources
-    #                inside the horizon at any trial H0 via fast interpolation.
-    #
-    # At each MCMC step, z_max_det(H0) = z_of_dL(dL_max, H0) is computed; it
-    # shifts up/down with H0.  beta(H0) = CDF(z_max_det) is then the fraction of
-    # catalog galaxies within that shifted horizon.  See precompute_beta_cdf() for
-    # the full motivation and a worked numerical example.
-    z_max_gw = config_data['gw_injection'].get('z_max_gw', None)
-    if z_max_gw is not None:
-        H0_true = config_data['cosmology']['H0']
-        Om0_true = config_data['cosmology']['Om0']
-        # In a real analysis dL_max would come directly from detector sensitivity
-        # (noise PSD + SNR threshold); here we derive it from z_max_gw as a mock
-        # stand-in since we have no detector model.
-        dL_max = float(cosmo_funcs['dL_of_z'](jnp.array(z_max_gw), H0_true, Om0_true))
-        print(
-            "beta(H0) correction enabled: z_max_gw={}, dL_max={:.1f} Mpc".format(
-                z_max_gw, dL_max
-            )
-        )
-        z_gal_sorted, z_gal_cdf, z_agn_sorted, z_agn_cdf = precompute_beta_cdf(catalog_data)
-        catalog_data['dL_max'] = dL_max
-        catalog_data['z_gal_sorted'] = z_gal_sorted
-        catalog_data['z_gal_cdf'] = z_gal_cdf
-        catalog_data['z_agn_sorted'] = z_agn_sorted
-        catalog_data['z_agn_cdf'] = z_agn_cdf
-    else:
-        catalog_data['dL_max'] = None
-        print("beta(H0) correction disabled: z_max_gw not set in data config")
 
     # Create catalog probability functions
     prob_funcs = create_catalog_probability_functions(catalog_data)
@@ -1375,24 +1401,56 @@ def compute_darksiren_log_likelihood(
     z_of_dL = cosmo_funcs['z_of_dL']
     ddL_of_z = cosmo_funcs['ddL_of_z']
     logPriorUniverse = prob_funcs['logPriorUniverse']
-    
+
+    # Resolve the selection mode (see main() for the rationale).  Callers that
+    # never set it (old notebooks) fall back to the legacy behavior keyed on
+    # the presence of dL_max.
+    selection_mode = catalog_data.get('selection_mode')
+    if selection_mode is None:
+        selection_mode = 'dl_horizon' if catalog_data.get('dL_max') is not None else 'none'
+
+    if selection_mode == 'fixed_z':
+        # Exact treatment for hosts drawn with a hard TRUE-z cut at z_max_gw:
+        # each tracer field p_X (full-catalog normalized) must be truncated and
+        # renormalized by the H0-INDEPENDENT constant beta_X = CDF_X(z_max_gw).
+        # The mixture alpha*p_A/beta_A + (1-alpha)*p_G/beta_G is rewritten as
+        # mix_norm * [alpha_eff*p_A + (1-alpha_eff)*p_G] so the existing
+        # logPriorUniverse can be reused unchanged.
+        beta_agn_fixed = catalog_data['beta_agn_fixed']
+        beta_gal_fixed = catalog_data['beta_gal_fixed']
+        a_agn = alpha_agn / beta_agn_fixed
+        a_gal = (1.0 - alpha_agn) / beta_gal_fixed
+        mix_norm = a_agn + a_gal
+        alpha_used = a_agn / mix_norm
+    else:
+        mix_norm = None
+        alpha_used = alpha_agn
+
     # Convert distances to redshifts
     #print(f"Computing redshifts: dL={dL}, H0={H0}, Om0={Om0}")
     z = z_of_dL(dL, H0, Om0)
-    
+
     # Compute log weights
     #print(f"Computing log weights: z={z}, p_pe={p_pe}, N_gw={N_gw}, N_samples_gw={N_samples_gw}")
     log_weights = (
-        -jnp.log(ddL_of_z(z, dL, H0, Om0)) 
-        - jnp.log(p_pe) 
-        + logPriorUniverse(z, samples_ind, alpha_agn, Om0, gamma_agn, gamma_gal)
+        -jnp.log(ddL_of_z(z, dL, H0, Om0))
+        - jnp.log(p_pe)
+        + logPriorUniverse(z, samples_ind, alpha_used, Om0, gamma_agn, gamma_gal)
     )
+    if selection_mode == 'fixed_z':
+        # Numerator truncation: the host prior has NO support above the true-z
+        # cut, so PE samples whose implied z(dL_s|H0) exceeds z_max_gw drop out.
+        log_weights = jnp.where(z <= catalog_data['z_max_gw'], log_weights, -jnp.inf)
     e = time.time()
     #print(f"likelihood call time: {e - s} seconds")
     # Reshape and compute log-likelihood
     #print(f"Reshaping and computing log-likelihood: log_weights={log_weights}, N_gw={N_gw}, N_samples_gw={N_samples_gw}")
     log_weights = log_weights.reshape((N_gw, N_samples_gw))
     ll = jnp.sum(-jnp.log(N_samples_gw) + logsumexp(log_weights, axis=-1))
+    if selection_mode == 'fixed_z':
+        # Constant (H0-independent) mixture normalization pulled out of
+        # logPriorUniverse by the alpha_eff rewrite above.
+        ll = ll + N_gw * jnp.log(mix_norm)
 
     # -------------------------------------------------------------------------
     # Beta(H0) selection-bias correction
@@ -1426,7 +1484,7 @@ def compute_darksiren_log_likelihood(
     # The correction therefore slopes downward toward high H0 and steers the
     # posterior back toward H0_true.
     dL_max = catalog_data.get('dL_max')
-    if dL_max is not None:
+    if selection_mode == 'dl_horizon' and dL_max is not None:
         # z_max_det shifts proportionally to H0 (≈ z_max_gw * H0/H0_true in
         # the Hubble-flow limit), so beta grows roughly as H0^3 for a uniform-
         # in-comoving-volume catalog where CDF ~ z^3.

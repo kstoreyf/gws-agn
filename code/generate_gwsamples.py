@@ -128,6 +128,11 @@ def main(config, overwrite=False):
     # Number of samples to generate per GW event
     N_samples_gw = config['gw_samples']['N_samples_gw']
 
+    # Seed BEFORE mass generation — masses and PE clouds share the global RNG
+    seed_samples = config['gw_samples'].get('seed_samples', None)
+    if seed_samples is not None:
+        np.random.seed(int(seed_samples))
+
     # Redshift grid boundaries for cosmology calculations (fixed values)
     zMax_1 = 0.5  # Low redshift boundary
     zMax_2 = 5.0  # High redshift boundary
@@ -162,21 +167,25 @@ def main(config, overwrite=False):
     dec_unc = config['gw_samples']['dec_uncertainty']
     dL_unc_fac = config['gw_samples']['dL_uncertainty_fac']
     mass_unc = config['gw_samples']['mass_uncertainty']
+    pe_centering = config['gw_samples'].get('pe_centering', 'obs')
+    print(f"PE-cloud generation: pe_centering={pe_centering!r}, seed_samples={seed_samples}")
     n_initial_samples = 256000  # Fixed value
-    
+
     ras_gal, decs_gal, dLs_gal, m1dets_gal, m2dets_gal = generate_all_samples(
-        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw, 
-        N_samples_gw, n_initial_samples=n_initial_samples, 
-        ra_uncertainty=ra_unc, dec_uncertainty=dec_unc, 
-        dL_uncertainty_fac=dL_unc_fac, mass_uncertainty=mass_unc
+        ra_gal_gw, dec_gal_gw, dL_gal_gw, m1sdet_gal_gw, m2sdet_gal_gw,
+        N_samples_gw, n_initial_samples=n_initial_samples,
+        ra_uncertainty=ra_unc, dec_uncertainty=dec_unc,
+        dL_uncertainty_fac=dL_unc_fac, mass_uncertainty=mass_unc,
+        pe_centering=pe_centering
     )
 
     # Generate samples for AGN-hosted GW events (order: ra, dec, dL, m1det, m2det)
     ras_agn, decs_agn, dLs_agn, m1dets_agn, m2dets_agn = generate_all_samples(
-        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw, 
-        N_samples_gw, n_initial_samples=n_initial_samples, 
-        ra_uncertainty=ra_unc, dec_uncertainty=dec_unc, 
-        dL_uncertainty_fac=dL_unc_fac, mass_uncertainty=mass_unc
+        ra_agn_gw, dec_agn_gw, dL_agn_gw, m1sdet_agn_gw, m2sdet_agn_gw,
+        N_samples_gw, n_initial_samples=n_initial_samples,
+        ra_uncertainty=ra_unc, dec_uncertainty=dec_unc,
+        dL_uncertainty_fac=dL_unc_fac, mass_uncertainty=mass_unc,
+        pe_centering=pe_centering
     )
 
     # Keep galaxy and AGN samples separate (order: ra, dec, dL, m1det, m2det)
@@ -443,14 +452,15 @@ def generate_black_hole_masses(z, N_gw, mass_mean=35, mass_std=5):
     return m1sdet, m2sdet
 
 
-def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw, 
-                           n_initial_samples=256000, 
-                           ra_uncertainty=0.01, dec_uncertainty=0.01, 
-                           dL_uncertainty_fac=1.0, mass_uncertainty=1.5):
+def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
+                           n_initial_samples=256000,
+                           ra_uncertainty=0.01, dec_uncertainty=0.01,
+                           dL_uncertainty_fac=1.0, mass_uncertainty=1.5,
+                           pe_centering='obs'):
     """
     Generate samples for a single GW event with measurement uncertainties.
     Order: ra, dec, dL, m1det, m2det
-    
+
     Parameters:
     -----------
     ra : float
@@ -473,7 +483,14 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
         Standard deviation of dec uncertainty in radians
     mass_uncertainty : float
         Standard deviation of mass uncertainty in solar masses
-        
+    pe_centering : str
+        'obs' (default): draw one noisy observation d_obs ~ N(truth, sigma), then PE
+        samples ~ N(d_obs, sigma_obs) with the dL width tied to the observed distance
+        (sigma_obs = fac * |dL_obs|) — the statistically consistent flat-prior posterior.
+        'truth' (legacy): PE samples centred on the true parameters. This makes every
+        PE cloud peak at the truth with no measurement scatter — inconsistent as data,
+        kept only for A/B comparison against historical runs.
+
     Returns:
     --------
     ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples : arrays
@@ -492,16 +509,19 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
     )
     dec_idx = 1  # Declination is at index 1 in the 5D samples
 
-    ## NEW METHOD ATTEMPT
-    # # First: draw one noisy realisation — this is the "observed" event
-    # obs = np.random.normal(loc=true_params, scale=std)
-    # # Second: draw PE samples centred on the observation, not the truth
-    # samples = np.random.normal(loc=obs, scale=std, size=(n_initial_samples, true_params.size))
-
-    ## OLD MAYBE WRONG CAUSING BIAS??
-    # Generate a large number of samples to ensure we have enough valid ones
-    # after filtering by declination bounds
-    samples = np.random.normal(loc=true_params, scale=std, size=(n_initial_samples, true_params.size))
+    if pe_centering == 'obs':
+        # First: draw one noisy realisation — this is the "observed" event
+        obs = np.random.normal(loc=true_params, scale=std)
+        # The analyst only knows the observed distance, so the PE width is tied to it
+        obs_std = std.copy()
+        obs_std[2] = dL_uncertainty_fac * abs(obs[2])
+        # Second: draw PE samples centred on the observation, not the truth
+        samples = np.random.normal(loc=obs, scale=obs_std, size=(n_initial_samples, true_params.size))
+    elif pe_centering == 'truth':
+        # Legacy behavior: clouds centred on the truth (biased-data convention)
+        samples = np.random.normal(loc=true_params, scale=std, size=(n_initial_samples, true_params.size))
+    else:
+        raise ValueError(f"pe_centering must be 'obs' or 'truth', got {pe_centering!r}")
     
     # Filter samples to ensure declination is within valid range [-pi/2, pi/2]
     dec_samples = samples[:,dec_idx]
@@ -522,10 +542,11 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
     return ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples
 
 
-def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, N_samples_gw, 
-                        n_initial_samples=256000, 
-                        ra_uncertainty=0.01, dec_uncertainty=0.01, 
-                        dL_uncertainty_fac=1.0, mass_uncertainty=1.5):
+def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, N_samples_gw,
+                        n_initial_samples=256000,
+                        ra_uncertainty=0.01, dec_uncertainty=0.01,
+                        dL_uncertainty_fac=1.0, mass_uncertainty=1.5,
+                        pe_centering='obs'):
     """
     Generate samples for all GW events of a given type.
     Order: ra, dec, dL, m1det, m2det
@@ -560,10 +581,11 @@ def generate_all_samples(ra_gw, dec_gw, dL_gw, m1det_gw, m2det_gw, N_samples_gw,
     
     for k in tqdm(range(len(ra_gw))):
         ra_samples, dec_samples, dL_samples, m1det_samples, m2det_samples = generate_event_samples(
-            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k], 
-            N_samples_gw, n_initial_samples=n_initial_samples, 
-            ra_uncertainty=ra_uncertainty, dec_uncertainty=dec_uncertainty, 
-            dL_uncertainty_fac=dL_uncertainty_fac, mass_uncertainty=mass_uncertainty
+            ra_gw[k], dec_gw[k], dL_gw[k], m1det_gw[k], m2det_gw[k],
+            N_samples_gw, n_initial_samples=n_initial_samples,
+            ra_uncertainty=ra_uncertainty, dec_uncertainty=dec_uncertainty,
+            dL_uncertainty_fac=dL_uncertainty_fac, mass_uncertainty=mass_uncertainty,
+            pe_centering=pe_centering
         )
         ras.append(ra_samples)
         decs.append(dec_samples)
