@@ -37,13 +37,17 @@ def run(cmd, log):
         raise RuntimeError('FAILED ({}): {} (log: {})'.format(r.returncode, ' '.join(cmd), log))
 
 
-def alpha_true_from_log(log):
-    with open(log) as f:
-        txt = f.read()
-    m = re.findall(r'Fraction in AGN: ([0-9.eE+-]+)', txt)
-    if not m:
-        raise RuntimeError('no "Fraction in AGN" line in ' + log)
-    return float(m[-1])
+def alpha_true_from_injection(dc):
+    """Planted AGN fraction read from the injection file itself (robust to
+    make_mocks skipping an existing injection without printing fractions).
+    Differs from the population alpha_true only by the deterministic rounding
+    (<= 1/(2 N_gw))."""
+    import h5py
+    fn = os.path.join(dc['paths']['dir_mock'], dc['paths']['name_gw'])
+    with h5py.File(fn, 'r') as f:
+        n_agn = len(f['i_gw_agn'])
+        n_gal = len(f['i_gw_gal'])
+    return n_agn / (n_agn + n_gal)
 
 
 def one_set(f_agn):
@@ -70,7 +74,7 @@ def one_set(f_agn):
     log = os.path.join(outdir, tag + '.log')
     open(log, 'w').close()
     run([sys.executable, 'make_mocks.py', fn_dc], log)
-    a_true = alpha_true_from_log(log)
+    a_true = alpha_true_from_injection(dc)
     run([sys.executable, 'generate_gwsamples.py', fn_dc], log)
     if not os.path.exists(fn_grid):
         run([sys.executable, 'run_inference.py', fn_ic, '--overwrite'], log)

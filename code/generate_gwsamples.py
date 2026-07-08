@@ -512,11 +512,29 @@ def generate_event_samples(ra, dec, dL, m1det, m2det, N_samples_gw,
     if pe_centering == 'obs':
         # First: draw one noisy realisation — this is the "observed" event
         obs = np.random.normal(loc=true_params, scale=std)
-        # The analyst only knows the observed distance, so the PE width is tied to it
-        obs_std = std.copy()
-        obs_std[2] = dL_uncertainty_fac * abs(obs[2])
-        # Second: draw PE samples centred on the observation, not the truth
-        samples = np.random.normal(loc=obs, scale=obs_std, size=(n_initial_samples, true_params.size))
+        # Second: draw PE samples centred on the observation, not the truth.
+        # ra/dec/mass have constant (homoscedastic) widths, so Gaussian clouds
+        # around the observation ARE the exact flat-prior posteriors there.
+        samples = np.random.normal(loc=obs, scale=std, size=(n_initial_samples, true_params.size))
+        if dL_uncertainty_fac > 0:
+            # dL noise is MULTIPLICATIVE: likelihood N(d_obs; dL, fac*dL). The
+            # flat-prior posterior in dL is then NOT Gaussian — approximating it
+            # with N(d_obs, fac*d_obs) while keeping p_pe = 1 downstream injects
+            # an O(fac^2) distance-scale (hence H0) bias. Sample the posterior
+            # exactly by inverse-CDF on a grid instead.
+            fac = dL_uncertainty_fac
+            d_obs = abs(obs[2])
+            # Window must cover |d_obs - dL| <= 8*fac*dL: the UPPER bound is
+            # d_obs/(1 - 8*fac) (heavy upper tail — sigma grows with dL), not
+            # d_obs*(1 + 8*fac); truncating it biases distances low at large fac.
+            lo = max(d_obs / (1.0 + 8.0 * fac), 1e-3)
+            hi = d_obs / (1.0 - 8.0 * fac) if 8.0 * fac < 0.95 else 20.0 * d_obs
+            grid = np.geomspace(lo, max(hi, 2.0 * lo), 8192)
+            logp = -0.5 * ((d_obs - grid) / (fac * grid)) ** 2 - np.log(grid)
+            p = np.exp(logp - logp.max())
+            cdf = np.concatenate([[0.0], np.cumsum(0.5 * (p[1:] + p[:-1]) * np.diff(grid))])
+            cdf /= cdf[-1]
+            samples[:, 2] = np.interp(np.random.random(n_initial_samples), cdf, grid)
     elif pe_centering == 'truth':
         # Legacy behavior: clouds centred on the truth (biased-data convention)
         samples = np.random.normal(loc=true_params, scale=std, size=(n_initial_samples, true_params.size))

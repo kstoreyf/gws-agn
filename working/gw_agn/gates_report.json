@@ -1,0 +1,45 @@
+{
+  "program": "multitracer fagn (working/gw_agn)",
+  "updated": "2026-07-08",
+  "repo_commits": {"base": "f92741a", "ws1_fix": "7f21ab9", "state": "37f36db+"},
+  "environment": {
+    "jax_env": "conda jax (jax 0.4.34, A100-80GB)",
+    "glass_env": "conda glassenv (glass 2025.1, camb)",
+    "cosmology_truth": {"H0": 67.74, "Om0": 0.3075, "Ob0": 0.0486, "h": 0.6774}
+  },
+  "catalog": {
+    "path": "working/gw_agn/data/glass_prod",
+    "type": "GLASS lognormal, shared matter field",
+    "seed": 101, "nside": 64, "z_range": [0.0, 1.5],
+    "nbar_arcmin2": {"gal": 0.01, "agn": 0.0001},
+    "bias": {"gal": 1.2, "agn": 2.0},
+    "counts": {"gal": 1177289, "agn": 11724},
+    "eligible_z_le_1": {"gal": 503774, "agn": 5032}
+  },
+  "estimator": {
+    "selection_mode": "fixed_z",
+    "pe_centering": "obs (exact inverse-CDF flat-prior dL posterior)",
+    "Dz": 0.003, "N_samples_gw": 2000, "dL_uncertainty_fac": 0.1
+  },
+  "gates": {
+    "E1": {"verdict": "FAIL-as-stated -> fallback executed; E1-b PASS at fiducial",
+           "detail": "legacy arm swings +2.7..-13.9 across fac; Gaussian-obs arm O(fac^2) biased (+1.44+-0.12 at fac=0.1); exact-posterior toy arm +0.00+-0.21 at fac=0.1; fac=0.3 residual traced to sampler window, fixed"},
+    "S0": {"verdict": "PASS machinery / FINDING S0-a",
+           "detail": "Dz=1e-4 delta-spike KDE biases sparse tracer (alpha 0.33 vs 0.505); plateau at Dz>=1e-3; knobs Dz=3e-3, n_samp=2000"},
+    "G0": {"verdict": "PASS", "detail": "52/52 injection files: all hosts z<=1.0<1.5"},
+    "G1": {"verdict": "PASS", "detail": "52/52: deterministic split exact vs eligible-pool fractions; no duplicate hosts"},
+    "S1": {"verdict": "PASS", "detail": "GLASS single realization: grid 59 s (46 ms/eval, 61x21, N_gw=100x2000); H0 68.11 [66.09,69.64] truth in 68%"},
+    "G2": {"verdict": "PASS",
+           "detail": "exact-cloud arm, 25+25 reals, N_gw=100: GAL rate68/90=0.84/0.92, <H0med>=67.31+-0.25; AGN 0.68/0.80, 67.68+-0.20. Gaussian-approx A/B arm FAILED offset criterion (+0.96/+0.73, 3.3sigma) and is archived at results/coverage_gaussapprox (superseded, do not quote)"},
+    "G3a": {"verdict": "PENDING", "detail": "fisher_forecast.py on rec grids after G3 batch"},
+    "G3": {"verdict": "RUNNING",
+           "detail": "f_agn=0.0 done: alpha_true=0.0099, alpha 0.017 [0.005,0.035] in68, H0 67.96 [67.08,68.74] in68 (N_gw=1000); 0.3/0.7/1.0 running"},
+    "G4": {"verdict": "PENDING"},
+    "G5": {"verdict": "PENDING"}
+  },
+  "superseded_do_not_quote": [
+    "all pre-7f21ab9 inference results (beta(H0)+truth-centered+Dz=1e-4)",
+    "results/coverage_gaussapprox/* (Gaussian-approx obs clouds)",
+    "S0 smoke grids at Dz=1e-4"
+  ]
+}
