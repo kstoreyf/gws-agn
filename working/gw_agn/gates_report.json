@@ -1,7 +1,7 @@
 {
   "program": "multitracer fagn (working/gw_agn)",
-  "updated": "2026-07-08",
-  "repo_commits": {"base": "f92741a", "ws1_fix": "7f21ab9", "state": "37f36db+"},
+  "updated": "2026-07-08 (close-out)",
+  "repo_commits": {"base": "f92741a", "ws1_fix": "7f21ab9", "exact_posterior": "80b292e", "p5_package": "804332a"},
   "environment": {
     "jax_env": "conda jax (jax 0.4.34, A100-80GB)",
     "glass_env": "conda glassenv (glass 2025.1, camb)",
@@ -23,19 +23,22 @@
   },
   "gates": {
     "E1": {"verdict": "FAIL-as-stated -> fallback executed; E1-b PASS at fiducial",
-           "detail": "legacy arm swings +2.7..-13.9 across fac; Gaussian-obs arm O(fac^2) biased (+1.44+-0.12 at fac=0.1); exact-posterior toy arm +0.00+-0.21 at fac=0.1; fac=0.3 residual traced to sampler window, fixed"},
+           "detail": "legacy arm swings +2.7..-13.9 across fac; Gaussian-obs arm O(fac^2) biased (+1.44+-0.12 at fac=0.1); exact-posterior toy arm +0.00+-0.21 at fac=0.1; fac=0.3 residual traced to sampler window (upper bound must be d_obs/(1-8fac)), fixed"},
     "S0": {"verdict": "PASS machinery / FINDING S0-a",
            "detail": "Dz=1e-4 delta-spike KDE biases sparse tracer (alpha 0.33 vs 0.505); plateau at Dz>=1e-3; knobs Dz=3e-3, n_samp=2000"},
     "G0": {"verdict": "PASS", "detail": "52/52 injection files: all hosts z<=1.0<1.5"},
     "G1": {"verdict": "PASS", "detail": "52/52: deterministic split exact vs eligible-pool fractions; no duplicate hosts"},
     "S1": {"verdict": "PASS", "detail": "GLASS single realization: grid 59 s (46 ms/eval, 61x21, N_gw=100x2000); H0 68.11 [66.09,69.64] truth in 68%"},
     "G2": {"verdict": "PASS",
-           "detail": "exact-cloud arm, 25+25 reals, N_gw=100: GAL rate68/90=0.84/0.92, <H0med>=67.31+-0.25; AGN 0.68/0.80, 67.68+-0.20. Gaussian-approx A/B arm FAILED offset criterion (+0.96/+0.73, 3.3sigma) and is archived at results/coverage_gaussapprox (superseded, do not quote)"},
-    "G3a": {"verdict": "PENDING", "detail": "fisher_forecast.py on rec grids after G3 batch"},
-    "G3": {"verdict": "RUNNING",
-           "detail": "f_agn=0.0 done: alpha_true=0.0099, alpha 0.017 [0.005,0.035] in68, H0 67.96 [67.08,68.74] in68 (N_gw=1000); 0.3/0.7/1.0 running"},
-    "G4": {"verdict": "PENDING"},
-    "G5": {"verdict": "PENDING"}
+           "detail": "exact-cloud arm, 25+25 reals, N_gw=100: GAL rate68/90=0.84/0.92, <H0med>=67.31+-0.25; AGN 0.68/0.80, 67.68+-0.20 (truth 67.74). Gaussian-approx A/B arm FAILED offset criterion (+0.96/+0.73, 3.3sigma; AGN cov 0.48/0.64) - archived results/coverage_gaussapprox, superseded do-not-quote"},
+    "G3a": {"verdict": "PASS",
+            "detail": "Fisher on rec_fagn0.3 (N=1000): sigma_alpha=0.019, sigma_H0=0.35, rho=-0.002; scaled sigma_alpha=0.086@N=50 (not prior-dominated), 0.061@N=100"},
+    "G3": {"verdict": "PASS (boundary caveat)",
+           "detail": "truths {0.0099,0.307,0.703,1.0} -> {0.017,0.330,0.687,0.975}; 68% CIs cover except alpha=1 equal-tailed (one-sided 68% [0.966,1] covers; interior MAP is sky-pixelization attenuation of the sparse tracer, |dalpha|<~0.03, NOT MC noise per 4x-samples A/B). Posterior << prior everywhere: decisively non-null. Multitracer payoff: AGN H0 half-width 0.72 vs GAL 1.43 (2.0x)"},
+    "G4": {"verdict": "PASS",
+           "detail": "src/darksirens_multitracer bit-for-bit (np.array_equal) vs code/run_inference.py on s0 data, 4x4 grid incl. boundary alphas; tests 4/4. Legacy findings F-P1 (mixed precision via import side effect) and F-P2 (OPTION-4 uses integer counts as W_pix) documented"},
+    "G5": {"verdict": "PASS",
+           "detail": "pair (gal, gal_sub10=10%) config-only via package CLI: H0 69.10 [67.61,70.58] truth in 68% (N=100); alpha_sub10 0.119 [0.037,0.221] ~ nested-subsample expectation 0.1"}
   },
   "superseded_do_not_quote": [
     "all pre-7f21ab9 inference results (beta(H0)+truth-centered+Dz=1e-4)",
