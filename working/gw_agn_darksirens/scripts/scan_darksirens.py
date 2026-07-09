@@ -62,6 +62,10 @@ def parse_args(argv=None):
     )
     ap.add_argument("--universe_model", choices=["dark_sirens", "dark_sirens_complete"],
                     required=True)
+    ap.add_argument("--catalog_sky_weighting", choices=["conditional", "field"],
+                    default="conditional",
+                    help="Catalog-prior normalization (PR-3 branch feature): "
+                         "'field' = survey-global Z (host-fraction estimand).")
     ap.add_argument("--survey_path", nargs="+", required=True, metavar="PATH",
                     help="1 path => K=1; 2 paths => K=2 mixture, order [GAL, AGN] "
                          "so fcat_2 = alpha_AGN.")
@@ -216,6 +220,7 @@ def main(argv=None):
         shared_spin=True,
         shared_gamma=True,
         complete_empty_pixel_policy="zero",
+        catalog_sky_weighting=args.catalog_sky_weighting,
     )
     # --- adjustments for this CLI ---
     opts.universe_model = args.universe_model

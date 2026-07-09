@@ -119,3 +119,22 @@ Verdicts (full numbers: RESULTS.md, results/comparison_summary.json):
 - Overall: the H0 half of the reproduction stands; the f half is a diagnosed estimand
   difference in the production code's K≥2 mixture — reported as the campaign's central
   finding rather than engineered away (per the program's honesty rules).
+
+## Stack acceptance — field-mode reruns on the campaign data (2026-07-09, PR-3 branch c3fc3f8)
+
+Field-convention sky weighting (darksirens PR #207) rerun on the fagn0.3 campaign inputs
+(N=1000, H0=truth, DARKSIRENS_ZMAX=1.5):
+- log10n0 at TRUE densities: argmax f=0.8 with f>=0.9 killed by the selection guard — the
+  dark_sirens field model with n0=true honestly budgets ~11.8k "missing" AGN across the
+  90% empty pixels (half of Z_agn); on a COMPLETE clustered catalog that is misspecified.
+- Complete-catalog limit (log10n0=-12, N_miss->0, Z->N_obs = gw_agn's field): **interior
+  argmax f=0.40 on BOTH independent injection seeds** (truth 0.307; d(0.30)=-23.8/-13.2);
+  f->1 strongly disfavored / -inf (gw_agn signature). Conditional control on the same data
+  railed at f=1.0 (+184). VERDICT: estimand fix CONFIRMED end-to-end.
+- Residual +0.1 argmax offset and the f>0.45 guard behavior are selection-MC-limited:
+  seed A's soft-guard penalty explodes above 0.45 while seed B is smooth (-0.3 at 0.45),
+  i.e. mu_AGN under field weighting is dominated by the few occupied-pixel injections
+  (isotropic injection set x narrow kernels x sparse tracer). gw_agn's analytic
+  beta = CDF(z_max) had no such MC term. Clean quantitative recovery gate = the
+  purpose-built clustered mock in darksirens PR-5 (+ PR-4 complete-model mixture, whose
+  Z is theta-independent).
