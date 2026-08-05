@@ -1,0 +1,67 @@
+\section{Validation}
+\label{sec:validation}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_closure.pdf}
+\caption{The joint measurement repeated on \ClosureNseeds\ independent
+realisations of the simulated universe, each with its own density field,
+catalogs and \EvNobs\ events. Points and bars are per-realisation medians
+with 68\% intervals; the shaded band is the five-realisation mean offset with
+its standard error. Left: \Hz\ against the input value (mean offset
+$\ClosureHzero$~\kmsmpc). Right: \fagn\ against each realisation's own
+realised hosted fraction (black ticks; mean offset $\ClosureFagnReal$); the
+band steps because the reference differs per realisation, and the dotted line
+is the input probability \FagnTruthPlanted. The mean offsets are consistent
+with zero.
+\label{fig:closure}}
+\end{figure*}
+
+The measurement of \S\ref{sec:results:joint} is made on one realisation of
+every random step in \S\ref{sec:data}: the density field, the catalogs
+drawn from it, the hosts, the measurements, and the injection sets. We
+therefore repeat the entire construction \ClosureNseeds\ times with
+independent draws and repeat the joint measurement on each
+(Figure~\ref{fig:closure}).
+
+Both parameters recover. The mean offset of \Hz\ from the input value is
+$\ClosureHzero$~\kmsmpc, and the mean offset of \fagn\ from each realisation's
+own hosted fraction is $\ClosureFagnReal$ ($\ClosureFagnPlanted$ against the
+input probability). The input values fall inside the 68\% intervals in
+\ClosureHzeroInSixtyEight\ of \ClosureNseeds\ realisations for \Hz\ and
+\ClosureFagnInSixtyEight\ for \fagn, and inside the 90\% intervals in
+\ClosureHzeroInNinety\ and \ClosureFagnInNinety, consistent with the
+nominal rates for five draws. The realisation-to-realisation scatter of the
+\Hz\ medians is \ClosureScatterHzeroRatio\ times the mean quoted half-width
+(\ClosureScatterFagnRatio\ for \fagn), so the quoted intervals are honest to
+the precision five realisations can test. The matched-host controls of
+\S\ref{sec:results} recover across realisations as well, with mean offsets of
+$\CtrlGalMean$ (galaxies; input inside the 68\% interval in
+\CtrlGalInSixtyEight\ of \CtrlNseeds\ realisations) and
+$\CtrlAgnMean$~\kmsmpc\ (AGN; \CtrlAgnInSixtyEight\ of \CtrlNseeds\ at 68\%
+and \CtrlAgnInNinety\ at 90\%), and the correlation between the two
+parameters stays small, $\rho = \JointRhoMean$ across the five realisations.
+
+With \Hz\ held at its input value, the events as observed give
+$\fagn = \FagnRecord$ (68\% interval \FagnRecordCi), and permuting the
+observed sky positions among the events, so that every event keeps its
+distance and its localisation area but no longer points at its own host,
+collapses the recovered fraction to \FagnNull\ (\FagnNullCi). The
+observed-sky value lies far outside the permuted data's 90\% range of
+\FagnNullCiNinety, so host association, not the catalogs' global structure,
+carries the measurement.
+
+Two consistency properties tie the joint measurement to the single-catalog
+ones, and one uncertainty is carried explicitly. At $\fagn = 0$ and
+$\fagn = 1$ the mixture likelihood reproduces the corresponding single-catalog
+analyses of \S\ref{sec:results:single} exactly. An injection set drawn
+independently of the catalogs, from the source population and the comoving
+volume alone, reproduces the joint medians
+($\Hz = \HzeroJointCross$ against \HzeroJointMedian;
+$\fagn = \FagnJointCross$ against \FagnJointMedian). Finally, the detectable
+fraction $\mu(\Lambda)$ of Equation~(\ref{eq:mu}) is a Monte Carlo estimate,
+and its error moves every event coherently rather than averaging away. The error of
+the mixture's own term is not measured directly, but its $\fagn = 0$ and
+$\fagn = 1$ limits bracket it between \SelMcJointLo\ and
+\SelMcJointHi~\kmsmpc\ per realisation; at its upper end this is comparable
+to the standard error of the five-realisation mean offset.

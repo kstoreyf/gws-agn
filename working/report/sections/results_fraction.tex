@@ -1,0 +1,121 @@
+\section{The AGN-hosted fraction is measurable across its whole range}
+\label{sec:fraction}
+
+On complete clustered catalogs, \GlassNobs\ dark sirens recover the AGN-hosted
+fraction everywhere between almost none and all of the population. Scanning
+\fagn\ at the true expansion rate over \BaseFGridN\ points gives medians of
+\BaseFMedNought, \BaseFMedThree, \BaseFMedSeven\ and \BaseFMedUnity\ against
+planted values of \BaseFTruthNought, \BaseFTruthThree, \BaseFTruthSeven\ and
+\BaseFTruthUnity\ (Table~\ref{tab:frecovery}, Figure~\ref{fig:frecovery}). The
+planted value lies inside the 68\% interval at every interior point; the
+$\fagn = 1$ case sits on the prior boundary, where an equal-tailed interval
+cannot cover it and the one-sided 68\% limit, \BaseFOneSidedUnity, does. The
+residual offsets are \BaseFOffNought, \BaseFOffThree, \BaseFOffSeven\ and
+\BaseFOffUnity, none of them larger than \BaseFOffMaxAbs\ and all comparable to
+the 68\% half-widths, which run from \BaseFHwMin\ to \BaseFHwMax.
+
+What makes this work is the contrast between the two host priors and not the
+sparse tracer's redshifts on their own. The AGN catalog contains \GlassNagn\
+objects against \GlassNgal\ galaxies and leaves \GlassAgnEmptyPix\% of the sky
+without a single catalogued AGN, so on its own it localises almost nothing; what
+it does do is make a large part of the sky implausible for an AGN-hosted event
+while the galaxy catalog covers all of it. The mixture weight is the parameter
+that measures how often events prefer the sparse tracer's structure, and at
+these densities it is measured to \BaseFHwMin--\BaseFHwMax\ from \GlassNobs\
+events.
+
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{figures/fig_f_recovery.pdf}
+\caption{Recovery of the AGN-hosted fraction from \GlassNobs\ dark sirens on
+complete clustered catalogs. \emph{(a)} the flat-prior posteriors from
+\BaseFGridN-point scans at the true expansion rate, one per planted fraction
+(triangles). \emph{(b)} recovered against planted, with 68\% intervals; the
+$\fagn = 1$ point lies on the prior boundary and carries its one-sided limit.
+No likelihood evaluation is inadmissible in any of these scans.
+\label{fig:frecovery}}
+\end{figure*}
+
+\input{tables/tab_f_recovery}
+
+\subsection{The joint plane, and a distance-scale deficit}
+\label{sec:fraction:joint}
+
+Freeing the expansion rate together with the fraction leaves the fraction
+essentially unchanged and exposes a systematic in the distance scale
+(Figure~\ref{fig:joint}). At a planted $\fagn = \BaseFTruthThree$ the joint grid
+gives $\Hz = \BaseJointHzeroThree^{+\BaseJointHzeroUpThree}_{-\BaseJointHzeroDnThree}$~\kmsmpc\
+and $\fagn = \BaseJointFThree \pm \BaseJointFHwThree$ with a correlation
+coefficient of $\rho = \BaseJointRhoThree$; at $\fagn = \BaseFTruthSeven$ it
+gives $\Hz = \BaseJointHzeroSeven^{+\BaseJointHzeroUpSeven}_{-\BaseJointHzeroDnSeven}$~\kmsmpc,
+$\fagn = \BaseJointFSeven \pm \BaseJointFHwSeven$ and
+$\rho = \BaseJointRhoSeven$. The near-zero correlation at the lower fraction is
+worth stating on its own: there, the mixture weight is measured essentially
+independently of the distance scale, so the two parameters are not competing for
+the same information.
+
+The expansion rate, however, is recovered low --- by
+\BaseJointHzeroOffAbsThree~\kmsmpc\ at $\fagn = \BaseFTruthThree$ and
+\BaseJointHzeroOffAbsSeven~\kmsmpc\ at $\fagn = \BaseFTruthSeven$, which is
+\BaseJointHzeroSigThree\ and \BaseJointHzeroSigSeven\ times the respective 68\%
+half-widths --- and the deficit grows as the mixture leans on the sparse tracer.
+It is not a property of the mixture weight: \fagn\ is recovered correctly both
+at fixed \Hz\ and along the joint surface, and $\rho \simeq 0$ at the lower
+fraction. Two explanations that suggest themselves are measurably wrong. The
+host redshift weighting is one: the events' hosts were drawn uniformly over
+eligible catalog entries, corresponding to a rate index one unit away from the
+value the likelihood assumes, and repeating the scans at the matching value
+moves \Hz\ by at most \BaseGammaShiftMax~\kmsmpc, because under the global sky
+normalisation the factor enters both the per-event host prior and the
+survey-wide normalisation and cancels. The catalog's redshift boundary is the
+other, and it is not innocent: truncating both catalogs at $z \le 1$ with the
+events held fixed moves \Hz\ by \BaseEdgeShiftThree~\kmsmpc\ at
+$\fagn = \BaseFTruthThree$. A \BaseEdgeShiftAbsThree~\kmsmpc\ shift from
+relocating a catalog-construction boundary, with the data unchanged, says the
+inference is sensitive to how the host prior is terminated well outside the
+range the events occupy; \S\ref{sec:selection:tilt} explains why.
+
+Splitting the likelihood at fixed mixture weight into its per-event and
+selection terms localises where that sensitivity lives. At
+$\fagn = \BaseFTruthThree$ the per-event term alone peaks at
+\BaseDecompNumThree~\kmsmpc\ and the selection term shifts the total by
+\BaseDecompShiftThree~\kmsmpc, landing at \BaseDecompTotalThree; at
+$\fagn = \BaseFTruthSeven$ the same numbers are \BaseDecompNumSeven,
+\BaseDecompShiftSeven\ and \BaseDecompTotalSeven. The selection term supplies
+$\sim \BaseDecompShiftAbsThree$~\kmsmpc\ of pull almost independently of the
+fraction, with $\ln\mu$ spanning \BaseDecompLnmuRangeThree\ nats over the
+scanned range against $\Nobs = \GlassNobs$, a lever of
+$\sim \BaseDecompLeverThree$~nats; the per-event term carries all of the
+$f$-dependence. This localises the sensitivity but does not by itself identify
+an error, because the two terms are meant to oppose one another and only their
+sum has to be unbiased. The accurate-looking result at
+$\fagn = \BaseFTruthThree$ is accurate by cancellation, not by correctness:
+correcting only the selection normalisation would move it from
+\BaseJointHzeroOffThree\ to \BaseDecompNumOffThree~\kmsmpc.
+
+Section~\ref{sec:selection:tilt} resolves both terms: the two pulls are
+spurious levers sprung by a single inconsistency between the mocks'
+true-redshift detection cut and the likelihood's distance-space selection and
+host prior, and an estimator matched to the detection rule recovers the truth
+at both planted fractions. The $f$-dependence visible above is the collapse of
+the numerator's pull as the mixture weight moves onto the sparse tracer
+(\S\ref{sec:selection:anchor}). This family of offsets is specific to the
+clustered mocks' detection rule; the matched mocks of
+\S\ref{sec:selection}--\ref{sec:scatter} carry no analogue of it, their own
+error budget is measured and closed in \S\ref{sec:budget}, and the absolute
+recoveries they quote sit on the measured estimator-overhead floor
+(\OrcPairedOff$\pm$\OrcPairedSem~\kmsmpc) rather than on an unexplained
+offset.
+
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{figures/fig_joint_h0f.pdf}
+\caption{Joint constraint on the expansion rate and the AGN-hosted fraction
+from \GlassNobs\ dark sirens on complete clustered catalogs, at two planted
+fractions. \emph{(a)} 68\% and 90\% credible regions on shared axes; crosses
+mark the truth. \emph{(b)} the marginal distance-scale posteriors. The fraction
+is recovered at both values while the expansion rate is low by
+\BaseJointHzeroOffAbsThree\ and \BaseJointHzeroOffAbsSeven~\kmsmpc\
+respectively, the deficit growing as the mixture leans on the sparse tracer.
+\label{fig:joint}}
+\end{figure*}

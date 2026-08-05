@@ -1,0 +1,27 @@
+# Heavy pipeline artifacts stay on disk; the JSON summaries, scripts, READMEs,
+# and rendered figures are the record of each analysis.
+__pycache__/
+.ipynb_checkpoints/
+*.h5
+*.hdf5
+*.npz
+*.fits
+
+# dataset realisations and the env that built them (regenerable via data/run_v3_all.sh)
+data/seed*/
+data/.venv_glass/
+
+# per-analysis derived inputs and parked intermediates
+data_derived/
+attic/
+diagnostics/attribution/results/
+diagnostics/endgame/results/
+
+# LaTeX build junk
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+!logs/*.log

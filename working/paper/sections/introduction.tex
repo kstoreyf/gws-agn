@@ -1,0 +1,60 @@
+\section{Introduction}
+\label{sec:intro}
+
+A compact-binary merger measures its own luminosity distance but not its
+redshift. Dark standard sirens supply the missing redshift statistically:
+rather than identifying a single host, the analysis uses the redshift
+distribution of all catalogued galaxies consistent with the event's sky
+localisation and marginalises over which one was the host
+\citep{Schutz1986, HolzHughes2005, DelPozzo2012}. Applied to the events
+detected so far, the method constrains the Hubble constant to a few tens of
+per cent without a single electromagnetic counterpart
+\citep{Fishbach2019, Palmese2023, GWTC3Cosmo2023, GWTC4Cosmo2025}.
+
+The precision of that inference is set by the host catalog as much as by the
+gravitational-wave data. Two catalog properties do the work. The first is how
+sharply the catalog pins the redshift of a host given the event's sky patch,
+which improves with catalog density and with the amount of structure in the
+redshift distribution on the scale of the localisation
+\citep{Fishbach2019, Gray2020}. The second is how well the galaxies the survey
+missed are accounted for, since real catalogs are flux limited and beyond some
+redshift most hosts are absent
+\citep{ChenFishbachHolz2018, Finke2021, Gray2022}. Both favour the densest
+available catalog, and dark-siren analyses have accordingly been built on
+galaxy catalogs alone \citep{Palmese2023, GWTC3Cosmo2023}.
+
+There is a reason to add a second and much sparser catalog. Several formation
+channels predict that a subset of binary black hole mergers occurs in the
+gas-rich, dense environments around AGN
+\citep{Bartos2017, StoneMetzgerHaiman2017, McKernan2018,
+TagawaHaimanKocsis2020}, an association that individual candidate counterparts
+have made plausible but not established
+\citep{Graham2020, Gayathri2021, BomPalmese2023}. The fraction \fagn\ of
+mergers supplied by that channel is the branching ratio between AGN-assisted
+assembly and everything else \citep{FordMcKernan2022}, and it is measurable
+from the same data that measure the expansion rate, because AGN are not
+distributed like galaxies. A catalog of luminous AGN is roughly two orders of
+magnitude sparser in comoving number density than a galaxy catalog reaching the
+same depth \citep{Ananna2022}, and AGN are more strongly clustered, with a
+larger linear bias \citep{Krumpe2010}. Both differences enter the line-of-sight
+redshift prior
+each catalog supplies, so the two priors differ in shape as well as in
+normalisation, and the weight of the mixture between them is identifiable.
+
+We measure \Hz\ and \fagn\ jointly on a simulated sample in which both are
+known. Section~\ref{sec:methods} gives the likelihood: the mixture over
+catalogs, the redshift prior each catalog supplies and how its sky dependence
+is normalised, the treatment of flux-limited catalogs, and the selection
+function. Section~\ref{sec:data} describes the simulated universe: one
+clustered density field sampled by two tracers with literature-anchored
+densities and biases, and the events observed against it, with every
+measurement error a function of the observed data rather than of the source.
+Section~\ref{sec:results} reports the measurements: \Hz\ from each catalog
+separately, then \Hz\ and \fagn\ jointly. Section~\ref{sec:validation} tests
+them, by repeating the entire construction on independent realisations of the
+simulated universe and by a null test that removes the host association while
+changing nothing else. Section~\ref{sec:discussion} states what the
+measurement establishes and what it depends on. Uncertainties are 68\%
+equal-tailed credible intervals unless stated otherwise, and the input
+cosmology is flat $\Lambda$CDM with $\Hz = \HzeroTruth$~\kmsmpc\ and
+$\Omega_{m,0} = \OmZeroTruth$.

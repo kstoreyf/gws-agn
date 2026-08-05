@@ -1,0 +1,88 @@
+%% ---------------------------------------------------------------------------
+%% Joint H0 + AGN-hosted-fraction inference from dark sirens with two tracers
+%%
+%% Build:  python scripts/build_values.py
+%%         python scripts/make_figures.py
+%%         pdflatex main && bibtex main && pdflatex main && pdflatex main
+%%
+%% Every number in the body and the captions comes from
+%% values/results_macros.tex, which scripts/build_values.py writes from the
+%% dataset metadata (../data/seed100/META.json) and from the inference runs'
+%% output files.  Nothing is hand-typed.  See NUMBERS.md.
+%% ---------------------------------------------------------------------------
+\documentclass[twocolumn]{aastex631}
+
+\usepackage{amsmath}
+
+\received{\today}
+
+%% ---- editorial scaffolding (remove before submission) ---------------------
+% \todo{...} marks text waiting on a result still in production.
+\newcommand{\todo}[1]{{\bf [TODO: #1]}}
+
+%% ---- notation -------------------------------------------------------------
+\newcommand{\kmsmpc}{\ensuremath{{\rm km\,s^{-1}\,Mpc^{-1}}}}
+\newcommand{\Hz}{\ensuremath{H_0}}
+\newcommand{\fagn}{\ensuremath{f_{\rm AGN}}}
+\newcommand{\nzagn}{\ensuremath{n_{0,\rm AGN}}}
+\newcommand{\lognzagn}{\ensuremath{\log_{10} n_{0,\rm AGN}}}
+\newcommand{\Neff}{\ensuremath{N_{\rm eff}}}
+\newcommand{\Nobs}{\ensuremath{N_{\rm obs}}}
+\newcommand{\Msun}{\ensuremath{M_\odot}}
+\newcommand{\dd}{\ensuremath{\mathrm{d}}}
+
+%% ---- generated values -----------------------------------------------------
+\input{values/results_macros}
+
+\begin{document}
+
+\title{A dark standard siren measurement of the Hubble constant and the
+AGN-hosted fraction of compact-binary mergers}
+
+\author{I.~Maga\~na Hernandez}
+\affiliation{Department of Physics, Carnegie Mellon University, Pittsburgh, PA
+15213, USA}
+
+\begin{abstract}
+We measure the Hubble constant \Hz\ and the fraction \fagn\ of compact-binary
+mergers hosted by active galactic nuclei (AGN) jointly, from \EvNobs\ simulated
+dark standard sirens and two host catalogs (galaxies and AGN) that trace
+the same simulated large-scale structure with a number-density contrast of
+\DensityRatio\ and a clustering-bias contrast of \BiasRatioMeas. Each catalog
+supplies a line-of-sight redshift prior, the two priors enter the likelihood as
+a mixture with weight \fagn, and the fraction is identified by which catalog's
+sky and redshift structure the events prefer. With the source population held at
+its input values and both catalogs complete, we find
+$\Hz = \HzeroJoint$~\kmsmpc\ and $\fagn = \FagnJoint$: the realised hosted
+fraction (\FagnTruthReal, from \EvNhostAgn\ of the \EvNobs\ events hosted by
+AGN) lies inside the 68\% interval, and the input expansion rate
+(\HzeroTruth~\kmsmpc) inside the 90\%. The same events analysed against the galaxy catalog alone
+give $\Hz = \HzeroGal$~\kmsmpc: freeing the mixture and adding a catalog one
+hundred times sparser sharpens \Hz\ by a factor of \HzeroWidthRatio\ rather
+than diluting it. Scrambling the event sky positions, with \Hz\ held fixed, collapses the
+recovered fraction from \FagnRecord\ to \FagnNull, so the fraction is measured from host
+association rather than from the catalogs' redshift envelopes. Across five
+independent realisations of the simulated universe the joint fit recovers both
+parameters, with mean offsets of $\ClosureHzero$~\kmsmpc\ and
+$\ClosureFagnReal$. The branching ratio between AGN-assisted and field mergers
+is therefore measurable from the same events that measure the expansion rate,
+at no cost to it, provided the AGN number density is known.
+\end{abstract}
+
+\keywords{Gravitational waves, Cosmology, Hubble constant, Active galactic
+nuclei, Galaxy catalogs}
+
+\input{sections/introduction}
+\input{sections/methods}
+\input{sections/data}
+\input{sections/results}
+\input{sections/validation}
+\input{sections/discussion}
+
+\appendix
+\input{sections/appendix_pure_tracer}
+
+\bibliographystyle{aasjournal}
+\bibliography{references}
+
+\end{document}

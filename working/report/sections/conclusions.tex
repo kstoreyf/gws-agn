@@ -1,0 +1,109 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+We have asked what a sparse, strongly clustered second tracer adds to a
+dark-siren analysis that already has a dense galaxy catalog, and what a real
+survey would have to deliver for the addition to be worth making. Working on
+clustered lognormal mocks with a galaxy--AGN bias contrast of \GlassBiasRatio\
+and a number-density ratio of \GlassDensityRatio, and on mocks whose generative
+process matches the inference exactly, we find:
+
+\begin{enumerate}
+
+\item \textbf{The AGN-hosted fraction is measurable across its whole range.}
+From \GlassNobs\ dark sirens on complete clustered catalogs, \fagn\ is recovered
+with the planted value inside the 68\% interval at every interior point,
+residual offsets no larger than \BaseFOffMaxAbs, and 68\% half-widths of
+\BaseFHwMin--\BaseFHwMax. Jointly with the expansion rate the two
+parameters are nearly uncorrelated at $\fagn = \BaseFTruthThree$
+($\rho = \BaseJointRhoThree$), so the mixture weight is measured essentially
+independently of the distance scale.
+
+\item \textbf{A sparse tracer needs a selection campaign that follows it.} With
+injections drawn from the source population, the catalog-conditioned selection
+integral's effective sample size falls by a factor of \NeffPopDecay\ across the
+\fagn\ grid and the posterior peaks against the edge of the usable region, giving
+an apparent recovery that carries no information. A proposal that places
+\InjWtgt\ of its draws at catalogued AGN reverses that trend, by a factor of
+\NeffTgtRise, at a cost of \NeffTgtCostAtZero\% of the effective sample size when
+no events are AGN-hosted --- and changes the recovered fraction, not merely its
+error bar.
+
+\item \textbf{Incompleteness is cheap for the fraction and not for the distance
+scale.} From complete to \IncMeighteenCPct\% completeness within the horizon ---
+catalogued AGN inside the horizon falling from \IncCompleteAgnInHorizon\ to
+\IncMeighteenAgnInHorizon\ --- $\sigma(\fagn)$ grows by \IncFacFMax$\times$ while
+$\sigma(\Hz)$ grows by up to \IncFacHzeroMax$\times$, non-monotonically and
+with the first rung costing only \IncFacHzeroFirst$\times$, because the
+hosts a flux limit removes first lie beyond the gravitational-wave horizon. The
+separation between the measured fraction and its sky-shuffled null falls only
+from \IncCompleteSep\ to \IncMeighteenSep\ widths, a \IncSepLoss\% loss.
+
+\item \textbf{That robustness is bought entirely by knowing the tracer density.}
+Freeing \nzagn\ opens a degeneracy with the mixture weight that reaches
+$\rho = \FreeRhoMax$, and the fraction's detection significance falls from
+\FreeCompleteExactSig$\sigma$ to \FreeMeighteenFreeSig$\sigma$ across the same
+ladder. Completeness and density knowledge are not separable axes. The practical
+specification is external knowledge of \nzagn\ to about 10\%, which costs almost
+nothing at any completeness; a factor-of-two prior already gives only
+\FreeMeighteenFtwoSig$\sigma$ once the survey is incomplete.
+
+\item \textbf{The clustered mocks' distance-scale deficit is a selection
+consistency effect, and the sparse tracer damps it.} The deficit is the
+incomplete cancellation of two levers sprung by one inconsistency --- a
+true-redshift detection cut against a distance-space selection and a host
+prior with support above the horizon: \BaseDecompShiftThree\ to
+\BaseDecompShiftSeven~\kmsmpc\ from the selection slope (a zero-parameter
+analytic model reproduces \TiltModelPct\% of it) opposed by
+\TiltNumLeakThree\ to \TiltNumLeakSeven\ of numerator pull from
+above-horizon catalog support. An estimator matched to the detection rule
+recovers the truth at both planted fractions. The deficit grows with \fagn\
+because the sparse tracer's near-delta redshift kernels anchor the per-event
+term like a noisy counterpart, collapsing the numerator lever --- a genuinely
+multitracer robustness that dense smooth catalogs do not have.
+
+\item \textbf{The matched-mock error budget closes, and it indicts the mock
+before the inference.} \Hz\ comes back low by
+\AbCtrlMeanAbs$\pm$\AbCtrlSem~\kmsmpc\ (\AbCtrlSig$\sigma$) as generated. A
+detection rule acting on a latent variable absent from the data accounts for
+\AbDiffMean$\pm$\AbDiffSem; an exact evaluation of the likelihood attributes
+\OrcExactOff$\pm$\OrcExactSem\ more to a sky-localisation width drawn from
+latent parameters, a defect that biases even the exact likelihood
+(\OrcExactSig$\sigma$) because the width is itself an \Hz-sensitive
+observable. With both repaired the exact likelihood closes
+(\OrcBootFixOff$\pm$\OrcBootFixSem), and the full campaign regenerated with
+the repaired generator lands on the estimator overhead as predicted
+(\CloFixMean$\pm$\CloFixSem). What is chargeable to the estimator is
+\OrcPairedOff$\pm$\OrcPairedSem: the $1/\Neff$ selection correction
+(\OrcFarr) plus a zero-mean selection-Monte-Carlo wander of
+\OrcMuNoiseSd~\kmsmpc\ per realisation. Every matched-mock campaign in this
+paper was regenerated and rerun on the repaired generator, so the recoveries
+quoted above are absolute, with that estimator overhead as their measured
+floor.
+
+\item \textbf{The host catalog's own realisation is a missing error term.} Over
+\CloSeedN\ realisations in which catalog, events and posterior samples are
+reseeded together, the recovered expansion rate scatters by
+\CloSeedScatter~\kmsmpc\ against a mean quoted 68\% half-width of
+\CloSeedMeanHw~\kmsmpc: the intervals are too narrow by a factor of
+\CloSeedUnderFactor, and \CloCatalogVariance~\kmsmpc\ of scatter per
+\CloNobs-event sample is attributable to the catalog realisation. This term is
+absent from intervals computed at fixed catalog, and at this density it is
+comparable in size to the systematic above.
+
+\end{enumerate}
+
+Taken together these results say that a two-tracer dark-siren analysis can
+measure the AGN-hosted fraction, that survey depth is not what limits it, and
+that the limiting external input is the sparse tracer's space density. They also
+say that the field's error budgets are currently missing a catalog-realisation
+term of order \CloCatalogVariance~\kmsmpc\ per thousand events; and they
+suggest a standard of proof for mock-based closure tests --- the score
+identity at the truth, checked under an exact evaluation of the likelihood ---
+since every offset in this paper that looked like an inference systematic
+turned out, on that test, to be a mock that was not a draw from its own
+model, plus a measured and budgeted estimator overhead.
+
+\todo{Add an acknowledgements block, a software section, and a data-availability
+statement pointing at the reproduction scripts, once the reference list and the
+release plan exist.}

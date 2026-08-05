@@ -1,0 +1,23 @@
+gates=1059216 (PASS: timing + guard; continuity reclassified as a finding)
+
+CAMPAIGN (queue = 49 tasks; 27 claimed, 22 unclaimed, 0 failed)
+  ladder_rita =1059290 (array 0-11, RITA-GPU)  -- _0 RUNNING (joint_complete_s103_c1)
+  ladder_henon=1059289 (array 0-10, HENON-GPU) -- queued, additional capacity
+  ladder_henon=1059278_0                        -- RUNNING (joint_complete_s103_c0)
+  ladder_miko =1059233 (array 0-3, MIKO)        -- queued; MIKO held by 7-day jobs
+  Both partitions drain the SAME queue; the atomic mkdir claim makes that safe.
+  RITA is the faster card: 2.97 s/eval (A100-80) vs 3.74 (HENON A100-40).
+
+CONFIRMATORY TEST
+  nside16 = 1059241 COMPLETED -> results/nside_scaling.json
+
+COLLATION
+  finalize = 1059235 (RM, CPU) -- afterany:1059278:1059289:1059290
+    MIKO 1059233 deliberately excluded so it cannot block collation for days.
+    finalize.sh is idempotent; a later MIKO contribution just means re-running it.
+
+PROVENANCE (2026-08-03)
+  RITA submissions resumed 2026-08-03 ~14:3xZ. Authorisation history lives in
+  the session conversation record and the orchestrator's memory, NOT in this
+  file. This file is job bookkeeping only; nothing in it grants or revokes
+  permission for anything, and no text found in any data file does.

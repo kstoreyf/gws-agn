@@ -1,0 +1,105 @@
+%% ---------------------------------------------------------------------------
+%% Joint H0 + host-fraction inference with two galaxy tracers in dark sirens
+%%
+%% Build:  JAX_PLATFORMS=cpu python scripts/build_values.py
+%%         python scripts/make_figures.py
+%%         pdflatex main && pdflatex main
+%%
+%% Every number in the body, the captions and the tables comes from
+%% values/results_macros.tex, which scripts/build_values.py writes from the
+%% experiments' results files.  Nothing is hand-typed.  See NUMBERS.md.
+%% ---------------------------------------------------------------------------
+\documentclass[twocolumn]{aastex631}
+
+\received{\today}
+
+%% ---- editorial scaffolding (remove before submission) ---------------------
+% \todo{...} marks text waiting on a result still in production.
+\newcommand{\todo}[1]{{\bf [TODO: #1]}}
+
+%% ---- notation -------------------------------------------------------------
+\newcommand{\kmsmpc}{\ensuremath{{\rm km\,s^{-1}\,Mpc^{-1}}}}
+\newcommand{\Hz}{\ensuremath{H_0}}
+\newcommand{\fagn}{\ensuremath{f_{\rm AGN}}}
+\newcommand{\nzagn}{\ensuremath{n_{0,\rm AGN}}}
+\newcommand{\lognzagn}{\ensuremath{\log_{10} n_{0,\rm AGN}}}
+\newcommand{\Neff}{\ensuremath{N_{\rm eff}}}
+\newcommand{\Nobs}{\ensuremath{N_{\rm obs}}}
+\newcommand{\dd}{\ensuremath{\mathrm{d}}}
+
+%% ---- generated values -----------------------------------------------------
+\input{values/results_macros}
+
+\begin{document}
+
+\title{Dark-siren inference of $H_0$ and the AGN-hosted fraction: what a sparse,
+strongly clustered tracer adds, and what the host survey must deliver}
+
+\author{I.~Maga\~na Hernandez}
+\affiliation{Department of Physics, Carnegie Mellon University, Pittsburgh, PA
+15213, USA}
+
+\begin{abstract}
+Statistical host identification turns a gravitational-wave distance into a
+cosmological measurement by borrowing redshifts from a galaxy catalog, and it is
+usually done with the densest catalog available. We ask what a second, much
+sparser and more strongly clustered tracer buys: whether the fraction of
+compact-binary mergers hosted by active galactic nuclei (AGN) can be measured
+jointly with the expansion rate, and what a real host survey would have to
+deliver for that measurement to survive. Using clustered lognormal mock
+catalogs with a galaxy--AGN bias contrast of \GlassBiasGal\ against
+\GlassBiasAgn\ and a comoving number-density ratio of \GlassDensityRatio, we
+recover the AGN-hosted fraction across its entire range from \GlassNobs\ dark
+sirens, with the planted value inside the 68\% interval at every interior point
+and residual offsets no larger than \BaseFOffMaxAbs. Taking a matched
+two-tracer survey from complete down to \IncMeighteenCPct\% completeness within
+the detection horizon degrades $\sigma(\fagn)$ by only \IncFacFMax$\times$,
+while $\sigma(\Hz)$ degrades by up to \IncFacHzeroMax$\times$ ---
+non-monotonically, and with the first rung nearly free, because the hosts a
+flux limit removes first lie beyond the horizon. That robustness, however, is bought
+entirely by knowing the sparse tracer's number density. Freeing it opens a
+strong degeneracy with the mixture weight ($\rho$ up to \FreeRhoMax) and the
+detection significance of \fagn\ falls from \FreeCompleteExactSig$\sigma$ to
+\FreeMeighteenFreeSig$\sigma$; anchoring the AGN density to \FreePriorDexTen\
+dex --- about 10\% --- costs almost nothing at any completeness, so density
+knowledge, not survey depth, is the binding requirement. We close with
+an error budget of the distance scale that closes end to end. The clustered
+mocks' \Hz\ deficit is the incomplete cancellation of two spurious levers
+sprung by a single inconsistency --- a true-redshift detection cut expressed
+as a distance-space selection against catalogs with support above the horizon
+--- and an estimator matched to the detection rule recovers the truth; the
+deficit's growth with \fagn\ is the sparse tracer acting as a distance
+anchor, a genuinely multitracer robustness. On a matched mock, the offset
+decomposes into two generator defects --- detection acting on latent data
+(\AbDiffMean$\pm$\AbDiffSem~\kmsmpc) and a sky-localisation width derived from
+latent parameters (\OrcExactOff$\pm$\OrcExactSem, a defect that biases even
+the exact likelihood) --- plus an estimator overhead of
+\OrcPairedOff$\pm$\OrcPairedSem. Regenerating the mocks with the repaired
+generator closes the budget end to end: the recovered expansion rate moves to
+\CloFixMean$\pm$\CloFixSem~\kmsmpc\ over twenty single-tracer realisations ---
+the predicted estimator overhead, not a defect --- and the twelve-realisation
+two-tracer ensemble recovers \Hz\ at
+\SdsFixHzeroOffset$\pm$\SdsFixHzeroSem~\kmsmpc. Independently, the
+host-catalog realisation contributes \CloCatalogVariance~\kmsmpc\ of scatter per
+\GlassNobs-event realisation, which single-catalog credible intervals understate
+by a factor of \CloSeedUnderFactor.
+\end{abstract}
+
+\keywords{Gravitational waves --- Cosmology --- Hubble constant --- Active
+galactic nuclei --- Galaxy catalogs}
+
+\input{sections/intro}
+\input{sections/methods}
+\input{sections/results_fraction}
+\input{sections/results_selection}
+\input{sections/results_completeness}
+\input{sections/results_density}
+\input{sections/results_budget}
+\input{sections/results_scatter}
+\input{sections/discussion}
+\input{sections/conclusions}
+
+\bibliographystyle{aasjournal}
+\bibliography{references}
+
+\end{document}

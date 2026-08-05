@@ -1,0 +1,113 @@
+\section{Results}
+\label{sec:results}
+
+The estimator recovers the truth when it is told the truth. Handing each
+catalog only the events its objects actually host returns
+$\Hz = \CtrlGalMedian$~\kmsmpc\ from the galaxies (\EvNhostGal\ events) and
+$\Hz = \CtrlAgnMedian$~\kmsmpc\ from the AGN (\EvNhostAgn\ events), both
+consistent with the input value: it lies inside the galaxy control's
+68\% interval and the AGN control's 90\%. Section~\ref{sec:validation}
+repeats this recovery across five independent realisations. The measurements that
+follow use all \EvNobs\ events.
+
+\subsection{The Hubble constant from one catalog at a time}
+\label{sec:results:single}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_single_tracer.pdf}
+\caption{The same \EvNobs\ events analysed against one catalog at a time
+(reference realisation, \Hz\ scanned over
+$[\HzeroScanLo, \HzeroScanHi]$~\kmsmpc, the full range shown). Each panel
+shows the normalised flat-prior posterior density $p(\Hz \mid d)$, in units
+of km$^{-1}$\,s\,Mpc, for the galaxy catalog (top) and the AGN catalog
+(bottom); the two panels share the \Hz\ axis, their density scales differ,
+and no curve is rescaled. The dashed line is the input value, and the shaded
+band is the galaxy analysis' 68\% interval, $\Hz = \HzeroGal$~\kmsmpc. The
+AGN-only posterior has no interior maximum: it is still rising at the edge
+of the scanned range, so no interval is quoted for it. Neither analysis knows
+that the events were drawn from a mixture of the two catalogs.
+\label{fig:single}}
+\end{figure}
+
+A single-catalog analysis asserts that every host is in that catalog, and in
+this universe the assertion fails for both: the galaxy catalog is missing the
+hosts of the \EvNhostAgn\ AGN-hosted events, and the AGN catalog those of the
+\EvNhostGal\ galaxy-hosted ones. What differs is the price. From the galaxy
+catalog alone we find $\Hz = \HzeroGal$~\kmsmpc\
+(Figure~\ref{fig:single}): the input value lies within the 90\% interval but
+outside the 68\%, whose full width is \HzeroGalWidth~\kmsmpc. The dense
+catalog absorbs the events that do not belong to it at a modest price because
+it offers many candidate hosts along every line of sight, tracing the same
+structure the true hosts occupy.
+
+The AGN catalog alone fails outright. Asked to explain \EvNobs\ events with a
+catalog that hosts \EvNhostAgn\ of them, its posterior climbs into the upper
+edge of the analysed range (median \HzeroAgnRailMedian\ against a boundary at
+\HzeroScanHi~\kmsmpc), and we quote no interval from a posterior that peaks on
+the boundary of its support. The asymmetry between the two catalogs has a
+simple reading: sharp localisation cuts both ways. The sparse catalog pins its
+own events to a handful of hosts, but by the same token it offers no diffuse
+background of candidates that could plausibly absorb the \EvNhostGal\ events
+that are not its to explain.
+
+\subsection{The Hubble constant and the AGN-hosted fraction jointly}
+\label{sec:results:joint}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_joint.pdf}
+\caption{Both parameters at once: the joint posterior on the two complete
+catalogs with the mixture weight free. Blue: the reference realisation's 68\%
+and 90\% highest-density credible regions, with the corresponding marginals
+in the side panels. Gray: the 90\% regions and marginals of four further
+realisations of the entire simulated universe. The cross marks the input
+expansion rate and the reference realisation's realised hosted fraction
+\FagnTruthReal\ (input value \FagnTruthPlanted; short gray ticks mark the other
+realisations' realised fractions). Axes span the union of the realisations'
+90\% regions, and the side panels share those axes and show the shapes of
+the marginal posteriors, without a density scale. The recovered $\Hz = \HzeroJoint$~\kmsmpc\ interval is a
+factor of \HzeroWidthRatio\ narrower than the galaxy-only interval of
+Figure~\ref{fig:single}: the second catalog sharpens the expansion rate
+rather than diluting it.
+\label{fig:joint}}
+\end{figure*}
+
+Freeing the mixture removes the misassignment entirely. With both catalogs
+entering through Equation~(\ref{eq:mixture}) and $(\Hz, \fagn)$ free, we find
+$\Hz = \HzeroJoint$~\kmsmpc\ and $\fagn = \FagnJoint$
+(Figure~\ref{fig:joint}): the realised hosted fraction lies inside the 68\%
+interval, and the input expansion rate inside the 90\%, the same standing the
+galaxy-only analysis reaches with a far wider interval. The two parameters
+are only weakly correlated ($\rho = \JointRho$ here, $\JointRhoMean$ across
+realisations), so little of the fraction is bought with expansion-rate
+information. The reference against which \fagn\ should be
+judged is the fraction actually realised, \FagnTruthReal, rather than the
+input probability \FagnTruthPlanted: a draw of \EvNobs\ hosts scatters
+binomially by \FagnBinomialSd, and the likelihood of a mixture weight peaks at
+the fraction present in the data, not at the probability that generated it.
+
+The joint fit is the sharpest of the analyses that use all \EvNobs\ events.
+Its 68\% interval spans \HzeroJointWidth~\kmsmpc\ against \HzeroGalWidth\ for
+the galaxy catalog alone (a factor of \HzeroWidthRatio), so adding a
+catalog one hundred times sparser, and paying one new parameter for it,
+sharpens the expansion rate rather than diluting it. We read the gain as an
+assignment effect: once each event is allowed to belong to the catalog that
+actually hosts it, the \EvNhostAgn\ AGN-hosted events are anchored by a
+redshift prior concentrated in a few sharp structures instead of being spread
+across the galaxy catalog's smooth one. The comparison mixes two effects,
+the repair of the misassignment and the second catalog's own information.
+Appendix~\ref{app:pure} measures the second directly: on events it actually
+hosts, and at the same event count, the AGN catalog alone is a factor of
+\PureWidthRatio\ sharper than the galaxy catalog.
+
+A universe with no AGN channel is excluded. Profiled over \Hz, the likelihood
+at $\fagn = 0$ falls \FagnZeroDlnL\ $e$-folds below its peak.
+
+\subsection{Incomplete catalogs}
+\label{sec:results:incomplete}
+
+\todo{The joint measurement repeated on the flux-limited catalogs of
+\S\ref{sec:data:survey}: $\Hz = \HzeroIncomplete$ and
+$\fagn = \FagnIncomplete$ at the shallowest depth, with both parameters
+tracked across the four limits. In production.}

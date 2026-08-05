@@ -1,0 +1,171 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{What a sparse tracer actually adds}
+\label{sec:disc:value}
+
+The result of \S\ref{sec:fraction} is that the mixture weight between two host
+priors is measurable, at the few-per-cent level from a thousand dark sirens, over
+its entire range. The result of \S\ref{sec:density} is that this is a statement
+about a survey pair and not about the gravitational-wave data: what the sparse
+tracer contributes is a sky-and-redshift density contrast against the dense one,
+and the contrast is only as well determined as the sparse tracer's number
+density. In that sense the AGN-hosted fraction behaves less like a
+gravitational-wave population parameter and more like a cross-correlation
+amplitude, with the usual consequence that the tracer's own selection function
+enters at leading order.
+
+That framing also places the measurement in the literature. Existing
+constraints on the AGN channel's contribution come from population and rate
+arguments --- comparing observed masses, spins and rates against AGN-channel
+predictions \citep{Gayathri2021, FordMcKernan2022, GWTC3Pop2023} --- or from
+seeking direct spatial association of individual events with catalogued AGN
+and flares \citep{Graham2020, Bartos2017}, and AGN have been proposed as
+dark-siren host catalogs in their own right \citep{BomPalmese2023}. The
+mixture weight measured here is a different quantity from either. Unlike a
+population argument it uses no mass or spin information at all --- by
+construction \fagn\ enters only the host prior --- and unlike a per-event
+association it requires no individual host identification; it is closest in
+spirit to a cross-correlation amplitude between the event set and the AGN
+density field, measured relative to the same correlation with the galaxies.
+The distinction matters for combining them: a mass-spectrum \fagn\ and a
+host-prior \fagn\ are nearly independent measurements of the same branching
+ratio, and their agreement or disagreement is itself a test of the AGN
+channel's assembly physics.
+
+\subsection{Requirements on a real AGN survey}
+\label{sec:disc:survey}
+
+Two requirements follow from the measurements above, and they trade against each
+other in a way that is not obvious from either alone. Depth is nearly free: from
+complete to \IncMeighteenCPct\% completeness within the horizon the fraction's
+precision degrades by \IncFacFMax$\times$ and its detection significance by
+\IncSepLoss\%, so an AGN survey need not be deep to be useful. Knowledge of the
+number density is not free: a factor-of-two prior on \nzagn\ turns a
+\FreeCompleteExactSig$\sigma$ measurement into a
+\FreeMeighteenFtwoSig$\sigma$ one once the survey is incomplete, while about
+10\% knowledge costs almost nothing. The design conclusion is therefore to spend
+effort on the completeness \emph{model} --- on knowing how many AGN there should
+be, per unit volume, as a function of redshift --- rather than on finding more of
+them.
+
+Whether 10\% knowledge is available now depends on which population the
+density is required for, and the distinction is the useful conclusion. For a
+\emph{survey-defined} AGN class the census largely exists at these redshifts:
+ultra-hard X-ray selection is nearly blind to obscuration, and the
+Swift-BAT-based luminosity, black-hole-mass and Eddington-ratio distribution
+functions at $0.01 \le z \le 0.3$ pin the sample's number-count normalisation
+at the few-per-cent level statistically \citep{Ananna2022}. Since the mixture
+likelihood only ever needs the space density of the population its catalog
+actually contains, an \nzagn\ good to $\sim$10\% for a fixed flux-limited
+class, over the horizons considered here, is within reach of existing data.
+What is not known to 10\% --- or to a factor of a few --- is which AGN class
+hosts the mergers: rate predictions for the channel span orders of magnitude
+in large part because the assumed host-disk population does, from
+Seyfert-like number densities down to quasar ones \citep{McKernan2018}. The
+requirement of \S\ref{sec:density} is therefore realistic in exactly the form
+the analysis needs it --- a density defined by the survey that supplies the
+catalog --- while the choice of which surveyed class to point the mixture at
+remains a physics input, the same one the population-based constraints are
+trying to measure \citep{Gayathri2021, FordMcKernan2022}.
+
+\subsection{The weak depth preference}
+\label{sec:disc:depth}
+
+The near-flatness of the two-tracer ladder at its shallow end
+(\S\ref{sec:completeness:two}) has a simple cause --- hosts beyond the
+gravitational-wave horizon contribute prior weight at redshifts no event can
+occupy, so the first hosts a flux limit removes are hosts the analysis never
+needed --- and it should generalise to any catalog-based analysis whose
+horizon is well inside the catalog's depth. The practical statement for
+survey design is that depth beyond the horizon buys little and a depth cut
+matched to the horizon costs little. We do not claim the stronger version ---
+that such a cut \emph{sharpens} the measurement: the apparent
+intermediate-depth improvement on the mock as first generated did not survive
+the generator repair (\S\ref{sec:completeness:two}), and the flatness itself
+is the design-relevant result.
+
+The caveat is that the ladder here imposes an isotropic flux limit. A real survey
+is anisotropic, and an anisotropic completeness modelled as isotropic imprints a
+spurious sky-density contrast --- which is exactly the channel that identifies
+\fagn. That stress test is the natural next step and we have not done it.
+
+\subsection{What it takes for a mock to be a draw from the model}
+\label{sec:disc:residual}
+
+The distance-scale offsets in this paper turned out to be, in every measured
+instance, statements about consistency between a generative process and a
+likelihood rather than about the estimator's numerics --- and the specific
+inconsistencies found are ones that real mock campaigns can and do contain.
+On the clustered mocks, a detection cut applied in a variable the selection
+integral does not use created two opposing multi-\kmsmpc\ levers whose
+imperfect cancellation looked like a smooth, stable cosmology bias
+(\S\ref{sec:selection:tilt}). On the matched mocks, three versions of the
+same violation --- posterior samples centred on the truth, a detection
+decision taken on latent data, and per-event metadata (the sky width) derived
+from latent parameters --- each produced offsets of the same sign and
+character (\S\ref{sec:budget}). None of them was found by robustness
+testing: each survived depth cuts, pixelisation changes, rate-index changes
+and event-subset splits. What found them was demanding closure in
+expectation --- the score identity of the detected-set likelihood at the
+truth --- under an exact evaluation of the likelihood the mock implies. We
+suggest that as the standard of proof a dark-siren mock campaign should meet:
+not that the recovered values look right, but that every quantity the
+likelihood conditions on as metadata is a function of the observed data, and
+that the exact likelihood's score at the truth vanishes.
+
+What then remains chargeable to the inference itself is the estimator
+overhead of \S\ref{sec:budget:oracle}, \OrcPairedOff$\pm$\OrcPairedSem~\kmsmpc\
+at this configuration, and its budget carries two practical lessons. The
+systematic part is dominated by the $1/\Neff$ selection-variance correction
+(\OrcFarr~\kmsmpc), which tilts the posterior whenever \Neff\ depends on the
+scanned parameter; for grid evaluations, where the correction's premise of a
+parameter-independent variance penalty does not hold, it should either be
+removed or budgeted explicitly. The stochastic part --- \OrcMuNoiseSd~\kmsmpc\
+per realisation from the injection-set--catalog-kernel interaction --- does
+not average down within one analysis, is invisible at a single parameter
+point, and argues for budgeting the selection estimator by its variance
+profile across the scan rather than by an effective-sample-size floor at the
+peak.
+
+\subsection{Limitations}
+\label{sec:disc:limits}
+
+Beyond the estimator overhead, four limitations bound what the numbers above
+support.
+
+\emph{The clustered mocks' detection rule.} The flagship $K=2$ mocks
+(\S\ref{sec:methods:mocks}) select events by a cut on true source redshift. No
+detector can do that, and no injection campaign recorded in
+$(m_1^{\rm det}, q, d_L)$ can represent such a region, because a fixed region in
+source-frame redshift is not a fixed region in the observables.
+Section~\ref{sec:selection:tilt} quantifies the consequence exactly --- two
+opposing levers on the distance scale, fully accounted for and removed by a
+repaired estimator --- so the clustered mocks' \Hz\ values are understood
+rather than mysterious. But the production scans of \S\ref{sec:fraction} were
+run with the standard estimator, not the repaired one, so those clustered
+measurements are not closure tests and should not be read as such; their
+\fagn\ results stand because the mixture weight is insensitive to the levers.
+
+\emph{The matched mocks are unclustered.} Conversely, the completeness and
+density results come from mocks in which the tracers are uniform in comoving
+volume, so \fagn\ there is identified by the number-density contrast alone. The
+bias contrast of the clustered mocks should only help, but we have not measured
+the completeness ladder with it.
+
+\emph{Fixed population and cosmology.} The mass and spin population is held at
+the mock's truth and $\Omega_{m,0}$ is pinned, so the mass distribution is
+informative but not marginalised. The spectral-siren information this leaves in
+the likelihood couples the detector-frame masses to \Hz, and a fully
+marginalised analysis will have wider intervals than those quoted here.
+
+\emph{One catalog per configuration, except where stated.} The completeness and
+density ladders use one host-field realisation, so their per-level precision is
+a single realisation and \S\ref{sec:budget:samplevariance}'s realisation term
+applies to them too. The \SdsN-realisation ensemble of \S\ref{sec:scatter}
+bounds the exposure: the fraction's realisation scatter is comparable to its
+quoted width (factor \SdsFixFscanFactor\ at fixed \Hz\ on the repaired
+ensemble), so the ladder's \fagn\ comparisons --- differences of order
+several widths --- are not realisation-limited, while any \Hz\ statement at
+fixed catalog carries a realisation term of order the quoted interval itself
+(factor \SdsFixHzeroFactor).

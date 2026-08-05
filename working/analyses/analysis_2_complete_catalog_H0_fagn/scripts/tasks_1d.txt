@@ -1,0 +1,13 @@
+fscan 100 targeted
+h0scan 100 targeted
+fscan 101 targeted
+h0scan 101 targeted
+fscan 102 targeted
+h0scan 102 targeted
+fscan 103 targeted
+h0scan 103 targeted
+fscan 105 targeted
+h0scan 105 targeted
+fscan 100 popuni
+h0scan 100 popuni
+fnull 100 targeted

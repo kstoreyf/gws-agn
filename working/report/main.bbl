@@ -1,0 +1,113 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\href{#1}{#1}}
+\providecommand{\dodoi}[1]{doi:~\href{http://doi.org/#1}{\nolinkurl{#1}}}
+\providecommand{\doeprint}[1]{\href{http://ascl.net/#1}{\nolinkurl{http://ascl.net/#1}}}
+\providecommand{\doarXiv}[1]{\href{https://arxiv.org/abs/#1}{\nolinkurl{https://arxiv.org/abs/#1}}}
+
+\bibitem[{{Abac} \& et~al.(2025)}]{GWTC4Cosmo2025}
+{Abac}, A.~G., \& et~al. 2025, arXiv e-prints
+
+\bibitem[{{Abbott} \& et~al.(2023{\natexlab{a}})}]{GWTC3Cosmo2023}
+{Abbott}, R., \& et~al. 2023{\natexlab{a}}, \apj, 949, 76,
+  \dodoi{10.3847/1538-4357/ac74bb}
+
+\bibitem[{{Abbott} \& et~al.(2023{\natexlab{b}})}]{GWTC3Pop2023}
+---. 2023{\natexlab{b}}, Physical Review X, 13, 011048,
+  \dodoi{10.1103/PhysRevX.13.011048}
+
+\bibitem[{{Ananna} {et~al.}(2022){Ananna}, {Weigel}, {Trakhtenbrot}, {Koss},
+  {Urry}, \& et~al.}]{Ananna2022}
+{Ananna}, T.~T., {Weigel}, A.~K., {Trakhtenbrot}, B., {et~al.} 2022, \apjs,
+  261, 9, \dodoi{10.3847/1538-4365/ac5b64}
+
+\bibitem[{{Bartos} {et~al.}(2017){Bartos}, {Kocsis}, {Haiman}, \&
+  {M{\'a}rka}}]{Bartos2017}
+{Bartos}, I., {Kocsis}, B., {Haiman}, Z., \& {M{\'a}rka}, S. 2017, \apj, 835,
+  165, \dodoi{10.3847/1538-4357/835/2/165}
+
+\bibitem[{{Bom} \& {Palmese}(2024)}]{BomPalmese2023}
+{Bom}, C.~R., \& {Palmese}, A. 2024, \prd, 110, 083005,
+  \dodoi{10.1103/PhysRevD.110.083005}
+
+\bibitem[{{Chen} {et~al.}(2018){Chen}, {Fishbach}, \&
+  {Holz}}]{ChenFishbachHolz2018}
+{Chen}, H.-Y., {Fishbach}, M., \& {Holz}, D.~E. 2018, \nat, 562, 545,
+  \dodoi{10.1038/s41586-018-0606-0}
+
+\bibitem[{{Del Pozzo}(2012)}]{DelPozzo2012}
+{Del Pozzo}, W. 2012, \prd, 86, 043011, \dodoi{10.1103/PhysRevD.86.043011}
+
+\bibitem[{{Farr}(2019)}]{Farr2019}
+{Farr}, W.~M. 2019, Research Notes of the American Astronomical Society, 3, 66,
+  \dodoi{10.3847/2515-5172/ab1d5f}
+
+\bibitem[{{Finke} {et~al.}(2021){Finke}, {Foffa}, {Iacovelli}, {Maggiore}, \&
+  {Mancarella}}]{Finke2021}
+{Finke}, A., {Foffa}, S., {Iacovelli}, F., {Maggiore}, M., \& {Mancarella}, M.
+  2021, \jcap, 2021, 026, \dodoi{10.1088/1475-7516/2021/08/026}
+
+\bibitem[{{Fishbach} {et~al.}(2019){Fishbach}, {Gray}, {Maga{\~n}a Hernandez},
+  {Qi}, {Sur}, \& et~al.}]{Fishbach2019}
+{Fishbach}, M., {Gray}, R., {Maga{\~n}a Hernandez}, I., {et~al.} 2019, \apjl,
+  871, L13, \dodoi{10.3847/2041-8213/aaf96e}
+
+\bibitem[{{Ford} \& {McKernan}(2022)}]{FordMcKernan2022}
+{Ford}, K.~E.~S., \& {McKernan}, B. 2022, \mnras, 517, 5827,
+  \dodoi{10.1093/mnras/stac2861}
+
+\bibitem[{{Gayathri} {et~al.}(2021){Gayathri}, {Yang}, {Tagawa}, {Haiman}, \&
+  {Bartos}}]{Gayathri2021}
+{Gayathri}, V., {Yang}, Y., {Tagawa}, H., {Haiman}, Z., \& {Bartos}, I. 2021,
+  \apjl, 920, L42, \dodoi{10.3847/2041-8213/ac2cc1}
+
+\bibitem[{{Graham} {et~al.}(2020){Graham}, {Ford}, {McKernan}, {Ross}, \&
+  et~al.}]{Graham2020}
+{Graham}, M.~J., {Ford}, K.~E.~S., {McKernan}, B., {Ross}, N.~P., \& et~al.
+  2020, \prl, 124, 251102, \dodoi{10.1103/PhysRevLett.124.251102}
+
+\bibitem[{{Gray} {et~al.}(2020){Gray}, {Maga{\~n}a Hernandez}, {Qi}, {Sur}, \&
+  et~al.}]{Gray2020}
+{Gray}, R., {Maga{\~n}a Hernandez}, I., {Qi}, H., {Sur}, A., \& et~al. 2020,
+  \prd, 101, 122001, \dodoi{10.1103/PhysRevD.101.122001}
+
+\bibitem[{{Gray} {et~al.}(2022){Gray}, {Messenger}, \& {Veitch}}]{Gray2022}
+{Gray}, R., {Messenger}, C., \& {Veitch}, J. 2022, \mnras, 512, 1127,
+  \dodoi{10.1093/mnras/stac366}
+
+\bibitem[{{Mandel} {et~al.}(2019){Mandel}, {Farr}, \&
+  {Gair}}]{MandelFarrGair2019}
+{Mandel}, I., {Farr}, W.~M., \& {Gair}, J.~R. 2019, \mnras, 486, 1086,
+  \dodoi{10.1093/mnras/stz896}
+
+\bibitem[{{McKernan} {et~al.}(2018){McKernan}, {Ford}, {Bellovary}, {Leigh}, \&
+  et~al.}]{McKernan2018}
+{McKernan}, B., {Ford}, K.~E.~S., {Bellovary}, J., {Leigh}, N.~W.~C., \& et~al.
+  2018, \apj, 866, 66, \dodoi{10.3847/1538-4357/aadae5}
+
+\bibitem[{{Schutz}(1986)}]{Schutz1986}
+{Schutz}, B.~F. 1986, \nat, 323, 310, \dodoi{10.1038/323310a0}
+
+\bibitem[{{Stone} {et~al.}(2017){Stone}, {Metzger}, \&
+  {Haiman}}]{StoneMetzgerHaiman2017}
+{Stone}, N.~C., {Metzger}, B.~D., \& {Haiman}, Z. 2017, \mnras, 464, 946,
+  \dodoi{10.1093/mnras/stw2260}
+
+\bibitem[{{Tagawa} {et~al.}(2020){Tagawa}, {Haiman}, \&
+  {Kocsis}}]{TagawaHaimanKocsis2020}
+{Tagawa}, H., {Haiman}, Z., \& {Kocsis}, B. 2020, \apj, 898, 25,
+  \dodoi{10.3847/1538-4357/ab9b8c}
+
+\bibitem[{{Tessore} {et~al.}(2023){Tessore}, {Loureiro}, {Joachimi}, {von
+  Wietersheim-Kramsta}, \& {Jeffrey}}]{Tessore2023}
+{Tessore}, N., {Loureiro}, A., {Joachimi}, B., {von Wietersheim-Kramsta}, M.,
+  \& {Jeffrey}, N. 2023, The Open Journal of Astrophysics, 6, 11,
+  \dodoi{10.21105/astro.2302.01942}
+
+\bibitem[{{Vitale} {et~al.}(2022){Vitale}, {Gerosa}, {Farr}, \&
+  {Taylor}}]{Vitale2022}
+{Vitale}, S., {Gerosa}, D., {Farr}, W.~M., \& {Taylor}, S.~R. 2022, in Handbook
+  of Gravitational Wave Astronomy (Springer), 45,
+  \dodoi{10.1007/978-981-15-4702-7_45-1}
+
+\end{thebibliography}

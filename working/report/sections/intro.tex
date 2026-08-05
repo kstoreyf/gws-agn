@@ -1,0 +1,104 @@
+\section{Introduction}
+\label{sec:intro}
+
+A compact-binary merger measures its own luminosity distance and nothing about
+its redshift. The dark-siren programme supplies the missing redshift
+statistically: instead of one identified host, the analysis uses the redshift
+distribution of all catalogued galaxies consistent with the event's sky
+localisation, and marginalises over which of them was the host
+\citep{Schutz1986, DelPozzo2012}. With enough events the distance--redshift
+relation, and hence the expansion rate, is recovered without a single
+electromagnetic counterpart \citep{GWTC3Cosmo2023, GWTC4Cosmo2025}.
+
+The precision of that inference is set by the catalog, not by the
+gravitational-wave data alone. Two catalog properties do the work. The first is
+how tightly the catalog pins the redshift of a host given the event's sky
+patch: a dense catalog with good redshifts turns a wide distance posterior into
+a narrow set of candidate redshifts, and the information scales with how
+structured --- how clustered --- that redshift distribution is on the scale of
+the localisation \citep{Fishbach2019, Gray2020}. The second is
+how well the missing galaxies are accounted for. Real catalogs are flux
+limited, so beyond some redshift most hosts are absent, and the analysis must
+either restrict itself to the complete regime or model the missing population
+\citep{ChenFishbachHolz2018, Finke2021, Gray2022}. Both
+properties are properties of a survey, and both are usually satisfied by
+choosing the densest galaxy catalog available.
+
+There is, however, a reason to look at a second and much sparser tracer.
+Several channels predict that a subset of binary black hole mergers occurs in
+the gas-rich, dense environments around active galactic nuclei
+\citep{Bartos2017, StoneMetzgerHaiman2017, McKernan2018, TagawaHaimanKocsis2020}, and the fraction of the merger population that this
+channel supplies, \fagn, is a population parameter with direct astrophysical
+content: it is the branching ratio between an AGN-assisted assembly channel and
+everything else. It is also, in principle, measurable from the same data that
+measure the expansion rate, because AGN are not distributed like galaxies. An
+AGN catalog is sparse --- in the mocks used here its comoving number density is
+lower by a factor of \GlassDensityRatio\ --- and it is more strongly clustered,
+with a linear bias of \GlassBiasAgn\ against \GlassBiasGal\ for the galaxies,
+a contrast of \GlassBiasRatio. Sparsity and bias act in opposite directions:
+sparsity means most sky patches contain no AGN at all, which is informative
+precisely because an AGN-hosted event cannot have come from an empty patch,
+while the higher bias means the AGN that do exist trace the same structures more
+sharply. The joint inference therefore has a channel that no single-tracer
+analysis has: the \emph{contrast} between two host priors built on the same sky.
+
+Whether that channel is usable is an empirical question, and it is the question
+this paper answers. We work entirely in simulation, on mocks whose ingredients
+are under our control, and we ask three things in order. Can the AGN-hosted
+fraction be recovered jointly with the expansion rate, and over what range?
+How fast does that measurement degrade as the host survey becomes realistically
+incomplete? And what does the analysis have to be told about the sparse tracer
+--- specifically, about its comoving number density --- for the answer to
+survive?
+
+The answers are, in short: yes over the full range of \fagn; slowly with
+incompleteness; and a lot. The AGN-hosted fraction is recovered across its
+entire planted range from \GlassNobs\ dark sirens on complete clustered
+catalogs (\S\ref{sec:fraction}). Taking a two-tracer survey from complete down
+to \IncMeighteenCPct\% completeness within the detection horizon --- from
+\IncCompleteAgnInHorizon\ catalogued AGN inside the horizon down to
+\IncMeighteenAgnInHorizon\ --- costs only \IncFacFMax$\times$ in
+$\sigma(\fagn)$ (\S\ref{sec:completeness}). But that near-immunity to
+incompleteness exists only because the completion is handed the true tracer
+density; when the density is inferred instead, the significance with which an
+AGN-hosted fraction is detected collapses from \FreeCompleteExactSig$\sigma$ to
+\FreeMeighteenFreeSig$\sigma$, and the practical requirement turns out to be an
+external density measurement good to about 10\% (\S\ref{sec:density}).
+
+Two further findings are quantitative results in their own right and we report
+them as such rather than as caveats. First, on a mock intended to match the
+inference in every ingredient, the recovered expansion rate is low by
+\AbCtrlMeanAbs$\pm$\AbCtrlSem~\kmsmpc\ --- and the budget of that offset now
+closes (\S\ref{sec:budget}). It decomposes into two respects in which the mock
+was not a draw from the assumed model --- a detection rule acting on latent
+data (\AbDiffMean$\pm$\AbDiffSem~\kmsmpc) and a sky-localisation width derived
+from latent parameters (\OrcExactOff$\pm$\OrcExactSem, established with an
+exact evaluation of the likelihood) --- plus an estimator overhead of
+\OrcPairedOff$\pm$\OrcPairedSem\ that is itself budgeted. With the generator
+repaired, the exact likelihood recovers the truth
+(\OrcBootFixOff$\pm$\OrcBootFixSem), and every matched-mock campaign in this
+paper --- the two-tracer measurement, the completeness ladder, the density
+grids and the realisation ensemble --- was regenerated and rerun on the
+repaired generator. The recoveries those campaigns quote are therefore
+absolute, with the measured estimator overhead
+(\OrcPairedOff$\pm$\OrcPairedSem, dominated by the $1/\Neff$
+selection-variance correction at \OrcFarr~\kmsmpc) as the honest floor
+beneath them. A companion mechanism on the clustered
+mocks --- a true-redshift detection cut expressed as a distance-space
+selection --- is diagnosed and repaired in \S\ref{sec:selection}, where it
+also yields the one genuinely multitracer lesson of the error budget: the
+sparse tracer's near-counterpart redshift anchors make the per-event term
+robust against exactly this class of inconsistency. Second,
+the host catalog is itself a random realisation, and its realisation
+contributes \CloCatalogVariance~\kmsmpc\ of scatter per \GlassNobs-event
+sample, which credible intervals computed at fixed catalog understate by a
+factor of \CloSeedUnderFactor. Any dark-siren error budget that quotes an
+interval conditional on one catalog is missing a term of that size.
+
+Section~\ref{sec:methods} sets out the mixture likelihood, the two families of
+mocks, and the selection integral --- including why a sparse tracer needs its
+own injection proposal, which turns out to change the answer rather than merely
+the error bar. Sections~\ref{sec:fraction}--\ref{sec:scatter} give the results
+in the order above. Section~\ref{sec:discussion} discusses what the
+requirements mean for a real AGN survey and what the closure standard the
+error budget met should look like as a general practice.

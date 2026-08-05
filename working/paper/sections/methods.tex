@@ -1,0 +1,164 @@
+\section{Method}
+\label{sec:methods}
+
+\subsection{A mixture of catalog redshift priors}
+\label{sec:methods:mixture}
+
+We use the standard dark-siren population likelihood
+\citep{ChenFishbachHolz2018, MandelFarrGair2019, Gray2020}. For event $i$ with
+data $d_i$ and parameters $\Lambda$ containing the cosmology and the source
+population, the single-event evidence is
+\begin{equation}
+  Z_i(\Lambda) = \int \dd\theta\; p(d_i \,|\, \theta)\,
+                 p_{\rm pop}(m_1, m_2, \chi \,|\, \Lambda)\,
+                 p(z, \hat{n} \,|\, \Lambda),
+  \label{eq:zi}
+\end{equation}
+where $\theta$ collects source-frame masses, effective spin, redshift and sky
+direction, and $p(z, \hat{n}|\Lambda)$ is the line-of-sight redshift prior
+supplied by the catalog.
+
+When more than one catalog traces the same structure, that prior becomes a
+mixture,
+\begin{equation}
+  p(z, \hat{n} \,|\, \Lambda) = \sum_{k=1}^{K} f_k \,
+      p_k(z, \hat{n} \,|\, \Lambda), \qquad \sum_k f_k = 1,
+  \label{eq:mixture}
+\end{equation}
+with $f_k$ the fraction of mergers hosted by the population that catalog $k$
+traces. We take $K = 2$, with $k = 1$ the galaxies and $k = 2$ the AGN, so
+$f_2 \equiv \fagn$ and $f_1 = 1 - \fagn$. Written this way \fagn\ is a mixture
+weight and nothing else: it does not enter the mass or spin distributions, and
+it is identified entirely by which catalog's redshift and sky structure the
+events prefer.
+
+\subsection{The redshift prior a catalog supplies}
+\label{sec:methods:prior}
+
+Each catalog's prior is a kernel-density estimate in redshift over the
+catalogued objects in the event's HEALPix pixel \citep{Gorski2005, Gray2022},
+\begin{equation}
+  p_k(z, \hat{n} \,|\, \Lambda) \;\propto\; g(z; \Lambda)
+     \sum_{j \,\in\, k,\; \hat{n}_j = \hat{n}}
+     \frac{w_j}{W_k}\,
+     \frac{\mathcal{N}(z; z_j, \sigma_j)}{\zeta_j},
+  \label{eq:pcat}
+\end{equation}
+where $z_j$, $\sigma_j$ and $w_j$ are a catalogued object's redshift, redshift
+uncertainty and weight, $g(z;\Lambda)$ is the redshift weighting set by the
+comoving volume element and the merger-rate evolution, and
+$\zeta_j = \int \mathcal{N}(z; z_j, \sigma_j)\, g(z;\Lambda)\, \dd z$
+normalises each kernel against that weighting.
+
+The normalisation $W_k$ is what makes \fagn\ identifiable. We normalise each
+catalog's sky weighting over the survey as a whole, $W_k = \sum_j w_j$ summed
+over the entire catalog, rather than over the objects in each pixel separately.
+The number of catalogued hosts in a pixel then survives into the likelihood, so
+a pixel rich in galaxies but poor in AGN contributes weight to the first
+component of Equation~(\ref{eq:mixture}) and little to the second. Under a
+per-pixel normalisation every occupied pixel is rescaled to unit weight and the
+sky-density contrast between the two catalogs (the difference in where and
+in how strongly each traces the density field) is discarded.
+
+The kernel widths $\sigma_j$ must stay well below the redshift resolution of
+the distance measurements,
+\begin{equation}
+  \sigma_z^{\rm PE} \;\simeq\; \sigma_{d_L}\, d_L \left(
+     \frac{\dd d_L}{\dd z} \right)^{-1},
+  \label{eq:sigmazpe}
+\end{equation}
+or the redshift information in the likelihood comes from the overlap of a broad
+prior with the distance posterior rather than from the catalogued hosts. For a
+real survey this is a requirement on photometric redshifts. In the catalogs of
+\S\ref{sec:data} the kernel widths are a factor \KdePeRatio\ below
+$\sigma_z^{\rm PE}$ at the median detected redshift.
+
+\subsection{Incomplete catalogs}
+\label{sec:methods:completion}
+
+A flux-limited survey stops finding hosts beyond some redshift, and the
+analysis must say what is missing. We model the missing objects of each catalog
+with a smooth comoving density,
+\begin{equation}
+  \frac{\dd N_{{\rm miss},k}}{\dd z} =
+    n_{0,k}\, \frac{\dd V_c}{\dd z}\, (1+z)^{\delta_k}
+    - \frac{\dd N_{{\rm obs},k}}{\dd z},
+  \label{eq:miss}
+\end{equation}
+distributed isotropically over the sky, so the completeness is not a free
+function but follows from the assumed density and the observed counts,
+\begin{equation}
+  C_k(z) = \frac{\dd N_{{\rm obs},k}/\dd z}
+                {n_{0,k}\, (\dd V_c/\dd z)\, (1+z)^{\delta_k}}.
+  \label{eq:completeness}
+\end{equation}
+Each catalog's prior is then Equation~(\ref{eq:pcat}) plus a term carrying
+$\dd N_{{\rm miss},k}/\dd z$ spread uniformly over the sky, and the mixture of
+Equation~(\ref{eq:mixture}) runs over those completed priors. Setting
+$n_{0,k} \rightarrow 0$ removes the missing budget and recovers the
+complete-catalog case.
+
+This is the mechanism by which a shallow survey still constrains \fagn: as
+catalogued hosts disappear each prior migrates from its own kernel-density
+estimate onto its own smooth density, and the two smooth densities still differ
+by the number-density ratio. The pair $(n_{0,k}, \delta_k)$ therefore fixes how
+much of each population the analysis believes it cannot see, and \nzagn\ is the
+one that matters: because \fagn\ is a weight between the two priors, an error
+in \nzagn\ moves the AGN prior's out-of-catalog mass and \fagn\ follows. In
+the analyses of this paper the catalogs are complete and the missing budget is
+switched off; the flux-limited analyses of \S\ref{sec:results:incomplete}
+anchor $(n_{0,k}, \delta_k)$ at the simulation's own comoving densities.
+
+\subsection{The selection function}
+\label{sec:methods:selection}
+
+Over $\Nobs$ detected events the likelihood is
+\begin{equation}
+  \ln \mathcal{L}(\Lambda) = \sum_{i=1}^{\Nobs} \ln Z_i(\Lambda)
+      - \Nobs \ln \mu(\Lambda),
+  \label{eq:like}
+\end{equation}
+with
+\begin{equation}
+  \mu(\Lambda) = \int \dd\theta\; P_{\rm det}(\theta)\, p(\theta \,|\, \Lambda)
+  \label{eq:mu}
+\end{equation}
+the detectable fraction \citep{MandelFarrGair2019, Vitale2022}. Because
+Equation~(\ref{eq:zi}) is a density over the observed data, $P_{\rm det}$ must
+be a property of the observed data as well; \S\ref{sec:data:events} constructs
+the simulated detection rule that way.
+
+We estimate $\mu$ by importance sampling a set of simulated signal injections
+stored in the cosmology-independent observables
+$(m_1^{\rm det}, q, d_L)$ together with the density each was drawn from, and
+require the effective sample size of that Monte Carlo estimate to satisfy
+$\Neff > \NeffFactor\,\Nobs$ \citep{Farr2019}. Values of $\Lambda$ that fail
+the criterion are not quoted.
+
+Because $\mu$ is conditioned on the catalogs through Equation~(\ref{eq:pcat}),
+an injection contributes only if its redshift falls within a few $\sigma_j$ of
+a catalogued object in its own pixel. Injections drawn from the source
+population almost never land on the sparse catalog, so at large \fagn\ the
+estimate of $\mu$ is dominated by a handful of samples and the recovered
+distance scale tilts. We therefore draw injections from a three-component
+mixture: from the source population, from a distribution uniform in comoving
+volume, and from a component placed on the catalogued AGN themselves. Each
+injection stores the exact mixture density at its own coordinates, so the
+estimate of Equation~(\ref{eq:mu}) remains valid for any component weights. The
+third component reads the pixelated catalog file the likelihood conditions on,
+so its proposal and the target cannot disagree through a pixelisation or
+kernel-width mismatch. The injection sets are drawn once, against the
+complete catalogs, and reused at every survey depth; the
+effective-sample-size criterion is enforced at every depth.
+
+\subsection{Evaluating the likelihood}
+\label{sec:methods:inference}
+
+At most two parameters are free at a time, so we evaluate
+Equation~(\ref{eq:like}) on a grid rather than sampling it. Priors are flat, and
+we quote medians with equal-tailed 68\% intervals; where the maximum lies on a
+boundary of the scanned range we quote no interval. $\Omega_{m,0}$ is fixed at
+\OmZeroTruth\ and the mass and spin distributions are held at their input
+values, so the mass distribution is informative but not free. The free
+parameters are \Hz, scanned over
+$[\HzeroScanLo, \HzeroScanHi]$~\kmsmpc, and \fagn.

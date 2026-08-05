@@ -1,0 +1,64 @@
+\section{Catalog realisation and the two-tracer measurement}
+\label{sec:scatter}
+
+The two-tracer numbers of \S\ref{sec:selection} and \S\ref{sec:completeness:two}
+come from a single draw of the host field, and \S\ref{sec:budget:samplevariance}
+shows that for a single tracer the realisation term is comparable to the
+statistical one. Whether the multitracer combination cancels part of it is a
+different question, and an interesting one: the two tracers sample the same
+underlying density field, so a realisation that happens to over-populate a
+structure over-populates it in both, and the \emph{contrast} the fraction is
+measured from may be more stable than either prior separately.
+
+We measure this by rebuilding the matched two-tracer mock --- host field, tracer
+subset, events, posterior samples and targeted injection campaign --- over
+\SdsN\ independent realisations and repeating the fraction scan and the joint
+scan on each. These realisations were generated before the sky-width repair of
+\S\ref{sec:budget:oracle}, so their absolute expansion-rate offsets carry that
+known defect in full; the realisation-to-realisation \emph{scatter}, and its
+ratio to the quoted widths, is the estimand here, and the comparison between
+the fraction and the distance scale is internal to the ensemble.
+
+The answer is that the contrast is realisation-stable and the distance scale
+is not. At fixed true expansion rate, the fraction's mean offset over
+realisations is \SdsFscanOffset$\pm$\SdsFscanSem\ (\SdsFscanSig$\sigma$ from
+zero) with a scatter of \SdsFscanScatter\ against a mean quoted 68\%
+half-width of \SdsFscanHw: a realisation factor of \SdsFscanFactor, i.e.\ the
+quoted intervals for \fagn\ are honest about the catalog draw. On the joint
+grid the same statement holds --- offset \SdsFOffset$\pm$\SdsFSem, scatter
+\SdsFScatter\ against \SdsFHw, factor \SdsFFactor. The expansion rate is the
+opposite: a mean offset of \SdsHzeroOffset$\pm$\SdsHzeroSem~\kmsmpc\ ---
+dominated by the pre-repair generator defect --- with a scatter of
+\SdsHzeroScatter~\kmsmpc\ against a mean quoted half-width of \SdsHzeroHw, a
+factor of \SdsHzeroFactor. The single-tracer factor of \CloSeedUnderFactor\
+(\S\ref{sec:budget:samplevariance}) is therefore not softened by the second
+tracer for the distance scale, but the parameter the second tracer exists to
+measure is realisation-stable at the quoted precision: the shared density
+field drops out of the contrast, as the opening paragraph hoped, while \Hz\
+keeps the full realisation term of whichever priors it leans on.
+
+The \DeepFTgtSig$\sigma$-low pre-repair fraction of \S\ref{sec:selection} is
+consistent with this ensemble: at scatter-over-width near unity, single-draw
+offsets of that size occur with ordinary probability. The ensemble does show a small
+mean deficit --- \SdsFOffset$\pm$\SdsFSem\ (\SdsFSig$\sigma$) on the joint
+grid and \SdsFscanOffset$\pm$\SdsFscanSem\ (\SdsFscanSig$\sigma$) at fixed
+\Hz\ --- which demands re-examination on a repaired ensemble, since at
+expansion-rate offsets this large the distance scale and the fraction are not
+fully decoupled. That ensemble follows.
+
+Regenerating the same \SdsFixN\ realisations with the repaired generator of
+\S\ref{sec:budget:oracle} settles both points. The expansion rate closes: the
+post-repair ensemble recovers \Hz\ at
+\SdsFixHzeroOffset$\pm$\SdsFixHzeroSem~\kmsmpc\ (\SdsFixHzeroSig$\sigma$ from
+zero), so the two-tracer joint measurement is unbiased once the mock is a
+genuine draw from the model the likelihood assumes, and what remains of the
+realisation term --- scatter \SdsFixHzeroScatter~\kmsmpc\ against a quoted
+half-width of \SdsFixHzeroHw, a factor of \SdsFixHzeroFactor\ --- is the
+honest catalog-draw contribution rather than a defect. The fraction's small
+deficit survives at reduced size --- \SdsFixFOffset$\pm$\SdsFixFSem\
+(\SdsFixFSig$\sigma$) on the joint grid, with realisation factor
+\SdsFixFFactor\ --- which places it at the same scale as the residual
+estimator terms of \S\ref{sec:budget:oracle} rather than at the
+distance-coupled size it had before the repair. The fraction remains
+realisation-stable throughout; the distance scale becomes accurate as well as
+stable.
