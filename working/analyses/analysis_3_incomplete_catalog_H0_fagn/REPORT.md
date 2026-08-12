@@ -116,11 +116,28 @@ completeness estimator, (ii) under selection the ladder is flat to `m<18` in
 both parameters, and (iii) `H0` is unmoved by completeness at fixed anchors.
 
 **Do not yet write the complete-rung number into the paper.** It is a
-three-cell pattern with a plausible mechanical cause and no test yet. The cheap
-test is one grid: rerun `joint_complete_s100` with the nominal `m_lim` moved
-(24 → 26 for both tracers). If `f_AGN` moves, the deep-`m_lim` representation of
-"complete" is not exact and every AGN=complete cell in analyses 4 and 6 inherits
-it; if it does not, the −0.06 is something else and needs seeds. ~3.5 GPU-h.
+four-cell pattern with a plausible mechanical cause and no test yet. Two cheap
+tests, in this order:
+
+1. **The zero-density probe, and it is the sharper one.** Analyses 0, 1 and 2 run
+   at `log10 n0 = −24`, which switches the completion term off by taking the
+   missing-host density to zero rather than by making `C = 1`. Under selection
+   the complete rung claims `C ≡ 1`, so the two configurations should contribute
+   *identically nothing* and must return the same `f_AGN` on the same code and
+   data. Rerun `joint_complete_s100` at `log10 n0 = log10 n0_c2 = −24` on
+   `0c5b3db`. If it differs from this rung's 0.240, something in the completion
+   path is live even at `C ≡ 1`, and that is the mechanism. ~3.5 GPU-h.
+   (For scale, analysis 2's `−24` complete-catalog fit on this seed gave 0.273,
+   but it ran in a different era and config, so it bounds nothing on its own.)
+2. **The `m_lim` depth probe.** Rerun with the nominal `m_lim` moved
+   (24/25 → 26 for both tracers). If `f_AGN` moves, the deep-`m_lim`
+   representation of "complete" is not exact and every AGN=complete cell in
+   analyses 4 and 6 inherits it.
+
+Note what this does *not* touch: analyses 0, 1 and 2 never invoke a completeness
+estimator, because at `log10 n0 = −24` there is no completion budget to
+estimate. The paper's core results are outside the blast radius of the whole
+selection redo.
 
 **Seeds are the missing axis.** The archived ladder had five; this one has one.
 Any statement of the form "selection recovers `f_AGN` to within X" needs the
