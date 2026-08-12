@@ -218,7 +218,7 @@ def fig_h0_recovery():
         p = peak_normalised(logL)
         axB.plot(H0, p, color=colour, lw=2.0, zorder=5, solid_capstyle="round")
         med = summary["H0"]["median"]
-        lo, hi = summary["H0"]["ci68"]
+        lo, hi = summary["H0"]["ci90"]
         _label_peak(axB, float(H0[int(np.nanargmax(p))]), colour, tracer,
                     f"{med:.2f}  ({med - TRUTH:+.2f})", side=_sides.get(tag),
                     dx=(-1.0 if _sides.get(tag) == "left" else 1.0))
@@ -342,7 +342,7 @@ def fig_closure_seeds():
     """Does each catalog return the true H0 when it is given its own hosts?
 
     One dot-and-interval row per mock realisation, per catalog: the posterior
-    median with its 68% interval.  A single point estimate cannot answer the
+    median with its 90% interval.  A single point estimate cannot answer the
     question -- the interval says how far the answer is allowed to wander on one
     realisation -- so the figure's payload is the vertical band, the mean over
     the five mocks with its standard error, read against the truth line.
@@ -364,8 +364,8 @@ def fig_closure_seeds():
         print("skipping fig_closure_seeds: no per-realisation results yet")
         return
 
-    lo = min(r["ci68"][0] for k, _, _ in panels for r in doc[k]["per_seed"])
-    hi = max(r["ci68"][1] for k, _, _ in panels for r in doc[k]["per_seed"])
+    lo = min(r["ci90"][0] for k, _, _ in panels for r in doc[k]["per_seed"])
+    hi = max(r["ci90"][1] for k, _, _ in panels for r in doc[k]["per_seed"])
     pad = 0.16 * (hi - lo)
     xlim = (min(lo - pad, TRUTH - 1.5), max(hi + pad, TRUTH + 1.5))
 
@@ -387,7 +387,7 @@ def fig_closure_seeds():
         ax.axvline(TRUTH, color=INK, lw=1.1, ls=(0, (5, 3)), zorder=3)
 
         for y, r in zip(ys, rows):
-            ax.plot([r["ci68"][0], r["ci68"][1]], [y, y], color=colour, lw=2.0,
+            ax.plot([r["ci90"][0], r["ci90"][1]], [y, y], color=colour, lw=2.0,
                     solid_capstyle="round", zorder=4)
             if r["railed"]:
                 # The posterior piles up against the edge of the scanned range,
@@ -397,7 +397,7 @@ def fig_closure_seeds():
                 ax.plot([r["median"]], [y], "o", ms=7.0, mfc=SURFACE,
                         markeredgecolor=colour, markeredgewidth=1.8, zorder=5)
                 ax.annotate("", xy=(xlim[0] + 0.02 * (xlim[1] - xlim[0]), y),
-                            xytext=(r["ci68"][0], y),
+                            xytext=(r["ci90"][0], y),
                             arrowprops=dict(arrowstyle="-|>", color=colour, lw=1.6,
                                             shrinkA=0, shrinkB=0), zorder=4)
             else:
@@ -440,7 +440,7 @@ def fig_closure_seeds():
                      "independent mocks",
                      xy=(0.0, 1.34), xycoords="axes fraction", ha="left",
                      va="bottom", fontsize=11.5, color=INK, weight="bold")
-    axes[0].annotate("posterior median and 68% interval per mock; the shaded band "
+    axes[0].annotate("posterior median and 90% interval per mock; the shaded band "
                      "is the mean over mocks ± its standard error",
                      xy=(0.0, 1.18), xycoords="axes fraction", ha="left",
                      va="bottom", fontsize=8.4, color=INK_2)

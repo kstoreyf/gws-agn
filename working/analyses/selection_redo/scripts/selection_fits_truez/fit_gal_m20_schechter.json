@@ -1,0 +1,47 @@
+{
+  "format_version": "darksirens-selection-fit-1.0",
+  "strata": [
+    {
+      "family": "schechter",
+      "m_lim": 20.0,
+      "Mstar_hat": -19.62723758729952,
+      "alpha": -1.074260125082011,
+      "M_faint_offset": -0.094352906,
+      "cov": [
+        [
+          2.7329053357638248e-06,
+          5.828520355278787e-06
+        ],
+        [
+          5.828520355278787e-06,
+          1.3674472712497726e-05
+        ]
+      ],
+      "n_gal": 8452751,
+      "stratum": "all",
+      "k_corr_coeffs": [],
+      "meta": {
+        "Om0": 0.3075,
+        "w0": -1.0,
+        "wa": 0.0,
+        "H0_ref": 100.0,
+        "nll": 465910.8192484927,
+        "m_faint_cut": -19.7185788676,
+        "n_gal_cut_faintward": 78,
+        "m_faint_offset_constrained": false,
+        "m_faint_implied": -19.72159049329952,
+        "n_gal_faintward_of_m_faint": 23919,
+        "frac_complete_at_m_faint": 0.5548696513123361,
+        "z_budget_ref": 0.24064373808850217,
+        "missing_budget_vs_offset": {
+          "-1.09": 0.0,
+          "-0.09": 0.0,
+          "0.91": 0.6781648600739489
+        }
+      }
+    }
+  ],
+  "survey_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_truez/survey_gal_m20_ns32.h5",
+  "survey_sha256": "718750468549d88ba73038afd3b7de646ef6e0658ab397ffcc24cfa3c5e20dab",
+  "created_utc": "2026-08-10T08:00:43.713340+00:00"
+}

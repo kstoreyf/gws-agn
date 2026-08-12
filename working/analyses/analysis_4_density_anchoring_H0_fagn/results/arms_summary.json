@@ -1,0 +1,62 @@
+{
+  "_what": "f_AGN response to AGN-density mis-anchoring, by estimator. 'slope' is d(f_AGN)/dlog10(factor) -- the SENSITIVITY; 'offset_at_1' is where the correctly-anchored arm sits relative to truth -- the BIAS. The archived result is a large slope; the question is whether the estimator change moves the slope, the offset, or both.",
+  "truth_f_AGN": 0.295,
+  "rungs": {
+    "m21": {
+      "per_pixel (archived)": {
+        "slope": 0.5263124512110037,
+        "at_factor_1": 0.34395965956805435,
+        "offset_at_1": 0.04895965956805437,
+        "n_arms": 6
+      },
+      "selection (this work)": {
+        "slope": 0.43416884303541275,
+        "at_factor_1": 0.2810382601376445,
+        "offset_at_1": -0.013961739862355493,
+        "n_arms": 6
+      }
+    },
+    "m20": {
+      "per_pixel (archived)": {
+        "slope": 0.5419285816285315,
+        "at_factor_1": 0.3495690340638877,
+        "offset_at_1": 0.05456903406388769,
+        "n_arms": 6
+      },
+      "selection (this work)": {
+        "slope": 0.43841208474525856,
+        "at_factor_1": 0.2812379807883892,
+        "offset_at_1": -0.013762019211610799,
+        "n_arms": 6
+      }
+    },
+    "m19": {
+      "per_pixel (archived)": {
+        "slope": 0.6394871787515198,
+        "at_factor_1": 0.3664411343173009,
+        "offset_at_1": 0.07144113431730093,
+        "n_arms": 6
+      },
+      "selection (this work)": {
+        "slope": 0.47035073618156703,
+        "at_factor_1": 0.281456113592917,
+        "offset_at_1": -0.013543886407082983,
+        "n_arms": 6
+      }
+    },
+    "m18": {
+      "per_pixel (archived)": {
+        "slope": 0.9425035395300322,
+        "at_factor_1": 0.39001952621187846,
+        "offset_at_1": 0.09501952621187848,
+        "n_arms": 6
+      },
+      "selection (this work)": {
+        "slope": 0.45539461983922663,
+        "at_factor_1": 0.28119470930427365,
+        "offset_at_1": -0.013805290695726335,
+        "n_arms": 6
+      }
+    }
+  }
+}

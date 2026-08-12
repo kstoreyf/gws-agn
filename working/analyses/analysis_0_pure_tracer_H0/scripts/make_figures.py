@@ -4,18 +4,18 @@
   fig_posteriors.{pdf,png}   the ten record-lane (targeted) H0 posteriors, each
                              scaled to its own peak, truth marked, the x window
                              trimmed to the union of the curves' support
-  fig_recovery.{pdf,png}     per-realisation medians +- 68 % for both tracers
+  fig_recovery.{pdf,png}     per-realisation medians +- 90 % for both tracers
                              against truth, tracers dodged, each tracer's
                              five-realisation mean offset +- s.e. as a band
   fig_lanes.{pdf,png}        targeted vs popuni: the median shift per scan pair,
-                             in units of that scan's 68 % half-width (upper) and
+                             in units of that scan's 90 % half-width (upper) and
                              in km/s/Mpc (lower)
   fig_diagnostics.{pdf,png}  the guard picture: per-scan minimum selection
                              N_eff against the 5 N_obs floor (log), and the
                              per-scan PE variance sum, all 20 scans
   fig_bimodal.{pdf,png}      the one genuinely bimodal case on its own: the
                              s105 galaxy scan, targeted vs popuni, modes and
-                             68 % intervals marked
+                             90 % intervals marked
 
 Everything is read from results/; nothing is hard-coded.  Deterministic: no RNG,
 no wall-clock, no network -- rerunning overwrites byte-comparable figures.
@@ -340,7 +340,7 @@ def fig_posteriors():
     wg = agg["closure_gal"]["mean_quoted_half68"]
     wa = agg["closure_agn"]["mean_quoted_half68"]
     header(ax, "Ten independent 1000-event sets, one tracer each",
-           f"mean 68 % half-width  {wg:.2f} (galaxies)  vs  {wa:.2f} (AGN) "
+           f"mean 90 % half-width  {wg:.2f} (galaxies)  vs  {wa:.2f} (AGN) "
            f"km s$^{{-1}}$ Mpc$^{{-1}}$ at equal $N$\n"
            f"scanned on [50, 100]; drawn on [{xlo:g}, {xhi:g}], which holds "
            r"$\geq$ 99.99 % of every curve's mass")
@@ -370,8 +370,8 @@ def fig_recovery():
         c = COLOR[t]
         blk = agg[f"closure_{t}"]
         med = np.array([cs[t, s][2]["median"] for s in SEEDS])
-        lo = med - np.array([cs[t, s][2]["ci68"][0] for s in SEEDS])
-        hi = np.array([cs[t, s][2]["ci68"][1] for s in SEEDS]) - med
+        lo = med - np.array([cs[t, s][2]["ci90"][0] for s in SEEDS])
+        hi = np.array([cs[t, s][2]["ci90"][1] for s in SEEDS]) - med
         m, e = blk["mean_offset"], blk["sem_offset"]
         ax.axhspan(H0_TRUTH + m - e, H0_TRUTH + m + e, color=c, alpha=0.15,
                    lw=0, zorder=2)
@@ -410,12 +410,12 @@ def fig_recovery():
     ax.legend(handles=[
         Line2D([], [], color=BLUE, lw=1.5, marker="o", ms=4.5,
                markeredgecolor=SURFACE, markeredgewidth=0.8,
-               label=r"galaxies, median $\pm$ 68 %"),
+               label=r"galaxies, median $\pm$ 90 %"),
         Patch(facecolor=BLUE, alpha=0.15, edgecolor="none",
               label=r"mean offset $\pm$ s.e."),
         Line2D([], [], color=ORANGE, lw=1.5, marker="o", ms=4.5,
                markeredgecolor=SURFACE, markeredgewidth=0.8,
-               label=r"AGN, median $\pm$ 68 %"),
+               label=r"AGN, median $\pm$ 90 %"),
         Patch(facecolor=ORANGE, alpha=0.15, edgecolor="none",
               label=r"mean offset $\pm$ s.e."),
         Line2D([], [], color=INK, lw=0.9, ls=(0, (3, 2)), alpha=0.75,
@@ -450,7 +450,7 @@ def fig_lanes():
                              gridspec_kw={"height_ratios": [1.25, 1.0],
                                           "hspace": 0.13})
     for ax, vals, ylab, head in (
-            (axes[0], ratio, "median shift\n[68 % half-widths]", 1.32),
+            (axes[0], ratio, "median shift\n[90 % half-widths]", 1.32),
             (axes[1], absdiff, "median shift\n[km s$^{-1}$ Mpc$^{-1}$]", 1.62)):
         ax.bar(xs, vals, width=0.72, color=cols, edgecolor=SURFACE, linewidth=1.0,
                zorder=3)
@@ -461,7 +461,7 @@ def fig_lanes():
 
     # the reference the upper panel is measured against
     axes[0].axhline(1.0, color=MUTED, lw=0.9, ls=(0, (4, 3)), zorder=4)
-    axes[0].annotate("one 68 % half-width", (0.995, 1.0),
+    axes[0].annotate("one 90 % half-width", (0.995, 1.0),
                      xycoords=("axes fraction", "data"),
                      textcoords="offset points", xytext=(0, 3), ha="right",
                      va="bottom", fontsize=7.5, color=INK2)
@@ -625,7 +625,7 @@ def fig_bimodal():
         y = p / p.max()
         blk = scan_json(tag)["H0"]
         c, ls, lw = styles[lane]
-        bx, by = ci_band(grid, y, *blk["ci68"])
+        bx, by = ci_band(grid, y, *blk["ci90"])
         ax.fill_between(bx, 0, by, color=c, alpha=0.16, lw=0, zorder=2)
         ax.plot(grid, y, color=c, ls=ls, lw=lw, zorder=5)
         drawn[lane] = (grid, y, blk, c)
@@ -633,17 +633,17 @@ def fig_bimodal():
         xlo_all.append(float(np.interp(5e-5, cd, grid)))
         xhi_all.append(float(np.interp(1 - 5e-5, cd, grid)))
 
-    # the two 68 % intervals overlap heavily as shaded areas, so each is also
+    # the two 90 % intervals overlap heavily as shaded areas, so each is also
     # drawn as its own bar under the curves where the two can be told apart
     for k, lane in enumerate(LANES):
         _, _, blk, _ = drawn[lane]
         c = styles[lane][0]
         ybar = -0.075 - 0.075 * k
-        ax.plot(blk["ci68"], [ybar, ybar], color=c, lw=3.0,
+        ax.plot(blk["ci90"], [ybar, ybar], color=c, lw=3.0,
                 solid_capstyle="butt", zorder=6, clip_on=False)
         ax.plot([blk["median"]], [ybar], marker="|", ms=8, mew=1.4,
                 color=SURFACE, zorder=7, clip_on=False)
-        ax.annotate(f"{lane}  68 %", (blk["ci68"][1], ybar),
+        ax.annotate(f"{lane}  90 %", (blk["ci90"][1], ybar),
                     textcoords="offset points", xytext=(5, 0), ha="left",
                     va="center", fontsize=7.0, color=c, annotation_clip=False)
 
@@ -671,14 +671,14 @@ def fig_bimodal():
     lines = []
     for lane in LANES:
         _, _, blk, _ = drawn[lane]
-        half = 0.5 * (blk["ci68"][1] - blk["ci68"][0])
+        half = 0.5 * (blk["ci90"][1] - blk["ci90"][0])
         lines.append(f"{lane:<9s} median {blk['median']:.2f}, "
-                     f"68 % [{blk['ci68'][0]:.2f}, {blk['ci68'][1]:.2f}], "
+                     f"90 % [{blk['ci90'][0]:.2f}, {blk['ci90'][1]:.2f}], "
                      f"half-width {half:.2f}")
     header(ax, f"The one bimodal case: {TRACER_NAME[tracer]}, seed {seed}",
            lines[0] + "\n" + lines[1] + "   km s$^{-1}$ Mpc$^{-1}$\n"
            "the wide targeted interval is the honest reading of a posterior "
-           "whose 68 % has to span the gap between two modes")
+           "whose 90 % has to span the gap between two modes")
 
     ax.legend(handles=[
         Line2D([], [], color=styles["targeted"][0], ls=styles["targeted"][1],

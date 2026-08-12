@@ -1,0 +1,102 @@
+{
+  "_what": "a7 verdict: does the estimator's bias scale with pixel occupancy?",
+  "lambda_definition": "N_AGN / npix at m18 (mean per pixel INCLUDING empties)",
+  "policy_gate": {
+    "status": "INERT (verified)",
+    "f_median_zero": 0.3274098938083665,
+    "f_median_volume": 0.3274098938083665,
+    "abs_diff": 0.0,
+    "note": "Empty-pixel policy proven inert under field weighting, so the axis is occupancy-only."
+  },
+  "cells": [
+    {
+      "c_mode": "per_pixel",
+      "nside": 16,
+      "lambda": 2.693359375,
+      "f_median": 0.3873091530293224,
+      "f_offset": 0.09230915302932241,
+      "ci90": [
+        0.25397624209451175,
+        0.5265665514705268
+      ],
+      "H0_median": 68.44050895246274
+    },
+    {
+      "c_mode": "per_pixel",
+      "nside": 32,
+      "lambda": 0.67333984375,
+      "f_median": 0.36840710720141095,
+      "f_offset": 0.07340710720141097,
+      "ci90": [
+        0.25144116347802425,
+        0.4959391624884417
+      ],
+      "H0_median": 68.32348921391166
+    },
+    {
+      "c_mode": "per_pixel",
+      "nside": 64,
+      "lambda": 0.1683349609375,
+      "f_median": 0.3244022287426654,
+      "f_offset": 0.029402228742665404,
+      "ci90": [
+        0.21374756963486596,
+        0.447963576758444
+      ],
+      "H0_median": 67.13703368324275
+    },
+    {
+      "c_mode": "selection",
+      "nside": 16,
+      "lambda": 2.693359375,
+      "f_median": 0.30783332002736474,
+      "f_offset": 0.012833320027364759,
+      "ci90": [
+        0.2095381736531464,
+        0.4082092167931983
+      ],
+      "H0_median": 68.3826318102084
+    },
+    {
+      "c_mode": "selection",
+      "nside": 32,
+      "lambda": 0.67333984375,
+      "f_median": 0.2862196135891028,
+      "f_offset": -0.008780386410897179,
+      "ci90": [
+        0.20306353413779266,
+        0.3722645873012989
+      ],
+      "H0_median": 68.66363810652209
+    },
+    {
+      "c_mode": "selection",
+      "nside": 64,
+      "lambda": 0.1683349609375,
+      "f_median": 0.27363563263768736,
+      "f_offset": -0.02136436736231262,
+      "ci90": [
+        0.19510354658612447,
+        0.3558413029479248
+      ],
+      "H0_median": 67.8259884373459
+    }
+  ],
+  "fits": {
+    "per_pixel": {
+      "slope_per_dex": 0.05224306978769957,
+      "intercept": 0.07401306305198052,
+      "slope_err": 0.012036281587875274,
+      "n_points": 3,
+      "span_dex": 1.2041199826559248
+    },
+    "selection": {
+      "slope_per_dex": 0.028400564629986136,
+      "intercept": -0.0008922354451911092,
+      "slope_err": 0.00432956392687733,
+      "n_points": 3,
+      "span_dex": 1.2041199826559248
+    }
+  },
+  "verdict": "PARTIAL -- per_pixel scales with occupancy, but the selection control is NOT flat, so something else moves with nside too."
+}

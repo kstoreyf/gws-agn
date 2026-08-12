@@ -6,7 +6,7 @@
                               truth cross, zoomed on the union of the 90 % regions
   fig_marginals.{pdf,png}     the H0 and f marginal posteriors overlaid across the
                               five realisations, zoomed on where the mass is
-  fig_closure_joint.{pdf,png} per-seed medians +- 68 % for BOTH parameters against
+  fig_closure_joint.{pdf,png} per-seed medians +- 90 % for BOTH parameters against
                               truth -- the closing exhibit
   fig_neff_f.{pdf,png}        the selection integral's N_eff and PE variance sum
                               against f at truth H0, both injection lanes -- the
@@ -193,17 +193,17 @@ def fig_joint():
     if j:
         sub = (f"seed {REF_SEED}: "
                f"$H_0$ = {j['H0']['median']:.1f}"
-               f"$^{{+{j['H0']['ci68'][1] - j['H0']['median']:.1f}}}"
-               f"_{{-{j['H0']['median'] - j['H0']['ci68'][0]:.1f}}}$, "
+               f"$^{{+{j['H0']['ci90'][1] - j['H0']['median']:.1f}}}"
+               f"_{{-{j['H0']['median'] - j['H0']['ci90'][0]:.1f}}}$, "
                f"$f_{{\\rm AGN}}$ = {j['f']['median']:.3f}"
-               f"$^{{+{j['f']['ci68'][1] - j['f']['median']:.3f}}}"
-               f"_{{-{j['f']['median'] - j['f']['ci68'][0]:.3f}}}$, "
+               f"$^{{+{j['f']['ci90'][1] - j['f']['median']:.3f}}}"
+               f"_{{-{j['f']['median'] - j['f']['ci90'][0]:.3f}}}$, "
                f"correlation $\\rho$ = {j['rho']:+.2f}")
     ax.set_title(sub, loc="left", fontsize=8.5, color=INK_2, pad=8)
     fig.suptitle("The joint fit on the complete catalogs: both parameters at once",
                  x=0.005, ha="left", fontsize=10.5, y=1.035)
     handles = [Line2D([], [], color=BLUE, lw=1.7,
-                      label=f"seed {REF_SEED}  68 % / 90 %")]
+                      label=f"seed {REF_SEED}  90 % / 90 %")]
     if len(grids) > 1:
         handles.append(Line2D([], [], color=OTHER, lw=0.9,
                               label=f"the other {len(grids) - 1} realisations"))
@@ -304,8 +304,8 @@ def fig_closure():
     # --- H0 -------------------------------------------------------------------
     ax = axes[0]
     med = np.array([r["joint"]["H0"]["median"] for r in rows])
-    lo = np.array([r["joint"]["H0"]["median"] - r["joint"]["H0"]["ci68"][0] for r in rows])
-    hi = np.array([r["joint"]["H0"]["ci68"][1] - r["joint"]["H0"]["median"] for r in rows])
+    lo = np.array([r["joint"]["H0"]["median"] - r["joint"]["H0"]["ci90"][0] for r in rows])
+    hi = np.array([r["joint"]["H0"]["ci90"][1] - r["joint"]["H0"]["median"] for r in rows])
     ax.axhline(H0_TRUTH, color=INK_2, lw=1.0, ls=(0, (5, 3)), zorder=3)
     c = summ["closure"]["joint_H0"]
     ax.axhspan(H0_TRUTH + c["mean"] - c["sem"], H0_TRUTH + c["mean"] + c["sem"],
@@ -325,9 +325,9 @@ def fig_closure():
     # --- f --------------------------------------------------------------------
     ax = axes[1]
     med = np.array([r["joint"]["f_vs_realised"]["median"] for r in rows])
-    lo = np.array([r["joint"]["f_vs_realised"]["median"] - r["joint"]["f_vs_realised"]["ci68"][0]
+    lo = np.array([r["joint"]["f_vs_realised"]["median"] - r["joint"]["f_vs_realised"]["ci90"][0]
                    for r in rows])
-    hi = np.array([r["joint"]["f_vs_realised"]["ci68"][1] - r["joint"]["f_vs_realised"]["median"]
+    hi = np.array([r["joint"]["f_vs_realised"]["ci90"][1] - r["joint"]["f_vs_realised"]["median"]
                    for r in rows])
     fr = np.array([r["f_realised"] for r in rows])
     ax.axhline(F_PLANTED, color=INK_2, lw=1.0, ls=(0, (5, 3)), zorder=3)
@@ -342,7 +342,7 @@ def fig_closure():
                 color=INK_2)
     ax.legend(handles=[
         Line2D([], [], color=BLUE, lw=1.5, marker="o", ms=5.5,
-               label="joint fit, median $\\pm$ 68 %"),
+               label="joint fit, median $\\pm$ 90 %"),
         Line2D([], [], color=INK_MUTED, lw=0, marker="_", ms=12, mew=1.6,
                label="realised fraction"),
         Line2D([], [], color=INK_2, lw=1.0, ls=(0, (5, 3)), label="planted 0.30"),
