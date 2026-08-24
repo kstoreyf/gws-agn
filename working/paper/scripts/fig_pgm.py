@@ -168,7 +168,8 @@ def build():
     node(ax, "Ck", 6.20, 8.30, r"$C_k$", "latent",
          sub="complete catalog\n$(z_j,\\ \\hat{n}_j,\\ m_j)$", subpos="above")
     node(ax, "Chk", 8.75, 8.30, r"$\hat{C}_k$", "observed",
-         sub="survey catalog\n$(z^{\\rm obs}_j,\\ \\hat{n}_j)$", subpos="above")
+         sub="flux-limited catalog\n$(z^{\\rm obs}_j,\\ \\hat{n}_j)$",
+         subpos="above")
 
     # ---- events: the chain --------------------------------------------------
     node(ax, "ti", 4.20, 3.10, r"$t_i$", "latent")

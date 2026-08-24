@@ -9,24 +9,28 @@ Figure~\ref{fig:pgm} is the graph of the generative model.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_pgm.pdf}
-\caption{The generative model of \S\ref{sec:data}. Shaded nodes are observed,
-open nodes are latent, small filled squares are fixed hyperparameters, and
-double-ringed nodes are deterministic functions of their parents. The cosmology
+\caption{The generative model of \S\ref{sec:data}. Shaded single-ringed nodes
+are observed, open nodes are latent, small filled squares are fixed
+hyperparameters, and double-ringed nodes are deterministic functions of their
+parents, drawn shaded whether or not they are observed: the noise-free
+amplitude $\rho_i$ is not. The cosmology
 $\Lambda_{\rm cos}$ fixes the shell geometry and the matter power spectrum,
 from which one lognormal density field $\delta$ is drawn. The tracer plate
 ($k = 1 \dots K$) samples that single field twice, each tracer with its own
 linear bias $b_k$ and mean comoving density $\bar{n}_k$, into a complete
 catalog $C_k$ of sky positions, photometric redshifts and magnitudes; the flux
-limit $m_{\rm lim}$ thins $C_k$ into the observed catalog $\hat{C}_k$, the only
-version the flux-limited analyses see. The event plate ($i = 1 \dots \Nobs$)
+limit $m_{\rm lim}$ thins $C_k$ into the flux-limited catalog $\hat{C}_k$, the
+only version the flux-limited analyses see. The event plate
+($i = 1 \dots \Nobs$)
 draws a host-population label $t_i$ with probability \fagn, a host $h_i$ from
 that population's \emph{complete} catalog (mergers occur whether or not a
 survey catalogued the host), and source parameters $\theta_i$ from the fixed
 population $\Lambda_{\rm pop}$. The source is measured once: the observed
-amplitude $\rho_{{\rm obs},i}$ carries the measurement noise. Everything
+amplitude $\hat{\rho}_i$ (written $\rho_{{\rm obs},i}$ in
+\S\ref{sec:data:events}) carries the measurement noise. Everything
 downstream is a function of observed data, never of the latent source: the
-detection indicator $D_i = \Theta(\rho_{{\rm obs},i} - \rho_{\rm th})$, every
-measurement width, the observed direction $\hat{n}_i^{\rm obs}$, and the
+detection indicator $D_i = \Theta(\hat{\rho}_i - \rho_{\rm th})$, every
+measurement width, the observed direction $\hat{n}_i$, and the
 derived luminosity distance. The
 inference of \S\ref{sec:methods} conditions on the shaded nodes and infers
 $(\Hz, \fagn)$.

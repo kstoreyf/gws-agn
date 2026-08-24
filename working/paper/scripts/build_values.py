@@ -772,6 +772,9 @@ def sec_single():
     add("HzeroGalWidth", s.get("gal_h0_width"), "%.2f", src=S_SINGLE,
         kind="result", note="68% width of the galaxy-catalog H0 posterior, "
                             "km/s/Mpc")
+    contains(gal_run.get("H0"), "H0",
+             "H0 from the galaxy catalog alone, reference realisation",
+             rel(A1 / "h0_gal_targeted.json"))
     add("HzeroGalCross", s.get("gal_h0_crosscheck_median"), "%.1f",
         src=S_SINGLE, kind="result",
         note="the same measurement on the independent injection lane")
@@ -820,6 +823,18 @@ def sec_joint(j, jsum, fs, fn, hj):
         src=S_JSUM, kind="dataset",
         note="binomial scatter of the realised fraction about the planted one, "
              "per realisation")
+
+    # the containment rows behind the paper's headline agreement claims: the
+    # joint grid's own blocks carry the flags for H0 against the input value,
+    # and the realised-fraction claim is looked up against \FagnTruthReal.
+    jgrid = load_json(A2 / "joint_s100.json")
+    contains(jgrid.get("H0"), "H0",
+             "H0 from the joint two-tracer fit, reference realisation",
+             rel(A2 / "joint_s100.json"))
+    contains(jgrid.get("f"), "f_AGN",
+             "AGN-hosted fraction from the joint fit against the realised "
+             "fraction, reference realisation",
+             rel(A2 / "joint_s100.json"), value=j.get("truth_f_realised"))
 
     add("JointRho", j.get("rho"), "%.3f", src=S_JOINT, kind="result",
         note="correlation of H0 and f_AGN in the joint posterior, reference "
@@ -927,6 +942,12 @@ def sec_controls(cl, curv, mumc):
             note="the control's median on the reference realisation, km/s/Mpc")
     add("CtrlNseeds", get(cl, "cases.gal.after.n_seeds"), "%d", src=S_CLOSURE,
         kind="result", note="realisations behind the control means")
+    for tag, case in (("Gal", "gal"), ("Agn", "agn")):
+        seed0 = get(cl, f"cases.{case}.per_seed.0")
+        if seed0 and str(seed0.get("seed")) == "100":
+            contains(seed0.get("after"), "H0",
+                     f"matched {case.upper()} control, reference realisation",
+                     S_CLOSURE, value=cl.get("truth_H0"))
 
     # what the selection estimator's own Monte-Carlo error costs, converted on
     # the curvature of the likelihood it is carried into
@@ -1185,9 +1206,34 @@ def sec_incomplete(m, jsum, joint):
     contains(gd_free, "log10 n_gal",
              "galaxy density with both densities free, reference realisation",
              S_FREE)
+    contains(get(free, "summary.H0"), "H0",
+             "H0 with both densities free, reference realisation", S_FREE)
+    # the free-density fraction against its own flat prior: a uniform prior on
+    # [0, 1] has an equal-tailed 68% half-width of 0.34, and the posterior's is
+    # this fraction of it, so the free-density f_AGN is bounded, not measured.
+    add("FagnFreeWidthOfPrior",
+        None if half68(fs_free) is None else half68(fs_free) / 0.34, "%.2f",
+        src=S_FREE, kind="result",
+        note="the free-density f_AGN 68% half-width over the half-width of "
+             "its flat prior on [0, 1] (0.34); the posterior is close to the "
+             "prior, so the free-density fraction is bounded rather than "
+             "measured")
+    # the scanned density ranges, disclosed in the methods; the input values
+    # (-3 galaxies, -5 AGN) are interior to both.
+    pri_gal = get(free, "priors.log10n0") or [None, None]
+    pri_agn = get(free, "priors.log10n0_c2") or [None, None]
+    add("DensityScanGalLo", pri_gal[0], "%.0f", src=S_FREE, kind="configuration",
+        note="lower edge of the scanned galaxy density range, log10 Mpc^-3")
+    add("DensityScanGalHi", pri_gal[1], "%.0f", src=S_FREE, kind="configuration",
+        note="upper edge of the scanned galaxy density range")
+    add("DensityScanAgnLo", pri_agn[0], "%.0f", src=S_FREE, kind="configuration",
+        note="lower edge of the scanned AGN density range, log10 Mpc^-3")
+    add("DensityScanAgnHi", pri_agn[1], "%.0f", src=S_FREE, kind="configuration",
+        note="upper edge of the scanned AGN density range")
 
     # --------------------------------------- three realisations, both arms
     gal_offsets, pixel_offsets, lnbf, free_f_offsets = [], [], [], []
+    edge_gaps = []
     for seed, sel_path, pix_path in SEEDPAIRS:
         sel = load_checked(sel_path)
         pix = load_checked(pix_path, c_mode="per_pixel")
@@ -1198,12 +1244,19 @@ def sec_incomplete(m, jsum, joint):
         free_f_offsets.append(get(s_f, "median") - get(s_f, "truth"))
         lnbf.append(get(sel, "sampler_meta.logz")
                     - get(pix, "sampler_meta.logz"))
+        # how close the number-count density posterior runs to the top of the
+        # scanned range: the gap from its 90% interval's upper end to the edge
+        edge_gaps.append(get(pix, "priors.log10n0")[1]
+                         - get(p_gd, "ci90")[1])
         contains(s_gd, "log10 n_gal",
                  f"galaxy density, realisation {seed}, luminosity-function "
                  f"completeness", rel(sel_path))
         contains(p_gd, "log10 n_gal",
                  f"galaxy density, realisation {seed}, number-count "
                  f"completeness", rel(pix_path))
+        contains(get(sel, "summary.H0"), "H0",
+                 f"H0 with both densities free, realisation {seed}",
+                 rel(sel_path))
 
     add("NSeedsIncomplete", len(SEEDPAIRS), "%d", src=S_SEEDS, kind="result",
         note="realisations of the simulated universe behind the free-density "
@@ -1218,11 +1271,18 @@ def sec_incomplete(m, jsum, joint):
              "the galaxy density, dex")
     add("PixelAnchorBiasMaxDex", max(pixel_offsets), "%.2f", src=S_SEEDS_PP,
         kind="result", note="the largest, dex")
+    add("PixelAnchorEdgeGapMaxDex", sorted(edge_gaps)[1], "%.2f",
+        src=S_SEEDS_PP, kind="result",
+        note="distance from the upper end of the number-count 90% density "
+             "interval to the top of the scanned range, dex; the quoted value "
+             "is the larger of the two realisations that approach the edge, "
+             "so the sentence 'in two of the three realisations the interval "
+             "ends within this of the edge' is a lookup")
     add("SeedLnBFmin", min(lnbf), "%.1f",
         src=f"{S_SEEDS} + {S_SEEDS_PP}", kind="result",
         note="smallest log evidence in favour of the luminosity-function "
              "completeness over the number-count completeness; one decimal, "
-             "matching the value Figure 4 draws")
+             "matching the value Figure 5 draws")
     add("SeedLnBFmax", max(lnbf), "%.1f",
         src=f"{S_SEEDS} + {S_SEEDS_PP}", kind="result", note="the largest")
     add("FagnFreeOffsetMin", min(free_f_offsets), "%.2f", src=S_SEEDS,
@@ -1511,6 +1571,35 @@ def main():
         " the two that carry the AGN catalog as complete, is -0.066 km/s/Mpc per"
         " dex; over the six it is -0.074, and its sign is no better resolved"
         " than the hosted fraction's.",
+        "* **The number-count density displacement is a lower bound.** The"
+        " galaxy density is scanned over [-4, -1] in log10 (the AGN density"
+        " over [-6, -4]; `\\DensityScan*`), and in two of the three"
+        " realisations the number-count posterior's 90 per cent interval ends"
+        " within `\\PixelAnchorEdgeGapMaxDex` dex of the upper edge (gaps"
+        " 0.08 and 0.10 against 0.24 for the third), so the medians behind"
+        " `\\PixelAnchorBias*` could only move further from the input value"
+        " on a wider scan. The luminosity-function posteriors sit well inside"
+        " the range on every realisation.",
+        "* **The free-density fraction is prior-dominated.**"
+        " `\\FagnFreeWidthOfPrior` records the free-density f_AGN 68 per cent"
+        " half-width as a fraction of its flat prior's (0.91 on the reference"
+        " realisation; 0.90 and 0.89 on the other two). Any sentence about the"
+        " free-density fraction must present it as a bound, and the"
+        " `\\FagnFreeOffset*` medians as unresolved against a posterior this"
+        " close to its prior.",
+        "* **The endpoint identity is bit-level, not approximate.** At f = 0"
+        " and f = 1 the mixture's likelihood and selection integral reduce to"
+        " the corresponding single-catalog ones; analysis 2's README records"
+        " the check as bit-for-bit on all four (tracer, injection-set)"
+        " combinations, which is what licenses the manuscript's 'to machine"
+        " precision'.",
+        "* **The selection Monte-Carlo error on the mean.**"
+        " `\\SelMcJointLo`/`\\SelMcJointHi` are the per-realisation bracket"
+        " [0.12, 0.54]; `mu_mc_error.json` separately stores the bracket"
+        " carried onto the five-realisation mean, [0.05, 0.24], whose upper"
+        " end is 0.44 of the mean offset's standard error (0.55). A sentence"
+        " comparing this term against the mean's standard error must use the"
+        " on-the-mean bracket, not the per-realisation one.",
         "* The three realisations behind `\\GalAnchorOffsetMaxDex`,"
         " `\\PixelAnchorBias*` and `\\SeedLnBF*` are 100, 101 and 102. The"
         " reference realisation's pair lives in a different directory from the"

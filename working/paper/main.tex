@@ -53,8 +53,7 @@ We measure the Hubble constant \Hz\ and the fraction \fagn\ of compact-binary
 mergers hosted by active galactic nuclei (AGN) jointly, from \EvNobs\ simulated
 dark standard sirens and two host catalogs, galaxies and AGN, tracing one
 large-scale structure. Their line-of-sight redshift priors enter the
-likelihood as a mixture weighted by \fagn, identified by which catalog's
-structure the events prefer. With the source population at
+likelihood as a mixture weighted by \fagn. With the source population at
 its input values and both catalogs complete, we find
 $\Hz = \HzeroJoint$~\kmsmpc\ and $\fagn = \FagnJoint$: the realised hosted
 fraction (\FagnTruthReal) lies inside the 68\% interval, the input expansion
@@ -63,14 +62,15 @@ rate inside the 90\%, and the \Hz\ interval is a factor of
 mean offsets across five realisations are consistent with zero, and with
 \Hz\ held at its input value, scrambling the events' sky positions collapses
 \fagn\ from \FagnRecord\ to \FagnNull: host association carries the
-fraction. Flux-limited catalogs preserve the measurement when completeness
-follows from each catalog's magnitude limit and luminosity function: with
-the host densities free, the recovered galaxy density lies inside the 68\%
+fraction. Flux-limited catalogs preserve the measurement on one realisation
+when completeness follows from each catalog's magnitude limit and luminosity
+function: with the host densities free the fraction is only bounded, but the
+recovered galaxy density lies inside the 68\%
 interval in three realisations, while completeness estimated from observed
 counts overstates it by up to \PixelAnchorBiasMaxDex~dex, disfavoured by
-\SeedLnBFmin\ to \SeedLnBFmax\ $e$-folds. A factor-of-two error in that density moves \Hz\ by
-\HzDensityShiftFactorTwoDeep~\kmsmpc\ above \CompMTwenty\ per cent
-completeness, by \HzDensityShiftFactorTwo\ at \CompMEighteen\ per cent. The branching ratio between AGN-assisted and field mergers is
+\SeedLnBFmin\ to \SeedLnBFmax\ $e$-folds. A factor-of-two error in the assumed AGN density moves \Hz\ by
+\HzDensityShiftFactorTwoDeep~\kmsmpc\ above \CompMTwenty\%
+completeness, by \HzDensityShiftFactorTwo\ at \CompMEighteen\%. The AGN-hosted fraction is thus a branching ratio
 measurable from the events that measure the expansion rate, provided the AGN
 density is known.
 \end{abstract}
@@ -102,6 +102,7 @@ from the author on reasonable request. The likelihood is evaluated with the
 \facility{None: every measurement in this work is made on simulated data.}
 
 \software{%
+  \texttt{darksirens},
   \textsc{glass} \citep{Tessore2023},
   HEALPix \citep{Gorski2005},
   \texttt{dynesty} \citep{Speagle2020},

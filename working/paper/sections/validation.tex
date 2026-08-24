@@ -43,9 +43,10 @@ $\CtrlAgnMean$~\kmsmpc\ (AGN; \CtrlAgnInSixtyEight\ of \CtrlNseeds\ at 68\%
 and \CtrlAgnInNinety\ at 90\%). The correlation between the two parameters
 stays small across realisations, $\rho = \JointRhoMean$.
 
-The flux-limited measurement replicates as well. The free-density fit at
-the shallowest limit, repeated on \NSeedsIncomplete\ independent
-realisations, stays within \GalAnchorOffsetMaxDex~dex of the input galaxy
+The free-density flux-limited fit replicates as well. Repeated on
+\NSeedsIncomplete\ independent
+realisations at the shallowest limit, it stays within
+\GalAnchorOffsetMaxDex~dex of the input galaxy
 density, with the input value inside the 68\% interval in every realisation.
 In each the data prefer the luminosity-function completeness over the
 number-count completeness by at least \SeedLnBFmin\ $e$-folds
@@ -60,9 +61,11 @@ observed-sky value lies far outside the permuted data's 90\% range,
 \FagnNullCiNinety, so host association, not the catalogs' global structure,
 carries the measurement.
 
-The mixture likelihood contains both single-catalog analyses exactly: at
-$\fagn = 0$ and $\fagn = 1$ it reproduces the corresponding measurements of
-\S\ref{sec:results:single}. An injection set drawn independently of the
+The mixture likelihood contains both single-catalog analyses as its
+endpoints: at $\fagn = 0$ and $\fagn = 1$ its likelihood and its selection
+integral reduce to the single-catalog ones, and the evaluated posteriors
+reproduce the measurements of \S\ref{sec:results:single} to machine
+precision. An injection set drawn independently of the
 catalogs, from the source population and the comoving volume alone,
 reproduces the joint medians: $\Hz = \HzeroJointCross$ against
 \HzeroJointMedian~\kmsmpc\ on a 68\% width of \HzeroJointWidth, and
@@ -72,5 +75,5 @@ Equation~(\ref{eq:mu}) is a Monte Carlo estimate, and its error moves every
 event coherently rather than averaging away. The error of the mixture's own
 term is not measured directly, but its $\fagn = 0$ and $\fagn = 1$ limits
 bracket it between \SelMcJointLo\ and \SelMcJointHi~\kmsmpc\ per
-realisation; at its upper end this is comparable to the standard error of
-the mean offset over the \ClosureNseeds\ realisations.
+realisation; carried onto the mean over the \ClosureNseeds\ realisations it
+is at most half that mean's standard error.

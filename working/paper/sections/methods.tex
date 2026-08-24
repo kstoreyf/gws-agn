@@ -122,7 +122,7 @@ realisations; the luminosity function is thereby treated as known. The two
 evaluations need not agree on a flux-limited catalog, where the counts are
 themselves the quantity the completeness corrects;
 \S\ref{sec:results:incomplete} lets the data adjudicate between them. In the
-complete-catalog analyses of this paper $n_{0,k}$ is set to zero;
+complete-catalog analyses of this paper $n_{0,k}$ is taken to that limit;
 the flux-limited analyses use the luminosity-function completeness, with
 $(n_{0,k}, \delta_k)$ anchored at the simulation's input densities where
 stated and free otherwise.
@@ -179,4 +179,7 @@ we quote medians with equal-tailed 68\% intervals; where the maximum lies on a
 boundary of the scanned range we quote no interval. $\Omega_{m,0}$ is fixed at
 \OmZeroTruth\ and the mass and spin distributions are held at their input
 values, so the mass distribution is informative but not free. \Hz\ is scanned
-over $[\HzeroScanLo, \HzeroScanHi]$~\kmsmpc.
+over $[\HzeroScanLo, \HzeroScanHi]$~\kmsmpc, and where the host densities are
+free they are scanned over $[\DensityScanGalLo, \DensityScanGalHi]$
+(galaxies) and $[\DensityScanAgnLo, \DensityScanAgnHi]$ (AGN) in
+$\log_{10} n_0$, ranges that hold both input values in their interiors.

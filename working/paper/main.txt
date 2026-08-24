@@ -12,22 +12,21 @@ of Physics, Carnegie Mellon University, Pittsburgh, PA 15213, USA
 
 ABSTRACT
 We measure the Hubble constant H0 and the fraction fAGN of compact-binary mergers hosted by
-active galactic nuclei (AGN) jointly, from 1 000 simulated dark standard sirens and two host catalogs,
-galaxies and AGN, tracing one large-scale structure. Their line-of-sight redshift priors enter the likelihood as a mixture weighted by fAGN , identified by which catalog’s structure the events prefer. With the
+active galactic nuclei (AGN) jointly, from 1 000 simulated dark standard sirens and two host catalogs, galaxies and AGN, tracing one large-scale structure. Their line-of-sight redshift priors enter the
+likelihood as a mixture weighted by fAGN . With the source population at its input values and both
 −1
-source population at its input values and both catalogs complete, we find H0 = 69.2+1.0
-Mpc−1
+catalogs complete, we find H0 = 69.2+1.0
+Mpc−1 and fAGN = 0.273+0.049
 −1.0 km s
-+0.049
-and fAGN = 0.273−0.047 : the realised hosted fraction (0.295) lies inside the 68% interval, the input
-expansion rate inside the 90%, and the H0 interval is a factor of 1.7 narrower than the galaxy catalog’s
-alone. Both parameters’ mean offsets across five realisations are consistent with zero, and with H0
-held at its input value, scrambling the events’ sky positions collapses fAGN from 0.266 to 0.037: host
-association carries the fraction. Flux-limited catalogs preserve the measurement when completeness
-follows from each catalog’s magnitude limit and luminosity function: with the host densities free, the
-recovered galaxy density lies inside the 68% interval in three realisations, while completeness estimated
-from observed counts overstates it by up to 1.19 dex, disfavoured by 11.6 to 17.7 e-folds. A factorof-two error in that density moves H0 by 0.01 km s−1 Mpc−1 above 81 per cent completeness, by 0.97
-at 10 per cent. The branching ratio between AGN-assisted and field mergers is measurable from the
+−0.047 : the realised hosted
+fraction (0.295) lies inside the 68% interval, the input expansion rate inside the 90%, and the H0 interval is a factor of 1.7 narrower than the galaxy catalog’s alone. Both parameters’ mean offsets across
+five realisations are consistent with zero, and with H0 held at its input value, scrambling the events’
+sky positions collapses fAGN from 0.266 to 0.037: host association carries the fraction. Flux-limited
+catalogs preserve the measurement on one realisation when completeness follows from each catalog’s
+magnitude limit and luminosity function: with the host densities free the fraction is only bounded,
+but the recovered galaxy density lies inside the 68% interval in three realisations, while completeness
+estimated from observed counts overstates it by up to 1.19 dex, disfavoured by 11.6 to 17.7 e-folds.
+A factor-of-two error in the assumed AGN density moves H0 by 0.01 km s−1 Mpc−1 above 81% completeness, by 0.97 at 10%. The AGN-hosted fraction is thus a branching ratio measurable from the
 events that measure the expansion rate, provided the AGN density is known.
 
 Keywords: Gravitational waves, Cosmology, Hubble constant, Active galactic nuclei, Galaxy catalogs
@@ -118,9 +117,9 @@ flux-limited catalogs. Section 5 tests them, by repeating the entire constructio
 of the simulated universe and by a null test that removes the host association while changing nothing else.
 Section 6 states what the measurement establishes and
 what it depends on. Uncertainties are 68% equal-tailed
-credible intervals unless stated otherwise, and the input
-cosmology is flat ΛCDM with H0 = 67.74 km s−1 Mpc−1
-and Ωm,0 = 0.3075.
+credible intervals unless stated otherwise, a value quoted
+as x ± y carries its standard error, and the input cosmology is flat ΛCDM with H0 = 67.74 km s−1 Mpc−1 and
+Ωm,0 = 0.3075.
 2. METHOD
 
 2.1. A mixture of catalog redshift priors
@@ -158,11 +157,11 @@ weight and nothing else: it does not enter the mass or
 spin distributions, and it is identified entirely by which
 catalog’s redshift and sky structure the events prefer.
 2.2. The redshift prior a catalog supplies
-Each catalog’s prior is a kernel-density estimate in redshift over the catalogued objects in the event’s HEALPix
 
 3
 
 Dark sirens and the AGN-hosted fraction
+Each catalog’s prior is a kernel-density estimate in redshift over the catalogued objects in the event’s HEALPix
 pixel (Górski et al. 2005; Gray et al. 2022),
 pk (z, n̂ | Λ) ∝ g(z; Λ)
 
@@ -181,8 +180,8 @@ element and the
 R
 merger-rate evolution, and ζj = N (z; zj , σj ) g(z; Λ) dz
 normalises each kernel against that weighting.
-The normalisation Wk is what makes fAGN identifiable. We normalise each catalog’s sky weighting over
-P
+The normalisation Wk is what makes fAGN identifiable. We normalise each catalog’s
+P sky weighting over
 the survey as a whole, Wk = j wj summed over the
 entire catalog, rather than over the objects in each pixel
 separately. The number of catalogued hosts in a pixel
@@ -193,18 +192,13 @@ where and how strongly each catalog traces the density
 field is lost.
 The kernel widths σj must stay well below the redshift
 resolution of the distance measurements,
-σzPE ' σdL dL
-
 
-
-ddL
-dz
-
 −1
+ddL
+σzPE ' σdL dL
 ,
-
 (4)
-
+dz
 or the redshift information in the likelihood comes from
 the overlap of a broad prior with the distance posterior
 rather than from the catalogued hosts. For a real survey
@@ -234,22 +228,13 @@ n0,k (dVc /dz) (1 + z)δk
 Over Nobs detected events the likelihood is
 ln L(Λ) =
 
-N
-obs
-X
-
-ln Zi (Λ) − Nobs ln µ(Λ),
-
-(7)
-
-i=1
-
 (5)
 
 distributed isotropically over the sky, so the completeness is not a free function but follows from the assumed
 density and the observed counts,
 Ck (z) =
 
+the mixture of Equation (2) runs over those completed
 priors. Setting n0,k → 0 leaves nothing missing and
 recovers the complete-catalog case.
 This is the mechanism by which a shallow survey
@@ -278,17 +263,27 @@ redshifts so that the sharp truncation at the limit is
 not smeared by the photometric scatter, and hold the
 fit fixed across realisations; the luminosity function is
 thereby treated as known. The two evaluations need
-not agree on a flux-limited catalog, where the counts are
-themselves the quantity the completeness corrects; §4.4
-lets the data adjudicate between them. In the completecatalog analyses of this paper n0,k is set to zero; the
-flux-limited analyses use the luminosity-function completeness, with (n0,k , δk ) anchored at the simulation’s
-input densities where stated and free otherwise.
+not agree on a flux-limited catalog, where the counts
+are themselves the quantity the completeness corrects;
+§4.4 lets the data adjudicate between them. In the
+complete-catalog analyses of this paper n0,k is taken to
+that limit; the flux-limited analyses use the luminosityfunction completeness, with (n0,k , δk ) anchored at the
+simulation’s input densities where stated and free otherwise.
 
 (6)
 
 Each catalog’s prior is then Equation (3) plus a term
 carrying dNmiss,k /dz spread uniformly over the sky, and
-the mixture of Equation (2) runs over those completed
+
+N
+obs
+X
+
+ln Zi (Λ) − Nobs ln µ(Λ),
+
+(7)
+
+i=1
 
 with
 
@@ -303,11 +298,11 @@ the detectable fraction (Mandel et al. 2019; Vitale et al.
 2022). Because Equation (1) is a density over the observed data, Pdet must be a property of the observed
 data as well; §3.2 constructs the simulated detection rule
 that way.
+
+4
 We estimate µ by importance sampling a set of
 simulated signal injections stored in the cosmologyindependent observables (mdet
 1 , q, dL ) together with the
-
-4
 density each was drawn from, and require the effective sample size of that Monte Carlo estimate to satisfy Neff > 5 Nobs (Farr 2019). Values of Λ that fail the
 criterion are not quoted.
 Because µ is conditioned on the catalogs through
@@ -333,7 +328,10 @@ we quote medians with equal-tailed 68% intervals; where
 the maximum lies on a boundary of the scanned range
 we quote no interval. Ωm,0 is fixed at 0.3075 and the
 mass and spin distributions are held at their input values, so the mass distribution is informative but not free.
-H0 is scanned over [50, 100] km s−1 Mpc−1 .
+H0 is scanned over [50, 100] km s−1 Mpc−1 , and where
+the host densities are free they are scanned over [−4, −1]
+(galaxies) and [−6, −4] (AGN) in log10 n0 , ranges that
+hold both input values in their interiors.
 3. SIMULATED DATA
 
 One simulated universe carries the measurements of
@@ -344,12 +342,12 @@ is the graph of the generative model.
 3.1. Two tracers of one density field
 The background cosmology is flat ΛCDM with H0 =
 67.74 km s−1 Mpc−1 , Ωm,0 = 0.3075 and Ωb,0 = 0.0486
+
 (Planck Collaboration et al. 2016), and the nonlinear
 matter power spectrum is computed with camb (Lewis
 et al. 2000). The light cone is divided into 16 shells
 of comoving thickness 200 Mpc out to z = 1.0, each
 with a linear radial window; projecting the matter power
-
 spectrum onto those windows gives the shell–shell angular spectra, from which glass (Tessore et al. 2023)
 draws one realisation of a set of lognormal fields on a
 HEALPix (Górski et al. 2005) grid with Nside = 128
@@ -397,11 +395,6 @@ flux limit thins both catalogs through the same completeness function and survey
 rather than two.
 Catalogued redshifts are photometric. The observed
 redshift of every object is scattered about the true one,
-zobs = z + N (0, z (1 + z)) with z = 3.0 × 10−3 , the
-analysis sees only zobs , and the per-object uncertainty
-the catalog declares matches the scatter actually present
-(the normalised residuals have a standard deviation of
-1.0000 in the galaxy catalog and 0.9996 in the AGN
 
 5
 
@@ -416,7 +409,7 @@ complete catalog
 
 observed
 
-survey catalog
+flux-limited catalog
 (zjobs, nĵ )
 
 latent
@@ -436,16 +429,15 @@ nk̄
 
 tracers k = 1 … K
 
-mlim
-detected: ρî ≥ ρth
-
 No separate distance measurement: the SNR is the
 σρ, ρth
 distance coordinate, and dL is recovered
+from (M̂ c, ρî ) rather than measured.
+
+mlim
+detected: ρî ≥ ρth
 
 aMc , aq, aχ, aΩ
-
-from (M̂ c, ρî ) rather than measured.
 
 Di
 
@@ -485,19 +477,24 @@ events i = 1 … Nobs
 
 Λpop
 
-Figure 1. The generative model of §3. Shaded nodes are observed, open nodes are latent, small filled squares are fixed
-hyperparameters, and double-ringed nodes are deterministic functions of their parents. The cosmology Λcos fixes the shell
-geometry and the matter power spectrum, from which one lognormal density field δ is drawn. The tracer plate (k = 1 . . . K)
-samples that single field twice, each tracer with its own linear bias bk and mean comoving density n̄k , into a complete catalog
-Ck of sky positions, photometric redshifts and magnitudes; the flux limit mlim thins Ck into the observed catalog Ĉk , the
-only version the flux-limited analyses see. The event plate (i = 1 . . . Nobs ) draws a host-population label ti with probability
-fAGN , a host hi from that population’s complete catalog (mergers occur whether or not a survey catalogued the host), and
-source parameters θi from the fixed population Λpop . The source is measured once: the observed amplitude ρobs,i carries the
-measurement noise. Everything downstream is a function of observed data, never of the latent source: the detection indicator
-Di = Θ(ρobs,i − ρth ), every measurement width, the observed direction n̂obs
-i , and the derived luminosity distance. The inference
-of §2 conditions on the shaded nodes and infers (H0 , fAGN ).
+Figure 1. The generative model of §3. Shaded single-ringed nodes are observed, open nodes are latent, small filled squares
+are fixed hyperparameters, and double-ringed nodes are deterministic functions of their parents, drawn shaded whether or not
+they are observed: the noise-free amplitude ρi is not. The cosmology Λcos fixes the shell geometry and the matter power
+spectrum, from which one lognormal density field δ is drawn. The tracer plate (k = 1 . . . K) samples that single field twice,
+each tracer with its own linear bias bk and mean comoving density n̄k , into a complete catalog Ck of sky positions, photometric
+redshifts and magnitudes; the flux limit mlim thins Ck into the flux-limited catalog Ĉk , the only version the flux-limited
+analyses see. The event plate (i = 1 . . . Nobs ) draws a host-population label ti with probability fAGN , a host hi from that
+population’s complete catalog (mergers occur whether or not a survey catalogued the host), and source parameters θi from the
+fixed population Λpop . The source is measured once: the observed amplitude ρ̂i (written ρobs,i in §3.2) carries the measurement
+noise. Everything downstream is a function of observed data, never of the latent source: the detection indicator Di = Θ(ρ̂i −ρth ),
+every measurement width, the observed direction n̂i , and the derived luminosity distance. The inference of §2 conditions on the
+shaded nodes and infers (H0 , fAGN ).
 
+zobs = z + N (0, z (1 + z)) with z = 3.0 × 10−3 , the
+analysis sees only zobs , and the per-object uncertainty
+the catalog declares matches the scatter actually present
+(the normalised residuals have a standard deviation of
+1.0000 in the galaxy catalog and 0.9996 in the AGN
 catalog). Mergers occur at the true redshift; the survey
 does not know it exactly.
 The catalogs extend to z = 1.0. This is a requirement rather than a choice: the events reach z = 0.31,
@@ -507,11 +504,11 @@ catalogs’ support extends well beyond the redshifts the
 gravitational-wave data can reach and the edge of the
 catalog is never a lever on the inference.
 3.2. The gravitational-wave events
+
 Events are placed on the complete catalogs, before any
 survey selection.
 Each event is assigned a host population with probability fAGN , then a host drawn uniformly from that population’s catalog with an acceptance ∝ (1+z)γ−1 , so the
 merger redshift distribution is p(z) ∝ (dVc /dz)(1+z)γ−1
-
 with γ = 0. The event’s redshift and sky position are its
 host’s. Masses and effective spin are drawn from a fixed
 power-law-plus-peak population independent of the host
@@ -521,35 +518,22 @@ and of the cosmology (Abbott et al. 2023b), with α =
 pairing index β = 1, and χ ∼ N (0, 0.102 ). The input
 AGN-hosted fraction is fAGN = 0.30, and events are
 drawn until Nobs = 1 000 are detected.
+
+6
 Each source is measured once, and that measurement
 is the event. A single scalar stands in for the network
 signal-to-noise ratio; its noise-free value depends only on
 the detector-frame chirp mass and the luminosity distance,
-
-det
-
-ρopt M
-
-
-
-, dL = ρref
-
-
-
-Mdet
-30 M
-
 5/6 
-
-1 Gpc
-dL
-
 
-,
-
-(10)
-
-6
+
+
+1 Gpc
+Mdet
+ρopt Mdet , dL = ρref
+, (10)
+30 M
+dL
 the inspiral scaling with the antenna response left out,
 with ρref = 6.28 set so that the detected fraction
 matches a calculation that includes the response. What
@@ -569,9 +553,8 @@ ratio and effective spin are measured with
 σln M = 0.08
 
 8
-ρobs
-
 ,
+ρobs
 
 σχ = 0.20
 
@@ -580,9 +563,9 @@ ratio and effective spin are measured with
 ρobs
 
 8
+,
 ρobs
 
-,
 (11)
 
 ,
@@ -604,6 +587,7 @@ leave a source-dependent factor in the likelihood that
 the inference has no parameter for.
 The event’s posterior samples are exact. With flat
 priors on (ln Mdet , ln q, ρ, χeff , α, δ), the posterior conditioned on the observed values above is a product of
+
 known one-dimensional distributions, and we draw 2 000
 samples from it directly, mapping the prior exactly into
 the (mdet
@@ -611,7 +595,6 @@ the (mdet
 ranges (q ≤ 1, ρ > 0, |χeff | ≤ 1) are imposed on the
 prior, never on the observed values: truncating the data
 censors the likelihood, while truncating the prior is exact. Sample clouds centred on the true parameters, by
-
 contrast, would be mislabelled as flat-prior posteriors
 2
 and would bias the distance scale at order σln
@@ -625,7 +608,6 @@ constitute the sample. The AGN-hosted events occupy
 294 distinct AGN, with at most 2 events sharing a host,
 so the sparse catalog is not carrying the measurement
 through a handful of repeated hosts.
-
 3.3. Flux-limited catalogs
 Flux-limited catalogs are produced by applying an
 apparent-magnitude limit mj < mlim to the complete
@@ -653,25 +635,72 @@ zobs,j ). At this resolution the complete AGN catalog occupies every pixel, with
 shallowest limit 53 per cent of pixels contain no AGN at
 all, and the emptiness of the sparse catalog becomes part
 of the information: an AGN-hosted event cannot have
+
+7
+
+Dark sirens and the AGN-hosted fraction
+
+4. RESULTS
+
+The estimator recovers the truth when it is told the
+truth. Handing each catalog only the events its objects
+actually host returns H0 = 69.0 km s−1 Mpc−1 from the
+galaxies (705 events) and H0 = 68.6 km s−1 Mpc−1 from
+the AGN (295 events), both consistent with the input
+value: it lies inside the galaxy control’s 68% interval and
+the AGN control’s 90%. Section 5 repeats this recovery
+across 5 independent realisations. The measurements
+that follow use all 1 000 events.
+4.1. The Hubble constant from one catalog at a time
+A single-catalog analysis asserts that every host is in
+that catalog, and in this universe the assertion fails for
+both: the galaxy catalog is missing the hosts of the
+295 AGN-hosted events, and the AGN catalog those
+of the 705 galaxy-hosted ones. What differs is the
+price. From the galaxy catalog alone we find H0 =
++1.7
+69.9−1.6
+km s−1 Mpc−1 (Figure 2): the input value lies
+within the 90% interval but outside the 68%, whose full
+width is 3.30 km s−1 Mpc−1 . The dense catalog absorbs
+the events that do not belong to it with only a modest
+widening, which we read as the effect of many candidate hosts along every line of sight, tracing the same
+structure the true hosts occupy.
+The AGN catalog alone fails outright. Asked to explain 1 000 events with a catalog that hosts 295 of
+them, its posterior climbs into the upper edge of the
+analysed range (median 99.8 against a boundary at
+100 km s−1 Mpc−1 ), and we quote no interval from a
+posterior that peaks on the boundary of its support.
+The asymmetry between the two catalogs has a simple
+reading: sharp localisation cuts both ways. The sparse
+catalog pins its own events to a handful of hosts, but by
+the same token it offers no diffuse background of candidates that could plausibly absorb the 705 events that
+are not its to explain.
+4.2. The Hubble constant and the AGN-hosted fraction
+jointly
+Freeing the mixture removes the misassignment entirely. With both catalogs entering through Equation (2) and (H0 , fAGN ) free, we find H0 =
+
+0.3
+69.9+3.0
+−2.7
+median and 90 %
+
+input 67.74
+
+galaxies
+
+0.2
+
+p(H0 ∣ d) [km−1 s Mpc]
+
 come from a pixel that holds no AGN, except through
 the out-of-catalog term of §2.3.
 The selection function at every depth is estimated
 from the same 1.5 × 108 injections, drawn against the
 complete catalogs from the three-component mixture of
 §2.4 with weights 0.65, 0.10 and 0.25, and cross-checked
-
-Dark sirens and the AGN-hosted fraction
-0.3
-input 67.74
-
-galaxies
-
-69.9+3.0
-−2.7
-
-p(H0 ∣ d) [km−1 s Mpc]
-
-0.2
+against 4.0 × 108 injections drawn from the population
+and the comoving volume alone.
 
 0.1
 
@@ -717,84 +746,31 @@ The AGN-only posterior has no interior maximum: it is still
 rising at the edge of the scanned range, so no interval is
 quoted for it. Neither analysis knows that the events were
 drawn from a mixture of the two catalogs.
-
-against 4.0 × 108 injections drawn from the population
-and the comoving volume alone.
-4. RESULTS
-
-The estimator recovers the truth when it is told the
-truth. Handing each catalog only the events its objects
-actually host returns H0 = 69.0 km s−1 Mpc−1 from the
-galaxies (705 events) and H0 = 68.6 km s−1 Mpc−1 from
-the AGN (295 events), both consistent with the input
-value: it lies inside the galaxy control’s 68% interval and
-the AGN control’s 90%. Section 5 repeats this recovery
-across 5 independent realisations. The measurements
-that follow use all 1 000 events.
-4.1. The Hubble constant from one catalog at a time
-A single-catalog analysis asserts that every host is in
-that catalog, and in this universe the assertion fails for
-both: the galaxy catalog is missing the hosts of the
-295 AGN-hosted events, and the AGN catalog those
-of the 705 galaxy-hosted ones. What differs is the
-
-7
-
-price. From the galaxy catalog alone we find H0 =
-−1
-69.9+1.7
-Mpc−1 (Figure 2): the input value lies
-−1.6 km s
-within the 90% interval but outside the 68%, whose full
-width is 3.30 km s−1 Mpc−1 . The dense catalog absorbs
-the events that do not belong to it at a modest price because it offers many candidate hosts along every line of
-sight, tracing the same structure the true hosts occupy.
-The AGN catalog alone fails outright. Asked to explain 1 000 events with a catalog that hosts 295 of
-them, its posterior climbs into the upper edge of the
-analysed range (median 99.8 against a boundary at
-100 km s−1 Mpc−1 ), and we quote no interval from a
-posterior that peaks on the boundary of its support.
-The asymmetry between the two catalogs has a simple
-reading: sharp localisation cuts both ways. The sparse
-catalog pins its own events to a handful of hosts, but by
-the same token it offers no diffuse background of candidates that could plausibly absorb the 705 events that
-are not its to explain.
-4.2. The Hubble constant and the AGN-hosted fraction
-jointly
-Freeing the mixture removes the misassignment entirely. With both catalogs entering through Equation (2) and (H0 , fAGN ) free, we find H0 =
 −1
 69.2+1.0
 Mpc−1 and fAGN = 0.273+0.049
 −1.0 km s
 −0.047 (Figure 3): the realised hosted fraction lies inside the 68%
 interval, and the input expansion rate inside the 90%,
-the same standing the galaxy-only analysis reaches with
-a far wider interval. The two parameters are only weakly
-correlated (ρ = 0.068 here, +0.105±0.035 across realisations), so little of the fraction is bought with expansionrate information. The reference against which fAGN
-should be judged is the fraction actually realised, 0.295,
-rather than the input probability 0.30: a draw of 1 000
-hosts scatters binomially by 0.014, and the likelihood of
-a mixture weight peaks at the fraction present in the
-data, not at the probability that generated it.
-The joint fit is the sharpest of the analyses that use all
-1 000 events. Its 68% interval spans 1.94 km s−1 Mpc−1
+the same levels the galaxy-only analysis reaches with a
+far wider interval. The two parameters are only weakly
+correlated (ρ = 0.068 here, +0.105±0.035 across realisations), so little of the fraction comes from expansion-rate
+information. The reference against which fAGN should
+be judged is the fraction actually realised, 0.295, rather
+than the input probability 0.30: a draw of 1 000 hosts
+scatters binomially by 0.014, and the likelihood of a mixture weight peaks at the fraction present in the data, not
+at the probability that generated it.
+The joint fit is the sharpest of the complete-catalog
+analyses. Its 68% interval spans 1.94 km s−1 Mpc−1
 against 3.30 for the galaxy catalog alone (a factor of
-1.7), so adding a catalog one hundred times sparser, and
-paying one new parameter for it, sharpens the expansion
-rate rather than diluting it. We read the gain as an
-assignment effect: once each event is allowed to belong
-to the catalog that actually hosts it, the 295 AGN-hosted
-events are anchored by a redshift prior concentrated in
-a few sharp structures instead of being spread across the
-galaxy catalog’s smooth one. The comparison mixes two
-effects, the repair of the misassignment and the second
-catalog’s own information. §4.3 measures the second
-directly: on events it actually hosts, and at the same
+1.7), so adding a catalog one hundred times sparser, at
+one new parameter, sharpens the expansion rate rather
+than diluting it. We read the gain as an assignment effect: once each event is allowed to belong to the catalog
 
 8
 reference realisation 90 %
-4 further realisations 90 %
-input value
+four further realisations 90 %
+input H0, realised fraction
 
 H0 = 69.2+1.0
 −1.0
@@ -838,10 +814,16 @@ realisations’ 90% regions, and the side panels share those axes and show the s
 scale. The recovered H0 = 69.2+1.0
 Mpc−1 interval is a factor of 1.7 narrower at 68% than the galaxy catalog’s alone
 −1.0 km s
-(Figure 2): the second catalog sharpens the expansion rate rather than diluting it.
+(Figure 2): the second catalog narrows the expansion-rate interval.
 
-event count, the AGN catalog alone is a factor of 5.1
-sharper than the galaxy catalog.
+that actually hosts it, the 295 AGN-hosted events are
+anchored by a redshift prior concentrated in a few sharp
+structures instead of being spread across the galaxy catalog’s smooth one. The comparison mixes two effects,
+the repair of the misassignment and the second catalog’s
+own information. §4.3 measures the second directly: on
+events it actually hosts, and at the same event count,
+the AGN catalog alone is a factor of 5.1 sharper than
+the galaxy catalog.
 A universe with no AGN channel is excluded. Profiled
 over H0 , the likelihood at fAGN = 0 falls 28.3 e-folds
 below its peak.
@@ -854,31 +836,28 @@ confound two things: what a catalog’s redshift prior is
 worth per event, and the cost of the events it does not
 host. To separate them, we drew two further sets of
 1 000 detected events for each realisation of the simulated universe, one with every host a galaxy and one
+
 with every host an AGN, each with independent measurement noise, and analysed each set against its own
 catalog alone, exactly as in §4.1 but with nothing misassigned.
 Both catalogs recover the input value.
 Over
 the 5 realisations the mean offsets are −0.001 ±
-
 0.227 km s−1 Mpc−1 from the AGN sets and +0.594 ±
 0.864 from the galaxy sets, each consistent with zero,
-with the input value inside the 90% interval in 5 and
-4 of 5 realisations (Figure 4); the medians agree with
-those from the independent cross-check injection set to
-at most 0.85 of the corresponding half-width across all
-twenty analyses. One galaxy realisation is bimodal, with
-a second mode at 62.00 km s−1 Mpc−1 standing at 0.70
-of the primary mode at 69.75, and that second mode
-is what widens the galaxy mean offset’s standard error;
-the cross-check on the same events is unimodal.
+with the input value inside the 68% interval in 2 (AGN)
+and 3 (galaxies) of 5 realisations and inside the 90% in 5
+and 4 (Figure 4); the medians agree with those from the
+independent cross-check injection set to at most 0.85 of
+the corresponding half-width across all twenty analyses.
+One galaxy realisation is bimodal, with a second mode
+at 62.00 km s−1 Mpc−1 standing at 0.70 of the primary
+mode at 69.75, and that second mode is what widens
+the galaxy mean offset’s standard error; the cross-check
+on the same events is unimodal.
 What separates the tracers is the width. At the same
 event count the AGN catalog measures the expansion
 rate with a mean 68% half-width of 0.45 km s−1 Mpc−1
-against the galaxy catalog’s 2.29, a factor of 5.1, and the
-AGN-over-galaxy half-width formed realisation by realisation is 0.22±0.03. A catalog one hundred times sparser
-is not a weaker version of the same prior: per event that
-actually belongs to it, it is several times stronger, because each event’s line of sight holds a handful of candidate hosts rather than a smooth crowd. This is the
-per-event information behind the reading of §4.2, that
+against the galaxy catalog’s 2.29, a factor of 5.1 in the
 
 9
 
@@ -893,6 +872,10 @@ AGN, reference
 four others
 four others
 
+galaxies, median and 90 %
+AGN, median and 90 %
+input 67.74
+
 H0 [km s−1 Mpc−1]
 
 p(H0 ∣ d) [km−1 s Mpc]
@@ -902,18 +885,12 @@ p(H0 ∣ d) [km−1 s Mpc]
 1.0
 input 67.74
 
-0.5
-
-one galaxy
+0.5 one galaxy
 realisation is
 bimodal
 
-galaxies, median and 90 %
-AGN, median and 90 %
-input 67.74
-
-mean offset, 90 %
-mean offset, 90 %
+galaxy mean offset, 90 %
+AGN mean offset, 90 %
 
 72.5
 70.0
@@ -955,11 +932,17 @@ realisation is drawn at full strength and the other four lighter in the same hue
 outside which every curve holds less than 10−4 of its mass. The one bimodal galaxy realisation, annotated in that panel (second
 mode at 62.00 km s−1 Mpc−1 at 0.70 of the primary mode at 69.75), is drawn as it is. Right: the same ten measurements as
 medians with 90% intervals against the same input line, the two tracers offset slightly from each other at each realisation for
-legibility, with each tracer’s five-realisation mean offset and its standard error as line and band. At equal event count, the
-catalog one hundred times sparser is a factor of 5.1 sharper.
+legibility, with each tracer’s mean offset over the realisations and the 90% interval on the mean offset as line and band. At equal
+event count, the catalog one hundred times sparser is a factor of 5.1 sharper.
 
-the joint fit gains by letting the AGN-hosted events be
-anchored by the sparse catalog.
+mean; the ratio formed within each realisation, AGN
+half-width over galaxy half-width, is 0.22 ± 0.03. A catalog one hundred times sparser is not a weaker version
+of the same prior: per event that actually belongs to it,
+it is several times stronger, and we read that strength as
+localisation against a handful of candidate hosts rather
+than a smooth crowd. This is the per-event information
+behind the reading of §4.2, that the joint fit gains by letting the AGN-hosted events be anchored by the sparse
+catalog.
 4.4. Flux-limited catalogs
 A flux-limited survey removes hosts, and the mixture
 must complete both catalogs to keep its weight meaningful. Repeating the joint fit on the flux-limited catalogs of §3.3, with each catalog’s completeness computed
@@ -969,43 +952,35 @@ reference realisation (Figure 5): the input H0 lies inside the 90% interval at t
 68% at the shallowest, and fAGN holds the realised fraction inside the 68% at all four. At the shallowest limit,
 where 10 per cent of hosts remain catalogued, we find
 −1
-Mpc−1 and fAGN = 0.286+0.053
 H0 = 68.7+1.0
+Mpc−1 and fAGN = 0.286+0.053
 −1.1 km s
 −0.052 ,
 the fAGN interval essentially unchanged from the complete catalogs (a factor of 1.1).
+
 Anchoring the densities is the strongest assumption
 the completion makes, and it can be dropped. Freeing
 both n0,k under flat priors at the shallowest limit returns the galaxy density to within 0.12 dex of the input
 value, inside the 68% interval (log10 n0 = −3.12+0.21
 −0.41 );
-the widening falls almost entirely on the fraction, whose
-interval grows by a factor of 5.9 (fAGN = 0.497+0.305
-−0.312 ).
-In all three realisations the free-density fAGN median
-
-lies 0.17 to 0.21 above the reference fraction, each inside
-its own 68% interval; three realisations do not resolve
-whether that offset is systematic. The dependence on
-the assumed density is continuous rather than a cliff; at
-fixed depth, a one-dex error in the assumed AGN density moves fAGN by 0.455. The fraction is only as well
-determined as the AGN number density.
+the input expansion rate moves just outside the 68% interval, inside the 90%, on the reference realisation, and
+stays inside the 68% in the other two. The widening
+falls on the fraction, whose interval grows by a factor
+of 5.9 (fAGN = 0.497+0.305
+−0.312 ), to 0.91 of the width of its
+flat prior: with the densities free the data bound the
+fraction rather than measure it. In all 3 realisations
+the free-density fAGN median lies 0.17 to 0.21 above
+the reference fraction, each inside its own 68% interval;
+against a posterior this close to its prior, 3 realisations
+do not resolve whether that offset is systematic. The
+dependence on the assumed density is continuous rather
+than a cliff: a one-dex error in the assumed AGN density moves fAGN by 0.455 on the reference realisation,
+nearly independently of survey depth. The fraction is
+only as well determined as the AGN number density.
 The sensitivity is to the absolute density, not to the
-depths of the two surveys relative to each other. Varying
-the galaxy and AGN magnitude limits independently,
-across 1.86 dex in the ratio of the two catalogs’ completeness within the volume the events occupy, moves fAGN
-by 0.016 from end to end and H0 by 0.45 km s−1 Mpc−1
-(a fitted trend of −0.074 km s−1 Mpc−1 per dex, whose
-sign is not resolved), neither span reaching a single fit’s
-own statistical error, on the reference realisation with
-both densities held at their input values.
-The completeness itself can be estimated two ways,
-from the survey’s selection or from the observed counts
-(§2.3), and the data distinguish them. Repeated on
-3 independent realisations at the shallowest limit with
-both densities free, number-count completeness places
-the galaxy density 0.47 to 1.19 dex above the input, luminosity-function completeness holds it within
-0.17 dex with the input inside the 68% interval in every realisation, and the data prefer luminosity-function
+depths of the two surveys relative to each other. Varying the galaxy and AGN magnitude limits independently, across 1.86 dex in the ratio of the two catalogs’ completeness within the volume the events occupy,
+spreads the recovered fAGN medians over 0.016 and the
 
 10
 20
@@ -1088,18 +1063,35 @@ AGN catalog completeness to z < 0.31 [%]
 Figure 5. The joint measurement on flux-limited catalogs. Left: H0 (upper) and fAGN (lower) against the AGN catalog’s
 completeness within the volume the events occupy, with the corresponding magnitude limit on the upper axis, the completeness
 of each catalog computed from its magnitude limit and its luminosity function, and both number densities held at their input
-values, on the reference realisation of the simulated universe. Points and bars are medians with 90% intervals; dashed lines
-mark the input expansion rate and the realised hosted fraction. Right: the galaxy number density recovered with both densities
-free at the shallowest limit, on three independent realisations, under luminosity-function completeness and under number-count
-completeness; bars are 90% intervals, the dashed line is the input value, and each annotation is that realisation’s ln evidence
-favouring the luminosity function. The number-count medians overstate the density by 0.47 to 1.19 dex; the luminosity-function
-intervals contain the input value in all three realisations, the number-count intervals in one.
+values, on the reference realisation of the simulated universe (realisation 1 of the right panel). Points and bars are medians
+with 90% intervals; dashed lines mark the input expansion rate and the realised hosted fraction. Right: the galaxy number
+density recovered with both densities free at the shallowest limit, on three independent realisations, under luminosity-function
+completeness and under number-count completeness; bars are 90% intervals, the dashed line is the input value, and each
+annotation is that realisation’s ln evidence favouring the luminosity function. The number-count medians overstate the density
+by 0.47 to 1.19 dex, and two of the three number-count 90% intervals end within 0.10 dex of the top of the scanned density
+range; the luminosity-function intervals contain the input value in all three realisations, while of the number-count intervals one
+contains it and a second ends just short of it.
 
-completeness by 11.6 to 17.7 e-folds of evidence (Figure 5, right).
-H0 is the robust parameter of the pair, within a
-stated limit. While the catalogs remain at least 81
-per cent complete, a factor-of-two error in the assumed
-AGN density moves H0 by 0.01 km s−1 Mpc−1 ; at 10
+H0 medians over 0.45 km s−1 Mpc−1 (a fitted trend of
+−0.074 km s−1 Mpc−1 per dex, whose sign is not resolved), neither spread reaching a single fit’s own statistical error, on the reference realisation with both densities held at their input values.
+The completeness itself can be estimated two ways,
+from the survey’s selection or from the observed counts
+(§2.3), and the data distinguish them. Repeated on
+3 independent realisations at the shallowest limit with
+both densities free, number-count completeness places
+the galaxy density 0.47 to 1.19 dex above the input,
+a displacement that is a lower bound: in two of the
+three realisations its 90% interval ends within 0.10 dex
+of the top of the scanned density range. Luminosityfunction completeness holds the density within 0.17 dex,
+well inside the scanned range, with the input inside the
+68% interval in every realisation, and the data prefer
+luminosity-function completeness by 11.6 to 17.7 e-folds
+of evidence (Figure 5, right).
+H0 is the robust parameter of the pair, within a stated
+limit, again on the reference realisation. While the catalogs remain at least 81 per cent complete, a factor-
+
+of-two error in the assumed AGN density moves H0
+by 0.01 km s−1 Mpc−1 , consistent with no shift; at 10
 per cent completeness the same error displaces it by
 0.97 km s−1 Mpc−1 (3.2 km s−1 Mpc−1 per dex), half the
 complete-catalog interval of 1.94 km s−1 Mpc−1 . A survey working at such depths must know the AGN density
@@ -1115,25 +1107,8 @@ with zero.
 The mean offset of H0 from the input value is +0.41 ±
 0.55 km s−1 Mpc−1 , and the mean offset of fAGN from
 each realisation’s own hosted fraction is −0.012 ± 0.020
-
 (−0.013 ± 0.019 against the input probability). The
-input values fall inside the 68% intervals in 2 of 5 realisations for H0 and 3 for fAGN , and inside the 90%
-intervals in 4 and 5, consistent with the nominal rates
-for 5 draws. The realisation-to-realisation scatter of the
-H0 medians is 1.19 times the mean quoted half-width
-(0.86 for fAGN ), so the quoted intervals are honest to
-the precision 5 realisations can test. The matched-host
-controls of §4 also recover across realisations, with mean
-offsets of +0.81 ± 0.62 km s−1 Mpc−1 (galaxies; the input value inside the 68% interval in 5 of 5 realisations
-and inside the 90% in 5) and +0.42±0.47 km s−1 Mpc−1
-(AGN; 3 of 5 at 68% and 4 at 90%). The correlation between the two parameters stays small across realisations,
-ρ = +0.105 ± 0.035.
-The flux-limited measurement replicates as well. The
-free-density fit at the shallowest limit, repeated on 3
-independent realisations, stays within 0.17 dex of the
-input galaxy density, with the input value inside the
-68% interval in every realisation. In each the data prefer
-the luminosity-function completeness over the numbercount completeness by at least 11.6 e-folds (§4.4).
+input values fall inside the 68% intervals in 2 of 5 re-
 
 11
 
@@ -1204,6 +1179,19 @@ Right: fAGN against each realisation’s own realised hosted fraction (black tic
 because the reference differs per realisation, and the dotted line is the input probability 0.30. The mean offsets are consistent
 with zero.
 
+alisations for H0 and 3 for fAGN , and inside the 90%
+intervals in 4 and 5, consistent with the nominal rates
+for 5 draws. The realisation-to-realisation scatter of the
+H0 medians is 1.19 times the mean quoted half-width
+(0.86 for fAGN ), so the quoted intervals are honest to
+the precision 5 realisations can test. The matched-host
+controls of §4 also recover across realisations, with mean
+offsets of +0.81 ± 0.62 km s−1 Mpc−1 (galaxies; the input value inside the 68% interval in 5 of 5 realisations
+and inside the 90% in 5) and +0.42±0.47 km s−1 Mpc−1
+(AGN; 3 of 5 at 68% and 4 at 90%). The correlation between the two parameters stays small across realisations,
+ρ = +0.105 ± 0.035.
+The free-density flux-limited fit replicates as well. Repeated on 3 independent realisations at the shallowest
+limit, it stays within 0.17 dex of the input galaxy density, with the input value inside the 68% interval in every realisation. In each the data prefer the luminosityfunction completeness over the number-count completeness by at least 11.6 e-folds (§4.4).
 With H0 held at its input value, the events as observed give fAGN = 0.266 (68% interval [0.221, 0.313]),
 and permuting the observed sky positions among the
 events, so that every event keeps its distance and its localisation area but no longer points at its own host, collapses the recovered fraction to 0.037 ([0.012, 0.076]).
@@ -1211,29 +1199,27 @@ The observed-sky value lies far outside the permuted
 data’s 90% range, [0.004, 0.106], so host association, not
 the catalogs’ global structure, carries the measurement.
 The mixture likelihood contains both single-catalog
-analyses exactly: at fAGN = 0 and fAGN = 1 it
-reproduces the corresponding measurements of §4.1.
-An injection set drawn independently of the catalogs,
-from the source population and the comoving volume
-alone, reproduces the joint medians: H0 = 69.3 against
-69.2 km s−1 Mpc−1 on a 68% width of 1.94, and fAGN =
-0.267 against 0.273 on a width of 0.096. Finally, the
-detectable fraction µ(Λ) of Equation (8) is a Monte
-Carlo estimate, and its error moves every event coherently rather than averaging away. The error of the
-mixture’s own term is not measured directly, but its
-fAGN = 0 and fAGN = 1 limits bracket it between 0.12
-and 0.54 km s−1 Mpc−1 per realisation; at its upper end
-this is comparable to the standard error of the mean
-offset over the 5 realisations.
+analyses as its endpoints: at fAGN = 0 and fAGN = 1 its
+
+likelihood and its selection integral reduce to the singlecatalog ones, and the evaluated posteriors reproduce the
+measurements of §4.1 to machine precision. An injection
+set drawn independently of the catalogs, from the source
+population and the comoving volume alone, reproduces
+the joint medians: H0 = 69.3 against 69.2 km s−1 Mpc−1
+on a 68% width of 1.94, and fAGN = 0.267 against 0.273
+on a width of 0.096. Finally, the detectable fraction
+µ(Λ) of Equation (8) is a Monte Carlo estimate, and its
+error moves every event coherently rather than averaging away. The error of the mixture’s own term is not
+measured directly, but its fAGN = 0 and fAGN = 1 limits bracket it between 0.12 and 0.54 km s−1 Mpc−1 per
+realisation; carried onto the mean over the 5 realisations
+it is at most half that mean’s standard error.
 6. DISCUSSION
 
 The measurement establishes that a second, much
 sparser host catalog is not merely a weaker substitute
 for a galaxy catalog in a dark standard siren analysis:
 because the two catalogs trace the same structure with
-different number density and different bias, the frac-
-
-tion of mergers hosted by each is a parameter of the
+different number density and different bias, the fraction of mergers hosted by each is a parameter of the
 same likelihood that measures the expansion rate, and
 it is measured on the same events. A branching ratio
 between formation channels (Ford & McKernan 2022)
@@ -1241,7 +1227,10 @@ therefore becomes accessible to the data that already
 constrain H0 , with no electromagnetic counterpart and
 no host identification.
 What identifies fAGN sets what the result does and
-does not depend on. The two catalogs differ in their comoving number density by a factor 99.8 and in their linear bias by a factor 1.68 ± 0.01, and both differences enter the line-of-sight redshift prior through Equation (3)
+does not depend on. The two catalogs differ in their comoving number density by a factor 99.8 and in their lin-
+
+12
+ear bias by a factor 1.68 ± 0.01, and both differences enter the line-of-sight redshift prior through Equation (3)
 once each catalog’s sky weighting is normalised over the
 survey as a whole. fAGN is therefore identified by the
 contrast between the two priors, that is, by how many
@@ -1254,25 +1243,29 @@ Three inputs carry the measurement, and each names
 a requirement for a real analysis. The first is the AGN
 number density: fAGN is a weight between two completed priors, so the analysis must know how many AGN
 it cannot see; an error in n0,AGN must move fAGN with
-it, an expectation the flux-limited analyses of §4.4 confirm: a one-dex error in the assumed density moves
-fAGN by 0.455. Hard X-ray census work already fixes
-the space density of survey-defined AGN classes at the
-ten-per-cent level (Ananna et al. 2022); the harder ques-
-
-12
-tion, which population-synthesis work puts at a factor
-of a few, is which AGN class hosts the mergers (McKernan et al. 2018; Ford & McKernan 2022). The second
-is completeness: a real survey is flux limited, and the
-analyses of §4.4 measure the penalty on this same simulated universe. It falls on the fraction, not the expansion
-rate: the input H0 lies inside the 90% interval at the
+it, an expectation the flux-limited analyses of §4.4 confirm on the reference realisation: a one-dex error in
+the assumed density moves fAGN by 0.455, nearly independently of survey depth. Hard X-ray census work
+already fixes the space density of survey-defined AGN
+classes (Ananna et al. 2022); the harder question, which
+population-synthesis work puts at a factor of a few, is
+which AGN class hosts the mergers (McKernan et al.
+2018; Ford & McKernan 2022). The second is completeness: a real survey is flux limited, and the analyses of
+§4.4 measure its effect on this same simulated universe.
+With the densities anchored, little falls on either parameter: the input H0 lies inside the 90% interval at the
 three deeper limits and the 68% at the shallowest, and a
-factor-of-two error in the assumed AGN density moves it
-by 0.01 km s−1 Mpc−1 while the catalogs remain more
-than 81 per cent complete, by 0.97 km s−1 Mpc−1 at
-10 per cent. The requirement is on each catalog’s absolute density rather than on the two surveys reaching
+factor-of-two error in the assumed AGN density moves
+it by 0.01 km s−1 Mpc−1 while the catalogs remain more
+than 81 per cent complete, by 0.97 km s−1 Mpc−1 at 10
+per cent. With the densities free the cost falls on the
+fraction, which the data bound rather than measure,
+while the galaxy density is recovered inside the 68% interval in all three realisations; the input H0 then lies
+outside the 68% interval but inside the 90% on the reference realisation. The requirement is on each catalog’s
+absolute density rather than on the two surveys reaching
 comparable depth: moving the galaxy and AGN magnitude limits independently, over 1.86 dex in the ratio
-of the two completenesses, changes fAGN by 0.016 and
-H0 by 0.45 km s−1 Mpc−1 from end to end, neither resolved against a single fit’s statistical error. The completeness itself must come from the survey’s selection,
+of the two completenesses, spreads the recovered fAGN
+over 0.016 and H0 over 0.45 km s−1 Mpc−1 , neither re-
+
+solved against a single fit’s statistical error. The completeness itself must come from the survey’s selection,
 with a luminosity function known independently of the
 survey’s own photometric scatter: number-count completeness misplaces the recovered galaxy density by up
 to 1.19 dex, and the data disfavour it by 11.6 to 17.7
@@ -1283,13 +1276,12 @@ the mixture against that freedom.
 The measurement itself asks for nothing exotic: a
 galaxy catalog, an AGN catalog over the same footprint
 with a defensible number density, and the dark-siren machinery already in production use. The mixture weight
-
 it returns is the branching ratio that AGN-channel population studies parameterise from the mass and spin side
 (Ford & McKernan 2022; Tagawa et al. 2020). A hoststatistics measurement of the same number would be
 independent of both, and it arrives at no cost to the expansion rate: the same fit that measures fAGN is also
-the sharpest H0 of the analyses that use every event. As
-the detected sample grows toward thousands of events,
-and once the mixture is fitted with the mass distribution
+the sharpest H0 the complete catalogs deliver. As the
+detected sample grows toward thousands of events, and
+once the mixture is fitted with the mass distribution
 free rather than fixed, the question stops being whether
 the AGN-hosted fraction can be measured and becomes
 which catalogs to measure it against.
@@ -1299,7 +1291,6 @@ which catalogs to measure it against.
 
 The inference and the simulated catalogs were computed on GPU nodes under allocations phy220048p and
 phy230014p.
-
 DATA AVAILABILITY
 The simulated density field, host catalogs, event set
 and injection sets, and the posterior samples and likelihood grids behind every figure, are available from the
@@ -1307,59 +1298,46 @@ author on reasonable request. The likelihood is evaluated with the darksirens pa
 
 Facility: None: every measurement in this work is
 made on simulated data.
-Software: glass (Tessore et al. 2023), HEALPix
-(Górski et al. 2005), dynesty (Speagle 2020), JAX
-(Bradbury et al. 2018), numpy, scipy, astropy, h5py,
-matplotlib
+Software: darksirens, glass (Tessore et al. 2023),
+HEALPix (Górski et al. 2005), dynesty (Speagle 2020),
+JAX (Bradbury et al. 2018), numpy, scipy, astropy,
+h5py, matplotlib
 
 REFERENCES
 Abac, A. G., et al. 2025, arXiv e-prints
 Abbott, B. P., Abbott, R., Abbott, T. D., & et al. 2017,
 Nature, 551, 85, doi: 10.1038/nature24471
 
-Bradbury, J., Frostig, R., Hawkins, P., et al. 2018, JAX:
-composable transformations of Python+NumPy
-programs. http://github.com/jax-ml/jax
-
 Abbott, R., et al. 2023a, ApJ, 949, 76,
 doi: 10.3847/1538-4357/ac74bb
-
-Chen, H.-Y., Fishbach, M., & Holz, D. E. 2018, Nature,
-
 —. 2023b, Physical Review X, 13, 011048,
 doi: 10.1103/PhysRevX.13.011048
 
-Dálya, G., Galgóczi, G., Dobos, L., et al. 2018, MNRAS,
-
+Dark sirens and the AGN-hosted fraction
 Ananna, T. T., Weigel, A. K., Trakhtenbrot, B., et al. 2022,
 ApJS, 261, 9, doi: 10.3847/1538-4365/ac5b64
-
-Dálya, G., Dı́az, R., Bouchet, F. R., et al. 2022, MNRAS,
-
 Bartos, I., Haiman, Z., Marka, Z., et al. 2017a, Nature
 Communications, 8, 831,
 doi: 10.1038/s41467-017-00851-7
-
+Bartos, I., Kocsis, B., Haiman, Z., & Márka, S. 2017b, ApJ,
+835, 165, doi: 10.3847/1538-4357/835/2/165
+Bom, C. R., & Palmese, A. 2024, PhRvD, 110, 083005,
+doi: 10.1103/PhysRevD.110.083005
+Bradbury, J., Frostig, R., Hawkins, P., et al. 2018, JAX:
+composable transformations of Python+NumPy
+programs. http://github.com/jax-ml/jax
+Chen, H.-Y., Fishbach, M., & Holz, D. E. 2018, Nature,
 562, 545, doi: 10.1038/s41586-018-0606-0
+Dálya, G., Galgóczi, G., Dobos, L., et al. 2018, MNRAS,
 479, 2374, doi: 10.1093/mnras/sty1703
+Dálya, G., Dı́az, R., Bouchet, F. R., et al. 2022, MNRAS,
 514, 1403, doi: 10.1093/mnras/stac1443
 Del Pozzo, W. 2012, PhRvD, 86, 043011,
 doi: 10.1103/PhysRevD.86.043011
-
-Bartos, I., Kocsis, B., Haiman, Z., & Márka, S. 2017b, ApJ,
-835, 165, doi: 10.3847/1538-4357/835/2/165
-
 Fairhurst, S. 2009, New Journal of Physics, 11,
-
-Bom, C. R., & Palmese, A. 2024, PhRvD, 110, 083005,
-doi: 10.1103/PhysRevD.110.083005
-
-Farah, A. M., Edelman, B., Zevin, M., et al. 2023, ApJ,
-
 doi: 10.1088/1367-2630/11/12/123006
+Farah, A. M., Edelman, B., Zevin, M., et al. 2023, ApJ,
 955, doi: 10.3847/1538-4357/aced02
-
-Dark sirens and the AGN-hosted fraction
 Farr, W. M. 2019, Research Notes of the American
 Astronomical Society, 3, 66,
 doi: 10.3847/2515-5172/ab1d5f
@@ -1379,6 +1357,9 @@ Górski, K. M., Hivon, E., Banday, A. J., et al. 2005, ApJ,
 Graham, M. J., Ford, K. E. S., McKernan, B., Ross, N. P.,
 et al. 2020, PhRvL, 124, 251102,
 doi: 10.1103/PhysRevLett.124.251102
+
+13
+
 Gray, R., Magaña Hernandez, I., Qi, H., Sur, A., et al. 2020,
 PhRvD, 101, 122001, doi: 10.1103/PhysRevD.101.122001
 Gray, R., Messenger, C., & Veitch, J. 2022, MNRAS, 512,
@@ -1391,9 +1372,6 @@ Lewis, A., Challinor, A., & Lasenby, A. 2000, ApJ, 538,
 473, doi: 10.1086/309179
 Mandel, I., Farr, W. M., & Gair, J. R. 2019, MNRAS, 486,
 1086, doi: 10.1093/mnras/stz896
-
-13
-
 McKernan, B., Ford, K. E. S., Bellovary, J., Leigh,
 N. W. C., et al. 2018, ApJ, 866, 66,
 doi: 10.3847/1538-4357/aadae5

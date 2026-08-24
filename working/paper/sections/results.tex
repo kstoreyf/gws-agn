@@ -7,7 +7,7 @@ $\Hz = \CtrlGalMedian$~\kmsmpc\ from the galaxies (\EvNhostGal\ events) and
 $\Hz = \CtrlAgnMedian$~\kmsmpc\ from the AGN (\EvNhostAgn\ events), both
 consistent with the input value: it lies inside the galaxy control's
 68\% interval and the AGN control's 90\%. Section~\ref{sec:validation}
-repeats this recovery across \ClosureNseeds\ independent realisations. The measurements that
+repeats this recovery across \CtrlNseeds\ independent realisations. The measurements that
 follow use all \EvNobs\ events.
 
 \subsection{The Hubble constant from one catalog at a time}
@@ -37,9 +37,9 @@ hosts of the \EvNhostAgn\ AGN-hosted events, and the AGN catalog those of the
 catalog alone we find $\Hz = \HzeroGal$~\kmsmpc\
 (Figure~\ref{fig:single}): the input value lies within the 90\% interval but
 outside the 68\%, whose full width is \HzeroGalWidth~\kmsmpc. The dense
-catalog absorbs the events that do not belong to it at a modest price because
-it offers many candidate hosts along every line of sight, tracing the same
-structure the true hosts occupy.
+catalog absorbs the events that do not belong to it with only a modest
+widening, which we read as the effect of many candidate hosts along every
+line of sight, tracing the same structure the true hosts occupy.
 
 The AGN catalog alone fails outright. Asked to explain \EvNobs\ events with a
 catalog that hosts \EvNhostAgn\ of them, its posterior climbs into the upper
@@ -69,8 +69,8 @@ realisations' realised fractions). Axes span the union of the realisations'
 90\% regions, and the side panels share those axes and show the shapes of
 the marginal posteriors, without a density scale. The recovered $\Hz = \HzeroJoint$~\kmsmpc\ interval is a
 factor of \HzeroWidthRatio\ narrower at 68\% than the galaxy catalog's
-alone (Figure~\ref{fig:single}): the second catalog sharpens the expansion
-rate rather than diluting it.
+alone (Figure~\ref{fig:single}): the second catalog narrows the
+expansion-rate interval.
 \label{fig:joint}}
 \end{figure*}
 
@@ -78,20 +78,20 @@ Freeing the mixture removes the misassignment entirely. With both catalogs
 entering through Equation~(\ref{eq:mixture}) and $(\Hz, \fagn)$ free, we find
 $\Hz = \HzeroJoint$~\kmsmpc\ and $\fagn = \FagnJoint$
 (Figure~\ref{fig:joint}): the realised hosted fraction lies inside the 68\%
-interval, and the input expansion rate inside the 90\%, the same standing the
+interval, and the input expansion rate inside the 90\%, the same levels the
 galaxy-only analysis reaches with a far wider interval. The two parameters
 are only weakly correlated ($\rho = \JointRho$ here, $\JointRhoMean$ across
-realisations), so little of the fraction is bought with expansion-rate
+realisations), so little of the fraction comes from expansion-rate
 information. The reference against which \fagn\ should be
 judged is the fraction actually realised, \FagnTruthReal, rather than the
 input probability \FagnTruthPlanted: a draw of \EvNobs\ hosts scatters
 binomially by \FagnBinomialSd, and the likelihood of a mixture weight peaks at
 the fraction present in the data, not at the probability that generated it.
 
-The joint fit is the sharpest of the analyses that use all \EvNobs\ events.
+The joint fit is the sharpest of the complete-catalog analyses.
 Its 68\% interval spans \HzeroJointWidth~\kmsmpc\ against \HzeroGalWidth\ for
 the galaxy catalog alone (a factor of \HzeroWidthRatio), so adding a
-catalog one hundred times sparser, and paying one new parameter for it,
+catalog one hundred times sparser, at one new parameter,
 sharpens the expansion rate rather than diluting it. We read the gain as an
 assignment effect: once each event is allowed to belong to the catalog that
 actually hosts it, the \EvNhostAgn\ AGN-hosted events are anchored by a
@@ -138,17 +138,18 @@ its mass. The one bimodal galaxy realisation, annotated in that panel
 is. Right: the same ten
 measurements as medians with 90\% intervals against the same input line,
 the two tracers offset slightly from each other at each realisation for
-legibility, with each tracer's five-realisation mean offset and its standard
-error as line and band. At equal event count, the catalog one hundred times
-sparser is a factor of \PureWidthRatio\ sharper.
+legibility, with each tracer's mean offset over the realisations and the
+90\% interval on the mean offset as line and band. At equal event count, the
+catalog one hundred times sparser is a factor of \PureWidthRatio\ sharper.
 \label{fig:pure}}
 \end{figure*}
 
 Both catalogs recover the input value. Over the \PureNseeds\ realisations the
 mean offsets are $\PureAgnOffset$~\kmsmpc\ from the AGN sets and
 $\PureGalOffset$ from the galaxy sets, each consistent with zero, with the
-input value inside the 90\% interval in \PureAgnInNinety\ and
-\PureGalInNinety\ of \PureNseeds\ realisations (Figure~\ref{fig:pure}); the
+input value inside the 68\% interval in \PureAgnInSixtyEight\ (AGN) and
+\PureGalInSixtyEight\ (galaxies) of \PureNseeds\ realisations and inside the
+90\% in \PureAgnInNinety\ and \PureGalInNinety\ (Figure~\ref{fig:pure}); the
 medians agree with those from the independent cross-check injection set to at
 most \PureLaneMaxAgn\ of the corresponding half-width across all twenty
 analyses. One galaxy realisation is bimodal, with a second mode at
@@ -159,12 +160,13 @@ mean offset's standard error; the cross-check on the same events is unimodal.
 What separates the tracers is the width. At the same event count the AGN
 catalog measures the expansion rate with a mean 68\% half-width of
 \PureAgnHalfWidth~\kmsmpc\ against the galaxy catalog's \PureGalHalfWidth,
-a factor of \PureWidthRatio, and the AGN-over-galaxy half-width formed
-realisation by realisation is $\PureWidthRatioPerSeed$. A catalog one hundred
+a factor of \PureWidthRatio\ in the mean; the ratio formed within each
+realisation, AGN half-width over galaxy half-width, is
+$\PureWidthRatioPerSeed$. A catalog one hundred
 times sparser is not a weaker version of the same prior: per event that
-actually belongs to it, it is several times stronger, because each event's
-line of sight holds a handful of candidate hosts rather than a smooth crowd.
-This is the per-event information behind the reading of
+actually belongs to it, it is several times stronger, and we read that
+strength as localisation against a handful of candidate hosts rather than a
+smooth crowd. This is the per-event information behind the reading of
 \S\ref{sec:results:joint}, that the joint fit gains by letting the AGN-hosted
 events be anchored by the sparse catalog.
 
@@ -179,7 +181,8 @@ and \fagn\ (lower) against the AGN catalog's completeness within the volume
 the events occupy, with the corresponding magnitude limit on the upper
 axis, the completeness of each catalog computed from its magnitude limit
 and its luminosity function, and both number densities held at their input
-values, on the reference realisation of the simulated universe. Points and
+values, on the reference realisation of the simulated universe (realisation
+1 of the right panel). Points and
 bars are medians with 90\% intervals; dashed lines mark the input expansion
 rate and the realised hosted fraction. Right: the galaxy number density
 recovered with both densities free at the shallowest limit, on three
@@ -187,9 +190,12 @@ independent realisations, under luminosity-function completeness and under
 number-count completeness; bars are 90\% intervals, the dashed line is the
 input value, and each annotation is that realisation's ln evidence
 favouring the luminosity function. The number-count medians overstate the
-density by \PixelAnchorBiasMinDex\ to \PixelAnchorBiasMaxDex~dex; the
+density by \PixelAnchorBiasMinDex\ to \PixelAnchorBiasMaxDex~dex, and two
+of the three number-count 90\% intervals end within
+\PixelAnchorEdgeGapMaxDex~dex of the top of the scanned density range; the
 luminosity-function intervals contain the input value in all three
-realisations, the number-count intervals in one.
+realisations, while of the number-count intervals one contains it and a
+second ends just short of it.
 \label{fig:incomplete}}
 \end{figure*}
 
@@ -211,40 +217,52 @@ Anchoring the densities is the strongest assumption the completion makes,
 and it can be dropped. Freeing both $n_{0,k}$ under flat priors at the
 shallowest limit returns the galaxy density to within
 \GalDensityFreeOffsetDex~dex of the input value, inside the 68\% interval
-($\log_{10} n_0 = \GalDensityFree$); the widening falls almost entirely on
+($\log_{10} n_0 = \GalDensityFree$); the input expansion rate moves just
+outside the 68\% interval, inside the 90\%, on the reference realisation,
+and stays inside the 68\% in the other two. The widening falls on
 the fraction, whose interval grows by a factor of \FagnFreeWidthRatio\
-($\fagn = \FagnFree$). In all three realisations the free-density \fagn\
+($\fagn = \FagnFree$), to \FagnFreeWidthOfPrior\ of the width of its flat
+prior: with the densities free the data bound the fraction rather than
+measure it. In all \NSeedsIncomplete\ realisations the free-density \fagn\
 median lies \FagnFreeOffsetMin\ to \FagnFreeOffsetMax\ above the reference
-fraction, each inside its own 68\% interval; three realisations do not
+fraction, each inside its own 68\% interval; against a posterior this close
+to its prior, \NSeedsIncomplete\ realisations do not
 resolve whether that offset is systematic. The dependence on the assumed
-density is continuous rather than a cliff; at fixed depth, a one-dex error
-in the assumed AGN density moves \fagn\ by \FagnDensitySlope. The fraction
+density is continuous rather than a cliff: a one-dex error in the assumed
+AGN density moves \fagn\ by \FagnDensitySlope\ on the reference realisation,
+nearly independently of survey depth. The fraction
 is only as well determined as the AGN number density.
 
 The sensitivity is to the absolute density, not to the depths of the two
 surveys relative to each other. Varying the galaxy and AGN magnitude limits
 independently, across \RelCompletenessSpanDex~dex in the ratio of the two
-catalogs' completeness within the volume the events occupy, moves \fagn\ by
-\FagnRelSpan\ from end to end and \Hz\ by \HzeroRelSpan~\kmsmpc\ (a fitted
+catalogs' completeness within the volume the events occupy, spreads the
+recovered \fagn\ medians over \FagnRelSpan\ and the \Hz\ medians over
+\HzeroRelSpan~\kmsmpc\ (a fitted
 trend of \HzeroRelSlope~\kmsmpc\ per dex, whose sign is not resolved),
-neither span reaching a single fit's own statistical error, on the reference
-realisation with both densities held at their input values.
+neither spread reaching a single fit's own statistical error, on the
+reference realisation with both densities held at their input values.
 
 The completeness itself can be estimated two ways, from the survey's
 selection or from the observed counts (\S\ref{sec:methods:completion}), and
 the data distinguish them. Repeated on \NSeedsIncomplete\ independent
 realisations at the shallowest limit with both densities free,
 number-count completeness places the galaxy density \PixelAnchorBiasMinDex\
-to \PixelAnchorBiasMaxDex~dex above the input, luminosity-function
-completeness holds it within \GalAnchorOffsetMaxDex~dex with the input
+to \PixelAnchorBiasMaxDex~dex above the input, a displacement that is a
+lower bound: in two of the three realisations its 90\% interval ends within
+\PixelAnchorEdgeGapMaxDex~dex of the top of the scanned density range.
+Luminosity-function completeness holds the density within
+\GalAnchorOffsetMaxDex~dex, well inside the scanned range, with the input
 inside the 68\% interval in every realisation, and the data prefer
 luminosity-function completeness by \SeedLnBFmin\ to \SeedLnBFmax\
 $e$-folds of evidence (Figure~\ref{fig:incomplete}, right).
 
-\Hz\ is the robust parameter of the pair, within a stated limit. While the
+\Hz\ is the robust parameter of the pair, within a stated limit, again on
+the reference realisation. While the
 catalogs remain at least \CompMTwenty\ per cent complete, a factor-of-two
 error in the assumed AGN density moves \Hz\ by
-\HzDensityShiftFactorTwoDeep~\kmsmpc; at \CompMEighteen\ per cent
+\HzDensityShiftFactorTwoDeep~\kmsmpc, consistent with no shift; at
+\CompMEighteen\ per cent
 completeness the same error displaces it by
 \HzDensityShiftFactorTwo~\kmsmpc\ (\HzDensitySlopeShallow~\kmsmpc\ per
 dex), half the complete-catalog interval of \HzeroJointWidth~\kmsmpc. A survey working at such depths must know the AGN

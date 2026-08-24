@@ -75,7 +75,8 @@ def build():
     # the one number the galaxy-only curve supports, labelled on the mark
     gal_lbl = (f"${gal['median']:.1f}"
                f"^{{+{gal['ci90'][1] - gal['median']:.1f}}}"
-               f"_{{-{gal['median'] - gal['ci90'][0]:.1f}}}$")
+               f"_{{-{gal['median'] - gal['ci90'][0]:.1f}}}$"
+               "\nmedian and 90 %")
     axg.annotate(gal_lbl, (gal_x[gal_p.argmax()], gal_p.max()),
                  textcoords="offset points", xytext=(6, 0), ha="left",
                  va="center", fontsize=7.4, color=fs.INK2)

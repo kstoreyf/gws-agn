@@ -157,9 +157,9 @@ def panel_recovery(ax, curves, summary):
         # matplotlib fills a multi-column legend column-major, so the two band
         # swatches are listed last to land opposite their own marker rows
         Patch(facecolor=GAL, alpha=0.16, edgecolor="none",
-              label=r"mean offset, 90 %"),
+              label=r"galaxy mean offset, 90 %"),
         Patch(facecolor=AGN, alpha=0.16, edgecolor="none",
-              label=r"mean offset, 90 %"),
+              label=r"AGN mean offset, 90 %"),
     ], loc="upper left", ncol=2, columnspacing=1.0, fontsize=7.0,
         handlelength=1.4, labelspacing=0.28, borderaxespad=0.2)
 

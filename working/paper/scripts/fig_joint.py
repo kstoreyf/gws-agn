@@ -149,9 +149,10 @@ def build():
         Line2D([], [], color=REF, lw=1.5,
                label="reference realisation   90 %"),
         Line2D([], [], color=fs.OTHER, lw=0.8,
-               label=f"{len(grids) - 1} further realisations   90 %"),
+               label=("four" if len(grids) - 1 == 4 else str(len(grids) - 1))
+                     + " further realisations   90 %"),
         Line2D([], [], color=fs.INK, lw=0, marker="+", ms=8, mew=1.6,
-               label="input value"),
+               label=r"input $H_0$, realised fraction"),
     ], loc="upper left", fontsize=7.2, bbox_to_anchor=(-0.03, 1.04),
         handlelength=1.5, labelspacing=0.42, borderaxespad=0.0)
 

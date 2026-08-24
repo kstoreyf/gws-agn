@@ -29,7 +29,7 @@ FIGURES = {
     "incomplete": fig_incomplete.main,        # flux-limited catalogs, both
                                               # completeness treatments
     "closure": fig_closure.main,              # five realisations, both params
-    "pure_tracer": fig_pure_tracer.main,      # appendix: one tracer at a time
+    "pure_tracer": fig_pure_tracer.main,      # results 4.3: one tracer at a time
 }
 
 

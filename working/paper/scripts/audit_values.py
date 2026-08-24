@@ -634,12 +634,21 @@ def flux_limited(cfg, jsum) -> dict[str, str]:
     e["FagnDensitySlope"] = fnum(f_slope["m18"], "%.3f")
 
     # ---- both host densities free, reference realisation
-    free = readck(A5 / "campaign_m18_dynesty_s100.json")["summary"]
+    free_file = readck(A5 / "campaign_m18_dynesty_s100.json")
+    free = free_file["summary"]
     e["FagnFree"] = asymstr(free["f_AGN"], "%.3f")
     e["FagnFreeWidthRatio"] = fnum(half(free["f_AGN"]) / hw_faint, "%.1f")
     e["GalDensityFree"] = asymstr(free["log10n0"], "%.2f")
     e["GalDensityFreeOffsetDex"] = fnum(
         abs(free["log10n0"]["median"] - free["log10n0"]["truth"]), "%.2f")
+    # equal-tailed 68% of a uniform prior on [0, 1] spans [0.16, 0.84]:
+    # half-width 0.34, derived here rather than copied from the builder
+    prior_half = (0.84 - 0.16) / 2.0
+    e["FagnFreeWidthOfPrior"] = fnum(half(free["f_AGN"]) / prior_half, "%.2f")
+    e["DensityScanGalLo"] = fnum(free_file["priors"]["log10n0"][0], "%.0f")
+    e["DensityScanGalHi"] = fnum(free_file["priors"]["log10n0"][1], "%.0f")
+    e["DensityScanAgnLo"] = fnum(free_file["priors"]["log10n0_c2"][0], "%.0f")
+    e["DensityScanAgnHi"] = fnum(free_file["priors"]["log10n0_c2"][1], "%.0f")
 
     # ---- the same fit on three realisations, against its number-count twin
     pairs = ((A5S100 / "fit_m18_selection_s100.json",
@@ -658,6 +667,9 @@ def flux_limited(cfg, jsum) -> dict[str, str]:
             for r in nc]
     e["PixelAnchorBiasMinDex"] = fnum(min(over), "%.2f")
     e["PixelAnchorBiasMaxDex"] = fnum(max(over), "%.2f")
+    gaps = sorted(r["priors"]["log10n0"][1]
+                  - r["summary"]["log10n0"]["ci90"][1] for r in nc)
+    e["PixelAnchorEdgeGapMaxDex"] = fnum(gaps[1], "%.2f")
     lnb = [a["sampler_meta"]["logz"] - b["sampler_meta"]["logz"]
            for a, b in zip(lf, nc)]
     e["SeedLnBFmin"] = fnum(min(lnb), "%.1f")
