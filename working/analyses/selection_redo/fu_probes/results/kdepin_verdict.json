@@ -1,0 +1,17 @@
+{
+  "probe": "a7 KDE-window pin (exec summary open item 2)",
+  "date": "2026-08-23",
+  "design": "joint_m18_ns64_selection_s100 rerun with kde_window_nsigma 8 -> 32; W=4096 cap never binds at m18 (max row 189 ns32 / 61 ns64), so n_sigma is the only occupancy-coupled window lever; n_sigma=32 makes every ns64 window provably wider than its parent ns32 window",
+  "comparison": {
+    "f_map": {"campaign": 0.275, "kdepin": 0.275},
+    "f_median_diff": 1.4e-15,
+    "H0_median_diff": -1.9e-13,
+    "map_logL_diff": 0.0,
+    "note": "run on henon A100-40 vs campaign J2 H100; agreement to ~1e-13 also bounds cross-machine float drift"
+  },
+  "verdict": "RULED OUT: the per-pixel redshift KDE bandwidth/window does not carry the +0.028/dex occupancy residual. Next candidate per a7 REPORT: the per-pixel selection N_eff guard.",
+  "inputs": {
+    "campaign_cell": "a7/results/joint_m18_ns64_selection_s100.json",
+    "probe_cell": "fu_probes/results/joint_m18_ns64_selection_kdepin_s100.json"
+  }
+}

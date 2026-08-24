@@ -1,0 +1,250 @@
+{
+ "_what": "Gate-0 pilot of analysis 5: 4-parameter posterior (H0, log10n0, log10n0_c2, f_AGN) with both completion anchors free under flat priors; darksirens K=2 field mixture, same config of record as analyses 3/4",
+ "out_tag": "campaign_m18_dynesty_s101",
+ "sampler_meta": {
+  "sampler": "dynesty",
+  "nlive": 1000,
+  "dlogz_target": 0.1,
+  "maxcall": 500000,
+  "rstate_seed": 7,
+  "ncall_total": 77615,
+  "niter": 10765,
+  "logz": -4244.451929419575,
+  "logzerr": 0.10708939027028297,
+  "dlogz_reached": 9.623664936952991e-05,
+  "eff_percent": 15.158152418991174,
+  "stopped_by_maxcall": false
+ },
+ "summary": {
+  "H0": {
+   "median": 67.55747692434281,
+   "ci68": [
+    66.35998819038696,
+    68.85001463533126
+   ],
+   "ci90": [
+    65.61513568271116,
+    69.6798550275161
+   ],
+   "mean": 67.59833109264747,
+   "sd": 1.231775596273279,
+   "halfwidth68": 1.2450132224721528,
+   "truth": 67.74,
+   "offset": -0.18252307565718695,
+   "pull": -0.14660332305126939,
+   "truth_in_ci68": true,
+   "truth_in_ci90": true
+  },
+  "log10n0": {
+   "median": -3.1096347006680265,
+   "ci68": [
+    -3.4989809889328867,
+    -2.90930166616781
+   ],
+   "ci90": [
+    -3.7844423190973835,
+    -2.838885584747404
+   ],
+   "mean": -3.1857212999167985,
+   "sd": 0.29057671134250135,
+   "halfwidth68": 0.29483966138253836,
+   "truth": -3.0,
+   "offset": -0.1096347006680265,
+   "pull": -0.3718451586667014,
+   "truth_in_ci68": true,
+   "truth_in_ci90": true
+  },
+  "log10n0_c2": {
+   "median": -4.8370832013621685,
+   "ci68": [
+    -5.2689477746900275,
+    -4.615371737601573
+   ],
+   "ci90": [
+    -5.60398559509484,
+    -4.524097739537135
+   ],
+   "mean": -4.9246833598405875,
+   "sd": 0.33354522108684337,
+   "halfwidth68": 0.3267880185442271,
+   "truth": -5.0,
+   "offset": 0.16291679863783148,
+   "pull": 0.49853969360196265,
+   "truth_in_ci68": true,
+   "truth_in_ci90": true
+  },
+  "f_AGN": {
+   "median": 0.47728626868877244,
+   "ci68": [
+    0.17569155526763833,
+    0.7852013607302546
+   ],
+   "ci90": [
+    0.08222520096802928,
+    0.8892170793473693
+   ],
+   "mean": 0.48160791807118325,
+   "sd": 0.259334869899253,
+   "halfwidth68": 0.3047549027313081,
+   "truth": 0.295,
+   "offset": 0.18228626868877246,
+   "pull": 0.5981405616614082,
+   "truth_in_ci68": true,
+   "truth_in_ci90": true
+  },
+  "corr": {
+   "labels": [
+    "H0",
+    "log10n0",
+    "log10n0_c2",
+    "f_AGN"
+   ],
+   "matrix": [
+    [
+     1.0,
+     0.08462942985364888,
+     0.028527231109794035,
+     0.004122933455944386
+    ],
+    [
+     0.08462942985364888,
+     1.0,
+     -0.7940023298058901,
+     -0.9358273146721432
+    ],
+    [
+     0.028527231109794035,
+     -0.79400232980589,
+     1.0,
+     0.9148538095832355
+    ],
+    [
+     0.004122933455944386,
+     -0.9358273146721433,
+     0.9148538095832356,
+     1.0
+    ]
+   ]
+  }
+ },
+ "wiring_check_max_abs_diff": null,
+ "n_likelihood_calls": 77615,
+ "n_guard_rejected_calls": 0,
+ "seconds_per_eval_mean": 0.19242078950016075,
+ "sampling_seconds": 14993.058270931244,
+ "wall_seconds_total": 15391.928482294083,
+ "started_at": "2026-08-23T07:41:54.970194+00:00",
+ "finished_at": "2026-08-23T11:58:26.898700+00:00",
+ "priors": {
+  "H0": [
+   50.0,
+   100.0
+  ],
+  "log10n0": [
+   -4.0,
+   -1.0
+  ],
+  "log10n0_c2": [
+   -6.0,
+   -4.0
+  ],
+  "fcat_2": [
+   0.0,
+   1.0
+  ]
+ },
+ "truths": {
+  "H0": 67.74,
+  "log10n0": -3.0,
+  "log10n0_c2": -5.0,
+  "f_realised": 0.295
+ },
+ "darksirens_git_sha": "0c5b3db59e594f40cf49cfe8f87a075a2fadac76",
+ "c_mode": "selection",
+ "selection": {
+  "family": "schechter",
+  "fit_paths": [
+   "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/selection_redo/scripts/selection_fits_truez/fit_gal_m18_schechter.json",
+   "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/selection_redo/scripts/selection_fits_truez/fit_agn_m18_schechter.json"
+  ],
+  "anchored_prior": {
+   "Mstar_hat": [
+    -19.615776783875948,
+    0.0051173214206668635
+   ],
+   "alpha": [
+    -1.0494178607549234,
+    0.011774352885578517
+   ],
+   "Mstar_hat_c2": [
+    -19.626141196309263,
+    0.051015546785365566
+   ],
+   "alpha_c2": [
+    -1.054683098892001,
+    0.11644399871681468
+   ]
+  },
+  "fit_records": [
+   {
+    "catalog": 1,
+    "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/selection_redo/scripts/selection_fits_truez/fit_gal_m18_schechter.json",
+    "family": "schechter",
+    "theta": {
+     "m_lim": 18.0,
+     "Mstar_hat": -19.615776783875948,
+     "alpha": -1.0494178607549234,
+     "M_faint_offset": -0.094352906
+    },
+    "k_corr_coeffs": [],
+    "strata_fit": null,
+    "strata_struct": null,
+    "stratum_map": null,
+    "stratum_map_sha256": null,
+    "prior": {
+     "Mstar_hat": [
+      -19.615776783875948,
+      0.0051173214206668635
+     ],
+     "alpha": [
+      -1.0494178607549234,
+      0.011774352885578517
+     ]
+    }
+   },
+   {
+    "catalog": 2,
+    "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/selection_redo/scripts/selection_fits_truez/fit_agn_m18_schechter.json",
+    "family": "schechter",
+    "theta": {
+     "m_lim": 18.0,
+     "Mstar_hat": -19.626141196309263,
+     "alpha": -1.054683098892001,
+     "M_faint_offset": -0.094352906
+    },
+    "k_corr_coeffs": [],
+    "strata_fit": null,
+    "strata_struct": null,
+    "stratum_map": null,
+    "stratum_map_sha256": null,
+    "prior": {
+     "Mstar_hat_c2": [
+      -19.626141196309263,
+      0.051015546785365566
+     ],
+     "alpha_c2": [
+      -1.054683098892001,
+      0.11644399871681468
+     ]
+    }
+   }
+  ],
+  "theta_treatment": "PINNED at the anchored prior centres (the offline fits), not sampled -- so all three arms sample the same four parameters and the difference is the estimator, not a wider marginalisation. Same treatment delta/sigma_kde get in every arm.",
+  "theta_pinned_at": {
+   "Mstar_hat": -19.615776783875948,
+   "alpha": -1.0494178607549234,
+   "Mstar_hat_c2": -19.626141196309263,
+   "alpha_c2": -1.054683098892001
+  }
+ }
+}

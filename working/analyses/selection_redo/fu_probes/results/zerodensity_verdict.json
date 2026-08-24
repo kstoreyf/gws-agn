@@ -1,0 +1,16 @@
+{
+  "probe": "a3 zero-density probe (exec summary open item 1, the AGN=complete offset)",
+  "date": "2026-08-24",
+  "design": "a3 joint_complete_s100 rerun with log10n0 = log10n0_c2 = -24 on 0c5b3db; selection's C==1 and the -24 density limit both mean 'no completion contribution' and must agree if the completion path is inert",
+  "comparison": {
+    "fiducial_n0": {"f_median": 0.2403, "f_map": 0.25, "H0_median": 69.218, "logL_max": -4174.886,
+                    "source": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_complete_s100.json (c_mode selection, redo cell)"},
+    "n0_minus24": {"f_median": 0.2734, "f_map": 0.275, "H0_median": 69.217, "logL_max": -4174.861,
+                   "f_ci90": [0.1944, 0.3549],
+                   "source": "fu_probes/results/joint_complete_n0m24_s100.json"},
+    "delta_f_median": 0.033,
+    "noise_floor": "cross-machine float drift bounded at ~1e-13 by the kdepin probe; f grid step 0.025"
+  },
+  "verdict": "COMPLETION PATH LIVE AT C==1: the density fiducial moves f_AGN by +0.033 on a rung where max(1-C_sel)=0, recovering ~60% of the -0.055 AGN=complete offset. At n0=-24 the residual offset (-0.022) sits inside the flux-limited cells' -0.007..-0.023 range, so the anomalous part of the AGN=complete offset is entirely the live completion contribution. H0 is untouched (delta 0.001).",
+  "next": "mechanism hunt in darksirens' selection-mode completion term (why n0 enters at C==1) -- brainstorm-then-wait per owner gates; the four AGN=complete cells and three REPORT.md recommendations blocked on this are now unblocked for interpretation."
+}
