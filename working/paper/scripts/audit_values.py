@@ -671,14 +671,23 @@ def flux_limited(cfg, jsum) -> dict[str, str]:
     surf = read(A6 / "surface_summary.json")
     depth = surf["completeness"]
     xs, ys = [], []
+    hmed, fmed = [], []
     for cell in surf["cells"]["selection (this work)"]:
         if "complete" in (cell["gal"], cell["agn"]):
             continue
         one = readck(A6 / f"joint_{cell['cell']}_s100.json")
         xs.append(math.log10(depth[cell["agn"]]) - math.log10(depth[cell["gal"]]))
         ys.append(one["f"]["median"] - one["f"]["truth"])
+        hmed.append(one["H0"]["median"])
+        fmed.append(one["f"]["median"])
+    if len(xs) != 6:
+        raise SystemExit(f"{A6/'surface_summary.json'}: {len(xs)} cells with "
+                         f"both catalogs flux-limited, expected 6")
     e["RelCompletenessSpanDex"] = fnum(max(xs) - min(xs), "%.2f")
     e["FagnRelSlope"] = fnum(slope_of(xs, ys), "%+.3f")
+    e["FagnRelSpan"] = fnum(max(fmed) - min(fmed), "%.3f")
+    e["HzeroRelSpan"] = fnum(max(hmed) - min(hmed), "%.2f")
+    e["HzeroRelSlope"] = fnum(slope_of(xs, hmed), "%+.3f")
     return e
 
 

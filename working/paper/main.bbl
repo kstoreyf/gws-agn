@@ -8,6 +8,11 @@
 \bibitem[{{Abac} {et~al.}(2025)}]{GWTC4Cosmo2025}
 {Abac}, A.~G., {et~al.} 2025, arXiv e-prints
 
+\bibitem[{{Abbott} {et~al.}(2017){Abbott}, {Abbott}, {Abbott}, \&
+  et~al.}]{Abbott2017SirenH0}
+{Abbott}, B.~P., {Abbott}, R., {Abbott}, T.~D., \& et~al. 2017, \nat, 551, 85,
+  \dodoi{10.1038/nature24471}
+
 \bibitem[{{Abbott} {et~al.}(2023{\natexlab{a}})}]{GWTC3Cosmo2023}
 {Abbott}, R., {et~al.} 2023{\natexlab{a}}, \apj, 949, 76,
   \dodoi{10.3847/1538-4357/ac74bb}
@@ -21,10 +26,15 @@
 {Ananna}, T.~T., {Weigel}, A.~K., {Trakhtenbrot}, B., {et~al.} 2022, \apjs,
   261, 9, \dodoi{10.3847/1538-4365/ac5b64}
 
-\bibitem[{{Bartos} {et~al.}(2017){Bartos}, {Kocsis}, {Haiman}, \&
+\bibitem[{{Bartos} {et~al.}(2017{\natexlab{a}}){Bartos}, {Haiman}, {Marka},
+  {Metzger}, {Stone}, \& {Marka}}]{Bartos2017NatComm}
+{Bartos}, I., {Haiman}, Z., {Marka}, Z., {et~al.} 2017{\natexlab{a}}, Nature
+  Communications, 8, 831, \dodoi{10.1038/s41467-017-00851-7}
+
+\bibitem[{{Bartos} {et~al.}(2017{\natexlab{b}}){Bartos}, {Kocsis}, {Haiman}, \&
   {M{\'a}rka}}]{Bartos2017}
-{Bartos}, I., {Kocsis}, B., {Haiman}, Z., \& {M{\'a}rka}, S. 2017, \apj, 835,
-  165, \dodoi{10.3847/1538-4357/835/2/165}
+{Bartos}, I., {Kocsis}, B., {Haiman}, Z., \& {M{\'a}rka}, S.
+  2017{\natexlab{b}}, \apj, 835, 165, \dodoi{10.3847/1538-4357/835/2/165}
 
 \bibitem[{{Bom} \& {Palmese}(2024)}]{BomPalmese2023}
 {Bom}, C.~R., \& {Palmese}, A. 2024, \prd, 110, 083005,
@@ -143,6 +153,16 @@
 {Planck Collaboration}, {Ade}, P.~A.~R., {et~al.} 2016, \aap, 594, A13,
   \dodoi{10.1051/0004-6361/201525830}
 
+\bibitem[{{Planck Collaboration} {et~al.}(2020){Planck Collaboration},
+  {Aghanim}, \& et~al.}]{Planck2018}
+{Planck Collaboration}, {Aghanim}, N., \& et~al. 2020, \aap, 641, A6,
+  \dodoi{10.1051/0004-6361/201833910}
+
+\bibitem[{{Riess} {et~al.}(2022){Riess}, {Yuan}, {Macri}, \&
+  et~al.}]{Riess2022}
+{Riess}, A.~G., {Yuan}, W., {Macri}, L.~M., \& et~al. 2022, \apjl, 934, L7,
+  \dodoi{10.3847/2041-8213/ac5c5b}
+
 \bibitem[{{Schechter}(1976)}]{Schechter1976}
 {Schechter}, P. 1976, \apj, 203, 297, \dodoi{10.1086/154079}
 
@@ -167,6 +187,14 @@
 {Tessore}, N., {Loureiro}, A., {Joachimi}, B., {von Wietersheim-Kramsta}, M.,
   \& {Jeffrey}, N. 2023, The Open Journal of Astrophysics, 6, 11,
   \dodoi{10.21105/astro.2302.01942}
+
+\bibitem[{{Veronesi} {et~al.}(2022){Veronesi}, {Rossi}, \& {van
+  Velzen}}]{Veronesi2022}
+{Veronesi}, N., {Rossi}, E.~M., \& {van Velzen}, S. 2022, \mnras, 514, 2092
+
+\bibitem[{{Veronesi} {et~al.}(2023){Veronesi}, {Rossi}, \& {van
+  Velzen}}]{Veronesi2023}
+---. 2023, \mnras, 526, 6031
 
 \bibitem[{{Vitale} {et~al.}(2022){Vitale}, {Gerosa}, {Farr}, \&
   {Taylor}}]{Vitale2022}

@@ -7,7 +7,7 @@ $\Hz = \CtrlGalMedian$~\kmsmpc\ from the galaxies (\EvNhostGal\ events) and
 $\Hz = \CtrlAgnMedian$~\kmsmpc\ from the AGN (\EvNhostAgn\ events), both
 consistent with the input value: it lies inside the galaxy control's
 68\% interval and the AGN control's 90\%. Section~\ref{sec:validation}
-repeats this recovery across five independent realisations. The measurements that
+repeats this recovery across \ClosureNseeds\ independent realisations. The measurements that
 follow use all \EvNobs\ events.
 
 \subsection{The Hubble constant from one catalog at a time}
@@ -98,14 +98,77 @@ actually hosts it, the \EvNhostAgn\ AGN-hosted events are anchored by a
 redshift prior concentrated in a few sharp structures instead of being spread
 across the galaxy catalog's smooth one. The comparison mixes two effects,
 the repair of the misassignment and the second catalog's own information.
-Appendix~\ref{app:pure} measures the second directly: on events it actually
-hosts, and at the same event count, the AGN catalog alone is a factor of
-\PureWidthRatio\ sharper than the galaxy catalog.
+\S\ref{sec:results:pure} measures the second directly: on events it
+actually hosts, and at the same event count, the AGN catalog alone is a
+factor of \PureWidthRatio\ sharper than the galaxy catalog.
 
 A universe with no AGN channel is excluded. Profiled over \Hz, the likelihood
 at $\fagn = 0$ falls \FagnZeroDlnL\ $e$-folds below its peak.
 
-\subsection{Incomplete catalogs}
+\subsection{Each catalog at equal event counts}
+\label{sec:results:pure}
+
+At equal event count, on the events it actually hosts, the catalog one hundred
+times sparser measures the expansion rate a factor of \PureWidthRatio\ more
+sharply than the galaxy catalog does. The single-catalog analyses of
+\S\ref{sec:results:single} confound two things: what a catalog's redshift
+prior is worth per event, and the cost of the events it does not host. To
+separate them, we drew two further sets of \PureNevents\ detected events for
+each realisation of the simulated universe, one with every host a galaxy and
+one with every host an AGN, each with independent measurement noise, and
+analysed each set against its own catalog alone, exactly as in
+\S\ref{sec:results:single} but with nothing misassigned.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_pure_tracer.pdf}
+\caption{What each catalog delivers on events it actually hosts. For every
+realisation of the simulated universe, two further sets of \PureNevents\
+detected events were drawn on the same catalogs, every host a galaxy
+(blue) or every host an AGN (orange), and each set analysed against its
+own catalog alone, with \Hz\ the only free parameter. Left: the ten
+normalised posterior densities $p(\Hz \mid d)$, in units of
+km$^{-1}$\,s\,Mpc, on one shared density axis with no rescaling, and the
+input value dashed; the reference realisation is drawn at full strength and
+the other four lighter in the same hue, and the \Hz\ axis spans
+$[56, 80]$~\kmsmpc, outside which every curve holds less than $10^{-4}$ of
+its mass. The one bimodal galaxy realisation, annotated in that panel
+(second mode at \PureBimodalModeLo~\kmsmpc\ at
+\PureBimodalHeight\ of the primary mode at \PureBimodalModeHi), is drawn as it
+is. Right: the same ten
+measurements as medians with 90\% intervals against the same input line,
+the two tracers offset slightly from each other at each realisation for
+legibility, with each tracer's five-realisation mean offset and its standard
+error as line and band. At equal event count, the catalog one hundred times
+sparser is a factor of \PureWidthRatio\ sharper.
+\label{fig:pure}}
+\end{figure*}
+
+Both catalogs recover the input value. Over the \PureNseeds\ realisations the
+mean offsets are $\PureAgnOffset$~\kmsmpc\ from the AGN sets and
+$\PureGalOffset$ from the galaxy sets, each consistent with zero, with the
+input value inside the 90\% interval in \PureAgnInNinety\ and
+\PureGalInNinety\ of \PureNseeds\ realisations (Figure~\ref{fig:pure}); the
+medians agree with those from the independent cross-check injection set to at
+most \PureLaneMaxAgn\ of the corresponding half-width across all twenty
+analyses. One galaxy realisation is bimodal, with a second mode at
+\PureBimodalModeLo~\kmsmpc\ standing at \PureBimodalHeight\ of the primary
+mode at \PureBimodalModeHi, and that second mode is what widens the galaxy
+mean offset's standard error; the cross-check on the same events is unimodal.
+
+What separates the tracers is the width. At the same event count the AGN
+catalog measures the expansion rate with a mean 68\% half-width of
+\PureAgnHalfWidth~\kmsmpc\ against the galaxy catalog's \PureGalHalfWidth,
+a factor of \PureWidthRatio, and the AGN-over-galaxy half-width formed
+realisation by realisation is $\PureWidthRatioPerSeed$. A catalog one hundred
+times sparser is not a weaker version of the same prior: per event that
+actually belongs to it, it is several times stronger, because each event's
+line of sight holds a handful of candidate hosts rather than a smooth crowd.
+This is the per-event information behind the reading of
+\S\ref{sec:results:joint}, that the joint fit gains by letting the AGN-hosted
+events be anchored by the sparse catalog.
+
+\subsection{Flux-limited catalogs}
 \label{sec:results:incomplete}
 
 \begin{figure*}[t]
@@ -157,6 +220,15 @@ resolve whether that offset is systematic. The dependence on the assumed
 density is continuous rather than a cliff; at fixed depth, a one-dex error
 in the assumed AGN density moves \fagn\ by \FagnDensitySlope. The fraction
 is only as well determined as the AGN number density.
+
+The sensitivity is to the absolute density, not to the depths of the two
+surveys relative to each other. Varying the galaxy and AGN magnitude limits
+independently, across \RelCompletenessSpanDex~dex in the ratio of the two
+catalogs' completeness within the volume the events occupy, moves \fagn\ by
+\FagnRelSpan\ from end to end and \Hz\ by \HzeroRelSpan~\kmsmpc\ (a fitted
+trend of \HzeroRelSlope~\kmsmpc\ per dex, whose sign is not resolved),
+neither span reaching a single fit's own statistical error, on the reference
+realisation with both densities held at their input values.
 
 The completeness itself can be estimated two ways, from the survey's
 selection or from the observed counts (\S\ref{sec:methods:completion}), and

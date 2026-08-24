@@ -56,9 +56,9 @@ over the entire catalog, rather than over the objects in each pixel separately.
 The number of catalogued hosts in a pixel then survives into the likelihood, so
 a pixel rich in galaxies but poor in AGN contributes weight to the first
 component of Equation~(\ref{eq:mixture}) and little to the second. Under a
-pixel-by-pixel sky normalisation every occupied pixel is rescaled to unit weight and the
-sky-density contrast between the two catalogs (the difference in where and
-in how strongly each traces the density field) is discarded.
+pixel-by-pixel normalisation every occupied pixel would instead carry unit
+weight, and the difference between where and how strongly each catalog traces
+the density field is lost.
 
 The kernel widths $\sigma_j$ must stay well below the redshift resolution of
 the distance measurements,
@@ -73,12 +73,12 @@ real survey this is a requirement on photometric redshifts. In the catalogs of
 \S\ref{sec:data} the kernel widths are a factor \KdePeRatio\ below
 $\sigma_z^{\rm PE}$ at the median detected redshift.
 
-\subsection{Incomplete catalogs}
+\subsection{Completion of flux-limited catalogs}
 \label{sec:methods:completion}
 
-A flux-limited survey stops finding hosts beyond some redshift, and the
-analysis must say what is missing. We model the missing objects of each catalog
-with a smooth comoving density,
+A flux-limited survey stops finding hosts beyond some redshift, and the objects
+it misses host mergers all the same. We model the missing objects of each
+catalog with a smooth comoving density,
 \begin{equation}
   \frac{\dd N_{{\rm miss},k}}{\dd z} =
     n_{0,k}\, \frac{\dd V_c}{\dd z}\, (1+z)^{\delta_k}
@@ -95,7 +95,7 @@ function but follows from the assumed density and the observed counts,
 Each catalog's prior is then Equation~(\ref{eq:pcat}) plus a term carrying
 $\dd N_{{\rm miss},k}/\dd z$ spread uniformly over the sky, and the mixture of
 Equation~(\ref{eq:mixture}) runs over those completed priors. Setting
-$n_{0,k} \rightarrow 0$ removes the missing budget and recovers the
+$n_{0,k} \rightarrow 0$ leaves nothing missing and recovers the
 complete-catalog case.
 
 This is the mechanism by which a shallow survey still constrains \fagn: as
@@ -122,7 +122,7 @@ realisations; the luminosity function is thereby treated as known. The two
 evaluations need not agree on a flux-limited catalog, where the counts are
 themselves the quantity the completeness corrects;
 \S\ref{sec:results:incomplete} lets the data adjudicate between them. In the
-complete-catalog analyses of this paper the missing budget is switched off;
+complete-catalog analyses of this paper $n_{0,k}$ is set to zero;
 the flux-limited analyses use the luminosity-function completeness, with
 $(n_{0,k}, \delta_k)$ anchored at the simulation's input densities where
 stated and free otherwise.
@@ -163,20 +163,20 @@ mixture: from the source population, from a distribution uniform in comoving
 volume, and from a component placed on the catalogued AGN themselves. Each
 injection stores the exact mixture density at its own coordinates, so the
 estimate of Equation~(\ref{eq:mu}) remains valid for any component weights. The
-third component reads the pixelated catalog file the likelihood conditions on,
-so its proposal and the target cannot disagree through a pixelisation or
+third component uses the same pixelated catalog the likelihood
+conditions on, so proposal and target cannot disagree through a pixelisation or
 kernel-width mismatch. The injection sets are drawn once, against the
-complete catalogs, and reused at every survey depth; the
-effective-sample-size criterion is enforced at every depth.
+complete catalogs, and reused at every survey depth.
 
-\subsection{Evaluating the likelihood}
+\subsection{Priors and inference}
 \label{sec:methods:inference}
 
-At most two parameters are free at a time, so we evaluate
-Equation~(\ref{eq:like}) on a grid rather than sampling it. Priors are flat, and
+With \Hz\ and \fagn\ the only free parameters, we evaluate
+Equation~(\ref{eq:like}) on a grid rather than sampling it; where the host
+densities are free as well we sample it by nested sampling
+\citep{Speagle2020}, which returns the evidence along with the posterior. Priors are flat, and
 we quote medians with equal-tailed 68\% intervals; where the maximum lies on a
 boundary of the scanned range we quote no interval. $\Omega_{m,0}$ is fixed at
 \OmZeroTruth\ and the mass and spin distributions are held at their input
-values, so the mass distribution is informative but not free. The free
-parameters are \Hz, scanned over
-$[\HzeroScanLo, \HzeroScanHi]$~\kmsmpc, and \fagn.
+values, so the mass distribution is informative but not free. \Hz\ is scanned
+over $[\HzeroScanLo, \HzeroScanHi]$~\kmsmpc.

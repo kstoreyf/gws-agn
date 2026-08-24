@@ -1240,12 +1240,15 @@ def sec_incomplete(m, jsum, joint):
     surface = load_checked(A6 / "surface_summary.json")
     depths = surface.get("completeness") or {}
     xs, ys = [], []
+    h0_med, f_med = [], []
     for cell in surface.get("cells", {}).get("selection (this work)") or []:
         if cell["gal"] == "complete" or cell["agn"] == "complete":
             continue
         one = load_checked(A6 / f"joint_{cell['cell']}_s100.json")
         xs.append(math.log10(depths[cell["agn"]] / depths[cell["gal"]]))
         ys.append(get(one, "f.median") - get(one, "f.truth"))
+        h0_med.append(get(one, "H0.median"))
+        f_med.append(get(one, "f.median"))
     add("RelCompletenessSpanDex", max(xs) - min(xs), "%.2f", src=S_SURFACE,
         kind="dataset",
         note="range of log10 of the AGN completeness over the galaxy "
@@ -1255,6 +1258,21 @@ def sec_incomplete(m, jsum, joint):
         src=f"{S_SURFACE} + {S_SURFDIR}/joint_g*_a*_s100.json", kind="result",
         note="response of the f_AGN offset to that ratio, per dex, least "
              "squares over the six cells")
+    # what moving the two flux limits against each other buys, end to end.  The
+    # spans are max minus min over the same six cells, so they are differences
+    # between two fits that share their events and their injections; each cell's
+    # own statistical error is larger than either span (see NUMBERS.md).
+    add("FagnRelSpan", max(f_med) - min(f_med), "%.3f",
+        src=f"{S_SURFACE} + {S_SURFDIR}/joint_g*_a*_s100.json", kind="result",
+        note="end-to-end range of the AGN-hosted fraction over the cells in "
+             "which both catalogs are flux-limited")
+    add("HzeroRelSpan", max(h0_med) - min(h0_med), "%.2f",
+        src=f"{S_SURFACE} + {S_SURFDIR}/joint_g*_a*_s100.json", kind="result",
+        note="the same range for H0, km/s/Mpc")
+    add("HzeroRelSlope", ols(xs, h0_med)[0], "%+.3f",
+        src=f"{S_SURFACE} + {S_SURFDIR}/joint_g*_a*_s100.json", kind="result",
+        note="response of H0 to log10 of the AGN completeness over the galaxy "
+             "completeness, km/s/Mpc per dex, least squares over the six cells")
 
 
 # ---------------------------------------------------------------------------
@@ -1476,6 +1494,23 @@ def main():
         " same cells, and neither sign is resolved: the six-cell fit explains"
         " 37 per cent of a scatter that is itself smaller than one cell's"
         " statistical error.",
+        "* `\\FagnRelSpan`, `\\HzeroRelSpan` and `\\HzeroRelSlope` are over the"
+        " same six cells and are built the same way, from"
+        f" `{S_SURFDIR}/joint_g*_a*_s100.json` with the cell list and the two"
+        f" completeness values read from `{S_SURFACE}`. The spans are max minus"
+        " min of the six medians; the slope is least squares of the six H0"
+        " medians on log10(C_AGN/C_GAL), the same abscissa"
+        " `\\RelCompletenessSpanDex` measures. **These are paired statements,"
+        " not resolved offsets.** All six cells share one set of events and one"
+        " set of injections, so the differences between them are far better"
+        " determined than any single cell's absolute location, and neither span"
+        " is resolved against a single fit's own error: the per-cell 90 per cent"
+        " half-widths run 0.080 to 0.085 in the hosted fraction and 1.60 to 1.81"
+        " km/s/Mpc in H0 (68 per cent: 0.048 to 0.052 and 0.97 to 1.08), against"
+        " spans of 0.016 and 0.45. The H0 slope over all eight cells, including"
+        " the two that carry the AGN catalog as complete, is -0.066 km/s/Mpc per"
+        " dex; over the six it is -0.074, and its sign is no better resolved"
+        " than the hosted fraction's.",
         "* The three realisations behind `\\GalAnchorOffsetMaxDex`,"
         " `\\PixelAnchorBias*` and `\\SeedLnBF*` are 100, 101 and 102. The"
         " reference realisation's pair lives in a different directory from the"

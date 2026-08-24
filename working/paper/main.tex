@@ -52,24 +52,25 @@ AGN-hosted fraction of compact-binary mergers}
 We measure the Hubble constant \Hz\ and the fraction \fagn\ of compact-binary
 mergers hosted by active galactic nuclei (AGN) jointly, from \EvNobs\ simulated
 dark standard sirens and two host catalogs, galaxies and AGN, tracing one
-simulated large-scale structure. Their line-of-sight redshift priors enter the
-likelihood as a mixture with weight \fagn, identified by which catalog's
+large-scale structure. Their line-of-sight redshift priors enter the
+likelihood as a mixture weighted by \fagn, identified by which catalog's
 structure the events prefer. With the source population at
 its input values and both catalogs complete, we find
 $\Hz = \HzeroJoint$~\kmsmpc\ and $\fagn = \FagnJoint$: the realised hosted
 fraction (\FagnTruthReal) lies inside the 68\% interval, the input expansion
 rate inside the 90\%, and the \Hz\ interval is a factor of
-\HzeroWidthRatio\ narrower than from the galaxy catalog alone. The fit recovers both
-parameters across five realisations, and with \Hz\ held at its input value,
-scrambling the event sky positions collapses \fagn\ from \FagnRecord\ to
-\FagnNull: the fraction is measured from host association. Flux-limited catalogs preserve it when completeness
+\HzeroWidthRatio\ narrower than the galaxy catalog's alone. Both parameters'
+mean offsets across five realisations are consistent with zero, and with
+\Hz\ held at its input value, scrambling the events' sky positions collapses
+\fagn\ from \FagnRecord\ to \FagnNull: host association carries the
+fraction. Flux-limited catalogs preserve the measurement when completeness
 follows from each catalog's magnitude limit and luminosity function: with
-both host densities free, the recovered galaxy density lies inside the 68\%
-interval in three realisations, while completeness estimated from the
-observed counts overstates it by up to \PixelAnchorBiasMaxDex~dex and is
-disfavoured by \SeedLnBFmin\ to \SeedLnBFmax\ $e$-folds. A factor-of-two error in that density moves \Hz\ by
+the host densities free, the recovered galaxy density lies inside the 68\%
+interval in three realisations, while completeness estimated from observed
+counts overstates it by up to \PixelAnchorBiasMaxDex~dex, disfavoured by
+\SeedLnBFmin\ to \SeedLnBFmax\ $e$-folds. A factor-of-two error in that density moves \Hz\ by
 \HzDensityShiftFactorTwoDeep~\kmsmpc\ above \CompMTwenty\ per cent
-completeness, by \HzDensityShiftFactorTwo\ at \CompMEighteen\ per cent. The branching ratio between AGN-assisted and field mergers is therefore
+completeness, by \HzDensityShiftFactorTwo\ at \CompMEighteen\ per cent. The branching ratio between AGN-assisted and field mergers is
 measurable from the events that measure the expansion rate, provided the AGN
 density is known.
 \end{abstract}
@@ -111,9 +112,6 @@ from the author on reasonable request. The likelihood is evaluated with the
   \texttt{h5py},
   \texttt{matplotlib}%
 }
-
-\appendix
-\input{sections/appendix_pure_tracer}
 
 \bibliographystyle{aasjournal}
 \bibliography{references}

@@ -1,10 +1,10 @@
 \section{Simulated data}
 \label{sec:data}
 
-The measurements of \S\ref{sec:results} are made on one simulated universe,
-produced in three stages: a clustered two-tracer host catalog, a population of
-mergers placed on that catalog and observed once each, and flux-limited
-versions of the same catalog. Figure~\ref{fig:pgm} is the graph of the process.
+One simulated universe carries the measurements of \S\ref{sec:results}: a
+clustered two-tracer host catalog, a population of mergers placed on that
+catalog and observed once each, and flux-limited versions of the same catalog.
+Figure~\ref{fig:pgm} is the graph of the generative model.
 
 \begin{figure*}[t]
 \centering
@@ -18,7 +18,7 @@ from which one lognormal density field $\delta$ is drawn. The tracer plate
 linear bias $b_k$ and mean comoving density $\bar{n}_k$, into a complete
 catalog $C_k$ of sky positions, photometric redshifts and magnitudes; the flux
 limit $m_{\rm lim}$ thins $C_k$ into the observed catalog $\hat{C}_k$, the only
-version the incomplete analyses see. The event plate ($i = 1 \dots \Nobs$)
+version the flux-limited analyses see. The event plate ($i = 1 \dots \Nobs$)
 draws a host-population label $t_i$ with probability \fagn, a host $h_i$ from
 that population's \emph{complete} catalog (mergers occur whether or not a
 survey catalogued the host), and source parameters $\theta_i$ from the fixed
@@ -76,8 +76,8 @@ biases are $b_{\rm gal} = \BiasGal$ and $b_{\rm AGN} = \BiasAgn$, a contrast of
 
 The realised catalogs hold \CatNgal\ galaxies and \CatNagn\ AGN, with a
 comoving number-density ratio of \DensityRatio. Cross-correlating the two
-catalogs recovers a bias ratio of \BiasRatioMeas, within $2\sigma$ (1.1 per
-cent) of the input \BiasRatio, so the clustering contrast that
+catalogs returns a bias ratio of \BiasRatioMeas\ against the input
+\BiasRatio, so the clustering contrast that
 Equation~(\ref{eq:mixture}) is asked to detect survives the resolution of the
 field essentially undegraded.
 
@@ -92,9 +92,10 @@ Catalogued redshifts are photometric. The observed redshift of every object is
 scattered about the true one, $z_{\rm obs} = z + \mathcal{N}(0,
 \epsilon_z(1+z))$ with $\epsilon_z = \CatDzScale$, the analysis sees only
 $z_{\rm obs}$, and the per-object uncertainty the catalog declares matches the
-scatter actually present (the normalised residuals have unit variance in both
-catalogs). Mergers occur at the true redshift; the survey just does not know
-it exactly.
+scatter actually present (the normalised residuals have a standard deviation
+of \CatPhotozPullSd\ in the galaxy catalog and \CatPhotozPullSdAgn\ in the AGN
+catalog). Mergers occur at the true redshift; the survey does not know it
+exactly.
 
 The catalogs extend to $z = \FieldZmax$. This is a requirement rather than a
 choice: the events reach $z = \EvHorizonZ$, and no posterior sample corresponds
@@ -121,8 +122,8 @@ $\beta = \PopBeta$, and $\chi \sim \mathcal{N}(0, \PopChiSigma^2)$. The input
 AGN-hosted fraction is $\fagn = \EvFagn$, and events are drawn until
 $\Nobs = \EvNobs$ are detected.
 
-Each source is measured once, and that single measurement is the event. A single scalar
-stands in for the network signal-to-noise ratio; its noise-free value depends
+Each source is measured once, and that measurement is the event. A single
+scalar stands in for the network signal-to-noise ratio; its noise-free value depends
 only on the detector-frame chirp mass and the luminosity distance,
 \begin{equation}
   \rho_{\rm opt}\!\left(\mathcal{M}^{\rm det}, d_L\right) = \rho_{\rm ref}
@@ -200,7 +201,7 @@ measurement through a handful of repeated hosts.
 \subsection{Flux-limited catalogs}
 \label{sec:data:survey}
 
-Incomplete catalogs are produced by applying an apparent-magnitude limit
+Flux-limited catalogs are produced by applying an apparent-magnitude limit
 $m_j < m_{\rm lim}$ to the complete catalogs, with the same limit applied to
 both tracers and the events left untouched. We use \MagLimN\ limits from
 $m_{\rm lim} = \MagLimDeep$ to \MagLimShallow\ in steps of \MagLimStep\ mag.
@@ -208,6 +209,10 @@ Within the volume the events occupy, the fraction of galaxies catalogued is
 \CompMTwentyOne\ per cent at the deepest limit and falls to \CompMTwenty,
 \CompMNineteen\ and \CompMEighteen\ per cent at the shallower three, and the
 AGN fractions differ from them by at most \CompAgnMaxDev\ percentage points.
+Pairing one tracer's catalog with the other's at a different limit gives two
+surveys of different depth at unchanged number density, which is what lets
+\S\ref{sec:results:incomplete} tell the depth of a survey apart from the
+density of what it counts.
 
 The limit is isotropic and there is no explicit redshift cut. Both matter for
 what is being measured: an anisotropic completeness modelled as isotropic by

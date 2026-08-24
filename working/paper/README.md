@@ -3,10 +3,21 @@
 Manuscript source for *"A dark standard siren measurement of the Hubble
 constant and the AGN-hosted fraction of compact-binary mergers"*.
 
-Sections 1–3 and 5 are written against the v2 dataset under
-`../data/seed100/`; section 4 carries the claim structure with pending macros
-until the inference runs return. The earlier manuscript in `../report/` is a
-frozen reference and is never edited from here.
+All sections are written against the dataset under `../data/seed100/` and the
+inference runs under `../analyses/`. The earlier manuscript in `../report/` is
+a frozen reference and is never edited from here.
+
+## Journal target
+
+**ApJ.** There is no main-text word limit and no cap on figures or tables. The
+abstract limit is 250 words and is checked mechanically at submission, so count
+it from the rendered PDF rather than from the source: macros expand, and a
+source abstract under the limit can typeset over it. The document class stays
+`aastex631` (still accepted; `aastex7` is the current one). There is no
+per-journal class option: the journal is chosen at the submission portal, so
+nothing in `main.tex` names it. Front matter ApJ expects and that is easy to
+forget: an ORCID for every author, `\facility`, `\software`, a data-availability
+statement, and a running title of 44 characters or fewer.
 
 ## Build
 
@@ -30,15 +41,25 @@ sections/
                              normalisation, incomplete catalogs, selection function
   data.tex                   the simulated universe: one lognormal field, two
                              biased tracers, events measured once, flux limits
-  results.tex                the three claims, numbers pending
+  results.tex                one catalog at a time; the two parameters jointly;
+                             each catalog at equal event counts; flux-limited
+                             catalogs
+  validation.tex             closure across realisations, the sky-scramble null,
+                             endpoint identities, the carried Monte-Carlo error
   discussion.tex             what the measurement establishes; what identifies fAGN
 figures/                     generated PDF + PNG (do not edit; regenerate)
-  fig_pgm.pdf                Fig. 1, the graphical model
+  fig_pgm.pdf                the graphical model
+  fig_single_tracer.pdf      H0 from each catalog alone
+  fig_joint.pdf              the joint (H0, fAGN) posterior
+  fig_pure_tracer.pdf        each catalog on the events it hosts
+  fig_incomplete.pdf         the flux-limited catalogs
+  fig_closure.pdf            recovery across realisations
 values/results_macros.tex    generated \newcommand for every quoted number
 scripts/
   build_values.py            META.json + run outputs -> macros + NUMBERS.md
+  audit_values.py            re-derives every macro and compares
   figstyle.py                the one visual system: palette, rc, shared helpers
-  fig_pgm.py                 Fig. 1
+  fig_*.py                   one script per figure
   make_figures.py            runs them all
 references.bib               bibliography (built with bibtex)
 NUMBERS.md                   generated macro -> source audit trail
@@ -55,8 +76,7 @@ NUMBERS.md                   generated macro -> source audit trail
   * *dataset* — properties measured on the generated realisation (realised
     densities, the recovered bias ratio, host counts, completeness), also from
     `META.json`;
-  * *results* — computed from an inference run's output files. All ten are
-    pending: the runs against the v2 dataset have not returned.
+  * *results* — computed from an inference run's output files.
 * Every hook degrades to `\todo{pending}` when its source file is absent, so a
   missing run cannot silently produce a plausible-looking number.
 * **`\todo{...}`** marks text waiting on a result still in production, and is
@@ -78,12 +98,17 @@ NUMBERS.md                   generated macro -> source audit trail
 
 | section | state |
 |---|---|
-| abstract | written, headline numbers pending |
+| abstract | written |
 | §1 Introduction | written |
-| §2 Method | written through the two-tracer incomplete case |
-| §3 Simulated data | written against `../data/seed100/META.json`, with Fig. 1 |
-| §4 Results | claim structure written, all numbers pending |
-| §5 Discussion | written, one closing paragraph pending |
+| §2 Method | written through the two-tracer flux-limited case |
+| §3 Simulated data | written against `../data/seed100/META.json` |
+| §4 Results | written, four subsections, every number a macro |
+| §5 Validation | written |
+| §6 Discussion | written |
 
-Pending macros (rendered as `\todo{pending}`) are listed at the foot of
-`NUMBERS.md`.
+There is no appendix: the equal-event-count comparison that once sat in one is
+now §4.3. Any macro still awaiting a run renders as `\todo{pending}` and is
+listed at the foot of `NUMBERS.md`; there are none at present.
+
+The owner's ORCID is the one outstanding front-matter item; `main.tex` carries
+the commented `\author[ORCID]{...}` line waiting for it.
