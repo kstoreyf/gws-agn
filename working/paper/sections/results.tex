@@ -107,7 +107,72 @@ at $\fagn = 0$ falls \FagnZeroDlnL\ $e$-folds below its peak.
 \subsection{Incomplete catalogs}
 \label{sec:results:incomplete}
 
-\todo{The joint measurement repeated on the flux-limited catalogs of
-\S\ref{sec:data:survey}: $\Hz = \HzeroIncomplete$ and
-$\fagn = \FagnIncomplete$ at the shallowest depth, with both parameters
-tracked across the four limits. In production.}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_incomplete.pdf}
+\caption{The joint measurement on flux-limited catalogs. Left: \Hz\ (upper)
+and \fagn\ (lower) against the AGN catalog's completeness within the volume
+the events occupy, with the corresponding magnitude limit on the upper
+axis, the completeness of each catalog computed from its magnitude limit
+and its luminosity function, and both number densities held at their input
+values, on the reference realisation of the simulated universe. Points and
+bars are medians with 90\% intervals; dashed lines mark the input expansion
+rate and the realised hosted fraction. Right: the galaxy number density
+recovered with both densities free at the shallowest limit, on three
+independent realisations, under luminosity-function completeness and under
+number-count completeness; bars are 90\% intervals, the dashed line is the
+input value, and each annotation is that realisation's ln evidence
+favouring the luminosity function. The number-count medians overstate the
+density by \PixelAnchorBiasMinDex\ to \PixelAnchorBiasMaxDex~dex; the
+luminosity-function intervals contain the input value in all three
+realisations, the number-count intervals in one.
+\label{fig:incomplete}}
+\end{figure*}
+
+A flux-limited survey removes hosts, and the mixture must complete both
+catalogs to keep its weight meaningful. Repeating the joint fit on the
+flux-limited catalogs of \S\ref{sec:data:survey}, with each catalog's
+completeness computed from its magnitude limit and its luminosity function
+(\S\ref{sec:methods:completion}) and both number densities held at their
+input values, preserves the measurement at every depth on the reference
+realisation (Figure~\ref{fig:incomplete}): the input \Hz\ lies inside the
+90\% interval at the three deeper limits and the 68\% at the shallowest,
+and \fagn\ holds the realised fraction inside the 68\% at all four. At the
+shallowest limit, where \CompMEighteen\ per cent of hosts remain
+catalogued, we find $\Hz = \HzeroIncomplete$~\kmsmpc\ and
+$\fagn = \FagnIncomplete$, the \fagn\ interval essentially unchanged from
+the complete catalogs (a factor of \FagnWidthRatio).
+
+Anchoring the densities is the strongest assumption the completion makes,
+and it can be dropped. Freeing both $n_{0,k}$ under flat priors at the
+shallowest limit returns the galaxy density to within
+\GalDensityFreeOffsetDex~dex of the input value, inside the 68\% interval
+($\log_{10} n_0 = \GalDensityFree$); the widening falls almost entirely on
+the fraction, whose interval grows by a factor of \FagnFreeWidthRatio\
+($\fagn = \FagnFree$). In all three realisations the free-density \fagn\
+median lies \FagnFreeOffsetMin\ to \FagnFreeOffsetMax\ above the reference
+fraction, each inside its own 68\% interval; three realisations do not
+resolve whether that offset is systematic. The dependence on the assumed
+density is continuous rather than a cliff; at fixed depth, a one-dex error
+in the assumed AGN density moves \fagn\ by \FagnDensitySlope. The fraction
+is only as well determined as the AGN number density.
+
+The completeness itself can be estimated two ways, from the survey's
+selection or from the observed counts (\S\ref{sec:methods:completion}), and
+the data distinguish them. Repeated on \NSeedsIncomplete\ independent
+realisations at the shallowest limit with both densities free,
+number-count completeness places the galaxy density \PixelAnchorBiasMinDex\
+to \PixelAnchorBiasMaxDex~dex above the input, luminosity-function
+completeness holds it within \GalAnchorOffsetMaxDex~dex with the input
+inside the 68\% interval in every realisation, and the data prefer
+luminosity-function completeness by \SeedLnBFmin\ to \SeedLnBFmax\
+$e$-folds of evidence (Figure~\ref{fig:incomplete}, right).
+
+\Hz\ is the robust parameter of the pair, within a stated limit. While the
+catalogs remain at least \CompMTwenty\ per cent complete, a factor-of-two
+error in the assumed AGN density moves \Hz\ by
+\HzDensityShiftFactorTwoDeep~\kmsmpc; at \CompMEighteen\ per cent
+completeness the same error displaces it by
+\HzDensityShiftFactorTwo~\kmsmpc\ (\HzDensitySlopeShallow~\kmsmpc\ per
+dex), half the complete-catalog interval of \HzeroJointWidth~\kmsmpc. A survey working at such depths must know the AGN
+density it assumes, for the expansion rate and not only for the fraction.

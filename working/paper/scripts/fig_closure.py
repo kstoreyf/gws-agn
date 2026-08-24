@@ -40,7 +40,7 @@ def build():
     for ax in axes:
         ax.grid(axis="x", visible=False)
         ax.set_xticks(x)
-        ax.set_xticklabels([str(r["seed"]) for r in rows])
+        ax.set_xticklabels([str(i + 1) for i, _ in enumerate(rows)])
         # exactly the span the step-drawn mean band covers, so it meets both spines
         ax.set_xlim(-0.5, len(rows) - 0.5)
         ax.set_xlabel("realisation")
@@ -74,7 +74,7 @@ def build():
     ax = axes[0]
     fs.truth_line(ax, fs.H0_TRUTH, axis="y")
     panel(ax, "H0", np.full(len(rows), fs.H0_TRUTH), "joint_H0", "+.2f")
-    ax.annotate("truth 67.74", (0.015, fs.H0_TRUTH),
+    ax.annotate("input 67.74", (0.015, fs.H0_TRUTH),
                 xycoords=("axes fraction", "data"),
                 textcoords="offset points", xytext=(0, -3), ha="left",
                 va="top", fontsize=7.0, color=fs.INK2)

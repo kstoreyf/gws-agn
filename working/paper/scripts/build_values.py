@@ -46,8 +46,16 @@ and, for the appendix,
                                         realisation, one all-galaxy-hosted and
                                         one all-AGN-hosted, each measured
                                         against its own catalog (`\Pure*`)
-Analysis 3 (incomplete catalogs) has not landed; its three macros are the only
-ones that still render `\todo{pending}`.
+Section 4.3 adds the flux-limited measurements: the depth ladder
+(`analysis_3_incomplete_catalog_H0_fagn`), the assumed-density arms
+(`analysis_4_density_anchoring_H0_fagn`), the free-density fit on three
+realisations (`analysis_5_free_anchors_H0_fagn` plus the reference
+realisation's own pair and two follow-up directories) and the different-depth
+surface (`analysis_6_relative_completeness_H0_fagn`).  Every file behind them is
+opened through `load_checked`, which refuses a run produced by the wrong
+completeness treatment or by a likelihood revision other than the one of
+record; see `sec_incomplete` and the caveats in NUMBERS.md.  Nothing renders
+`\todo{pending}` any more.
 
 Rounding convention
 -------------------
@@ -92,7 +100,49 @@ A0 = ANALYSES / "analysis_0_pure_tracer_H0" / "results"
 A1 = ANALYSES / "analysis_1_complete_catalog_H0" / "results"
 A2 = ANALYSES / "analysis_2_complete_catalog_H0_fagn" / "results"
 
+# --- the flux-limited measurements of Section 4.3 ---------------------------
+# Four directories, one per question: the depth ladder at fixed host densities,
+# the density-anchoring arms, the free-density fit, and the relative-depth
+# surface.  The three-realisation replication of the free-density fit lives in
+# two follow-up directories plus the reference realisation's own run.
+A3 = ANALYSES / "analysis_3_incomplete_catalog_H0_fagn" / "results"
+A4 = ANALYSES / "analysis_4_density_anchoring_H0_fagn" / "results"
+A5 = ANALYSES / "analysis_5_free_anchors_H0_fagn" / "results"
+A6 = ANALYSES / "analysis_6_relative_completeness_H0_fagn" / "results"
+A5S100 = ANALYSES / "experiments" / "experiment_dsmaster_4d_recheck" / "results"
+FU101 = ANALYSES / "selection_redo" / "fu_seed101" / "results"
+FU102 = ANALYSES / "selection_redo" / "fu_seed102" / "results"
+
 C_KM_S = 299792.458
+
+# ---------------------------------------------------------------------------
+# provenance of the flux-limited results
+# ---------------------------------------------------------------------------
+# Every file behind Section 4.3 must have been produced by the completeness
+# treatment it claims and, where it records one, by the likelihood revision of
+# record.  A file that declares something else is not a rounding difference, it
+# is a different measurement, so `load_checked` refuses it outright instead of
+# degrading to \todo.  Files that record neither field are older summaries whose
+# per-cell inputs are checked instead.
+SHA_OF_RECORD = "0c5b3db"
+
+# The one documented exception.  The number-count arm of the reference
+# realisation was run on the previous revision of the likelihood; there is no
+# newer copy of it at the revision of record.  Its own comparison file
+# (`comparison_fit_m18_per_pixel_s100.json`) puts every parameter of that pair
+# within 1.3 replicate-scatter units of the revision before it, i.e. the two
+# revisions are the same measurement to well inside the sampler's own noise.
+# The exemption is keyed to the exact recorded revision, so a different one
+# still raises.
+SHA_EXEMPT = {
+    "analyses/experiments/experiment_dsmaster_4d_recheck/results/"
+    "fit_m18_per_pixel_s100.json":
+        "e8d5035c3562f86ce83497572844a213aa14801c",
+}
+
+# containment of the input values, filled in by `sec_incomplete` and printed in
+# NUMBERS.md: one row per agreement the manuscript claims.
+CONTAINMENT: list[dict] = []
 
 # ---------------------------------------------------------------------------
 # macro registry
@@ -153,6 +203,71 @@ def bracket(lo, hi, fmt="%.3f") -> str | None:
     return rf"\ensuremath{{[{fmt % lo},\, {fmt % hi}]}}"
 
 
+def asym(median, ci, fmt="%.3f") -> str | None:
+    r"""Render `median^{+u}_{-l}` from a median and an interval.
+
+    The two analyses of the complete catalog quote this string themselves and it
+    is copied verbatim; the flux-limited runs store the median and the interval
+    endpoints as numbers, so the same shape is built here.
+    """
+    if median is None or not ci or len(ci) != 2 or None in ci:
+        return None
+    lo, hi = ci
+    return (rf"\ensuremath{{{fmt % median}"
+            rf"^{{+{fmt % (hi - median)}}}_{{-{fmt % (median - lo)}}}}}")
+
+
+def half68(block) -> float | None:
+    """Half of the 68 per cent interval, from the interval itself."""
+    ci = (block or {}).get("ci68")
+    if not ci or len(ci) != 2:
+        return None
+    return 0.5 * (ci[1] - ci[0])
+
+
+def ols(xs, ys) -> tuple[float, float]:
+    """Least-squares slope and intercept of y on x."""
+    n = len(xs)
+    mx, my = sum(xs) / n, sum(ys) / n
+    sxx = sum((x - mx) ** 2 for x in xs)
+    sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    slope = sxy / sxx
+    return slope, my - slope * mx
+
+
+def _inside(interval, value) -> bool:
+    """Whether `value` falls inside a stored [lo, hi] pair."""
+    return bool(interval and len(interval) == 2 and value is not None
+                and interval[0] <= value <= interval[1])
+
+
+def contains(block, value_name: str, claim: str, src: str, *,
+             value=None) -> None:
+    """Record which interval of `block` contains its input value.
+
+    `value` overrides the input value the block itself carries.  It is needed
+    for the one claim the manuscript states against a number that lives in
+    another file: the hosted fraction the drawn events actually realised, which
+    the complete-catalog fit records.  A block's own `truth_in_ci*` flags cannot
+    answer that claim, so the level is read off the interval endpoints instead.
+    """
+    if not block:
+        return
+    if value is None:
+        target = block.get("truth")
+        level = ("68 per cent" if block.get("truth_in_ci68") else
+                 "90 per cent" if block.get("truth_in_ci90") else None)
+    else:
+        target = value
+        level = ("68 per cent" if _inside(block.get("ci68"), target) else
+                 "90 per cent" if _inside(block.get("ci90"), target) else None)
+    CONTAINMENT.append({
+        "claim": claim, "value": value_name, "input": target,
+        "median": block.get("median"), "level": level,
+        "ci68": block.get("ci68"), "ci90": block.get("ci90"), "src": src,
+    })
+
+
 # ---------------------------------------------------------------------------
 # source access
 # ---------------------------------------------------------------------------
@@ -163,6 +278,37 @@ def load_json(path: Path) -> dict:
         return json.loads(path.read_text())
     except (ValueError, OSError):
         return {}
+
+
+def load_checked(path: Path, *, c_mode: str = "selection") -> dict:
+    r"""Load one flux-limited result file, or refuse it.
+
+    Unlike `load_json` this does not degrade to `\todo` on a bad file: Section
+    4.3 compares two completeness treatments against each other, so a file that
+    was produced by the wrong one, or by a likelihood revision other than the one
+    of record, would silently turn a comparison into a self-comparison.  Both
+    checks are conditional on the field being present, because the older summary
+    files predate the fields; those are reached through their per-cell inputs,
+    which do carry them.
+    """
+    if not path.exists():
+        raise SystemExit(f"{path}: missing; Section 4.3 cannot be built")
+    try:
+        tree = json.loads(path.read_text())
+    except (ValueError, OSError) as exc:
+        raise SystemExit(f"{path}: unreadable ({exc})") from exc
+
+    have = tree.get("c_mode")
+    if have is not None and have != c_mode:
+        raise SystemExit(f"{path}: completeness treatment is {have!r}, "
+                         f"expected {c_mode!r}")
+    sha = tree.get("darksirens_git_sha")
+    if sha is not None and not str(sha).startswith(SHA_OF_RECORD):
+        if SHA_EXEMPT.get(rel(path)) != sha:
+            raise SystemExit(
+                f"{path}: likelihood revision {sha!r} is not the revision of "
+                f"record {SHA_OF_RECORD!r} and carries no documented exemption")
+    return tree
 
 
 def get(tree: dict, path: str):
@@ -212,6 +358,29 @@ S_FSCAN = rel(A2 / "fscan_s100.json")
 S_FNULL = rel(A2 / "fscan_null_s100.json")
 S_MUMC = rel(A2 / "mu_mc_error.json")
 
+# --- Section 4.3, the flux-limited catalogs
+LADDER_RUNGS = ("m21", "m20", "m19", "m18")
+S_LADDER = rel(A3 / "joint_m18_s100.json")
+S_LADDIR = rel(A3)
+S_LADSUM = rel(A3 / "ladder_summary.json")
+S_ARMS = rel(A4 / "arms_summary.json")
+S_ARMDIR = rel(A4)
+S_FREE = rel(A5 / "campaign_m18_dynesty_s100.json")
+S_SURFACE = rel(A6 / "surface_summary.json")
+S_SURFDIR = rel(A6)
+# the three realisations of the free-density fit, and their number-count twins
+SEEDPAIRS = (
+    (100, A5S100 / "fit_m18_selection_s100.json",
+     A5S100 / "fit_m18_per_pixel_s100.json"),
+    (101, FU101 / "campaign_m18_dynesty_s101.json",
+     FU101 / "campaign_m18_dynesty_pp_s101.json"),
+    (102, FU102 / "campaign_m18_dynesty_s102.json",
+     FU102 / "campaign_m18_dynesty_pp_s102.json"),
+)
+S_SEEDS = ", ".join(rel(p) for _, p, _ in SEEDPAIRS)
+S_SEEDS_PP = ", ".join(rel(p) for _, _, p in SEEDPAIRS)
+# the arms of the density-anchoring grid, in order of the assumed AGN density
+ARM_TAGS = ("a05", "a07", "a09", "a11", "a13", "a20")
 
 # ---------------------------------------------------------------------------
 # a dependency-free flat-LCDM distance, for the one derived design number
@@ -868,15 +1037,218 @@ def sec_pure(pt):
         note="height of the lower mode relative to the higher one")
 
 
-def sec_incomplete():
-    """Analysis 3.  Not landed; these are the only pending macros."""
-    p = "(pending: analyses/analysis_3_incomplete_catalog_H0_fagn)"
-    add("HzeroIncomplete", None, src=p, kind="result",
-        note="H0 from the two-tracer fit on the shallowest catalogs")
-    add("FagnIncomplete", None, src=p, kind="result",
-        note="AGN-hosted fraction on the shallowest catalogs")
-    add("FagnWidthRatio", None, src=p, kind="result",
-        note="growth of the f_AGN interval across the magnitude limits")
+def sec_incomplete(m, jsum, joint):
+    """Section 4.3: the two-tracer measurement on flux-limited catalogs.
+
+    Four measurements, all on the same events as the main text and all with the
+    completeness of both catalogs computed from the survey's flux limit and the
+    catalog's luminosity function:
+
+      the depth ladder      m < 21, 20, 19, 18 at host densities held at the
+                            simulation's input values
+      the density arms      the assumed AGN density moved by factors 0.5 to 2.0
+                            at each of the four depths
+      the free-density fit  both host densities sampled, at the shallowest
+                            depth, on three realisations, each paired with the
+                            same fit under completeness estimated from the
+                            observed number counts
+      the relative surface  galaxy and AGN catalogs cut to different depths
+
+    Every file is opened through `load_checked`, so a run produced by the other
+    completeness treatment, or by another revision of the likelihood, stops the
+    build instead of reaching the manuscript.
+    """
+    # ---------------------------------------------------------------- ladder
+    rungs = {r: load_checked(A3 / f"joint_{r}_s100.json") for r in LADDER_RUNGS}
+    ladder = load_checked(A3 / "ladder_summary.json")
+    shallow = rungs["m18"]
+    # completeness of each rung, as the ladder itself labels it
+    comp = {row["rung"]: row["C_in_horizon"] for row in ladder.get("rows") or []}
+
+    add("HzeroIncomplete", asym(get(shallow, "H0.median"),
+                                get(shallow, "H0.ci68"), "%.1f"),
+        src=S_LADDER, kind="result",
+        note="H0 from the two-tracer fit on the shallowest catalogs, median "
+             "and 68% interval, km/s/Mpc")
+    add("FagnIncomplete", asym(get(shallow, "f.median"),
+                               get(shallow, "f.ci68"), "%.3f"),
+        src=S_LADDER, kind="result",
+        note="AGN-hosted fraction on the shallowest catalogs, median and 68% "
+             "interval")
+    contains(shallow.get("H0"), "H0", "H0 on the shallowest catalogs",
+             S_LADDER)
+    contains(shallow.get("f"), "f_AGN",
+             "AGN-hosted fraction on the shallowest catalogs", S_LADDER)
+    # The three deeper rungs carry the same claim, and \S4.3 names their levels
+    # separately, so each gets its own row rather than being covered by m18's.
+    for rung in [r for r in LADDER_RUNGS if r != "m18"]:
+        contains(rungs[rung].get("H0"), "H0",
+                 f"H0 on the {rung.replace('m', 'm < ')} catalogs",
+                 rel(A3 / f"joint_{rung}_s100.json"))
+        contains(rungs[rung].get("f"), "f_AGN",
+                 f"AGN-hosted fraction on the {rung.replace('m', 'm < ')} "
+                 f"catalogs", rel(A3 / f"joint_{rung}_s100.json"))
+    # The manuscript judges the fraction against the one the drawn events
+    # actually realised, not against the probability they were drawn with.  The
+    # ladder file stores its own input value; the realised fraction is the
+    # number `\FagnTruthReal` renders, and it lives in the complete-catalog
+    # fit, so the level is derived from the interval endpoints here.
+    contains(shallow.get("f"), "f_AGN",
+             "AGN-hosted fraction on the shallowest catalogs, against the "
+             "realised fraction", f"{S_LADDER} + {S_JOINT}",
+             value=joint.get("truth_f_realised"))
+
+    # what the flux limit costs the f_AGN interval, at fixed host densities.
+    # The complete-catalog denominator is the same measurement's own 68%
+    # half-width, unrounded (`h0_fagn_joint.json` stores it rounded to 0.096).
+    hw_shallow = half68(shallow.get("f"))
+    hw_complete = get(jsum, "seeds.0.joint.f_vs_realised.halfwidth68")
+    add("FagnWidthRatio",
+        None if None in (hw_shallow, hw_complete) or not hw_complete
+        else hw_shallow / hw_complete, "%.1f",
+        src=f"{S_LADDER} + {S_JSUM}", kind="result",
+        note="68% half-width of f_AGN on the shallowest catalogs over the "
+             "complete-catalog half-width, host densities held at their input "
+             "values in both")
+
+    # ------------------------------------------------------- density anchors
+    # `arms_summary.json` precomputes the f_AGN response but not the H0
+    # response, so both are refitted here from the arm files by least squares in
+    # log10 of the assumed density, and the refitted f_AGN slope is required to
+    # reproduce the precomputed one.
+    log_input_agn = math.log10(get(m, "config.glass.n_comoving_agn"))
+    arms_pre = load_checked(A4 / "arms_summary.json")
+    slopes_h0, slopes_f = {}, {}
+    for rung in LADDER_RUNGS:
+        xs, h0s, fs = [], [], []
+        for tag in ARM_TAGS:
+            arm = load_checked(A4 / f"joint_{rung}_{tag}_s100.json")
+            xs.append(get(arm, "base_coord.log10n0_c2") - log_input_agn)
+            h0s.append(get(arm, "H0.median"))
+            fs.append(get(arm, "f.median"))
+        slopes_h0[rung] = ols(xs, h0s)[0]
+        slopes_f[rung] = ols(xs, fs)[0]
+        quoted = get(arms_pre, f"rungs.{rung}.selection (this work).slope")
+        if quoted is None or abs(quoted - slopes_f[rung]) > 1e-6:
+            raise SystemExit(
+                f"{A4 / 'arms_summary.json'}: f_AGN slope at {rung} is "
+                f"{quoted!r}, refit from the arm files gives "
+                f"{slopes_f[rung]!r}")
+
+    add("HzDensitySlopeShallow", slopes_h0["m18"], "%.1f",
+        src=f"{S_ARMDIR}/joint_m18_a*_s100.json", kind="result",
+        note="response of H0 to the assumed AGN density on the shallowest "
+             "catalogs, km/s/Mpc per dex, least squares over the six arms")
+    add("HzDensityShiftFactorTwo", slopes_h0["m18"] * math.log10(2.0), "%.2f",
+        src=f"{S_ARMDIR}/joint_m18_a*_s100.json", kind="result",
+        note="H0 shift a factor-two error in the assumed AGN density buys on "
+             "the shallowest catalogs, km/s/Mpc")
+    add("HzDensityShiftFactorTwoDeep",
+        abs(slopes_h0["m20"]) * math.log10(2.0), "%.2f",
+        src=f"{S_ARMDIR}/joint_m20_a*_s100.json", kind="result",
+        note="the same shift two magnitudes deeper, km/s/Mpc, where the "
+             "catalogs are 81 per cent complete; the m20 slope is negative and "
+             "its sign is not resolved, so the magnitude is quoted")
+    add("FagnDensitySlope", slopes_f["m18"], "%.3f",
+        src=f"{S_ARMS} + {S_ARMDIR}/joint_m18_a*_s100.json", kind="result",
+        note="response of f_AGN to the assumed AGN density, per dex; the same "
+             "to within 0.04 per dex at every depth")
+
+    # ------------------------------------------------------- free densities
+    free = load_checked(A5 / "campaign_m18_dynesty_s100.json")
+    fs_free = get(free, "summary.f_AGN")
+    gd_free = get(free, "summary.log10n0")
+    add("FagnFree", asym(get(fs_free, "median"), get(fs_free, "ci68"), "%.3f"),
+        src=S_FREE, kind="result",
+        note="AGN-hosted fraction with both host densities free, shallowest "
+             "catalogs, median and 68% interval")
+    add("FagnFreeWidthRatio",
+        None if not hw_shallow else half68(fs_free) / hw_shallow, "%.1f",
+        src=f"{S_FREE} + {S_LADDER}", kind="result",
+        note="68% half-width of f_AGN with the host densities free over the "
+             "same half-width with them held at their input values")
+    add("GalDensityFree", asym(get(gd_free, "median"), get(gd_free, "ci68"),
+                               "%.2f"),
+        src=S_FREE, kind="result",
+        note="log10 of the recovered galaxy number density, Mpc^-3, median and "
+             "68% interval")
+    add("GalDensityFreeOffsetDex",
+        abs(get(gd_free, "median") - get(gd_free, "truth")), "%.2f",
+        src=S_FREE, kind="result",
+        note="distance of that median from the simulation's input density, dex")
+    contains(gd_free, "log10 n_gal",
+             "galaxy density with both densities free, reference realisation",
+             S_FREE)
+
+    # --------------------------------------- three realisations, both arms
+    gal_offsets, pixel_offsets, lnbf, free_f_offsets = [], [], [], []
+    for seed, sel_path, pix_path in SEEDPAIRS:
+        sel = load_checked(sel_path)
+        pix = load_checked(pix_path, c_mode="per_pixel")
+        s_gd, p_gd = get(sel, "summary.log10n0"), get(pix, "summary.log10n0")
+        s_f = get(sel, "summary.f_AGN")
+        gal_offsets.append(abs(get(s_gd, "median") - get(s_gd, "truth")))
+        pixel_offsets.append(get(p_gd, "median") - get(p_gd, "truth"))
+        free_f_offsets.append(get(s_f, "median") - get(s_f, "truth"))
+        lnbf.append(get(sel, "sampler_meta.logz")
+                    - get(pix, "sampler_meta.logz"))
+        contains(s_gd, "log10 n_gal",
+                 f"galaxy density, realisation {seed}, luminosity-function "
+                 f"completeness", rel(sel_path))
+        contains(p_gd, "log10 n_gal",
+                 f"galaxy density, realisation {seed}, number-count "
+                 f"completeness", rel(pix_path))
+
+    add("NSeedsIncomplete", len(SEEDPAIRS), "%d", src=S_SEEDS, kind="result",
+        note="realisations of the simulated universe behind the free-density "
+             "measurement")
+    add("GalAnchorOffsetMaxDex", max(gal_offsets), "%.2f", src=S_SEEDS,
+        kind="result",
+        note="largest distance of the recovered galaxy density from its input "
+             "value over the realisations, dex")
+    add("PixelAnchorBiasMinDex", min(pixel_offsets), "%.2f", src=S_SEEDS_PP,
+        kind="result",
+        note="smallest amount by which the number-count treatment overstates "
+             "the galaxy density, dex")
+    add("PixelAnchorBiasMaxDex", max(pixel_offsets), "%.2f", src=S_SEEDS_PP,
+        kind="result", note="the largest, dex")
+    add("SeedLnBFmin", min(lnbf), "%.1f",
+        src=f"{S_SEEDS} + {S_SEEDS_PP}", kind="result",
+        note="smallest log evidence in favour of the luminosity-function "
+             "completeness over the number-count completeness; one decimal, "
+             "matching the value Figure 4 draws")
+    add("SeedLnBFmax", max(lnbf), "%.1f",
+        src=f"{S_SEEDS} + {S_SEEDS_PP}", kind="result", note="the largest")
+    add("FagnFreeOffsetMin", min(free_f_offsets), "%.2f", src=S_SEEDS,
+        kind="result",
+        note="smallest displacement of the free-density f_AGN median from the "
+             "reference fraction each run records (0.295) over the "
+             "realisations; every 68% interval contains it")
+    add("FagnFreeOffsetMax", max(free_f_offsets), "%.2f", src=S_SEEDS,
+        kind="result", note="the largest")
+
+    # ------------------------------------------- galaxies and AGN at different
+    # depths.  The two cells that carry the AGN catalog as complete are left out
+    # on purpose (see the caveats in NUMBERS.md); the span and the slope below
+    # are over the six cells in which both catalogs are flux-limited.
+    surface = load_checked(A6 / "surface_summary.json")
+    depths = surface.get("completeness") or {}
+    xs, ys = [], []
+    for cell in surface.get("cells", {}).get("selection (this work)") or []:
+        if cell["gal"] == "complete" or cell["agn"] == "complete":
+            continue
+        one = load_checked(A6 / f"joint_{cell['cell']}_s100.json")
+        xs.append(math.log10(depths[cell["agn"]] / depths[cell["gal"]]))
+        ys.append(get(one, "f.median") - get(one, "f.truth"))
+    add("RelCompletenessSpanDex", max(xs) - min(xs), "%.2f", src=S_SURFACE,
+        kind="dataset",
+        note="range of log10 of the AGN completeness over the galaxy "
+             "completeness spanned by the cells in which both catalogs are "
+             "flux-limited, dex")
+    add("FagnRelSlope", ols(xs, ys)[0], "%+.3f",
+        src=f"{S_SURFACE} + {S_SURFDIR}/joint_g*_a*_s100.json", kind="result",
+        note="response of the f_AGN offset to that ratio, per dex, least "
+             "squares over the six cells")
 
 
 # ---------------------------------------------------------------------------
@@ -929,8 +1301,10 @@ def main():
     sec_selection(m, jsum)
     sec_design(m, kde)
 
+    joint = load_json(A2 / "h0_fagn_joint.json")
+
     sec_single()
-    sec_joint(load_json(A2 / "h0_fagn_joint.json"), jsum,
+    sec_joint(joint, jsum,
               load_json(A2 / "fscan_s100.json"),
               load_json(A2 / "fscan_null_s100.json"),
               profile_exclusion())
@@ -938,7 +1312,7 @@ def main():
                  load_json(A1 / "v3_curvature.json"),
                  load_json(A2 / "mu_mc_error.json"))
     sec_pure(load_json(A0 / "h0_pure_tracer.json"))
-    sec_incomplete()
+    sec_incomplete(m, jsum, joint)
 
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -983,6 +1357,15 @@ def main():
         f"| pure-tracer event sets (appendix) | `{S_PURE}` |",
         f"| f-scan, record and sky-shuffled | `{S_FSCAN}`, `{S_FNULL}` |",
         f"| selection Monte-Carlo error | `{S_MUMC}`, `{S_CURV}` |",
+        f"| flux-limited depth ladder | `{S_LADSUM}`, "
+        f"`{S_LADDIR}/joint_m*_s100.json` |",
+        f"| assumed-density arms | `{S_ARMS}`, "
+        f"`{S_ARMDIR}/joint_m*_a*_s100.json` |",
+        f"| free host densities, reference realisation | `{S_FREE}` |",
+        f"| free host densities, three realisations | `{S_SEEDS}` |",
+        f"| the same under number-count completeness | `{S_SEEDS_PP}` |",
+        f"| galaxies and AGN at different depths | `{S_SURFACE}`, "
+        f"`{S_SURFDIR}/joint_g*_a*_s100.json` |",
         "",
         "## Rounding",
         "",
@@ -1036,6 +1419,77 @@ def main():
         " `agn_h0_width` as `null` on purpose: the AGN-only posterior rails."
         " `agn_grid_top_median` is the number to quote, against the top of the"
         " scanned range.",
+        "* **Provenance of the flux-limited results.** Every file behind"
+        " Section 4.3 is opened through `load_checked`, which refuses a file"
+        " whose recorded completeness treatment is not the one the macro"
+        " claims, or whose recorded likelihood revision is not"
+        f" `{SHA_OF_RECORD}`. Both checks are conditional on the field being"
+        " present: the four depth-ladder files, the twenty-four arm files, the"
+        " two summary files and the eight surface cells predate the revision"
+        " field, and the ladder, arm and surface summaries predate the"
+        " treatment field as well. Those summaries are checked through the"
+        " per-cell files they aggregate, which do carry the treatment.",
+        "* **One documented exemption.** The number-count arm of the reference"
+        " realisation"
+        " (`fit_m18_per_pixel_s100.json`) records likelihood revision"
+        " `e8d5035c`, not the revision of record, and no newer copy of it"
+        " exists. Its"
+        " own comparison file puts every parameter of that pair within 1.3"
+        " units of the sampler's replicate scatter against the revision before"
+        " it, so the two revisions are the same measurement to well inside the"
+        " noise. The exemption is keyed to that exact revision, and it applies"
+        " to `\\PixelAnchorBiasMaxDex` (which this file sets) and to"
+        " `\\SeedLnBFmax`.",
+        "* The same file records no completeness treatment at all; the"
+        " treatment it was run under is the default, and its comparison file"
+        " records it as `per_pixel (unrecorded)`. The two follow-up"
+        " realisations declare `per_pixel` explicitly and are checked against"
+        " it.",
+        "* `arms_summary.json` precomputes the f_AGN response to the assumed"
+        " AGN density but **not** the H0 response, so both are refitted here by"
+        " least squares on log10 of the assumed density over the six arms of"
+        " each rung, from the arm files themselves. The refit reproduces the"
+        " precomputed f_AGN slope at all four depths to better than 1e-6 (the"
+        " build fails if it does not), which is what licenses the H0 slopes"
+        " derived the same way: -0.017, -0.035, +0.709 and +3.212 km/s/Mpc per"
+        " dex at m < 21, 20, 19, 18.",
+        "* `\\HzDensityShiftFactorTwo` and `\\HzDensityShiftFactorTwoDeep` are"
+        " the same quantity at two depths: the H0 shift a factor-two error in"
+        " the assumed AGN density buys, i.e. the fitted slope times log10(2),"
+        " at m < 18 and at m < 20. The deep one is quoted as a magnitude"
+        " because the m < 20 slope is negative (-0.035 km/s/Mpc per dex) and"
+        " its sign is not resolved: 0.01 km/s/Mpc is a hundredth of that fit's"
+        " own 68 per cent half-width. No sentence may lean on its direction.",
+        "* `\\FagnRelSlope` and `\\RelCompletenessSpanDex` are over the **six**"
+        " cells in which both catalogs are flux-limited. The two cells that"
+        " carry the AGN catalog as complete are excluded by the same decision"
+        " that excludes the other cells of that kind from the manuscript. The"
+        " slope over all eight cells, which `surface_summary.json` precomputes,"
+        " is -0.004 per dex; over the six it is +0.005. Both are a factor"
+        " ~25 below the +0.13 per dex the number-count treatment shows over the"
+        " same cells, and neither sign is resolved: the six-cell fit explains"
+        " 37 per cent of a scatter that is itself smaller than one cell's"
+        " statistical error.",
+        "* The three realisations behind `\\GalAnchorOffsetMaxDex`,"
+        " `\\PixelAnchorBias*` and `\\SeedLnBF*` are 100, 101 and 102. The"
+        " reference realisation's pair lives in a different directory from the"
+        " other two and under different file names; all three are the same"
+        " four-parameter fit at the shallowest depth.",
+        "* The containment table carries **two** rows for the AGN-hosted"
+        " fraction on the shallowest catalogs. The first is against the value"
+        " that file stores as its input; the second is against the fraction the"
+        " drawn events actually realised, which is the reference the manuscript"
+        " uses throughout (`\\FagnTruthReal`, read from"
+        f" `{S_JOINT}`) and the value the figure's dashed line marks. The two"
+        " values coincide exactly on this dataset, so both rows report the same"
+        " level; the second is the one a sentence about the realised fraction"
+        " should be looked up in, because it is the only one whose input value"
+        " tracks that file rather than the ladder's own record of it.",
+        "* `\\FagnWidthRatio` divides by the complete-catalog 68 per cent"
+        " half-width as `joint_summary.json` stores it unrounded (0.048130);"
+        " `h0_fagn_joint.json`, the source of `\\FagnJoint`, stores the full"
+        " width rounded to 0.096. The two denominators give the same rendered"
+        " ratio.",
         "",
     ]
     for kind, title in (("configuration", "Configuration"),
@@ -1059,12 +1513,45 @@ def main():
     else:
         md.append("None: every macro resolves to a number.")
     md.append("")
+    md += containment_report()
     md += RENAME_MAP
     md += usage_report()
     (PAPER / "NUMBERS.md").write_text("\n".join(md))
 
     print(f"{len(REGISTRY)} macros -> values/results_macros.tex")
     print(f"{len(pend)} pending: {', '.join(pend) if pend else 'none'}")
+
+
+def containment_report() -> list[str]:
+    """Which interval of each flux-limited fit contains the input value.
+
+    One row per agreement the manuscript claims.  A sentence that says a fit
+    recovers an input value has to name the interval that contains it, and this
+    is the table it is looked up in: `68` means the 68 per cent equal-tailed
+    interval already contains the input, `90` means only the 90 per cent one
+    does, and `neither` means the fit does not agree and no sentence may say it
+    does.
+    """
+    out = ["## Containment of the input values", "",
+           "The manuscript quotes 68 per cent intervals. A claim of agreement",
+           "must match the level in the last column; `neither` is a",
+           "disagreement, not a rounding matter. The `input` column is the",
+           "value the claim is made against, which for the hosted fraction is",
+           "the one the drawn events realised rather than the probability they",
+           "were drawn with.", "",
+           "| claim | quantity | input | median | contained by |"
+           " 68% interval | source |",
+           "|---|---|---|---|---|---|---|"]
+    for row in CONTAINMENT:
+        fmt = "%.3f" if abs(row["input"] or 0.0) < 10 else "%.2f"
+        ci = row["ci68"] or [None, None]
+        level = row["level"] or "**neither**"
+        out.append(
+            f"| {row['claim']} | {row['value']} | {fmt % row['input']} | "
+            f"{fmt % row['median']} | {level} | "
+            f"[{fmt % ci[0]}, {fmt % ci[1]}] | `{row['src']}` |")
+    out.append("")
+    return out
 
 
 def usage_report() -> list[str]:

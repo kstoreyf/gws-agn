@@ -56,7 +56,7 @@ over the entire catalog, rather than over the objects in each pixel separately.
 The number of catalogued hosts in a pixel then survives into the likelihood, so
 a pixel rich in galaxies but poor in AGN contributes weight to the first
 component of Equation~(\ref{eq:mixture}) and little to the second. Under a
-per-pixel normalisation every occupied pixel is rescaled to unit weight and the
+pixel-by-pixel sky normalisation every occupied pixel is rescaled to unit weight and the
 sky-density contrast between the two catalogs (the difference in where and
 in how strongly each traces the density field) is discarded.
 
@@ -104,10 +104,28 @@ estimate onto its own smooth density, and the two smooth densities still differ
 by the number-density ratio. The pair $(n_{0,k}, \delta_k)$ therefore fixes how
 much of each population the analysis believes it cannot see, and \nzagn\ is the
 one that matters: because \fagn\ is a weight between the two priors, an error
-in \nzagn\ moves the AGN prior's out-of-catalog mass and \fagn\ follows. In
-the analyses of this paper the catalogs are complete and the missing budget is
-switched off; the flux-limited analyses of \S\ref{sec:results:incomplete}
-anchor $(n_{0,k}, \delta_k)$ at the simulation's own comoving densities.
+in \nzagn\ moves the AGN prior's out-of-catalog mass and \fagn\ follows.
+
+Equation~(\ref{eq:completeness}) measures the completeness from the observed
+counts against the assumed density; we call this the number-count
+completeness. When the survey's selection is known, the completeness can
+instead be predicted from it, with no reference to the counts: an
+apparent-magnitude limit $m_{\rm lim}$ acting on a catalog whose absolute
+magnitudes follow a luminosity function $\phi(M)$ gives
+$C_k(z) = \int^{M_{\rm lim}(z)} \phi(M)\,\dd M \,/ \int \phi(M)\,\dd M$, with
+$M_{\rm lim}(z)$ the absolute magnitude that reaches the limit from that
+redshift; we call this the luminosity-function completeness. We fit a
+Schechter $\phi$ \citep{Schechter1976} to each catalog at each limit, on the
+catalog's true redshifts so that the sharp truncation at the limit is not
+smeared by the photometric scatter, and hold the fit fixed across
+realisations; the luminosity function is thereby treated as known. The two
+evaluations need not agree on a flux-limited catalog, where the counts are
+themselves the quantity the completeness corrects;
+\S\ref{sec:results:incomplete} lets the data adjudicate between them. In the
+complete-catalog analyses of this paper the missing budget is switched off;
+the flux-limited analyses use the luminosity-function completeness, with
+$(n_{0,k}, \delta_k)$ anchored at the simulation's input densities where
+stated and free otherwise.
 
 \subsection{The selection function}
 \label{sec:methods:selection}

@@ -23,18 +23,28 @@ difference in the mass or spin distributions of the mergers themselves, which
 are identical between the two components by construction, nor in the smooth
 redshift law both populations share.
 
-Three inputs do the heavy lifting, and each names a requirement for a real
+Three inputs carry the measurement, and each names a requirement for a real
 analysis. The first is the AGN number density: \fagn\ is a weight between two
 completed priors, so the analysis must know how many AGN it cannot see; an
 error in \nzagn\ must move \fagn\ with it, an expectation the flux-limited
-analyses of \S\ref{sec:results:incomplete} test. Hard X-ray census work
+analyses of \S\ref{sec:results:incomplete} confirm: a one-dex error in the
+assumed density moves \fagn\ by \FagnDensitySlope. Hard X-ray census work
 already fixes the space density of survey-defined AGN classes at the
 ten-per-cent level \citep{Ananna2022}; the harder question, which
 population-synthesis work puts at a factor of a few, is which AGN class hosts
 the mergers \citep{McKernan2018, FordMcKernan2022}. The second is
-completeness: the catalogs here are complete, a real survey is flux limited,
-and the analyses of \S\ref{sec:results:incomplete} will quantify the price on
-this same simulated universe. The third is the source population, held at its input values
+completeness: a real survey is flux limited, and the analyses of
+\S\ref{sec:results:incomplete} measure the penalty on this same simulated
+universe. It falls on the fraction, not the expansion rate: \Hz\ recovers
+the input value at every depth tested, and a factor-of-two error in the
+assumed AGN density moves it by \HzDensityShiftFactorTwoDeep~\kmsmpc\ while
+the catalogs remain more than \CompMTwenty\ per cent complete, by
+\HzDensityShiftFactorTwo~\kmsmpc\ at \CompMEighteen\ per cent. The
+completeness itself must come from the survey's selection, with a
+luminosity function known independently of the survey's own photometric
+scatter: number-count completeness misplaces the recovered galaxy density
+by up to \PixelAnchorBiasMaxDex~dex, and the data disfavour it by
+\SeedLnBFmin\ to \SeedLnBFmax\ $e$-folds of evidence. The third is the source population, held at its input values
 throughout; in a real analysis the mass distribution is uncertain jointly with
 the cosmology \citep{GWTC3Cosmo2023}, and we have not tested the mixture
 against that freedom.

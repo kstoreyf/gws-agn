@@ -65,7 +65,7 @@ def build():
     axg.fill_between(bx, 0, by, color=GAL, alpha=0.16, lw=0, zorder=2)
     axg.plot(gal_x, gal_p, color=GAL, lw=1.6, zorder=4)
 
-    axg.annotate("truth 67.74", (fs.H0_TRUTH, 0.86),
+    axg.annotate("input 67.74", (fs.H0_TRUTH, 0.86),
                  xycoords=("data", "axes fraction"), textcoords="offset points",
                  xytext=(-4, 0), ha="right", va="center", fontsize=7.0,
                  color=fs.INK2)

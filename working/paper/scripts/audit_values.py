@@ -8,6 +8,10 @@ can, re-renders it, and demands **exact string equality** with what is committed
 A macro that no derivation reaches must appear in the whitelist below with a
 one-line reason.
 
+It also reads the containment table back out of `NUMBERS.md` and re-derives the
+one row whose input value lives in a different file from the interval that
+contains it, so a claim of agreement cannot drift from the numbers behind it.
+
 It then reads the manuscript and reports two things that are not failures but
 that the writer needs to see: macro-looking commands the section files use that
 nothing defines, and editorial sentinels (`\todo`, `??`, `TBD`, `XXX`) still in
@@ -35,22 +39,30 @@ META = WORKING / "data" / "seed100" / "META.json"
 A0 = WORKING / "analyses" / "analysis_0_pure_tracer_H0" / "results"
 A1 = WORKING / "analyses" / "analysis_1_complete_catalog_H0" / "results"
 A2 = WORKING / "analyses" / "analysis_2_complete_catalog_H0_fagn" / "results"
+A3 = WORKING / "analyses" / "analysis_3_incomplete_catalog_H0_fagn" / "results"
+A4 = WORKING / "analyses" / "analysis_4_density_anchoring_H0_fagn" / "results"
+A5 = WORKING / "analyses" / "analysis_5_free_anchors_H0_fagn" / "results"
+A6 = WORKING / "analyses" / "analysis_6_relative_completeness_H0_fagn" / "results"
+A5S100 = (WORKING / "analyses" / "experiments"
+          / "experiment_dsmaster_4d_recheck" / "results")
+FU101 = WORKING / "analyses" / "selection_redo" / "fu_seed101" / "results"
+FU102 = WORKING / "analyses" / "selection_redo" / "fu_seed102" / "results"
+
+# the likelihood revision the flux-limited results are quoted from, and the one
+# file that predates it (see NUMBERS.md for why it is allowed to)
+SHA_OF_RECORD = "0c5b3db"
+SHA_EXEMPT = {"fit_m18_per_pixel_s100.json":
+              "e8d5035c3562f86ce83497572844a213aa14801c"}
 
 MACROS = PAPER / "values" / "results_macros.tex"
+NUMBERS = PAPER / "NUMBERS.md"
 MAIN = PAPER / "main.tex"
 SECTIONS = sorted((PAPER / "sections").glob("*.tex"))
 
 # ---------------------------------------------------------------------------
 # macros no derivation reaches, and why
 # ---------------------------------------------------------------------------
-WHITELIST = {
-    "HzeroIncomplete":
-        "pending analysis 3 (incomplete catalogs); renders \\todo{pending}",
-    "FagnIncomplete":
-        "pending analysis 3 (incomplete catalogs); renders \\todo{pending}",
-    "FagnWidthRatio":
-        "pending analysis 3 (incomplete catalogs); renders \\todo{pending}",
-}
+WHITELIST: dict[str, str] = {}
 
 # ---------------------------------------------------------------------------
 # Macros the v3 rebuild deleted because the concept they named no longer exists
@@ -124,12 +136,72 @@ def brackets(lo, hi, spec="%.3f"):
     return r"\ensuremath{[%s,\, %s]}" % (spec % lo, spec % hi)
 
 
+def asymstr(block, spec="%.3f"):
+    """`median^{+u}_{-l}` from a summary block that stores the interval."""
+    med = block["median"]
+    lo, hi = block["ci68"]
+    return r"\ensuremath{%s^{+%s}_{-%s}}" % (spec % med, spec % (hi - med),
+                                            spec % (med - lo))
+
+
+def slope_of(xs, ys):
+    """Least-squares slope, by the normal equations rather than centred sums."""
+    n = len(xs)
+    sx, sy = sum(xs), sum(ys)
+    sxx = sum(x * x for x in xs)
+    sxy = sum(x * y for x, y in zip(xs, ys))
+    return (n * sxy - sx * sy) / (n * sxx - sx * sx)
+
+
 # ---------------------------------------------------------------------------
 # sources
 # ---------------------------------------------------------------------------
 def read(path):
     with open(path) as fh:
         return json.load(fh)
+
+
+def readck(path, c_mode="selection"):
+    """Read a flux-limited result file and re-check its provenance.
+
+    The builder refuses a file produced by the wrong completeness treatment or
+    by the wrong revision of the likelihood; the same check is redone here from
+    the file itself, so a source swapped underneath the committed macros is
+    caught even when the number it carries happens to round the same way.
+    """
+    tree = read(path)
+    got = tree.get("c_mode")
+    if got is not None and got != c_mode:
+        raise SystemExit(f"{path}: completeness treatment {got!r}, "
+                         f"expected {c_mode!r}")
+    sha = tree.get("darksirens_git_sha")
+    if sha is not None and not str(sha).startswith(SHA_OF_RECORD):
+        if SHA_EXEMPT.get(Path(path).name) != sha:
+            raise SystemExit(f"{path}: likelihood revision {sha!r} is neither "
+                             f"the revision of record nor exempted")
+    return tree
+
+
+def containment_rows() -> dict[str, dict[str, str]]:
+    """The containment table of NUMBERS.md, parsed back out and keyed by claim.
+
+    The builder writes that table; nothing else checks it, so a claim of
+    agreement could drift from the interval that supports it without any macro
+    changing.  Reading it back and re-deriving the level from the run files is
+    the only way the drift shows up.
+    """
+    parts = NUMBERS.read_text().split("## Containment of the input values", 1)
+    if len(parts) != 2:
+        raise SystemExit(f"{NUMBERS}: no containment table")
+    rows: dict[str, dict[str, str]] = {}
+    for line in parts[1].split("\n## ", 1)[0].splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) != 7 or cells[0] == "claim" or set(cells[0]) <= {"-"}:
+            continue
+        rows[cells[0]] = {"quantity": cells[1], "input": cells[2],
+                          "median": cells[3], "level": cells[4],
+                          "ci68": cells[5], "src": cells[6]}
+    return rows
 
 
 def dig(tree, *keys):
@@ -468,6 +540,8 @@ def derive() -> dict[str, str]:
             max(abs(r["difference"]) / r["targeted_half68"]
                 for r in pure["lanes"][case]["per_seed"]), "%.2f")
 
+    e.update(flux_limited(cfg, jsum))
+
     # the one posterior with a real second mode; the 1 % relative-height cut
     # drops two AGN scans whose recorded second mode is ~1e-211 of the peak
     lane = pure["injection_lane_of_record"]
@@ -482,6 +556,126 @@ def derive() -> dict[str, str]:
         e["PureBimodalModeHi"] = fnum(pairs[-1][0], "%.2f")
         e["PureBimodalHeight"] = fnum(pairs[0][1], "%.2f")
 
+    return e
+
+
+def flux_limited(cfg, jsum) -> dict[str, str]:
+    """Section 4.3, re-derived from the run files.
+
+    Nothing here reads an aggregate that the builder also reads unless the
+    aggregate is the only place the number lives: the ladder, the arms and the
+    surface are rebuilt from their per-cell files, and the three-realisation
+    numbers from the six fits themselves.
+    """
+    e: dict[str, str] = {}
+    rungs = ("m21", "m20", "m19", "m18")
+
+    # ---- the depth ladder at host densities held at their input values
+    lad = {r: readck(A3 / f"joint_{r}_s100.json") for r in rungs}
+    faint = lad["m18"]
+    e["HzeroIncomplete"] = asymstr(faint["H0"], "%.1f")
+    e["FagnIncomplete"] = asymstr(faint["f"], "%.3f")
+
+    def half(block):
+        return (block["ci68"][1] - block["ci68"][0]) / 2.0
+
+    hw_faint = half(faint["f"])
+    e["FagnWidthRatio"] = fnum(
+        hw_faint / jsum["seeds"][0]["joint"]["f_vs_realised"]["halfwidth68"],
+        "%.1f")
+
+    ladsum = read(A3 / "ladder_summary.json")
+    comp = {row["rung"]: row["C_in_horizon"] for row in ladsum["rows"]}
+
+    # ---- the hosted fraction on the shallowest catalogs, against the fraction
+    # the drawn events realised.  That value lives in the complete-catalog fit,
+    # not in the ladder file, so the ladder's own containment flags cannot
+    # answer the claim: the level is re-derived from the interval endpoints and
+    # checked against the row the builder wrote.
+    realised = read(A2 / "h0_fagn_joint.json")["truth_f_realised"]
+    lo68, hi68 = faint["f"]["ci68"]
+    lo90, hi90 = faint["f"]["ci90"]
+    level = ("68 per cent" if lo68 <= realised <= hi68 else
+             "90 per cent" if lo90 <= realised <= hi90 else "**neither**")
+    claim = ("AGN-hosted fraction on the shallowest catalogs, against the "
+             "realised fraction")
+    row = containment_rows().get(claim)
+    if row is None:
+        raise SystemExit(f"{NUMBERS}: no containment row for {claim!r}")
+    if (row["level"], row["input"]) != (level, "%.3f" % realised):
+        raise SystemExit(
+            f"{NUMBERS}: {claim!r} records input {row['input']} contained by "
+            f"{row['level']}; the run files give {realised:.3f} contained by "
+            f"{level}")
+
+    # ---- the assumed-density arms: refit both responses from the arm files
+    x0 = math.log10(cfg["glass"]["n_comoving_agn"])
+    arms = read(A4 / "arms_summary.json")
+    h0_slope, f_slope, hw = {}, {}, {}
+    for rung in rungs:
+        rows = [readck(A4 / f"joint_{rung}_{a}_s100.json")
+                for a in ("a05", "a07", "a09", "a11", "a13", "a20")]
+        xs = [r["base_coord"]["log10n0_c2"] - x0 for r in rows]
+        h0_slope[rung] = slope_of(xs, [r["H0"]["median"] for r in rows])
+        f_slope[rung] = slope_of(xs, [r["f"]["median"] for r in rows])
+        hw[rung] = sum(half(r["H0"]) for r in rows) / len(rows)
+        quoted = arms["rungs"][rung]["selection (this work)"]["slope"]
+        if abs(quoted - f_slope[rung]) > 1e-6:
+            raise SystemExit(f"{A4/'arms_summary.json'}: {rung} f_AGN slope "
+                             f"{quoted} != refit {f_slope[rung]}")
+    e["HzDensitySlopeShallow"] = fnum(h0_slope["m18"], "%.1f")
+    e["HzDensityShiftFactorTwo"] = fnum(h0_slope["m18"] * math.log10(2.0),
+                                        "%.2f")
+    e["HzDensityShiftFactorTwoDeep"] = fnum(
+        abs(h0_slope["m20"]) * math.log10(2.0), "%.2f")
+    e["FagnDensitySlope"] = fnum(f_slope["m18"], "%.3f")
+
+    # ---- both host densities free, reference realisation
+    free = readck(A5 / "campaign_m18_dynesty_s100.json")["summary"]
+    e["FagnFree"] = asymstr(free["f_AGN"], "%.3f")
+    e["FagnFreeWidthRatio"] = fnum(half(free["f_AGN"]) / hw_faint, "%.1f")
+    e["GalDensityFree"] = asymstr(free["log10n0"], "%.2f")
+    e["GalDensityFreeOffsetDex"] = fnum(
+        abs(free["log10n0"]["median"] - free["log10n0"]["truth"]), "%.2f")
+
+    # ---- the same fit on three realisations, against its number-count twin
+    pairs = ((A5S100 / "fit_m18_selection_s100.json",
+              A5S100 / "fit_m18_per_pixel_s100.json"),
+             (FU101 / "campaign_m18_dynesty_s101.json",
+              FU101 / "campaign_m18_dynesty_pp_s101.json"),
+             (FU102 / "campaign_m18_dynesty_s102.json",
+              FU102 / "campaign_m18_dynesty_pp_s102.json"))
+    lf = [readck(a) for a, _ in pairs]
+    nc = [readck(b, "per_pixel") for _, b in pairs]
+    e["NSeedsIncomplete"] = fnum(len(pairs), "%d")
+    e["GalAnchorOffsetMaxDex"] = fnum(
+        max(abs(r["summary"]["log10n0"]["median"]
+                - r["summary"]["log10n0"]["truth"]) for r in lf), "%.2f")
+    over = [r["summary"]["log10n0"]["median"] - r["summary"]["log10n0"]["truth"]
+            for r in nc]
+    e["PixelAnchorBiasMinDex"] = fnum(min(over), "%.2f")
+    e["PixelAnchorBiasMaxDex"] = fnum(max(over), "%.2f")
+    lnb = [a["sampler_meta"]["logz"] - b["sampler_meta"]["logz"]
+           for a, b in zip(lf, nc)]
+    e["SeedLnBFmin"] = fnum(min(lnb), "%.1f")
+    e["SeedLnBFmax"] = fnum(max(lnb), "%.1f")
+    foff = [r["summary"]["f_AGN"]["median"] - r["summary"]["f_AGN"]["truth"]
+            for r in lf]
+    e["FagnFreeOffsetMin"] = fnum(min(foff), "%.2f")
+    e["FagnFreeOffsetMax"] = fnum(max(foff), "%.2f")
+
+    # ---- galaxies and AGN cut to different depths, flux-limited cells only
+    surf = read(A6 / "surface_summary.json")
+    depth = surf["completeness"]
+    xs, ys = [], []
+    for cell in surf["cells"]["selection (this work)"]:
+        if "complete" in (cell["gal"], cell["agn"]):
+            continue
+        one = readck(A6 / f"joint_{cell['cell']}_s100.json")
+        xs.append(math.log10(depth[cell["agn"]]) - math.log10(depth[cell["gal"]]))
+        ys.append(one["f"]["median"] - one["f"]["truth"])
+    e["RelCompletenessSpanDex"] = fnum(max(xs) - min(xs), "%.2f")
+    e["FagnRelSlope"] = fnum(slope_of(xs, ys), "%+.3f")
     return e
 
 

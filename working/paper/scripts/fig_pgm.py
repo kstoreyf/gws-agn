@@ -215,7 +215,7 @@ def build():
 
     # ---- the one statement the graph cannot draw ----------------------------
     ax.text(3.65, 6.35,
-            "No distance channel: the SNR is the\n"
+            "No separate distance measurement: the SNR is the\n"
             "distance coordinate, and $d_L$ is recovered\n"
             r"from $(\hat{M}_c, \hat{\rho}_i)$ rather than measured.",
             ha="left", va="top", fontsize=SUBSIZE, color=fs.INK2,

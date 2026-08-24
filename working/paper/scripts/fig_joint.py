@@ -137,7 +137,7 @@ def build():
     axt.set_ylim(bottom=0)
     axr.set_xlim(left=0)
 
-    axm.annotate("truth 67.74", (fs.H0_TRUTH, 0.015),
+    axm.annotate("input 67.74", (fs.H0_TRUTH, 0.015),
                  xycoords=("data", "axes fraction"),
                  textcoords="offset points", xytext=(-4, 0), ha="right",
                  va="bottom", fontsize=7.0, color=fs.INK2, bbox=LBLBOX)
@@ -149,11 +149,11 @@ def build():
     # ---- key, in the corner the corner plot leaves empty ---------------------
     axk.legend(handles=[
         Line2D([], [], color=REF, lw=1.5,
-               label=f"seed {fs.REF_SEED}   68 %, 90 %"),
+               label="reference realisation   68 %, 90 %"),
         Line2D([], [], color=fs.OTHER, lw=0.8,
                label=f"{len(grids) - 1} further realisations"),
         Line2D([], [], color=fs.INK, lw=0, marker="+", ms=8, mew=1.6,
-               label="truth"),
+               label="input value"),
     ], loc="upper left", fontsize=7.2, bbox_to_anchor=(-0.03, 1.04),
         handlelength=1.5, labelspacing=0.42, borderaxespad=0.0)
 

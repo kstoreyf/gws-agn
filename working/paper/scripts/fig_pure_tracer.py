@@ -81,7 +81,7 @@ def panel_posteriors(ax, curves):
         ax.plot(x, y, color=colour, lw=1.8, zorder=5)
 
     fs.truth_line(ax, fs.H0_TRUTH, axis="x")
-    ax.annotate("truth 67.74", (fs.H0_TRUTH, 0.55),
+    ax.annotate("input 67.74", (fs.H0_TRUTH, 0.55),
                 xycoords=("data", "axes fraction"), textcoords="offset points",
                 xytext=(-4, 0), ha="right", va="center", fontsize=7.0,
                 color=fs.INK2)
@@ -135,7 +135,7 @@ def panel_recovery(ax, curves, summary):
 
     ax.grid(axis="x", visible=False)
     ax.set_xticks(x)
-    ax.set_xticklabels([str(s) for s in fs.SEEDS])
+    ax.set_xticklabels([str(i + 1) for i, _ in enumerate(fs.SEEDS)])
     ax.set_xlim(-0.5, len(fs.SEEDS) - 0.5)
     ax.set_xlabel("realisation")
     ax.set_ylabel(r"$H_0$  [km s$^{-1}$ Mpc$^{-1}$]")
@@ -150,7 +150,7 @@ def panel_recovery(ax, curves, summary):
                markeredgecolor="white", markeredgewidth=0.7,
                label=r"AGN, median $\pm$ 68 %"),
         Line2D([], [], color=fs.TRUTH, lw=0.9, ls=(0, (3, 2)), alpha=0.75,
-               label="truth 67.74"),
+               label="input 67.74"),
         # matplotlib fills a multi-column legend column-major, so the two band
         # swatches are listed last to land opposite their own marker rows
         Patch(facecolor=GAL, alpha=0.16, edgecolor="none",

@@ -16,8 +16,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import fig_closure
+import fig_incomplete
 import fig_joint
-import fig_null
 import fig_pgm
 import fig_pure_tracer
 import fig_single_tracer
@@ -26,8 +26,9 @@ FIGURES = {
     "pgm": fig_pgm.main,                      # the generative model (v3)
     "single_tracer": fig_single_tracer.main,  # GAL-only and AGN-only H0
     "joint": fig_joint.main,                  # (H0, f_AGN) regions + marginals
+    "incomplete": fig_incomplete.main,        # flux-limited catalogs, both
+                                              # completeness treatments
     "closure": fig_closure.main,              # five realisations, both params
-    "null": fig_null.main,                    # the sky-shuffle null on f
     "pure_tracer": fig_pure_tracer.main,      # appendix: one tracer at a time
 }
 
