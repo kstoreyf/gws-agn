@@ -205,6 +205,18 @@ def ci_band(x, y, lo, hi):
     return xs, np.interp(xs, x, y)
 
 
+def t_ppf95(n):
+    """Student's t 95th percentile on ``n - 1`` degrees of freedom.
+
+    A mean offset over a handful of realisations gets a 90 % interval the same
+    way its own significance would be judged, so the bands on the recovery
+    panels carry the level the per-realisation bars carry.  At n = 5 this is
+    2.13, not the 1.64 a normal approximation would give.
+    """
+    from scipy.stats import t
+    return float(t.ppf(0.95, int(n) - 1))
+
+
 def scan_1d(path, grid_key):
     """(grid, log_likelihood) from one darksirens scan file."""
     import h5py

@@ -7,7 +7,7 @@
 Each h5 holds the log-likelihood on the same (H0, f) grid -- 201 x 41 cells on
 [50, 100] x [0, 1] -- evaluated with the K = 2 mixture on the complete galaxy
 and AGN catalogs.  Priors are flat on both axes, so the posterior is the
-exponentiated log-likelihood; the 68 % and 90 % regions are the
+exponentiated log-likelihood; the 90 % regions are the
 highest-posterior-density contours (fs.hpd_levels_2d).  The marginals are the
 same grid integrated along the other axis.  Quoted intervals and the realised
 AGN host fraction of each realisation are read from the result json rather than
@@ -81,13 +81,11 @@ def build():
                     linewidths=0.8, zorder=2)
 
     H0, fv, P = grids[fs.REF_SEED]
-    l68, l90 = fs.hpd_levels_2d(H0, fv, P)
-    axm.contourf(H0, fv, P.T, levels=[l90, l68], colors=[REF], alpha=0.13,
-                 zorder=3)
-    axm.contourf(H0, fv, P.T, levels=[l68, P.max() * 1.01], colors=[REF],
-                 alpha=0.26, zorder=3)
-    axm.contour(H0, fv, P.T, levels=[l90, l68], colors=REF,
-                linewidths=[0.9, 1.5], zorder=4)
+    _, l90 = fs.hpd_levels_2d(H0, fv, P)
+    axm.contourf(H0, fv, P.T, levels=[l90, P.max() * 1.01], colors=[REF],
+                 alpha=0.19, zorder=3)
+    axm.contour(H0, fv, P.T, levels=[l90], colors=REF, linewidths=1.5,
+                zorder=4)
 
     # ---- truth --------------------------------------------------------------
     axm.axvline(fs.H0_TRUTH, color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)),
@@ -149,14 +147,17 @@ def build():
     # ---- key, in the corner the corner plot leaves empty ---------------------
     axk.legend(handles=[
         Line2D([], [], color=REF, lw=1.5,
-               label="reference realisation   68 %, 90 %"),
+               label="reference realisation   90 %"),
         Line2D([], [], color=fs.OTHER, lw=0.8,
-               label=f"{len(grids) - 1} further realisations"),
+               label=f"{len(grids) - 1} further realisations   90 %"),
         Line2D([], [], color=fs.INK, lw=0, marker="+", ms=8, mew=1.6,
                label="input value"),
     ], loc="upper left", fontsize=7.2, bbox_to_anchor=(-0.03, 1.04),
         handlelength=1.5, labelspacing=0.42, borderaxespad=0.0)
 
+    # The regions drawn are 90 %; the two numbers are the 68 % marginals the
+    # text quotes, so the block says which level it carries and cannot be read
+    # off the contour beside it.
     h0, ff = ref["H0"], ref["f"]
     axk.text(-0.03, 0.30,
              f"$H_0 = {h0['median']:.1f}"
@@ -164,7 +165,8 @@ def build():
              f"_{{-{h0['median'] - h0['ci68'][0]:.1f}}}$\n"
              f"$f_{{\\rm AGN}} = {ff['median']:.3f}"
              f"^{{+{ff['ci68'][1] - ff['median']:.3f}}}"
-             f"_{{-{ff['median'] - ff['ci68'][0]:.3f}}}$",
+             f"_{{-{ff['median'] - ff['ci68'][0]:.3f}}}$\n"
+             "medians, 68 % marginals",
              transform=axk.transAxes, ha="left", va="top", fontsize=7.4,
              color=fs.INK2, linespacing=1.9)
     return fig

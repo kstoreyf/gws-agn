@@ -30,6 +30,13 @@
 {Bom}, C.~R., \& {Palmese}, A. 2024, \prd, 110, 083005,
   \dodoi{10.1103/PhysRevD.110.083005}
 
+\bibitem[{{Bradbury} {et~al.}(2018){Bradbury}, {Frostig}, {Hawkins}, {Johnson},
+  {Leary}, {Maclaurin}, {Necula}, {Paszke}, {Vander{P}las}, {Wanderman-Milne},
+  \& {Zhang}}]{Jax2018}
+{Bradbury}, J., {Frostig}, R., {Hawkins}, P., {et~al.} 2018, {JAX: composable
+  transformations of Python+NumPy programs}.
+\newblock \url{http://github.com/jax-ml/jax}
+
 \bibitem[{{Chen} {et~al.}(2018){Chen}, {Fishbach}, \&
   {Holz}}]{ChenFishbachHolz2018}
 {Chen}, H.-Y., {Fishbach}, M., \& {Holz}, D.~E. 2018, \nat, 562, 545,
@@ -141,6 +148,9 @@
 
 \bibitem[{{Schutz}(1986)}]{Schutz1986}
 {Schutz}, B.~F. 1986, \nat, 323, 310, \dodoi{10.1038/323310a0}
+
+\bibitem[{{Speagle}(2020)}]{Speagle2020}
+{Speagle}, J.~S. 2020, \mnras, 493, 3132, \dodoi{10.1093/mnras/staa278}
 
 \bibitem[{{Stone} {et~al.}(2017){Stone}, {Metzger}, \&
   {Haiman}}]{StoneMetzgerHaiman2017}

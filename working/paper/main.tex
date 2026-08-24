@@ -40,6 +40,10 @@
 AGN-hosted fraction of compact-binary mergers}
 
 \shorttitle{Dark sirens and the AGN-hosted fraction}
+% OWNER: AAS requires an ORCID for every author.  Yours is not recorded
+% anywhere in this repository, so it is left for you to fill in rather than
+% guessed: uncomment and complete the line below.
+% \author[0000-0000-0000-0000]{I.~Maga\~na Hernandez}
 \author{I.~Maga\~na Hernandez}
 \affiliation{Department of Physics, Carnegie Mellon University, Pittsburgh, PA
 15213, USA}
@@ -79,6 +83,34 @@ nuclei, Galaxy catalogs}
 \input{sections/results}
 \input{sections/validation}
 \input{sections/discussion}
+
+\begin{acknowledgments}
+The inference and the simulated catalogs were computed on GPU nodes under
+allocations phy220048p and phy230014p.
+% OWNER: add funding, collaborators and any allocation numbers you want named.
+\end{acknowledgments}
+
+\section*{Data availability}
+
+The simulated density field, host catalogs, event set and injection sets, and
+the posterior samples and likelihood grids behind every figure, are available
+from the author on reasonable request. The likelihood is evaluated with the
+\texttt{darksirens} package.
+% OWNER: replace with a Zenodo DOI if the data are deposited before submission.
+
+\facility{None: every measurement in this work is made on simulated data.}
+
+\software{%
+  \textsc{glass} \citep{Tessore2023},
+  HEALPix \citep{Gorski2005},
+  \texttt{dynesty} \citep{Speagle2020},
+  JAX \citep{Jax2018},
+  \texttt{numpy},
+  \texttt{scipy},
+  \texttt{astropy},
+  \texttt{h5py},
+  \texttt{matplotlib}%
+}
 
 \appendix
 \input{sections/appendix_pure_tracer}

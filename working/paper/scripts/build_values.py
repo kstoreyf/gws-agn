@@ -763,6 +763,12 @@ def sec_single():
         note="H0 from the galaxy catalog alone, median and 68% interval")
     add("HzeroGalMedian", s.get("gal_h0_median"), "%.1f", src=S_SINGLE,
         kind="result", note="the same, median only")
+    # the level Figure 2 shades, so the caption names the interval it draws
+    gal_run = load_json(A1 / "h0_gal_targeted.json")
+    add("HzeroGalNinety", asym(get(gal_run, "H0.median"),
+                               get(gal_run, "H0.ci90"), "%.1f"),
+        src=rel(A1 / "h0_gal_targeted.json"), kind="result",
+        note="H0 from the galaxy catalog alone, median and 90% interval")
     add("HzeroGalWidth", s.get("gal_h0_width"), "%.2f", src=S_SINGLE,
         kind="result", note="68% width of the galaxy-catalog H0 posterior, "
                             "km/s/Mpc")

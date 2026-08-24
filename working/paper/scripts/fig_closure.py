@@ -5,7 +5,7 @@
 
 Each point is one end-to-end realisation of the mock -- its own density field,
 its own catalogs, its own 1000 events -- analysed with the same joint fit; the
-bar is that realisation's own 68 % interval, read from the summary json
+bar is that realisation's own 90 % interval, read from the summary json
 (`seeds[].joint.H0` and `seeds[].joint.f_vs_realised`).  The band is the mean
 offset over the five realisations plus/minus its standard error, from
 `closure.joint_H0` and `closure.joint_f_vs_realised`; the same two numbers are
@@ -53,11 +53,14 @@ def build():
         -- so the mean-offset band tracks it rather than floating free.
         """
         med = np.array([r["joint"][key]["median"] for r in rows])
-        lo = med - np.array([r["joint"][key]["ci68"][0] for r in rows])
-        hi = np.array([r["joint"][key]["ci68"][1] for r in rows]) - med
+        lo = med - np.array([r["joint"][key]["ci90"][0] for r in rows])
+        hi = np.array([r["joint"][key]["ci90"][1] for r in rows]) - med
         c = summ["closure"][closure]
         ref = np.asarray(ref, float)
-        ax.fill_between(x, ref + c["mean"] - c["sem"], ref + c["mean"] + c["sem"],
+        # the band is the 90 % interval on the mean offset, from Student's t
+        # on n - 1 degrees of freedom: every band on the page is a 90 % one
+        half = fs.t_ppf95(c["n"]) * c["sem"]
+        ax.fill_between(x, ref + c["mean"] - half, ref + c["mean"] + half,
                         step="mid", color=ACC, alpha=0.11, lw=0, zorder=2)
         if centre:                    # a straight mean line only where the
             ax.step(x, ref + c["mean"], where="mid", color=ACC, lw=0.9,
@@ -65,7 +68,7 @@ def build():
         ax.errorbar(x, med, yerr=[lo, hi], fmt="o", ms=4.0, color=ACC,
                     ecolor=ACC, elinewidth=1.3, capsize=0, zorder=5,
                     markeredgecolor="white", markeredgewidth=0.7)
-        ax.annotate(f"mean offset  {c['mean']:{fmt}}  $\\pm$  {abs(c['sem']):{fmt[1:]}}",
+        ax.annotate(f"mean offset  {c['mean']:{fmt}}",
                     (0.5, 0.02), xycoords="axes fraction", ha="center",
                     va="bottom", fontsize=7.2, color=fs.INK2)
         return med
@@ -94,7 +97,7 @@ def build():
     ax.legend(handles=[
         Line2D([], [], color=ACC, lw=1.3, marker="o", ms=4.0,
                markeredgecolor="white", markeredgewidth=0.7,
-               label=r"joint fit, median $\pm$ 68 %"),
+               label=r"joint fit, median and 90 %"),
         Line2D([], [], color=fs.INK, lw=0, marker="_", ms=11, mew=1.5,
                label="realised fraction"),
         Line2D([], [], color=fs.MUTED, lw=0.8, ls=(0, (1, 2)),

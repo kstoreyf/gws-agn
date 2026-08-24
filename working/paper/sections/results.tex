@@ -23,7 +23,7 @@ shows the normalised flat-prior posterior density $p(\Hz \mid d)$, in units
 of km$^{-1}$\,s\,Mpc, for the galaxy catalog (top) and the AGN catalog
 (bottom); the two panels share the \Hz\ axis, their density scales differ,
 and no curve is rescaled. The dashed line is the input value, and the shaded
-band is the galaxy analysis' 68\% interval, $\Hz = \HzeroGal$~\kmsmpc. The
+band is the galaxy analysis' 90\% interval, $\Hz = \HzeroGalNinety$~\kmsmpc. The
 AGN-only posterior has no interior maximum: it is still rising at the edge
 of the scanned range, so no interval is quoted for it. Neither analysis knows
 that the events were drawn from a mixture of the two catalogs.
@@ -58,18 +58,19 @@ that are not its to explain.
 \centering
 \includegraphics[width=\textwidth]{figures/fig_joint.pdf}
 \caption{Both parameters at once: the joint posterior on the two complete
-catalogs with the mixture weight free. Blue: the reference realisation's 68\%
-and 90\% highest-density credible regions, with the corresponding marginals
-in the side panels. Gray: the 90\% regions and marginals of four further
-realisations of the entire simulated universe. The cross marks the input
+catalogs with the mixture weight free. Blue: the reference realisation's 90\%
+highest-density credible region, with the corresponding marginals in the side
+panels. Gray: the 90\% regions and marginals of four further realisations of
+the entire simulated universe. The quoted medians and 68\% marginal intervals
+are the values the text carries. The cross marks the input
 expansion rate and the reference realisation's realised hosted fraction
 \FagnTruthReal\ (input value \FagnTruthPlanted; short gray ticks mark the other
 realisations' realised fractions). Axes span the union of the realisations'
 90\% regions, and the side panels share those axes and show the shapes of
 the marginal posteriors, without a density scale. The recovered $\Hz = \HzeroJoint$~\kmsmpc\ interval is a
-factor of \HzeroWidthRatio\ narrower than the galaxy-only interval of
-Figure~\ref{fig:single}: the second catalog sharpens the expansion rate
-rather than diluting it.
+factor of \HzeroWidthRatio\ narrower at 68\% than the galaxy catalog's
+alone (Figure~\ref{fig:single}): the second catalog sharpens the expansion
+rate rather than diluting it.
 \label{fig:joint}}
 \end{figure*}
 

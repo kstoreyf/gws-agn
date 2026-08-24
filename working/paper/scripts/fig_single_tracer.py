@@ -60,8 +60,8 @@ def build():
         ax.grid(axis="y", visible=False)
         fs.truth_line(ax, fs.H0_TRUTH, axis="x", label=None)
 
-    # ---- galaxies: a density with an interior maximum and a 68 % interval ---
-    bx, by = fs.ci_band(gal_x, gal_p, *gal["ci68"])
+    # ---- galaxies: a density with an interior maximum and a 90 % interval ---
+    bx, by = fs.ci_band(gal_x, gal_p, *gal["ci90"])
     axg.fill_between(bx, 0, by, color=GAL, alpha=0.16, lw=0, zorder=2)
     axg.plot(gal_x, gal_p, color=GAL, lw=1.6, zorder=4)
 
@@ -74,8 +74,8 @@ def build():
 
     # the one number the galaxy-only curve supports, labelled on the mark
     gal_lbl = (f"${gal['median']:.1f}"
-               f"^{{+{gal['ci68'][1] - gal['median']:.1f}}}"
-               f"_{{-{gal['median'] - gal['ci68'][0]:.1f}}}$")
+               f"^{{+{gal['ci90'][1] - gal['median']:.1f}}}"
+               f"_{{-{gal['median'] - gal['ci90'][0]:.1f}}}$")
     axg.annotate(gal_lbl, (gal_x[gal_p.argmax()], gal_p.max()),
                  textcoords="offset points", xytext=(6, 0), ha="left",
                  va="center", fontsize=7.4, color=fs.INK2)

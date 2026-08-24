@@ -28,7 +28,7 @@ below 3e-4 of its own peak and each curve keeps >= 99.99 % of its mass inside,
 so the window crops no support and spends the width on the part of the range
 the data occupy.
 
-Right panel: the same ten measurements as medians with their 68 % intervals,
+Right panel: the same ten measurements as medians with their 90 % intervals,
 against truth, with each tracer's five-realisation mean offset and standard
 error as a band.  The wide galaxy bar on the bimodal realisation is the honest
 rendering of an interval that has to span the gap between two modes.
@@ -111,16 +111,19 @@ def panel_posteriors(ax, curves):
 
 
 def panel_recovery(ax, curves, summary):
-    """Medians and 68 % intervals per realisation, with the mean-offset bands."""
+    """Medians and 90 % intervals per realisation, with the mean-offset bands."""
     x = np.arange(len(fs.SEEDS))
     for tracer, colour, dx, block in (("gal", GAL, -0.13, "closure_gal"),
                                       ("agn", AGN, +0.13, "closure_agn")):
         med = np.array([curves[tracer, s][2]["median"] for s in fs.SEEDS])
-        lo = med - np.array([curves[tracer, s][2]["ci68"][0] for s in fs.SEEDS])
-        hi = np.array([curves[tracer, s][2]["ci68"][1] for s in fs.SEEDS]) - med
+        lo = med - np.array([curves[tracer, s][2]["ci90"][0] for s in fs.SEEDS])
+        hi = np.array([curves[tracer, s][2]["ci90"][1] for s in fs.SEEDS]) - med
         c = summary[block]
-        ax.axhspan(fs.H0_TRUTH + c["mean_offset"] - c["sem_offset"],
-                   fs.H0_TRUTH + c["mean_offset"] + c["sem_offset"],
+        # 90 % interval on the mean offset (Student's t, n - 1 d.o.f.), so the
+        # band carries the same level as the per-realisation bars
+        half = fs.t_ppf95(len(fs.SEEDS)) * c["sem_offset"]
+        ax.axhspan(fs.H0_TRUTH + c["mean_offset"] - half,
+                   fs.H0_TRUTH + c["mean_offset"] + half,
                    color=colour, alpha=0.16, lw=0, zorder=2)
         ax.axhline(fs.H0_TRUTH + c["mean_offset"], color=colour, lw=0.9,
                    zorder=3)
@@ -145,18 +148,18 @@ def panel_recovery(ax, curves, summary):
     ax.legend(handles=[
         Line2D([], [], color=GAL, lw=1.3, marker="o", ms=4.0,
                markeredgecolor="white", markeredgewidth=0.7,
-               label=r"galaxies, median $\pm$ 68 %"),
+               label=r"galaxies, median and 90 %"),
         Line2D([], [], color=AGN, lw=1.3, marker="o", ms=4.0,
                markeredgecolor="white", markeredgewidth=0.7,
-               label=r"AGN, median $\pm$ 68 %"),
+               label=r"AGN, median and 90 %"),
         Line2D([], [], color=fs.TRUTH, lw=0.9, ls=(0, (3, 2)), alpha=0.75,
                label="input 67.74"),
         # matplotlib fills a multi-column legend column-major, so the two band
         # swatches are listed last to land opposite their own marker rows
         Patch(facecolor=GAL, alpha=0.16, edgecolor="none",
-              label=r"mean offset $\pm$ s.e."),
+              label=r"mean offset, 90 %"),
         Patch(facecolor=AGN, alpha=0.16, edgecolor="none",
-              label=r"mean offset $\pm$ s.e."),
+              label=r"mean offset, 90 %"),
     ], loc="upper left", ncol=2, columnspacing=1.0, fontsize=7.0,
         handlelength=1.4, labelspacing=0.28, borderaxespad=0.2)
 

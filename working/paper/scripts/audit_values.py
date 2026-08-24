@@ -429,6 +429,9 @@ def derive() -> dict[str, str]:
     # ---- single-tracer results
     e["HzeroGal"] = interval(single["gal_h0_ci"])
     e["HzeroGalMedian"] = fnum(single["gal_h0_median"], "%.1f")
+    galrun = read(A1 / "h0_gal_targeted.json")["H0"]
+    e["HzeroGalNinety"] = asymstr({"median": galrun["median"],
+                                   "ci68": galrun["ci90"]}, "%.1f")
     e["HzeroGalWidth"] = fnum(single["gal_h0_width"], "%.2f")
     e["HzeroGalCross"] = fnum(single["gal_h0_crosscheck_median"], "%.1f")
     e["HzeroAgnRailMedian"] = fnum(single["agn_grid_top_median"], "%.1f")
