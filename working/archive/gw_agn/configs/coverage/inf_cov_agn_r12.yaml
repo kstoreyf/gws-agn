@@ -1,0 +1,21 @@
+fn_config_data: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/configs/coverage/data_cov_agn_r12.yaml
+mode_inf: grid
+selection_mode: fixed_z
+mcmc:
+  N_walkers: 32
+  N_steps: 100
+  burnin_frac: 0.3
+  seed_mcmc: 42
+grid:
+  N_H0: 61
+  N_alpha_agn: 21
+parameters:
+  parameters_vary:
+  - H0
+  - alpha_agn
+N_gw_inf: null
+catalog:
+  Dz_gal: 0.003
+  Dz_agn: 0.003
+paths:
+  fn_inf: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/results/coverage_agn/cov_agn_r12.h5

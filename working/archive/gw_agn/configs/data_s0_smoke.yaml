@@ -1,0 +1,46 @@
+mock_catalog:
+  seed: 7
+  nbar_gal: 0.001
+  nbar_agn: 1.0e-05
+  bias_gal: null
+  bias_agn: null
+  z_min: 0.0
+  z_max: 1.5
+  nside: 32
+  gamma_agn: 0.0
+  gamma_gal: 0.0
+gw_injection:
+  f_agn: 0.5
+  lambda_agn: 0.5
+  N_gw: 60
+  seed_gw: 1007
+  z_max_gw: 1.0
+paths:
+  dir_mock: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/data/s0_uniform/
+  name_cat: mock_catalog.h5
+  name_gw: gws_fagn0.5_lam0.5_seedgw1007.h5
+  name_gwsamples: gwsamples_fagn0.5_lam0.5_seedgw1007_dLunc0.1_obs.h5
+  name_cat_gal_pixelated: cat_gal_pixelated_nside32.h5
+  name_cat_agn_pixelated: cat_agn_pixelated_nside32.h5
+  tag_cat: _s0_uniform
+  tag_pix: _nside32
+  tag_gw: _fagn0.5_lam0.5_seedgw1007
+  tag_gwsamp: _dLunc0.1
+  tag_mocktype: _uniform
+gw_samples:
+  N_samples_gw: 500
+  mass_mean: 35.0
+  mass_std: 5.0
+  ra_uncertainty: 0.01
+  dec_uncertainty: 0.01
+  dL_uncertainty_fac: 0.1
+  mass_uncertainty: 1.5
+  pe_centering: obs
+  seed_samples: 501007
+cosmology:
+  h: 0.6774
+  H0: 67.74
+  Om0: 0.3075
+  Ob0: 0.0486
+pixelization:
+  nside: 32

@@ -1,0 +1,104 @@
+--- /tmp/claude-88592/-hildafs-projects-phy230014p-magana-gws-agn/d59782ce-5be0-4665-83b3-15bd8289f19d/scratchpad/generate_dataset.py.bak.pre_a0	2026-08-02 16:08:49.253765918 -0400
++++ working/data/generate_dataset.py	2026-08-02 16:09:36.000000000 -0400
+@@ -375,7 +375,14 @@
+ # seeds: one master seed, explicit auditable children
+ # ================================================================================
+ def sub_seeds(seed: int) -> dict[str, int]:
+-    """Every random stream in the dataset, derived from the master seed."""
++    """Every random stream in the dataset, derived from the master seed.
++
++    Offsets 1-7 below are the RECORD's streams and are the only ones a default
++    (no-flag) run ever touches.  Offsets 8+ are reserved for explicitly requested
++    EXTRA event stages via ``--seed_events`` (analysis 0 uses 8 = pure-GAL,
++    9 = pure-AGN); nothing in the generator derives them, so an extra draw can
++    never collide with the record.
++    """
+     return {
+         "glass_field": seed * 1000 + 1,     # GLASS matter field + tracer positions
+         "magnitudes": seed * 1000 + 2,      # absolute magnitudes of both tracers
+@@ -1279,7 +1286,18 @@
+         return
+ 
+     seeds = sub_seeds(args.seed)
+-    rng = np.random.default_rng(seeds["events"])
++    # --- the two knobs an EXTRA event draw may turn (defaults = the record) ------
++    # ``--f_agn`` and ``--seed_events`` both default to None, in which case _FAGN is
++    # the module constant F_AGN and _SEED_EV is the record's derived sub-seed, so a
++    # no-flag run is bit-identical to the record.  They exist so a single catalog
++    # realisation can carry additional, INDEPENDENT event sets (analysis 0's
++    # pure-tracer draws) without touching the signed-off events.h5.
++    _FAGN = F_AGN if getattr(args, "f_agn", None) is None else float(args.f_agn)
++    _SEED_EV = (seeds["events"] if getattr(args, "seed_events", None) is None
++                else int(args.seed_events))
++    if not 0.0 <= _FAGN <= 1.0:
++        raise SystemExit(f"--f_agn must lie in [0, 1]; got {_FAGN}")
++    rng = np.random.default_rng(_SEED_EV)
+     cosmo = gmd._build_cosmology(H0_FID, OM0_FID, W0_FID, WA_FID)
+     grids = gmd._cosmology_grids(cosmo, ZMAX_GRID)
+     pop = gmd.PopulationConfig(gamma=GAMMA)
+@@ -1295,7 +1313,8 @@
+                             keys=("ra", "dec", "z"))
+             for t in TRACERS}
+     n_gal, n_agn = cats["gal"]["z"].size, cats["agn"]["z"].size
+-    _log(f"events: hosts GAL {n_gal:,}  AGN {n_agn:,}  planted f_AGN={F_AGN}")
++    _log(f"events: hosts GAL {n_gal:,}  AGN {n_agn:,}  planted f_AGN={_FAGN}"
++         f"  seed_events={_SEED_EV}")
+ 
+     # gmd's rate weighting, verbatim: accept ∝ (1+z)^(gamma-1), normalised by its max
+     # over the grid so the acceptance probability is <= 1.
+@@ -1312,7 +1331,7 @@
+         u_type = rng.uniform(size=ntry)
+         i_gal = rng.integers(0, n_gal, ntry)
+         i_agn = rng.integers(0, n_agn, ntry)
+-        is_agn = u_type < F_AGN
++        is_agn = u_type < _FAGN
+         host_idx = np.where(is_agn, i_agn, i_gal)
+         z = np.where(is_agn, cats["agn"]["z"][i_agn], cats["gal"]["z"][i_gal])
+         ra = np.where(is_agn, cats["agn"]["ra"][i_agn], cats["gal"]["ra"][i_gal])
+@@ -1455,10 +1474,14 @@
+         "q_le_1_by_construction": True,
+     }
+     meta = {
+-        "generated_at_utc": _now(), "seed_events": seeds["events"],
++        "generated_at_utc": _now(), "seed_events": _SEED_EV,
++        "seed_events_is_record_default": bool(_SEED_EV == seeds["events"]),
+         "n_events": _NEV, "nsamp": _NSA,
++        "events_suffix": _sfx,
+         "pe_model_version": pe_model,
+-        "planted_f_agn": F_AGN, "gamma": GAMMA,
++        "planted_f_agn": _FAGN,
++        "planted_f_agn_is_record_default": bool(_FAGN == F_AGN),
++        "gamma": GAMMA,
+         "cosmology": {"H0": H0_FID, "Om0": OM0_FID, "w0": W0_FID, "wa": WA_FID,
+                       "zmax_grid": ZMAX_GRID},
+         "measurement_model": meas_v3 if pe_model == "v3" else {
+@@ -1582,7 +1605,8 @@
+         f.attrs["n_host_gal"] = int(_NEV - n_agn_ev)
+         f.attrs["n_host_agn"] = int(n_agn_ev)
+         f.attrs["truth_f_agn"] = float(n_agn_ev / _NEV)
+-        f.attrs["planted_f_agn"] = float(F_AGN)
++        f.attrs["planted_f_agn"] = float(_FAGN)
++        f.attrs["seed_events"] = int(_SEED_EV)
+         f.attrs["gamma"] = float(GAMMA)
+         f.attrs["dL_fractional_uncertainty"] = (
+             float(np.sqrt((5.0 / 6.0 * A_MC * SNR_THRESHOLD) ** 2 + SIGMA_RHO ** 2))
+@@ -3746,6 +3770,19 @@
+                    help="PILOT ONLY: override N_SAMP.")
+     p.add_argument("--events_suffix", default="",
+                    help="PILOT ONLY: write events<SUFFIX>.h5 instead of events.h5.")
++    p.add_argument("--f_agn", type=float, default=None,
++                   help="EXTRA DRAWS ONLY: planted AGN-hosted fraction for the "
++                        f"events stage.  Unset = the module constant F_AGN "
++                        f"({F_AGN}), i.e. the dataset of record.  Set together "
++                        "with --seed_events and --events_suffix to add an "
++                        "independent single-tracer event set (f_agn=0 pure GAL, "
++                        "f_agn=1 pure AGN) beside the record's mixture without "
++                        "touching it.")
++    p.add_argument("--seed_events", type=int, default=None,
++                   help="EXTRA DRAWS ONLY: explicit sub-seed for the events stage. "
++                        "Unset = the record's derivation SEED*1000+3.  Offsets 1-7 "
++                        "are taken by sub_seeds(); use SEED*1000+8 or higher so an "
++                        "extra draw is independent of every recorded stream.")
+     p.add_argument("--_glass_worker", action="store_true",
+                    help=argparse.SUPPRESS)
+     return p.parse_args(argv)

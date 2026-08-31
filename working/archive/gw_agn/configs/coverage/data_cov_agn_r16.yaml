@@ -1,0 +1,46 @@
+mock_catalog:
+  seed: 101
+  nbar_gal: 0.01
+  nbar_agn: 0.0001
+  bias_gal: 1.2
+  bias_agn: 2.0
+  z_min: 0.0
+  z_max: 1.5
+  nside: 64
+  gamma_agn: 0.0
+  gamma_gal: 0.0
+gw_injection:
+  f_agn: 1.0
+  lambda_agn: 0.5
+  N_gw: 100
+  seed_gw: 7016
+  z_max_gw: 1.0
+paths:
+  dir_mock: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/data/glass_prod/
+  name_cat: mock_catalog.h5
+  name_gw: gws_cov_agn_r16.h5
+  name_gwsamples: gwsamples_cov_agn_r16_dLunc0.1_obs.h5
+  name_cat_gal_pixelated: cat_gal_pixelated_nside64.h5
+  name_cat_agn_pixelated: cat_agn_pixelated_nside64.h5
+  tag_cat: _glass_prod
+  tag_pix: _nside64
+  tag_gw: _cov_agn_r16
+  tag_gwsamp: _dLunc0.1
+  tag_mocktype: _glass
+gw_samples:
+  N_samples_gw: 2000
+  mass_mean: 35.0
+  mass_std: 5.0
+  ra_uncertainty: 0.01
+  dec_uncertainty: 0.01
+  dL_uncertainty_fac: 0.1
+  mass_uncertainty: 1.5
+  pe_centering: obs
+  seed_samples: 507016
+cosmology:
+  h: 0.6774
+  H0: 67.74
+  Om0: 0.3075
+  Ob0: 0.0486
+pixelization:
+  nside: 64

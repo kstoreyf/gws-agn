@@ -1,0 +1,9 @@
+fn_gwsamples: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/data/glass_prod/gwsamples_cov_gal_r00_dLunc0.1_obs.h5
+tracers:
+  - {name: gal, fn_pixelated: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/data/glass_prod/cat_gal_pixelated_nside64.h5, Dz: 0.003}
+  - {name: gal_sub10, fn_pixelated: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/data/glass_prod/cat_gal_sub10_pixelated_nside64.h5, Dz: 0.003}
+selection: {mode: fixed_z, z_max_gw: 1.0}
+grid: {N_H0: 41, H0_bounds: [50, 100], N_alpha: 11, alpha_bounds: [0, 1]}
+n_gw_inf: null
+seed_shuffle: 777
+paths: {fn_inf: /hildafs/projects/phy230014p/magana/gws-agn/working/gw_agn/results/g5_pair_gal_sub10.h5}
