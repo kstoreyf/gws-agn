@@ -1931,6 +1931,71 @@ def solve_fagn_lambda(alpha_agn_obs, N_gal, N_agn):
         raise RuntimeError("Optimization failed")
 
 
+def reseed_dead_walkers(
+    p0, likelihood_func, lower_bound, upper_bound, jitter_frac=0.01, N_tries=10
+):
+    """
+    Move walkers that start with a non-finite log-posterior next to live ones.
+
+    A walker started in a zero-probability region is effectively frozen for the
+    rest of the run: the differential-evolution proposals scale with the spread
+    of the live walkers, so once they concentrate around the mode the dead
+    walker can no longer reach it, and it contributes a spike of spurious
+    samples at its starting point.
+
+    Parameters
+    ----------
+    p0 : array
+        Initial walker positions, shape (N_walkers, N_params)
+    likelihood_func : function
+        Log-posterior function used by the sampler
+    lower_bound, upper_bound : list
+        Parameter bounds, used to set the jitter scale
+    jitter_frac : float
+        Jitter added around a live walker, as a fraction of the prior width
+    N_tries : int
+        Number of jittered attempts before falling back to an exact copy
+
+    Returns
+    -------
+    array
+        Initial walker positions, all with finite log-posterior
+    """
+    p0 = np.array(p0, dtype=float)
+    width = np.asarray(upper_bound, dtype=float) - np.asarray(lower_bound, dtype=float)
+    log_prob = np.array([likelihood_func(p) for p in p0])
+    alive = np.isfinite(log_prob)
+
+    if alive.all():
+        return p0
+    if not alive.any():
+        raise RuntimeError(
+            "All {} initial walkers have non-finite log-posterior; "
+            "check the priors and the likelihood.".format(len(p0))
+        )
+
+    print(
+        "Reseeding {}/{} initial walkers with non-finite log-posterior".format(
+            np.sum(~alive), len(p0)
+        )
+    )
+    live = p0[alive]
+    for i in np.where(~alive)[0]:
+        anchor = live[np.random.randint(len(live))]
+        p0[i] = anchor
+        for _ in range(N_tries):
+            trial = np.clip(
+                anchor + jitter_frac * width * np.random.randn(len(width)),
+                lower_bound,
+                upper_bound,
+            )
+            if np.isfinite(likelihood_func(trial)):
+                p0[i] = trial
+                break
+
+    return p0
+
+
 def run_mcmc_sampling(
     likelihood_func, lower_bound, upper_bound, N_walkers=64, N_steps=1000,
     seed=None
@@ -1972,6 +2037,7 @@ def run_mcmc_sampling(
         np.random.seed(seed)
     
     p0 = np.random.uniform(lower_bound, upper_bound, size=(N_walkers, ndims))
+    p0 = reseed_dead_walkers(p0, likelihood_func, lower_bound, upper_bound)
     
     sampler = emcee.EnsembleSampler(
         N_walkers, ndims, likelihood_func,
@@ -1984,6 +2050,59 @@ def run_mcmc_sampling(
     sampler.run_mcmc(p0, N_steps, progress=True)
     
     return sampler
+
+
+def clean_chain_samples(chain, log_prob, burnin_frac=0.2, verbose=True):
+    """
+    Flatten an MCMC chain into posterior samples, discarding burn-in and
+    samples with non-finite log-posterior.
+
+    Walkers initialized in a zero-probability region can stay frozen at their
+    starting point for the whole run, since the differential-evolution proposal
+    scale shrinks with the spread of the live walkers. Those samples carry
+    log_prob = -inf and must not enter the posterior.
+
+    Parameters
+    ----------
+    chain : array
+        MCMC chain, shape (N_walkers, N_steps, N_params)
+    log_prob : array
+        Log-posterior values, shape (N_walkers, N_steps)
+    burnin_frac : float
+        Fraction of steps to discard as burn-in (default: 0.2)
+    verbose : bool
+        Print a summary of what was discarded
+
+    Returns
+    -------
+    array
+        Posterior samples, shape (N_kept, N_params)
+    """
+    chain = np.asarray(chain)
+    log_prob = np.asarray(log_prob)
+
+    N_walkers, N_steps, N_params = chain.shape
+    burnin_idx = int(N_steps * burnin_frac)
+
+    samples = chain[:, burnin_idx:, :].reshape(-1, N_params)
+    lp = log_prob[:, burnin_idx:].reshape(-1)
+    finite = np.isfinite(lp)
+
+    if verbose:
+        alive = np.isfinite(log_prob[:, burnin_idx:]).any(axis=1)
+        msg = (
+            "Cleaning chain: discarding {} burn-in steps of {}, "
+            "{}/{} post-burn-in samples have non-finite log-posterior".format(
+                burnin_idx, N_steps, np.sum(~finite), finite.size
+            )
+        )
+        if not alive.all():
+            msg += "; walkers stuck outside the support for the entire run: {}".format(
+                list(np.where(~alive)[0])
+            )
+        print(msg)
+
+    return samples[finite]
 
 
 def get_posterior_samples(sampler, burnin_frac=0.5, N_samples=None):
@@ -2009,9 +2128,11 @@ def get_posterior_samples(sampler, burnin_frac=0.5, N_samples=None):
             burnin_frac, N_samples
         )
     )
-    shape = sampler.flatchain.shape[0]
-    burnin_idx = int(shape * burnin_frac)
-    samples = sampler.flatchain[burnin_idx:, :]
+    samples = clean_chain_samples(
+        sampler.get_chain().transpose(1, 0, 2),
+        sampler.get_log_prob().T,
+        burnin_frac=burnin_frac,
+    )
     
     if N_samples is not None and N_samples < len(samples):
         choose = np.random.randint(0, len(samples), N_samples)

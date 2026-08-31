@@ -691,8 +691,18 @@ def get_mcmc_data(fn_config_inference):
     # Load inference results
     loaded_results = run_inference.load_inference_results(fn_inf)
     
-    # Extract data
+    # Extract data. When the full chain is available, rebuild the posterior from
+    # it rather than trusting the stored samples: results written before the
+    # burn-in/dead-walker fix include frozen walkers with -inf log-posterior.
     samples = loaded_results['posterior_samples']
+    if 'mcmc_chain' in loaded_results and 'mcmc_log_prob' in loaded_results:
+        burnin_frac = config_inference.get('mcmc', {}).get('burnin_frac', 0.2)
+        samples = run_inference.clean_chain_samples(
+            loaded_results['mcmc_chain'],
+            loaded_results['mcmc_log_prob'],
+            burnin_frac=burnin_frac,
+            verbose=False,
+        )
     mcmc_params = loaded_results.get('mcmc_params', {})
     
     # Determine which parameters were varied.
@@ -819,7 +829,8 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
     bins : int, optional
         Number of bins for histograms (default: 50)
     range_min, range_max : float, optional
-        If set, applied to every parameter axis (same as before).
+        If both are set, bin edges and axis limits use this window for every
+        parameter (instead of the sample extents).
     colors : list, optional
         Matplotlib colors, one per dataset when ``mcmc_data`` is a list (or one
         color for a single dict). If omitted, a tab10 / turbo colormap is used.
@@ -870,7 +881,8 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
         tv = truth_values[0]
 
         if range_min is not None and range_max is not None:
-            bin_edges = np.linspace(range_min, range_max, bins)
+            # Bin edges span the requested window (not the sample extents).
+            bin_edges = np.linspace(range_min, range_max, int(bins) + 1)
         else:
             bin_edges = bins
 
@@ -898,6 +910,8 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
         ax.set_xlabel(label_1d)
         ax.set_ylabel('Density')
         ax.set_title(title if title is not None else f'Posterior: {label_1d}')
+        if range_min is not None and range_max is not None:
+            ax.set_xlim(range_min, range_max)
         if legend_labels is not None or tv is not None:
             ax.legend()
         ax.grid(True, alpha=0.3)
@@ -912,30 +926,33 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
         print("corner package not available, skipping corner plot")
         return
 
-    ranges = []
-    buffer_factor = 0.01
+    if range_min is not None and range_max is not None:
+        # Define bins from the requested window, not the sample extents.
+        bin_edges = np.linspace(range_min, range_max, int(bins) + 1)
+        bins_arg = [bin_edges] * n_params
+        ranges = [[range_min, range_max] for _ in range(n_params)]
+    else:
+        bins_arg = bins
+        ranges = []
+        buffer_factor = 0.01
 
-    for i in range(n_params):
-        sample_mins = []
-        sample_maxs = []
-        for ds in datasets:
-            s = ds['posterior_samples']
-            sample_mins.append(np.min(s[:, i]))
-            sample_maxs.append(np.max(s[:, i]))
-        lo = min(sample_mins)
-        hi = max(sample_maxs)
-        tv = truth_values[i]
-        if tv is not None:
-            lo = min(lo, tv)
-            hi = max(hi, tv)
-        if range_min is not None:
-            lo = range_min
-        if range_max is not None:
-            hi = range_max
-        span = hi - lo
-        if span <= 0:
-            span = max(abs(hi), 1.0) * 0.05 + 1e-12
-        ranges.append([lo - buffer_factor * span, hi + buffer_factor * span])
+        for i in range(n_params):
+            sample_mins = []
+            sample_maxs = []
+            for ds in datasets:
+                s = ds['posterior_samples']
+                sample_mins.append(np.min(s[:, i]))
+                sample_maxs.append(np.max(s[:, i]))
+            lo = min(sample_mins)
+            hi = max(sample_maxs)
+            tv = truth_values[i]
+            if tv is not None:
+                lo = min(lo, tv)
+                hi = max(hi, tv)
+            span = hi - lo
+            if span <= 0:
+                span = max(abs(hi), 1.0) * 0.05 + 1e-12
+            ranges.append([lo - buffer_factor * span, hi + buffer_factor * span])
 
     fig = None
     for i, ds in enumerate(datasets):
@@ -946,7 +963,7 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
                 labels=param_labels,
                 show_titles=True,
                 title_kwargs={"fontsize": 12},
-                bins=bins,
+                bins=bins_arg,
                 range=ranges,
                 figsize=figsize,
                 color=colors[i],
@@ -958,7 +975,7 @@ def plot_mcmc_contours(mcmc_data, figsize=(4, 4), bins=50,
             fig = corner.corner(
                 samples,
                 fig=fig,
-                bins=bins,
+                bins=bins_arg,
                 range=ranges,
                 color=colors[i],
                 show_titles=False,
@@ -1015,7 +1032,7 @@ def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50,
         axes = [axes]
     
     if range_min is not None and range_max is not None:
-        bins = np.linspace(range_min, range_max, bins)
+        bins = np.linspace(range_min, range_max, int(bins) + 1)
     else:
         bins = bins
     
@@ -1024,8 +1041,8 @@ def plot_mcmc_marginalized(mcmc_data, figsize=(12, 5), bins=50,
         # Overplot truth value
         ax.axvline(truth_values[i], color='green', linestyle='-', linewidth=2,
                    label=f'Truth: {truth_values[i]:.3f}')
-        # if range_min is not None and range_max is not None:
-        #     ax.set_xlim(range_min, range_max)
+        if range_min is not None and range_max is not None:
+            ax.set_xlim(range_min, range_max)
         ax.set_xlabel(label)
         ax.set_ylabel('Density')
         ax.set_title(f'Posterior: {label}')

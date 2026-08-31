@@ -35,39 +35,51 @@ def main_inference(overwrite_config=False):
     """
     
     # build config_data name
-    #seeds = [0,1,2,3,4,5,6,7,8,9]
-    tag_mocktype = '_uniform'
-    seed = 0
-    #dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
-    dLunc_arr = [0.0, 0.1, 0.2, 0.3]
-    for dLunc in dLunc_arr:
-    #for seed in seeds:
-        seed_gw = seed + 1000
-        #tag_cat = f'_seed{seed}_ratioNgalNagn1_bgal1.0_bagn1.0'
-        tag_cat = f'_seed{seed}_ratioNgalNagn1'
-        #tag_pix = f'_nside256'
-        tag_pix = f'_nside64'
-        tag_gw = f'_seedgw{seed_gw}_fagn0.0_lambdaagn0.0_zmaxgw1.0'
-        tag_gwsamp = f'_dLunclin{dLunc}'
-        tag_mt_fn = '' if tag_mocktype == '_glass' else tag_mocktype
-        config_data_name = f'config_data{tag_mt_fn}{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
-        create_config_inference(
-            fn_config=None,  # Auto-generate from tags
-            fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
-            mode_inf='mcmc',
-            N_walkers=32,
-            N_steps=500,
-            burnin_frac=0.2,
-            seed_mcmc=0,
-            # Dz_gal=0.0001,
-            # Dz_agn=0.0001,
-            Dz_gal=0.03,
-            Dz_agn=0.03,
-            parameters_vary=['H0'],
-            parameters_fix=['alpha_agn', 'Om0', 'gamma_agn', 'gamma_gal'],
-            tag_inf_extra='_Dz0.03_betaH0_vary-H0',
-            overwrite_config=overwrite_config
-        )
+    seeds = [0, 1, 2, 3, 4, 5]
+    mocktypes = ['_glass']
+    dLunc_arr = [0.05]
+    Dz_arr = [0.001]
+    bias_gal = 1.0
+    bias_agn = 1.0
+    fagn_lambda_arr = [
+        (0.25, 0.25),
+    ]
+    for tag_mocktype in mocktypes:
+      for seed in seeds:
+        for dLunc in dLunc_arr:
+          for Dz in Dz_arr:
+            for f_agn, lambda_agn in fagn_lambda_arr:
+              seed_gw = seed + 1000
+              if tag_mocktype == '_uniform':
+                tag_cat = f'_seed{seed}_ratioNgalNagn1'
+              else:
+                tag_cat = (
+                    f'_seed{seed}_ratioNgalNagn1'
+                    f'_bgal{bias_gal}_bagn{bias_agn}'
+                )
+              tag_pix = f'_nside64'
+              tag_gw = (
+                  f'_seedgw{seed_gw}_fagn{f_agn}'
+                  f'_lambdaagn{lambda_agn}_zmaxgw1.0'
+              )
+              tag_gwsamp = f'_dLunclin{dLunc}'
+              tag_mt_fn = '' if tag_mocktype == '_glass' else tag_mocktype
+              config_data_name = f'config_data{tag_mt_fn}{tag_cat}{tag_pix}{tag_gw}{tag_gwsamp}'
+              create_config_inference(
+                  fn_config=None,  # Auto-generate from tags
+                  fn_config_data=f'../configs/configs_data/{config_data_name}.yaml',
+                  mode_inf='mcmc',
+                  N_walkers=32,
+                  N_steps=500,
+                  burnin_frac=0.2,
+                  seed_mcmc=0,
+                  Dz_gal=Dz,
+                  Dz_agn=Dz,
+                  parameters_vary=['H0', 'alpha_agn'],
+                  parameters_fix=['Om0', 'gamma_agn', 'gamma_gal'],
+                  tag_inf_extra=f'_Dz{Dz}_claudetry1_vary-H0-alphaagn',
+                  overwrite_config=overwrite_config
+              )
     
     # Example: Create a likelihood grid config (fn_config will be auto-generated from tags)
     # create_config_inference(
@@ -92,42 +104,41 @@ def main_data(overwrite_config=False):
     overwrite_config : bool
         If True, overwrite existing config files. If False, skip if files exist.
     """
-    # Example: Create a default config (fn_config and dir_mock will be auto-generated from tags)
-    #seeds = [0,1,2,3,4,5,6,7,8,9]
-    #seeds = [1]
-    seed = 0
-    #for seed in seeds:
-    #dLunc_arr = [0.0, 0.25, 0.5, 0.75, 1.0]
-    dLunc_arr = [0.0, 0.1, 0.2, 0.3]
-    for dLunc in dLunc_arr:
-        create_config_data(
-            tag_mocktype='_uniform',
-            seed=seed,
-            nbar_gal=1e-2,
-            nbar_agn=1e-2,
-            # bias_gal=1.0,
-            # bias_agn=1.0,
-            bias_gal=None,
-            bias_agn=None,
-            z_min=0.0,
-            z_max=1.5,
-            #nside=256,
-            nside=64,
-            f_agn=0.0,
-            lambda_agn=0.0,
-            N_gw=1000,
-            seed_gw=seed+1000,
-            z_max_gw=1.0,
-            N_samples_gw=1000,
-            # Cosmology will default to Planck 2015 values
-            mass_mean=35.0,
-            mass_std=5.0,
-            ra_uncertainty=0.01,
-            dec_uncertainty=0.01,
-            dL_uncertainty_fac=dLunc,
-            mass_uncertainty=1.5,
-            overwrite_config=overwrite_config
-        )
+    seeds = [0, 1, 2, 3, 4, 5]
+    mocktypes = ['_glass']
+    dLunc_arr = [0.05]
+    fagn_lambda_arr = [
+        (0.25, 0.25),
+    ]
+    for tag_mocktype in mocktypes:
+      for seed in seeds:
+        for dLunc in dLunc_arr:
+          for f_agn, lambda_agn in fagn_lambda_arr:
+            create_config_data(
+                tag_mocktype=tag_mocktype,
+                seed=seed,
+                nbar_gal=1e-2,
+                nbar_agn=1e-2,
+                bias_gal=1.0 if tag_mocktype == '_glass' else None,
+                bias_agn=1.0 if tag_mocktype == '_glass' else None,
+                z_min=0.0,
+                z_max=1.5,
+                nside=64,
+                f_agn=f_agn,
+                lambda_agn=lambda_agn,
+                N_gw=1000,
+                seed_gw=seed+1000,
+                z_max_gw=1.0,
+                N_samples_gw=1000,
+                # Cosmology will default to Planck 2015 values
+                mass_mean=35.0,
+                mass_std=5.0,
+                ra_uncertainty=0.01,
+                dec_uncertainty=0.01,
+                dL_uncertainty_fac=dLunc,
+                mass_uncertainty=1.5,
+                overwrite_config=overwrite_config
+            )
 
 
 
