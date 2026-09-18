@@ -1,0 +1,575 @@
+{
+  "gate": "A",
+  "title": "Analysis-8 tracer-dependent population path reduces to Analysis 2 at dmu_chi = 0",
+  "generated_at_utc": "2026-09-18T16:51:50Z",
+  "provenance": {
+    "gws_agn_sha": "ac74b98b86ffb4028921c2fa8e09fa068bd1cb31",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "jax_devices": "[CudaDevice(id=0)]",
+  "configurations": {
+    "K2_OLD": {
+      "mode": "old",
+      "fix_population": true,
+      "per_catalog_pop_params": [],
+      "sampled_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "fcat_2"
+      ],
+      "base_coord": {
+        "H0": 67.74,
+        "log10n0": -24.0,
+        "delta": 0.0,
+        "sigma_kde": 0.0,
+        "log10n0_c2": -24.0,
+        "delta_c2": 0.0,
+        "sigma_kde_c2": 0.0,
+        "fcat_2": 0.0
+      },
+      "n_fixed_parameter_values": 1,
+      "fixed_parameter_values": {
+        "Om0": 0.3075
+      },
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ]
+    },
+    "K2_NEW": {
+      "mode": "new",
+      "fix_population": false,
+      "per_catalog_pop_params": [
+        "mu_chi_c2"
+      ],
+      "sampled_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "$\\mu_\\chi$_c2",
+        "fcat_2"
+      ],
+      "base_coord": {
+        "H0": 67.74,
+        "log10n0": -24.0,
+        "delta": 0.0,
+        "sigma_kde": 0.0,
+        "log10n0_c2": -24.0,
+        "delta_c2": 0.0,
+        "sigma_kde_c2": 0.0,
+        "$\\mu_\\chi$_c2": 0.0,
+        "fcat_2": 0.0
+      },
+      "n_fixed_parameter_values": 13,
+      "fixed_parameter_values": {
+        "Om0": 0.3075,
+        "$v_1$": 0.1,
+        "$\\alpha_{\\rm PL}$": 2.3,
+        "$m_{\\min,\\rm PL}$": 5.0,
+        "$m_{\\max,\\rm PL}$": 80.0,
+        "$\\delta m_{\\min,\\rm PL}$": 3.0,
+        "$\\delta m_{\\max,\\rm PL}$": 10.0,
+        "$\\mu_{\\rm G}$": 35.0,
+        "$\\sigma_{\\rm G}$": 5.0,
+        "$\\beta$": 1.0,
+        "$\\mu_\\chi$": 0.0,
+        "$\\sigma_\\chi$": 0.1,
+        "$\\gamma$": 0.0
+      },
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ]
+    },
+    "K1_GAL": {
+      "mode": "old",
+      "sampled_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde"
+      ],
+      "base_coord": {
+        "H0": 67.74,
+        "log10n0": -24.0,
+        "delta": 0.0,
+        "sigma_kde": 0.0
+      },
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5"
+      ],
+      "nEvents": 1000,
+      "Ndraw": 150000000.0
+    },
+    "K1_AGN": {
+      "mode": "old",
+      "sampled_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde"
+      ],
+      "base_coord": {
+        "H0": 67.74,
+        "log10n0": -24.0,
+        "delta": 0.0,
+        "sigma_kde": 0.0
+      },
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "nEvents": 1000,
+      "Ndraw": 150000000.0
+    }
+  },
+  "data": {
+    "nEvents": 1000,
+    "nsamp": 2000,
+    "Ndraw": 150000000.0
+  },
+  "tolerances": {
+    "A1_ulp": 4.0,
+    "A2_abs_logL": 1e-06,
+    "A3_rel_mu": 1e-06,
+    "A4_ulp": 4.0,
+    "A4_abs_median": 1e-09
+  },
+  "tolerances_preregistered": {
+    "A1_abs_logL": 1e-12,
+    "A2_abs_logL": 1e-06,
+    "A3_rel_mu": 1e-06,
+    "A4_abs_logL": 1e-12,
+    "A4_abs_median": 1e-09,
+    "_note": "Written before the run, and the two logL entries were in the WRONG UNIT. They were carried over from GATES.md's '<= 3.552713678800501e-15 absolute' bound, which was measured on a TOY whose logL is O(8): that number is exactly 2 ULP of 8.0 (np.spacing(8.0) = 1.7763568394002505e-15). The seed-100 logL is O(4.2e3), where 1 ULP is 9.094947017729282e-13, so the SAME 2-ULP effect is 1.8189894035458565e-12 in absolute terms -- 1.8x this pre-registered bound. The re-association is a last-bit effect, so its absolute size necessarily scales with |logL| and an absolute bound cannot travel between problems. The criteria applied below are therefore stated in ULP of the returned value, which is the scale-free form of the SAME expectation GATES.md documents ('1-2 ULP'), with the bound at 4 ULP. This is a unit correction, NOT a loosening: at 4 ULP the A1 and A4 bounds are 7.1e-15 on the toy, twice as tight there as the quoted 3.6e-15. The decisive control is independent of any tolerance -- see A4's OLD arm, which re-runs the UNCHANGED analysis-2 configuration through the current code and lands the same 2 ULP away from the stored array."
+  },
+  "float64_ulp_at_logL_scale": 9.094947017729282e-13,
+  "checks": {
+    "A1_cell_equivalence": {
+      "description": "per-cell logL, NEW (mu_chi_c2 = 0) minus OLD, at H0 = 67.74",
+      "per_cell": [
+        {
+          "f": 0.0,
+          "logL_old": -4204.143251633603,
+          "logL_new": -4204.143251633603,
+          "logL_old_hex": "-0x1.06c24ac23996cp+12",
+          "logL_new_hex": "-0x1.06c24ac23996cp+12",
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "rel_diff": 0.0,
+          "diff_selection_term": 0.0,
+          "diff_pe_term": 0.0,
+          "bitwise_identical": true,
+          "ulp_of_logL": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0
+        },
+        {
+          "f": 0.295,
+          "logL_old": -4176.213667864911,
+          "logL_new": -4176.213667864913,
+          "logL_old_hex": "-0x1.05036b2efec00p+12",
+          "logL_new_hex": "-0x1.05036b2efec02p+12",
+          "diff": -1.8189894035458565e-12,
+          "abs_diff": 1.8189894035458565e-12,
+          "rel_diff": 4.355594680278451e-16,
+          "diff_selection_term": 0.0,
+          "diff_pe_term": -1.8189894035458565e-12,
+          "bitwise_identical": false,
+          "ulp_of_logL": 9.094947017729282e-13,
+          "diff_in_ulp": -2.0
+        },
+        {
+          "f": 0.5,
+          "logL_old": -4188.400026060974,
+          "logL_new": -4188.4000260609755,
+          "logL_old_hex": "-0x1.05c66681ba16ep+12",
+          "logL_new_hex": "-0x1.05c66681ba170p+12",
+          "diff": -1.8189894035458565e-12,
+          "abs_diff": 1.8189894035458565e-12,
+          "rel_diff": 4.342921860920111e-16,
+          "diff_selection_term": 0.0,
+          "diff_pe_term": -1.8189894035458565e-12,
+          "bitwise_identical": false,
+          "ulp_of_logL": 9.094947017729282e-13,
+          "diff_in_ulp": -2.0
+        },
+        {
+          "f": 1.0,
+          "logL_old": -5326.0926186264915,
+          "logL_new": -5326.0926186264915,
+          "logL_old_hex": "-0x1.4ce17b5dab3c8p+12",
+          "logL_new_hex": "-0x1.4ce17b5dab3c8p+12",
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "rel_diff": 0.0,
+          "diff_selection_term": 0.0,
+          "diff_pe_term": 0.0,
+          "bitwise_identical": true,
+          "ulp_of_logL": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0
+        }
+      ],
+      "max_abs_diff": 1.8189894035458565e-12,
+      "max_rel_diff": 4.355594680278451e-16,
+      "max_abs_diff_in_ulp": 2.0,
+      "max_abs_diff_selection_term": 0.0,
+      "max_abs_diff_pe_term": 1.8189894035458565e-12,
+      "n_bitwise_identical": 2,
+      "log_mu_bitwise_identical_at_every_f": true,
+      "tolerance_ulp": 4.0,
+      "pass": true
+    },
+    "A2_endpoint_reduction": {
+      "description": "K=2 endpoints vs the K=1 single-branch references, split into PE and selection contributions",
+      "endpoints": {
+        "f=0.0": {
+          "reference": "K1_GAL",
+          "reference_logL": -4204.143251633603,
+          "reference_logL_pe": -16009.53746018845,
+          "reference_logL_selection": 11805.394208554848,
+          "reference_log_mu": -11.804419802168809,
+          "old": {
+            "logL": -4204.143251633603,
+            "logL_pe": -16009.53746018845,
+            "logL_selection": 11805.394208554848,
+            "log_mu": -11.804419802168809,
+            "diff_total": 0.0,
+            "diff_pe": 0.0,
+            "diff_selection": 0.0,
+            "diff_log_mu": 0.0
+          },
+          "new": {
+            "logL": -4204.143251633603,
+            "logL_pe": -16009.53746018845,
+            "logL_selection": 11805.394208554848,
+            "log_mu": -11.804419802168809,
+            "diff_total": 0.0,
+            "diff_pe": 0.0,
+            "diff_selection": 0.0,
+            "diff_log_mu": 0.0
+          }
+        },
+        "f=1.0": {
+          "reference": "K1_AGN",
+          "reference_logL": -5326.0926186264915,
+          "reference_logL_pe": -17122.10095931653,
+          "reference_logL_selection": 11796.008340690038,
+          "reference_log_mu": -11.794684221780553,
+          "old": {
+            "logL": -5326.0926186264915,
+            "logL_pe": -17122.10095931653,
+            "logL_selection": 11796.008340690038,
+            "log_mu": -11.794684221780553,
+            "diff_total": 0.0,
+            "diff_pe": 0.0,
+            "diff_selection": 0.0,
+            "diff_log_mu": 0.0
+          },
+          "new": {
+            "logL": -5326.0926186264915,
+            "logL_pe": -17122.10095931653,
+            "logL_selection": 11796.008340690038,
+            "log_mu": -11.794684221780553,
+            "diff_total": 0.0,
+            "diff_pe": 0.0,
+            "diff_selection": 0.0,
+            "diff_log_mu": 0.0
+          }
+        }
+      },
+      "max_abs_diff_any_term": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    "A3_selection_reduction": {
+      "description": "mu(f) = (1-f) mu_GAL + f mu_AGN against the measured K=2 selection integral, all from ONE shared injection pool",
+      "mu_GAL": 7.471462445318051e-06,
+      "mu_AGN": 7.544556698731132e-06,
+      "log_mu_GAL": -11.804419802168809,
+      "log_mu_AGN": -11.794684221780553,
+      "mu_AGN_over_mu_GAL": 1.0097831253182414,
+      "mu_AGN_minus_mu_GAL_rel": 0.00978312531824137,
+      "per_f": [
+        {
+          "f": 0.0,
+          "shape": "old",
+          "mu_measured": 7.471462445318051e-06,
+          "mu_linear_prediction": 7.471462445318051e-06,
+          "abs_diff": 0.0,
+          "rel_diff": 0.0
+        },
+        {
+          "f": 0.0,
+          "shape": "new",
+          "mu_measured": 7.471462445318051e-06,
+          "mu_linear_prediction": 7.471462445318051e-06,
+          "abs_diff": 0.0,
+          "rel_diff": 0.0
+        },
+        {
+          "f": 0.295,
+          "shape": "old",
+          "mu_measured": 7.493025250074907e-06,
+          "mu_linear_prediction": 7.49302525007491e-06,
+          "abs_diff": 2.541098841762901e-21,
+          "rel_diff": 3.3912855715219923e-16
+        },
+        {
+          "f": 0.295,
+          "shape": "new",
+          "mu_measured": 7.493025250074907e-06,
+          "mu_linear_prediction": 7.49302525007491e-06,
+          "abs_diff": 2.541098841762901e-21,
+          "rel_diff": 3.3912855715219923e-16
+        },
+        {
+          "f": 0.5,
+          "shape": "old",
+          "mu_measured": 7.508009572024597e-06,
+          "mu_linear_prediction": 7.508009572024591e-06,
+          "abs_diff": 5.929230630780102e-21,
+          "rel_diff": 7.897207074525933e-16
+        },
+        {
+          "f": 0.5,
+          "shape": "new",
+          "mu_measured": 7.508009572024597e-06,
+          "mu_linear_prediction": 7.508009572024591e-06,
+          "abs_diff": 5.929230630780102e-21,
+          "rel_diff": 7.897207074525933e-16
+        },
+        {
+          "f": 1.0,
+          "shape": "old",
+          "mu_measured": 7.544556698731132e-06,
+          "mu_linear_prediction": 7.544556698731132e-06,
+          "abs_diff": 0.0,
+          "rel_diff": 0.0
+        },
+        {
+          "f": 1.0,
+          "shape": "new",
+          "mu_measured": 7.544556698731132e-06,
+          "mu_linear_prediction": 7.544556698731132e-06,
+          "abs_diff": 0.0,
+          "rel_diff": 0.0
+        }
+      ],
+      "max_rel_diff": 7.897207074525933e-16,
+      "tolerance_rel": 1e-06,
+      "pass": true,
+      "diagnostic_branch_comparison": {
+        "note": "reported, not enforced",
+        "fractional_difference_mu_AGN_vs_mu_GAL": 0.00978312531824137,
+        "monte_carlo_scale_1_over_sqrt_Neff": 0.0015094073664246297,
+        "in_units_of_MC_scale": 6.48143472455345,
+        "interpretation": "The two branch integrals are NOT expected to coincide here and do not: they use DIFFERENT spatial priors p_k(z | pix), the GAL and AGN catalogs having different redshift distributions. The chi_eff-independence of the v3 detection rule says only that the SPIN factor cannot move mu, which is what the mu_chi_c2 probe below measures, and that is the near-equality worth using as a diagnostic."
+      },
+      "diagnostic_mu_vs_spin_mean": {
+        "note": "reported, not enforced",
+        "f": 0.295,
+        "dmu_chi": 0.1,
+        "log_mu_at_0": -11.801537936765957,
+        "log_mu_at_dmu": -11.801882117647546,
+        "delta_log_mu": -0.0003441808815889402,
+        "fractional_change_in_mu": -0.0003441216581440353,
+        "monte_carlo_scale_1_over_sqrt_Neff": 0.0011609356874924491,
+        "in_units_of_MC_scale": -0.29641750344269047
+      }
+    },
+    "A4_posterior_reproduction": {
+      "description": "the recorded Analysis-2 101-point f scan, re-run",
+      "stored_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_2_complete_catalog_H0_fagn/results/fscan_s100.h5",
+      "stored_summary_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_2_complete_catalog_H0_fagn/results/fscan_s100.json",
+      "arms": {
+        "new": {
+          "max_abs": 1.8189894035458565e-12,
+          "mean": -1.800979607471145e-14,
+          "n_exactly_zero": 84,
+          "n": 101,
+          "max_abs_diff_after_constant_offset": 1.836999199620568e-12,
+          "constant_offset": -1.800979607471145e-14,
+          "max_abs_diff_in_ulp": 2.0,
+          "distinct_ulp_multiples": [
+            -2.0,
+            0.0,
+            2.0
+          ],
+          "ulp_of_logL": 9.094947017729282e-13,
+          "n_finite": 101,
+          "seconds": 172.6439118385315,
+          "seconds_per_eval": 1.7093456617676386,
+          "posterior": {
+            "median": 0.2664993206872528,
+            "ci68": [
+              0.22120386127565098,
+              0.31295485903650794
+            ],
+            "ci90": [
+              0.19221119171620615,
+              0.3437490357029739
+            ],
+            "map": 0.27,
+            "argmax": 0.27,
+            "logL_max": -4176.015021062542
+          },
+          "posterior_stored": {
+            "median": 0.26649932068725635,
+            "ci68": [
+              0.22120386127565983,
+              0.3129548590365098
+            ],
+            "ci90": [
+              0.19221119171620987,
+              0.3437490357029752
+            ],
+            "map": 0.27,
+            "argmax": 0.27,
+            "logL_max": -4176.015021062542
+          },
+          "posterior_diff": {
+            "median": -3.552713678800501e-15,
+            "ci68_lo": -8.854028621385623e-15,
+            "ci68_hi": -1.887379141862766e-15,
+            "ci90_lo": -3.7192471324942744e-15,
+            "ci90_hi": -1.3322676295501878e-15,
+            "map": 0.0,
+            "logL_max": 0.0
+          },
+          "tolerance_ulp": 4.0,
+          "pass": true
+        },
+        "old": {
+          "max_abs": 1.8189894035458565e-12,
+          "mean": -7.20391842988458e-14,
+          "n_exactly_zero": 87,
+          "n": 101,
+          "max_abs_diff_after_constant_offset": 1.8910285878447023e-12,
+          "constant_offset": -7.20391842988458e-14,
+          "max_abs_diff_in_ulp": 2.0,
+          "distinct_ulp_multiples": [
+            -2.0,
+            0.0,
+            2.0
+          ],
+          "ulp_of_logL": 9.094947017729282e-13,
+          "n_finite": 101,
+          "seconds": 168.36744260787964,
+          "seconds_per_eval": 1.6670043822562342,
+          "posterior": {
+            "median": 0.26649932068725124,
+            "ci68": [
+              0.22120386127564234,
+              0.3129548590365131
+            ],
+            "ci90": [
+              0.19221119171619894,
+              0.34374903570297083
+            ],
+            "map": 0.27,
+            "argmax": 0.27,
+            "logL_max": -4176.015021062542
+          },
+          "posterior_stored": {
+            "median": 0.26649932068725635,
+            "ci68": [
+              0.22120386127565983,
+              0.3129548590365098
+            ],
+            "ci90": [
+              0.19221119171620987,
+              0.3437490357029752
+            ],
+            "map": 0.27,
+            "argmax": 0.27,
+            "logL_max": -4176.015021062542
+          },
+          "posterior_diff": {
+            "median": -5.10702591327572e-15,
+            "ci68_lo": -1.7486012637846216e-14,
+            "ci68_hi": 3.2751579226442118e-15,
+            "ci90_lo": -1.0935696792557792e-14,
+            "ci90_hi": -4.385380947269368e-15,
+            "map": 0.0,
+            "logL_max": 0.0
+          },
+          "tolerance_ulp": 4.0,
+          "pass": true
+        }
+      },
+      "pass": true,
+      "old_path_drift_max_abs": 1.8189894035458565e-12,
+      "old_path_drift_max_ulp": 2.0,
+      "new_vs_old_same_distance_from_stored": true
+    },
+    "A0_coordinate_is_live": {
+      "description": "An equivalence test passes trivially if the new coordinate is ignored, and GATES.md records exactly that defect earlier in this campaign. These two cells show the coordinate is connected, and connected to the right branch.",
+      "dmu_chi": 0.1,
+      "reachable": {
+        "f": 0.295,
+        "logL_at_0": -4176.213667864913,
+        "logL_at_dmu": -4194.5112557800185,
+        "delta_logL": -18.297587915105396
+      },
+      "inert_when_branch_weight_is_zero": {
+        "f": 0.0,
+        "logL_at_0": -4204.143251633603,
+        "logL_at_dmu": -4204.143251633603,
+        "delta_logL": 0.0,
+        "bitwise_identical": true
+      },
+      "pass": true
+    }
+  },
+  "guard": {
+    "n_cells_recorded": 216,
+    "Neff_min": 378742.41988969396,
+    "Neff_median": 643012.5206624785,
+    "Neff_max": 769582.4016096916,
+    "threshold": 5000.0,
+    "threshold_min": 5000.0,
+    "Neff_over_threshold_min": 75.74848397793879,
+    "n_guard_rejected": 0,
+    "n_neginf_cells": 0,
+    "selection_neff_guard": "hard",
+    "max_likelihood_variance": 1000000.0,
+    "pass": true
+  },
+  "pass": true,
+  "verdict": "PASS"
+}

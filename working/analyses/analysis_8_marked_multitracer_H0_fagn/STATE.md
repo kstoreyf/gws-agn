@@ -2,9 +2,9 @@
 
 ## Current status
 
-**Phase 1 complete: implementation map written. Coding not started.**
+**Gate A PASSED (2026-09-18). The marked seed-100 mock is unblocked and not started.**
 
-Last passing gate: none yet (Gate A is the first).
+Last passing gate: **A** (null/equivalence on the existing seed-100 Analysis-2 data).
 
 ## Scientific contract
 
@@ -19,7 +19,10 @@ case; stop after seed-100 closure for owner approval.
 - gws-agn HEAD: `9aa3c98ce8d63d693f8b9fd147a981631152dafd`
   (18 uncommitted files, all of them the paper work under `working/paper/`;
   Analysis 8 is entirely untracked under its own directory and commits separately).
-- darksirens HEAD in use: **`2b86a2d8d48fdb5173f0ba259b8996104187dd2d`**.
+- darksirens base SHA: **`2b86a2d8d48fdb5173f0ba259b8996104187dd2d`** (the pin).
+- darksirens HEAD in use: **`af896ca`**, "likelihood: support tracer-dependent
+  population blocks", a single local commit on top of the pin. Never pushed; the
+  owner has forbidden remote darksirens changes.
 - darksirens worktree: `/hildafs/projects/phy230014p/magana/src/darksirens-a8`,
   branch `analysis8-marked-populations`, created from the pin. Local only; the
   owner has forbidden remote darksirens changes, so this branch is never pushed.
@@ -190,10 +193,30 @@ must be found before the file is written.
 - **Cost bound.** At the measured K=2 rate (~1.9 s/eval on the local H100 NVL) a
   41 x 61 grid is ~1.3 GPU-h per arm: Arms I and J ~2.6 GPU-h, Arm S minutes.
 
+## The Analysis-8 parameter space (established, not assumed)
+
+Two free coordinates, exactly as specification section 2 requires:
+
+    sampled labels: ['$\mu_\chi$_c2', 'fcat_2']
+
+reached with `fix_population=False` and all twelve base population parameters
+pinned explicitly through `fixed_parameter_values`, plus
+`per_catalog_pop_params=('mu_chi_c2',)`. `fcat_2` is `f_AGN` (stick-breaking at
+K=2 gives `log_w = [log(1-fcat_2), log(fcat_2)]`).
+
+`fix_population=True` together with a per-catalog request is REFUSED by design
+(it would remove the population block from sampling), so Analysis 8 pins the
+twelve common parameters by name instead. That is more auditable than
+`fix_population=True`: every fixed value is written down.
+
+The scanned coordinate is `mu_chi_c2`, the AGN branch's ABSOLUTE spin mean. It
+equals `dmu_chi` numerically only because the GAL branch's `mu_chi` is pinned at
+0.0; report it that way rather than conflating the two.
+
 ## Gate state
 
-- Gate A null/equivalence: **PENDING** (next action)
-- Gate B marked mock integrity: BLOCKED ON A
+- Gate A null/equivalence: **PASS** - evidence `diagnostics/null_equivalence.{json,md}`
+- Gate B marked mock integrity: **UNBLOCKED**, not started (next action)
 - Gate C seed-100 recovery: BLOCKED ON B
 - Owner gate: LOCKED
 
@@ -201,6 +224,38 @@ must be found before the file is written.
 
 - Implementation map (this file).
 - Regression baseline recorded above.
+- darksirens `af896ca`, one local commit on the pin: per-tracer population blocks.
+- `scripts/a8_likelihood.py` (the two configurations, built through analysis 2's own
+  `scan_h0f` machinery; no likelihood is reimplemented) and
+  `scripts/gate_a_null_equivalence.py`.
+- `diagnostics/null_equivalence.{json,md}` - Gate A evidence.
+
+## Gate A result, in one place
+
+With `mu_chi_c2 = 0` the tracer-dependent path reproduces the Analysis-2 model to the
+last bit: the largest disagreement anywhere is 1.8189894035458565e-12, which is
+**exactly 2 ULP** of a log-likelihood of order 4.2e3 (verified: measured / 2 ULP =
+1.0000). A1 and A4 sit at that floor; A2 (both endpoints, PE and selection terms
+separately) and the selection linearity in A3 are **exactly 0.0**. The f posterior
+median moves by 3.55e-15, MAP unchanged. Guard: 216 cells, min N_eff 75.7x threshold,
+none rejected.
+
+The decisive control needs no tolerance at all: re-running the UNCHANGED Analysis-2
+configuration through the current code lands the SAME 2 ULP from the stored August
+array, so that residual is the machine's last-bit floor, not the new population path
+and not code drift.
+
+Liveness, so the equivalence cannot have passed vacuously: at f = 0.295 moving
+`mu_chi_c2` 0 -> +0.10 changes logL by -18.2976, and at f = 0, where catalog 2 carries
+zero mixture weight, the same offset leaves logL bitwise identical. The coordinate is
+connected and wired to its own branch.
+
+Two corrections to earlier notes in this campaign, both recorded in GATES.md: the
+residual sits at the PE seam (log_mu is bitwise identical at every f), not the
+selection seam; and mu_GAL and mu_AGN are NOT expected to coincide (+0.98% apart)
+because the branches carry different spatial priors. The chi_eff-independence claim
+was measured on its own terms and holds: a +0.10 shift in the AGN spin mean moves mu
+by -3.44e-04, i.e. 0.30 Monte-Carlo sigma.
 
 ## Next allowed action
 

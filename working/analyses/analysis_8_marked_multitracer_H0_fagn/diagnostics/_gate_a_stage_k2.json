@@ -1,0 +1,2411 @@
+{
+  "provenance": {
+    "gws_agn_sha": "ac74b98b86ffb4028921c2fa8e09fa068bd1cb31",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "jax_devices": "[CudaDevice(id=0)]",
+  "jax_platforms": "cuda,cpu",
+  "configs": {
+    "K2_OLD": {
+      "mode": "old",
+      "fix_population": true,
+      "per_catalog_pop_params": [],
+      "sampled_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "fcat_2"
+      ],
+      "base_coord": {
+        "H0": 67.74,
+        "log10n0": -24.0,
+        "delta": 0.0,
+        "sigma_kde": 0.0,
+        "log10n0_c2": -24.0,
+        "delta_c2": 0.0,
+        "sigma_kde_c2": 0.0,
+        "fcat_2": 0.0
+      },
+      "n_fixed_parameter_values": 1,
+      "fixed_parameter_values": {
+        "Om0": 0.3075
+      },
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ]
+    },
+    "K2_NEW": {
+      "mode": "new",
+      "fix_population": false,
+      "per_catalog_pop_params": [
+        "mu_chi_c2"
+      ],
+      "sampled_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "$\\mu_\\chi$_c2",
+        "fcat_2"
+      ],
+      "base_coord": {
+        "H0": 67.74,
+        "log10n0": -24.0,
+        "delta": 0.0,
+        "sigma_kde": 0.0,
+        "log10n0_c2": -24.0,
+        "delta_c2": 0.0,
+        "sigma_kde_c2": 0.0,
+        "$\\mu_\\chi$_c2": 0.0,
+        "fcat_2": 0.0
+      },
+      "n_fixed_parameter_values": 13,
+      "fixed_parameter_values": {
+        "Om0": 0.3075,
+        "$v_1$": 0.1,
+        "$\\alpha_{\\rm PL}$": 2.3,
+        "$m_{\\min,\\rm PL}$": 5.0,
+        "$m_{\\max,\\rm PL}$": 80.0,
+        "$\\delta m_{\\min,\\rm PL}$": 3.0,
+        "$\\delta m_{\\max,\\rm PL}$": 10.0,
+        "$\\mu_{\\rm G}$": 35.0,
+        "$\\sigma_{\\rm G}$": 5.0,
+        "$\\beta$": 1.0,
+        "$\\mu_\\chi$": 0.0,
+        "$\\sigma_\\chi$": 0.1,
+        "$\\gamma$": 0.0
+      },
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ]
+    }
+  },
+  "data": {
+    "nEvents": 1000,
+    "nsamp": 2000,
+    "Ndraw": 150000000.0
+  },
+  "A1_cells": [
+    {
+      "f": 0.0,
+      "old": {
+        "config": "K2_OLD",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "fcat_2": 0.0
+        },
+        "logL": -4204.143251633603,
+        "logL_hex": "-0x1.06c24ac23996cp+12",
+        "seconds": 9.103678464889526,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.804419802168809,
+          "Neff": 514672.32479741675,
+          "pe_variance_sum": 5.3414421374565,
+          "selection_variance_N2_over_Neff": 1.9429838206156043,
+          "sigma2_total": 7.284425958072104,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11805.394208554848
+        },
+        "log_mu": -11.804419802168809,
+        "mu": 7.471462445318051e-06,
+        "Neff": 514672.32479741675,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11805.394208554848,
+        "logL_pe": -16009.53746018845
+      },
+      "new": {
+        "config": "K2_NEW",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 0.0
+        },
+        "logL": -4204.143251633603,
+        "logL_hex": "-0x1.06c24ac23996cp+12",
+        "seconds": 8.839199304580688,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.804419802168809,
+          "Neff": 514672.32479741675,
+          "pe_variance_sum": 5.3414421374565,
+          "selection_variance_N2_over_Neff": 1.9429838206156043,
+          "sigma2_total": 7.284425958072104,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11805.394208554848
+        },
+        "log_mu": -11.804419802168809,
+        "mu": 7.471462445318051e-06,
+        "Neff": 514672.32479741675,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11805.394208554848,
+        "logL_pe": -16009.53746018845
+      },
+      "diff_logL": 0.0,
+      "abs_diff_logL": 0.0,
+      "rel_diff_logL": 0.0,
+      "diff_logL_selection": 0.0,
+      "diff_logL_pe": 0.0,
+      "bitwise_identical": true
+    },
+    {
+      "f": 0.295,
+      "old": {
+        "config": "K2_OLD",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "fcat_2": 0.295
+        },
+        "logL": -4176.213667864911,
+        "logL_hex": "-0x1.05036b2efec00p+12",
+        "seconds": 1.6531519889831543,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.801537936765957,
+          "Neff": 741965.4396161863,
+          "pe_variance_sum": 7.0305440233352865,
+          "selection_variance_N2_over_Neff": 1.3477716704935654,
+          "sigma2_total": 8.378315693828853,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11802.21384425871
+        },
+        "log_mu": -11.801537936765957,
+        "mu": 7.493025250074907e-06,
+        "Neff": 741965.4396161863,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11802.21384425871,
+        "logL_pe": -15978.42751212362
+      },
+      "new": {
+        "config": "K2_NEW",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 0.295
+        },
+        "logL": -4176.213667864913,
+        "logL_hex": "-0x1.05036b2efec02p+12",
+        "seconds": 1.6868877410888672,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.801537936765957,
+          "Neff": 741965.4396161863,
+          "pe_variance_sum": 7.030544023335285,
+          "selection_variance_N2_over_Neff": 1.3477716704935654,
+          "sigma2_total": 8.37831569382885,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11802.21384425871
+        },
+        "log_mu": -11.801537936765957,
+        "mu": 7.493025250074907e-06,
+        "Neff": 741965.4396161863,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11802.21384425871,
+        "logL_pe": -15978.427512123622
+      },
+      "diff_logL": -1.8189894035458565e-12,
+      "abs_diff_logL": 1.8189894035458565e-12,
+      "rel_diff_logL": 4.355594680278451e-16,
+      "diff_logL_selection": 0.0,
+      "diff_logL_pe": -1.8189894035458565e-12,
+      "bitwise_identical": false
+    },
+    {
+      "f": 0.5,
+      "old": {
+        "config": "K2_OLD",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "fcat_2": 0.5
+        },
+        "logL": -4188.400026060974,
+        "logL_hex": "-0x1.05c66681ba16ep+12",
+        "seconds": 1.6471247673034668,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.799540164330782,
+          "Neff": 750341.5576221895,
+          "pe_variance_sum": 10.05882774135618,
+          "selection_variance_N2_over_Neff": 1.3327263961881184,
+          "sigma2_total": 11.391554137544299,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11800.20852661847
+        },
+        "log_mu": -11.799540164330782,
+        "mu": 7.508009572024597e-06,
+        "Neff": 750341.5576221895,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11800.20852661847,
+        "logL_pe": -15988.608552679443
+      },
+      "new": {
+        "config": "K2_NEW",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 0.5
+        },
+        "logL": -4188.4000260609755,
+        "logL_hex": "-0x1.05c66681ba170p+12",
+        "seconds": 1.7000117301940918,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.799540164330782,
+          "Neff": 750341.5576221895,
+          "pe_variance_sum": 10.058827741356179,
+          "selection_variance_N2_over_Neff": 1.3327263961881184,
+          "sigma2_total": 11.391554137544297,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11800.20852661847
+        },
+        "log_mu": -11.799540164330782,
+        "mu": 7.508009572024597e-06,
+        "Neff": 750341.5576221895,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11800.20852661847,
+        "logL_pe": -15988.608552679445
+      },
+      "diff_logL": -1.8189894035458565e-12,
+      "abs_diff_logL": 1.8189894035458565e-12,
+      "rel_diff_logL": 4.342921860920111e-16,
+      "diff_logL_selection": 0.0,
+      "diff_logL_pe": -1.8189894035458565e-12,
+      "bitwise_identical": false
+    },
+    {
+      "f": 1.0,
+      "old": {
+        "config": "K2_OLD",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "fcat_2": 1.0
+        },
+        "logL": -5326.0926186264915,
+        "logL_hex": "-0x1.4ce17b5dab3c8p+12",
+        "seconds": 1.6494848728179932,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.794684221780553,
+          "Neff": 378742.41988969396,
+          "pe_variance_sum": 54.75726919912083,
+          "selection_variance_N2_over_Neff": 2.640316868364634,
+          "sigma2_total": 57.39758606748546,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11796.008340690038
+        },
+        "log_mu": -11.794684221780553,
+        "mu": 7.544556698731132e-06,
+        "Neff": 378742.41988969396,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11796.008340690038,
+        "logL_pe": -17122.10095931653
+      },
+      "new": {
+        "config": "K2_NEW",
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 1.0
+        },
+        "logL": -5326.0926186264915,
+        "logL_hex": "-0x1.4ce17b5dab3c8p+12",
+        "seconds": 1.6982166767120361,
+        "finite": true,
+        "n_guard_calls": 1,
+        "guard": {
+          "log_mu": -11.794684221780553,
+          "Neff": 378742.41988969664,
+          "pe_variance_sum": 54.75726919912083,
+          "selection_variance_N2_over_Neff": 2.640316868364615,
+          "sigma2_total": 57.39758606748544,
+          "threshold": 5000.0,
+          "passes": true,
+          "legacy_floor_5N": 5000.0,
+          "passes_legacy_floor": true,
+          "nEvents": 1000.0,
+          "sel_logL": 11796.008340690038
+        },
+        "log_mu": -11.794684221780553,
+        "mu": 7.544556698731132e-06,
+        "Neff": 378742.41988969664,
+        "threshold": 5000.0,
+        "guard_passes": true,
+        "logL_selection": 11796.008340690038,
+        "logL_pe": -17122.10095931653
+      },
+      "diff_logL": 0.0,
+      "abs_diff_logL": 0.0,
+      "rel_diff_logL": 0.0,
+      "diff_logL_selection": 0.0,
+      "diff_logL_pe": 0.0,
+      "bitwise_identical": true
+    }
+  ],
+  "A4_stored": {
+    "file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_2_complete_catalog_H0_fagn/results/fscan_s100.h5",
+    "n": 101
+  },
+  "A4_grids": {
+    "new": {
+      "logL": [
+        -4204.143251633603,
+        -4198.892677182277,
+        -4195.972441174026,
+        -4193.653153148805,
+        -4191.675110440639,
+        -4189.9352982453365,
+        -4188.379639533743,
+        -4186.975156034005,
+        -4185.6997432637345,
+        -4184.537592803585,
+        -4183.476855932502,
+        -4182.508333299675,
+        -4181.624685587578,
+        -4180.819930550804,
+        -4180.089107683607,
+        -4179.4280461613325,
+        -4178.833199171371,
+        -4178.301522482763,
+        -4177.830383414077,
+        -4177.41749125223,
+        -4177.060843164676,
+        -4176.758681533818,
+        -4176.509459867526,
+        -4176.311815255085,
+        -4176.1645458932035,
+        -4176.066592592766,
+        -4176.017023450026,
+        -4176.015021062542,
+        -4176.059871813817,
+        -4176.150956857005,
+        -4176.287744507936,
+        -4176.469783818478,
+        -4176.696699147908,
+        -4176.968185586202,
+        -4177.284005111693,
+        -4177.6439833881195,
+        -4178.048007124256,
+        -4178.496021933954,
+        -4178.988030646513,
+        -4179.524092027375,
+        -4180.104319877362,
+        -4180.728882486106,
+        -4181.398002421358,
+        -4182.111956641582,
+        -4182.871076924066,
+        -4183.675750605549,
+        -4184.526421636803,
+        -4185.423591956707,
+        -4186.367823195877,
+        -4187.35973872415,
+        -4188.4000260609755,
+        -4189.489439672539,
+        -4190.6288041850785,
+        -4191.819018049544,
+        -4193.06105769979,
+        -4194.355982253865,
+        -4195.7049388169125,
+        -4197.109168454237,
+        -4198.570012915066,
+        -4200.088922201407,
+        -4201.667463092783,
+        -4203.307328757408,
+        -4205.010349603601,
+        -4206.778505553433,
+        -4208.61393995467,
+        -4210.518975388382,
+        -4212.4961316801455,
+        -4214.548146484993,
+        -4216.677998892985,
+        -4218.888936598205,
+        -4221.18450729373,
+        -4223.568595106506,
+        -4226.045463078459,
+        -4228.619802946632,
+        -4231.296793793554,
+        -4234.08217155427,
+        -4236.982311912745,
+        -4240.004329847072,
+        -4243.156200059682,
+        -4246.446903858276,
+        -4249.886609885571,
+        -4253.486898658106,
+        -4257.261044511919,
+        -4261.224373805679,
+        -4265.3947259592405,
+        -4269.793055510938,
+        -4274.444231210031,
+        -4279.378116280202,
+        -4284.631059635329,
+        -4290.248004419507,
+        -4296.285553745338,
+        -4302.816576742631,
+        -4309.937404955646,
+        -4317.779623327464,
+        -4326.530565176732,
+        -4336.471734236278,
+        -4348.058458645844,
+        -4362.110153800322,
+        -4380.375652638266,
+        -4408.043890836354,
+        -5326.0926186264915
+      ],
+      "guard": [
+        {
+          "log_mu": -11.804419802168809,
+          "Neff": 514672.32479741675,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.394208554848,
+          "logL_pe": -16009.53746018845
+        },
+        {
+          "log_mu": -11.804321975700791,
+          "Neff": 523116.920213362,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.28065239547,
+          "logL_pe": -16004.173329577747
+        },
+        {
+          "log_mu": -11.804224158801855,
+          "Neff": 531620.0635843172,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.16750167838,
+          "logL_pe": -16001.139942852406
+        },
+        {
+          "log_mu": -11.80412635147013,
+          "Neff": 540173.9132696331,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.05475617032,
+          "logL_pe": -15998.707909319126
+        },
+        {
+          "log_mu": -11.804028553703743,
+          "Neff": 548769.984951918,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.942415638165,
+          "logL_pe": -15996.617526078804
+        },
+        {
+          "log_mu": -11.803930765500823,
+          "Neff": 557399.1356948033,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.830479848917,
+          "logL_pe": -15994.765778094254
+        },
+        {
+          "log_mu": -11.8038329868595,
+          "Neff": 566051.5507723715,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.718948569729,
+          "logL_pe": -15993.098588103472
+        },
+        {
+          "log_mu": -11.803735217777907,
+          "Neff": 574716.7337126714,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.607821567883,
+          "logL_pe": -15991.582977601887
+        },
+        {
+          "log_mu": -11.803637458254173,
+          "Neff": 583383.5000154526,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.497098610793,
+          "logL_pe": -15990.196841874527
+        },
+        {
+          "log_mu": -11.803539708286428,
+          "Neff": 592039.9750167424,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.386779466015,
+          "logL_pe": -15988.9243722696
+        },
+        {
+          "log_mu": -11.803441967872805,
+          "Neff": 600673.5963791809,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.276863901236,
+          "logL_pe": -15987.753719833738
+        },
+        {
+          "log_mu": -11.803344237011437,
+          "Neff": 609271.1216865683,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.16735168428,
+          "logL_pe": -15986.675684983955
+        },
+        {
+          "log_mu": -11.803246515700458,
+          "Neff": 617818.6416114555,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.05824258311,
+          "logL_pe": -15985.682928170689
+        },
+        {
+          "log_mu": -11.803148803938,
+          "Neff": 626301.5991065624,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.94953636582,
+          "logL_pe": -15984.769466916625
+        },
+        {
+          "log_mu": -11.803051101722199,
+          "Neff": 634704.8150410401,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.841232800638,
+          "logL_pe": -15983.930340484245
+        },
+        {
+          "log_mu": -11.802953409051186,
+          "Neff": 643012.5206624774,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.733331655932,
+          "logL_pe": -15983.161377817265
+        },
+        {
+          "log_mu": -11.8028557259231,
+          "Neff": 651208.3972124686,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.625832700203,
+          "logL_pe": -15982.459031871575
+        },
+        {
+          "log_mu": -11.802758052336074,
+          "Neff": 659275.6229577904,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.518735702084,
+          "logL_pe": -15981.820258184847
+        },
+        {
+          "log_mu": -11.802660388288247,
+          "Neff": 667196.9278208123,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.412040430348,
+          "logL_pe": -15981.242423844426
+        },
+        {
+          "log_mu": -11.802562733777755,
+          "Neff": 674954.6557006224,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.305746653901,
+          "logL_pe": -15980.723237906132
+        },
+        {
+          "log_mu": -11.802465088802737,
+          "Neff": 682530.8344722514,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.199854141783,
+          "logL_pe": -15980.26069730646
+        },
+        {
+          "log_mu": -11.802367453361326,
+          "Neff": 689907.2535350986,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.094362663163,
+          "logL_pe": -15979.853044196982
+        },
+        {
+          "log_mu": -11.802269827451665,
+          "Neff": 697065.5486552191,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.989271987359,
+          "logL_pe": -15979.498731854885
+        },
+        {
+          "log_mu": -11.802172211071893,
+          "Neff": 703987.2937111717,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.884581883809,
+          "logL_pe": -15979.196397138894
+        },
+        {
+          "log_mu": -11.802074604220149,
+          "Neff": 710654.0988116463,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.780292122094,
+          "logL_pe": -15978.944838015297
+        },
+        {
+          "log_mu": -11.801977006894571,
+          "Neff": 717047.714108612,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.676402471925,
+          "logL_pe": -15978.742995064691
+        },
+        {
+          "log_mu": -11.8018794190933,
+          "Neff": 723150.138484919,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.572912703148,
+          "logL_pe": -15978.589936153174
+        },
+        {
+          "log_mu": -11.801781840814481,
+          "Neff": 728943.7321539556,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.469822585746,
+          "logL_pe": -15978.484843648288
+        },
+        {
+          "log_mu": -11.801684272056253,
+          "Neff": 734411.3320753644,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.367131889832,
+          "logL_pe": -15978.42700370365
+        },
+        {
+          "log_mu": -11.801586712816759,
+          "Neff": 739536.3689685947,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.264840385656,
+          "logL_pe": -15978.415797242662
+        },
+        {
+          "log_mu": -11.801489163094141,
+          "Neff": 744302.984599929,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.162947843599,
+          "logL_pe": -15978.450692351535
+        },
+        {
+          "log_mu": -11.801391622886543,
+          "Neff": 748696.1479321893,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.06145403418,
+          "logL_pe": -15978.531237852658
+        },
+        {
+          "log_mu": -11.80129409219211,
+          "Neff": 752701.768663748,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.960358728045,
+          "logL_pe": -15978.657057875953
+        },
+        {
+          "log_mu": -11.801196571008987,
+          "Neff": 756306.806647943,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.859661695982,
+          "logL_pe": -15978.827847282184
+        },
+        {
+          "log_mu": -11.801099059335316,
+          "Neff": 759499.3756782269,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.759362708906,
+          "logL_pe": -15979.043367820599
+        },
+        {
+          "log_mu": -11.801001557169243,
+          "Neff": 762268.840150543,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.659461537867,
+          "logL_pe": -15979.303444925987
+        },
+        {
+          "log_mu": -11.80090406450892,
+          "Neff": 764605.9031732323,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.559957954052,
+          "logL_pe": -15979.607965078309
+        },
+        {
+          "log_mu": -11.800806581352486,
+          "Neff": 766502.6847868162,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.460851728772,
+          "logL_pe": -15979.956873662726
+        },
+        {
+          "log_mu": -11.800709107698092,
+          "Neff": 767952.7890795405,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.362142633483,
+          "logL_pe": -15980.350173279996
+        },
+        {
+          "log_mu": -11.800611643543885,
+          "Neff": 768951.359138348,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.263830439766,
+          "logL_pe": -15980.787922467141
+        },
+        {
+          "log_mu": -11.800514188888014,
+          "Neff": 769495.1189549636,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.165914919338,
+          "logL_pe": -15981.2702347967
+        },
+        {
+          "log_mu": -11.800416743728627,
+          "Neff": 769582.4016096916,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.068395844048,
+          "logL_pe": -15981.797278330154
+        },
+        {
+          "log_mu": -11.800319308063877,
+          "Neff": 769213.1632756196,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.971272985882,
+          "logL_pe": -15982.36927540724
+        },
+        {
+          "log_mu": -11.800221881891908,
+          "Neff": 768388.982818441,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.874546116947,
+          "logL_pe": -15982.98650275853
+        },
+        {
+          "log_mu": -11.800124465210873,
+          "Neff": 767113.0470048942,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.778215009495,
+          "logL_pe": -15983.649291933561
+        },
+        {
+          "log_mu": -11.800027058018923,
+          "Neff": 765390.1215707398,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.682279435905,
+          "logL_pe": -15984.358030041454
+        },
+        {
+          "log_mu": -11.799929660314213,
+          "Neff": 763226.5086298698,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.586739168693,
+          "logL_pe": -15985.113160805497
+        },
+        {
+          "log_mu": -11.79983227209489,
+          "Neff": 760629.9911245062,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.4915939805,
+          "logL_pe": -15985.915185937207
+        },
+        {
+          "log_mu": -11.799734893359108,
+          "Neff": 757609.7652160492,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.396843644105,
+          "logL_pe": -15986.764666839981
+        },
+        {
+          "log_mu": -11.799637524105021,
+          "Neff": 754176.3616930267,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.302487932413,
+          "logL_pe": -15987.662226656563
+        },
+        {
+          "log_mu": -11.799540164330782,
+          "Neff": 750341.5576221895,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.20852661847,
+          "logL_pe": -15988.608552679445
+        },
+        {
+          "log_mu": -11.799442814034549,
+          "Neff": 746118.2795882045,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.114959475453,
+          "logL_pe": -15989.604399147993
+        },
+        {
+          "log_mu": -11.799345473214471,
+          "Neff": 741520.4999549952,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.021786276659,
+          "logL_pe": -15990.650590461737
+        },
+        {
+          "log_mu": -11.799248141868706,
+          "Neff": 736563.127636322,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.92900679553,
+          "logL_pe": -15991.748024845074
+        },
+        {
+          "log_mu": -11.799150819995411,
+          "Neff": 731261.8948852563,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.836620805638,
+          "logL_pe": -15992.897678505427
+        },
+        {
+          "log_mu": -11.799053507592742,
+          "Neff": 725633.2416025918,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.74462808068,
+          "logL_pe": -15994.100610334544
+        },
+        {
+          "log_mu": -11.798956204658854,
+          "Neff": 719694.198625522,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.653028394489,
+          "logL_pe": -15995.357967211401
+        },
+        {
+          "log_mu": -11.798858911191905,
+          "Neff": 713462.2713924069,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.561821521025,
+          "logL_pe": -15996.670989975262
+        },
+        {
+          "log_mu": -11.798761627190055,
+          "Neff": 706955.325291148,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.471007234393,
+          "logL_pe": -15998.04102014946
+        },
+        {
+          "log_mu": -11.79866435265146,
+          "Neff": 700191.4738906724,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.380585308812,
+          "logL_pe": -15999.469507510219
+        },
+        {
+          "log_mu": -11.798567087574282,
+          "Neff": 693188.9711324096,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.290555518644,
+          "logL_pe": -16000.958018611427
+        },
+        {
+          "log_mu": -11.79846983195668,
+          "Neff": 685966.1084244014,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.200917638378,
+          "logL_pe": -16002.508246395786
+        },
+        {
+          "log_mu": -11.798372585796812,
+          "Neff": 678541.1174400152,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.111671442635,
+          "logL_pe": -16004.122021046236
+        },
+        {
+          "log_mu": -11.79827534909284,
+          "Neff": 670932.0792791774,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.022816706163,
+          "logL_pe": -16005.801322259596
+        },
+        {
+          "log_mu": -11.798178121842927,
+          "Neff": 663156.84050683,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.934353203847,
+          "logL_pe": -16007.548293158517
+        },
+        {
+          "log_mu": -11.79808090404523,
+          "Neff": 655232.9364436504,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.846280710697,
+          "logL_pe": -16009.36525609908
+        },
+        {
+          "log_mu": -11.797983695697917,
+          "Neff": 647177.5219509093,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.758599001865,
+          "logL_pe": -16011.25473068201
+        },
+        {
+          "log_mu": -11.797886496799148,
+          "Neff": 639007.3098271724,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.671307852617,
+          "logL_pe": -16013.21945433761
+        },
+        {
+          "log_mu": -11.797789307347085,
+          "Neff": 630738.5168203,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.584407038361,
+          "logL_pe": -16015.262405931346
+        },
+        {
+          "log_mu": -11.797692127339895,
+          "Neff": 622386.8171564933,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.497896334635,
+          "logL_pe": -16017.38683293284
+        },
+        {
+          "log_mu": -11.797594956775741,
+          "Neff": 613967.3033981815,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.411775517105,
+          "logL_pe": -16019.596282810835
+        },
+        {
+          "log_mu": -11.797497795652788,
+          "Neff": 605494.4543660564,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.326044361564,
+          "logL_pe": -16021.89463946807
+        },
+        {
+          "log_mu": -11.797400643969203,
+          "Neff": 596982.1097967835,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.240702643943,
+          "logL_pe": -16024.286165722402
+        },
+        {
+          "log_mu": -11.79730350172315,
+          "Neff": 588443.4513568105,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.155750140297,
+          "logL_pe": -16026.775553086929
+        },
+        {
+          "log_mu": -11.797206368912795,
+          "Neff": 579890.9895935665,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.071186626814,
+          "logL_pe": -16029.367980420368
+        },
+        {
+          "log_mu": -11.797109245536308,
+          "Neff": 571336.5563775563,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.98701187981,
+          "logL_pe": -16032.06918343408
+        },
+        {
+          "log_mu": -11.797012131591856,
+          "Neff": 562791.302371198,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.903225675733,
+          "logL_pe": -16034.885537588478
+        },
+        {
+          "log_mu": -11.796915027077604,
+          "Neff": 554265.6990520955,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.819827791156,
+          "logL_pe": -16037.824157638228
+        },
+        {
+          "log_mu": -11.796817931991724,
+          "Neff": 545769.5448180555,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.736818002792,
+          "logL_pe": -16040.893018062474
+        },
+        {
+          "log_mu": -11.796720846332384,
+          "Neff": 537311.9747082146,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.654196087473,
+          "logL_pe": -16044.101099945749
+        },
+        {
+          "log_mu": -11.796623770097755,
+          "Neff": 528901.4732873234,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.571961822166,
+          "logL_pe": -16047.458571707737
+        },
+        {
+          "log_mu": -11.796526703286007,
+          "Neff": 520545.8902577933,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.490114983968,
+          "logL_pe": -16050.977013642074
+        },
+        {
+          "log_mu": -11.79642964589531,
+          "Neff": 512252.4583856143,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.408655350102,
+          "logL_pe": -16054.669699862021
+        },
+        {
+          "log_mu": -11.796332597923836,
+          "Neff": 504027.81335058244,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.327582697922,
+          "logL_pe": -16058.551956503601
+        },
+        {
+          "log_mu": -11.796235559369759,
+          "Neff": 495878.01515769836,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.246896804916,
+          "logL_pe": -16062.641622764157
+        },
+        {
+          "log_mu": -11.796138530231246,
+          "Neff": 487808.5707743413,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.166597448688,
+          "logL_pe": -16066.959652959626
+        },
+        {
+          "log_mu": -11.796041510506475,
+          "Neff": 479824.45768611896,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.086684406984,
+          "logL_pe": -16071.530915617015
+        },
+        {
+          "log_mu": -11.795944500193617,
+          "Neff": 471930.14809297665,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.007157457676,
+          "logL_pe": -16076.385273737878
+        },
+        {
+          "log_mu": -11.795847499290847,
+          "Neff": 464129.63349511306,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.928016378764,
+          "logL_pe": -16081.559076014093
+        },
+        {
+          "log_mu": -11.79575050779634,
+          "Neff": 456426.4494456953,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.849260948373,
+          "logL_pe": -16087.09726536788
+        },
+        {
+          "log_mu": -11.795653525708271,
+          "Neff": 448823.7002736781,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.770890944763,
+          "logL_pe": -16093.0564446901
+        },
+        {
+          "log_mu": -11.795556553024815,
+          "Neff": 441324.08360506507,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.69290614632,
+          "logL_pe": -16099.50948288895
+        },
+        {
+          "log_mu": -11.795459589744146,
+          "Neff": 433929.91453444585,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.615306331554,
+          "logL_pe": -16106.5527112872
+        },
+        {
+          "log_mu": -11.795362635864446,
+          "Neff": 426643.1493206756,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.538091279115,
+          "logL_pe": -16114.31771460658
+        },
+        {
+          "log_mu": -11.79526569138389,
+          "Neff": 419465.4085008469,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.461260767768,
+          "logL_pe": -16122.9918259445
+        },
+        {
+          "log_mu": -11.795168756300653,
+          "Neff": 412397.999335296,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.384814576417,
+          "logL_pe": -16132.856548812695
+        },
+        {
+          "log_mu": -11.795071830612917,
+          "Neff": 405441.9375133246,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.308752484087,
+          "logL_pe": -16144.367211129931
+        },
+        {
+          "log_mu": -11.79497491431886,
+          "Neff": 398597.96806474874,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.233074269938,
+          "logL_pe": -16158.34322807026
+        },
+        {
+          "log_mu": -11.79487800741666,
+          "Neff": 391866.5854358726,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.15777971325,
+          "logL_pe": -16176.533432351516
+        },
+        {
+          "log_mu": -11.794781109904498,
+          "Neff": 385248.05270079075,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.082868593436,
+          "logL_pe": -16204.12675942979
+        },
+        {
+          "log_mu": -11.794684221780553,
+          "Neff": 378742.41988969664,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.008340690038,
+          "logL_pe": -17122.10095931653
+        }
+      ],
+      "seconds": 172.6439118385315
+    },
+    "old": {
+      "logL": [
+        -4204.143251633603,
+        -4198.892677182277,
+        -4195.972441174026,
+        -4193.653153148805,
+        -4191.675110440639,
+        -4189.9352982453365,
+        -4188.379639533743,
+        -4186.975156034005,
+        -4185.6997432637345,
+        -4184.537592803585,
+        -4183.476855932502,
+        -4182.508333299675,
+        -4181.624685587578,
+        -4180.819930550804,
+        -4180.089107683607,
+        -4179.428046161334,
+        -4178.833199171369,
+        -4178.301522482763,
+        -4177.830383414077,
+        -4177.41749125223,
+        -4177.060843164676,
+        -4176.758681533818,
+        -4176.509459867526,
+        -4176.311815255085,
+        -4176.164545893205,
+        -4176.066592592766,
+        -4176.017023450026,
+        -4176.015021062542,
+        -4176.059871813817,
+        -4176.150956857007,
+        -4176.287744507936,
+        -4176.469783818478,
+        -4176.696699147908,
+        -4176.968185586202,
+        -4177.284005111693,
+        -4177.6439833881195,
+        -4178.048007124258,
+        -4178.496021933954,
+        -4178.988030646513,
+        -4179.524092027375,
+        -4180.104319877362,
+        -4180.728882486106,
+        -4181.398002421358,
+        -4182.111956641584,
+        -4182.871076924064,
+        -4183.675750605549,
+        -4184.526421636803,
+        -4185.423591956707,
+        -4186.367823195877,
+        -4187.35973872415,
+        -4188.400026060974,
+        -4189.489439672539,
+        -4190.6288041850785,
+        -4191.819018049544,
+        -4193.06105769979,
+        -4194.355982253865,
+        -4195.7049388169125,
+        -4197.109168454235,
+        -4198.570012915066,
+        -4200.088922201407,
+        -4201.667463092783,
+        -4203.307328757408,
+        -4205.010349603601,
+        -4206.778505553433,
+        -4208.61393995467,
+        -4210.518975388382,
+        -4212.4961316801455,
+        -4214.548146484993,
+        -4216.677998892985,
+        -4218.888936598205,
+        -4221.18450729373,
+        -4223.568595106506,
+        -4226.045463078459,
+        -4228.61980294663,
+        -4231.296793793554,
+        -4234.08217155427,
+        -4236.982311912745,
+        -4240.004329847072,
+        -4243.1562000596805,
+        -4246.446903858276,
+        -4249.886609885571,
+        -4253.486898658106,
+        -4257.261044511919,
+        -4261.224373805679,
+        -4265.3947259592405,
+        -4269.79305551094,
+        -4274.444231210033,
+        -4279.378116280202,
+        -4284.631059635329,
+        -4290.248004419507,
+        -4296.28555374534,
+        -4302.816576742633,
+        -4309.937404955646,
+        -4317.779623327464,
+        -4326.530565176732,
+        -4336.471734236278,
+        -4348.058458645844,
+        -4362.110153800322,
+        -4380.375652638266,
+        -4408.043890836354,
+        -5326.0926186264915
+      ],
+      "guard": [
+        {
+          "log_mu": -11.804419802168809,
+          "Neff": 514672.32479741675,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.394208554848,
+          "logL_pe": -16009.53746018845
+        },
+        {
+          "log_mu": -11.804321975700791,
+          "Neff": 523116.920213362,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.28065239547,
+          "logL_pe": -16004.173329577747
+        },
+        {
+          "log_mu": -11.804224158801855,
+          "Neff": 531620.0635843172,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.16750167838,
+          "logL_pe": -16001.139942852406
+        },
+        {
+          "log_mu": -11.80412635147013,
+          "Neff": 540173.9132696331,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11805.05475617032,
+          "logL_pe": -15998.707909319126
+        },
+        {
+          "log_mu": -11.804028553703743,
+          "Neff": 548769.984951918,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.942415638165,
+          "logL_pe": -15996.617526078804
+        },
+        {
+          "log_mu": -11.803930765500823,
+          "Neff": 557399.1356948033,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.830479848917,
+          "logL_pe": -15994.765778094254
+        },
+        {
+          "log_mu": -11.8038329868595,
+          "Neff": 566051.5507723715,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.718948569729,
+          "logL_pe": -15993.098588103472
+        },
+        {
+          "log_mu": -11.803735217777907,
+          "Neff": 574716.7337126714,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.607821567883,
+          "logL_pe": -15991.582977601887
+        },
+        {
+          "log_mu": -11.803637458254173,
+          "Neff": 583383.5000154526,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.497098610793,
+          "logL_pe": -15990.196841874527
+        },
+        {
+          "log_mu": -11.803539708286428,
+          "Neff": 592039.9750167424,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.386779466015,
+          "logL_pe": -15988.9243722696
+        },
+        {
+          "log_mu": -11.803441967872805,
+          "Neff": 600673.5963791809,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.276863901236,
+          "logL_pe": -15987.753719833738
+        },
+        {
+          "log_mu": -11.803344237011437,
+          "Neff": 609271.1216865683,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.16735168428,
+          "logL_pe": -15986.675684983955
+        },
+        {
+          "log_mu": -11.803246515700458,
+          "Neff": 617818.6416114555,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11804.05824258311,
+          "logL_pe": -15985.682928170689
+        },
+        {
+          "log_mu": -11.803148803938,
+          "Neff": 626301.5991065624,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.94953636582,
+          "logL_pe": -15984.769466916625
+        },
+        {
+          "log_mu": -11.803051101722199,
+          "Neff": 634704.8150410401,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.841232800638,
+          "logL_pe": -15983.930340484245
+        },
+        {
+          "log_mu": -11.802953409051185,
+          "Neff": 643012.5206624797,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.73333165593,
+          "logL_pe": -15983.161377817265
+        },
+        {
+          "log_mu": -11.8028557259231,
+          "Neff": 651208.3972124686,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.625832700203,
+          "logL_pe": -15982.459031871573
+        },
+        {
+          "log_mu": -11.802758052336074,
+          "Neff": 659275.6229577904,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.518735702084,
+          "logL_pe": -15981.820258184847
+        },
+        {
+          "log_mu": -11.802660388288247,
+          "Neff": 667196.9278208123,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.412040430348,
+          "logL_pe": -15981.242423844426
+        },
+        {
+          "log_mu": -11.802562733777755,
+          "Neff": 674954.6557006224,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.305746653901,
+          "logL_pe": -15980.723237906132
+        },
+        {
+          "log_mu": -11.802465088802736,
+          "Neff": 682530.8344722538,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.199854141782,
+          "logL_pe": -15980.260697306458
+        },
+        {
+          "log_mu": -11.802367453361326,
+          "Neff": 689907.2535350986,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11803.094362663163,
+          "logL_pe": -15979.853044196982
+        },
+        {
+          "log_mu": -11.802269827451665,
+          "Neff": 697065.5486552191,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.989271987359,
+          "logL_pe": -15979.498731854885
+        },
+        {
+          "log_mu": -11.802172211071893,
+          "Neff": 703987.2937111717,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.884581883809,
+          "logL_pe": -15979.196397138894
+        },
+        {
+          "log_mu": -11.802074604220147,
+          "Neff": 710654.0988116489,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.780292122092,
+          "logL_pe": -15978.944838015297
+        },
+        {
+          "log_mu": -11.801977006894571,
+          "Neff": 717047.714108612,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.676402471925,
+          "logL_pe": -15978.742995064691
+        },
+        {
+          "log_mu": -11.8018794190933,
+          "Neff": 723150.138484919,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.572912703148,
+          "logL_pe": -15978.589936153174
+        },
+        {
+          "log_mu": -11.801781840814481,
+          "Neff": 728943.7321539556,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.469822585746,
+          "logL_pe": -15978.484843648288
+        },
+        {
+          "log_mu": -11.801684272056253,
+          "Neff": 734411.3320753644,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.367131889832,
+          "logL_pe": -15978.42700370365
+        },
+        {
+          "log_mu": -11.801586712816757,
+          "Neff": 739536.3689685974,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.264840385655,
+          "logL_pe": -15978.415797242662
+        },
+        {
+          "log_mu": -11.801489163094141,
+          "Neff": 744302.984599929,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.162947843599,
+          "logL_pe": -15978.450692351535
+        },
+        {
+          "log_mu": -11.801391622886543,
+          "Neff": 748696.1479321893,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11802.06145403418,
+          "logL_pe": -15978.531237852658
+        },
+        {
+          "log_mu": -11.80129409219211,
+          "Neff": 752701.768663748,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.960358728045,
+          "logL_pe": -15978.657057875953
+        },
+        {
+          "log_mu": -11.801196571008987,
+          "Neff": 756306.806647943,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.859661695982,
+          "logL_pe": -15978.827847282184
+        },
+        {
+          "log_mu": -11.801099059335316,
+          "Neff": 759499.3756782269,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.759362708906,
+          "logL_pe": -15979.043367820599
+        },
+        {
+          "log_mu": -11.801001557169243,
+          "Neff": 762268.840150543,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.659461537867,
+          "logL_pe": -15979.303444925987
+        },
+        {
+          "log_mu": -11.800904064508918,
+          "Neff": 764605.903173235,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.55995795405,
+          "logL_pe": -15979.607965078309
+        },
+        {
+          "log_mu": -11.800806581352486,
+          "Neff": 766502.6847868162,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.460851728772,
+          "logL_pe": -15979.956873662726
+        },
+        {
+          "log_mu": -11.800709107698092,
+          "Neff": 767952.7890795405,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.362142633483,
+          "logL_pe": -15980.350173279996
+        },
+        {
+          "log_mu": -11.800611643543885,
+          "Neff": 768951.359138348,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.263830439766,
+          "logL_pe": -15980.787922467141
+        },
+        {
+          "log_mu": -11.800514188888014,
+          "Neff": 769495.1189549636,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.165914919338,
+          "logL_pe": -15981.2702347967
+        },
+        {
+          "log_mu": -11.800416743728627,
+          "Neff": 769582.4016096916,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11801.068395844048,
+          "logL_pe": -15981.797278330154
+        },
+        {
+          "log_mu": -11.800319308063877,
+          "Neff": 769213.1632756196,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.971272985882,
+          "logL_pe": -15982.36927540724
+        },
+        {
+          "log_mu": -11.800221881891906,
+          "Neff": 768388.9828184438,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.874546116946,
+          "logL_pe": -15982.98650275853
+        },
+        {
+          "log_mu": -11.800124465210873,
+          "Neff": 767113.0470048942,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.778215009495,
+          "logL_pe": -15983.64929193356
+        },
+        {
+          "log_mu": -11.800027058018923,
+          "Neff": 765390.1215707343,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.682279435905,
+          "logL_pe": -15984.358030041454
+        },
+        {
+          "log_mu": -11.799929660314213,
+          "Neff": 763226.5086298698,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.586739168693,
+          "logL_pe": -15985.113160805497
+        },
+        {
+          "log_mu": -11.79983227209489,
+          "Neff": 760629.9911245062,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.4915939805,
+          "logL_pe": -15985.915185937207
+        },
+        {
+          "log_mu": -11.799734893359108,
+          "Neff": 757609.7652160492,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.396843644105,
+          "logL_pe": -15986.764666839981
+        },
+        {
+          "log_mu": -11.799637524105021,
+          "Neff": 754176.3616930267,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.302487932413,
+          "logL_pe": -15987.662226656563
+        },
+        {
+          "log_mu": -11.799540164330782,
+          "Neff": 750341.5576221895,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.20852661847,
+          "logL_pe": -15988.608552679443
+        },
+        {
+          "log_mu": -11.799442814034549,
+          "Neff": 746118.2795882045,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.114959475453,
+          "logL_pe": -15989.604399147993
+        },
+        {
+          "log_mu": -11.799345473214471,
+          "Neff": 741520.4999549952,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11800.021786276659,
+          "logL_pe": -15990.650590461737
+        },
+        {
+          "log_mu": -11.799248141868706,
+          "Neff": 736563.127636322,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.92900679553,
+          "logL_pe": -15991.748024845074
+        },
+        {
+          "log_mu": -11.799150819995411,
+          "Neff": 731261.8948852563,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.836620805638,
+          "logL_pe": -15992.897678505427
+        },
+        {
+          "log_mu": -11.799053507592742,
+          "Neff": 725633.2416025918,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.74462808068,
+          "logL_pe": -15994.100610334544
+        },
+        {
+          "log_mu": -11.798956204658854,
+          "Neff": 719694.198625522,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.653028394489,
+          "logL_pe": -15995.357967211401
+        },
+        {
+          "log_mu": -11.798858911191905,
+          "Neff": 713462.2713924069,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.561821521025,
+          "logL_pe": -15996.67098997526
+        },
+        {
+          "log_mu": -11.798761627190055,
+          "Neff": 706955.325291148,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.471007234393,
+          "logL_pe": -15998.04102014946
+        },
+        {
+          "log_mu": -11.79866435265146,
+          "Neff": 700191.4738906724,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.380585308812,
+          "logL_pe": -15999.469507510219
+        },
+        {
+          "log_mu": -11.798567087574282,
+          "Neff": 693188.9711324096,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.290555518644,
+          "logL_pe": -16000.958018611427
+        },
+        {
+          "log_mu": -11.79846983195668,
+          "Neff": 685966.1084244014,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.200917638378,
+          "logL_pe": -16002.508246395786
+        },
+        {
+          "log_mu": -11.798372585796812,
+          "Neff": 678541.1174400152,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.111671442635,
+          "logL_pe": -16004.122021046236
+        },
+        {
+          "log_mu": -11.79827534909284,
+          "Neff": 670932.0792791774,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11799.022816706163,
+          "logL_pe": -16005.801322259596
+        },
+        {
+          "log_mu": -11.798178121842927,
+          "Neff": 663156.84050683,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.934353203847,
+          "logL_pe": -16007.548293158517
+        },
+        {
+          "log_mu": -11.79808090404523,
+          "Neff": 655232.9364436457,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.846280710697,
+          "logL_pe": -16009.36525609908
+        },
+        {
+          "log_mu": -11.797983695697917,
+          "Neff": 647177.5219509093,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.758599001865,
+          "logL_pe": -16011.25473068201
+        },
+        {
+          "log_mu": -11.797886496799148,
+          "Neff": 639007.3098271724,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.671307852617,
+          "logL_pe": -16013.21945433761
+        },
+        {
+          "log_mu": -11.797789307347085,
+          "Neff": 630738.5168203,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.584407038361,
+          "logL_pe": -16015.262405931346
+        },
+        {
+          "log_mu": -11.797692127339895,
+          "Neff": 622386.8171564889,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.497896334635,
+          "logL_pe": -16017.38683293284
+        },
+        {
+          "log_mu": -11.797594956775741,
+          "Neff": 613967.3033981815,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.411775517105,
+          "logL_pe": -16019.596282810835
+        },
+        {
+          "log_mu": -11.797497795652788,
+          "Neff": 605494.4543660564,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.326044361564,
+          "logL_pe": -16021.89463946807
+        },
+        {
+          "log_mu": -11.797400643969203,
+          "Neff": 596982.1097967835,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.240702643943,
+          "logL_pe": -16024.286165722402
+        },
+        {
+          "log_mu": -11.79730350172315,
+          "Neff": 588443.4513568105,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.155750140297,
+          "logL_pe": -16026.775553086927
+        },
+        {
+          "log_mu": -11.797206368912795,
+          "Neff": 579890.9895935665,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11798.071186626814,
+          "logL_pe": -16029.367980420368
+        },
+        {
+          "log_mu": -11.797109245536308,
+          "Neff": 571336.5563775563,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.98701187981,
+          "logL_pe": -16032.06918343408
+        },
+        {
+          "log_mu": -11.797012131591856,
+          "Neff": 562791.302371198,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.903225675733,
+          "logL_pe": -16034.885537588478
+        },
+        {
+          "log_mu": -11.796915027077604,
+          "Neff": 554265.6990520955,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.819827791156,
+          "logL_pe": -16037.824157638228
+        },
+        {
+          "log_mu": -11.796817931991724,
+          "Neff": 545769.5448180555,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.736818002792,
+          "logL_pe": -16040.893018062472
+        },
+        {
+          "log_mu": -11.796720846332384,
+          "Neff": 537311.9747082146,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.654196087473,
+          "logL_pe": -16044.101099945749
+        },
+        {
+          "log_mu": -11.796623770097755,
+          "Neff": 528901.4732873234,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.571961822166,
+          "logL_pe": -16047.458571707737
+        },
+        {
+          "log_mu": -11.796526703286007,
+          "Neff": 520545.8902577933,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.490114983968,
+          "logL_pe": -16050.977013642074
+        },
+        {
+          "log_mu": -11.79642964589531,
+          "Neff": 512252.4583856143,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.408655350102,
+          "logL_pe": -16054.669699862021
+        },
+        {
+          "log_mu": -11.796332597923836,
+          "Neff": 504027.81335058244,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.327582697922,
+          "logL_pe": -16058.551956503601
+        },
+        {
+          "log_mu": -11.796235559369759,
+          "Neff": 495878.01515769836,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.246896804916,
+          "logL_pe": -16062.641622764157
+        },
+        {
+          "log_mu": -11.796138530231245,
+          "Neff": 487808.570774343,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.166597448686,
+          "logL_pe": -16066.959652959626
+        },
+        {
+          "log_mu": -11.796041510506473,
+          "Neff": 479824.45768611727,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.086684406982,
+          "logL_pe": -16071.530915617015
+        },
+        {
+          "log_mu": -11.795944500193617,
+          "Neff": 471930.14809297665,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11797.007157457676,
+          "logL_pe": -16076.385273737878
+        },
+        {
+          "log_mu": -11.795847499290847,
+          "Neff": 464129.63349511306,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.928016378764,
+          "logL_pe": -16081.559076014093
+        },
+        {
+          "log_mu": -11.79575050779634,
+          "Neff": 456426.4494456953,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.849260948373,
+          "logL_pe": -16087.09726536788
+        },
+        {
+          "log_mu": -11.79565352570827,
+          "Neff": 448823.7002736797,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.770890944761,
+          "logL_pe": -16093.0564446901
+        },
+        {
+          "log_mu": -11.795556553024813,
+          "Neff": 441324.08360506664,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.692906146318,
+          "logL_pe": -16099.50948288895
+        },
+        {
+          "log_mu": -11.795459589744146,
+          "Neff": 433929.91453444585,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.615306331554,
+          "logL_pe": -16106.5527112872
+        },
+        {
+          "log_mu": -11.795362635864446,
+          "Neff": 426643.1493206756,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.538091279115,
+          "logL_pe": -16114.31771460658
+        },
+        {
+          "log_mu": -11.79526569138389,
+          "Neff": 419465.4085008469,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.461260767768,
+          "logL_pe": -16122.9918259445
+        },
+        {
+          "log_mu": -11.795168756300653,
+          "Neff": 412397.999335296,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.384814576417,
+          "logL_pe": -16132.856548812695
+        },
+        {
+          "log_mu": -11.795071830612917,
+          "Neff": 405441.9375133246,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.308752484087,
+          "logL_pe": -16144.367211129931
+        },
+        {
+          "log_mu": -11.79497491431886,
+          "Neff": 398597.96806474874,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.233074269938,
+          "logL_pe": -16158.34322807026
+        },
+        {
+          "log_mu": -11.79487800741666,
+          "Neff": 391866.5854358726,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.15777971325,
+          "logL_pe": -16176.533432351516
+        },
+        {
+          "log_mu": -11.794781109904498,
+          "Neff": 385248.05270079075,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.082868593436,
+          "logL_pe": -16204.12675942979
+        },
+        {
+          "log_mu": -11.794684221780553,
+          "Neff": 378742.41988969396,
+          "threshold": 5000.0,
+          "guard_passes": true,
+          "logL_selection": 11796.008340690038,
+          "logL_pe": -17122.10095931653
+        }
+      ],
+      "seconds": 168.36744260787964
+    }
+  },
+  "A4_f_grid": [
+    0.0,
+    0.01,
+    0.02,
+    0.03,
+    0.04,
+    0.05,
+    0.06,
+    0.07,
+    0.08,
+    0.09,
+    0.1,
+    0.11,
+    0.12,
+    0.13,
+    0.14,
+    0.15,
+    0.16,
+    0.17,
+    0.18,
+    0.19,
+    0.2,
+    0.21,
+    0.22,
+    0.23,
+    0.24,
+    0.25,
+    0.26,
+    0.27,
+    0.28,
+    0.29,
+    0.3,
+    0.31,
+    0.32,
+    0.33,
+    0.34,
+    0.35000000000000003,
+    0.36,
+    0.37,
+    0.38,
+    0.39,
+    0.4,
+    0.41000000000000003,
+    0.42,
+    0.43,
+    0.44,
+    0.45,
+    0.46,
+    0.47000000000000003,
+    0.48,
+    0.49,
+    0.5,
+    0.51,
+    0.52,
+    0.53,
+    0.54,
+    0.55,
+    0.56,
+    0.5700000000000001,
+    0.58,
+    0.59,
+    0.6,
+    0.61,
+    0.62,
+    0.63,
+    0.64,
+    0.65,
+    0.66,
+    0.67,
+    0.68,
+    0.6900000000000001,
+    0.7000000000000001,
+    0.71,
+    0.72,
+    0.73,
+    0.74,
+    0.75,
+    0.76,
+    0.77,
+    0.78,
+    0.79,
+    0.8,
+    0.81,
+    0.8200000000000001,
+    0.8300000000000001,
+    0.84,
+    0.85,
+    0.86,
+    0.87,
+    0.88,
+    0.89,
+    0.9,
+    0.91,
+    0.92,
+    0.93,
+    0.9400000000000001,
+    0.9500000000000001,
+    0.96,
+    0.97,
+    0.98,
+    0.99,
+    1.0
+  ]
+}
