@@ -2,9 +2,10 @@
 
 ## Current status
 
-**Gates A and B PASSED (2026-09-18). The three inference arms are unblocked and not started.**
+**Gates A, B and C PASSED (2026-09-18). The seed-100 package is COMPLETE and work has
+STOPPED at the owner gate.**
 
-Last passing gate: **B** (marked seed-100 mock integrity, 10/10).
+Last passing gate: **C** (seed-100 marked recovery, C1-C6).
 
 The marked mock is `seed100/events/events_marked_dmu0p10.h5`
 (md5 7dcb8bccba7f7a360a6da2741d4cf9d1). Selection reuses the existing
@@ -223,7 +224,40 @@ equals `dmu_chi` numerically only because the GAL branch's `mu_chi` is pinned at
 - Gate A null/equivalence: **PASS** - evidence `diagnostics/null_equivalence.{json,md}`
 - Gate B marked mock integrity: **PASS** 10/10 - evidence
   `diagnostics/marked_mock_validation.json`, `diagnostics/selection_support.json`
-- Gate C seed-100 recovery: **UNBLOCKED**, not started (next action)
+- Gate C seed-100 recovery: **PASS** (C1-C6) - evidence `results/arm_*.{h5,json}`,
+  `results/event_decomposition.{h5,json}`, `diagnostics/gate_c_guard.json`, `REPORT.md`,
+  `figs/fig_*.{pdf,png}`
+- Owner gate: **REACHED**. Work stopped. Nothing proceeds without an explicit decision.
+
+## Gate C result
+
+On one marked seed-100 dataset the joint arm recovers both planted quantities, with BOTH
+truths (planted and realised) inside the 68% intervals:
+
+    f_AGN     0.261653  [0.216174, 0.308298] 68%   planted 0.30, realised 0.295
+    dmu_chi   0.107386  [0.088587, 0.127960] 68%   planted +0.100, realised +0.111924
+    correlation -0.554, MAP (0.275, +0.1075)
+
+The information split is asymmetric and was measured, not assumed: `f_AGN` is essentially
+all spatial (joint 68% width 0.0921 against spatial-only 0.0915, intrinsic-only 4.85x
+worse), while the spin offset is measured 2.38x better jointly than intrinsically alone
+(0.0394 against 0.0938). Knowing WHICH events are AGN-hosted sharpens the spin
+measurement; the spin mark adds essentially nothing to the host fraction.
+
+Per event the two channels are close to orthogonal (AUC 0.690 spatial, 0.679 intrinsic,
+0.742 combined). The spatial channel has a long negative tail to -295 nats, because an
+event whose localisation volume holds no AGN candidate is excluded from that branch
+outright; the intrinsic channel spans only [-2.93, +2.64], since shifting a spin mean can
+move a branch ratio by at most a few nats.
+
+Selection: 23 of 2501 joint cells guard-rejected, all at f >= 0.750 and dmu >= 0.2350,
+with an upper bound of 3.86e-104 on the posterior mass behind them, so the REGISTERED
+grid stands and no result sits behind a rejected cell. Over the cells that carry the
+posterior the margin is wide: min N_eff/threshold 85.5 at 90% of the mass, 30.7 at
+99.999%.
+
+`P(dmu_chi <= 0)` is 4.85e-11 in the joint arm. It is a posterior probability under this
+model and this grid and is explicitly NOT a sigma claim.
 
 ## Carried into Gate C (all three established by Gate B; see GATES.md for numbers)
 

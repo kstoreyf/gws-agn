@@ -207,42 +207,95 @@ Required:
 
 ## Gate C — seed-100 marked recovery
 
-Status: **BLOCKED ON B**
+Status: **PASS** (2026-09-18, seed 100, local H100; gws-agn `c3bd534`, darksirens
+`af896ca` on the pinned base `2b86a2d`, tree clean). Evidence:
+`results/arm_{J_joint,I_intrinsic,S_spatial}.{h5,json}`,
+`results/event_decomposition.{h5,json}`, `diagnostics/gate_c_guard.json`,
+`diagnostics/event_decomposition.json`, `REPORT.md`.
 
-Exactly three scientific arms:
+Headline: on one marked seed-100 dataset the joint arm recovers **both** planted
+quantities with **both** truths — planted and realised — inside the 68% intervals,
+and the information split is asymmetric: `f_AGN` is essentially all spatial
+(J 0.0921 vs S 0.0915 in 68% width, intrinsic-only 4.85x worse), while the spin
+offset is measured 2.38x better jointly than intrinsically alone (0.0394 vs 0.0938).
 
-- [ ] S: spatial-only;
-- [ ] I: intrinsic-only;
-- [ ] J: joint spatial+intrinsic.
+Exactly three scientific arms, one marked dataset, one likelihood build:
+
+- [x] S: spatial-only — 101 cells, `logL_max` −4233.939503109996, `f` median 0.264977;
+- [x] I: intrinsic-only — 41 x 61, `logL_max` −4249.502089201707, diagnostic construction;
+- [x] J: joint spatial+intrinsic — 41 x 61, `logL_max` −4211.842592845020, MAP
+      (`f` = 0.275, `dmu_chi` = +0.1075).
+
+Measured, per criterion:
+
+| criterion | the number that decides it | verdict |
+|---|---|---|
+| C1 joint recovery | `f` median 0.261653, 68% [0.216174, 0.308298], 90% [0.187170, 0.339609] — contains planted 0.30 AND realised 0.295. `dmu_chi` median 0.107386, 68% [0.088587, 0.127960], 90% [0.077621, 0.142695] — contains planted +0.100000 AND realised +0.111924 +/- 0.006815 | PASS |
+| C2 null disfavoured only when warranted | `P(dmu_chi <= 0) = 4.85e-11` (arm J; arm I 3.37e-06), reported as a posterior probability under this model and grid and NOT converted to a sigma; marginal density at 0 is 3.04e-10 of peak; zero is not a grid node (neighbours −0.0050, +0.0025) | PASS |
+| C3 spatial arm behaves as expected | vs the recorded unmarked Analysis-2 scan on the identical 101-node grid, `f` median moves −0.001522 (0.266499 -> 0.264977) and `logL` shifts by a nearly constant offset, mean −58.137, s.d. 0.291, range [−58.794, −57.625]; the arm has no access to the mark by construction (`dmu_chi` == 0) | PASS |
+| C4 intrinsic arm behaves as expected | `dmu_chi` median +0.081723, 68% [0.041726, 0.135511], 90% [0.028444, 0.172627] — right sign, right scale, contains planted +0.100000 AND realised +0.111924. Read with the `q` confound below | PASS |
+| C5 joint information is coherent | 68% widths measured, not assumed — `f`: S 0.0915, J 0.0921, I 0.4442; `dmu_chi`: J 0.0394, I 0.0938. J is 0.68% wider than S in `f`, diagnosed: J marginalises over `dmu_chi` where S fixes it, at posterior correlation −0.5544. No arm is pathologically broad and none shifts off truth | PASS |
+| C6 selection validity | 23 of 2501 arm-J cells rejected, ALL at `f >= 0.750` and `dmu_chi >= +0.2350`; upper bound on the rejected posterior mass 3.86e-104. Over the cells carrying the posterior, min `N_eff`/threshold 85.5 at 90% of the mass, 70.5 at 99%, 55.3 at 99.9%, 30.7 at 99.999%. Arms I and S reject 0 (min 1.708x, 75.7x). Only the targeted lane was run, so the two-lane clause does not apply | PASS |
+
+Three things this gate established that any later phase must carry.
+
+* **Two truths, and they differ.** Planted `f_AGN` 0.30 against realised 0.295;
+  planted `dmu_chi` +0.100000 against realised +0.111924 +/- 0.006815, of which
+  +0.011924 predates the mark. The joint `dmu_chi` median falls BETWEEN them. No
+  recovery statement is complete without naming which truth and which interval.
+* **The `q` confound is live in the intrinsic channel.** Seed 100's detected set
+  separates GAL from AGN in mass ratio (KS p = 0.0096; z-stratified Fisher 29.57,
+  the largest of 41 seeds examined, median 7.54) and the model holds `q` identical
+  in both branches. Arm I and the per-event `log BF_intrinsic` therefore do not
+  measure the spin mark in isolation, and the C2 tail is conditional on a model
+  that is wrong in this respect.
+* **Arm I is a diagnostic, not a physical model**, and its thin `N_eff` floor
+  (1.708x) is a consequence of that deliberate misspecification, not a warning
+  about the production arm.
 
 Required:
 
-- [ ] joint \(f_{\rm AGN}\) recovery;
-- [ ] joint \(\Delta\mu_\chi=+0.10\) recovery;
-- [ ] spatial-only result;
-- [ ] intrinsic-only result;
-- [ ] joint result;
-- [ ] selection guard valid over posterior support;
-- [ ] event-level spatial/intrinsic evidence decomposition;
-- [ ] production figures;
-- [ ] `REPORT.md`.
+- [x] joint \(f_{\rm AGN}\) recovery (median 0.261653; both truths in the 68% interval);
+- [x] joint \(\Delta\mu_\chi=+0.10\) recovery (median 0.107386; both truths in the 68% interval);
+- [x] spatial-only result (`results/arm_S_spatial.{h5,json}`);
+- [x] intrinsic-only result (`results/arm_I_intrinsic.{h5,json}`);
+- [x] joint result (`results/arm_J_joint.{h5,json}`);
+- [x] selection guard valid over posterior support (`diagnostics/gate_c_guard.json`);
+- [x] event-level spatial/intrinsic evidence decomposition
+      (`results/event_decomposition.{h5,json}`; identity verified against production
+      to 0.0 absolute at the MAP);
+- [x] production figures — `figs/fig_joint_f_dmu`, `fig_ablation_fagn`,
+      `fig_ablation_dmu` and `fig_event_evidence_plane`, each as `.pdf` and `.png`,
+      rendered by `scripts/make_figures.py`. `fig_selection_marked` (specification 11,
+      optional) was not made: the selection diagnostics are reported numerically;
+- [x] `REPORT.md`.
 
 ## Owner gate
 
-Status: **LOCKED**
+Status: **REACHED — WORK STOPPED, AWAITING OWNER DECISION** (2026-09-18).
 
-After Gate C, stop.
+Gates A, B and C have all passed and the seed-100 package is closed. Per
+specification 14 the run stops here; nothing proceeds automatically. The
+completion line below has been issued, at the end of `REPORT.md`.
 
-Forbidden before explicit owner approval:
+Still forbidden before explicit owner approval, unchanged:
 
 - seeds 101/102/103/105;
-- any additional realization;
+- any additional realization, including a repeat draw of seed 100;
+- effect-size ladders;
 - free \(H_0\);
 - mass marks;
+- free common population parameters;
 - incompleteness;
 - GP/HSGP population differences;
 - GWTC data.
 
-Completion line required from the driver:
+Claims explicitly NOT established by this one realization (specification 15):
+calibration across realizations, coverage, unbiasedness in expectation, any
+sensitivity scaling with \(N\), anything about real BBH spins in AGN, any \(H_0\)
+improvement, any statement about incomplete catalogs. Seed-100 closure establishes
+implementation closure and proof of concept only.
+
+Completion line required from the driver, and given:
 
 > **OWNER GATE: seed-100 Analysis 8 is complete. I have not run additional realizations.**

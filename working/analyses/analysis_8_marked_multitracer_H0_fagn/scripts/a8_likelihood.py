@@ -59,6 +59,9 @@ DATA_ROOT = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed1
 SURVEY_GAL = str(DATA_ROOT / "surveys" / "survey_gal_complete_ns32.h5")
 SURVEY_AGN = str(DATA_ROOT / "surveys" / "survey_agn_complete_ns32.h5")
 GW_PATH = str(DATA_ROOT / "events" / "events.h5")
+# The Gate-B marked mock (dmu_chi planted at +0.10 on the AGN branch).  Gate C
+# runs ALL THREE arms on this file; Gates A and B kept the unmarked default.
+GW_PATH_MARKED = str(DATA_ROOT / "events" / "events_marked_dmu0p10.h5")
 GWSEL_PATH = str(DATA_ROOT / "injections" / "injections_targeted.h5")
 
 # scan_h0f.NUISANCE_DEFAULTS, verbatim.
@@ -360,11 +363,13 @@ class LikelihoodCell:
         return rec
 
 
-def build(name, mode, survey_paths, data=None, verbose=True):
+def build(name, mode, survey_paths, data=None, verbose=True, gw_path=None):
     """Build one ``LikelihoodCell``.
 
     ``mode`` selects the shape ('old' or 'new'); ``survey_paths`` selects K.
     ``data`` may be reused across builds that share the same survey list.
+    ``gw_path`` overrides the events file (``GW_PATH`` when None); ``data`` must
+    have been loaded with the SAME events file.
     """
     import time
     from darksirens.inference.data import load_all_data, validate_loaded_survey_shapes
@@ -375,7 +380,8 @@ def build(name, mode, survey_paths, data=None, verbose=True):
     guard_hits = install_guard_spy()
     configure_kde()
 
-    opts = build_opts(survey_paths)
+    opts = build_opts(survey_paths,
+                      **({} if gw_path is None else {"gw_path": str(gw_path)}))
     n_catalogs = opts.n_catalogs
     per_catalog_pop_params = ()
     if mode == "new":
@@ -434,7 +440,7 @@ def build(name, mode, survey_paths, data=None, verbose=True):
 # --------------------------------------------------------------------------- #
 # Provenance
 # --------------------------------------------------------------------------- #
-def provenance():
+def provenance(gw_path=None, survey_paths=None):
     def _sha(repo):
         return subprocess.run(["git", "-C", repo, "rev-parse", "HEAD"],
                               capture_output=True, text=True).stdout.strip()
@@ -462,6 +468,10 @@ def provenance():
             "survey_gal": SURVEY_GAL,
             "survey_agn": SURVEY_AGN,
             "gw_path": GW_PATH,
+            "gw_path_marked": GW_PATH_MARKED,
+            "gw_path_used": GW_PATH if gw_path is None else str(gw_path),
+            "survey_paths_used": (None if survey_paths is None
+                                  else [str(x) for x in survey_paths]),
             "gwselection_path": GWSEL_PATH,
         },
         "settings": dict(SETTINGS),
