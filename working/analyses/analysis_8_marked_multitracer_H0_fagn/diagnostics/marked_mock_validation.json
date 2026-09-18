@@ -1,0 +1,2091 @@
+{
+ "gate": "B",
+ "title": "marked seed-100 mock integrity",
+ "verdict": "PASS",
+ "n_checks": 10,
+ "n_passed": 10,
+ "failed_checks": [],
+ "written_at_utc": "2026-09-18T17:43:21+00:00",
+ "subject": {
+  "marked_events": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_marked_dmu0p10.h5",
+  "marked_meta": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_meta_marked_dmu0p10.json",
+  "marked_rejected_sample": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_rejected_sample_marked_dmu0p10.h5",
+  "record_events": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events.h5",
+  "sha256_marked": "98b0e3f96a5b3716c4e9e287ae598e852e5d6580081435164915eb3032373d86",
+  "size_marked": 162743429,
+  "registered_mark": {
+   "dmu_chi_agn": 0.1,
+   "mu_chi_gal": 0.0,
+   "mu_chi_agn": 0.1,
+   "sigma_chi": 0.1,
+   "planted_f_agn": 0.3
+  },
+  "n_events": 1000,
+  "nsamp": 2000,
+  "n_gal": 705,
+  "n_agn": 295
+ },
+ "environment": {
+  "python": "/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python",
+  "numpy": "1.26.4",
+  "scipy": "1.12.0",
+  "h5py": "3.12.1",
+  "node": "miko.ib.vera.psc.edu",
+  "PYTHONPATH": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+  "darksirens_sha_of_the_marked_run": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+  "darksirens_sha_of_the_record": "2b86a2d8d48fdb5173f0ba259b8996104187dd2d",
+  "generate_mock_data.py_identical_at_both_SHAs": "yes -- blob d6a2e64cf0fd1a5e95f60bda9c16cfaefae495f0 at 2b86a2d, at af896ca and in the worktree; af896ca touches darksirens/likelihood and darksirens/inference only",
+  "read_only": "this gate wrote nothing outside the diagnostics directory and generated no data"
+ },
+ "checks": [
+  {
+   "id": 1,
+   "requirement": "exactly one master realisation: seed 100; no other seed touched or created",
+   "passed": true,
+   "decided_by": "the only files under the data root with an mtime or ctime inside the Analysis-8 window (2026-09-18 07:00 local onward) are the 3 new seed-100 marked files; 0 files under any other of the 100 seed directories; the marked run reused the record's own event seed",
+   "evidence": {
+    "files_created_or_modified_in_window": [
+     "seed100/events/events_marked_dmu0p10.h5",
+     "seed100/events/events_meta_marked_dmu0p10.json",
+     "seed100/events/events_rejected_sample_marked_dmu0p10.h5"
+    ],
+    "n_files_in_window_under_other_seeds": 0,
+    "n_seed_directories_scanned": 100,
+    "master_seed": 100,
+    "seed_events_record": 100003,
+    "seed_events_marked": 100003,
+    "seed_events_rule": "master_seed*1000 + 3 = 100003, the record's own sub-seed",
+    "marked_file_suffix": "_marked_dmu0p10",
+    "pre_existing_unrelated_directory": {
+     "seed200": "created 2026-09-18 03:47:34, catalogs only, by working/campaign_100seeds (logs/gen_s200.log, 03:47) -- 4 h before the Analysis-8 specification was written and 9.5 h before the marked mock; no file in the Analysis-8 window; not an Analysis-8 product",
+     "seeds_106_199": "created 2026-09-17 by the same unrelated campaign"
+    }
+   }
+  },
+  {
+   "id": 2,
+   "requirement": "same catalog / LSS realisation as the existing seed-100 record",
+   "passed": true,
+   "decided_by": "every host index is the record's, and each host's (z, ra, dec) read back out of the existing seed-100 catalogs is bit-identical to the value stored in the marked file",
+   "evidence": {
+    "host_index_bit_identical_to_record": true,
+    "host_type_bit_identical_to_record": true,
+    "truth_z_ra_dec_bit_identical_to_record": {
+     "z": true,
+     "ra": true,
+     "dec": true,
+     "dl": true
+    },
+    "hosts_resolved_from_catalogs": {
+     "gal": {
+      "catalog_rows": 151179870,
+      "n_hosts": 705,
+      "max_host_index": 12007496,
+      "z_bit_identical": true,
+      "ra_bit_identical": true,
+      "dec_bit_identical": true,
+      "max_abs_z_diff": 0.0,
+      "max_abs_ra_diff": 0.0,
+      "max_abs_dec_diff": 0.0
+     },
+     "agn": {
+      "catalog_rows": 1514567,
+      "n_hosts": 295,
+      "max_host_index": 67038,
+      "z_bit_identical": true,
+      "ra_bit_identical": true,
+      "dec_bit_identical": true,
+      "max_abs_z_diff": 0.0,
+      "max_abs_ra_diff": 0.0,
+      "max_abs_dec_diff": 0.0
+     }
+    },
+    "catalogs_used": {
+     "gal": {
+      "path": "catalogs/catalog_gal_complete.h5",
+      "mtime": "2026-08-01T06:30:04",
+      "size": 5676424050
+     },
+     "agn": {
+      "path": "catalogs/catalog_agn_complete.h5",
+      "mtime": "2026-08-01T06:30:05",
+      "size": 57611855
+     }
+    },
+    "glass_realisation": "unchanged; catalogs/glass_field_meta.json mtime 2026-08-01T06:30:05",
+    "surveys_unchanged": {
+     "surveys/survey_agn_complete_ns32.h5": "2026-08-01T06:32:46",
+     "surveys/survey_agn_m18_ns32.h5": "2026-08-01T06:33:58",
+     "surveys/survey_agn_m19_ns32.h5": "2026-08-01T06:33:54",
+     "surveys/survey_agn_m20_ns32.h5": "2026-08-01T06:33:48",
+     "surveys/survey_agn_m21_ns32.h5": "2026-08-01T06:33:30",
+     "surveys/survey_gal_complete_ns32.h5": "2026-08-01T06:32:45",
+     "surveys/survey_gal_m18_ns32.h5": "2026-08-01T06:33:58",
+     "surveys/survey_gal_m19_ns32.h5": "2026-08-01T06:33:54",
+     "surveys/survey_gal_m20_ns32.h5": "2026-08-01T06:33:47",
+     "surveys/survey_gal_m21_ns32.h5": "2026-08-01T06:33:29",
+     "surveys/surveys_meta.json": "2026-08-01T06:33:58"
+    },
+    "cosmology_identical": {
+     "H0": 67.74,
+     "Om0": 0.3075,
+     "source": "events_meta_marked_dmu0p10.json == events_meta.json"
+    }
+   }
+  },
+  {
+   "id": 3,
+   "requirement": "host-label fraction consistent with the requested mixture",
+   "passed": true,
+   "decided_by": "705 GAL / 295 AGN, realised f_AGN = 0.295, label array bit-identical to the record; binomial two-sided p vs the planted 0.30 = 0.756 (-0.35 sigma)",
+   "evidence": {
+    "n_gal": 705,
+    "n_agn": 295,
+    "n_events": 1000,
+    "realised_f_agn": 0.295,
+    "planted_f_agn": 0.3,
+    "record_n_gal": 705,
+    "record_n_agn": 295,
+    "record_realised_f_agn": 0.295,
+    "equals_record_exactly": true,
+    "binomial_two_sided_p_vs_0p30": 0.7561819967055277,
+    "binomial_95_ci": [
+     0.2668728743119348,
+     0.324339617792601
+    ],
+    "z_vs_0p30": -0.3450327796711771
+   }
+  },
+  {
+   "id": 4,
+   "requirement": "the GAL and AGN TRUE chi_eff distributions carry the registered mean offset +0.10",
+   "passed": true,
+   "decided_by": "all 295 AGN events and no GAL event are shifted, by +0.10 to within 2.78e-17 (2 ULP of 0.1); the realised branch means differ by +0.11192 +- 0.00681, i.e. +1.75 sigma from the registered +0.10 and +16.4 sigma from zero",
+   "evidence": {
+    "registered": {
+     "mu_chi_gal": 0.0,
+     "mu_chi_agn": 0.1,
+     "dmu_chi_agn": 0.1,
+     "sigma_chi": 0.1,
+     "record_has_no_dmu_attr": true
+    },
+    "per_event_exact": {
+     "n_agn_shifted": 295,
+     "n_gal_shifted": 0,
+     "max_abs_agn_shift_minus_0p10": 2.7755575615628914e-17,
+     "max_abs_gal_shift": 0.0
+    },
+    "truth_means_marked": {
+     "mean_gal": -0.001196805984493934,
+     "mean_agn": 0.11072669628691698,
+     "sd_gal": 0.09336054195592225,
+     "sd_agn": 0.10026344880658589,
+     "offset": 0.11192350227141092,
+     "se_offset": 0.006814729702258985,
+     "z_vs_registered_0p10": 1.7496662072243951,
+     "z_vs_zero": 16.423762520516387
+    },
+    "truth_means_record": {
+     "mean_gal": -0.001196805984493934,
+     "mean_agn": 0.010726696286916965,
+     "offset": 0.0119235022714109,
+     "se_offset": 0.006814729702258985,
+     "z_vs_zero": 1.7496662072243938
+    },
+    "ks_gal_vs_agn_marked": {
+     "D": 0.4578675321553071,
+     "p": 5.870648750474241e-40
+    },
+    "ks_gal_vs_agn_record": {
+     "D": 0.08347157110229594,
+     "p": 0.10294007294737378
+    },
+    "support": {
+     "true_chieff_agn_min": -0.20010262296564693,
+     "true_chieff_agn_max": 0.4787396963884939,
+     "true_chieff_gal_min": -0.3129669933335334,
+     "true_chieff_gal_max": 0.2976749935361699,
+     "agn_max_distance_to_upper_edge_in_sigma": 6.212603036115062,
+     "model_truncation": [
+      -1.0,
+      1.0
+     ],
+     "realised_draw_truncation": [
+      -0.9,
+      1.1
+     ],
+     "mass_in_model_only_region": 7.61966195820302e-24,
+     "mass_in_draw_only_region": 0.0,
+     "total_variation_distance": 7.61966195820302e-24,
+     "relative_normalisation_difference": 0.0,
+     "double_precision_eps": 2.220446049250313e-16
+    },
+    "truncation_support_difference": {
+     "model_support": [
+      -1.0,
+      1.0
+     ],
+     "realised_draw_support": [
+      -0.9,
+      1.1
+     ],
+     "model_edges_in_sigma_from_mu_agn": [
+      -11.0,
+      9.0
+     ],
+     "draw_edges_in_sigma_from_mu_agn": [
+      -10.0,
+      10.0
+     ],
+     "mass_in_model_only_region_[-1,-0.9)": 7.61966195820302e-24,
+     "mass_in_draw_only_region_(1,1.1]": 1.1285122074235907e-19,
+     "total_variation_distance": 1.1285122074235907e-19,
+     "normalisation_difference_Zdraw_minus_Zmodel": 1.1284360108040085e-19,
+     "relative_normalisation_difference": 1.1284360108040085e-19,
+     "double_precision_eps": 2.220446049250313e-16,
+     "TV_in_units_of_eps": 0.0005082367156835939,
+     "note": "both tails are evaluated as upper tails Q(x) = ndtr(-x); computing them as a difference of two CDFs near 1 cancels to exactly 0.0 in double precision"
+    },
+    "the_residual_1p75_sigma_is_the_record's_own_draw": "the record's unmarked GAL/AGN offset is +0.01192 +- 0.00681, i.e. +1.7497 sigma; the marked offset is +0.11192 +- 0.00681, i.e. the IDENTICAL +1.7497 sigma about +0.10. The mark adds exactly 0.10 on top of the record's own sampling fluctuation and contributes no scatter of its own",
+    "additive_shift_verdict": "the additive shift is the right implementation and no separate per-branch draw is needed: the induced law is TN(0.1, 0.1) on [-0.9, 1.1] instead of on [-1, 1]; the two differ by 1.13e-19 in total variation, 5.1e-04 of one double-precision epsilon, and the most extreme realised AGN spin, +0.4787, sits 6.21 sigma inside the nearer edge",
+    "generator_default_path_unchanged": "at dmu = 0 the added line is chi + 0.0, and 0/705 GAL events moved: the record path is bit-identical by construction"
+   }
+  },
+  {
+   "id": 5,
+   "requirement": "masses and q have NO planted channel difference",
+   "passed": true,
+   "decided_by": "the generator draws m1 and q from one shared PopulationConfig with no label argument, before the label-dependent spin line; the marked masses and q reproduce the record to <= 3 ULP and their GAL-vs-AGN statistics are the record's to 16 digits; the realised two-sample statistic (q: KS D = 0.1123, p = 0.0096) lies inside the sampling distribution of the same statistic over 40 other, unmarked seeds (median p = 0.55, min p = 0.0033, 2.5% below 0.01)",
+   "evidence": {
+    "two_sample_gal_vs_agn_marked": {
+     "m1src": {
+      "ks_D": 0.0915494650799375,
+      "ks_p": 0.056750146380882126,
+      "mwu_p": 0.21817163539653273,
+      "mean_gal": 36.70741712912591,
+      "mean_agn": 37.149948633265225,
+      "median_gal": 36.51219905724959,
+      "median_agn": 36.562517857561936
+     },
+     "m2src": {
+      "ks_D": 0.0914052169731939,
+      "ks_p": 0.05738473242326845,
+      "mwu_p": 0.311210404216425,
+      "mean_gal": 28.224743385775955,
+      "mean_agn": 28.865943363520525,
+      "median_gal": 28.686693701860086,
+      "median_agn": 28.55311843556766
+     },
+     "q": {
+      "ks_D": 0.11229715109989181,
+      "ks_p": 0.009564049836629675,
+      "mwu_p": 0.2066410082799588,
+      "mean_gal": 0.7685618485375848,
+      "mean_agn": 0.7788433840451753,
+      "median_gal": 0.8127553938065308,
+      "median_agn": 0.8240802952903505
+     },
+     "m1det": {
+      "ks_D": 0.0952518331530232,
+      "ks_p": 0.042411629451376075,
+      "mwu_p": 0.26599995808365107,
+      "mean_gal": 41.69874492604537,
+      "mean_agn": 42.24596523571945,
+      "median_gal": 41.42507874470471,
+      "median_agn": 41.20975814604057
+     }
+    },
+    "identical_statistics_in_the_record": {
+     "m1src": {
+      "ks_D": 0.0915494650799375,
+      "ks_p": 0.056750146380882126
+     },
+     "q": {
+      "ks_D": 0.11229715109989181,
+      "ks_p": 0.009564049836629675
+     }
+    },
+    "marked_minus_record": {
+     "max_abs": {
+      "m1src": 1.4210854715202004e-14,
+      "m2src": 7.105427357601002e-15,
+      "q": 1.1102230246251565e-16,
+      "m1det": 1.4210854715202004e-14
+     },
+     "max_relative": {
+      "m1src": 2.1182437188978082e-16,
+      "m2src": 3.5195676894428657e-16,
+      "q": 2.0121879667868742e-16,
+      "m1det": 2.6781991858696996e-16
+     },
+     "max_ulp": {
+      "m1src": 1.0,
+      "m2src": 3.0,
+      "q": 1.0,
+      "m1det": 2.0
+     }
+    },
+    "structural": "generate_dataset.py:1341-1343 -- _sample_powerlaw_peak_m1(rng, ntry, pop) and _sample_q(rng, m1, pop) take no host label and run BEFORE the label-dependent spin line at :1345-1346; one PopulationConfig, both branches",
+    "z_stratified": {
+     "q": {
+      "z_bin_edges": [
+       0.006018079023509144,
+       0.0984415767282336,
+       0.13277658099501014,
+       0.16515524373073337,
+       0.3105331267621167
+      ],
+      "n_gal_per_bin": [
+       178,
+       177,
+       174,
+       176
+      ],
+      "n_agn_per_bin": [
+       72,
+       73,
+       76,
+       74
+      ],
+      "ks_D_per_bin": [
+       0.1641697877652934,
+       0.2016097825245724,
+       0.14519056261343014,
+       0.27088452088452086
+      ],
+      "ks_p_per_bin": [
+       0.11040456828112948,
+       0.02513166665671261,
+       0.1909349716217354,
+       0.0007168861223942163
+      ],
+      "fisher_combined_p": 0.00025201802555616527
+     },
+     "m1src": {
+      "z_bin_edges": [
+       0.006018079023509144,
+       0.0984415767282336,
+       0.13277658099501014,
+       0.16515524373073337,
+       0.3105331267621167
+      ],
+      "n_gal_per_bin": [
+       178,
+       177,
+       174,
+       176
+      ],
+      "n_agn_per_bin": [
+       72,
+       73,
+       76,
+       74
+      ],
+      "ks_D_per_bin": [
+       0.11173533083645443,
+       0.13211051776178315,
+       0.07531760435571688,
+       0.19917076167076167
+      ],
+      "ks_p_per_bin": [
+       0.5007569845005737,
+       0.29511483279007483,
+       0.8968214301082403,
+       0.026952013203341993
+      ],
+      "fisher_combined_p": 0.18690527791511255
+     },
+     "branch_redshifts": {
+      "mean_z_gal": 0.1328374102819803,
+      "mean_z_agn": 0.13372259114739285,
+      "median_z_gal": 0.13258163100133066,
+      "median_z_agn": 0.13320747886857087,
+      "ks_z_gal_vs_agn": {
+       "D": 0.0481307849501142,
+       "p": 0.6981507269724656
+      },
+      "mean_snr_obs_gal": 12.184431943194118,
+      "mean_snr_obs_agn": 12.132777558686286
+     }
+    },
+    "permutation_null_seed100": {
+     "n_permutations": 20000,
+     "stratification": "labels permuted within z quartiles",
+     "observed": {
+      "q_ks": 0.11229715109989181,
+      "m1_ks": 0.0915494650799375,
+      "q_fisher": 29.56729260315328,
+      "m1_fisher": 11.269241770907122
+     },
+     "p_perm": {
+      "q_ks": 0.0066496675166241685,
+      "m1_ks": 0.04524773761311934,
+      "q_fisher": 0.00039998000099995,
+      "m1_fisher": 0.1894905254737263
+     }
+    },
+    "cross_seed_calibration": {
+     "note": "other seeds' EXISTING events.h5, opened read-only; no seed was run or created",
+     "n_seeds": 40,
+     "seeds": [
+      101,
+      102,
+      103,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141
+     ],
+     "seed100_q_ks_p": 0.009564049836629675,
+     "seed100_q_fisher_stat": 29.56729260315328,
+     "other_seeds_q_ks_p": {
+      "min": 0.0033142642605381357,
+      "median": 0.5487584327726803,
+      "frac_below_0p01": 0.025,
+      "frac_below_0p05": 0.05,
+      "frac_below_seed100": 0.025
+     },
+     "other_seeds_m1_ks_p": {
+      "min": 0.019373109640062013,
+      "median": 0.4458874223200373,
+      "frac_below_0p05": 0.075
+     },
+     "other_seeds_q_fisher_stat": {
+      "median": 7.53758474621146,
+      "max": 18.457448269835865,
+      "frac_above_seed100": 0.0
+     }
+    },
+    "caveat": "seed 100's REALISED detected sample does carry a GAL-vs-AGN difference in q (KS p = 0.0096; permuting labels within z quartiles gives p = 0.0066, and the z-stratified Fisher statistic 29.57 is the largest of the 41 seeds examined, whose median is 7.54). It is a fluctuation of the SIGNED-OFF RECORD, not of this campaign: q is the record's to 1 ULP and was written on 2026-08-01. It cannot touch the inference either, because the mass and q block is identical in both branches and therefore factors out of every branch sum"
+   }
+  },
+  {
+   "id": 6,
+   "requirement": "the v3 measurement-family contract is unchanged (DESIGN_PE.md: chieff PE = N(chieff_obs, sigma_chieff) truncated to [-1,1], sigma_chieff = 0.2*(8/rho_obs), flat PE prior in chieff)",
+   "passed": true,
+   "decided_by": "every contract attribute is identical to the record; sigma_chieff reproduces A_CHI*(8/rho_obs) bit-for-bit on all 1000 events; all 2e6 PE chieff samples lie inside [-1, 1] and their truncated-normal PIT is uniform (pooled KS p = 0.810; 11 of 1000 events below p = 0.01 against 10 expected, none below 0.001); the PE prior carries no chieff dependence (corr(p_pe, chieff) = -6.36e-04)",
+   "evidence": {
+    "marked": {
+     "sigma_chieff_rule_max_abs_err": 0.0,
+     "sigma_chieff_rule_bit_identical": true,
+     "sigma_chieff_min": 0.006658041380983604,
+     "sigma_chieff_max": 0.19991989563176318,
+     "pe_chieff_min": -0.9991958129136371,
+     "pe_chieff_max": 0.9989310095940772,
+     "pe_chieff_all_inside_prior_support": true,
+     "per_event_KS_vs_truncnorm": {
+      "max_D": 0.04201042072840783,
+      "min_p": 0.0016676133016160942,
+      "n_events_p_lt_0p01": 11,
+      "n_events_p_lt_0p001": 0,
+      "expected_n_p_lt_0p01": 10.0
+     },
+     "pooled_KS_vs_uniform": {
+      "n": 2000000,
+      "D": 0.000451382741040951,
+      "p": 0.8096332194049357
+     },
+     "pull_obs_minus_true_over_sigma": {
+      "mean": -0.017083970431659344,
+      "sd": 0.9568371997622951,
+      "min": -2.7382618927259212,
+      "max": 3.9228091826284426
+     },
+     "attrs": {
+      "pe_model": "v3",
+      "a_chi": 0.2,
+      "a_mc": 0.08,
+      "a_q": 0.6,
+      "sigma_rho": 1.0,
+      "snr_threshold": 8.0,
+      "snr_ref": 6.278363879917771,
+      "pe_centering": "observed",
+      "chi_eff_in_p_pe": true,
+      "chi_eff_amax": 0.99,
+      "nsamp": 2000,
+      "pe_mass_model": "exact_flatprior_posterior_in_(lnMc,lnq,rho); widths a_x*8/rho_obs",
+      "detection_rule": "observed-data",
+      "detection_shares_noise_with_pe": true,
+      "sky_width": "observed",
+      "ra_width_convention": "sigma_ang/max(cos dec_obs, 0.1)",
+      "p_pe_basis": "rho/(dL m1det q): the PE prior is flat in (ln Mc_det, ln q, rho, chieff, ra, dec) and the canonical basis is (m1det, q, dL, chieff); stored mean-1 per event"
+     }
+    },
+    "record_same_tests": {
+     "sigma_chieff_rule_max_abs_err": 0.0,
+     "sigma_chieff_rule_bit_identical": true,
+     "sigma_chieff_min": 0.006658041380983604,
+     "sigma_chieff_max": 0.19991989563176318,
+     "pe_chieff_min": -0.9991958129136371,
+     "pe_chieff_max": 0.9989310095940772,
+     "pe_chieff_all_inside_prior_support": true,
+     "per_event_KS_vs_truncnorm": {
+      "max_D": 0.04201042072840783,
+      "min_p": 0.0016676133016160942,
+      "n_events_p_lt_0p01": 11,
+      "n_events_p_lt_0p001": 0,
+      "expected_n_p_lt_0p01": 10.0
+     },
+     "pooled_KS_vs_uniform": {
+      "n": 2000000,
+      "D": 0.000451382741040951,
+      "p": 0.8096332194049357
+     },
+     "pull_obs_minus_true_over_sigma": {
+      "mean": -0.017083970431659344,
+      "sd": 0.9568371997622951,
+      "min": -2.7382618927259212,
+      "max": 3.9228091826284417
+     },
+     "attrs": {
+      "pe_model": "v3",
+      "a_chi": 0.2,
+      "a_mc": 0.08,
+      "a_q": 0.6,
+      "sigma_rho": 1.0,
+      "snr_threshold": 8.0,
+      "snr_ref": 6.278363879917771,
+      "pe_centering": "observed",
+      "chi_eff_in_p_pe": true,
+      "chi_eff_amax": 0.99,
+      "nsamp": 2000,
+      "pe_mass_model": "exact_flatprior_posterior_in_(lnMc,lnq,rho); widths a_x*8/rho_obs",
+      "detection_rule": "observed-data",
+      "detection_shares_noise_with_pe": true,
+      "sky_width": "observed",
+      "ra_width_convention": "sigma_ang/max(cos dec_obs, 0.1)",
+      "p_pe_basis": "rho/(dL m1det q): the PE prior is flat in (ln Mc_det, ln q, rho, chieff, ra, dec) and the canonical basis is (m1det, q, dL, chieff); stored mean-1 per event"
+     }
+    },
+    "contract_attributes_identical_to_record": true,
+    "p_pe_vs_chieff_pearson_r": -0.0006358438369732805,
+    "flat_prior_in_chieff_direct_proof": "all 590000 AGN PE chieff samples moved by +0.10, while p_pe moved by at most 2.5e-15 relative (its machine residual, caveat C1) and is bit-identical for 513649 of the 2e6 samples: the stored PE prior does not respond to chieff",
+    "metadata_contract_blocks_identical": true
+   }
+  },
+  {
+   "id": 7,
+   "requirement": "all PE prior densities are in the canonical darksirens basis",
+   "passed": true,
+   "decided_by": "p_pe reproduces p_pe_v3 = rho/(dL m1det q), normalised mean-1 per event, to a maximum relative error of 0.0e+00 (exactly 0.0), it is positive and finite everywhere, and the stored measurement-basis columns (ln Mc, ln q, rho) are the exact bijection of the canonical (m1det, q, dL) to <= 4.6e-16 relative",
+   "evidence": {
+    "marked": {
+     "p_pe_recomputed_max_rel_err": 0.0,
+     "p_pe_positive_finite": true,
+     "p_pe_mean_per_event_max_abs_dev_from_1": 4.440892098500626e-16,
+     "p_pe_unity_all_ones": true,
+     "bijection_max_rel_err": {
+      "mc_of(m1det,q) vs mc_det": 3.4418887141232813e-16,
+      "m1_of(mc,q) vs m1det": 0.0,
+      "rho_opt(mc,dL) vs rho": 4.585678170104668e-16,
+      "dl_of(mc,rho) vs dL": 0.0,
+      "q*m1det vs m2det": 0.0
+     },
+     "q_le_1_all_samples": true,
+     "rho_positive_all_samples": true,
+     "dec_in_range": true,
+     "ra_in_range": true
+    },
+    "record": {
+     "p_pe_recomputed_max_rel_err": 1.0479768909094135e-15,
+     "p_pe_positive_finite": true,
+     "p_pe_mean_per_event_max_abs_dev_from_1": 4.440892098500626e-16,
+     "p_pe_unity_all_ones": true,
+     "bijection_max_rel_err": {
+      "mc_of(m1det,q) vs mc_det": 6.77343168244767e-16,
+      "m1_of(mc,q) vs m1det": 6.871344837933455e-16,
+      "rho_opt(mc,dL) vs rho": 6.33468590800525e-16,
+      "dl_of(mc,rho) vs dL": 4.4407695864406877e-16,
+      "q*m1det vs m2det": 0.0
+     },
+     "q_le_1_all_samples": true,
+     "rho_positive_all_samples": true,
+     "dec_in_range": true,
+     "ra_in_range": true
+    },
+    "basis": "(m1det, q, dL, chieff) with the sky flat in (ra, dec); p_pe = |d(ln Mc, ln q, rho)/d(m1det, q, dL)| = rho/(dL m1det q)",
+    "stored_attribute": "rho/(dL m1det q): the PE prior is flat in (ln Mc_det, ln q, rho, chieff, ra, dec) and the canonical basis is (m1det, q, dL, chieff); stored mean-1 per event",
+    "alternative_convention_column": "p_pe_unity is all ones in both files and is bit-identical between them"
+   }
+  },
+  {
+   "id": 8,
+   "requirement": "all detected events pass the same recorded detection rule",
+   "passed": true,
+   "decided_by": "all 1000 events satisfy rho_obs >= 8 (min 8.003205, margin 3.21e-03); re-evaluating the recorded rule snr_amplitude(m1det, m2det, dL, snr_ref) reproduces the stored snr_true exactly; the rule takes no spin argument and the detected set is the record's (host index, host type, z, dL, ra, dec all bit-identical)",
+   "evidence": {
+    "marked": {
+     "rule": "observed-data",
+     "snr_threshold": 8.0,
+     "n_events": 1000,
+     "n_passing_rho_obs_ge_threshold": 1000,
+     "min_snr_obs": 8.003205458585647,
+     "max_snr_obs": 240.31091254101358,
+     "snr_true_recomputed_max_rel_err": 0.0,
+     "snr_obs_equals_obs_rho": true,
+     "noise_pull_(rho_obs-rho_true)/sigma_rho": {
+      "mean": 0.3441815633157999,
+      "sd": 0.9870003883121086
+     }
+    },
+    "record": {
+     "rule": "observed-data",
+     "snr_threshold": 8.0,
+     "n_events": 1000,
+     "n_passing_rho_obs_ge_threshold": 1000,
+     "min_snr_obs": 8.003205458585647,
+     "max_snr_obs": 240.31091254101358,
+     "snr_true_recomputed_max_rel_err": 6.500733555946841e-16,
+     "snr_obs_equals_obs_rho": true,
+     "noise_pull_(rho_obs-rho_true)/sigma_rho": {
+      "mean": 0.3441815633157999,
+      "sd": 0.9870003883121087
+     }
+    },
+    "detected_set_vs_record": {
+     "host_index": true,
+     "host_type": true,
+     "z": true,
+     "dl": true,
+     "ra": true,
+     "dec": true,
+     "snr_obs_max_abs_diff": 1.4210854715202004e-14,
+     "snr_obs_max_ulp_diff": 4.0,
+     "min_margin_above_threshold": 0.0032054585856471363
+    },
+    "chieff_independence": {
+     "structural": "detect_v3(obs) = rho_obs >= 8; rho_obs = rho_opt(Mc_det, dL) + N(0, sigma_rho); snr_amplitude/rho_opt take (m1det, m2det, dL) only -- chi is not an argument",
+     "empirical_max_abs_rho_true_diff_marked_vs_record": 1.4210854715202004e-14,
+     "n_agn_events_with_chi_shifted": 295
+    },
+    "threshold_margin_vs_perturbation": {
+     "min_margin_above_threshold": 0.0032054585856471363,
+     "max_snr_obs_perturbation_vs_record": 1.4210854715202004e-14,
+     "ratio": 225564095185.5,
+     "reading": "the smallest distance to the threshold is 2.3e11 times the largest numerical perturbation, so no event can have crossed it"
+    },
+    "rejected_sample": {
+     "marked": {
+      "n": 20000,
+      "max_rho_obs": 7.941733446066656,
+      "all_below_threshold": true
+     },
+     "record": {
+      "n": 20000,
+      "max_rho_obs": 7.9417334460666575,
+      "max_abs_diff_vs_marked": 3.552713678800501e-15
+     }
+    }
+   }
+  },
+  {
+   "id": 9,
+   "requirement": "selection proposal support covers BOTH branch population supports",
+   "passed": true,
+   "decided_by": "the production lane's injections span chieff in [-0.999995, +0.999978] with pdraw > 0 everywhere (a flat uniform-branch floor of weight 0.1 over the whole of [-1, 1]); the population mass outside that range is 0.0 at dmu = -0.20, 0, +0.10 and 1.1e-16 at +0.25; the population x spin importance weights keep Neff = 246356 at the plant and 10044 at the worst corner of the registered scan range, above the 5000 guard",
+   "evidence": {
+    "lane_used_by_analysis_8": "injections_targeted.h5 (a8_likelihood.py:62)",
+    "targeted": {
+     "n_detected_injections": 2205380,
+     "Ndraw": 150000000,
+     "Neff_recorded_in_file": 3714.9843608132574,
+     "Neff_population_only_recomputed": 620604.91452021,
+     "proposal": "mixture(population=0.65,uniform=0.1,targeted_agn=0.25)",
+     "chieff_min": -0.9999950659907357,
+     "chieff_max": 0.9999783213490876,
+     "chieff_covers_model_support": true,
+     "pdraw_min": 8.694307470796742e-14,
+     "pdraw_all_positive": true,
+     "pdraw_uniform_min": 9.159932600331475e-15,
+     "pdraw_uniform_all_positive": true,
+     "uniform_branch_fraction_of_detected": 0.08688570677162212,
+     "uniform_branch_chieff_min": -0.9999950659907357,
+     "uniform_branch_chieff_max": 0.9999783213490876,
+     "per_branch_spin_mean": {
+      "-0.20": {
+       "Neff_population_x_spin": 28701.52955143081,
+       "max_weight_ratio": 65653490.11909063,
+       "population_mass_outside_injection_chieff_range": 0.0
+      },
+      "+0.00": {
+       "Neff_population_x_spin": 620604.91452021,
+       "max_weight_ratio": 1.0,
+       "population_mass_outside_injection_chieff_range": 0.0
+      },
+      "+0.10": {
+       "Neff_population_x_spin": 246355.8190368106,
+       "max_weight_ratio": 13356.830935026446,
+       "population_mass_outside_injection_chieff_range": 0.0
+      },
+      "+0.25": {
+       "Neff_population_x_spin": 10044.22456489731,
+       "max_weight_ratio": 3161960342.4242377,
+       "population_mass_outside_injection_chieff_range": 1.1102230246251565e-16
+      }
+     }
+    },
+    "popuni": {
+     "n_detected_injections": 1230471,
+     "Ndraw": 400000000,
+     "Neff_recorded_in_file": 15747.301883675982,
+     "Neff_population_only_recomputed": 728515.5236743122,
+     "proposal": "population+uniform",
+     "chieff_min": -0.9999962279133336,
+     "chieff_max": 0.9999898051995573,
+     "chieff_covers_model_support": true,
+     "pdraw_min": 7.847334281498286e-14,
+     "pdraw_all_positive": true,
+     "pdraw_uniform_min": 2.833418333274011e-13,
+     "pdraw_uniform_all_positive": true,
+     "uniform_branch_fraction_of_detected": 0.4144851849413761,
+     "uniform_branch_chieff_min": -0.9999962279133336,
+     "uniform_branch_chieff_max": 0.9999898051995573,
+     "per_branch_spin_mean": {
+      "-0.20": {
+       "Neff_population_x_spin": 37439.197210180275,
+       "max_weight_ratio": 65655015.8222932,
+       "population_mass_outside_injection_chieff_range": 0.0
+      },
+      "+0.00": {
+       "Neff_population_x_spin": 728515.5236743122,
+       "max_weight_ratio": 1.0,
+       "population_mass_outside_injection_chieff_range": 0.0
+      },
+      "+0.10": {
+       "Neff_population_x_spin": 290825.06048547773,
+       "max_weight_ratio": 13358.36490159599,
+       "population_mass_outside_injection_chieff_range": 0.0
+      },
+      "+0.25": {
+       "Neff_population_x_spin": 12867.011429276383,
+       "max_weight_ratio": 3162868259.741916,
+       "population_mass_outside_injection_chieff_range": 1.1102230246251565e-16
+      }
+     }
+    },
+    "registered_scan_range_dmu_chi": [
+     -0.2,
+     0.25
+    ],
+    "marked_data_chieff_support": {
+     "pe_samples_min": -0.9991958129136371,
+     "pe_samples_max": 0.9989310095940772,
+     "true_min": -0.3129669933335334,
+     "true_max": 0.4787396963884939
+    },
+    "both_branch_model_supports": "[-1, 1] for GAL (mu = 0) and for AGN (mu = mu_chi_c2, scanned over [-0.20, +0.25]); the injections cover both",
+    "neff_definition_crosscheck": {
+     "targeted": {
+      "stored_Neff_attr": 3714.9843608132574,
+      "recomputed_flat_target_1_over_pdraw": 3714.9843608132574,
+      "definition": "generate_dataset.py:2222, inv = 1/pdraw; a population-independent conditioning diagnostic, NOT the population-target Neff"
+     },
+     "popuni": {
+      "stored_Neff_attr": 15747.301883675982,
+      "recomputed_flat_target_1_over_pdraw": 15747.301883675982,
+      "definition": "generate_dataset.py:2222, inv = 1/pdraw; a population-independent conditioning diagnostic, NOT the population-target Neff"
+     }
+    },
+    "projection_for_gate_C": {
+     "note": "the Neff above is the population x spin weight; the production selection weight also carries the catalog prior. Scaling Gate A's measured production minimum (378742 at dmu = 0) by the spin-only ratios gives a projection",
+     "ratio_to_fiducial": {
+      "-0.20": 0.046247667203247945,
+      "+0.00": 1.0,
+      "+0.10": 0.3969607930470039,
+      "+0.25": 0.016184571423612563
+     },
+     "projected_production_Neff": {
+      "-0.20": 17515.933971892533,
+      "+0.00": 378742.0,
+      "+0.10": 150345.72468020834,
+      "+0.25": 6129.77695012187
+     },
+     "reading": "above the 5000 guard everywhere in the registered range, but only 6.1e3 at the +0.25 corner: Gate C must keep the per-cell variance guard on"
+    }
+   }
+  },
+  {
+   "id": 10,
+   "requirement": "no existing seed-100 record file changed",
+   "passed": true,
+   "decided_by": "all 73 pre-existing seed-100 files still carry their original mtime AND ctime (2026-08-01 to 2026-08-10); ctime cannot be backdated by a write, a rename or a chmod, so this is a statement about the inodes and not only about the timestamps",
+   "evidence": {
+    "n_pre_existing_files": 73,
+    "n_with_mtime_or_ctime_after_2026_08_10": 0,
+    "files_changed": [],
+    "new_files_only": [
+     "events/events_marked_dmu0p10.h5",
+     "events/events_meta_marked_dmu0p10.json",
+     "events/events_rejected_sample_marked_dmu0p10.h5"
+    ],
+    "record_events_h5": {
+     "size": 162754688,
+     "mtime": "2026-08-01T06:30:20",
+     "ctime": "2026-08-01T06:30:20",
+     "sha256": "fff34d92c370ee6246d73d4ddba82821109a73563f13bb4e331c15d22b29bb44"
+    },
+    "record_events_meta_json": {
+     "size": 4394,
+     "mtime": "2026-08-01T06:30:20",
+     "ctime": "2026-08-01T06:30:20",
+     "sha256": "9d8c37bff8a34670c9c20bdf286a573bc6698cffc9ee7dc8ea34916a0487c497"
+    },
+    "META_json_not_rewritten": {
+     "size": 176409,
+     "mtime": "2026-08-01T08:14:01",
+     "ctime": "2026-08-01T08:14:01",
+     "sha256": "11bdae3ae430d3ae75df59e892e982c1259c1c6b15c1fcd16fe96c80fc31abd6"
+    },
+    "injections_and_surveys_untouched": {
+     "injections/injections_popuni.h5": {
+      "size": 105154535,
+      "mtime": "2026-08-01T06:36:38",
+      "ctime": "2026-08-01T06:36:38"
+     },
+     "injections/injections_popuni_meta.json": {
+      "size": 40923,
+      "mtime": "2026-08-01T06:36:38",
+      "ctime": "2026-08-01T06:36:38"
+     },
+     "injections/injections_targeted.h5": {
+      "size": 203346016,
+      "mtime": "2026-08-01T06:36:00",
+      "ctime": "2026-08-01T06:36:00"
+     },
+     "injections/injections_targeted_meta.json": {
+      "size": 40578,
+      "mtime": "2026-08-01T06:36:00",
+      "ctime": "2026-08-01T06:36:00"
+     },
+     "surveys/survey_agn_complete_ns32.h5": {
+      "size": 19934497,
+      "mtime": "2026-08-01T06:32:46",
+      "ctime": "2026-08-01T06:32:46"
+     },
+     "surveys/survey_agn_m18_ns32.h5": {
+      "size": 240232,
+      "mtime": "2026-08-01T06:33:58",
+      "ctime": "2026-08-01T06:33:58"
+     },
+     "surveys/survey_agn_m19_ns32.h5": {
+      "size": 586093,
+      "mtime": "2026-08-01T06:33:54",
+      "ctime": "2026-08-01T06:33:54"
+     },
+     "surveys/survey_agn_m20_ns32.h5": {
+      "size": 1510223,
+      "mtime": "2026-08-01T06:33:48",
+      "ctime": "2026-08-01T06:33:48"
+     },
+     "surveys/survey_agn_m21_ns32.h5": {
+      "size": 3711836,
+      "mtime": "2026-08-01T06:33:30",
+      "ctime": "2026-08-01T06:33:30"
+     },
+     "surveys/survey_gal_complete_ns32.h5": {
+      "size": 1650316659,
+      "mtime": "2026-08-01T06:32:45",
+      "ctime": "2026-08-01T06:32:45"
+     },
+     "surveys/survey_gal_m18_ns32.h5": {
+      "size": 11380121,
+      "mtime": "2026-08-01T06:33:58",
+      "ctime": "2026-08-01T06:33:58"
+     },
+     "surveys/survey_gal_m19_ns32.h5": {
+      "size": 35545478,
+      "mtime": "2026-08-01T06:33:54",
+      "ctime": "2026-08-01T06:33:54"
+     },
+     "surveys/survey_gal_m20_ns32.h5": {
+      "size": 104942481,
+      "mtime": "2026-08-01T06:33:47",
+      "ctime": "2026-08-01T06:33:47"
+     },
+     "surveys/survey_gal_m21_ns32.h5": {
+      "size": 289512234,
+      "mtime": "2026-08-01T06:33:29",
+      "ctime": "2026-08-01T06:33:29"
+     },
+     "surveys/surveys_meta.json": {
+      "size": 12024,
+      "mtime": "2026-08-01T06:33:58",
+      "ctime": "2026-08-01T06:33:58"
+     }
+    },
+    "content_control": "the record's own arrays were read 4 times during this gate and still reproduce its August metadata exactly (705/295 hosts, f_AGN 0.295, 1570 detections, identical realised block)",
+    "forward_manifest": "sha256 recorded below for every seed-100 file under 260 MB"
+   }
+  }
+ ],
+ "recorded_caveats": [
+  {
+   "id": "C1",
+   "title": "the marked mock is NOT bit-identical to the record; it is identical to within 5 ULP, and the residual is the machine, not the mark",
+   "detail": {
+    "what_is_bit_identical": [
+     "truth/host_index",
+     "truth/host_type",
+     "truth/z",
+     "truth/dl",
+     "truth/ra",
+     "truth/dec",
+     "truth/obs_sigma_rho",
+     "true_dL",
+     "p_pe_unity"
+    ],
+    "what_differs_and_by_how_much": {
+     "dL": {
+      "n_differing": 1245039,
+      "n": 2000000,
+      "max_abs_diff": 3.410605131648481e-12
+     },
+     "dec": {
+      "n_differing": 129721,
+      "n": 2000000,
+      "max_abs_diff": 4.440892098500626e-16
+     },
+     "m1det": {
+      "n_differing": 1376466,
+      "n": 2000000,
+      "max_abs_diff": 3.694822225952521e-13
+     },
+     "m1src": {
+      "n_differing": 1325585,
+      "n": 2000000,
+      "max_abs_diff": 2.5579538487363607e-13
+     },
+     "m2det": {
+      "n_differing": 1352389,
+      "n": 2000000,
+      "max_abs_diff": 1.4210854715202004e-13
+     },
+     "m2src": {
+      "n_differing": 1317900,
+      "n": 2000000,
+      "max_abs_diff": 9.947598300641403e-14
+     },
+     "mc_det": {
+      "n_differing": 984390,
+      "n": 2000000,
+      "max_abs_diff": 1.4210854715202004e-13
+     },
+     "p_pe": {
+      "n_differing": 1486351,
+      "n": 2000000,
+      "max_abs_diff": 4.884981308350689e-15
+     },
+     "q": {
+      "n_differing": 761706,
+      "n": 2000000,
+      "max_abs_diff": 1.6653345369377348e-15
+     },
+     "ra": {
+      "n_differing": 39703,
+      "n": 2000000,
+      "max_abs_diff": 1.7763568394002505e-15
+     },
+     "rho": {
+      "n_differing": 712951,
+      "n": 2000000,
+      "max_abs_diff": 2.842170943040401e-14
+     },
+     "true_m1src": {
+      "n_differing": 11,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "true_m2src": {
+      "n_differing": 10,
+      "n": 1000,
+      "max_abs_diff": 7.105427357601002e-15
+     },
+     "truth/m1det": {
+      "n_differing": 10,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "truth/m1src": {
+      "n_differing": 11,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "truth/m2det": {
+      "n_differing": 9,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "truth/m2src": {
+      "n_differing": 10,
+      "n": 1000,
+      "max_abs_diff": 7.105427357601002e-15
+     },
+     "truth/obs_chieff": {
+      "n_differing": 478,
+      "n": 1000,
+      "max_abs_diff": 0.1000000000000002
+     },
+     "truth/obs_dL": {
+      "n_differing": 633,
+      "n": 1000,
+      "max_abs_diff": 1.1368683772161603e-12
+     },
+     "truth/obs_dec": {
+      "n_differing": 40,
+      "n": 1000,
+      "max_abs_diff": 2.220446049250313e-16
+     },
+     "truth/obs_lnmc": {
+      "n_differing": 335,
+      "n": 1000,
+      "max_abs_diff": 8.881784197001252e-16
+     },
+     "truth/obs_lnq": {
+      "n_differing": 338,
+      "n": 1000,
+      "max_abs_diff": 4.440892098500626e-16
+     },
+     "truth/obs_m1det": {
+      "n_differing": 688,
+      "n": 1000,
+      "max_abs_diff": 1.2789769243681803e-13
+     },
+     "truth/obs_m2det": {
+      "n_differing": 668,
+      "n": 1000,
+      "max_abs_diff": 7.105427357601002e-14
+     },
+     "truth/obs_ra": {
+      "n_differing": 12,
+      "n": 1000,
+      "max_abs_diff": 8.881784197001252e-16
+     },
+     "truth/obs_rho": {
+      "n_differing": 365,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "truth/obs_rho_true": {
+      "n_differing": 392,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "truth/obs_sig_chieff": {
+      "n_differing": 332,
+      "n": 1000,
+      "max_abs_diff": 1.1102230246251565e-16
+     },
+     "truth/obs_sig_lnmc": {
+      "n_differing": 334,
+      "n": 1000,
+      "max_abs_diff": 4.163336342344337e-17
+     },
+     "truth/obs_sig_lnq": {
+      "n_differing": 333,
+      "n": 1000,
+      "max_abs_diff": 3.3306690738754696e-16
+     },
+     "truth/obs_sig_ra": {
+      "n_differing": 284,
+      "n": 1000,
+      "max_abs_diff": 1.1102230246251565e-16
+     },
+     "truth/obs_sigma_ang": {
+      "n_differing": 295,
+      "n": 1000,
+      "max_abs_diff": 2.7755575615628914e-17
+     },
+     "truth/q": {
+      "n_differing": 1,
+      "n": 1000,
+      "max_abs_diff": 1.1102230246251565e-16
+     },
+     "truth/snr_obs": {
+      "n_differing": 365,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     },
+     "truth/snr_true": {
+      "n_differing": 411,
+      "n": 1000,
+      "max_abs_diff": 1.4210854715202004e-14
+     }
+    },
+    "measured_disagreement": {
+     "per_array": {
+      "dL": {
+       "max_abs": 3.410605131648481e-12,
+       "max_rel": 1.976448305772027e-15,
+       "max_ulp": 15.0,
+       "n_diff": 1245039
+      },
+      "m1det": {
+       "max_abs": 3.694822225952521e-13,
+       "max_rel": 2.3118523582775272e-15,
+       "max_ulp": 17.0,
+       "n_diff": 1376466
+      },
+      "m2det": {
+       "max_abs": 1.4210854715202004e-13,
+       "max_rel": 2.2052478765498353e-15,
+       "max_ulp": 18.0,
+       "n_diff": 1352389
+      },
+      "mc_det": {
+       "max_abs": 1.4210854715202004e-13,
+       "max_rel": 1.9398871531278893e-15,
+       "max_ulp": 15.0,
+       "n_diff": 984390
+      },
+      "q": {
+       "max_abs": 1.6653345369377348e-15,
+       "max_rel": 1.7015774207717466e-15,
+       "max_ulp": 15.0,
+       "n_diff": 761706
+      },
+      "rho": {
+       "max_abs": 2.842170943040401e-14,
+       "max_rel": 8.792236572240636e-16,
+       "max_ulp": 6.0,
+       "n_diff": 712951
+      },
+      "p_pe": {
+       "max_abs": 4.884981308350689e-15,
+       "max_rel": 2.5435967604281297e-15,
+       "max_ulp": 21.0,
+       "n_diff": 1486351
+      },
+      "ra": {
+       "max_abs": 1.7763568394002505e-15,
+       "max_rel": 2.1881249307627135e-12,
+       "max_ulp": 16384.0,
+       "n_diff": 39703
+      },
+      "dec": {
+       "max_abs": 4.440892098500626e-16,
+       "max_rel": 4.048280580623501e-12,
+       "max_ulp": 32768.0,
+       "n_diff": 129721
+      },
+      "truth/snr_obs": {
+       "max_abs": 1.4210854715202004e-14,
+       "max_rel": 5.557001453259777e-16,
+       "max_ulp": 4.0
+      },
+      "truth/snr_true": {
+       "max_abs": 1.4210854715202004e-14,
+       "max_rel": 6.500733555946841e-16,
+       "max_ulp": 5.0
+      },
+      "truth/obs_chieff": {
+       "max_abs": 2.220446049250313e-16,
+       "max_rel": 1.666076215703703e-14,
+       "max_ulp": 128.0
+      },
+      "truth/obs_sig_chieff": {
+       "max_abs": 1.1102230246251565e-16,
+       "max_rel": 6.7981312302873385e-16,
+       "max_ulp": 5.0
+      }
+     },
+     "worst_relative_on_true_event_quantities": 6.5e-16,
+     "worst_relative_on_PE_sample_quantities": 2.54e-15,
+     "worst_absolute_on_sky_angles_rad": 1.78e-15,
+     "reading": "every quantity agrees to a few ULP of its own magnitude; the large ULP counts quoted for ra and dec are an artefact of values near zero, where 1 ULP is 1e-19 rad -- in absolute terms the sky agrees to 1.8e-15 rad"
+    },
+    "max_ulp_on_true_masses_and_q": {
+     "m1src": 1.0,
+     "m2src": 3.0,
+     "q": 1.0,
+     "m1det": 2.0
+    },
+    "attribution": {
+     "control_1": "re-evaluating the record's OWN recorded rule snr_amplitude(m1det, m2det, dL) on the record's OWN stored inputs, on this machine, fails to reproduce its stored snr_true in 406/1000 events, max 1.42e-14 = 5 ULP -- LARGER than the marked file differs from it (4 ULP). The same re-evaluation on the marked file is bit-exact in 1000/1000, because the marked file was written on this machine",
+     "control_2": "pure arithmetic reproduces bit-for-bit in BOTH files (m1det = m1src(1+z), m2src = q m1src, sigma_chieff = 0.2*8/rho): only the transcendental power evaluations drift",
+     "control_3": "8 of the 11 events whose true m1src differs are GAL events, where the mark adds exactly 0.0, and 0/705 GAL true spins moved; masses are also drawn BEFORE the spin in the RNG stream, so they cannot depend on it",
+     "control_4": "the generator source is unchanged on these paths and gmd is the identical blob at both darksirens SHAs; numpy 1.26.4 / scipy 1.12.0 / h5py 3.12.1 in both runs (META.json), so the difference is the CPU's transcendental path, not code drift",
+     "conclusion": "the premise 'bit-identical to the record' does not survive measurement and should be stated as 'identical to within 5 ULP, with the detected set, host labels, redshifts, sky positions and distances bit-identical'. No check depends on the difference: the detected set cannot have moved (2.3e11 safety factor at the threshold) and every branch statistic is unchanged to 16 digits"
+    }
+   }
+  },
+  {
+   "id": "C2",
+   "title": "seed 100's realised detected sample carries an unplanted GAL-vs-AGN difference in q",
+   "detail": {
+    "global_KS": {
+     "D": 0.11229715109989181,
+     "p": 0.009564049836629675
+    },
+    "within_z_quartile_permutation_p": {
+     "q_ks": 0.0066496675166241685,
+     "m1_ks": 0.04524773761311934,
+     "q_fisher": 0.00039998000099995,
+     "m1_fisher": 0.1894905254737263
+    },
+    "cross_seed": {
+     "note": "other seeds' EXISTING events.h5, opened read-only; no seed was run or created",
+     "n_seeds": 40,
+     "seeds": [
+      101,
+      102,
+      103,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141
+     ],
+     "seed100_q_ks_p": 0.009564049836629675,
+     "seed100_q_fisher_stat": 29.56729260315328,
+     "other_seeds_q_ks_p": {
+      "min": 0.0033142642605381357,
+      "median": 0.5487584327726803,
+      "frac_below_0p01": 0.025,
+      "frac_below_0p05": 0.05,
+      "frac_below_seed100": 0.025
+     },
+     "other_seeds_m1_ks_p": {
+      "min": 0.019373109640062013,
+      "median": 0.4458874223200373,
+      "frac_below_0p05": 0.075
+     },
+     "other_seeds_q_fisher_stat": {
+      "median": 7.53758474621146,
+      "max": 18.457448269835865,
+      "frac_above_seed100": 0.0
+     }
+    },
+    "why_it_is_not_this_campaign": "q is the record's value to 1 ULP, written 2026-08-01, and the generator's q draw takes no host label",
+    "why_it_cannot_bias_gate_C": "the mass and q population block is identical in the two branches, so p_mass,q(theta_ij) multiplies both branch terms equally and factors out of the branch sum; only the spin factor distinguishes the branches"
+   }
+  },
+  {
+   "id": "C3",
+   "title": "the shared_spin HDF5 attribute is still True in the marked file",
+   "detail": {
+    "value": true,
+    "why_it_is_not_wrong": "in darksirens 'shared_spin' means one spin component shared across the MASS components of one population mixture (grammar.py:289-291, base.py:425-428), which is still true here; it has never meant shared across tracer branches",
+    "but": "STATE.md flagged this attribute as a reader trap. The branch spins are recorded separately and unambiguously in dmu_chi_agn = 0.1, mu_chi_gal = 0.0, mu_chi_agn = 0.1, sigma_chi = 0.1 and in the metadata branch_spin block. Any Gate-C reader must take the branch spin from those, not from shared_spin"
+   }
+  }
+ ],
+ "seed100_file_manifest": [
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/META.json",
+   "size": 176409,
+   "mtime": "2026-08-01T08:14:01",
+   "ctime": "2026-08-01T08:14:01",
+   "mtime_epoch": 1785586441.0,
+   "ctime_epoch": 1785586441.0,
+   "rel": "META.json",
+   "sha256": "11bdae3ae430d3ae75df59e892e982c1259c1c6b15c1fcd16fe96c80fc31abd6"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_agn_complete.h5",
+   "size": 57611855,
+   "mtime": "2026-08-01T06:30:05",
+   "ctime": "2026-08-01T06:30:05",
+   "mtime_epoch": 1785580205.0,
+   "ctime_epoch": 1785580205.0,
+   "rel": "catalogs/catalog_agn_complete.h5",
+   "sha256": "b56384604fba0e54c4c0ca4713a5d692d4ef0d522da028250c2234cfdf2bf830"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_agn_m18.h5",
+   "size": 353672,
+   "mtime": "2026-08-01T06:33:58",
+   "ctime": "2026-08-01T06:33:58",
+   "mtime_epoch": 1785580438.0,
+   "ctime_epoch": 1785580438.0,
+   "rel": "catalogs/catalog_agn_m18.h5",
+   "sha256": "a754ca8dfdea18ab4c2f0a9dc5e649342c32477f60baff75f5e0d05d31820e99"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_agn_m19.h5",
+   "size": 1113212,
+   "mtime": "2026-08-01T06:33:54",
+   "ctime": "2026-08-01T06:33:54",
+   "mtime_epoch": 1785580434.0,
+   "ctime_epoch": 1785580434.0,
+   "rel": "catalogs/catalog_agn_m19.h5",
+   "sha256": "26c3d57aebca796d39cff46cd949a12991979cba2de39ca0ffb2e25e9241ad1c"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_agn_m20.h5",
+   "size": 3311889,
+   "mtime": "2026-08-01T06:33:47",
+   "ctime": "2026-08-01T06:33:47",
+   "mtime_epoch": 1785580427.0,
+   "ctime_epoch": 1785580427.0,
+   "rel": "catalogs/catalog_agn_m20.h5",
+   "sha256": "427774d1f358da87dcc3fa4e18afedbf16864cecabec640f4a708dfa84b63cc3"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_agn_m21.h5",
+   "size": 9540478,
+   "mtime": "2026-08-01T06:33:30",
+   "ctime": "2026-08-01T06:33:30",
+   "mtime_epoch": 1785580410.0,
+   "ctime_epoch": 1785580410.0,
+   "rel": "catalogs/catalog_agn_m21.h5",
+   "sha256": "3c1e7ab63838ac76ca0a57e1004da4afb34f4e890ff7dd4d067d03454e1ec108"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_gal_complete.h5",
+   "size": 5676424050,
+   "mtime": "2026-08-01T06:30:04",
+   "ctime": "2026-08-01T06:30:04",
+   "mtime_epoch": 1785580204.0,
+   "ctime_epoch": 1785580204.0,
+   "rel": "catalogs/catalog_gal_complete.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_gal_m18.h5",
+   "size": 31740884,
+   "mtime": "2026-08-01T06:33:57",
+   "ctime": "2026-08-01T06:33:57",
+   "mtime_epoch": 1785580437.0,
+   "ctime_epoch": 1785580437.0,
+   "rel": "catalogs/catalog_gal_m18.h5",
+   "sha256": "f348a70ec660d6f56b5de96a42705671e10e1a9c19eec238cf421b97c1884cf6"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_gal_m19.h5",
+   "size": 104511655,
+   "mtime": "2026-08-01T06:33:52",
+   "ctime": "2026-08-01T06:33:52",
+   "mtime_epoch": 1785580432.0,
+   "ctime_epoch": 1785580432.0,
+   "rel": "catalogs/catalog_gal_m19.h5",
+   "sha256": "c5349c198dd8f8fdfc9dc65f52008ccc64dca1f086fc13b5d05099e4d5dcfc39"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_gal_m20.h5",
+   "size": 318732366,
+   "mtime": "2026-08-01T06:33:41",
+   "ctime": "2026-08-01T06:33:41",
+   "mtime_epoch": 1785580421.0,
+   "ctime_epoch": 1785580421.0,
+   "rel": "catalogs/catalog_gal_m20.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/catalog_gal_m21.h5",
+   "size": 912462799,
+   "mtime": "2026-08-01T06:33:11",
+   "ctime": "2026-08-01T06:33:11",
+   "mtime_epoch": 1785580391.0,
+   "ctime_epoch": 1785580391.0,
+   "rel": "catalogs/catalog_gal_m21.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/catalogs/glass_field_meta.json",
+   "size": 6709,
+   "mtime": "2026-08-01T06:30:05",
+   "ctime": "2026-08-01T06:30:05",
+   "mtime_epoch": 1785580205.0,
+   "ctime_epoch": 1785580205.0,
+   "rel": "catalogs/glass_field_meta.json",
+   "sha256": "69e144bb7f9eed77a1fad50e73c5f91218b728c4e95994e119da7af4a05d988c"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events.h5",
+   "size": 162754688,
+   "mtime": "2026-08-01T06:30:20",
+   "ctime": "2026-08-01T06:30:20",
+   "mtime_epoch": 1785580220.0,
+   "ctime_epoch": 1785580220.0,
+   "rel": "events/events.h5",
+   "sha256": "fff34d92c370ee6246d73d4ddba82821109a73563f13bb4e331c15d22b29bb44"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_marked_dmu0p10.h5",
+   "size": 162743429,
+   "mtime": "2026-09-18T13:17:52",
+   "ctime": "2026-09-18T13:17:52",
+   "mtime_epoch": 1789751872.0,
+   "ctime_epoch": 1789751872.0,
+   "rel": "events/events_marked_dmu0p10.h5",
+   "sha256": "98b0e3f96a5b3716c4e9e287ae598e852e5d6580081435164915eb3032373d86"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_meta.json",
+   "size": 4394,
+   "mtime": "2026-08-01T06:30:20",
+   "ctime": "2026-08-01T06:30:20",
+   "mtime_epoch": 1785580220.0,
+   "ctime_epoch": 1785580220.0,
+   "rel": "events/events_meta.json",
+   "sha256": "9d8c37bff8a34670c9c20bdf286a573bc6698cffc9ee7dc8ea34916a0487c497"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_meta_marked_dmu0p10.json",
+   "size": 4917,
+   "mtime": "2026-09-18T13:17:52",
+   "ctime": "2026-09-18T13:17:52",
+   "mtime_epoch": 1789751872.0,
+   "ctime_epoch": 1789751872.0,
+   "rel": "events/events_meta_marked_dmu0p10.json",
+   "sha256": "d7c4f209361ad5ea804e0f529e17a4d255476625b686268cbf944490b76b33dd"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_meta_pureagn.json",
+   "size": 4498,
+   "mtime": "2026-08-02T16:12:53",
+   "ctime": "2026-08-02T16:12:53",
+   "mtime_epoch": 1785701573.0,
+   "ctime_epoch": 1785701573.0,
+   "rel": "events/events_meta_pureagn.json",
+   "sha256": "14fcb51bc2e853dcdeb5fd7df484cd35256b9fec248a9f8af7b5bcf4432981f8"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_meta_puregal.json",
+   "size": 4474,
+   "mtime": "2026-08-02T16:12:38",
+   "ctime": "2026-08-02T16:12:38",
+   "mtime_epoch": 1785701558.0,
+   "ctime_epoch": 1785701558.0,
+   "rel": "events/events_meta_puregal.json",
+   "sha256": "549cf30d6507b74076fabb45a43fc586928ee1425e0b2ffb34966a2257693e0e"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_pureagn.h5",
+   "size": 162866884,
+   "mtime": "2026-08-02T16:12:53",
+   "ctime": "2026-08-02T16:12:53",
+   "mtime_epoch": 1785701573.0,
+   "ctime_epoch": 1785701573.0,
+   "rel": "events/events_pureagn.h5",
+   "sha256": "54f53b4538058a850255b33b5716cc1e692fe370d004bccc012cf49ee3be20f2"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_puregal.h5",
+   "size": 162813158,
+   "mtime": "2026-08-02T16:12:38",
+   "ctime": "2026-08-02T16:12:38",
+   "mtime_epoch": 1785701558.0,
+   "ctime_epoch": 1785701558.0,
+   "rel": "events/events_puregal.h5",
+   "sha256": "9854dff72b777d43377565b99e82e9e6b236cbed5cd1639f8c5c6bd7e7fe699b"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_rejected_sample.h5",
+   "size": 1314813,
+   "mtime": "2026-08-01T06:30:20",
+   "ctime": "2026-08-01T06:30:20",
+   "mtime_epoch": 1785580220.0,
+   "ctime_epoch": 1785580220.0,
+   "rel": "events/events_rejected_sample.h5",
+   "sha256": "efcc936d5607e625781a4f6bbbe3d23c827d02751bb474206b62d580b80471e1"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_rejected_sample_marked_dmu0p10.h5",
+   "size": 1314841,
+   "mtime": "2026-09-18T13:17:52",
+   "ctime": "2026-09-18T13:17:52",
+   "mtime_epoch": 1789751872.0,
+   "ctime_epoch": 1789751872.0,
+   "rel": "events/events_rejected_sample_marked_dmu0p10.h5",
+   "sha256": "f17d4f7aa0628480cc29debfc692d24cddbde10d0e27bec2a21e97758dddb38a"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_rejected_sample_pureagn.h5",
+   "size": 1314777,
+   "mtime": "2026-08-02T16:12:53",
+   "ctime": "2026-08-02T16:12:53",
+   "mtime_epoch": 1785701573.0,
+   "ctime_epoch": 1785701573.0,
+   "rel": "events/events_rejected_sample_pureagn.h5",
+   "sha256": "dffabac8bf8394ce6f15e85977a7294b81e2bed6949c7a0d8b2bb4a6c516fb5f"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events/events_rejected_sample_puregal.h5",
+   "size": 1314917,
+   "mtime": "2026-08-02T16:12:38",
+   "ctime": "2026-08-02T16:12:38",
+   "mtime_epoch": 1785701558.0,
+   "ctime_epoch": 1785701558.0,
+   "rel": "events/events_rejected_sample_puregal.h5",
+   "sha256": "bbccb119405c6a90aff87ca59f999af4078aeac0d776d77f8f7d51d32c29134f"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events_agn_hosted.h5",
+   "size": 61480088,
+   "mtime": "2026-08-01T06:39:36",
+   "ctime": "2026-08-01T06:39:36",
+   "mtime_epoch": 1785580776.0,
+   "ctime_epoch": 1785580776.0,
+   "rel": "events_agn_hosted.h5",
+   "sha256": "d7971aef6a3cb400ec842323563718684896e2396870feca746d79bda644904b"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/events_gal_hosted.h5",
+   "size": 146889640,
+   "mtime": "2026-08-01T06:39:35",
+   "ctime": "2026-08-01T06:39:35",
+   "mtime_epoch": 1785580775.0,
+   "ctime_epoch": 1785580775.0,
+   "rel": "events_gal_hosted.h5",
+   "sha256": "ddc3dd07da60e0ad5e0224ce8638a48ee350f3a5e0630a9bb44adf4e6425f079"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_popuni.h5",
+   "size": 105154535,
+   "mtime": "2026-08-01T06:36:38",
+   "ctime": "2026-08-01T06:36:38",
+   "mtime_epoch": 1785580598.0,
+   "ctime_epoch": 1785580598.0,
+   "rel": "injections/injections_popuni.h5",
+   "sha256": "547a4344782790ac22e763f35736d5a60656d424088df5bbba9c1763092b3c3f"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_popuni_meta.json",
+   "size": 40923,
+   "mtime": "2026-08-01T06:36:38",
+   "ctime": "2026-08-01T06:36:38",
+   "mtime_epoch": 1785580598.0,
+   "ctime_epoch": 1785580598.0,
+   "rel": "injections/injections_popuni_meta.json",
+   "sha256": "2d257f9a1bdf21baa8559d06e7dd4c16dd70e21975852b2473e3e4b8d6a844a6"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_targeted.h5",
+   "size": 203346016,
+   "mtime": "2026-08-01T06:36:00",
+   "ctime": "2026-08-01T06:36:00",
+   "mtime_epoch": 1785580560.0,
+   "ctime_epoch": 1785580560.0,
+   "rel": "injections/injections_targeted.h5",
+   "sha256": "af9ae72331a9ad48fbf7609f026eec3493feb5f127212ff493e14697e408fde4"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_targeted_meta.json",
+   "size": 40578,
+   "mtime": "2026-08-01T06:36:00",
+   "ctime": "2026-08-01T06:36:00",
+   "mtime_epoch": 1785580560.0,
+   "ctime_epoch": 1785580560.0,
+   "rel": "injections/injections_targeted_meta.json",
+   "sha256": "ccde3cd3271b626fc837d59e0170d991f5b5484ff7aa85294219c700181e4c56"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_agn_complete_ns32.h5",
+   "size": 19934497,
+   "mtime": "2026-08-01T06:32:46",
+   "ctime": "2026-08-01T06:32:46",
+   "mtime_epoch": 1785580366.0,
+   "ctime_epoch": 1785580366.0,
+   "rel": "surveys/survey_agn_complete_ns32.h5",
+   "sha256": "6a6a22f256542abf26e8f30b42920bb4d83f3d40b1191fb659524d16fec004e5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_agn_m18_ns32.h5",
+   "size": 240232,
+   "mtime": "2026-08-01T06:33:58",
+   "ctime": "2026-08-01T06:33:58",
+   "mtime_epoch": 1785580438.0,
+   "ctime_epoch": 1785580438.0,
+   "rel": "surveys/survey_agn_m18_ns32.h5",
+   "sha256": "e29cba58d22ddb3bde64884100170dd6655bc87e6fb3d8cc7329bf2915e7076a"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_agn_m19_ns32.h5",
+   "size": 586093,
+   "mtime": "2026-08-01T06:33:54",
+   "ctime": "2026-08-01T06:33:54",
+   "mtime_epoch": 1785580434.0,
+   "ctime_epoch": 1785580434.0,
+   "rel": "surveys/survey_agn_m19_ns32.h5",
+   "sha256": "6dc9686c6026177531b896894b996de3ef0edaa1337ec696e9cbf24239c2ca62"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_agn_m20_ns32.h5",
+   "size": 1510223,
+   "mtime": "2026-08-01T06:33:48",
+   "ctime": "2026-08-01T06:33:48",
+   "mtime_epoch": 1785580428.0,
+   "ctime_epoch": 1785580428.0,
+   "rel": "surveys/survey_agn_m20_ns32.h5",
+   "sha256": "c9b7a0d42f32fd556da0bc4e9a2bab2fa791c4f4c97e181a5cdad9d39e60d8f4"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_agn_m21_ns32.h5",
+   "size": 3711836,
+   "mtime": "2026-08-01T06:33:30",
+   "ctime": "2026-08-01T06:33:30",
+   "mtime_epoch": 1785580410.0,
+   "ctime_epoch": 1785580410.0,
+   "rel": "surveys/survey_agn_m21_ns32.h5",
+   "sha256": "cdf27612ce6834a0cf57e8f4079b64e85eaa7922df7789353b90241a991b8f65"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_gal_complete_ns32.h5",
+   "size": 1650316659,
+   "mtime": "2026-08-01T06:32:45",
+   "ctime": "2026-08-01T06:32:45",
+   "mtime_epoch": 1785580365.0,
+   "ctime_epoch": 1785580365.0,
+   "rel": "surveys/survey_gal_complete_ns32.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_gal_m18_ns32.h5",
+   "size": 11380121,
+   "mtime": "2026-08-01T06:33:58",
+   "ctime": "2026-08-01T06:33:58",
+   "mtime_epoch": 1785580438.0,
+   "ctime_epoch": 1785580438.0,
+   "rel": "surveys/survey_gal_m18_ns32.h5",
+   "sha256": "6e7d207808e95a241696e68db34ed68baee196bb121709bb7649dce64edf1adc"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_gal_m19_ns32.h5",
+   "size": 35545478,
+   "mtime": "2026-08-01T06:33:54",
+   "ctime": "2026-08-01T06:33:54",
+   "mtime_epoch": 1785580434.0,
+   "ctime_epoch": 1785580434.0,
+   "rel": "surveys/survey_gal_m19_ns32.h5",
+   "sha256": "e02af87cd4683281e5c5eeefe4c9cfafd9abc78aa08f46f5af674e3c0e38f171"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_gal_m20_ns32.h5",
+   "size": 104942481,
+   "mtime": "2026-08-01T06:33:47",
+   "ctime": "2026-08-01T06:33:47",
+   "mtime_epoch": 1785580427.0,
+   "ctime_epoch": 1785580427.0,
+   "rel": "surveys/survey_gal_m20_ns32.h5",
+   "sha256": "1a23a7952e3256a7ba417d7230a4bb1846aac99cf04e58940be096166437d9db"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/survey_gal_m21_ns32.h5",
+   "size": 289512234,
+   "mtime": "2026-08-01T06:33:29",
+   "ctime": "2026-08-01T06:33:29",
+   "mtime_epoch": 1785580409.0,
+   "ctime_epoch": 1785580409.0,
+   "rel": "surveys/survey_gal_m21_ns32.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys/surveys_meta.json",
+   "size": 12024,
+   "mtime": "2026-08-01T06:33:58",
+   "ctime": "2026-08-01T06:33:58",
+   "mtime_epoch": 1785580438.0,
+   "ctime_epoch": 1785580438.0,
+   "rel": "surveys/surveys_meta.json",
+   "sha256": "6b1459bc164361074d1bef71c26fa92cef6fd9bb47575fca943cc964bf07640a"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/galprop_report.json",
+   "size": 163,
+   "mtime": "2026-08-10T04:05:57",
+   "ctime": "2026-08-10T04:05:57",
+   "mtime_epoch": 1786349157.0,
+   "ctime_epoch": 1786349157.0,
+   "rel": "surveys_galprop/galprop_report.json",
+   "sha256": "ca09cad6b0819c907fd5bdeaee385f67b799dca4bd19e91fc9929ff174cb8ca3"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_agn_complete_ns32.h5",
+   "size": 29892736,
+   "mtime": "2026-08-10T04:05:57",
+   "ctime": "2026-08-10T04:05:57",
+   "mtime_epoch": 1786349157.0,
+   "ctime_epoch": 1786349157.0,
+   "rel": "surveys_galprop/survey_agn_complete_ns32.h5",
+   "sha256": "6ada69507eb4ca9791038d90820f6ec399df6b2a017a6c1b745ab707ea99b6a3"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_agn_m18_ns32.h5",
+   "size": 345909,
+   "mtime": "2026-08-09T18:51:54",
+   "ctime": "2026-08-09T18:51:54",
+   "mtime_epoch": 1786315914.0,
+   "ctime_epoch": 1786315914.0,
+   "rel": "surveys_galprop/survey_agn_m18_ns32.h5",
+   "sha256": "9b30cfaef832dcc8a6d2565cc8dd7869f249f26653995040febcc17e5399a096"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_agn_m19_ns32.h5",
+   "size": 855665,
+   "mtime": "2026-08-10T03:59:09",
+   "ctime": "2026-08-10T03:59:09",
+   "mtime_epoch": 1786348749.0,
+   "ctime_epoch": 1786348749.0,
+   "rel": "surveys_galprop/survey_agn_m19_ns32.h5",
+   "sha256": "110c1c73052aee38e2832ff04a6432628805050ddd3c28c6623f11a63dc2ff3e"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_agn_m20_ns32.h5",
+   "size": 2212498,
+   "mtime": "2026-08-10T03:59:13",
+   "ctime": "2026-08-10T03:59:13",
+   "mtime_epoch": 1786348753.0,
+   "ctime_epoch": 1786348753.0,
+   "rel": "surveys_galprop/survey_agn_m20_ns32.h5",
+   "sha256": "a511b8169e92f3d6b8801ce5d3db38c0e3a0c3b5d9eef68800e3a313bea82f8a"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_agn_m21_ns32.h5",
+   "size": 5474391,
+   "mtime": "2026-08-10T03:59:24",
+   "ctime": "2026-08-10T03:59:24",
+   "mtime_epoch": 1786348764.0,
+   "ctime_epoch": 1786348764.0,
+   "rel": "surveys_galprop/survey_agn_m21_ns32.h5",
+   "sha256": "16a2d3ff368e5adae098049dc5e23f5f83f8d18da14cdc81b0cc0282b951aa98"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_gal_m18_ns32.h5",
+   "size": 16936406,
+   "mtime": "2026-08-09T18:51:55",
+   "ctime": "2026-08-09T18:51:55",
+   "mtime_epoch": 1786315915.0,
+   "ctime_epoch": 1786315915.0,
+   "rel": "surveys_galprop/survey_gal_m18_ns32.h5",
+   "sha256": "cb19c1b6cf251880ed0d3aedeee7e6b6242d72f12004563452379872f2462a8a"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_gal_m19_ns32.h5",
+   "size": 53187364,
+   "mtime": "2026-08-10T03:59:12",
+   "ctime": "2026-08-10T03:59:12",
+   "mtime_epoch": 1786348752.0,
+   "ctime_epoch": 1786348752.0,
+   "rel": "surveys_galprop/survey_gal_m19_ns32.h5",
+   "sha256": "f5b166c4685e3d9096cdd8bddd14fe548d27e5bba5a890045151fb71d69826e2"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_gal_m20_ns32.h5",
+   "size": 158310758,
+   "mtime": "2026-08-10T03:59:23",
+   "ctime": "2026-08-10T03:59:23",
+   "mtime_epoch": 1786348763.0,
+   "ctime_epoch": 1786348763.0,
+   "rel": "surveys_galprop/survey_gal_m20_ns32.h5",
+   "sha256": "a7aebd57d3a7ecaa73aeed6dfeb0d627037529ca30503da910ae293ce1569beb"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_galprop/survey_gal_m21_ns32.h5",
+   "size": 440492726,
+   "mtime": "2026-08-10T03:59:55",
+   "ctime": "2026-08-10T03:59:55",
+   "mtime_epoch": 1786348795.0,
+   "ctime_epoch": 1786348795.0,
+   "rel": "surveys_galprop/survey_gal_m21_ns32.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_ns16/survey_agn_m18_ns16.h5",
+   "size": 270725,
+   "mtime": "2026-08-10T08:17:51",
+   "ctime": "2026-08-10T08:17:51",
+   "mtime_epoch": 1786364271.0,
+   "ctime_epoch": 1786364271.0,
+   "rel": "surveys_ns16/survey_agn_m18_ns16.h5",
+   "sha256": "50839d422db6f489a931c34b47552141eb2f824d6ce60770be63a1f5c5115e42"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_ns16/survey_gal_m18_ns16.h5",
+   "size": 15741798,
+   "mtime": "2026-08-10T08:17:49",
+   "ctime": "2026-08-10T08:17:49",
+   "mtime_epoch": 1786364269.0,
+   "ctime_epoch": 1786364269.0,
+   "rel": "surveys_ns16/survey_gal_m18_ns16.h5",
+   "sha256": "192e1249e95f087b3834f2ebaaa63ea55b8af56721d1ff787414d6a77e752518"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_ns64/survey_agn_m18_ns64.h5",
+   "size": 455717,
+   "mtime": "2026-08-10T08:17:51",
+   "ctime": "2026-08-10T08:17:51",
+   "mtime_epoch": 1786364271.0,
+   "ctime_epoch": 1786364271.0,
+   "rel": "surveys_ns64/survey_agn_m18_ns64.h5",
+   "sha256": "66187db6395f8bd37214362fa50f6ed194e0d29a9784b0e43f6f4cf00ae4718c"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_ns64/survey_gal_m18_ns64.h5",
+   "size": 19157050,
+   "mtime": "2026-08-10T08:17:51",
+   "ctime": "2026-08-10T08:17:51",
+   "mtime_epoch": 1786364271.0,
+   "ctime_epoch": 1786364271.0,
+   "rel": "surveys_ns64/survey_gal_m18_ns64.h5",
+   "sha256": "a0e16e92189c20b04675a037424e1bed82b4e3814044a10de5fde6ca5d05884a"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_repixelation_report.json",
+   "size": 1291,
+   "mtime": "2026-08-10T08:17:51",
+   "ctime": "2026-08-10T08:17:51",
+   "mtime_epoch": 1786364271.0,
+   "ctime_epoch": 1786364271.0,
+   "rel": "surveys_repixelation_report.json",
+   "sha256": "087f9e92909daa4333fc5f159bf3758fa361213a6599ac2472f38af7c4f2bb17"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/galprop_report.json",
+   "size": 166,
+   "mtime": "2026-08-10T09:15:57",
+   "ctime": "2026-08-10T09:15:57",
+   "mtime_epoch": 1786367757.0,
+   "ctime_epoch": 1786367757.0,
+   "rel": "surveys_truez/galprop_report.json",
+   "sha256": "87fc2ac923f77b647b804ad6f6fbd3f368fb41d7025fcd8c6101f18271630c69"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_agn_complete_ns32.h5",
+   "size": 29891415,
+   "mtime": "2026-08-10T04:05:55",
+   "ctime": "2026-08-10T04:05:55",
+   "mtime_epoch": 1786349155.0,
+   "ctime_epoch": 1786349155.0,
+   "rel": "surveys_truez/survey_agn_complete_ns32.h5",
+   "sha256": "4588e1e9552b6b79475a84f07f26a56047523fc6075df6b43156778299f33440"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_agn_m18_ns32.h5",
+   "size": 345874,
+   "mtime": "2026-08-09T21:39:19",
+   "ctime": "2026-08-09T21:39:19",
+   "mtime_epoch": 1786325959.0,
+   "ctime_epoch": 1786325959.0,
+   "rel": "surveys_truez/survey_agn_m18_ns32.h5",
+   "sha256": "9e1dfa102e27e191708a45e07de5818089f9d3756529e2e66e35aceff5712eef"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_agn_m19_ns32.h5",
+   "size": 855639,
+   "mtime": "2026-08-10T03:58:12",
+   "ctime": "2026-08-10T03:58:12",
+   "mtime_epoch": 1786348692.0,
+   "ctime_epoch": 1786348692.0,
+   "rel": "surveys_truez/survey_agn_m19_ns32.h5",
+   "sha256": "7bc9448e38e3eb10435d2f8c2150278517fe23e74ec3fdcb9a0daefdb240cf99"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_agn_m20_ns32.h5",
+   "size": 2212284,
+   "mtime": "2026-08-10T03:58:18",
+   "ctime": "2026-08-10T03:58:18",
+   "mtime_epoch": 1786348698.0,
+   "ctime_epoch": 1786348698.0,
+   "rel": "surveys_truez/survey_agn_m20_ns32.h5",
+   "sha256": "925fed220d6d2610543e76d9c6a271741bfb7b12d3cb9c7ea8cb62ad1c30410c"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_agn_m21_ns32.h5",
+   "size": 5473622,
+   "mtime": "2026-08-10T03:58:33",
+   "ctime": "2026-08-10T03:58:33",
+   "mtime_epoch": 1786348713.0,
+   "ctime_epoch": 1786348713.0,
+   "rel": "surveys_truez/survey_agn_m21_ns32.h5",
+   "sha256": "3d4f523fc2fd030174d88a4e4e4d71a8588e44ed93ebd5eed6ab135ce3c1eddf"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_gal_complete_ns32.h5",
+   "size": 2589657206,
+   "mtime": "2026-08-10T09:15:54",
+   "ctime": "2026-08-10T09:15:54",
+   "mtime_epoch": 1786367754.0,
+   "ctime_epoch": 1786367754.0,
+   "rel": "surveys_truez/survey_gal_complete_ns32.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_gal_m18_ns32.h5",
+   "size": 16933011,
+   "mtime": "2026-08-09T21:39:21",
+   "ctime": "2026-08-09T21:39:21",
+   "mtime_epoch": 1786325961.0,
+   "ctime_epoch": 1786325961.0,
+   "rel": "surveys_truez/survey_gal_m18_ns32.h5",
+   "sha256": "980d1a79b3febb98d7cef72ab84d34f55f6e1231c7f8eab871421d00b59f559f"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_gal_m19_ns32.h5",
+   "size": 53180467,
+   "mtime": "2026-08-10T03:58:17",
+   "ctime": "2026-08-10T03:58:17",
+   "mtime_epoch": 1786348697.0,
+   "ctime_epoch": 1786348697.0,
+   "rel": "surveys_truez/survey_gal_m19_ns32.h5",
+   "sha256": "563f5497522ead947aa3c60b6933bf1fc85ba6acdbab9ecb1f7113662e37e802"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_gal_m20_ns32.h5",
+   "size": 158299199,
+   "mtime": "2026-08-10T03:58:32",
+   "ctime": "2026-08-10T03:58:32",
+   "mtime_epoch": 1786348712.0,
+   "ctime_epoch": 1786348712.0,
+   "rel": "surveys_truez/survey_gal_m20_ns32.h5",
+   "sha256": "718750468549d88ba73038afd3b7de646ef6e0658ab397ffcc24cfa3c5e20dab"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/surveys_truez/survey_gal_m21_ns32.h5",
+   "size": 440469150,
+   "mtime": "2026-08-10T03:59:07",
+   "ctime": "2026-08-10T03:59:07",
+   "mtime_epoch": 1786348747.0,
+   "ctime_epoch": 1786348747.0,
+   "rel": "surveys_truez/survey_gal_m21_ns32.h5"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_completeness.pdf",
+   "size": 16150,
+   "mtime": "2026-08-01T08:14:01",
+   "ctime": "2026-08-01T08:14:01",
+   "mtime_epoch": 1785586441.0,
+   "ctime_epoch": 1785586441.0,
+   "rel": "validation/fig_completeness.pdf",
+   "sha256": "5df941b063f239c37fcce090819ed550362c31fcaa2f22de79767edb64afe2e2"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_completeness.png",
+   "size": 39764,
+   "mtime": "2026-08-01T08:14:01",
+   "ctime": "2026-08-01T08:14:01",
+   "mtime_epoch": 1785586441.0,
+   "ctime_epoch": 1785586441.0,
+   "rel": "validation/fig_completeness.png",
+   "sha256": "39fafcb825391bdbd847d81d1661b67312e78bca912558473fe0bf9796fc3beb"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_detection.pdf",
+   "size": 42913,
+   "mtime": "2026-08-01T08:14:00",
+   "ctime": "2026-08-01T08:14:00",
+   "mtime_epoch": 1785586440.0,
+   "ctime_epoch": 1785586440.0,
+   "rel": "validation/fig_detection.pdf",
+   "sha256": "669ce4bde1df807a7840a02b2b3f62978c0a8407afb108aeebe664f0a4ff9927"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_detection.png",
+   "size": 77157,
+   "mtime": "2026-08-01T08:14:00",
+   "ctime": "2026-08-01T08:14:00",
+   "mtime_epoch": 1785586440.0,
+   "ctime_epoch": 1785586440.0,
+   "rel": "validation/fig_detection.png",
+   "sha256": "3865076b06947a3aef80f2bbcfa6dbbfdebb6aa54e5485cc228c9e59b8ccf5f7"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_dndz_overlay.pdf",
+   "size": 26340,
+   "mtime": "2026-08-01T08:13:17",
+   "ctime": "2026-08-01T08:13:17",
+   "mtime_epoch": 1785586397.0,
+   "ctime_epoch": 1785586397.0,
+   "rel": "validation/fig_dndz_overlay.pdf",
+   "sha256": "d4855d34acf5b5f65e5553db7c2b96d4d4a55accdf7a82092692e1570f15814c"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_dndz_overlay.png",
+   "size": 86881,
+   "mtime": "2026-08-01T08:13:17",
+   "ctime": "2026-08-01T08:13:17",
+   "mtime_epoch": 1785586397.0,
+   "ctime_epoch": 1785586397.0,
+   "rel": "validation/fig_dndz_overlay.png",
+   "sha256": "3a18e1df875555e49212f1c482ad1009d03dddc6721f54a74b770bd951262cae"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_pe_calibration.pdf",
+   "size": 29646,
+   "mtime": "2026-08-01T08:12:49",
+   "ctime": "2026-08-01T08:12:49",
+   "mtime_epoch": 1785586369.0,
+   "ctime_epoch": 1785586369.0,
+   "rel": "validation/fig_pe_calibration.pdf",
+   "sha256": "193645ff21c0cf959f8924f6d94c536b9a9dd48ac2aed2654a492b843b2ac958"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/fig_pe_calibration.png",
+   "size": 83886,
+   "mtime": "2026-08-01T08:12:48",
+   "ctime": "2026-08-01T08:12:48",
+   "mtime_epoch": 1785586368.0,
+   "ctime_epoch": 1785586368.0,
+   "rel": "validation/fig_pe_calibration.png",
+   "sha256": "b230b9d47995592bdc074194eaa4223c3f8a4ff8a104bb38e768af3e380f8bf6"
+  },
+  {
+   "path": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/validation/validation.json",
+   "size": 15612,
+   "mtime": "2026-08-01T08:14:01",
+   "ctime": "2026-08-01T08:14:01",
+   "mtime_epoch": 1785586441.0,
+   "ctime_epoch": 1785586441.0,
+   "rel": "validation/validation.json",
+   "sha256": "2a835c1e181bc1e01e75ea2274b493143525d9a3e14cd4de9831a0f72bdbd619"
+  }
+ ]
+}

@@ -1,0 +1,1694 @@
+{
+  "question": "specification 5.5 -- is the EXISTING seed-100 injection set sufficient for the marked mock (dmu_chi = +0.10), or are new injections required?",
+  "verdict": "REUSE",
+  "one_line": "Reuse. The proposal already covers the whole chi_eff support with a uniform-spin branch, the spin reweight is algebraically exact, and the worst N_eff anywhere at the registered mark is 141212 = 28.2x the 5000 guard.",
+  "provenance": {
+    "file_stage": {
+      "gws_agn_sha": "8b14349ffdb64f56b596393693f6b390bf501327",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "python": "/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python",
+      "pythonpath": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "written_at_utc": "2026-09-18T17:42:15+00:00"
+    },
+    "likelihood_stage": {
+      "gws_agn_sha": "8b14349ffdb64f56b596393693f6b390bf501327",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+      "darksirens_pinned_base_sha": "2b86a2d",
+      "darksirens_pinned_base_is_ancestor": true,
+      "inputs": {
+        "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+        "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+        "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+      },
+      "settings": {
+        "universe_model": "dark_sirens",
+        "catalog_sky_weighting": "field",
+        "log10n0": -24.0,
+        "log10n0_c2": -24.0,
+        "selection_neff_guard": "hard",
+        "max_likelihood_variance": 1000000.0,
+        "kde_window": 4096,
+        "kde_window_nsigma": 8.0,
+        "sel_batch_size": 50000,
+        "pe_event_block": 25
+      },
+      "H0_fixed": 67.74,
+      "Om0_fixed": 0.3075,
+      "pop_model": "powerlaw+peak"
+    }
+  },
+  "constants": {
+    "sigma_chi": 0.1,
+    "mu_chi_gal": 0.0,
+    "dmu_chi_plant": 0.1,
+    "n_obs": 1000,
+    "guard_threshold_5Nobs": 5000.0,
+    "H0": 67.74,
+    "Om0": 0.3075,
+    "gamma": 0.0
+  },
+  "answers": {
+    "1_support": {
+      "injections_cover": {
+        "n": 2205380,
+        "min": -0.9999950659907357,
+        "max": 0.9999783213490876,
+        "mean": -0.00014250860542118688,
+        "std": 0.1950279678645425
+      },
+      "target_support_needed": [
+        -1.0,
+        1.0
+      ],
+      "empty_bins_carrying_target_mass": 0,
+      "uncovered_target_mass_AGN": 0.0,
+      "statement": "The injections span chi_eff in [-0.99999507, 0.99997832], i.e. the whole of the [-1, 1] truncation both branch populations live on. No bin carrying target mass is empty, for either branch. The two population-spin proposal branches only reach |chi| < 0.5; the coverage beyond that comes entirely from the 10 per cent uniform-spin branch and its 191,616 detected injections."
+    },
+    "2_exactness": {
+      "proposal_factorises_in_chi": false,
+      "spin_reweight_is_exact": true,
+      "statement": "The stored proposal does NOT factorise as (spin) x (rest): it is 0.65 population + 0.10 uniform + 0.25 targeted, and the uniform branch carries a flat spin density while the other two carry TruncNormal(0, 0.1). Measured, the uniform branch's share of pdraw runs from 1.03e-09 to 1.0000 with median 1.82e-04, which a factorised proposal could not do. The spin reweight is EXACT anyway, because the TARGET factorises and pdraw cancels in the ratio of weights: w(mu)/w(0) = s(chi|mu)/s(chi|0). Verified on the file -- the ratio route and a from-scratch recomputation of the target at mu = +0.10 agree to 6.66e-16 relative at worst, and give N_eff and the detectable fraction identical to 0.0e+00 relative. pdraw itself reconstructs from its stored components bit for bit on all 2,205,380 rows, so the proposal density is analytic, not estimated, and the importance-sampling estimate is unbiased for any spin mean in the truncation.",
+      "evidence": {
+        "proposal_is_a_three_component_mixture": {
+          "population": {
+            "weight": 0.65,
+            "spin_density": "TruncNormal(0, 0.1) on [-1,1]"
+          },
+          "uniform": {
+            "weight": 0.1,
+            "spin_density": "Uniform(-1,1), i.e. 0.5"
+          },
+          "targeted_agn": {
+            "weight": 0.25,
+            "spin_density": "TruncNormal(0, 0.1) on [-1,1]"
+          },
+          "source": "generate_dataset.py:2033-2087 draws the three branches; generate_dataset.py:2097-2107 forms pdraw = 0.65 p_pop + 0.10 p_unif + 0.25 p_tgt; the spin factor of each branch is generate_mock_data.py:423 (_mass_spin_pdf) for the two population branches and the flat 0.5 in generate_mock_data.py:618 (_p_uniform)."
+        },
+        "pdraw_closure": {
+          "max_rel_diff": 0.0,
+          "median_rel_diff": 0.0,
+          "n_bit_identical": 2205380,
+          "n_rows": 2205380,
+          "verdict": "pdraw is EXACTLY the stored three-component mixture density, bit for bit, on every row"
+        },
+        "branch_share_of_pdraw": {
+          "population": {
+            "mean": 0.0883347437776628,
+            "median": 0.0622723971891245,
+            "p01": 5.280080276261773e-112,
+            "p99": 0.9977789036096788,
+            "min": 3.579076761725754e-290,
+            "max": 0.9992992830380037
+          },
+          "uniform": {
+            "mean": 0.08689325008747345,
+            "median": 0.00018240581343634184,
+            "p01": 1.3438705453449182e-05,
+            "p99": 1.0,
+            "min": 1.033787273822088e-09,
+            "max": 1.0
+          },
+          "targeted_agn": {
+            "mean": 0.8247720061348641,
+            "median": 0.9275240827040203,
+            "p01": 0.0,
+            "p99": 0.9929401101257191,
+            "min": 0.0,
+            "max": 0.9999995699709432
+          }
+        },
+        "does_the_PROPOSAL_factorise_in_chi": {
+          "answer": "NO",
+          "why": "two of the three branches carry the fiducial spin density and the third carries a flat one, so pdraw = s(chi) R1(rest) + 0.05 R2(rest) is a sum, not a product. Were it a product the uniform branch's share of pdraw would be a chi-independent constant; it is measured to run from 1.03e-09 to 1.0 with median 1.8e-04."
+        },
+        "is_the_SPIN_REWEIGHT_EXACT": {
+          "answer": "YES",
+          "why": "exactness does not need the proposal to factorise. The TARGET factorises -- p_pop(theta|Lambda) = masspair(m1,q) x s(chieff|mu,sigma) (generate_mock_data.py:403-425, and the inference side is the same product under shared_spin) -- and the same pdraw divides both branches, so it cancels: w_i(mu)/w_i(0) = s(chi_i|mu)/s(chi_i|0) EXACTLY, whatever the proposal is. The estimator itself stays unbiased because pdraw is the analytic mixture density, not an estimate, and is strictly positive over the whole chi_eff support.",
+          "recompute_vs_stored_pdraw_population": {
+            "max_rel_diff": 1.1314847944212395e-15,
+            "median_rel_diff": 0.0,
+            "n_bit_identical": 1450638,
+            "meaning": "the target evaluator used here reproduces the file's own stored population density, so it is in the identical basis and convention"
+          },
+          "ratio_route_vs_direct_recomputation_at_dmu_0p10": {
+            "max_rel_diff": 6.661155377400155e-16,
+            "median_rel_diff": 1.247741280282957e-16,
+            "n_bit_identical": 928300,
+            "n_rows_compared": 2205372,
+            "Neff_direct": 246355.8190368106,
+            "Neff_via_ratio": 246355.8190368106,
+            "Neff_rel_diff": 0.0,
+            "Pdet_rel_diff": 0.0
+          },
+          "rows_excluded_at_the_target_floor": {
+            "n": 8,
+            "fraction": 3.6274927676862946e-06,
+            "max_weight_contribution": 7.860188501905021e-288,
+            "why": "_selection_pdraw returns max(p, 1e-300), so on rows where the mass model gives exactly zero the floor -- not the density -- is stored and multiplicativity fails there. Those rows carry a weight of order 1e-288 and cannot affect any sum; they are excluded from the exactness comparison and included in every integral."
+          }
+        },
+        "importance_weight_bound_from_the_uniform_branch": {
+          "statement": "pdraw >= 0.10 x p_uniform and p_uniform's spin factor is the flat 0.5, so the spin part of any importance weight is bounded by max_chi s(chi|mu) / 0.05 = 79.79 for ANY mu inside the truncation -- the bound does not degrade when the target spin mean moves.",
+          "max_spin_density": 3.989422804014327,
+          "uniform_branch_spin_floor": 0.05,
+          "bound": 79.78845608028654
+        }
+      }
+    },
+    "3_effective_sample_size": {
+      "guard_threshold": 5000.0,
+      "guard_threshold_note": "max(5 N_obs, N_obs^2 / (1e6 - pe_variance_sum)); the measured pe_variance_sum is of order 5-55, so the second term is ~1.0 and the threshold is 5 N_obs = 5000 everywhere here.",
+      "dark_siren_selection_integral_by_branch": {
+        "GAL_branch_f_equals_0": {
+          "mu_chi": 0.0,
+          "Neff": 514672.32479741675,
+          "Neff_over_threshold": 102.93446495948335,
+          "log_mu": -11.804419802168809,
+          "note": "mu_chi_c2 carries zero mixture weight at f = 0, so this N_eff is identical at every mark value -- measured identical at mu = 0 and mu = 0.10 (514672.32479741675)"
+        },
+        "AGN_branch_f_equals_1_fiducial_spin": {
+          "mu_chi": 0.0,
+          "Neff": 378742.41988969664,
+          "Neff_over_threshold": 75.74848397793933,
+          "log_mu": -11.794684221780553
+        },
+        "AGN_branch_f_equals_1_marked_spin": {
+          "mu_chi": 0.1,
+          "Neff": 141211.59480571063,
+          "Neff_over_threshold": 28.242318961142125,
+          "log_mu": -11.795843439889673
+        },
+        "realised_mixture_f_equals_0p295": {
+          "Neff_at_mu_0": 741965.4396161863,
+          "Neff_at_mu_0p10": 575198.8286546108,
+          "Neff_over_threshold_at_mu_0p10": 115.03976573092216
+        }
+      },
+      "degradation_at_the_plant": {
+        "pure_AGN_branch_f_1": 2.682091512462546,
+        "realised_mixture_f_0p295": 1.2899286345065104,
+        "population_only_proxy": 2.519140473103576
+      },
+      "worst_margin_at_the_plant_over_all_f": 28.242318961142125,
+      "population_only_cross_check": {
+        "Neff_mu_0": 620604.91452021,
+        "Neff_mu_0p10": 246355.8190368106,
+        "agreement_with_the_f_1_degradation": "2.519 vs 2.682 -- the file-only proxy predicts the branch degradation to 7 per cent without touching the catalogs"
+      },
+      "statement": "Under the GAL branch population the selection integral has N_eff = 514672 = 103x the guard, independent of the mark. Under the AGN branch it is 378742 (76x) at the fiducial spin and 141212 (28.2x) at the registered +0.10 -- a factor 2.68 degradation and the worst case anywhere, since f = 1 puts the entire selection integral on the shifted branch. At seed 100's realised f = 0.295 the degradation is only 1.29 (115x the guard). The margin is 28x at its thinnest, not 75-150x, but it is a margin."
+    },
+    "5_detection_rule_is_chi_eff_independent": {
+      "verified_on": "the injection file itself, two independent ways",
+      "direct_Pdet_of_chi": {
+        "method": "the uniform proposal branch draws chi ~ U(-1,1) independently of everything else, so the number PROPOSED in each chi bin is known exactly and P_det(chi) is a direct ratio -- no model, no reweighting.",
+        "chi2_vs_constant": 9.243925350701467,
+        "dof": 9,
+        "p_value": 0.41506938365637314,
+        "max_abs_rel_dev": 0.014424682698731095,
+        "trend_per_unit_chi": -0.0026542220305092374,
+        "trend_err": 0.0039747824819824
+      },
+      "paired_detectable_fraction_at_the_plant": {
+        "mu_chi": 0.1,
+        "Pdet_ratio_to_fiducial": 1.0004203850931788,
+        "paired_sigma": 0.0015768204587529961,
+        "n_sigma": 0.26660301801970565
+      },
+      "statement": "The detection efficiency measured directly against chi_eff -- from the uniform proposal branch, where the number PROPOSED per chi bin is known exactly -- is flat: chi2 = 9.24 on 9 dof (p = 0.42), with a trend of -0.0027 +- 0.0040 per unit chi_eff. Independently, the importance-sampling estimate of the detectable fraction moves by +0.042 per cent when the target spin mean moves to +0.10, which is +0.27 sigma of its own paired Monte-Carlo error. This confirms Gate A's 0.30-sigma claim on the injection file, and it is why a shifted but normalised spin density cannot change which injections are detected.",
+      "evidence": {
+        "code_fact": "detect_v3 thresholds rho_obs, and observe_v3(need_sky=False) forms rho_obs = snr_amplitude(m1det, m2det, dL, snr_ref) + N(0, 1) -- chi_eff is an argument it never reads and never consumes RNG for (generate_dataset.py:559-566, 809-835, 866).",
+        "direct_measurement_Pdet_of_chi": {
+          "method": "the uniform proposal branch draws chi ~ U(-1,1) independently of everything else, so the number PROPOSED in each chi bin is known exactly and P_det(chi) is a direct ratio -- no model, no reweighting.",
+          "n_proposed_uniform_branch": 15004478,
+          "n_detected_uniform_branch": 191616,
+          "Pdet_mean": 0.012770587553928901,
+          "bins": [
+            {
+              "lo": -1.0,
+              "hi": -0.8,
+              "n_detected": 19125,
+              "Pdet": 0.012746194835968306,
+              "Pdet_err": 9.216792937374651e-05,
+              "rel_dev_from_mean": -0.0019100701402803288
+            },
+            {
+              "lo": -0.8,
+              "hi": -0.6,
+              "n_detected": 19291,
+              "Pdet": 0.012856828474805983,
+              "Pdet_err": 9.256706191884722e-05,
+              "rel_dev_from_mean": 0.006753089512357757
+            },
+            {
+              "lo": -0.6,
+              "hi": -0.3999999999999999,
+              "n_detected": 19143,
+              "Pdet": 0.012758191254637445,
+              "Pdet_err": 9.221129231633545e-05,
+              "rel_dev_from_mean": -0.0009706913827658425
+            },
+            {
+              "lo": -0.3999999999999999,
+              "hi": -0.19999999999999996,
+              "n_detected": 19224,
+              "Pdet": 0.012812175138648612,
+              "Pdet_err": 9.240617374326261e-05,
+              "rel_dev_from_mean": 0.0032565130260522324
+            },
+            {
+              "lo": -0.19999999999999996,
+              "hi": 0.0,
+              "n_detected": 19187,
+              "Pdet": 0.012787515833606478,
+              "Pdet_err": 9.231720487244119e-05,
+              "rel_dev_from_mean": 0.0013255678022714434
+            },
+            {
+              "lo": 0.0,
+              "hi": 0.20000000000000018,
+              "n_detected": 19091,
+              "Pdet": 0.01272353493403768,
+              "Pdet_err": 9.208596588099046e-05,
+              "rel_dev_from_mean": -0.0036844522378098876
+            },
+            {
+              "lo": 0.20000000000000018,
+              "hi": 0.40000000000000013,
+              "n_detected": 19153,
+              "Pdet": 0.012764855931675867,
+              "Pdet_err": 9.223537403106963e-05,
+              "rel_dev_from_mean": -0.0004488142952570051
+            },
+            {
+              "lo": 0.40000000000000013,
+              "hi": 0.6000000000000001,
+              "n_detected": 19046,
+              "Pdet": 0.012693543887364829,
+              "Pdet_err": 9.197737247944786e-05,
+              "rel_dev_from_mean": -0.006032899131596325
+            },
+            {
+              "lo": 0.6000000000000001,
+              "hi": 0.8,
+              "n_detected": 19438,
+              "Pdet": 0.01295479922727069,
+              "Pdet_err": 9.2919079282602e-05,
+              "rel_dev_from_mean": 0.014424682698731095
+            },
+            {
+              "lo": 0.8,
+              "hi": 1.0,
+              "n_detected": 18918,
+              "Pdet": 0.012608236021273119,
+              "Pdet_err": 9.166778120249957e-05,
+              "rel_dev_from_mean": -0.01271292585170325
+            }
+          ],
+          "chi2_vs_constant": 9.243925350701467,
+          "dof": 9,
+          "p_value": 0.41506938365637314,
+          "max_abs_rel_dev": 0.014424682698731095,
+          "linear_trend_per_unit_chi": -0.0026542220305092374,
+          "linear_trend_err": 0.0039747824819824,
+          "linear_trend_nsigma": -0.6677653538377928
+        },
+        "ks_tests": {
+          "uniform_branch_vs_U(-1,1)": {
+            "D": 0.0018092451831155376,
+            "p": 0.5566235254435151,
+            "n": 191616
+          },
+          "population_branch_vs_TN(0,0.1)": {
+            "D": 0.00318513647688351,
+            "p": 0.038396390326709384,
+            "n": 194715
+          },
+          "targeted_branch_vs_TN(0,0.1)": {
+            "D": 0.0005736257401464107,
+            "p": 0.5873207678410411,
+            "n": 1819049
+          }
+        },
+        "pearson_chi_vs_snr_amplitude": {
+          "all": {
+            "r": 0.0007802781571687772,
+            "p": 0.24655675650019276
+          },
+          "uniform_branch": {
+            "r": 0.0028898245665039263,
+            "p": 0.20587664074314238
+          }
+        },
+        "paired_detectable_fraction": [
+          {
+            "mu_chi": 0.05,
+            "Pdet_ratio_to_fiducial": 0.9998751709536013,
+            "paired_sigma": 0.0006659193920359834,
+            "n_sigma": -0.18745368867694792
+          },
+          {
+            "mu_chi": 0.1,
+            "Pdet_ratio_to_fiducial": 1.0004203850931788,
+            "paired_sigma": 0.0015768204587529961,
+            "n_sigma": 0.26660301801970565
+          },
+          {
+            "mu_chi": 0.15,
+            "Pdet_ratio_to_fiducial": 1.0019419821975628,
+            "paired_sigma": 0.003097073787238634,
+            "n_sigma": 0.6270377559503639
+          },
+          {
+            "mu_chi": 0.2,
+            "Pdet_ratio_to_fiducial": 1.004042449821769,
+            "paired_sigma": 0.0057306117757598305,
+            "n_sigma": 0.7054133101230803
+          },
+          {
+            "mu_chi": -0.1,
+            "Pdet_ratio_to_fiducial": 1.0007310575081836,
+            "paired_sigma": 0.0015717333771535036,
+            "n_sigma": 0.4651281946481098
+          }
+        ],
+        "verdict": "the detection efficiency is flat in chi_eff: chi2 = 9.24 on 9 dof (p = 0.415), trend -0.0027 +- 0.0040 per unit chi_eff. A normalised spin density therefore cannot change the detectable fraction, and the measured change at +0.10 is consistent with zero."
+      }
+    },
+    "4_recommendation": {
+      "decision": "REUSE the existing injections_targeted.h5. Generate none.",
+      "why": [
+        "the proposal already covers the full [-1, 1] chi_eff support, by construction, through its uniform-spin branch",
+        "the reweight is exact, not approximate, so reuse costs no accuracy -- only variance",
+        "the worst-case N_eff at the registered mark is 141212, 28.2x the 5000 guard",
+        "the detection rule is chi_eff-independent (measured: P_det flat to -0.0027 +- 0.0040 per unit chi_eff), so new injections would not move the detectable fraction, only the Monte-Carlo noise on it",
+        "the specification forbids regenerating 1e8-scale injections unless reuse is proven insufficient; it is proven sufficient"
+      ],
+      "carry_forward_constraint": {
+        "what": "N_eff falls steeply with |mu_chi_c2| at high f, and the HARD guard returns -inf below 5000. The scan grid for Gate C must respect that, or cells will be refused -- correctly refused, but refused.",
+        "guard_boundary_mu_chi_c2": {
+          "f=1.0_pos": 0.22734375,
+          "f=1.0_neg": -0.22734375,
+          "f=0.295_pos": 0.323828125,
+          "f=0.5_pos": 0.2787109375
+        },
+        "safe_scan_range_recommended": [
+          -0.2,
+          0.2
+        ],
+        "worst_margin_inside_that_range": {
+          "cell": "f = 1.0, mu_chi_c2 = +0.20",
+          "Neff": 11012.882698120588,
+          "Neff_over_threshold": 2.2025765396241175,
+          "comment": "2.2x is a pass, not a comfort. Every cell with |mu| <= 0.20 clears the guard, but the corner f -> 1 is where it is thinnest, so quote N_eff with any result taken from there."
+        },
+        "the_population_only_proxy_is_optimistic_here": {
+          "proxy_crossing_mu_positive": 0.2857421875,
+          "real_crossing_at_f_1": 0.22734375,
+          "why_it_matters": "the file-only proxy puts the guard crossing at mu = 0.286, but the selection integral the likelihood actually evaluates carries the catalog redshift prior and crosses at mu = 0.227 once f -> 1. A scan range sized from the proxy alone would over-reach by 26 per cent. Anywhere a cell's margin is quoted, quote the likelihood number, not the proxy: at mu = +0.25 the proxy reads 10044 (a pass) while the real integral at f = 1 reads 2766 (a hard -inf)."
+        },
+        "note": "the boundary is the injection set's, not the model's: it is where the existing proposal stops supporting a displaced spin target. |mu| <= 0.20 keeps every cell above the guard at every f, and the registered mark +0.10 sits at half of it. A wider prior would need the regeneration this gate is declining, so if Gate C wants |mu_chi_c2| > 0.22 at f -> 1 it needs a new owner decision, not a wider grid."
+      },
+      "what_would_have_changed_the_answer": [
+        "a proposal with no uniform-spin branch (support would end near |chi| = 0.5 and the shifted target's tail would be uncovered)",
+        "a chi_eff-dependent detection rule (the detectable fraction would then genuinely differ between branches and the stored detected set would be the wrong one)",
+        "a target that did not factorise in chi_eff (the reweight would be approximate and reuse would trade bias for cost)",
+        "N_eff below 5000 at the registered mark"
+      ]
+    }
+  },
+  "reproducibility": {
+    "check": "the likelihood stage was run twice, in two separate processes on the same H100, and the two runs were compared cell by cell",
+    "cells_compared": 41,
+    "cells_differing_bitwise": 0,
+    "guard_boundaries_identical": true,
+    "note": "N_eff, logL and all four guard boundaries came back bit identical, so every margin quoted here is a property of the injection file and not of a particular run"
+  },
+  "raw": {
+    "file_stage": {
+      "provenance": {
+        "gws_agn_sha": "8b14349ffdb64f56b596393693f6b390bf501327",
+        "gws_agn_dirty": true,
+        "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+        "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+        "darksirens_dirty": false,
+        "python": "/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python",
+        "pythonpath": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+        "written_at_utc": "2026-09-18T17:42:15+00:00"
+      },
+      "constants": {
+        "sigma_chi": 0.1,
+        "mu_chi_gal": 0.0,
+        "dmu_chi_plant": 0.1,
+        "n_obs": 1000,
+        "guard_threshold_5Nobs": 5000.0,
+        "H0": 67.74,
+        "Om0": 0.3075,
+        "gamma": 0.0
+      },
+      "injection_file": {
+        "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
+        "realpath": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_targeted.h5",
+        "n_detected": 2205380,
+        "Ndraw": 150000000.0,
+        "detected_fraction": 0.014702533333333333,
+        "proposal": "mixture(population=0.65,uniform=0.1,targeted_agn=0.25)",
+        "proposal_mix": {
+          "population": 0.65,
+          "uniform": 0.1,
+          "targeted_agn": 0.25
+        },
+        "n_proposed_by_branch": {
+          "population": 97492697,
+          "uniform": 15004478,
+          "targeted_agn": 37502825
+        },
+        "n_detected_by_branch": {
+          "population": 194715,
+          "uniform": 191616,
+          "targeted_agn": 1819049
+        },
+        "spin_basis": "chieff",
+        "shared_spin_attr": true,
+        "stored_Neff_attr": 3714.9843608132574,
+        "stored_Neff_attr_meaning": "(sum 1/pdraw)^2 / sum (1/pdraw)^2 -- the N_eff of a FLAT target, computed at generation time (generate_dataset.py:2221). It is NOT the N_eff of any selection integral used here and must not be read as one; the selection-integral N_eff is measured below and is two orders of magnitude larger.",
+        "pdraw_min": 8.694307470796742e-14,
+        "pdraw_max": 8.94730392114547e-06,
+        "pdraw_rows_at_1e-300_floor": 0
+      },
+      "chi_eff_support": {
+        "target_support_both_branches": [
+          -1.0,
+          1.0
+        ],
+        "target_families": {
+          "GAL": {
+            "mu_chi": 0.0,
+            "sigma_chi": 0.1,
+            "truncation": [
+              -1.0,
+              1.0
+            ]
+          },
+          "AGN": {
+            "mu_chi": 0.1,
+            "sigma_chi": 0.1,
+            "truncation": [
+              -1.0,
+              1.0
+            ]
+          }
+        },
+        "injections_all": {
+          "n": 2205380,
+          "min": -0.9999950659907357,
+          "max": 0.9999783213490876,
+          "mean": -0.00014250860542118688,
+          "std": 0.1950279678645425
+        },
+        "injections_by_proposal_branch": {
+          "population": {
+            "n": 194715,
+            "min": -0.4713081288931125,
+            "max": 0.4553292041719832,
+            "mean": -0.000435479647477288,
+            "std": 0.10021731067860419
+          },
+          "uniform": {
+            "n": 191616,
+            "min": -0.9999950659907357,
+            "max": 0.9999783213490876,
+            "mean": -0.00081075013082982,
+            "std": 0.5767604044351352
+          },
+          "targeted_agn": {
+            "n": 1819049,
+            "min": -0.4802619338511468,
+            "max": 0.4932536078586691,
+            "mean": -4.075674244957128e-05,
+            "std": 0.09998857736590477
+          }
+        },
+        "quantiles": {
+          "0.0": -0.9999950659907357,
+          "1e-06": -0.9999787329035982,
+          "1e-05": -0.9997707113978992,
+          "0.0001": -0.9977308513545645,
+          "0.001": -0.9769508086606616,
+          "0.01": -0.7689774477983835,
+          "0.5": -0.0001350743845499864,
+          "0.99": 0.7671920207013777,
+          "0.999": 0.9767725236661122,
+          "0.9999": 0.9979841040570596,
+          "0.99999": 0.9997237470963724,
+          "1.0": 0.9999783213490876
+        },
+        "bin_table": [
+          {
+            "lo": -1.0,
+            "hi": -0.8,
+            "n_injections": 19125,
+            "target_mass_GAL": 6.22096049807321e-16,
+            "target_mass_AGN": 1.1285884040431729e-19,
+            "injections_per_unit_target_mass_AGN": 1.6945947638204152e+23
+          },
+          {
+            "lo": -0.8,
+            "hi": -0.6,
+            "n_injections": 19291,
+            "target_mass_GAL": 9.865870229416445e-10,
+            "target_mass_AGN": 1.2798124310269944e-12,
+            "injections_per_unit_target_mass_AGN": 1.5073302565532828e+16
+          },
+          {
+            "lo": -0.6,
+            "hi": -0.4,
+            "n_injections": 19196,
+            "target_mass_GAL": 3.167025524547483e-05,
+            "target_mass_AGN": 2.866502920666494e-07,
+            "injections_per_unit_target_mass_AGN": 66966615877.49827
+          },
+          {
+            "lo": -0.4,
+            "hi": -0.3,
+            "n_injections": 12083,
+            "target_mass_GAL": 0.0013182267897969761,
+            "target_mass_AGN": 3.138459026124067e-05,
+            "injections_per_unit_target_mass_AGN": 384997857.21027106
+          },
+          {
+            "lo": -0.3,
+            "hi": -0.2,
+            "n_injections": 52794,
+            "target_mass_GAL": 0.021400233916549098,
+            "target_mass_AGN": 0.0013182267897969735,
+            "injections_per_unit_target_mass_AGN": 40049254.353365906
+          },
+          {
+            "lo": -0.2,
+            "hi": -0.1,
+            "n_injections": 283935,
+            "target_mass_GAL": 0.13590512198327787,
+            "target_mass_AGN": 0.0214002339165491,
+            "injections_per_unit_target_mass_AGN": 13267845.62763256
+          },
+          {
+            "lo": -0.1,
+            "hi": 0.0,
+            "n_injections": 697297,
+            "target_mass_GAL": 0.3413447460685429,
+            "target_mass_AGN": 0.13590512198327787,
+            "injections_per_unit_target_mass_AGN": 5130763.210571249
+          },
+          {
+            "lo": 0.0,
+            "hi": 0.1,
+            "n_injections": 696708,
+            "target_mass_GAL": 0.3413447460685429,
+            "target_mass_AGN": 0.3413447460685429,
+            "injections_per_unit_target_mass_AGN": 2041068.4740994936
+          },
+          {
+            "lo": 0.1,
+            "hi": 0.2,
+            "n_injections": 282555,
+            "target_mass_GAL": 0.13590512198327787,
+            "target_mass_AGN": 0.3413447460685429,
+            "injections_per_unit_target_mass_AGN": 827770.1744478066
+          },
+          {
+            "lo": 0.2,
+            "hi": 0.3,
+            "n_injections": 52694,
+            "target_mass_GAL": 0.021400233916549098,
+            "target_mass_AGN": 0.13590512198327787,
+            "injections_per_unit_target_mass_AGN": 387726.3728624121
+          },
+          {
+            "lo": 0.3,
+            "hi": 0.4,
+            "n_injections": 12241,
+            "target_mass_GAL": 0.0013182267897969761,
+            "target_mass_AGN": 0.021400233916549122,
+            "injections_per_unit_target_mass_AGN": 572003.0934116964
+          },
+          {
+            "lo": 0.4,
+            "hi": 0.5,
+            "n_injections": 9626,
+            "target_mass_GAL": 3.138459026124067e-05,
+            "target_mass_AGN": 0.0013182267897969735,
+            "injections_per_unit_target_mass_AGN": 7302233.632713948
+          },
+          {
+            "lo": 0.5,
+            "hi": 0.6,
+            "n_injections": 9479,
+            "target_mass_GAL": 2.856649842341556e-07,
+            "target_mass_AGN": 3.138459026124067e-05,
+            "injections_per_unit_target_mass_AGN": 302027202.5569941
+          },
+          {
+            "lo": 0.6,
+            "hi": 0.8,
+            "n_injections": 19438,
+            "target_mass_GAL": 9.865870229416445e-10,
+            "target_mass_AGN": 2.866502920666494e-07,
+            "injections_per_unit_target_mass_AGN": 67810850147.26044
+          },
+          {
+            "lo": 0.8,
+            "hi": 1.0,
+            "n_injections": 18918,
+            "target_mass_GAL": 6.22096049807321e-16,
+            "target_mass_AGN": 1.2798124310269944e-12,
+            "injections_per_unit_target_mass_AGN": 1.4781853607109534e+16
+          }
+        ],
+        "empty_bins_carrying_target_mass": 0,
+        "uncovered_target_mass_GAL": 0.0,
+        "uncovered_target_mass_AGN": 0.0,
+        "note": "The population and targeted_agn proposal branches draw chi_eff from the FIDUCIAL spin density and only reach |chi| < 0.5; the whole of the remaining support is carried by the 10 per cent uniform branch, which draws chi ~ U(-1, 1) and contributes 191,616 detected injections spread over the full interval. That branch is why the proposal covers a shifted target at all."
+      },
+      "proposal_factorisation": {
+        "proposal_is_a_three_component_mixture": {
+          "population": {
+            "weight": 0.65,
+            "spin_density": "TruncNormal(0, 0.1) on [-1,1]"
+          },
+          "uniform": {
+            "weight": 0.1,
+            "spin_density": "Uniform(-1,1), i.e. 0.5"
+          },
+          "targeted_agn": {
+            "weight": 0.25,
+            "spin_density": "TruncNormal(0, 0.1) on [-1,1]"
+          },
+          "source": "generate_dataset.py:2033-2087 draws the three branches; generate_dataset.py:2097-2107 forms pdraw = 0.65 p_pop + 0.10 p_unif + 0.25 p_tgt; the spin factor of each branch is generate_mock_data.py:423 (_mass_spin_pdf) for the two population branches and the flat 0.5 in generate_mock_data.py:618 (_p_uniform)."
+        },
+        "pdraw_closure": {
+          "max_rel_diff": 0.0,
+          "median_rel_diff": 0.0,
+          "n_bit_identical": 2205380,
+          "n_rows": 2205380,
+          "verdict": "pdraw is EXACTLY the stored three-component mixture density, bit for bit, on every row"
+        },
+        "branch_share_of_pdraw": {
+          "population": {
+            "mean": 0.0883347437776628,
+            "median": 0.0622723971891245,
+            "p01": 5.280080276261773e-112,
+            "p99": 0.9977789036096788,
+            "min": 3.579076761725754e-290,
+            "max": 0.9992992830380037
+          },
+          "uniform": {
+            "mean": 0.08689325008747345,
+            "median": 0.00018240581343634184,
+            "p01": 1.3438705453449182e-05,
+            "p99": 1.0,
+            "min": 1.033787273822088e-09,
+            "max": 1.0
+          },
+          "targeted_agn": {
+            "mean": 0.8247720061348641,
+            "median": 0.9275240827040203,
+            "p01": 0.0,
+            "p99": 0.9929401101257191,
+            "min": 0.0,
+            "max": 0.9999995699709432
+          }
+        },
+        "does_the_PROPOSAL_factorise_in_chi": {
+          "answer": "NO",
+          "why": "two of the three branches carry the fiducial spin density and the third carries a flat one, so pdraw = s(chi) R1(rest) + 0.05 R2(rest) is a sum, not a product. Were it a product the uniform branch's share of pdraw would be a chi-independent constant; it is measured to run from 1.03e-09 to 1.0 with median 1.8e-04."
+        },
+        "is_the_SPIN_REWEIGHT_EXACT": {
+          "answer": "YES",
+          "why": "exactness does not need the proposal to factorise. The TARGET factorises -- p_pop(theta|Lambda) = masspair(m1,q) x s(chieff|mu,sigma) (generate_mock_data.py:403-425, and the inference side is the same product under shared_spin) -- and the same pdraw divides both branches, so it cancels: w_i(mu)/w_i(0) = s(chi_i|mu)/s(chi_i|0) EXACTLY, whatever the proposal is. The estimator itself stays unbiased because pdraw is the analytic mixture density, not an estimate, and is strictly positive over the whole chi_eff support.",
+          "recompute_vs_stored_pdraw_population": {
+            "max_rel_diff": 1.1314847944212395e-15,
+            "median_rel_diff": 0.0,
+            "n_bit_identical": 1450638,
+            "meaning": "the target evaluator used here reproduces the file's own stored population density, so it is in the identical basis and convention"
+          },
+          "ratio_route_vs_direct_recomputation_at_dmu_0p10": {
+            "max_rel_diff": 6.661155377400155e-16,
+            "median_rel_diff": 1.247741280282957e-16,
+            "n_bit_identical": 928300,
+            "n_rows_compared": 2205372,
+            "Neff_direct": 246355.8190368106,
+            "Neff_via_ratio": 246355.8190368106,
+            "Neff_rel_diff": 0.0,
+            "Pdet_rel_diff": 0.0
+          },
+          "rows_excluded_at_the_target_floor": {
+            "n": 8,
+            "fraction": 3.6274927676862946e-06,
+            "max_weight_contribution": 7.860188501905021e-288,
+            "why": "_selection_pdraw returns max(p, 1e-300), so on rows where the mass model gives exactly zero the floor -- not the density -- is stored and multiplicativity fails there. Those rows carry a weight of order 1e-288 and cannot affect any sum; they are excluded from the exactness comparison and included in every integral."
+          }
+        },
+        "importance_weight_bound_from_the_uniform_branch": {
+          "statement": "pdraw >= 0.10 x p_uniform and p_uniform's spin factor is the flat 0.5, so the spin part of any importance weight is bounded by max_chi s(chi|mu) / 0.05 = 79.79 for ANY mu inside the truncation -- the bound does not degrade when the target spin mean moves.",
+          "max_spin_density": 3.989422804014327,
+          "uniform_branch_spin_floor": 0.05,
+          "bound": 79.78845608028654
+        }
+      },
+      "detection_rule_chi_eff_independence": {
+        "code_fact": "detect_v3 thresholds rho_obs, and observe_v3(need_sky=False) forms rho_obs = snr_amplitude(m1det, m2det, dL, snr_ref) + N(0, 1) -- chi_eff is an argument it never reads and never consumes RNG for (generate_dataset.py:559-566, 809-835, 866).",
+        "direct_measurement_Pdet_of_chi": {
+          "method": "the uniform proposal branch draws chi ~ U(-1,1) independently of everything else, so the number PROPOSED in each chi bin is known exactly and P_det(chi) is a direct ratio -- no model, no reweighting.",
+          "n_proposed_uniform_branch": 15004478,
+          "n_detected_uniform_branch": 191616,
+          "Pdet_mean": 0.012770587553928901,
+          "bins": [
+            {
+              "lo": -1.0,
+              "hi": -0.8,
+              "n_detected": 19125,
+              "Pdet": 0.012746194835968306,
+              "Pdet_err": 9.216792937374651e-05,
+              "rel_dev_from_mean": -0.0019100701402803288
+            },
+            {
+              "lo": -0.8,
+              "hi": -0.6,
+              "n_detected": 19291,
+              "Pdet": 0.012856828474805983,
+              "Pdet_err": 9.256706191884722e-05,
+              "rel_dev_from_mean": 0.006753089512357757
+            },
+            {
+              "lo": -0.6,
+              "hi": -0.3999999999999999,
+              "n_detected": 19143,
+              "Pdet": 0.012758191254637445,
+              "Pdet_err": 9.221129231633545e-05,
+              "rel_dev_from_mean": -0.0009706913827658425
+            },
+            {
+              "lo": -0.3999999999999999,
+              "hi": -0.19999999999999996,
+              "n_detected": 19224,
+              "Pdet": 0.012812175138648612,
+              "Pdet_err": 9.240617374326261e-05,
+              "rel_dev_from_mean": 0.0032565130260522324
+            },
+            {
+              "lo": -0.19999999999999996,
+              "hi": 0.0,
+              "n_detected": 19187,
+              "Pdet": 0.012787515833606478,
+              "Pdet_err": 9.231720487244119e-05,
+              "rel_dev_from_mean": 0.0013255678022714434
+            },
+            {
+              "lo": 0.0,
+              "hi": 0.20000000000000018,
+              "n_detected": 19091,
+              "Pdet": 0.01272353493403768,
+              "Pdet_err": 9.208596588099046e-05,
+              "rel_dev_from_mean": -0.0036844522378098876
+            },
+            {
+              "lo": 0.20000000000000018,
+              "hi": 0.40000000000000013,
+              "n_detected": 19153,
+              "Pdet": 0.012764855931675867,
+              "Pdet_err": 9.223537403106963e-05,
+              "rel_dev_from_mean": -0.0004488142952570051
+            },
+            {
+              "lo": 0.40000000000000013,
+              "hi": 0.6000000000000001,
+              "n_detected": 19046,
+              "Pdet": 0.012693543887364829,
+              "Pdet_err": 9.197737247944786e-05,
+              "rel_dev_from_mean": -0.006032899131596325
+            },
+            {
+              "lo": 0.6000000000000001,
+              "hi": 0.8,
+              "n_detected": 19438,
+              "Pdet": 0.01295479922727069,
+              "Pdet_err": 9.2919079282602e-05,
+              "rel_dev_from_mean": 0.014424682698731095
+            },
+            {
+              "lo": 0.8,
+              "hi": 1.0,
+              "n_detected": 18918,
+              "Pdet": 0.012608236021273119,
+              "Pdet_err": 9.166778120249957e-05,
+              "rel_dev_from_mean": -0.01271292585170325
+            }
+          ],
+          "chi2_vs_constant": 9.243925350701467,
+          "dof": 9,
+          "p_value": 0.41506938365637314,
+          "max_abs_rel_dev": 0.014424682698731095,
+          "linear_trend_per_unit_chi": -0.0026542220305092374,
+          "linear_trend_err": 0.0039747824819824,
+          "linear_trend_nsigma": -0.6677653538377928
+        },
+        "ks_tests": {
+          "uniform_branch_vs_U(-1,1)": {
+            "D": 0.0018092451831155376,
+            "p": 0.5566235254435151,
+            "n": 191616
+          },
+          "population_branch_vs_TN(0,0.1)": {
+            "D": 0.00318513647688351,
+            "p": 0.038396390326709384,
+            "n": 194715
+          },
+          "targeted_branch_vs_TN(0,0.1)": {
+            "D": 0.0005736257401464107,
+            "p": 0.5873207678410411,
+            "n": 1819049
+          }
+        },
+        "pearson_chi_vs_snr_amplitude": {
+          "all": {
+            "r": 0.0007802781571687772,
+            "p": 0.24655675650019276
+          },
+          "uniform_branch": {
+            "r": 0.0028898245665039263,
+            "p": 0.20587664074314238
+          }
+        },
+        "paired_detectable_fraction": [
+          {
+            "mu_chi": 0.05,
+            "Pdet_ratio_to_fiducial": 0.9998751709536013,
+            "paired_sigma": 0.0006659193920359834,
+            "n_sigma": -0.18745368867694792
+          },
+          {
+            "mu_chi": 0.1,
+            "Pdet_ratio_to_fiducial": 1.0004203850931788,
+            "paired_sigma": 0.0015768204587529961,
+            "n_sigma": 0.26660301801970565
+          },
+          {
+            "mu_chi": 0.15,
+            "Pdet_ratio_to_fiducial": 1.0019419821975628,
+            "paired_sigma": 0.003097073787238634,
+            "n_sigma": 0.6270377559503639
+          },
+          {
+            "mu_chi": 0.2,
+            "Pdet_ratio_to_fiducial": 1.004042449821769,
+            "paired_sigma": 0.0057306117757598305,
+            "n_sigma": 0.7054133101230803
+          },
+          {
+            "mu_chi": -0.1,
+            "Pdet_ratio_to_fiducial": 1.0007310575081836,
+            "paired_sigma": 0.0015717333771535036,
+            "n_sigma": 0.4651281946481098
+          }
+        ],
+        "verdict": "the detection efficiency is flat in chi_eff: chi2 = 9.24 on 9 dof (p = 0.415), trend -0.0027 +- 0.0040 per unit chi_eff. A normalised spin density therefore cannot change the detectable fraction, and the measured change at +0.10 is consistent with zero."
+      },
+      "population_only_selection_integral": {
+        "what_it_is": "the exact importance-sampling estimate of the DETECTABLE FRACTION under the fiducial population with spin mean mu, computed from the injection file alone: w_i = p_pop(theta_i | mu) / pdraw_i, with p_pop in the same canonical coordinates as pdraw. It carries the smooth uniform-in-comoving-volume redshift prior, not the catalog one, so it is the branch-population diagnostic, not the dark-siren selection term; that one is measured in the likelihood stage.",
+        "scan": [
+          {
+            "mu_chi": -0.3,
+            "Pdet": 0.0020334776098996617,
+            "Neff": 3419.753648810057,
+            "Neff_over_threshold": 0.6839507297620113,
+            "rel_mc_error": 0.017100255099673202,
+            "top1_weight_share": 0.0027959043090729223
+          },
+          {
+            "mu_chi": -0.25,
+            "Pdet": 0.0020149234058496877,
+            "Neff": 9277.055918016136,
+            "Neff_over_threshold": 1.8554111836032272,
+            "rel_mc_error": 0.010382332010882933,
+            "top1_weight_share": 0.0013645191478880892
+          },
+          {
+            "mu_chi": -0.2,
+            "Pdet": 0.002004379963176285,
+            "Neff": 28701.5295514308,
+            "Neff_over_threshold": 5.74030591028616,
+            "rel_mc_error": 0.005902656073627062,
+            "top1_weight_share": 0.0005925071958529081
+          },
+          {
+            "mu_chi": -0.15,
+            "Pdet": 0.002000581407467984,
+            "Neff": 90582.50208151244,
+            "Neff_over_threshold": 18.11650041630249,
+            "rel_mc_error": 0.003322598339370895,
+            "top1_weight_share": 0.000230427626680554
+          },
+          {
+            "mu_chi": -0.1,
+            "Pdet": 0.001999529187402098,
+            "Neff": 247277.3968411824,
+            "Neff_over_threshold": 49.45547936823648,
+            "rel_mc_error": 0.002010980178478653,
+            "top1_weight_share": 7.368433288624134e-05
+          },
+          {
+            "mu_chi": -0.05,
+            "Pdet": 0.0019988242043719735,
+            "Neff": 488497.7393117621,
+            "Neff_over_threshold": 97.69954786235242,
+            "rel_mc_error": 0.0014307663612292225,
+            "top1_weight_share": 1.9810884484341544e-05
+          },
+          {
+            "mu_chi": 0.0,
+            "Pdet": 0.0019980684844346872,
+            "Neff": 620604.91452021,
+            "Neff_over_threshold": 124.120982904042,
+            "rel_mc_error": 0.0012693821728218646,
+            "top1_weight_share": 5.129565625811976e-06
+          },
+          {
+            "mu_chi": 0.05,
+            "Pdet": 0.0019978190674511363,
+            "Neff": 488526.98799540364,
+            "Neff_over_threshold": 97.70539759908073,
+            "rel_mc_error": 0.0014307235297582042,
+            "top1_weight_share": 1.985780269763987e-05
+          },
+          {
+            "mu_chi": 0.1,
+            "Pdet": 0.0019989084426406943,
+            "Neff": 246355.8190368106,
+            "Neff_over_threshold": 49.27116380736212,
+            "rel_mc_error": 0.0020147380453270783,
+            "top1_weight_share": 7.480597328268803e-05
+          },
+          {
+            "mu_chi": 0.15,
+            "Pdet": 0.0020019486978609708,
+            "Neff": 90405.28202407998,
+            "Neff_over_threshold": 18.081056404815996,
+            "rel_mc_error": 0.003325853363683443,
+            "top1_weight_share": 0.00023566480305013714
+          },
+          {
+            "mu_chi": 0.2,
+            "Pdet": 0.002006145576023473,
+            "Neff": 29462.2783884265,
+            "Neff_over_threshold": 5.8924556776853,
+            "rel_mc_error": 0.005825951106933513,
+            "top1_weight_share": 0.0005998265323520611
+          },
+          {
+            "mu_chi": 0.25,
+            "Pdet": 0.0020080873348410416,
+            "Neff": 10044.224564897308,
+            "Neff_over_threshold": 2.0088449129794617,
+            "rel_mc_error": 0.009977960791251727,
+            "top1_weight_share": 0.0013123406360479387
+          },
+          {
+            "mu_chi": 0.3,
+            "Pdet": 0.002003247287253546,
+            "Neff": 3900.127566879805,
+            "Neff_over_threshold": 0.7800255133759609,
+            "rel_mc_error": 0.016012553501690185,
+            "top1_weight_share": 0.0025084795333182837
+          }
+        ],
+        "Neff_degradation_at_plant": 2.519140473103576,
+        "guard_crossing_mu_positive": 0.2857421875,
+        "guard_crossing_mu_negative": -0.2798828124999999
+      },
+      "cross_check_lane_popuni": {
+        "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_popuni.h5",
+        "n_detected": 1230471,
+        "Ndraw": 400000000.0,
+        "proposal": "population+uniform",
+        "chi_eff_range": [
+          -0.9999962279133336,
+          0.9999898051995573
+        ],
+        "n_detected_uniform_branch": 510012,
+        "population_only": [
+          {
+            "mu_chi": 0.0,
+            "Neff": 728515.5236743125,
+            "Pdet": 0.0020012957325971268
+          },
+          {
+            "mu_chi": 0.1,
+            "Neff": 290825.06048547773,
+            "Pdet": 0.00200984467897441
+          }
+        ],
+        "note": "recorded so the answer covers the cross-check lane too: it also carries a 10 per cent uniform-spin branch and also covers [-1, 1], so it needs no regeneration either."
+      },
+      "mark_truncation_support": {
+        "what": "the generator adds +0.10 to samples already truncated to [-1, 1], which yields TruncNormal(0.10, 0.10) on [-0.9, 1.1] instead of on [-1, 1]. Measured, not waved at.",
+        "mass_above_chi_1": 1.1285122074235907e-19,
+        "mass_above_chi_1_nsigma": 9.0,
+        "mass_below_chi_minus1": 7.61966195820302e-24,
+        "mass_below_chi_minus1_nsigma": 11.0,
+        "normalisation_Z_truncated_minus1_1": 1.0,
+        "normalisation_Z_shifted_support": 1.0,
+        "normalisation_ratio_minus_one": -1.1284360108040085e-19,
+        "double_precision_eps": 2.220446049250313e-16,
+        "relative_to_eps": 0.0005082023997768382,
+        "expected_draws_above_chi_1": {
+          "per_1000_detected_events_at_f_0p295": 3.3291110118995925e-17,
+          "per_generator_batch_of_100000_trials": 1.1285122074235906e-14
+        },
+        "verdict": "the support difference is 1.1e-19 in normalisation, 5e-04 of one double-precision ulp, and the expected number of draws that land in the extra sliver is 1e-14 over the whole generation. The additive shift is exact at double precision and preserves the RNG stream; a separate per-branch draw would not be more correct, only less comparable."
+      }
+    },
+    "likelihood_stage": {
+      "provenance": {
+        "gws_agn_sha": "8b14349ffdb64f56b596393693f6b390bf501327",
+        "gws_agn_dirty": true,
+        "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+        "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+        "darksirens_dirty": false,
+        "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+        "darksirens_pinned_base_sha": "2b86a2d",
+        "darksirens_pinned_base_is_ancestor": true,
+        "inputs": {
+          "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+          "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+          "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+          "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+        },
+        "settings": {
+          "universe_model": "dark_sirens",
+          "catalog_sky_weighting": "field",
+          "log10n0": -24.0,
+          "log10n0_c2": -24.0,
+          "selection_neff_guard": "hard",
+          "max_likelihood_variance": 1000000.0,
+          "kde_window": 4096,
+          "kde_window_nsigma": 8.0,
+          "sel_batch_size": 50000,
+          "pe_event_block": 25
+        },
+        "H0_fixed": 67.74,
+        "Om0_fixed": 0.3075,
+        "pop_model": "powerlaw+peak"
+      },
+      "grid": [
+        {
+          "f_agn": 0.0,
+          "mu_chi_c2": 0.0,
+          "logL": -4204.143251633603,
+          "finite": true,
+          "Neff": 514672.32479741675,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 102.93446495948335,
+          "log_mu": -11.804419802168809,
+          "mu_selection": 7.471462445318051e-06,
+          "pe_variance_sum": 5.3414421374565,
+          "guard_passes": true,
+          "seconds": 9.51504135131836
+        },
+        {
+          "f_agn": 0.0,
+          "mu_chi_c2": 0.1,
+          "logL": -4204.143251633603,
+          "finite": true,
+          "Neff": 514672.32479741675,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 102.93446495948335,
+          "log_mu": -11.804419802168809,
+          "mu_selection": 7.471462445318051e-06,
+          "pe_variance_sum": 5.3414421374565,
+          "guard_passes": true,
+          "seconds": 1.7150368690490723
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": -0.3,
+          "logL": -4255.313552225058,
+          "finite": true,
+          "Neff": 7366.882496645093,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 1.4733764993290186,
+          "log_mu": -11.802329167576158,
+          "mu_selection": 7.4870988825069245e-06,
+          "pe_variance_sum": 5.134793961666805,
+          "guard_passes": true,
+          "seconds": 1.7113103866577148
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": -0.25,
+          "logL": -4271.12602779482,
+          "finite": true,
+          "Neff": 28017.245152651925,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 5.603449030530385,
+          "log_mu": -11.802430258536958,
+          "mu_selection": 7.486342042742757e-06,
+          "pe_variance_sum": 5.295213278683599,
+          "guard_passes": true,
+          "seconds": 1.713120937347412
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": -0.2,
+          "logL": -4251.971137025177,
+          "finite": true,
+          "Neff": 112532.94524007873,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 22.506589048015744,
+          "log_mu": -11.80179779489945,
+          "mu_selection": 7.491078379485242e-06,
+          "pe_variance_sum": 5.582936952189781,
+          "guard_passes": true,
+          "seconds": 1.720069169998169
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": -0.15,
+          "logL": -4224.749647432927,
+          "finite": true,
+          "Neff": 330959.03886125726,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 66.19180777225145,
+          "log_mu": -11.80118367148404,
+          "mu_selection": 7.495680239034976e-06,
+          "pe_variance_sum": 6.016009093650023,
+          "guard_passes": true,
+          "seconds": 1.7198567390441895
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": -0.1,
+          "logL": -4200.114571353384,
+          "finite": true,
+          "Neff": 577472.7719320087,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 115.49455438640173,
+          "log_mu": -11.801012034316521,
+          "mu_selection": 7.496966886774957e-06,
+          "pe_variance_sum": 6.513481090790467,
+          "guard_passes": true,
+          "seconds": 1.7182445526123047
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": -0.05,
+          "logL": -4183.090050236795,
+          "finite": true,
+          "Neff": 707503.2801903621,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 141.50065603807244,
+          "log_mu": -11.801201903549746,
+          "mu_selection": 7.4955435785461516e-06,
+          "pe_variance_sum": 6.911070300993619,
+          "guard_passes": true,
+          "seconds": 1.7155296802520752
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.0,
+          "logL": -4176.213667864913,
+          "finite": true,
+          "Neff": 741965.4396161863,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 148.39308792323726,
+          "log_mu": -11.801537936765957,
+          "mu_selection": 7.493025250074907e-06,
+          "pe_variance_sum": 7.030544023335285,
+          "guard_passes": true,
+          "seconds": 1.7202351093292236
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.05,
+          "logL": -4180.248078344797,
+          "finite": true,
+          "Neff": 707580.2263189907,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 141.51604526379813,
+          "log_mu": -11.801843694663006,
+          "mu_selection": 7.49073454864978e-06,
+          "pe_variance_sum": 6.784341189488412,
+          "guard_passes": true,
+          "seconds": 1.7234947681427002
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.1,
+          "logL": -4194.5112557800185,
+          "finite": true,
+          "Neff": 575198.8286546108,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 115.03976573092216,
+          "log_mu": -11.801882117647546,
+          "mu_selection": 7.490446737801336e-06,
+          "pe_variance_sum": 6.286642821621751,
+          "guard_passes": true,
+          "seconds": 1.7229602336883545
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.15,
+          "logL": -4217.197382271968,
+          "finite": true,
+          "Neff": 321263.4947778804,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 64.25269895557608,
+          "log_mu": -11.801132264971903,
+          "mu_selection": 7.49606557571648e-06,
+          "pe_variance_sum": 5.7492022898221276,
+          "guard_passes": true,
+          "seconds": 1.7202255725860596
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.2,
+          "logL": -4245.190971688344,
+          "finite": true,
+          "Neff": 108377.22801412563,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 21.67544560282513,
+          "log_mu": -11.798605896619598,
+          "mu_selection": 7.5150273406698655e-06,
+          "pe_variance_sum": 5.302818536279119,
+          "guard_passes": true,
+          "seconds": 1.7203822135925293
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.25,
+          "logL": -4270.704785223714,
+          "finite": true,
+          "Neff": 29163.16676574254,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 5.832633353148508,
+          "log_mu": -11.792942636675189,
+          "mu_selection": 7.557707634717306e-06,
+          "pe_variance_sum": 4.9821548748159366,
+          "guard_passes": true,
+          "seconds": 1.7207212448120117
+        },
+        {
+          "f_agn": 0.295,
+          "mu_chi_c2": 0.3,
+          "logL": -4272.797790104443,
+          "finite": true,
+          "Neff": 8465.194581239466,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 1.6930389162478932,
+          "log_mu": -11.783166270417915,
+          "mu_selection": 7.63195690527332e-06,
+          "pe_variance_sum": 4.804827148044973,
+          "guard_passes": true,
+          "seconds": 1.719209909439087
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": -0.3,
+          "logL": -Infinity,
+          "finite": false,
+          "Neff": 2588.411612702409,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 0.5176823225404819,
+          "log_mu": -11.800878923413006,
+          "mu_selection": 7.4979648812313815e-06,
+          "pe_variance_sum": 6.396112385341105,
+          "guard_passes": false,
+          "seconds": 1.7200820446014404
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": -0.25,
+          "logL": -4361.747542053186,
+          "finite": true,
+          "Neff": 10025.851470579943,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 2.0051702941159886,
+          "log_mu": -11.801050021707733,
+          "mu_selection": 7.496682101970081e-06,
+          "pe_variance_sum": 6.766055949039009,
+          "guard_passes": true,
+          "seconds": 1.7265081405639648
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": -0.2,
+          "logL": -4335.264455494256,
+          "finite": true,
+          "Neff": 43633.92789952116,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 8.72678557990423,
+          "log_mu": -11.79997976233215,
+          "mu_selection": 7.504709791364117e-06,
+          "pe_variance_sum": 7.33479516986543,
+          "guard_passes": true,
+          "seconds": 1.7219369411468506
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": -0.15,
+          "logL": -4283.237875595554,
+          "finite": true,
+          "Neff": 163318.36811523957,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 32.66367362304791,
+          "log_mu": -11.798940986448137,
+          "mu_selection": 7.5125095533128405e-06,
+          "pe_variance_sum": 8.13523672901675,
+          "guard_passes": true,
+          "seconds": 1.7243940830230713
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": -0.1,
+          "logL": -4234.776142860066,
+          "finite": true,
+          "Neff": 411131.3798825484,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 82.22627597650968,
+          "log_mu": -11.79865074489733,
+          "mu_selection": 7.514690312194161e-06,
+          "pe_variance_sum": 9.029132967607886,
+          "guard_passes": true,
+          "seconds": 1.7195231914520264
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": -0.05,
+          "logL": -4201.277029732215,
+          "finite": true,
+          "Neff": 657322.5756664255,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 131.4645151332851,
+          "log_mu": -11.798971819223311,
+          "mu_selection": 7.512277925365676e-06,
+          "pe_variance_sum": 9.763548317424355,
+          "guard_passes": true,
+          "seconds": 1.7266995906829834
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.0,
+          "logL": -4188.4000260609755,
+          "finite": true,
+          "Neff": 750341.5576221895,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 150.06831152443792,
+          "log_mu": -11.799540164330782,
+          "mu_selection": 7.508009572024597e-06,
+          "pe_variance_sum": 10.058827741356179,
+          "guard_passes": true,
+          "seconds": 1.7207989692687988
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.05,
+          "logL": -4198.134111328589,
+          "finite": true,
+          "Neff": 657996.2347084313,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 131.59924694168626,
+          "log_mu": -11.800057418467027,
+          "mu_selection": 7.504127027236242e-06,
+          "pe_variance_sum": 9.752933644678581,
+          "guard_passes": true,
+          "seconds": 1.7263615131378174
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.1,
+          "logL": -4229.012887656359,
+          "finite": true,
+          "Neff": 407896.91887606034,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 81.57938377521207,
+          "log_mu": -11.800122426808676,
+          "mu_selection": 7.503639212238876e-06,
+          "pe_variance_sum": 8.997708024865968,
+          "guard_passes": true,
+          "seconds": 1.7196462154388428
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.15,
+          "logL": -4276.444502796709,
+          "finite": true,
+          "Neff": 156639.31936730407,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 31.327863873460814,
+          "log_mu": -11.798854053496273,
+          "mu_selection": 7.513162666332332e-06,
+          "pe_variance_sum": 8.10437846490466,
+          "guard_passes": true,
+          "seconds": 1.7263667583465576
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.2,
+          "logL": -4331.216792228872,
+          "finite": true,
+          "Neff": 42012.919911685996,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 8.4025839823372,
+          "log_mu": -11.794585539305071,
+          "mu_selection": 7.545301250999102e-06,
+          "pe_variance_sum": 7.279864360873201,
+          "guard_passes": true,
+          "seconds": 1.7200019359588623
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.25,
+          "logL": -4370.367219250433,
+          "finite": true,
+          "Neff": 10579.260135591354,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 2.1158520271182706,
+          "log_mu": -11.785043851372347,
+          "mu_selection": 7.617640732435413e-06,
+          "pe_variance_sum": 6.611134260276961,
+          "guard_passes": true,
+          "seconds": 1.7196757793426514
+        },
+        {
+          "f_agn": 0.5,
+          "mu_chi_c2": 0.3,
+          "logL": -Infinity,
+          "finite": false,
+          "Neff": 3055.199083923507,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 0.6110398167847013,
+          "log_mu": -11.768658460996045,
+          "mu_selection": 7.743486953716789e-06,
+          "pe_variance_sum": 6.149056129750434,
+          "guard_passes": false,
+          "seconds": 1.7207920551300049
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.3,
+          "logL": -Infinity,
+          "finite": false,
+          "Neff": 652.7604753407708,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 0.13055209506815416,
+          "log_mu": -11.797350538254262,
+          "mu_selection": 7.524467317144699e-06,
+          "pe_variance_sum": 111.34839019019427,
+          "guard_passes": false,
+          "seconds": 1.7195286750793457
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.25,
+          "logL": -Infinity,
+          "finite": false,
+          "Neff": 2539.9789124571603,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 0.5079957824914321,
+          "log_mu": -11.797691558540889,
+          "mu_selection": 7.521901758622111e-06,
+          "pe_variance_sum": 92.18575175417303,
+          "guard_passes": false,
+          "seconds": 1.7182531356811523
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.2,
+          "logL": -5960.3092421674355,
+          "finite": true,
+          "Neff": 11332.036155422571,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 2.2664072310845143,
+          "log_mu": -11.795559349337383,
+          "mu_selection": 7.537957137410184e-06,
+          "pe_variance_sum": 77.13782367223854,
+          "guard_passes": true,
+          "seconds": 1.7211124897003174
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.15,
+          "logL": -5696.003426647239,
+          "finite": true,
+          "Neff": 46294.81231910477,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 9.258962463820954,
+          "log_mu": -11.79349202465925,
+          "mu_selection": 7.553556661307614e-06,
+          "pe_variance_sum": 65.40889233363467,
+          "guard_passes": true,
+          "seconds": 1.7205851078033447
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.1,
+          "logL": -5491.531095375338,
+          "finite": true,
+          "Neff": 143078.64249357232,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 28.615728498714464,
+          "log_mu": -11.792914778833833,
+          "mu_selection": 7.557918179070254e-06,
+          "pe_variance_sum": 57.98993256107629,
+          "guard_passes": true,
+          "seconds": 1.7238919734954834
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.05,
+          "logL": -5366.457700232446,
+          "finite": true,
+          "Neff": 295339.38900485105,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 59.06787780097021,
+          "log_mu": -11.793553356045418,
+          "mu_selection": 7.5530934054132795e-06,
+          "pe_variance_sum": 54.80983883345822,
+          "guard_passes": true,
+          "seconds": 1.7218637466430664
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.0,
+          "logL": -5326.0926186264915,
+          "finite": true,
+          "Neff": 378742.41988969664,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 75.74848397793933,
+          "log_mu": -11.794684221780553,
+          "mu_selection": 7.544556698731132e-06,
+          "pe_variance_sum": 54.75726919912083,
+          "guard_passes": true,
+          "seconds": 1.719184160232544
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.05,
+          "logL": -5372.637880394066,
+          "finite": true,
+          "Neff": 295550.7850700607,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 59.11015701401214,
+          "log_mu": -11.795713982529309,
+          "mu_selection": 7.536791609154426e-06,
+          "pe_variance_sum": 56.89805673568757,
+          "guard_passes": true,
+          "seconds": 1.7209455966949463
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.1,
+          "logL": -5506.924963944,
+          "finite": true,
+          "Neff": 141211.59480571063,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 28.242318961142125,
+          "log_mu": -11.795843439889673,
+          "mu_selection": 7.535815979159696e-06,
+          "pe_variance_sum": 61.20438565155868,
+          "guard_passes": true,
+          "seconds": 1.7196404933929443
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.15,
+          "logL": -5727.3080552265965,
+          "finite": true,
+          "Neff": 44185.86942648371,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 8.837173885296743,
+          "log_mu": -11.793319111001665,
+          "mu_selection": 7.5548628873465974e-06,
+          "pe_variance_sum": 68.44950311125345,
+          "guard_passes": true,
+          "seconds": 1.7190330028533936
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.2,
+          "logL": -6018.728932138054,
+          "finite": true,
+          "Neff": 11012.882698120588,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 2.2025765396241175,
+          "log_mu": -11.7848470480882,
+          "mu_selection": 7.61914005668014e-06,
+          "pe_variance_sum": 79.55556966342614,
+          "guard_passes": true,
+          "seconds": 1.7221145629882812
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.25,
+          "logL": -Infinity,
+          "finite": false,
+          "Neff": 2765.9296043538106,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 0.5531859208707621,
+          "log_mu": -11.766036203136206,
+          "mu_selection": 7.763819019552784e-06,
+          "pe_variance_sum": 94.5965041004406,
+          "guard_passes": false,
+          "seconds": 1.719883680343628
+        },
+        {
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.3,
+          "logL": -Infinity,
+          "finite": false,
+          "Neff": 819.9211601151104,
+          "threshold": 5000.0,
+          "Neff_over_threshold": 0.1639842320230221,
+          "log_mu": -11.734131960823877,
+          "mu_selection": 8.015511462115531e-06,
+          "pe_variance_sum": 113.71700963201059,
+          "guard_passes": false,
+          "seconds": 1.7196049690246582
+        }
+      ],
+      "guard_boundary": {
+        "f=1.0_pos": 0.22734375,
+        "f=1.0_neg": -0.22734375,
+        "f=0.295_pos": 0.323828125,
+        "f=0.5_pos": 0.2787109375
+      }
+    }
+  }
+}

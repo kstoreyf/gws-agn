@@ -124,7 +124,68 @@ Gate A passed, so the marked mock is unblocked.
 
 ## Gate B — marked seed-100 mock integrity
 
-Status: **UNBLOCKED** (Gate A passed 2026-09-18); not started.
+Status: **PASS**, 10/10 (2026-09-18). Evidence:
+`diagnostics/marked_mock_validation.json`, `diagnostics/selection_support.json`.
+Product: `seed100/events/events_marked_dmu0p10.h5` (md5 7dcb8bccba7f7a360a6da2741d4cf9d1),
+generated with `--dmu_chi_agn 0.10 --events_suffix _marked_dmu0p10`, no `--seed_events`,
+no `--f_agn`, no `--overwrite`.
+
+**The mark is exactly where it should be.** Against a same-environment unmarked run,
+46 of 50 datasets are bit-identical and the 4 that differ are all effective spin
+(`chieff`, `true_chieff`, `truth/chieff`, `truth/obs_chieff`), differing on exactly the
+295 AGN events and nowhere else. GAL true spin is bitwise unchanged; the AGN shift is
+0.1 to within 2.8e-17. Host labels, indices, redshifts, distances, sky, masses, `q`,
+SNRs and every `truth/obs_*` array are bit-identical, and so is the rejected-proposal
+file. Realised: 705 GAL / 295 AGN, `f_agn` 0.295, unchanged from the record.
+
+**Selection: REUSE.** No new injections. The existing 2.2M-injection targeted set spans
+chieff [-0.99999507, +0.99997832], the whole truncation both branches need.
+
+Three things this gate established that Gate C must carry.
+
+* **The registered scan range collides with the guard.** The specification registers
+  `dmu_chi` in [-0.20, +0.25], but the REAL selection integral falls below the hard
+  N_eff floor of 5000 (likelihood returns -inf) above `mu_chi_c2` ~ +0.2273 at f = 1,
+  +0.2787 at f = 0.5 and +0.3238 at f = 0.295. At f = 1, mu = +0.25 the measured N_eff
+  is 2766 and the cell is rejected. Recommended scan `|mu_chi_c2| <= 0.20`, whose
+  thinnest corner (f = 1, mu = +0.20) sits at 11,013, i.e. 2.2x the guard. Gate C must
+  either scan the reduced range or scan the registered one and DEMONSTRATE that the
+  rejected corner carries negligible posterior mass; specification C6 forbids a result
+  standing behind a rejected cell either way.
+* **Do not size that margin from the population-only proxy.** Check 9 of
+  `marked_mock_validation.json` uses it and reads 10,044 (pass) at mu = +0.25, where the
+  real selection integral is 2766 (fail); the proxy puts the crossing at 0.286 against a
+  true 0.227 at f -> 1. Likewise the injection file's own `Neff` attribute (3714.98) is
+  the N_eff of a FLAT target computed at generation time, two orders of magnitude below
+  any selection-integral N_eff, and must never be quoted as the selection margin.
+* **Seed 100 carries an unplanted GAL/AGN difference in mass ratio.** KS p = 0.0096 on
+  the detected set; permuting labels within redshift quartiles gives p = 0.0066; the
+  z-stratified Fisher statistic 29.57 is the largest of the 41 seeds examined (median
+  7.54). It is the record's own property, present in the unmarked data and not created
+  here, but it means the branch label is partly identifiable from `q` alone. The
+  intrinsic arm therefore cannot be read as measuring the spin mark in isolation, and
+  Gate C must report this confound rather than attribute all intrinsic information to
+  `dmu_chi`.
+
+Two caveats for readers. The `shared_spin` HDF5 attribute is still `True` in the marked
+file (correct in darksirens' vocabulary, where it means one spin component shared across
+the MASS components of one mixture); branch spin must be read from `dmu_chi_agn` = 0.1,
+`mu_chi_gal` = 0.0, `mu_chi_agn` = 0.1. And the **realised** mark is +0.111924 +/- 0.006815,
+not +0.10: the record already carried a +0.011924 branch difference from finite sampling,
+identical to the last digit in the unmarked run. Score Gate C against both, as analyses
+0-2 do with planted 0.30 against realised 0.295.
+
+**On "one difference".** Against the signed-off record 38 of 50 datasets differ, not 4.
+The extra difference is not the mark: it is a 1-ULP environment drift in the tapered
+power-law inverse CDF (11 of 1000 primary masses, max 1.42e-14, and everything
+downstream of them), because the August record was written on a node with a different
+`pow` kernel. Proven by recomputation: this node reproduces the MARKED file's
+`snr_true` bit-for-bit from its own stored masses and distances (0/1000 differ) but not
+the RECORD's (406/1000, max 1.421e-14). The detected set, its order, and every realised
+statistic are unchanged to full printed precision. Gate A independently measured the
+same drift: re-running the UNCHANGED analysis-2 configuration lands 2 ULP from the
+stored array. The flag itself is provably inert - pristine generator versus patched
+generator at the default gives 50/50 datasets bit-identical.
 
 Registered mark:
 

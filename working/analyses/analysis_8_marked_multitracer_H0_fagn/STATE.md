@@ -2,9 +2,13 @@
 
 ## Current status
 
-**Gate A PASSED (2026-09-18). The marked seed-100 mock is unblocked and not started.**
+**Gates A and B PASSED (2026-09-18). The three inference arms are unblocked and not started.**
 
-Last passing gate: **A** (null/equivalence on the existing seed-100 Analysis-2 data).
+Last passing gate: **B** (marked seed-100 mock integrity, 10/10).
+
+The marked mock is `seed100/events/events_marked_dmu0p10.h5`
+(md5 7dcb8bccba7f7a360a6da2741d4cf9d1). Selection reuses the existing
+`injections_targeted.h5`; no injections were generated.
 
 ## Scientific contract
 
@@ -16,7 +20,8 @@ case; stop after seed-100 closure for owner approval.
 
 ## Repository provenance
 
-- gws-agn HEAD: `9aa3c98ce8d63d693f8b9fd147a981631152dafd`
+- gws-agn HEAD at Gate A: `ac74b98b86ffb4028921c2fa8e09fa068bd1cb31`
+- gws-agn HEAD when this section was written: `9aa3c98ce8d63d693f8b9fd147a981631152dafd`
   (18 uncommitted files, all of them the paper work under `working/paper/`;
   Analysis 8 is entirely untracked under its own directory and commits separately).
 - darksirens base SHA: **`2b86a2d8d48fdb5173f0ba259b8996104187dd2d`** (the pin).
@@ -216,7 +221,27 @@ equals `dmu_chi` numerically only because the GAL branch's `mu_chi` is pinned at
 ## Gate state
 
 - Gate A null/equivalence: **PASS** - evidence `diagnostics/null_equivalence.{json,md}`
-- Gate B marked mock integrity: **UNBLOCKED**, not started (next action)
+- Gate B marked mock integrity: **PASS** 10/10 - evidence
+  `diagnostics/marked_mock_validation.json`, `diagnostics/selection_support.json`
+- Gate C seed-100 recovery: **UNBLOCKED**, not started (next action)
+
+## Carried into Gate C (all three established by Gate B; see GATES.md for numbers)
+
+1. **Scan range.** The registered `dmu_chi` range [-0.20, +0.25] collides with the hard
+   N_eff guard: the real selection integral drops below 5000 above `mu_chi_c2` ~ +0.227
+   at f = 1 (measured 2766 at f = 1, mu = +0.25, likelihood -inf). Either scan
+   `|mu_chi_c2| <= 0.20` or scan the registered range and demonstrate the rejected
+   corner carries negligible posterior mass. Size this from the REAL selection integral,
+   never from the population-only proxy and never from the injection file's own `Neff`
+   attribute (3714.98, a flat-target quantity).
+2. **An unplanted confound.** Seed 100's detected set already separates GAL from AGN in
+   mass ratio `q` (KS p = 0.0096; z-stratified Fisher 29.57, the largest of 41 seeds).
+   It is the record's own property, not this campaign's, but the branch label is
+   therefore partly identifiable without the spin mark, and the intrinsic arm cannot be
+   read as measuring `dmu_chi` in isolation.
+3. **Score against both truths.** Planted `dmu_chi` = +0.100000; realised (detected-set
+   branch-mean difference) = +0.111924 +/- 0.006815. The +0.011924 excess is the
+   record's own finite-sample draw, identical to the last digit in the unmarked run.
 - Gate C seed-100 recovery: BLOCKED ON B
 - Owner gate: LOCKED
 
@@ -250,19 +275,38 @@ Liveness, so the equivalence cannot have passed vacuously: at f = 0.295 moving
 zero mixture weight, the same offset leaves logL bitwise identical. The coordinate is
 connected and wired to its own branch.
 
-Two corrections to earlier notes in this campaign, both recorded in GATES.md: the
+Three corrections to earlier notes in this campaign, all recorded in GATES.md: the
 residual sits at the PE seam (log_mu is bitwise identical at every f), not the
 selection seam; and mu_GAL and mu_AGN are NOT expected to coincide (+0.98% apart)
 because the branches carry different spatial priors. The chi_eff-independence claim
 was measured on its own terms and holds: a +0.10 shift in the AGN spin mean moves mu
 by -3.44e-04, i.e. 0.30 Monte-Carlo sigma.
 
+The third correction matters for every later gate: **quote this equivalence
+tolerance in ULP, never in absolute logL.** GATES.md's `3.552713678800501e-15` is
+2 ULP of a TOY logL of order 8; at the seed-100 scale 1 ULP is 9.0949470177292824e-13
+and the identical effect is 1.82e-12, 500x larger in absolute terms. The driver's
+pre-registered absolute bound (1e-12) was in the wrong unit and would have read FAIL
+on a correct measurement; it is recorded verbatim in `null_equivalence.json` under
+`tolerances_preregistered`, with the applied ULP criterion beside it.
+
+Also measured, and needed for Gate C's parameter space: `build_parameter_space`
+accepts ONLY the LaTeX prior labels for the twelve BASE population parameters
+(`'$\mu_\chi$'`, not `'mu_chi'`) -- the plain ASCII spelling is aliased for the
+`_c{k}` blocks alone. Gate A kept analysis 2's full label shape and added exactly one
+coordinate, so A4 was like-for-like against the stored scan:
+
+    OLD: ['H0', 'log10n0', 'delta', 'sigma_kde', 'log10n0_c2', 'delta_c2', 'sigma_kde_c2', 'fcat_2']
+    NEW: ['H0', 'log10n0', 'delta', 'sigma_kde', 'log10n0_c2', 'delta_c2', 'sigma_kde_c2', '$\mu_\chi$_c2', 'fcat_2']
+
 ## Next allowed action
 
-Implement the four `core.py` edits plus the parameter-space thread-through in the
-`darksirens-a8` worktree, add unit tests there, confirm the K=1 and
-`mixture_pop_params=()` paths are unchanged against the baseline, then execute
-Gate A only.
+Gate B: generate ONE marked seed-100 event family at the registered
+`dmu_chi = +0.10`, reusing the existing LSS/catalog realization, and write
+`diagnostics/marked_mock_validation.json`. Everything before Gate B is complete.
+
+(The darksirens edits and Gate A, which this line used to point at, are both done:
+`af896ca` and `diagnostics/null_equivalence.{json,md}`.)
 
 ## Explicit prohibition
 

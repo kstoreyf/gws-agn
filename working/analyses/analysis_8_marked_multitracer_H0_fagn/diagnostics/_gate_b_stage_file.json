@@ -1,0 +1,643 @@
+{
+  "provenance": {
+    "gws_agn_sha": "8b14349ffdb64f56b596393693f6b390bf501327",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "python": "/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python",
+    "pythonpath": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "written_at_utc": "2026-09-18T17:42:15+00:00"
+  },
+  "constants": {
+    "sigma_chi": 0.1,
+    "mu_chi_gal": 0.0,
+    "dmu_chi_plant": 0.1,
+    "n_obs": 1000,
+    "guard_threshold_5Nobs": 5000.0,
+    "H0": 67.74,
+    "Om0": 0.3075,
+    "gamma": 0.0
+  },
+  "injection_file": {
+    "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
+    "realpath": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_targeted.h5",
+    "n_detected": 2205380,
+    "Ndraw": 150000000.0,
+    "detected_fraction": 0.014702533333333333,
+    "proposal": "mixture(population=0.65,uniform=0.1,targeted_agn=0.25)",
+    "proposal_mix": {
+      "population": 0.65,
+      "uniform": 0.1,
+      "targeted_agn": 0.25
+    },
+    "n_proposed_by_branch": {
+      "population": 97492697,
+      "uniform": 15004478,
+      "targeted_agn": 37502825
+    },
+    "n_detected_by_branch": {
+      "population": 194715,
+      "uniform": 191616,
+      "targeted_agn": 1819049
+    },
+    "spin_basis": "chieff",
+    "shared_spin_attr": true,
+    "stored_Neff_attr": 3714.9843608132574,
+    "stored_Neff_attr_meaning": "(sum 1/pdraw)^2 / sum (1/pdraw)^2 -- the N_eff of a FLAT target, computed at generation time (generate_dataset.py:2221). It is NOT the N_eff of any selection integral used here and must not be read as one; the selection-integral N_eff is measured below and is two orders of magnitude larger.",
+    "pdraw_min": 8.694307470796742e-14,
+    "pdraw_max": 8.94730392114547e-06,
+    "pdraw_rows_at_1e-300_floor": 0
+  },
+  "chi_eff_support": {
+    "target_support_both_branches": [
+      -1.0,
+      1.0
+    ],
+    "target_families": {
+      "GAL": {
+        "mu_chi": 0.0,
+        "sigma_chi": 0.1,
+        "truncation": [
+          -1.0,
+          1.0
+        ]
+      },
+      "AGN": {
+        "mu_chi": 0.1,
+        "sigma_chi": 0.1,
+        "truncation": [
+          -1.0,
+          1.0
+        ]
+      }
+    },
+    "injections_all": {
+      "n": 2205380,
+      "min": -0.9999950659907357,
+      "max": 0.9999783213490876,
+      "mean": -0.00014250860542118688,
+      "std": 0.1950279678645425
+    },
+    "injections_by_proposal_branch": {
+      "population": {
+        "n": 194715,
+        "min": -0.4713081288931125,
+        "max": 0.4553292041719832,
+        "mean": -0.000435479647477288,
+        "std": 0.10021731067860419
+      },
+      "uniform": {
+        "n": 191616,
+        "min": -0.9999950659907357,
+        "max": 0.9999783213490876,
+        "mean": -0.00081075013082982,
+        "std": 0.5767604044351352
+      },
+      "targeted_agn": {
+        "n": 1819049,
+        "min": -0.4802619338511468,
+        "max": 0.4932536078586691,
+        "mean": -4.075674244957128e-05,
+        "std": 0.09998857736590477
+      }
+    },
+    "quantiles": {
+      "0.0": -0.9999950659907357,
+      "1e-06": -0.9999787329035982,
+      "1e-05": -0.9997707113978992,
+      "0.0001": -0.9977308513545645,
+      "0.001": -0.9769508086606616,
+      "0.01": -0.7689774477983835,
+      "0.5": -0.0001350743845499864,
+      "0.99": 0.7671920207013777,
+      "0.999": 0.9767725236661122,
+      "0.9999": 0.9979841040570596,
+      "0.99999": 0.9997237470963724,
+      "1.0": 0.9999783213490876
+    },
+    "bin_table": [
+      {
+        "lo": -1.0,
+        "hi": -0.8,
+        "n_injections": 19125,
+        "target_mass_GAL": 6.22096049807321e-16,
+        "target_mass_AGN": 1.1285884040431729e-19,
+        "injections_per_unit_target_mass_AGN": 1.6945947638204152e+23
+      },
+      {
+        "lo": -0.8,
+        "hi": -0.6,
+        "n_injections": 19291,
+        "target_mass_GAL": 9.865870229416445e-10,
+        "target_mass_AGN": 1.2798124310269944e-12,
+        "injections_per_unit_target_mass_AGN": 1.5073302565532828e+16
+      },
+      {
+        "lo": -0.6,
+        "hi": -0.4,
+        "n_injections": 19196,
+        "target_mass_GAL": 3.167025524547483e-05,
+        "target_mass_AGN": 2.866502920666494e-07,
+        "injections_per_unit_target_mass_AGN": 66966615877.49827
+      },
+      {
+        "lo": -0.4,
+        "hi": -0.3,
+        "n_injections": 12083,
+        "target_mass_GAL": 0.0013182267897969761,
+        "target_mass_AGN": 3.138459026124067e-05,
+        "injections_per_unit_target_mass_AGN": 384997857.21027106
+      },
+      {
+        "lo": -0.3,
+        "hi": -0.2,
+        "n_injections": 52794,
+        "target_mass_GAL": 0.021400233916549098,
+        "target_mass_AGN": 0.0013182267897969735,
+        "injections_per_unit_target_mass_AGN": 40049254.353365906
+      },
+      {
+        "lo": -0.2,
+        "hi": -0.1,
+        "n_injections": 283935,
+        "target_mass_GAL": 0.13590512198327787,
+        "target_mass_AGN": 0.0214002339165491,
+        "injections_per_unit_target_mass_AGN": 13267845.62763256
+      },
+      {
+        "lo": -0.1,
+        "hi": 0.0,
+        "n_injections": 697297,
+        "target_mass_GAL": 0.3413447460685429,
+        "target_mass_AGN": 0.13590512198327787,
+        "injections_per_unit_target_mass_AGN": 5130763.210571249
+      },
+      {
+        "lo": 0.0,
+        "hi": 0.1,
+        "n_injections": 696708,
+        "target_mass_GAL": 0.3413447460685429,
+        "target_mass_AGN": 0.3413447460685429,
+        "injections_per_unit_target_mass_AGN": 2041068.4740994936
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.2,
+        "n_injections": 282555,
+        "target_mass_GAL": 0.13590512198327787,
+        "target_mass_AGN": 0.3413447460685429,
+        "injections_per_unit_target_mass_AGN": 827770.1744478066
+      },
+      {
+        "lo": 0.2,
+        "hi": 0.3,
+        "n_injections": 52694,
+        "target_mass_GAL": 0.021400233916549098,
+        "target_mass_AGN": 0.13590512198327787,
+        "injections_per_unit_target_mass_AGN": 387726.3728624121
+      },
+      {
+        "lo": 0.3,
+        "hi": 0.4,
+        "n_injections": 12241,
+        "target_mass_GAL": 0.0013182267897969761,
+        "target_mass_AGN": 0.021400233916549122,
+        "injections_per_unit_target_mass_AGN": 572003.0934116964
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.5,
+        "n_injections": 9626,
+        "target_mass_GAL": 3.138459026124067e-05,
+        "target_mass_AGN": 0.0013182267897969735,
+        "injections_per_unit_target_mass_AGN": 7302233.632713948
+      },
+      {
+        "lo": 0.5,
+        "hi": 0.6,
+        "n_injections": 9479,
+        "target_mass_GAL": 2.856649842341556e-07,
+        "target_mass_AGN": 3.138459026124067e-05,
+        "injections_per_unit_target_mass_AGN": 302027202.5569941
+      },
+      {
+        "lo": 0.6,
+        "hi": 0.8,
+        "n_injections": 19438,
+        "target_mass_GAL": 9.865870229416445e-10,
+        "target_mass_AGN": 2.866502920666494e-07,
+        "injections_per_unit_target_mass_AGN": 67810850147.26044
+      },
+      {
+        "lo": 0.8,
+        "hi": 1.0,
+        "n_injections": 18918,
+        "target_mass_GAL": 6.22096049807321e-16,
+        "target_mass_AGN": 1.2798124310269944e-12,
+        "injections_per_unit_target_mass_AGN": 1.4781853607109534e+16
+      }
+    ],
+    "empty_bins_carrying_target_mass": 0,
+    "uncovered_target_mass_GAL": 0.0,
+    "uncovered_target_mass_AGN": 0.0,
+    "note": "The population and targeted_agn proposal branches draw chi_eff from the FIDUCIAL spin density and only reach |chi| < 0.5; the whole of the remaining support is carried by the 10 per cent uniform branch, which draws chi ~ U(-1, 1) and contributes 191,616 detected injections spread over the full interval. That branch is why the proposal covers a shifted target at all."
+  },
+  "proposal_factorisation": {
+    "proposal_is_a_three_component_mixture": {
+      "population": {
+        "weight": 0.65,
+        "spin_density": "TruncNormal(0, 0.1) on [-1,1]"
+      },
+      "uniform": {
+        "weight": 0.1,
+        "spin_density": "Uniform(-1,1), i.e. 0.5"
+      },
+      "targeted_agn": {
+        "weight": 0.25,
+        "spin_density": "TruncNormal(0, 0.1) on [-1,1]"
+      },
+      "source": "generate_dataset.py:2033-2087 draws the three branches; generate_dataset.py:2097-2107 forms pdraw = 0.65 p_pop + 0.10 p_unif + 0.25 p_tgt; the spin factor of each branch is generate_mock_data.py:423 (_mass_spin_pdf) for the two population branches and the flat 0.5 in generate_mock_data.py:618 (_p_uniform)."
+    },
+    "pdraw_closure": {
+      "max_rel_diff": 0.0,
+      "median_rel_diff": 0.0,
+      "n_bit_identical": 2205380,
+      "n_rows": 2205380,
+      "verdict": "pdraw is EXACTLY the stored three-component mixture density, bit for bit, on every row"
+    },
+    "branch_share_of_pdraw": {
+      "population": {
+        "mean": 0.0883347437776628,
+        "median": 0.0622723971891245,
+        "p01": 5.280080276261773e-112,
+        "p99": 0.9977789036096788,
+        "min": 3.579076761725754e-290,
+        "max": 0.9992992830380037
+      },
+      "uniform": {
+        "mean": 0.08689325008747345,
+        "median": 0.00018240581343634184,
+        "p01": 1.3438705453449182e-05,
+        "p99": 1.0,
+        "min": 1.033787273822088e-09,
+        "max": 1.0
+      },
+      "targeted_agn": {
+        "mean": 0.8247720061348641,
+        "median": 0.9275240827040203,
+        "p01": 0.0,
+        "p99": 0.9929401101257191,
+        "min": 0.0,
+        "max": 0.9999995699709432
+      }
+    },
+    "does_the_PROPOSAL_factorise_in_chi": {
+      "answer": "NO",
+      "why": "two of the three branches carry the fiducial spin density and the third carries a flat one, so pdraw = s(chi) R1(rest) + 0.05 R2(rest) is a sum, not a product. Were it a product the uniform branch's share of pdraw would be a chi-independent constant; it is measured to run from 1.03e-09 to 1.0 with median 1.8e-04."
+    },
+    "is_the_SPIN_REWEIGHT_EXACT": {
+      "answer": "YES",
+      "why": "exactness does not need the proposal to factorise. The TARGET factorises -- p_pop(theta|Lambda) = masspair(m1,q) x s(chieff|mu,sigma) (generate_mock_data.py:403-425, and the inference side is the same product under shared_spin) -- and the same pdraw divides both branches, so it cancels: w_i(mu)/w_i(0) = s(chi_i|mu)/s(chi_i|0) EXACTLY, whatever the proposal is. The estimator itself stays unbiased because pdraw is the analytic mixture density, not an estimate, and is strictly positive over the whole chi_eff support.",
+      "recompute_vs_stored_pdraw_population": {
+        "max_rel_diff": 1.1314847944212395e-15,
+        "median_rel_diff": 0.0,
+        "n_bit_identical": 1450638,
+        "meaning": "the target evaluator used here reproduces the file's own stored population density, so it is in the identical basis and convention"
+      },
+      "ratio_route_vs_direct_recomputation_at_dmu_0p10": {
+        "max_rel_diff": 6.661155377400155e-16,
+        "median_rel_diff": 1.247741280282957e-16,
+        "n_bit_identical": 928300,
+        "n_rows_compared": 2205372,
+        "Neff_direct": 246355.8190368106,
+        "Neff_via_ratio": 246355.8190368106,
+        "Neff_rel_diff": 0.0,
+        "Pdet_rel_diff": 0.0
+      },
+      "rows_excluded_at_the_target_floor": {
+        "n": 8,
+        "fraction": 3.6274927676862946e-06,
+        "max_weight_contribution": 7.860188501905021e-288,
+        "why": "_selection_pdraw returns max(p, 1e-300), so on rows where the mass model gives exactly zero the floor -- not the density -- is stored and multiplicativity fails there. Those rows carry a weight of order 1e-288 and cannot affect any sum; they are excluded from the exactness comparison and included in every integral."
+      }
+    },
+    "importance_weight_bound_from_the_uniform_branch": {
+      "statement": "pdraw >= 0.10 x p_uniform and p_uniform's spin factor is the flat 0.5, so the spin part of any importance weight is bounded by max_chi s(chi|mu) / 0.05 = 79.79 for ANY mu inside the truncation -- the bound does not degrade when the target spin mean moves.",
+      "max_spin_density": 3.989422804014327,
+      "uniform_branch_spin_floor": 0.05,
+      "bound": 79.78845608028654
+    }
+  },
+  "detection_rule_chi_eff_independence": {
+    "code_fact": "detect_v3 thresholds rho_obs, and observe_v3(need_sky=False) forms rho_obs = snr_amplitude(m1det, m2det, dL, snr_ref) + N(0, 1) -- chi_eff is an argument it never reads and never consumes RNG for (generate_dataset.py:559-566, 809-835, 866).",
+    "direct_measurement_Pdet_of_chi": {
+      "method": "the uniform proposal branch draws chi ~ U(-1,1) independently of everything else, so the number PROPOSED in each chi bin is known exactly and P_det(chi) is a direct ratio -- no model, no reweighting.",
+      "n_proposed_uniform_branch": 15004478,
+      "n_detected_uniform_branch": 191616,
+      "Pdet_mean": 0.012770587553928901,
+      "bins": [
+        {
+          "lo": -1.0,
+          "hi": -0.8,
+          "n_detected": 19125,
+          "Pdet": 0.012746194835968306,
+          "Pdet_err": 9.216792937374651e-05,
+          "rel_dev_from_mean": -0.0019100701402803288
+        },
+        {
+          "lo": -0.8,
+          "hi": -0.6,
+          "n_detected": 19291,
+          "Pdet": 0.012856828474805983,
+          "Pdet_err": 9.256706191884722e-05,
+          "rel_dev_from_mean": 0.006753089512357757
+        },
+        {
+          "lo": -0.6,
+          "hi": -0.3999999999999999,
+          "n_detected": 19143,
+          "Pdet": 0.012758191254637445,
+          "Pdet_err": 9.221129231633545e-05,
+          "rel_dev_from_mean": -0.0009706913827658425
+        },
+        {
+          "lo": -0.3999999999999999,
+          "hi": -0.19999999999999996,
+          "n_detected": 19224,
+          "Pdet": 0.012812175138648612,
+          "Pdet_err": 9.240617374326261e-05,
+          "rel_dev_from_mean": 0.0032565130260522324
+        },
+        {
+          "lo": -0.19999999999999996,
+          "hi": 0.0,
+          "n_detected": 19187,
+          "Pdet": 0.012787515833606478,
+          "Pdet_err": 9.231720487244119e-05,
+          "rel_dev_from_mean": 0.0013255678022714434
+        },
+        {
+          "lo": 0.0,
+          "hi": 0.20000000000000018,
+          "n_detected": 19091,
+          "Pdet": 0.01272353493403768,
+          "Pdet_err": 9.208596588099046e-05,
+          "rel_dev_from_mean": -0.0036844522378098876
+        },
+        {
+          "lo": 0.20000000000000018,
+          "hi": 0.40000000000000013,
+          "n_detected": 19153,
+          "Pdet": 0.012764855931675867,
+          "Pdet_err": 9.223537403106963e-05,
+          "rel_dev_from_mean": -0.0004488142952570051
+        },
+        {
+          "lo": 0.40000000000000013,
+          "hi": 0.6000000000000001,
+          "n_detected": 19046,
+          "Pdet": 0.012693543887364829,
+          "Pdet_err": 9.197737247944786e-05,
+          "rel_dev_from_mean": -0.006032899131596325
+        },
+        {
+          "lo": 0.6000000000000001,
+          "hi": 0.8,
+          "n_detected": 19438,
+          "Pdet": 0.01295479922727069,
+          "Pdet_err": 9.2919079282602e-05,
+          "rel_dev_from_mean": 0.014424682698731095
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n_detected": 18918,
+          "Pdet": 0.012608236021273119,
+          "Pdet_err": 9.166778120249957e-05,
+          "rel_dev_from_mean": -0.01271292585170325
+        }
+      ],
+      "chi2_vs_constant": 9.243925350701467,
+      "dof": 9,
+      "p_value": 0.41506938365637314,
+      "max_abs_rel_dev": 0.014424682698731095,
+      "linear_trend_per_unit_chi": -0.0026542220305092374,
+      "linear_trend_err": 0.0039747824819824,
+      "linear_trend_nsigma": -0.6677653538377928
+    },
+    "ks_tests": {
+      "uniform_branch_vs_U(-1,1)": {
+        "D": 0.0018092451831155376,
+        "p": 0.5566235254435151,
+        "n": 191616
+      },
+      "population_branch_vs_TN(0,0.1)": {
+        "D": 0.00318513647688351,
+        "p": 0.038396390326709384,
+        "n": 194715
+      },
+      "targeted_branch_vs_TN(0,0.1)": {
+        "D": 0.0005736257401464107,
+        "p": 0.5873207678410411,
+        "n": 1819049
+      }
+    },
+    "pearson_chi_vs_snr_amplitude": {
+      "all": {
+        "r": 0.0007802781571687772,
+        "p": 0.24655675650019276
+      },
+      "uniform_branch": {
+        "r": 0.0028898245665039263,
+        "p": 0.20587664074314238
+      }
+    },
+    "paired_detectable_fraction": [
+      {
+        "mu_chi": 0.05,
+        "Pdet_ratio_to_fiducial": 0.9998751709536013,
+        "paired_sigma": 0.0006659193920359834,
+        "n_sigma": -0.18745368867694792
+      },
+      {
+        "mu_chi": 0.1,
+        "Pdet_ratio_to_fiducial": 1.0004203850931788,
+        "paired_sigma": 0.0015768204587529961,
+        "n_sigma": 0.26660301801970565
+      },
+      {
+        "mu_chi": 0.15,
+        "Pdet_ratio_to_fiducial": 1.0019419821975628,
+        "paired_sigma": 0.003097073787238634,
+        "n_sigma": 0.6270377559503639
+      },
+      {
+        "mu_chi": 0.2,
+        "Pdet_ratio_to_fiducial": 1.004042449821769,
+        "paired_sigma": 0.0057306117757598305,
+        "n_sigma": 0.7054133101230803
+      },
+      {
+        "mu_chi": -0.1,
+        "Pdet_ratio_to_fiducial": 1.0007310575081836,
+        "paired_sigma": 0.0015717333771535036,
+        "n_sigma": 0.4651281946481098
+      }
+    ],
+    "verdict": "the detection efficiency is flat in chi_eff: chi2 = 9.24 on 9 dof (p = 0.415), trend -0.0027 +- 0.0040 per unit chi_eff. A normalised spin density therefore cannot change the detectable fraction, and the measured change at +0.10 is consistent with zero."
+  },
+  "population_only_selection_integral": {
+    "what_it_is": "the exact importance-sampling estimate of the DETECTABLE FRACTION under the fiducial population with spin mean mu, computed from the injection file alone: w_i = p_pop(theta_i | mu) / pdraw_i, with p_pop in the same canonical coordinates as pdraw. It carries the smooth uniform-in-comoving-volume redshift prior, not the catalog one, so it is the branch-population diagnostic, not the dark-siren selection term; that one is measured in the likelihood stage.",
+    "scan": [
+      {
+        "mu_chi": -0.3,
+        "Pdet": 0.0020334776098996617,
+        "Neff": 3419.753648810057,
+        "Neff_over_threshold": 0.6839507297620113,
+        "rel_mc_error": 0.017100255099673202,
+        "top1_weight_share": 0.0027959043090729223
+      },
+      {
+        "mu_chi": -0.25,
+        "Pdet": 0.0020149234058496877,
+        "Neff": 9277.055918016136,
+        "Neff_over_threshold": 1.8554111836032272,
+        "rel_mc_error": 0.010382332010882933,
+        "top1_weight_share": 0.0013645191478880892
+      },
+      {
+        "mu_chi": -0.2,
+        "Pdet": 0.002004379963176285,
+        "Neff": 28701.5295514308,
+        "Neff_over_threshold": 5.74030591028616,
+        "rel_mc_error": 0.005902656073627062,
+        "top1_weight_share": 0.0005925071958529081
+      },
+      {
+        "mu_chi": -0.15,
+        "Pdet": 0.002000581407467984,
+        "Neff": 90582.50208151244,
+        "Neff_over_threshold": 18.11650041630249,
+        "rel_mc_error": 0.003322598339370895,
+        "top1_weight_share": 0.000230427626680554
+      },
+      {
+        "mu_chi": -0.1,
+        "Pdet": 0.001999529187402098,
+        "Neff": 247277.3968411824,
+        "Neff_over_threshold": 49.45547936823648,
+        "rel_mc_error": 0.002010980178478653,
+        "top1_weight_share": 7.368433288624134e-05
+      },
+      {
+        "mu_chi": -0.05,
+        "Pdet": 0.0019988242043719735,
+        "Neff": 488497.7393117621,
+        "Neff_over_threshold": 97.69954786235242,
+        "rel_mc_error": 0.0014307663612292225,
+        "top1_weight_share": 1.9810884484341544e-05
+      },
+      {
+        "mu_chi": 0.0,
+        "Pdet": 0.0019980684844346872,
+        "Neff": 620604.91452021,
+        "Neff_over_threshold": 124.120982904042,
+        "rel_mc_error": 0.0012693821728218646,
+        "top1_weight_share": 5.129565625811976e-06
+      },
+      {
+        "mu_chi": 0.05,
+        "Pdet": 0.0019978190674511363,
+        "Neff": 488526.98799540364,
+        "Neff_over_threshold": 97.70539759908073,
+        "rel_mc_error": 0.0014307235297582042,
+        "top1_weight_share": 1.985780269763987e-05
+      },
+      {
+        "mu_chi": 0.1,
+        "Pdet": 0.0019989084426406943,
+        "Neff": 246355.8190368106,
+        "Neff_over_threshold": 49.27116380736212,
+        "rel_mc_error": 0.0020147380453270783,
+        "top1_weight_share": 7.480597328268803e-05
+      },
+      {
+        "mu_chi": 0.15,
+        "Pdet": 0.0020019486978609708,
+        "Neff": 90405.28202407998,
+        "Neff_over_threshold": 18.081056404815996,
+        "rel_mc_error": 0.003325853363683443,
+        "top1_weight_share": 0.00023566480305013714
+      },
+      {
+        "mu_chi": 0.2,
+        "Pdet": 0.002006145576023473,
+        "Neff": 29462.2783884265,
+        "Neff_over_threshold": 5.8924556776853,
+        "rel_mc_error": 0.005825951106933513,
+        "top1_weight_share": 0.0005998265323520611
+      },
+      {
+        "mu_chi": 0.25,
+        "Pdet": 0.0020080873348410416,
+        "Neff": 10044.224564897308,
+        "Neff_over_threshold": 2.0088449129794617,
+        "rel_mc_error": 0.009977960791251727,
+        "top1_weight_share": 0.0013123406360479387
+      },
+      {
+        "mu_chi": 0.3,
+        "Pdet": 0.002003247287253546,
+        "Neff": 3900.127566879805,
+        "Neff_over_threshold": 0.7800255133759609,
+        "rel_mc_error": 0.016012553501690185,
+        "top1_weight_share": 0.0025084795333182837
+      }
+    ],
+    "Neff_degradation_at_plant": 2.519140473103576,
+    "guard_crossing_mu_positive": 0.2857421875,
+    "guard_crossing_mu_negative": -0.2798828124999999
+  },
+  "cross_check_lane_popuni": {
+    "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_popuni.h5",
+    "n_detected": 1230471,
+    "Ndraw": 400000000.0,
+    "proposal": "population+uniform",
+    "chi_eff_range": [
+      -0.9999962279133336,
+      0.9999898051995573
+    ],
+    "n_detected_uniform_branch": 510012,
+    "population_only": [
+      {
+        "mu_chi": 0.0,
+        "Neff": 728515.5236743125,
+        "Pdet": 0.0020012957325971268
+      },
+      {
+        "mu_chi": 0.1,
+        "Neff": 290825.06048547773,
+        "Pdet": 0.00200984467897441
+      }
+    ],
+    "note": "recorded so the answer covers the cross-check lane too: it also carries a 10 per cent uniform-spin branch and also covers [-1, 1], so it needs no regeneration either."
+  },
+  "mark_truncation_support": {
+    "what": "the generator adds +0.10 to samples already truncated to [-1, 1], which yields TruncNormal(0.10, 0.10) on [-0.9, 1.1] instead of on [-1, 1]. Measured, not waved at.",
+    "mass_above_chi_1": 1.1285122074235907e-19,
+    "mass_above_chi_1_nsigma": 9.0,
+    "mass_below_chi_minus1": 7.61966195820302e-24,
+    "mass_below_chi_minus1_nsigma": 11.0,
+    "normalisation_Z_truncated_minus1_1": 1.0,
+    "normalisation_Z_shifted_support": 1.0,
+    "normalisation_ratio_minus_one": -1.1284360108040085e-19,
+    "double_precision_eps": 2.220446049250313e-16,
+    "relative_to_eps": 0.0005082023997768382,
+    "expected_draws_above_chi_1": {
+      "per_1000_detected_events_at_f_0p295": 3.3291110118995925e-17,
+      "per_generator_batch_of_100000_trials": 1.1285122074235906e-14
+    },
+    "verdict": "the support difference is 1.1e-19 in normalisation, 5e-04 of one double-precision ulp, and the expected number of draws that land in the extra sliver is 1e-14 over the whole generation. The additive shift is exact at double precision and preserves the RNG stream; a separate per-branch draw would not be more correct, only less comparable."
+  }
+}

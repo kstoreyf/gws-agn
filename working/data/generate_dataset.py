@@ -1295,6 +1295,7 @@ def stage_events(args):
     _FAGN = F_AGN if getattr(args, "f_agn", None) is None else float(args.f_agn)
     _SEED_EV = (seeds["events"] if getattr(args, "seed_events", None) is None
                 else int(args.seed_events))
+    _DMU = float(getattr(args, "dmu_chi_agn", 0.0))
     if not 0.0 <= _FAGN <= 1.0:
         raise SystemExit(f"--f_agn must lie in [0, 1]; got {_FAGN}")
     rng = np.random.default_rng(_SEED_EV)
@@ -1342,6 +1343,7 @@ def stage_events(args):
         q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)
         m2 = q * m1
         chi = gmd._sample_chieff(rng, ntry, pop)
+        chi = chi + np.where(is_agn, _DMU, 0.0)
 
         m1det, m2det = m1 * (1.0 + z), m2 * (1.0 + z)
         obs = _observe(rng, m1det, m2det, chi, dl, ra, dec, need_sky=True)
@@ -1481,6 +1483,14 @@ def stage_events(args):
         "pe_model_version": pe_model,
         "planted_f_agn": _FAGN,
         "planted_f_agn_is_record_default": bool(_FAGN == F_AGN),
+        "branch_spin": {
+            "dmu_chi_agn": _DMU, "mu_chi_gal": pop.chi_mu,
+            "mu_chi_agn": pop.chi_mu + _DMU, "sigma_chi": pop.chi_sigma,
+            "rule": "chi_AGN = chi_draw + dmu_chi_agn, applied to the SHARED "
+                    "truncated-Gaussian draw, so the RNG stream, the host labels, "
+                    "the masses, the sky, the distances and the detected set are "
+                    "untouched; the AGN branch support is [-1, 1] + dmu_chi_agn",
+            "is_record_default": bool(_DMU == 0.0)},
         "gamma": GAMMA,
         "cosmology": {"H0": H0_FID, "Om0": OM0_FID, "w0": W0_FID, "wa": WA_FID,
                       "zmax_grid": ZMAX_GRID},
@@ -1585,6 +1595,10 @@ def stage_events(args):
         f.attrs["pop_model"] = "powerlaw+peak"
         f.attrs["shared_beta"] = True
         f.attrs["shared_spin"] = True
+        f.attrs["dmu_chi_agn"] = float(_DMU)
+        f.attrs["mu_chi_gal"] = float(pop.chi_mu)
+        f.attrs["mu_chi_agn"] = float(pop.chi_mu + _DMU)
+        f.attrs["sigma_chi"] = float(pop.chi_sigma)
         f.attrs["shared_gamma"] = True
         f.attrs["detection_rule"] = "observed-data"
         f.attrs["detection_shares_noise_with_pe"] = True
@@ -3783,6 +3797,14 @@ def parse_args(argv=None):
                         "Unset = the record's derivation SEED*1000+3.  Offsets 1-7 "
                         "are taken by sub_seeds(); use SEED*1000+8 or higher so an "
                         "extra draw is independent of every recorded stream.")
+    p.add_argument("--dmu_chi_agn", type=float, default=0.0,
+                   help="MARKED DRAWS ONLY: shift of the AGN-hosted branch's "
+                        "effective-spin mean, mu_chi_AGN = mu_chi + dmu.  Default "
+                        "0.0 = the record (one shared spin population).  The shift "
+                        "is added to the shared truncated-Gaussian draw AFTER it is "
+                        "made, so the RNG stream, the host labels, the masses, the "
+                        "redshifts, the sky, the distances and the detected set are "
+                        "bit-identical to a dmu=0 run.")
     p.add_argument("--_glass_worker", action="store_true",
                    help=argparse.SUPPRESS)
     return p.parse_args(argv)
