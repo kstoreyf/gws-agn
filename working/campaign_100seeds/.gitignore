@@ -1,0 +1,8 @@
+# Per-seed generation and scan logs, and the mkdir-based queue claim markers.
+# Bulk run output: reproducible from the scripts, and not what the repository is for.
+logs/
+queue/*claim_*/
+queue100/claim_*/
+manifest/*.lock
+queue/a01_STOP
+queue100/STOP
