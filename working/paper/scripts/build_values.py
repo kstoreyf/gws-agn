@@ -347,13 +347,16 @@ def rel(p) -> str:
 
 
 META_SRC = rel(META)
-S_PURE = rel(A0 / "h0_pure_tracer.json")
+S_PURE = rel(A0 / "h0_pure_tracer_ens93.json")
 S_SINGLE = rel(A1 / "h0_single_tracer.json")
 S_CLOSURE = rel(A1 / "closure_v3.json")
 S_CURV = rel(A1 / "v3_curvature.json")
 S_KDE = rel(A1 / "kde_window.json")
 S_JOINT = rel(A2 / "h0_fagn_joint.json")
 S_JSUM = rel(A2 / "joint_summary.json")
+S_JSUM9 = rel(A2 / "joint_summary_ens9.json")
+S_ENSPURE = rel(A0 / "h0_pure_tracer_ens93.json")
+S_ENSCTRL = rel(A1 / "closure_seeds_ens91.json")
 S_FSCAN = rel(A2 / "fscan_s100.json")
 S_FNULL = rel(A2 / "fscan_null_s100.json")
 S_MUMC = rel(A2 / "mu_mc_error.json")
@@ -839,15 +842,19 @@ def sec_joint(j, jsum, fs, fn, hj):
     add("JointRho", j.get("rho"), "%.3f", src=S_JOINT, kind="result",
         note="correlation of H0 and f_AGN in the joint posterior, reference "
              "realisation")
-    add("JointRhoMean", pm(get(jsum, "closure.rho.mean"),
-                           get(jsum, "closure.rho.sem"), "%+.3f", "%.3f"),
-        src=S_JSUM, kind="result",
-        note="the same, mean and standard error over the five realisations")
-    add("ClosureScatterHzeroRatio", get(jsum, "closure.scatter_H0.ratio"),
-        "%.2f", src=S_JSUM, kind="result",
-        note="sd of the five H0 medians over the mean quoted 68% half-width")
-    add("ClosureScatterFagnRatio", get(jsum, "closure.scatter_f.ratio"),
-        "%.2f", src=S_JSUM, kind="result",
+    # The closure block is quoted over every realisation the joint grid has been
+    # run on, which is what fig_closure draws; jsum stays the reference-seed file
+    # for the guard, the sky-shuffle null and the flux-limited comparison.
+    jsum9 = load_json(A2 / "joint_summary_ens9.json")
+    add("JointRhoMean", pm(get(jsum9, "closure.rho.mean"),
+                           get(jsum9, "closure.rho.sem"), "%+.3f", "%.3f"),
+        src=S_JSUM9, kind="result",
+        note="the same, mean and standard error over the realisations")
+    add("ClosureScatterHzeroRatio", get(jsum9, "closure.scatter_H0.ratio"),
+        "%.2f", src=S_JSUM9, kind="result",
+        note="sd of the H0 medians over the mean quoted 68% half-width")
+    add("ClosureScatterFagnRatio", get(jsum9, "closure.scatter_f.ratio"),
+        "%.2f", src=S_JSUM9, kind="result",
         note="the same for f_AGN")
 
     # --- the width the second tracer buys
@@ -858,35 +865,97 @@ def sec_joint(j, jsum, fs, fn, hj):
         note="galaxy-only 68% H0 width divided by the joint 68% H0 width")
 
     # --- five-realisation closure
-    add("ClosureNseeds", j.get("closure_n_seeds"), "%d", src=S_JOINT,
+    add("ClosureNseeds", get(jsum9, "closure.joint_H0.n"), "%d", src=S_JSUM9,
         kind="result", note="independent realisations of the whole mock")
-    add("ClosureHzero", pm(j.get("closure_h0_offset_mean"),
-                           j.get("closure_h0_offset_sem")),
-        src=S_JOINT, kind="result",
+    add("ClosureNother", (get(jsum9, "closure.joint_H0.n") or 1) - 1, "%d",
+        src=S_JSUM9, kind="result",
+        note="realisations drawn beside the reference one in fig_joint")
+    add("ClosureHzero", pm(get(jsum9, "closure.joint_H0.mean"),
+                           get(jsum9, "closure.joint_H0.sem")),
+        src=S_JSUM9, kind="result",
         note="mean H0 offset from truth over the realisations, km/s/Mpc")
     add("ClosureFagnReal",
-        pm(j.get("closure_f_offset_vs_realised_mean"),
-           j.get("closure_f_offset_vs_realised_sem"), "%+.3f", "%.3f"),
-        src=S_JOINT, kind="result",
+        pm(get(jsum9, "closure.joint_f_vs_realised.mean"),
+           get(jsum9, "closure.joint_f_vs_realised.sem"), "%+.3f", "%.3f"),
+        src=S_JSUM9, kind="result",
         note="mean f_AGN offset from the realised host fraction")
     add("ClosureFagnPlanted",
-        pm(j.get("closure_f_offset_vs_planted_mean"),
-           j.get("closure_f_offset_vs_planted_sem"), "%+.3f", "%.3f"),
-        src=S_JOINT, kind="result",
-        note="mean f_AGN offset from the planted fraction")
-    add("ClosureHzeroInSixtyEight", get(jsum, "closure.coverage.H0_in_68"),
-        "%d", src=S_JSUM, kind="result",
+        pm(get(jsum9, "closure.joint_f_vs_planted.mean"),
+           get(jsum9, "closure.joint_f_vs_planted.sem"), "%+.3f", "%.3f"),
+        src=S_JSUM9, kind="result",
+        note="mean f_AGN offset from the input probability")
+    add("ClosureHzeroInSixtyEight", get(jsum9, "closure.coverage.H0_in_68"),
+        "%d", src=S_JSUM9, kind="result",
         note="realisations whose 68% H0 interval contains truth")
-    add("ClosureHzeroInNinety", get(jsum, "closure.coverage.H0_in_90"), "%d",
-        src=S_JSUM, kind="result",
+    add("ClosureHzeroInNinety", get(jsum9, "closure.coverage.H0_in_90"), "%d",
+        src=S_JSUM9, kind="result",
         note="realisations whose 90% H0 interval contains truth")
     add("ClosureFagnInSixtyEight",
-        get(jsum, "closure.coverage.f_realised_in_68"), "%d", src=S_JSUM,
+        get(jsum9, "closure.coverage.f_realised_in_68"), "%d", src=S_JSUM9,
         kind="result",
         note="realisations whose 68% f_AGN interval contains the realised "
              "fraction")
-    add("ClosureFagnInNinety", get(jsum, "closure.coverage.f_realised_in_90"),
-        "%d", src=S_JSUM, kind="result", note="the same at 90%")
+    add("ClosureFagnInNinety", get(jsum9, "closure.coverage.f_realised_in_90"),
+        "%d", src=S_JSUM9, kind="result", note="the same at 90%")
+
+    # --- the large seed ensemble: how well sized are the quoted intervals?
+    #
+    # The five-realisation closure above resolves coverage only to +-1 count.
+    # These come from the same two single-tracer measurements repeated on ~90
+    # independent realisations, which is enough to measure the interval width
+    # rather than merely fail to contradict it.
+    ep = load_json(A0 / "h0_pure_tracer_ens93.json")
+    ec = load_json(A1 / "closure_seeds_ens91.json")
+    epg, epa = get(ep, "closure_gal") or {}, get(ep, "closure_agn") or {}
+    ecg, eca = get(ec, "closure_gal") or {}, get(ec, "closure_agn") or {}
+
+    # The recovery counts and the mean offsets live in the \Pure* block, which
+    # reads the same file; only the interval-width statistics are added here, so
+    # no number in the manuscript has two macros that could drift apart.
+    add("EnsCtrlNseeds", get(ecg, "n_seeds"), "%d", src=S_ENSCTRL,
+        kind="result", note="realisations behind the matched-host controls")
+
+    for tag, blk, src in (("Gal", epg, S_ENSPURE), ("Agn", epa, S_ENSPURE)):
+        add(f"Ens{tag}Ratio", get(blk, "seed_scatter_over_quoted_half68"),
+            "%.2f", src=src, kind="result",
+            note=f"realisation-to-realisation scatter of the {tag.lower()} "
+                 f"medians over the mean quoted 68% half-width; 1 means the "
+                 f"quoted interval is the right size")
+
+    for tag, blk in (("Gal", ecg), ("Agn", eca)):
+        add(f"EnsCtrl{tag}Offset",
+            pm(get(blk, "mean_offset"), get(blk, "sem_offset")),
+            src=S_ENSCTRL, kind="result",
+            note=f"matched-host control, mean H0 offset over the ensemble "
+                 f"({tag.lower()}), km/s/Mpc")
+        add(f"EnsCtrl{tag}Ratio", get(blk, "seed_scatter_over_quoted_half68"),
+            "%.2f", src=S_ENSCTRL, kind="result",
+            note=f"the same scatter-over-quoted ratio for the control "
+                 f"({tag.lower()})")
+
+    # Containment of zero in each mean offset, emitted as a flag rather than
+    # left to the writer's arithmetic: +0.07 +- 0.06 is 1.1 sigma, so it sits
+    # inside the 90% interval on the mean and outside the 68%.
+    for tag, blk in (("Gal", epg), ("Agn", epa)):
+        _m, _s = get(blk, "mean_offset"), get(blk, "sem_offset")
+        _z = None if None in (_m, _s) or not _s else abs(_m) / _s
+        add(f"Ens{tag}ZeroIn",
+            None if _z is None else
+            ("both the 68\\% and the 90\\%" if _z <= 1.0
+             else ("the 90\\% but not the 68\\%" if _z <= 1.645
+                   else "neither the 68\\% nor the 90\\%")),
+            src=S_ENSPURE, kind="result",
+            note=f"which interval on the mean {tag.lower()} offset contains "
+                 f"zero (|mean|/sem = {_z:.2f})" if _z is not None else "")
+
+    _rg = get(epg, "seed_scatter_over_quoted_half68")
+    _ra = get(epa, "seed_scatter_over_quoted_half68")
+    _r = get(ep, "constraining_power.mean_of_per_seed_ratios")
+    add("EnsWidthRatioCorrected",
+        None if None in (_rg, _ra, _r) or not _rg else _r * _ra / _rg,
+        "%.2f", src=S_ENSPURE, kind="result",
+        note="the same ratio after each tracer's width is rescaled by its own "
+             "measured scatter-over-quoted factor")
 
     # --- the sky-shuffle null
     add("FagnRecord", get(fs, "f.median"), "%.3f", src=S_FSCAN, kind="result",
@@ -1046,22 +1115,26 @@ def sec_pure(pt):
     # scans carry a second entry at ~1e-211 of the peak, which is numerical
     # dust, and the threshold removes them.
     lane = get(pt, "injection_lane_of_record")
-    bimodal = [s for s in (get(pt, "diagnostics.per_scan") or [])
-               if s.get("lane") == lane
-               and sum(h >= 0.01 for h in s.get("mode_relative_heights") or []) > 1]
-    one = bimodal[0] if len(bimodal) == 1 else {}
-    heights = one.get("mode_relative_heights") or []
-    modes = one.get("mode_positions") or []
-    lo = min(range(len(modes)), key=lambda i: modes[i]) if modes else None
-    add("PureBimodalSeed", one.get("seed"), "%d", src=S_PURE, kind="result",
-        note="the one realisation whose galaxy-catalog posterior has two modes")
-    add("PureBimodalModeLo", None if lo is None else min(modes), "%.2f",
-        src=S_PURE, kind="result", note="its lower mode, km/s/Mpc")
-    add("PureBimodalModeHi", None if lo is None else max(modes), "%.2f",
-        src=S_PURE, kind="result", note="its upper mode, km/s/Mpc")
-    add("PureBimodalHeight", None if lo is None else heights[lo], "%.2f",
-        src=S_PURE, kind="result",
-        note="height of the lower mode relative to the higher one")
+
+    def _multi(tracer):
+        return [s for s in (get(pt, "diagnostics.per_scan") or [])
+                if s.get("lane") == lane and s.get("tracer") == tracer
+                and sum(h >= 0.01 for h in s.get("mode_relative_heights") or []) > 1]
+
+    gal_multi, agn_multi = _multi("gal"), _multi("agn")
+    add("PureNscans", get(pt, "diagnostics.n_scans"), "%d", src=S_PURE,
+        kind="result", note="single-catalog scans behind the comparison: two "
+                            "tracers x two injection sets per realisation")
+    add("PureMultimodalGal", len(gal_multi), "%d", src=S_PURE, kind="result",
+        note="galaxy-catalog posteriors carrying a genuine second mode, one "
+             "above 1 per cent of the peak")
+    add("PureMultimodalAgn", len(agn_multi), "%d", src=S_PURE, kind="result",
+        note="the same for the AGN catalog")
+    sec_heights = [max((h for h in (s.get("mode_relative_heights") or [])
+                        if h < 1.0), default=0.0) for s in gal_multi]
+    add("PureMultimodalMaxHeight", max(sec_heights) if sec_heights else None,
+        "%.2f", src=S_PURE, kind="result",
+        note="the tallest secondary mode among them, relative to its own peak")
 
 
 def sec_incomplete(m, jsum, joint):
@@ -1395,7 +1468,7 @@ def main():
     sec_controls(load_json(A1 / "closure_v3.json"),
                  load_json(A1 / "v3_curvature.json"),
                  load_json(A2 / "mu_mc_error.json"))
-    sec_pure(load_json(A0 / "h0_pure_tracer.json"))
+    sec_pure(load_json(A0 / "h0_pure_tracer_ens93.json"))
     sec_incomplete(m, jsum, joint)
 
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

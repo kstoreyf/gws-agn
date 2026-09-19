@@ -60,8 +60,8 @@ that are not its to explain.
 \caption{Both parameters at once: the joint posterior on the two complete
 catalogs with the mixture weight free. Blue: the reference realisation's 90\%
 highest-density credible region, with the corresponding marginals in the side
-panels. Gray: the 90\% regions and marginals of four further realisations of
-the entire simulated universe. The quoted medians and 68\% marginal intervals
+panels. Gray: the 90\% regions and marginals of \ClosureNother\ further
+realisations of the entire simulated universe. The quoted medians and 68\% marginal intervals
 are the values the text carries. The cross marks the input
 expansion rate and the reference realisation's realised hosted fraction
 \FagnTruthReal\ (input value \FagnTruthPlanted; short gray ticks mark the other
@@ -122,47 +122,50 @@ analysed each set against its own catalog alone, exactly as in
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_pure_tracer.pdf}
-\caption{What each catalog delivers on events it actually hosts. For every
-realisation of the simulated universe, two further sets of \PureNevents\
-detected events were drawn on the same catalogs, every host a galaxy
-(blue) or every host an AGN (orange), and each set analysed against its
-own catalog alone, with \Hz\ the only free parameter. Left: the ten
-normalised posterior densities $p(\Hz \mid d)$, in units of
-km$^{-1}$\,s\,Mpc, on one shared density axis with no rescaling, and the
-input value dashed; the reference realisation is drawn at full strength and
-the other four lighter in the same hue, and the \Hz\ axis spans
-$[56, 80]$~\kmsmpc, outside which every curve holds less than $10^{-4}$ of
-its mass. The one bimodal galaxy realisation, annotated in that panel
-(second mode at \PureBimodalModeLo~\kmsmpc\ at
-\PureBimodalHeight\ of the primary mode at \PureBimodalModeHi), is drawn as it
-is. Right: the same ten
-measurements as medians with 90\% intervals against the same input line,
-the two tracers offset slightly from each other at each realisation for
-legibility, with each tracer's mean offset over the realisations and the
-90\% interval on the mean offset as line and band. At equal event count, the
-catalog one hundred times sparser is a factor of \PureWidthRatio\ sharper.
+\caption{What each catalog delivers on events it actually hosts. For each of
+\PureNseeds\ realisations of the simulated universe, two further sets of
+\PureNevents\ detected events were drawn on the same catalogs, every host a
+galaxy (blue) or every host an AGN (orange), and each set analysed against its
+own catalog alone, with \Hz\ the only free parameter. Left: all
+\PureNseeds\ normalised posterior densities $p(\Hz \mid d)$ per tracer, in
+units of km$^{-1}$\,s\,Mpc, on one shared density axis with no rescaling and
+the input value dashed; the reference realisation is drawn at full strength
+and the rest of the family light and thin in the same hue. The \Hz\ axis is
+set from the data, and the \PureMultimodalGal\ galaxy posteriors with a
+genuine second mode are drawn as they are. Right: the fraction of
+realisations whose equal-tailed interval at a given credible level contains
+the input value. A method whose intervals are the right width follows the
+dashed diagonal; the grey band is the 90\% binomial range for \PureNseeds\
+draws. The galaxy curve tracks the diagonal and the AGN curve falls below it,
+so at equal event count the sparser catalog is the sharper one, by a factor of
+\PureWidthRatio, but its intervals are the narrower of the two relative to
+what they should be.
 \label{fig:pure}}
 \end{figure*}
 
 Both catalogs recover the input value. Over the \PureNseeds\ realisations the
 mean offsets are $\PureAgnOffset$~\kmsmpc\ from the AGN sets and
-$\PureGalOffset$ from the galaxy sets, each consistent with zero, with the
-input value inside the 68\% interval in \PureAgnInSixtyEight\ (AGN) and
+$\PureGalOffset$ from the galaxy sets, with zero inside \EnsGalZeroIn\
+interval on the galaxy mean and inside \EnsAgnZeroIn\ on the AGN one. The
+input value lies inside the 68\% interval in \PureAgnInSixtyEight\ (AGN) and
 \PureGalInSixtyEight\ (galaxies) of \PureNseeds\ realisations and inside the
 90\% in \PureAgnInNinety\ and \PureGalInNinety\ (Figure~\ref{fig:pure}); the
 medians agree with those from the independent cross-check injection set to at
-most \PureLaneMaxAgn\ of the corresponding half-width across all twenty
-analyses. One galaxy realisation is bimodal, with a second mode at
-\PureBimodalModeLo~\kmsmpc\ standing at \PureBimodalHeight\ of the primary
-mode at \PureBimodalModeHi, and that second mode is what widens the galaxy
-mean offset's standard error; the cross-check on the same events is unimodal.
+most \PureLaneMaxAgn\ of the corresponding half-width across all
+\PureNscans\ analyses. \PureMultimodalGal\ of the galaxy posteriors carry a
+genuine second mode, the tallest of them at \PureMultimodalMaxHeight\ of its
+own peak, against \PureMultimodalAgn\ of the AGN posteriors; they are drawn as
+they are, and their intervals span the gap between the modes.
 
 What separates the tracers is the width. At the same event count the AGN
 catalog measures the expansion rate with a mean 68\% half-width of
 \PureAgnHalfWidth~\kmsmpc\ against the galaxy catalog's \PureGalHalfWidth,
 a factor of \PureWidthRatio\ in the mean; the ratio formed within each
 realisation, AGN half-width over galaxy half-width, is
-$\PureWidthRatioPerSeed$. A catalog one hundred
+$\PureWidthRatioPerSeed$; the AGN half-width is itself narrow by a factor of
+\EnsAgnRatio\ against the realisation-to-realisation scatter
+(\S\ref{sec:validation}), which moves that ratio to
+\EnsWidthRatioCorrected\ and leaves the ordering unchanged. A catalog one hundred
 times sparser is not a weaker version of the same prior: per event that
 actually belongs to it, it is several times stronger, and we read that
 strength as localisation against a handful of candidate hosts rather than a

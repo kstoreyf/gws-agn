@@ -1,8 +1,8 @@
 """The joint (H0, f_AGN) posterior: 2-D credible regions and both marginals.
 
-    analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s{100,101,102,103,105}.h5
+    analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s{SEED}.h5
     analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.json
-    analyses/analysis_2_complete_catalog_H0_fagn/results/joint_summary.json
+    analyses/analysis_2_complete_catalog_H0_fagn/results/joint_summary_ens9.json
 
 Each h5 holds the log-likelihood on the same (H0, f) grid -- 201 x 41 cells on
 [50, 100] x [0, 1] -- evaluated with the K = 2 mixture on the complete galaxy
@@ -47,7 +47,7 @@ LBLBOX = dict(facecolor="white", edgecolor="none", alpha=0.72, pad=1.0)
 
 def load():
     grids, meta = {}, {}
-    summ = json.loads((fs.A2 / "joint_summary.json").read_text())
+    summ = json.loads((fs.A2 / "joint_summary_ens9.json").read_text())
     for row in summ["seeds"]:
         p = fs.A2 / f"joint_s{row['seed']}.h5"
         if p.exists():

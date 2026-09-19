@@ -43,6 +43,26 @@ $\CtrlAgnMean$~\kmsmpc\ (AGN; \CtrlAgnInSixtyEight\ of \CtrlNseeds\ at 68\%
 and \CtrlAgnInNinety\ at 90\%). The correlation between the two parameters
 stays small across realisations, $\rho = \JointRhoMean$.
 
+\PureNseeds\ realisations measure not only whether the single-catalog
+analyses of \S\ref{sec:results:single} recover the input value but how wide
+their intervals should be, and the two tracers answer differently. The
+realisation-to-realisation scatter of the galaxy medians is \EnsGalRatio\
+times the mean quoted 68\% half-width, so the galaxy interval is the size it
+claims to be. The AGN interval is not. Its scatter is \EnsAgnRatio\ times the
+quoted half-width, and its coverage sits below the diagonal across the whole
+range of credible levels in Figure~\ref{fig:pure}. The matched-host controls
+show the same contrast over \EnsCtrlNseeds\ realisations, \EnsCtrlGalRatio\
+for galaxies against \EnsCtrlAgnRatio\ for AGN, and those controls divide one
+event set by host type rather than drawing a new one, so the deficit follows
+the sparse catalog rather than the choice of events. We read it as sample
+variance of the sparse catalog itself, which a fit conditioned on the catalog
+it was given cannot see; the realisations redraw catalogs and events together,
+so they do not separate that from variance in which events are detected.
+Inflating each tracer's half-width by its own measured factor moves the sparse
+catalog's advantage at equal event count from $\PureWidthRatioPerSeed$ to
+\EnsWidthRatioCorrected\ in the ratio of half-widths. The sparse catalog still
+carries more information per event that belongs to it; what moves is how much.
+
 The free-density flux-limited fit replicates as well. Repeated on
 \NSeedsIncomplete\ independent
 realisations at the shallowest limit, it stays within

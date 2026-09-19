@@ -1,13 +1,13 @@
 """Both parameters against truth, realisation by realisation.
 
-    analyses/analysis_2_complete_catalog_H0_fagn/results/joint_summary.json
+    analyses/analysis_2_complete_catalog_H0_fagn/results/joint_summary_ens9.json
     analyses/analysis_2_complete_catalog_H0_fagn/results/h0_fagn_joint.json
 
 Each point is one end-to-end realisation of the mock -- its own density field,
 its own catalogs, its own 1000 events -- analysed with the same joint fit; the
 bar is that realisation's own 90 % interval, read from the summary json
 (`seeds[].joint.H0` and `seeds[].joint.f_vs_realised`).  The band is the mean
-offset over the five realisations plus/minus its standard error, from
+offset over the realisations plus/minus its standard error, from
 `closure.joint_H0` and `closure.joint_f_vs_realised`; the same two numbers are
 quoted in h0_fagn_joint.json and in the text.
 
@@ -32,7 +32,7 @@ ACC = fs.C["blue"]
 
 def build():
     fs.use()
-    summ = json.loads((fs.A2 / "joint_summary.json").read_text())
+    summ = json.loads((fs.A2 / "joint_summary_ens9.json").read_text())
     rows = [r for r in summ["seeds"] if "joint" in r]
     x = np.arange(len(rows))
 
@@ -46,7 +46,7 @@ def build():
         ax.set_xlabel("realisation")
 
     def panel(ax, key, ref, closure, fmt, centre=True):
-        """One panel: per-realisation medians, and the five-seed mean offset.
+        """One panel: per-realisation medians, and the ensemble mean offset.
 
         `ref` is the value the fit should return for each realisation -- one
         number repeated for H0, the realisation's own realised fraction for f

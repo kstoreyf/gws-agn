@@ -1,45 +1,42 @@
-"""One tracer at a time, at matched event count (appendix figure).
+"""One tracer at a time, at matched event count, over the full realisation set.
 
     analyses/analysis_0_pure_tracer_H0/results/h0_pure{gal,agn}_targeted_s{S}.h5
-    analyses/analysis_0_pure_tracer_H0/results/h0_pure{gal,agn}_targeted_s{S}.json
-    analyses/analysis_0_pure_tracer_H0/results/h0_pure_tracer.json
+    analyses/analysis_0_pure_tracer_H0/results/h0_pure_tracer_ens93.json
 
-Ten event sets, two per realisation: one in which every host is a galaxy and
-one in which every host is an AGN, each of 1000 detected events, each analysed
-against its own catalog alone.  The pair is what makes the two tracers'
-constraining power comparable -- the single-catalog fits of the main text split
-one mixed event set, so their arms differ in size and share their noise.
+For every realisation of the simulated universe, two further event sets were
+drawn on the same catalogs, one with every host a galaxy and one with every
+host an AGN, each of 1000 detected events, each analysed against its own
+catalog alone.  The pair is what makes the two tracers' constraining power
+comparable: the single-catalog fits of the main text split one mixed event set,
+so their arms differ in size and share their noise.
 
-Left panel: the ten posteriors as normalised densities with units on the y
-axis, the field convention.  The AGN densities are ~5x narrower and
-correspondingly taller (peaks 0.8-1.1 against 0.10-0.26 for the galaxies), a
-ratio one shared linear axis still resolves, so no stacking and no rescaling.
-Hue carries the tracer (blue galaxies, orange AGN, the same assignment as
-fig_single_tracer); within a tracer the reference realisation is drawn at full
-strength and the other four lighter and thinner, so the family is one colour
-rather than five.
+Left panel: every posterior as a normalised density with units on the y axis,
+the field convention.  Hue carries the tracer (blue galaxies, orange AGN, the
+same assignment as fig_single_tracer); the reference realisation is drawn at
+full strength and the rest of the family light and thin in the same hue, so the
+ensemble reads as one colour per tracer rather than as a hairball.  The AGN
+densities are several times narrower and correspondingly taller, a ratio one
+shared linear axis still resolves, so nothing is stacked and nothing rescaled.
+Bimodal realisations are drawn as they are; nothing is smoothed.
 
-    One galaxy realisation is genuinely bimodal -- its posterior has a second
-    mode near H0 = 62 at 0.70 of the peak.  It is drawn as it is: nothing is
-    smoothed, and the x range is chosen to contain it.
+Right panel: coverage against credible level, the calibration this many
+realisations buys and five could not.  For each realisation the posterior's
+cumulative probability at the input value is evaluated, and the curve is the
+fraction of realisations whose equal-tailed interval at level x contains the
+input value.  A method whose intervals are the right width lies on the
+diagonal.  The grey band is the 90 % binomial range for the number of
+realisations drawn, so a curve leaving it is a deficit the counting noise does
+not explain.  The galaxy curve tracks the diagonal; the AGN curve sits below
+it, which is the statement that the sparse tracer's intervals are too narrow.
 
-X range.  [50, 100] is scanned, but every curve's density outside [56, 80] is
-below 3e-4 of its own peak and each curve keeps >= 99.99 % of its mass inside,
-so the window crops no support and spends the width on the part of the range
-the data occupy.
+X range of the left panel is set from the data rather than fixed, so no curve's
+support is cropped by a window chosen for a smaller family.
 
-Right panel: the same ten measurements as medians with their 90 % intervals,
-against truth, with each tracer's five-realisation mean offset and standard
-error as a band.  The wide galaxy bar on the bimodal realisation is the honest
-rendering of an interval that has to span the gap between two modes.
-
-Colour.  Slots #2a78d6 / #eb6834 and their 55 %-strength composites on the page
-(#8ab5e8 / #f4ac8f) were checked all-pairs with the palette validator's
-conventions: worst normal-vision OKLab dE 15.8, worst min(protan, deutan) 13.2,
-both above the 15 / 8 gates.  The two light steps sit at 2.1:1 and 1.9:1
-against the page, below the 3:1 relief line, so they never carry identity
-alone -- the legend names them, the full-strength curve of the same hue is
-beside them, and the bimodal one is annotated directly.
+Colour.  Slots #2a78d6 / #eb6834 and their light composites on the page were
+checked all-pairs with the palette validator's conventions (worst normal-vision
+OKLab dE 15.8, worst min(protan, deutan) 13.2, above the 15 / 8 gates).  The
+light steps never carry identity alone: the legend names them and the
+full-strength curve of the same hue sits beside them.
 """
 from __future__ import annotations
 
@@ -54,126 +51,140 @@ import figstyle as fs
 
 GAL = fs.C["blue"]
 AGN = fs.C["orange"]
-FADE = 0.55           # strength of the four non-reference realisations
-BIMODAL_SEED = 105    # the galaxy realisation with a second mode
+ENS_FILE = "h0_pure_tracer_ens93.json"
+FAMILY_ALPHA = 0.13       # strength of a single non-reference realisation
+FAMILY_LW = 0.55
 
-XLO, XHI = 56.0, 80.0
+
+def ensemble():
+    """The aggregation of record for this figure, and the seeds behind it."""
+    d = json.loads((fs.A0 / ENS_FILE).read_text())
+    seeds = list(d["closure_gal"]["seeds"])
+    assert list(d["closure_agn"]["seeds"]) == seeds, \
+        "the two tracers must be compared on the same realisations"
+    return d, seeds
 
 
 def scan(tracer, seed):
-    """(grid, normalised posterior density, quoted H0 summary) for one scan."""
+    """(grid, normalised posterior density) for one realisation."""
     tag = f"h0_pure{tracer}_targeted_s{seed}"
     grid, logl = fs.scan_1d(fs.A0 / f"{tag}.h5", "H0_grid")
-    p = fs.posterior_1d(grid, logl)
-    meta = json.loads((fs.A0 / f"{tag}.json").read_text())["H0"]
-    return grid, p, meta
+    return grid, fs.posterior_1d(grid, logl)
 
 
-def panel_posteriors(ax, curves):
-    """The ten posteriors, as normalised densities on one shared axis."""
+def truth_quantile(grid, p):
+    """Posterior cumulative probability at the input value.
+
+    This is the quantity a coverage curve is built from: if the intervals are
+    the right width these are uniform on (0, 1) across realisations.
+    """
+    cdf = np.concatenate([[0.0], np.cumsum(0.5 * (p[1:] + p[:-1]) * np.diff(grid))])
+    cdf /= cdf[-1]
+    return float(np.interp(fs.H0_TRUTH, grid, cdf))
+
+
+def panel_posteriors(ax, curves, seeds):
+    """Every posterior, tracer by tracer, with the reference on top."""
     for tracer, colour in (("gal", GAL), ("agn", AGN)):
-        for seed in fs.SEEDS:                       # others first, reference on top
-            if seed == fs.REF_SEED:
+        for s in seeds:
+            if s == fs.REF_SEED:
                 continue
-            x, y, _ = curves[tracer, seed]
-            ax.plot(x, y, color=colour, lw=0.9, alpha=FADE, zorder=3)
-        x, y, _ = curves[tracer, fs.REF_SEED]
-        ax.plot(x, y, color=colour, lw=1.8, zorder=5)
+            x, y = curves[tracer, s]
+            ax.plot(x, y, color=colour, lw=FAMILY_LW, alpha=FAMILY_ALPHA,
+                    zorder=3, solid_capstyle="butt")
+        x, y = curves[tracer, fs.REF_SEED]
+        ax.plot(x, y, color=colour, lw=1.7, zorder=5)
 
     fs.truth_line(ax, fs.H0_TRUTH, axis="x")
-    ax.annotate("input 67.74", (fs.H0_TRUTH, 0.55),
+    ax.annotate("input 67.74", (fs.H0_TRUTH, 0.60),
                 xycoords=("data", "axes fraction"), textcoords="offset points",
                 xytext=(-4, 0), ha="right", va="center", fontsize=7.0,
                 color=fs.INK2)
 
-    # the second mode, named on the curve that has it
-    x, y, _ = curves["gal", BIMODAL_SEED]
-    k = int(np.argmin(np.abs(x - 62.0)))
-    ax.annotate("one galaxy\nrealisation is\nbimodal", (x[k], y[k]),
-                textcoords="offset points", xytext=(-6, 22), ha="right",
-                va="bottom", fontsize=7.0, color=fs.INK2, linespacing=1.35,
-                arrowprops=dict(arrowstyle="-", color=fs.MUTED, lw=0.7,
-                                shrinkA=1, shrinkB=2), zorder=6)
-
-    ax.set_xlim(XLO, XHI)
-    ax.set_ylim(0, 1.52)
-    ax.set_yticks([0, 0.5, 1.0, 1.5])
+    # window from the data: the smallest range holding 99.9 % of every curve
+    los, his = [], []
+    for (_, _), (x, y) in curves.items():
+        c = np.concatenate([[0.0], np.cumsum(0.5 * (y[1:] + y[:-1]) * np.diff(x))])
+        c /= c[-1]
+        los.append(np.interp(0.001, c, x))
+        his.append(np.interp(0.999, c, x))
+    ax.set_xlim(np.floor(min(los)), np.ceil(max(his)))
+    ax.set_ylim(0, max(y.max() for _, y in curves.values()) * 1.32)
     ax.grid(axis="y", visible=False)
     ax.set_xlabel(r"$H_0$  [km s$^{-1}$ Mpc$^{-1}$]")
     ax.set_ylabel(r"$p(H_0 \mid d)$  [km$^{-1}$ s Mpc]")
     ax.legend(handles=[
-        Line2D([], [], color=GAL, lw=1.8, label="galaxies, reference"),
-        Line2D([], [], color=AGN, lw=1.8, label="AGN, reference"),
-        Line2D([], [], color=GAL, lw=0.9, alpha=FADE, label="four others"),
-        Line2D([], [], color=AGN, lw=0.9, alpha=FADE, label="four others"),
-    ], loc="upper left", ncol=2, columnspacing=1.1, fontsize=7.0,
+        Line2D([], [], color=GAL, lw=1.7, label="galaxies, reference"),
+        Line2D([], [], color=AGN, lw=1.7, label="AGN, reference"),
+        Line2D([], [], color=GAL, lw=1.1, alpha=0.45, label="galaxies, all others"),
+        Line2D([], [], color=AGN, lw=1.1, alpha=0.45, label="AGN, all others"),
+    ], loc="upper left", ncol=2, columnspacing=1.0, fontsize=7.0,
         handlelength=1.4, labelspacing=0.3, borderaxespad=0.2)
 
 
-def panel_recovery(ax, curves, summary):
-    """Medians and 90 % intervals per realisation, with the mean-offset bands."""
-    x = np.arange(len(fs.SEEDS))
-    for tracer, colour, dx, block in (("gal", GAL, -0.13, "closure_gal"),
-                                      ("agn", AGN, +0.13, "closure_agn")):
-        med = np.array([curves[tracer, s][2]["median"] for s in fs.SEEDS])
-        lo = med - np.array([curves[tracer, s][2]["ci90"][0] for s in fs.SEEDS])
-        hi = np.array([curves[tracer, s][2]["ci90"][1] for s in fs.SEEDS]) - med
-        c = summary[block]
-        # 90 % interval on the mean offset (Student's t, n - 1 d.o.f.), so the
-        # band carries the same level as the per-realisation bars
-        half = fs.t_ppf95(len(fs.SEEDS)) * c["sem_offset"]
-        ax.axhspan(fs.H0_TRUTH + c["mean_offset"] - half,
-                   fs.H0_TRUTH + c["mean_offset"] + half,
-                   color=colour, alpha=0.16, lw=0, zorder=2)
-        ax.axhline(fs.H0_TRUTH + c["mean_offset"], color=colour, lw=0.9,
-                   zorder=3)
-        ax.errorbar(x + dx, med, yerr=[lo, hi], fmt="o", ms=4.0, color=colour,
-                    ecolor=colour, elinewidth=1.3, capsize=0, zorder=5,
-                    markeredgecolor="white", markeredgewidth=0.7)
+def panel_coverage(ax, quant, n):
+    """Coverage against credible level, with the binomial range for n draws."""
+    lev = np.linspace(0.0, 1.0, 201)
+    band_lo, band_hi = [], []
+    for a in lev:
+        sd = np.sqrt(max(a * (1.0 - a), 0.0) / n)
+        band_lo.append(max(a - 1.645 * sd, 0.0))
+        band_hi.append(min(a + 1.645 * sd, 1.0))
+    ax.fill_between(lev, band_lo, band_hi, color=fs.OTHER, alpha=0.30, lw=0,
+                    zorder=1.5)
+    ax.plot(lev, lev, color=fs.TRUTH, lw=0.9, ls=(0, (3, 2)), alpha=0.75,
+            zorder=2)
 
-    # truth is drawn over the two mean lines: the AGN mean offset is -0.001, so
-    # its line coincides with truth and must not be able to hide it
-    fs.truth_line(ax, fs.H0_TRUTH, axis="y")
-    ax.lines[-1].set_zorder(4)
+    for tracer, colour in (("gal", GAL), ("agn", AGN)):
+        q = np.asarray(quant[tracer], float)
+        cov = [(np.abs(q - 0.5) <= a / 2.0).mean() for a in lev]
+        ax.plot(lev, cov, color=colour, lw=1.7, zorder=4)
 
-    ax.grid(axis="x", visible=False)
-    ax.set_xticks(x)
-    ax.set_xticklabels([str(i + 1) for i, _ in enumerate(fs.SEEDS)])
-    ax.set_xlim(-0.5, len(fs.SEEDS) - 0.5)
-    ax.set_xlabel("realisation")
-    ax.set_ylabel(r"$H_0$  [km s$^{-1}$ Mpc$^{-1}$]")
-    ax.margins(y=0.10)
-    ylo, yhi = ax.get_ylim()
-    ax.set_ylim(ylo, yhi + 2.1)          # headroom for the legend block
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_xticks([0, 0.25, 0.5, 0.68, 0.90, 1.0])
+    ax.set_xticklabels(["0", "0.25", "0.5", "0.68", "0.90", "1"])
+    ax.set_yticks([0, 0.25, 0.5, 0.75, 1.0])
+    ax.set_xlabel("credible level")
+    ax.set_ylabel("coverage of the input value")
     ax.legend(handles=[
-        Line2D([], [], color=GAL, lw=1.3, marker="o", ms=4.0,
-               markeredgecolor="white", markeredgewidth=0.7,
-               label=r"galaxies, median and 90 %"),
-        Line2D([], [], color=AGN, lw=1.3, marker="o", ms=4.0,
-               markeredgecolor="white", markeredgewidth=0.7,
-               label=r"AGN, median and 90 %"),
+        Line2D([], [], color=GAL, lw=1.7, label="galaxies"),
+        Line2D([], [], color=AGN, lw=1.7, label="AGN"),
         Line2D([], [], color=fs.TRUTH, lw=0.9, ls=(0, (3, 2)), alpha=0.75,
-               label="input 67.74"),
-        # matplotlib fills a multi-column legend column-major, so the two band
-        # swatches are listed last to land opposite their own marker rows
-        Patch(facecolor=GAL, alpha=0.16, edgecolor="none",
-              label=r"galaxy mean offset, 90 %"),
-        Patch(facecolor=AGN, alpha=0.16, edgecolor="none",
-              label=r"AGN mean offset, 90 %"),
-    ], loc="upper left", ncol=2, columnspacing=1.0, fontsize=7.0,
-        handlelength=1.4, labelspacing=0.28, borderaxespad=0.2)
+               label="intervals the right width"),
+        Patch(facecolor=fs.OTHER, alpha=0.30, edgecolor="none",
+              label=r"90 % binomial range"),
+    ], loc="upper left", fontsize=7.0, handlelength=1.4, labelspacing=0.3,
+        borderaxespad=0.2)
 
 
 def build():
     fs.use()
-    summary = json.loads((fs.A0 / "h0_pure_tracer.json").read_text())
-    curves = {(t, s): scan(t, s) for t in ("gal", "agn") for s in fs.SEEDS}
+    d, seeds = ensemble()
+    curves = {(t, s): scan(t, s) for t in ("gal", "agn") for s in seeds}
+    quant = {t: [truth_quantile(*curves[t, s]) for s in seeds]
+             for t in ("gal", "agn")}
 
-    fig, axes = plt.subplots(1, 2, figsize=(fs.TWOCOL, 2.7),
-                             gridspec_kw={"width_ratios": [1.18, 1.0]})
-    panel_posteriors(axes[0], curves)
-    panel_recovery(axes[1], curves, summary)
-    fig.tight_layout(pad=0.3, w_pad=1.6)
+    # the figure must show exactly the realisations the text counts
+    n = len(seeds)
+    assert n == d["closure_gal"]["n_seeds"] == d["closure_agn"]["n_seeds"]
+    for t, blk in (("gal", "closure_gal"), ("agn", "closure_agn")):
+        q = np.asarray(quant[t])
+        for lvl, key in ((0.68, "n_truth_in_ci68"), (0.90, "n_truth_in_ci90")):
+            drawn = int((np.abs(q - 0.5) <= lvl / 2.0).sum())
+            quoted = int(d[blk]["coverage"][key])
+            assert abs(drawn - quoted) <= 1, (
+                f"{t} at {lvl}: figure shows {drawn}/{n}, "
+                f"the aggregation says {quoted}/{n}")
+        print(f"  {t}: {n} realisations, "
+              f"{int((np.abs(q - 0.5) <= 0.34).sum())} inside 68 %, "
+              f"{int((np.abs(q - 0.5) <= 0.45).sum())} inside 90 %")
+
+    fig, axes = plt.subplots(1, 2, figsize=(fs.TWOCOL, 2.9),
+                             gridspec_kw={"width_ratios": [1.20, 1.0]})
+    panel_posteriors(axes[0], curves, seeds)
+    panel_coverage(axes[1], quant, n)
+    fig.tight_layout(pad=0.3, w_pad=1.8)
     return fig
 
 

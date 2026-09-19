@@ -249,7 +249,7 @@ def derive() -> dict[str, str]:
     chk = st["validation"]["checks"]
     v3 = cfg["events"]["v3_measurement_family"]
 
-    pure = read(A0 / "h0_pure_tracer.json")
+    pure = read(A0 / "h0_pure_tracer_ens93.json")
     single = read(A1 / "h0_single_tracer.json")
     closure = read(A1 / "closure_v3.json")
     curv = read(A1 / "v3_curvature.json")
@@ -259,6 +259,9 @@ def derive() -> dict[str, str]:
     fsc = read(A2 / "fscan_s100.json")
     fnull = read(A2 / "fscan_null_s100.json")
     mumc = read(A2 / "mu_mc_error.json")
+    jsum9 = read(A2 / "joint_summary_ens9.json")
+    enspure = read(A0 / "h0_pure_tracer_ens93.json")
+    ensctrl = read(A1 / "closure_seeds_ens91.json")
 
     e: dict[str, str] = {}
 
@@ -452,30 +455,64 @@ def derive() -> dict[str, str]:
     e["FagnTruthPlanted"] = fnum(joint["truth_f_planted"], "%.2f")
     e["FagnBinomialSd"] = fnum(jsum["binomial_sd_per_realisation"], "%.3f")
     e["JointRho"] = fnum(joint["rho"], "%.3f")
-    e["JointRhoMean"] = pmstr(dig(jsum, "closure", "rho", "mean"),
-                              dig(jsum, "closure", "rho", "sem"),
+    e["JointRhoMean"] = pmstr(dig(jsum9, "closure", "rho", "mean"),
+                              dig(jsum9, "closure", "rho", "sem"),
                               "%+.3f", "%.3f")
     e["ClosureScatterHzeroRatio"] = fnum(
-        dig(jsum, "closure", "scatter_H0", "ratio"), "%.2f")
+        dig(jsum9, "closure", "scatter_H0", "ratio"), "%.2f")
     e["ClosureScatterFagnRatio"] = fnum(
-        dig(jsum, "closure", "scatter_f", "ratio"), "%.2f")
+        dig(jsum9, "closure", "scatter_f", "ratio"), "%.2f")
     e["HzeroWidthRatio"] = fnum(single["gal_h0_width"] / joint["h0_width"],
                                 "%.1f")
 
-    e["ClosureNseeds"] = fnum(joint["closure_n_seeds"], "%d")
-    e["ClosureHzero"] = pmstr(joint["closure_h0_offset_mean"],
-                              joint["closure_h0_offset_sem"])
-    e["ClosureFagnReal"] = pmstr(joint["closure_f_offset_vs_realised_mean"],
-                                 joint["closure_f_offset_vs_realised_sem"],
-                                 "%+.3f", "%.3f")
-    e["ClosureFagnPlanted"] = pmstr(joint["closure_f_offset_vs_planted_mean"],
-                                    joint["closure_f_offset_vs_planted_sem"],
-                                    "%+.3f", "%.3f")
-    cov = jsum["closure"]["coverage"]
+    # the closure block is quoted over every realisation the joint grid has run
+    # on, the same set fig_closure draws
+    e["ClosureNseeds"] = fnum(dig(jsum9, "closure", "joint_H0", "n"), "%d")
+    e["ClosureNother"] = fnum(dig(jsum9, "closure", "joint_H0", "n") - 1, "%d")
+    e["ClosureHzero"] = pmstr(dig(jsum9, "closure", "joint_H0", "mean"),
+                              dig(jsum9, "closure", "joint_H0", "sem"))
+    e["ClosureFagnReal"] = pmstr(
+        dig(jsum9, "closure", "joint_f_vs_realised", "mean"),
+        dig(jsum9, "closure", "joint_f_vs_realised", "sem"), "%+.3f", "%.3f")
+    e["ClosureFagnPlanted"] = pmstr(
+        dig(jsum9, "closure", "joint_f_vs_planted", "mean"),
+        dig(jsum9, "closure", "joint_f_vs_planted", "sem"), "%+.3f", "%.3f")
+    cov = jsum9["closure"]["coverage"]
     e["ClosureHzeroInSixtyEight"] = fnum(cov["H0_in_68"], "%d")
     e["ClosureHzeroInNinety"] = fnum(cov["H0_in_90"], "%d")
     e["ClosureFagnInSixtyEight"] = fnum(cov["f_realised_in_68"], "%d")
     e["ClosureFagnInNinety"] = fnum(cov["f_realised_in_90"], "%d")
+
+    # ---- the large single-tracer seed ensemble
+    epg, epa = enspure["closure_gal"], enspure["closure_agn"]
+    ecg, eca = ensctrl["closure_gal"], ensctrl["closure_agn"]
+    e["EnsCtrlNseeds"] = fnum(ecg["n_seeds"], "%d")
+    for tag, blk in (("Gal", epg), ("Agn", epa)):
+        e[f"Ens{tag}Ratio"] = fnum(blk["seed_scatter_over_quoted_half68"], "%.2f")
+        # containment of zero in the interval on the mean.  Re-derived from the
+        # per-realisation offsets where they are stored, so this is a second
+        # computation of sem and not a copy of the one build_values used.
+        _offs = [r.get("offset") for r in blk.get("per_seed", [])]
+        _offs = [o for o in _offs if isinstance(o, (int, float))]
+        if len(_offs) > 1:
+            _n = len(_offs)
+            _mu = sum(_offs) / _n
+            _var = sum((o - _mu) ** 2 for o in _offs) / (_n - 1)
+            _sem = (_var / _n) ** 0.5
+        else:
+            _mu, _sem = blk["mean_offset"], blk["sem_offset"]
+        _z = abs(_mu) / _sem
+        e[f"Ens{tag}ZeroIn"] = ("both the 68\\% and the 90\\%" if _z <= 1.0
+                                else ("the 90\\% but not the 68\\%" if _z <= 1.645
+                                      else "neither the 68\\% nor the 90\\%"))
+    for tag, blk in (("Gal", ecg), ("Agn", eca)):
+        e[f"EnsCtrl{tag}Offset"] = pmstr(blk["mean_offset"], blk["sem_offset"])
+        e[f"EnsCtrl{tag}Ratio"] = fnum(blk["seed_scatter_over_quoted_half68"], "%.2f")
+    cpw = enspure["constraining_power"]
+    e["EnsWidthRatioCorrected"] = fnum(
+        cpw["mean_of_per_seed_ratios"]
+        * epa["seed_scatter_over_quoted_half68"]
+        / epg["seed_scatter_over_quoted_half68"], "%.2f")
 
     # ---- the null
     e["FagnRecord"] = fnum(fsc["f"]["median"], "%.3f")
@@ -545,19 +582,23 @@ def derive() -> dict[str, str]:
 
     e.update(flux_limited(cfg, jsum))
 
-    # the one posterior with a real second mode; the 1 % relative-height cut
-    # drops two AGN scans whose recorded second mode is ~1e-211 of the peak
+    # posteriors with a real second mode; the 1 % relative-height cut drops the
+    # AGN scans whose recorded second mode is ~1e-211 of the peak
     lane = pure["injection_lane_of_record"]
-    multi = [s for s in pure["diagnostics"]["per_scan"]
-             if s["lane"] == lane
-             and len([h for h in s["mode_relative_heights"] if h >= 0.01]) > 1]
-    if len(multi) == 1:
-        s = multi[0]
-        pairs = sorted(zip(s["mode_positions"], s["mode_relative_heights"]))
-        e["PureBimodalSeed"] = fnum(s["seed"], "%d")
-        e["PureBimodalModeLo"] = fnum(pairs[0][0], "%.2f")
-        e["PureBimodalModeHi"] = fnum(pairs[-1][0], "%.2f")
-        e["PureBimodalHeight"] = fnum(pairs[0][1], "%.2f")
+
+    def _multi(tracer):
+        return [s for s in pure["diagnostics"]["per_scan"]
+                if s["lane"] == lane and s["tracer"] == tracer
+                and len([h for h in s["mode_relative_heights"] if h >= 0.01]) > 1]
+
+    gmulti, amulti = _multi("gal"), _multi("agn")
+    e["PureNscans"] = fnum(len(pure["diagnostics"]["per_scan"]), "%d")
+    e["PureMultimodalGal"] = fnum(len(gmulti), "%d")
+    e["PureMultimodalAgn"] = fnum(len(amulti), "%d")
+    tall = [max((h for h in s["mode_relative_heights"] if h < 1.0), default=0.0)
+            for s in gmulti]
+    if tall:
+        e["PureMultimodalMaxHeight"] = fnum(max(tall), "%.2f")
 
     return e
 
