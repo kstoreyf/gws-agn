@@ -1,0 +1,216 @@
+{
+  "section": "specification section 10 -- per-event evidence decomposition",
+  "arm": "J (joint)",
+  "point": {
+    "kind": "posterior MAP",
+    "f_agn": 0.275,
+    "mu_chi_c2": 0.10750000000000004,
+    "grid_index": [
+      11,
+      41
+    ],
+    "dmu_chi": 0.10750000000000004,
+    "why": "the MAP is a node of the registered 41 x 61 grid, so the production scan evaluated this exact cell and its log-likelihood is on disk; the posterior median (f = 0.261653, mu_chi_c2 = 0.107386) is an interpolated marginal summary lying between nodes, which nothing recorded could check.  The two differ by 0.3 grid steps in f (0.15 sigma) and 0.06 steps in mu_chi_c2 (0.007 sigma).",
+    "log_f_gal": -0.32158362412746233,
+    "log_f_agn": -1.2909841813155656,
+    "production_logL_at_this_point": -4211.84259284502,
+    "production_logL_pe_at_this_point": -16014.75553768314,
+    "production_logL_selection_at_this_point": 11802.91294483812,
+    "recorded_arm_J_logL_at_this_cell": -4211.84259284502
+  },
+  "truth": {
+    "f_agn_planted": 0.3,
+    "f_agn_realised": 0.295,
+    "dmu_chi_planted": 0.1,
+    "dmu_chi_realised": 0.111924,
+    "dmu_chi_realised_err": 0.006815,
+    "mu_chi_gal_fixed": 0.0
+  },
+  "definition": {
+    "production_kernel": "darksirens/likelihood/core.py :: _log_sample_weight_pop_branches, per PE sample s and branch k: log f_k + log p_k(z_s|pix_k,s) + log p_pop(theta_s|Lambda_k); the branches are summed with _mixture_logsumexp and the event likelihood is the sample average (log_evidence_and_mc_variance)",
+    "A_k": "A_k(s) = log p_k(z_s | pix_{k,s})  -- the SPATIAL factor, the same term the production kernel builds in _eval_prior_branches, minus the log f_k it adds there",
+    "B_k": "B_k(s) = log p_pop(theta_s | Lambda_k)  -- the INTRINSIC factor, the same log_p_pop call on the same pop_params_all[k]",
+    "C": "C(s) = -log|d(m1src,q,z)/d(m1det,q,dL)| - log prior_wt_s  -- branch-independent, subtracted once exactly as in production",
+    "E": "E_i[XY] = (1/n) sum_s exp(A_X(s) + B_Y(s) + C(s)), X,Y in {G,A}, over the SAME samples with the SAME production mask",
+    "identity": "Z_i = f_GAL E_i[GG] + f_AGN E_i[AA] is the production per-event likelihood",
+    "log_BF_spatial": "log E_i[AG] - log E_i[GG]",
+    "log_BF_intrinsic": "log E_i[AA] - log E_i[AG]",
+    "sum_rule": "log BF_spatial + log BF_intrinsic = log E[AA] - log E[GG] = log BF_total, exactly",
+    "P_AGN": "f_AGN E[AA] / (f_GAL E[GG] + f_AGN E[AA]) = sigmoid(log(f_AGN/f_GAL) + log BF_total)",
+    "ordering": "the split is the chain rule through the AGN-spatial / GAL-intrinsic hybrid E[AG]; the opposite order routes through E[GA] and differs by the interaction term only"
+  },
+  "verification": [
+    {
+      "quantity": "sum_i log Z_i (joint, MAP)",
+      "sum_over_events": -16014.75553768314,
+      "production_reference": -16014.75553768314,
+      "source": "live production call at the MAP, logL - logL_selection",
+      "abs_difference": 0.0,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "sum_i log Z_i (joint, MAP)",
+      "sum_over_events": -16014.75553768314,
+      "production_reference": -16014.75553768314,
+      "source": "results/arm_J_joint.h5 guard/logL_pe[11,41] (recorded)",
+      "abs_difference": 0.0,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "sum_i log E_i[GG]",
+      "sum_over_events": -16067.162166483613,
+      "production_reference": -16067.162166483613,
+      "source": "results/arm_J_joint.h5 guard/logL_pe[0,41] (recorded; f=0)",
+      "abs_difference": 0.0,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "sum_i log E_i[AA]",
+      "sum_over_events": -17286.15206594798,
+      "production_reference": -17286.15206594798,
+      "source": "results/arm_J_joint.h5 guard/logL_pe[40,41] (recorded; f=1)",
+      "abs_difference": 0.0,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "sum_i log E_i[GA]",
+      "sum_over_events": -16167.71236448907,
+      "production_reference": -16167.71236448907,
+      "source": "results/arm_I_intrinsic.h5 guard/logL_pe[40,41] (recorded; Arm I f=1 is GAL spatial x AGN intrinsic)",
+      "abs_difference": 0.0,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "sum_i log E_i[AG]",
+      "sum_over_events": -17180.701741021385,
+      "production_reference": -17180.701741021385,
+      "source": "live production call at (f=1, mu_chi_c2=0), logL - logL_selection",
+      "abs_difference": 0.0,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "logaddexp(log f_G + log E[GG], log f_A + log E[AA]) vs the production per-sample branch sum",
+      "max_abs_difference_per_event": 7.105427357601002e-15,
+      "sum_abs_difference": 0.0,
+      "source": "internal: the branch sum re-associated event by event"
+    },
+    {
+      "quantity": "log BF_spatial + log BF_intrinsic - log BF_total",
+      "max_abs_difference_per_event": 7.105427357601002e-15,
+      "source": "internal: the chain-rule split is exact by construction"
+    }
+  ],
+  "separation": {
+    "log_BF_spatial": {
+      "median_true_GAL": -0.07546429373228491,
+      "median_true_AGN": 0.18755789528985645,
+      "median_difference_AGN_minus_GAL": 0.26302218902214136,
+      "mean_true_GAL": -1.6930957859317646,
+      "mean_true_AGN": 0.27150154082753325,
+      "auc": 0.6902464238490204
+    },
+    "log_BF_intrinsic": {
+      "median_true_GAL": -0.2130737341634692,
+      "median_true_AGN": 0.18672318992766535,
+      "median_difference_AGN_minus_GAL": 0.39979692409113454,
+      "mean_true_GAL": -0.23326864648600568,
+      "mean_true_AGN": 0.20001379947809816,
+      "auc": 0.6794710902752734
+    },
+    "log_BF_total": {
+      "median_true_GAL": -0.28875623746229095,
+      "median_true_AGN": 0.3939759374238996,
+      "median_difference_AGN_minus_GAL": 0.6827321748861905,
+      "mean_true_GAL": -1.9263644324177698,
+      "mean_true_AGN": 0.4715153403056314,
+      "auc": 0.7423584565452579
+    },
+    "P_AGN": {
+      "median_true_GAL": 0.2212913529375735,
+      "median_true_AGN": 0.3599860667100783,
+      "median_difference_AGN_minus_GAL": 0.13869471377250484,
+      "mean_true_GAL": 0.22909280636299817,
+      "mean_true_AGN": 0.38389315419908265,
+      "auc": 0.7423584565452579
+    }
+  },
+  "classification": {
+    "threshold": 0.5,
+    "counts": {
+      "true_AGN_called_AGN": 61,
+      "true_AGN_called_GAL": 234,
+      "true_GAL_called_AGN": 31,
+      "true_GAL_called_GAL": 674
+    },
+    "n_true_AGN": 295,
+    "n_true_GAL": 705,
+    "n_called_AGN": 92,
+    "accuracy": 0.735,
+    "expected_AGN_count_sum_P": 274.7589089746431,
+    "realised_AGN_count": 295,
+    "P_AGN_range": [
+      7.100371708986304e-130,
+      0.9997610005563131
+    ],
+    "n_with_P_above_0p9": 6,
+    "n_with_P_below_0p1": 145
+  },
+  "ordering_interaction": {
+    "definition": "log E[AA] + log E[GG] - log E[AG] - log E[GA]",
+    "median": 0.0011146825494261492,
+    "mean": -0.004900126921137572,
+    "max_abs": 1.6798582443021104,
+    "p90_abs": 0.217986644133798,
+    "alt_order_log_BF_spatial_median": 0.01186035738757596,
+    "alt_order_log_BF_intrinsic_median": -0.08532667836390129,
+    "note": "the two swap orders differ ONLY by this term; both give the same log BF_total and the same P_i(AGN)"
+  },
+  "provenance": {
+    "gws_agn_sha": "c3bd534d4ece213c080703419ac718b37ac10c24",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_paths_used": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "outputs": {
+    "h5": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/event_decomposition.h5",
+    "json": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/event_decomposition.json",
+    "diagnostics_json": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/diagnostics/event_decomposition.json"
+  },
+  "caveats": [
+    "The true host label is a mock diagnostic only; it never enters the likelihood, the decomposition or P_i(AGN).",
+    "Seed 100's DETECTED set already separates GAL from AGN in mass ratio q (KS p = 0.0096; z-stratified Fisher 29.57, the largest of 41 seeds examined, median 7.54).  That is the record's own property, present before any mark, and the model holds q identical in both branches, so the branch label is partly identifiable without the spin mark and log BF_intrinsic here is not a clean measurement of the spin mark alone.",
+    "One realisation.  Seed 100 only.",
+    "One hyperparameter point.  These are not marginalised over the (f_AGN, mu_chi_c2) posterior."
+  ]
+}
