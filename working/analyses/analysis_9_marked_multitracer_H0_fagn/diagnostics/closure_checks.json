@@ -1,0 +1,4838 @@
+{
+  "stage": "closure_assemble",
+  "tolerances": {
+    "ulp_same_code_same_data": 4.0,
+    "abs_logL_cross_hardware": 1e-06,
+    "endpoint_abs_logL": 1e-06,
+    "liveness_min_abs_dlogL": 0.001
+  },
+  "sources": {
+    "arm_J": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/arm_J_joint.h5",
+    "arm_S": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/arm_S_spatial.h5",
+    "closure_main": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/diagnostics/_a9_closure_main.json",
+    "closure_k1": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/diagnostics/_a9_closure_k1.json"
+  },
+  "cost": {
+    "build_seconds_K2_NEW": 29.217926740646362,
+    "build_seconds_spatial_only_same_data": 3.3685548305511475,
+    "first_eval_seconds": 11.156066656112671,
+    "steady_state_median_seconds": 3.0188318490982056,
+    "steady_state_mean_seconds": 3.018937361240387,
+    "steady_state_min_seconds": 3.0160861015319824,
+    "steady_state_max_seconds": 3.023411273956299,
+    "steady_state_sd_seconds": 0.001978815051244523,
+    "steady_state_n": 20,
+    "all_evals_median_seconds": 3.0180916786193848,
+    "n_evaluations_K2_NEW": 117,
+    "n_evaluations_spatial": 35,
+    "jax_memory_stats_after_build": {
+      "num_allocs": 2610,
+      "bytes_in_use": 10672442112,
+      "peak_bytes_in_use": 13345922560,
+      "largest_alloc_size": 1432224000,
+      "bytes_limit": 63740018688,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 18255708160,
+      "peak_pool_bytes": 18255708160
+    },
+    "jax_memory_stats_peak": {
+      "num_allocs": 3370,
+      "bytes_in_use": 10672442112,
+      "peak_bytes_in_use": 19591196160,
+      "largest_alloc_size": 8918753024,
+      "bytes_limit": 63740018688,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 35435577344,
+      "peak_pool_bytes": 35435577344
+    },
+    "peak_gpu_nvidia_smi": {
+      "peak_mib_this_pid": 34254.0,
+      "peak_mib_all_compute_apps": 34254.0,
+      "pid_matched_in_nvidia_smi": true
+    }
+  },
+  "gpu_name": "NVIDIA A100 80GB PCIe, 81920 MiB",
+  "configs": {
+    "K2_NEW": {
+      "labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "$\\mu_\\chi$_c2",
+        "fcat_2"
+      ],
+      "mode": "new",
+      "per_catalog_pop_params": [
+        "mu_chi_c2"
+      ],
+      "n_fixed_parameter_values": 13,
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "events_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "selection_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "SPATIAL": {
+      "labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "fcat_2"
+      ],
+      "mode": "old",
+      "per_catalog_pop_params": [],
+      "n_fixed_parameter_values": 1,
+      "fix_population": true,
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "events_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "selection_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    }
+  },
+  "checks": {
+    "c91_fixed_H0_reduction": {
+      "description": "the Analysis-9 marked likelihood with H0 pinned at 67.74, against the recorded arm-J grid, cell for cell",
+      "n_cells": 40,
+      "n_bitwise_identical": 37,
+      "n_both_neg_inf": 5,
+      "max_abs_diff_total": 1.8189894035458565e-12,
+      "max_abs_diff_pe": 1.8189894035458565e-12,
+      "max_abs_diff_selection": 1.8189894035458565e-12,
+      "max_abs_diff_in_ulp_total": 2.0,
+      "max_abs_diff_in_ulp_pe": 1.0,
+      "max_abs_diff_in_ulp_selection": 1.0,
+      "ulp_at_the_seed100_scale": 9.094947017729282e-13,
+      "rejected_mask_matches": true,
+      "map_cell": {
+        "f_agn": 0.275,
+        "mu_chi_c2": 0.1075,
+        "a8_recorded_logL_max": -4211.84259284502,
+        "a8_grid_value": -4211.84259284502,
+        "a9_value": -4211.84259284502,
+        "diff": 0.0,
+        "diff_in_ulp": 0.0
+      },
+      "per_cell": [
+        {
+          "i": 11,
+          "j": 41,
+          "f_agn": 0.275,
+          "mu_chi_c2": 0.10750000000000004,
+          "dmu_chi": 0.10750000000000004,
+          "note": "arm-J MAP",
+          "a9_logL_hex": "-0x1.073d7b42a2934p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4211.84259284502,
+            "b": -4211.84259284502,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16014.75553768314,
+            "b": -16014.75553768314,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.91294483812,
+            "b": 11802.91294483812,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 557291.7843149333,
+          "Neff_a8": 557291.7843149333,
+          "log_mu": {
+            "a": -11.802013057177627,
+            "b": -11.802013057177627,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 0,
+          "j": 0,
+          "f_agn": 0.0,
+          "mu_chi_c2": -0.2,
+          "dmu_chi": -0.2,
+          "note": "f = 0 row",
+          "a9_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 514672.32479741675,
+          "Neff_a8": 514672.32479741675,
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 0,
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.2,
+          "dmu_chi": -0.2,
+          "note": "f = 1 row",
+          "a9_logL_hex": "-0x1.85843c477dcdep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -6232.264716617034,
+            "b": -6232.264716617034,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -18072.07913125087,
+            "b": -18072.07913125087,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11839.814414633836,
+            "b": 11839.814414633836,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 11332.036155422571,
+          "Neff_a8": 11332.036155422571,
+          "log_mu": {
+            "a": -11.795559349337383,
+            "b": -11.795559349337383,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 0,
+          "j": 15,
+          "f_agn": 0.0,
+          "mu_chi_c2": -0.08750000000000001,
+          "dmu_chi": -0.08750000000000001,
+          "note": "f = 0 row",
+          "a9_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 514672.32479741675,
+          "Neff_a8": 514672.32479741675,
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 15,
+          "f_agn": 1.0,
+          "mu_chi_c2": -0.08750000000000001,
+          "dmu_chi": -0.08750000000000001,
+          "note": "f = 1 row",
+          "a9_logL_hex": "-0x1.5e14b3c58dba0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -5601.293889573688,
+            "b": -5601.29388957369,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17397.088212882558,
+            "b": -17397.088212882558,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11795.79432330887,
+            "b": 11795.794323308868,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 178795.40079306744,
+          "Neff_a8": 178795.40079306808,
+          "log_mu": {
+            "a": -11.792989441316516,
+            "b": -11.792989441316514,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 0,
+          "j": 30,
+          "f_agn": 0.0,
+          "mu_chi_c2": 0.024999999999999994,
+          "dmu_chi": 0.024999999999999994,
+          "note": "f = 0 row",
+          "a9_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 514672.32479741675,
+          "Neff_a8": 514672.32479741675,
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 30,
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.024999999999999994,
+          "dmu_chi": 0.024999999999999994,
+          "note": "f = 1 row",
+          "a9_logL_hex": "-0x1.4fbeb8ae91648p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -5371.920088355961,
+            "b": -5371.920088355961,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17168.57741489099,
+            "b": -17168.57741489099,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11796.65732653503,
+            "b": 11796.65732653503,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 356042.30785575917,
+          "Neff_a8": 356042.30785575917,
+          "log_mu": {
+            "a": -11.79524878606404,
+            "b": -11.79524878606404,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 0,
+          "j": 41,
+          "f_agn": 0.0,
+          "mu_chi_c2": 0.10750000000000004,
+          "dmu_chi": 0.10750000000000004,
+          "note": "f = 0 row",
+          "a9_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 514672.32479741675,
+          "Neff_a8": 514672.32479741675,
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 41,
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.10750000000000004,
+          "dmu_chi": 0.10750000000000004,
+          "note": "f = 1 row",
+          "a9_logL_hex": "-0x1.56e53ef0f49a0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -5486.327866511798,
+            "b": -5486.327866511798,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17286.15206594798,
+            "b": -17286.15206594798,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11799.824199436182,
+            "b": 11799.824199436182,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 121470.6051780011,
+          "Neff_a8": 121470.6051780011,
+          "log_mu": {
+            "a": -11.795695628583463,
+            "b": -11.795695628583463,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 0,
+          "j": 60,
+          "f_agn": 0.0,
+          "mu_chi_c2": 0.25,
+          "dmu_chi": 0.25,
+          "note": "f = 0 row",
+          "a9_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 514672.32479741675,
+          "Neff_a8": 514672.32479741675,
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 60,
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.25,
+          "dmu_chi": 0.25,
+          "note": "f = 1 row",
+          "a9_logL_hex": "-inf",
+          "rejected_a8": true,
+          "rejected_a9": true,
+          "total": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "pe": {
+            "a": NaN,
+            "b": NaN,
+            "diff": NaN,
+            "abs_diff": NaN,
+            "ulp": NaN,
+            "diff_in_ulp": NaN,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "Neff_a9": 2765.9296043538006,
+          "Neff_a8": 2765.9296043538106,
+          "log_mu": {
+            "a": -11.766036203136208,
+            "b": -11.766036203136206,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 58,
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.23500000000000004,
+          "dmu_chi": 0.23500000000000004,
+          "note": "guard boundary: A8 rejected",
+          "a9_logL_hex": "-inf",
+          "rejected_a8": true,
+          "rejected_a9": true,
+          "total": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "pe": {
+            "a": NaN,
+            "b": NaN,
+            "diff": NaN,
+            "abs_diff": NaN,
+            "ulp": NaN,
+            "diff_in_ulp": NaN,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "Neff_a9": 4136.464264076807,
+          "Neff_a8": 4136.464264076807,
+          "log_mu": {
+            "a": -11.7730078539506,
+            "b": -11.7730078539506,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 40,
+          "j": 57,
+          "f_agn": 1.0,
+          "mu_chi_c2": 0.22750000000000004,
+          "dmu_chi": 0.22750000000000004,
+          "note": "guard boundary: A8 accepted, one mu node below",
+          "a9_logL_hex": "-0x1.782956a7bcad0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -6018.583656060233,
+            "b": -6018.583656060233,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17893.296102636734,
+            "b": -17893.296102636734,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11874.712446576501,
+            "b": 11874.712446576501,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 5082.848626558699,
+          "Neff_a8": 5082.848626558699,
+          "log_mu": {
+            "a": -11.77604730093758,
+            "b": -11.77604730093758,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 37,
+          "j": 58,
+          "f_agn": 0.925,
+          "mu_chi_c2": 0.23500000000000004,
+          "dmu_chi": 0.23500000000000004,
+          "note": "guard boundary: A8 rejected, lowest f at this mu",
+          "a9_logL_hex": "-inf",
+          "rejected_a8": true,
+          "rejected_a9": true,
+          "total": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "pe": {
+            "a": NaN,
+            "b": NaN,
+            "diff": NaN,
+            "abs_diff": NaN,
+            "ulp": NaN,
+            "diff_in_ulp": NaN,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "Neff_a9": 4810.715866711993,
+          "Neff_a8": 4810.715866711993,
+          "log_mu": {
+            "a": -11.775329826524334,
+            "b": -11.775329826524334,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 36,
+          "j": 58,
+          "f_agn": 0.9,
+          "mu_chi_c2": 0.23500000000000004,
+          "dmu_chi": 0.23500000000000004,
+          "note": "guard boundary: A8 accepted, one f node below",
+          "a9_logL_hex": "-0x1.234cc45a23324p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4660.797937524305,
+            "b": -4660.797937524305,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16535.75626152032,
+            "b": -16535.75626152032,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11874.958323996016,
+            "b": 11874.958323996016,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 5073.1737309661885,
+          "Neff_a8": 5073.1737309661885,
+          "log_mu": {
+            "a": -11.776105017053482,
+            "b": -11.776105017053482,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 30,
+          "j": 60,
+          "f_agn": 0.75,
+          "mu_chi_c2": 0.25,
+          "dmu_chi": 0.25,
+          "note": "guard boundary: A8 rejected, lowest f at mu = +0.25",
+          "a9_logL_hex": "-inf",
+          "rejected_a8": true,
+          "rejected_a9": true,
+          "total": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "pe": {
+            "a": NaN,
+            "b": NaN,
+            "diff": NaN,
+            "abs_diff": NaN,
+            "ulp": NaN,
+            "diff_in_ulp": NaN,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "Neff_a9": 4819.495186733019,
+          "Neff_a8": 4819.495186733019,
+          "log_mu": {
+            "a": -11.775494866597676,
+            "b": -11.775494866597676,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 29,
+          "j": 60,
+          "f_agn": 0.7250000000000001,
+          "mu_chi_c2": 0.25,
+          "dmu_chi": 0.25,
+          "note": "guard boundary: A8 accepted, one f node below",
+          "a9_logL_hex": "-0x1.162718be2ea7ep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4450.443540746926,
+            "b": -4450.443540746926,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16324.333298377816,
+            "b": -16324.333298377816,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11873.88975763089,
+            "b": 11873.88975763089,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 5146.541199900572,
+          "Neff_a8": 5146.541199900572,
+          "log_mu": {
+            "a": -11.776445672269311,
+            "b": -11.776445672269311,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 17,
+          "j": 53,
+          "f_agn": 0.42500000000000004,
+          "mu_chi_c2": 0.1975,
+          "dmu_chi": 0.1975,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0a5b92b426f96p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4261.723316337817,
+            "b": -4261.723316337819,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16066.284000905805,
+            "b": -16066.284000905805,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11804.560684567989,
+            "b": 11804.560684567987,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 60902.81815033573,
+          "Neff_a8": 60902.818150335945,
+          "log_mu": {
+            "a": -11.79632625445078,
+            "b": -11.796326254450777,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 38,
+          "j": 17,
+          "f_agn": 0.9500000000000001,
+          "mu_chi_c2": -0.07250000000000001,
+          "dmu_chi": -0.07250000000000001,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.1bacf1e766264p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4538.809058569928,
+            "b": -4538.809058569928,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16334.56243493415,
+            "b": -16334.56243493415,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11795.753376364222,
+            "b": 11795.753376364222,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 247052.18141155294,
+          "Neff_a8": 247052.18141155294,
+          "log_mu": {
+            "a": -11.793723440837507,
+            "b": -11.793723440837507,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 5,
+          "j": 36,
+          "f_agn": 0.125,
+          "mu_chi_c2": 0.07,
+          "dmu_chi": 0.07,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.080b94258e08ep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4224.72366862757,
+            "b": -4224.72366862757,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16028.899212958557,
+            "b": -16028.899212958557,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11804.175544330987,
+            "b": 11804.175544330987,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 612040.4115069747,
+          "Neff_a8": 612040.4115069747,
+          "log_mu": {
+            "a": -11.803356153992421,
+            "b": -11.803356153992421,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 27,
+          "j": 47,
+          "f_agn": 0.675,
+          "mu_chi_c2": 0.15250000000000002,
+          "dmu_chi": 0.15250000000000002,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0dc7ff43ac282p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4316.499820396888,
+            "b": -4316.499820396888,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16118.992148617346,
+            "b": -16118.992148617346,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.492328220458,
+            "b": 11802.492328220458,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 87262.1374711971,
+          "Neff_a8": 87262.1374711971,
+          "log_mu": {
+            "a": -11.79674527669808,
+            "b": -11.79674527669808,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 26,
+          "j": 43,
+          "f_agn": 0.65,
+          "mu_chi_c2": 0.1225,
+          "dmu_chi": 0.1225,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0b4d616287976p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4276.836275605825,
+            "b": -4276.836275605823,
+            "diff": -1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": -2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16077.890287232833,
+            "b": -16077.89028723283,
+            "diff": -1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11801.054011627008,
+            "b": 11801.054011627008,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 189936.30324429536,
+          "Neff_a8": 189936.30324429536,
+          "log_mu": {
+            "a": -11.798413652772835,
+            "b": -11.798413652772835,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 36,
+          "j": 55,
+          "f_agn": 0.9,
+          "mu_chi_c2": 0.21250000000000002,
+          "dmu_chi": 0.21250000000000002,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.20df82d678ff0p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4621.969442818299,
+            "b": -4621.969442818299,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16458.374244451203,
+            "b": -16458.374244451203,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11836.404801632903,
+            "b": 11836.404801632903,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 9492.245120146741,
+          "Neff_a8": 9492.245120146741,
+          "log_mu": {
+            "a": -11.783572200530388,
+            "b": -11.783572200530388,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 37,
+          "j": 52,
+          "f_agn": 0.925,
+          "mu_chi_c2": 0.19,
+          "dmu_chi": 0.19,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.202bb78e5376cp+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4610.732313467055,
+            "b": -4610.732313467055,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16428.672050139634,
+            "b": -16428.672050139634,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11817.939736672579,
+            "b": 11817.939736672579,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 17037.699379273567,
+          "Neff_a8": 17037.699379273567,
+          "log_mu": {
+            "a": -11.788505011429681,
+            "b": -11.788505011429681,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 29,
+          "j": 56,
+          "f_agn": 0.7250000000000001,
+          "mu_chi_c2": 0.22000000000000003,
+          "dmu_chi": 0.22000000000000003,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.1516b9b76ca3ep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4433.420340942741,
+            "b": -4433.420340942741,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16262.03054136526,
+            "b": -16262.03054136526,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11828.61020042252,
+            "b": 11828.61020042252,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 11709.402200374176,
+          "Neff_a8": 11709.402200374176,
+          "log_mu": {
+            "a": -11.785781370101535,
+            "b": -11.785781370101535,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 1,
+          "j": 1,
+          "f_agn": 0.025,
+          "mu_chi_c2": -0.1925,
+          "dmu_chi": -0.1925,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0a93a0eee5f00p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4265.226790331071,
+            "b": -4265.226790331071,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16070.371988935844,
+            "b": -16070.371988935844,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.145198604772,
+            "b": 11805.145198604772,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 523870.35858557443,
+          "Neff_a8": 523870.35858557443,
+          "log_mu": {
+            "a": -11.804187900693599,
+            "b": -11.804187900693599,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 32,
+          "j": 26,
+          "f_agn": 0.8,
+          "mu_chi_c2": -0.0050000000000000044,
+          "dmu_chi": -0.0050000000000000044,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0d8e59540eae2p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4312.8968086789555,
+            "b": -4312.8968086789555,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16110.376584917045,
+            "b": -16110.376584917045,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11797.47977623809,
+            "b": 11797.47977623809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 527658.3603187894,
+          "Neff_a8": 527658.3603187894,
+          "log_mu": {
+            "a": -11.796529350664056,
+            "b": -11.796529350664056,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 30,
+          "j": 29,
+          "f_agn": 0.75,
+          "mu_chi_c2": 0.017500000000000016,
+          "dmu_chi": 0.017500000000000016,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0b87b47d35710p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4280.481564720874,
+            "b": -4280.481564720874,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16078.793402474541,
+            "b": -16078.793402474541,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11798.311837753667,
+            "b": 11798.311837753667,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 556860.6572981025,
+          "Neff_a8": 556860.6572981025,
+          "log_mu": {
+            "a": -11.797411253391264,
+            "b": -11.797411253391264,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 36,
+          "j": 3,
+          "f_agn": 0.9,
+          "mu_chi_c2": -0.17750000000000002,
+          "dmu_chi": -0.17750000000000002,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.2dfb05c708e5ep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4831.688910517461,
+            "b": -4831.688910517461,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16645.81509740789,
+            "b": -16645.81509740789,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11814.126186890428,
+            "b": 11814.126186890428,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 26886.425870229745,
+          "Neff_a8": 26886.425870229745,
+          "log_mu": {
+            "a": -11.79547365187441,
+            "b": -11.79547365187441,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 27,
+          "j": 0,
+          "f_agn": 0.675,
+          "mu_chi_c2": -0.2,
+          "dmu_chi": -0.2,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.1f756913d0704p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4599.338153661931,
+            "b": -4599.338153661931,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16418.228706607842,
+            "b": -16418.228706607842,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11818.890552945912,
+            "b": 11818.890552945912,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 24511.05117587996,
+          "Neff_a8": 24511.05117587996,
+          "log_mu": {
+            "a": -11.798430394121981,
+            "b": -11.798430394121981,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 6,
+          "j": 50,
+          "f_agn": 0.15000000000000002,
+          "mu_chi_c2": 0.17500000000000004,
+          "dmu_chi": 0.17500000000000004,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.078b745811066p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4216.715904299263,
+            "b": -4216.715904299263,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16020.238887240701,
+            "b": -16020.238887240701,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11803.522982941438,
+            "b": 11803.522982941438,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 396346.3570703378,
+          "Neff_a8": 396346.3570703378,
+          "log_mu": {
+            "a": -11.802257675487356,
+            "b": -11.802257675487356,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 12,
+          "j": 59,
+          "f_agn": 0.30000000000000004,
+          "mu_chi_c2": 0.24250000000000005,
+          "dmu_chi": 0.24250000000000005,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.0985d67e3559ep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4248.364866455462,
+            "b": -4248.364866455462,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16056.803880130481,
+            "b": -16056.803880130481,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11808.439013675019,
+            "b": 11808.439013675019,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 34418.816113555724,
+          "Neff_a8": 34418.816113555724,
+          "log_mu": {
+            "a": -11.793868495085842,
+            "b": -11.793868495085842,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 14,
+          "j": 47,
+          "f_agn": 0.35000000000000003,
+          "mu_chi_c2": 0.15250000000000002,
+          "dmu_chi": 0.15250000000000002,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.080484c6c717ep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4224.282416131695,
+            "b": -4224.282416131695,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16026.715019774769,
+            "b": -16026.715019774769,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.432603643074,
+            "b": 11802.432603643074,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 250808.12094465696,
+          "Neff_a8": 250808.12094465696,
+          "log_mu": {
+            "a": -11.800433067112474,
+            "b": -11.800433067112474,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 38,
+          "j": 19,
+          "f_agn": 0.9500000000000001,
+          "mu_chi_c2": -0.057499999999999996,
+          "dmu_chi": -0.057499999999999996,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.191eac1511cf6p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4497.917012281008,
+            "b": -4497.917012281008,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16293.555250167867,
+            "b": -16293.555250167867,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11795.638237886858,
+            "b": 11795.638237886858,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 298354.8075226937,
+          "Neff_a8": 298354.8075226937,
+          "log_mu": {
+            "a": -11.793957353291217,
+            "b": -11.793957353291217,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 39,
+          "j": 43,
+          "f_agn": 0.9750000000000001,
+          "mu_chi_c2": 0.1225,
+          "dmu_chi": 0.1225,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.1ab06058267f4p+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4523.023521566753,
+            "b": -4523.023521566753,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16323.911526479415,
+            "b": -16323.911526479415,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11800.888004912662,
+            "b": 11800.888004912662,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 91783.36477150298,
+          "Neff_a8": 91783.36477150298,
+          "log_mu": {
+            "a": -11.7954240518178,
+            "b": -11.7954240518178,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 38,
+          "j": 18,
+          "f_agn": 0.9500000000000001,
+          "mu_chi_c2": -0.065,
+          "dmu_chi": -0.065,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.1a5ad21f6d53cp+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4517.676299502429,
+            "b": -4517.676299502429,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16313.346941004587,
+            "b": -16313.346941004587,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11795.670641502158,
+            "b": 11795.670641502158,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 272918.22476866946,
+          "Neff_a8": 272918.22476866946,
+          "log_mu": {
+            "a": -11.793833094740943,
+            "b": -11.793833094740943,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 21,
+          "j": 45,
+          "f_agn": 0.525,
+          "mu_chi_c2": 0.1375,
+          "dmu_chi": 0.1375,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.09b0fdd9e882ap+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4251.06197539162,
+            "b": -4251.06197539162,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16052.78235224925,
+            "b": -16052.78235224925,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11801.720376857631,
+            "b": 11801.720376857631,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 192935.42553373863,
+          "Neff_a8": 192935.42553373863,
+          "log_mu": {
+            "a": -11.79912106157578,
+            "b": -11.79912106157578,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 19,
+          "j": 47,
+          "f_agn": 0.47500000000000003,
+          "mu_chi_c2": 0.15250000000000002,
+          "dmu_chi": 0.15250000000000002,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.097bf14f34d9ap+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4247.746413427778,
+            "b": -4247.746413427778,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16049.885234427904,
+            "b": -16049.885234427904,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.138821000126,
+            "b": 11802.138821000126,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 160441.7652831796,
+          "Neff_a8": 160441.7652831796,
+          "log_mu": {
+            "a": -11.7990130762845,
+            "b": -11.7990130762845,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 33,
+          "j": 60,
+          "f_agn": 0.8250000000000001,
+          "mu_chi_c2": 0.25,
+          "dmu_chi": 0.25,
+          "note": "interior scatter",
+          "a9_logL_hex": "-inf",
+          "rejected_a8": true,
+          "rejected_a9": true,
+          "total": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "pe": {
+            "a": NaN,
+            "b": NaN,
+            "diff": NaN,
+            "abs_diff": NaN,
+            "ulp": NaN,
+            "diff_in_ulp": NaN,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": -Infinity,
+            "b": -Infinity,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": NaN,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": true
+          },
+          "Neff_a9": 4007.991941890039,
+          "Neff_a8": 4007.991941890039,
+          "log_mu": {
+            "a": -11.772647861767261,
+            "b": -11.772647861767261,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "i": 9,
+          "j": 60,
+          "f_agn": 0.225,
+          "mu_chi_c2": 0.25,
+          "dmu_chi": 0.25,
+          "note": "interior scatter",
+          "a9_logL_hex": "-0x1.08b8766ae59eep+12",
+          "rejected_a8": false,
+          "rejected_a9": false,
+          "total": {
+            "a": -4235.528910538631,
+            "b": -4235.528910538631,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16041.55786090791,
+            "b": -16041.55786090791,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11806.028950369278,
+            "b": 11806.028950369278,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "Neff_a9": 48338.213621961455,
+          "Neff_a8": 48338.213621961455,
+          "log_mu": {
+            "a": -11.795654135860781,
+            "b": -11.795654135860781,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        }
+      ],
+      "pass": true,
+      "pass_same_hardware_ulp_criterion": true
+    },
+    "c92_zero_mark_reduction": {
+      "description": "the marked model at dmu_chi = 0 against the spatial-only H0-f_AGN model -- Analysis 8's K2_OLD shape, the same builder and the same data object, with NO mu_chi_c2 coordinate in the parameter space at all",
+      "spatial_only_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "fcat_2"
+      ],
+      "marked_labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde",
+        "log10n0_c2",
+        "delta_c2",
+        "sigma_kde_c2",
+        "$\\mu_\\chi$_c2",
+        "fcat_2"
+      ],
+      "n_pairs": 35,
+      "n_bitwise_identical": 27,
+      "H0_values": [
+        60.24,
+        64.74,
+        67.74,
+        71.74,
+        77.74
+      ],
+      "f_values": [
+        0.0,
+        0.25,
+        0.26,
+        0.3,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "max_abs_diff_total": 1.8189894035458565e-12,
+      "max_abs_diff_pe": 1.8189894035458565e-12,
+      "max_abs_diff_selection": 1.8189894035458565e-12,
+      "max_abs_diff_in_ulp_total": 2.0,
+      "per_pair": [
+        {
+          "H0": 60.24,
+          "f_agn": 0.0,
+          "marked_dmu0_logL_hex": "-0x1.0b4bc40b25ce6p+12",
+          "spatial_only_logL_hex": "-0x1.0b4bc40b25ce6p+12",
+          "total": {
+            "a": -4276.735362193756,
+            "b": -4276.735362193756,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16415.93540291056,
+            "b": -16415.93540291056,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12139.200040716803,
+            "b": 12139.200040716803,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.138165403952504,
+            "b": -12.138165403952504,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 60.24,
+          "f_agn": 0.25,
+          "marked_dmu0_logL_hex": "-0x1.0a7f4f1476750p+12",
+          "spatial_only_logL_hex": "-0x1.0a7f4f1476750p+12",
+          "total": {
+            "a": -4263.956806624148,
+            "b": -4263.956806624148,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16399.954716471482,
+            "b": -16399.954716471482,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12135.997909847334,
+            "b": 12135.997909847334,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.135249130799542,
+            "b": -12.135249130799542,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 60.24,
+          "f_agn": 0.26,
+          "marked_dmu0_logL_hex": "-0x1.0a87489589430p+12",
+          "spatial_only_logL_hex": "-0x1.0a87489589432p+12",
+          "total": {
+            "a": -4264.455220733813,
+            "b": -4264.455220733815,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16400.331190168956,
+            "b": -16400.331190168956,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12135.875969435143,
+            "b": 12135.875969435141,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.135132656584565,
+            "b": -12.135132656584563,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 60.24,
+          "f_agn": 0.3,
+          "marked_dmu0_logL_hex": "-0x1.0aae9feb5d472p+12",
+          "spatial_only_logL_hex": "-0x1.0aae9feb5d472p+12",
+          "total": {
+            "a": -4266.914042820326,
+            "b": -4266.914042820326,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16402.306945110984,
+            "b": -16402.306945110984,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12135.392902290658,
+            "b": 12135.392902290658,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.134666895339699,
+            "b": -12.134666895339699,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 60.24,
+          "f_agn": 0.5,
+          "marked_dmu0_logL_hex": "-0x1.0c2626d8ccfc8p+12",
+          "spatial_only_logL_hex": "-0x1.0c2626d8ccfc8p+12",
+          "total": {
+            "a": -4290.384484101036,
+            "b": -4290.384484101036,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16423.474078711624,
+            "b": -16423.474078711624,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12133.089594610588,
+            "b": 12133.089594610588,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.132341337571896,
+            "b": -12.132341337571896,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 60.24,
+          "f_agn": 0.75,
+          "marked_dmu0_logL_hex": "-0x1.102060f0cc5a0p+12",
+          "spatial_only_logL_hex": "-0x1.102060f0cc5a0p+12",
+          "total": {
+            "a": -4354.023667143105,
+            "b": -4354.023667143105,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16484.493777967233,
+            "b": -16484.493777967233,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12130.470110824128,
+            "b": 12130.470110824128,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.129441975096743,
+            "b": -12.129441975096743,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 60.24,
+          "f_agn": 1.0,
+          "marked_dmu0_logL_hex": "-0x1.6456ebb45a9d6p+12",
+          "spatial_only_logL_hex": "-0x1.6456ebb45a9d8p+12",
+          "total": {
+            "a": -5701.432545045818,
+            "b": -5701.43254504582,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17829.56710504996,
+            "b": -17829.56710504996,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 12128.13456000414,
+            "b": 12128.134560004139,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -12.126550994627733,
+            "b": -12.126550994627731,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 0.0,
+          "marked_dmu0_logL_hex": "-0x1.0a9b45ddc0beep+12",
+          "spatial_only_logL_hex": "-0x1.0a9b45ddc0beep+12",
+          "total": {
+            "a": -4265.704557183182,
+            "b": -4265.704557183182,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16199.699205034161,
+            "b": -16199.699205034161,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11933.99464785098,
+            "b": 11933.99464785098,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.93299994150072,
+            "b": -11.93299994150072,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 0.25,
+          "marked_dmu0_logL_hex": "-0x1.09295ab771c8cp+12",
+          "spatial_only_logL_hex": "-0x1.09295ab771c8cp+12",
+          "total": {
+            "a": -4242.584647602529,
+            "b": -4242.584647602529,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16173.427598598844,
+            "b": -16173.427598598844,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11930.842950996315,
+            "b": 11930.842950996315,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.93012701802738,
+            "b": -11.93012701802738,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 0.26,
+          "marked_dmu0_logL_hex": "-0x1.092bceae60df0p+12",
+          "spatial_only_logL_hex": "-0x1.092bceae60deep+12",
+          "total": {
+            "a": -4242.737959268954,
+            "b": -4242.737959268952,
+            "diff": -1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": -2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16173.460426513067,
+            "b": -16173.460426513066,
+            "diff": -1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11930.722467244113,
+            "b": 11930.722467244113,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.930012272587772,
+            "b": -11.930012272587772,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 0.3,
+          "marked_dmu0_logL_hex": "-0x1.093d330a140ccp+12",
+          "spatial_only_logL_hex": "-0x1.093d330a140ccp+12",
+          "total": {
+            "a": -4243.8249607833095,
+            "b": -4243.8249607833095,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16174.069759638778,
+            "b": -16174.069759638778,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11930.244798855469,
+            "b": 11930.244798855469,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.9295534224492,
+            "b": -11.9295534224492,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 0.5,
+          "marked_dmu0_logL_hex": "-0x1.0a445cffcbf42p+12",
+          "spatial_only_logL_hex": "-0x1.0a445cffcbf42p+12",
+          "total": {
+            "a": -4260.272704884237,
+            "b": -4260.272704884237,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16188.23098843277,
+            "b": -16188.23098843277,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11927.958283548533,
+            "b": 11927.958283548533,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.92726232460466,
+            "b": -11.92726232460466,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 0.75,
+          "marked_dmu0_logL_hex": "-0x1.0d8ddce3acaa4p+12",
+          "spatial_only_logL_hex": "-0x1.0d8ddce3acaa6p+12",
+          "total": {
+            "a": -4312.866428064797,
+            "b": -4312.866428064799,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16238.202617231029,
+            "b": -16238.202617231029,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11925.336189166232,
+            "b": 11925.33618916623,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.924405814214051,
+            "b": -11.92440581421405,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 1.0,
+          "marked_dmu0_logL_hex": "-0x1.577077796f6fep+12",
+          "spatial_only_logL_hex": "-0x1.577077796f6fep+12",
+          "total": {
+            "a": -5495.0291685441025,
+            "b": -5495.0291685441025,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17418.001455518708,
+            "b": -17418.001455518708,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11922.972286974606,
+            "b": 11922.972286974606,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.921557440238812,
+            "b": -11.921557440238812,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.0,
+          "marked_dmu0_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "spatial_only_logL_hex": "-0x1.0a5c498e40cc0p+12",
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.25,
+          "marked_dmu0_logL_hex": "-0x1.089fb5503c01ap+12",
+          "spatial_only_logL_hex": "-0x1.089fb5503c01ap+12",
+          "total": {
+            "a": -4233.981765970611,
+            "b": -4233.981765970611,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16036.658168442536,
+            "b": -16036.658168442536,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.676402471925,
+            "b": 11802.676402471925,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.801977006894571,
+            "b": -11.801977006894571,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.26,
+          "marked_dmu0_logL_hex": "-0x1.089f083469becp+12",
+          "spatial_only_logL_hex": "-0x1.089f083469becp+12",
+          "total": {
+            "a": -4233.939503109996,
+            "b": -4233.939503109996,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16036.512415813144,
+            "b": -16036.512415813144,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.572912703148,
+            "b": 11802.572912703148,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.8018794190933,
+            "b": -11.8018794190933,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.3,
+          "marked_dmu0_logL_hex": "-0x1.08a3d2c444b1cp+12",
+          "spatial_only_logL_hex": "-0x1.08a3d2c444b1cp+12",
+          "total": {
+            "a": -4234.238956707322,
+            "b": -4234.238956707322,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16036.401904550921,
+            "b": -16036.401904550921,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11802.162947843599,
+            "b": 11802.162947843599,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.801489163094141,
+            "b": -11.801489163094141,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.5,
+          "marked_dmu0_logL_hex": "-0x1.0967ea1596ca0p+12",
+          "spatial_only_logL_hex": "-0x1.0967ea1596c9ep+12",
+          "total": {
+            "a": -4246.494649495144,
+            "b": -4246.494649495142,
+            "diff": -1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": -2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16046.703176113613,
+            "b": -16046.703176113611,
+            "diff": -1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11800.20852661847,
+            "b": 11800.20852661847,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.799540164330782,
+            "b": -11.799540164330782,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.75,
+          "marked_dmu0_logL_hex": "-0x1.0c468f68088d8p+12",
+          "spatial_only_logL_hex": "-0x1.0c468f68088d8p+12",
+          "total": {
+            "a": -4292.410011323365,
+            "b": -4292.410011323365,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16090.397023203175,
+            "b": -16090.397023203175,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11797.98701187981,
+            "b": 11797.98701187981,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.797109245536308,
+            "b": -11.797109245536308,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 1.0,
+          "marked_dmu0_logL_hex": "-0x1.508b182af222cp+12",
+          "spatial_only_logL_hex": "-0x1.508b182af222cp+12",
+          "total": {
+            "a": -5384.693400331347,
+            "b": -5384.693400331347,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17180.701741021385,
+            "b": -17180.701741021385,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11796.008340690038,
+            "b": 11796.008340690038,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.794684221780553,
+            "b": -11.794684221780553,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.0,
+          "marked_dmu0_logL_hex": "-0x1.0a5c5bfbb928cp+12",
+          "spatial_only_logL_hex": "-0x1.0a5c5bfbb928cp+12",
+          "total": {
+            "a": -4261.7724568589,
+            "b": -4261.7724568589,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15905.089813345632,
+            "b": -15905.089813345632,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11643.317356486732,
+            "b": 11643.317356486732,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.642365904627017,
+            "b": -11.642365904627017,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.25,
+          "marked_dmu0_logL_hex": "-0x1.08ca03d222468p+12",
+          "spatial_only_logL_hex": "-0x1.08ca03d222468p+12",
+          "total": {
+            "a": -4236.625932821167,
+            "b": -4236.625932821167,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15877.685768489591,
+            "b": -15877.685768489591,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11641.059835668424,
+            "b": 11641.059835668424,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.64037840661468,
+            "b": -11.64037840661468,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.26,
+          "marked_dmu0_logL_hex": "-0x1.08c936a3fe9f4p+12",
+          "spatial_only_logL_hex": "-0x1.08c936a3fe9f6p+12",
+          "total": {
+            "a": -4236.575839991205,
+            "b": -4236.5758399912065,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15877.550205694739,
+            "b": -15877.550205694739,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11640.974365703534,
+            "b": 11640.974365703532,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.640298988798518,
+            "b": -11.640298988798516,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.3,
+          "marked_dmu0_logL_hex": "-0x1.08ccd5e71178ep+12",
+          "spatial_only_logL_hex": "-0x1.08ccd5e711790p+12",
+          "total": {
+            "a": -4236.802222316981,
+            "b": -4236.802222316983,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15877.438406756359,
+            "b": -15877.438406756359,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11640.636184439378,
+            "b": 11640.636184439376,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.639981380590743,
+            "b": -11.639981380590742,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.5,
+          "marked_dmu0_logL_hex": "-0x1.097bd179959bap+12",
+          "spatial_only_logL_hex": "-0x1.097bd179959bap+12",
+          "total": {
+            "a": -4247.73864134255,
+            "b": -4247.73864134255,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15886.772338682185,
+            "b": -15886.772338682185,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11639.033697339635,
+            "b": 11639.033697339635,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.638394850916644,
+            "b": -11.638394850916644,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.75,
+          "marked_dmu0_logL_hex": "-0x1.0c14d188a3636p+12",
+          "spatial_only_logL_hex": "-0x1.0c14d188a3636p+12",
+          "total": {
+            "a": -4289.301155699,
+            "b": -4289.301155699,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15926.537391785265,
+            "b": -15926.537391785265,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11637.236236086264,
+            "b": 11637.236236086264,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.636415221924263,
+            "b": -11.636415221924263,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 1.0,
+          "marked_dmu0_logL_hex": "-0x1.4a398fa0162aep+12",
+          "spatial_only_logL_hex": "-0x1.4a398fa0162aep+12",
+          "total": {
+            "a": -5283.597564779846,
+            "b": -5283.597564779846,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16919.262343164424,
+            "b": -16919.262343164424,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11635.664778384578,
+            "b": 11635.664778384578,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.6344395041214,
+            "b": -11.6344395041214,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 0.0,
+          "marked_dmu0_logL_hex": "-0x1.0acdb15e06dc6p+12",
+          "spatial_only_logL_hex": "-0x1.0acdb15e06dc6p+12",
+          "total": {
+            "a": -4268.855802561569,
+            "b": -4268.855802561569,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15686.689566484267,
+            "b": -15686.689566484267,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11417.833763922697,
+            "b": 11417.833763922697,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.416908550727147,
+            "b": -11.416908550727147,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 0.25,
+          "marked_dmu0_logL_hex": "-0x1.09f3717727ce2p+12",
+          "spatial_only_logL_hex": "-0x1.09f3717727ce2p+12",
+          "total": {
+            "a": -4255.2152015261545,
+            "b": -4255.2152015261545,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15671.30854900916,
+            "b": -15671.30854900916,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11416.093347483005,
+            "b": 11416.093347483005,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.415431345436206,
+            "b": -11.415431345436206,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 0.26,
+          "marked_dmu0_logL_hex": "-0x1.09f5cb610faacp+12",
+          "spatial_only_logL_hex": "-0x1.09f5cb610faacp+12",
+          "total": {
+            "a": -4255.362153111648,
+            "b": -4255.362153111648,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15671.390265238779,
+            "b": -15671.390265238779,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11416.028112127131,
+            "b": 11416.028112127131,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.415372302588858,
+            "b": -11.415372302588858,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 0.3,
+          "marked_dmu0_logL_hex": "-0x1.0a04a32d76780p+12",
+          "spatial_only_logL_hex": "-0x1.0a04a32d76780p+12",
+          "total": {
+            "a": -4256.28983827855,
+            "b": -4256.28983827855,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15672.060367383943,
+            "b": -15672.060367383943,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11415.770529105394,
+            "b": 11415.770529105394,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.415136166053875,
+            "b": -11.415136166053875,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 0.5,
+          "marked_dmu0_logL_hex": "-0x1.0ace32f74a54ap+12",
+          "spatial_only_logL_hex": "-0x1.0ace32f74a54ap+12",
+          "total": {
+            "a": -4268.887442865709,
+            "b": -4268.887442865709,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15683.450422941463,
+            "b": -15683.450422941463,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11414.562980075754,
+            "b": 11414.562980075754,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.413956319062425,
+            "b": -11.413956319062425,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 0.75,
+          "marked_dmu0_logL_hex": "-0x1.0d38c77f116c4p+12",
+          "spatial_only_logL_hex": "-0x1.0d38c77f116c6p+12",
+          "total": {
+            "a": -4307.548705165918,
+            "b": -4307.54870516592,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15720.789529598376,
+            "b": -15720.789529598376,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11413.240824432458,
+            "b": 11413.240824432456,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.412483465187348,
+            "b": -11.412483465187346,
+            "diff": -1.7763568394002505e-15,
+            "abs_diff": 1.7763568394002505e-15,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": -1.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 77.74,
+          "f_agn": 1.0,
+          "marked_dmu0_logL_hex": "-0x1.43ee9697d96e6p+12",
+          "spatial_only_logL_hex": "-0x1.43ee9697d96e6p+12",
+          "total": {
+            "a": -5182.911765908566,
+            "b": -5182.911765908566,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16595.03682534338,
+            "b": -16595.03682534338,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11412.125059434815,
+            "b": 11412.125059434815,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.411012777420837,
+            "b": -11.411012777420837,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        }
+      ],
+      "arm_S_crosscheck": {
+        "description": "the H0 = 67.74 line of both models against the recorded arm_S_spatial.h5",
+        "a8_recorded_logL_max": -4233.939503109996,
+        "a8_recorded_map_f": 0.26,
+        "max_abs_diff": 1.8189894035458565e-12,
+        "max_abs_diff_in_ulp": 2.0,
+        "per_f": [
+          {
+            "f_agn": 0.0,
+            "arm_S_index": 0,
+            "marked_dmu0_vs_armS": {
+              "a": -4261.767957928765,
+              "b": -4261.767957928765,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -4261.767957928765,
+              "b": -4261.767957928765,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            }
+          },
+          {
+            "f_agn": 0.25,
+            "arm_S_index": 25,
+            "marked_dmu0_vs_armS": {
+              "a": -4233.981765970611,
+              "b": -4233.981765970611,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -4233.981765970611,
+              "b": -4233.981765970611,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            }
+          },
+          {
+            "f_agn": 0.26,
+            "arm_S_index": 26,
+            "marked_dmu0_vs_armS": {
+              "a": -4233.939503109996,
+              "b": -4233.939503109996,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -4233.939503109996,
+              "b": -4233.939503109996,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            }
+          },
+          {
+            "f_agn": 0.3,
+            "arm_S_index": 30,
+            "marked_dmu0_vs_armS": {
+              "a": -4234.238956707322,
+              "b": -4234.238956707322,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -4234.238956707322,
+              "b": -4234.238956707322,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            }
+          },
+          {
+            "f_agn": 0.5,
+            "arm_S_index": 50,
+            "marked_dmu0_vs_armS": {
+              "a": -4246.494649495144,
+              "b": -4246.494649495144,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -4246.494649495142,
+              "b": -4246.494649495144,
+              "diff": 1.8189894035458565e-12,
+              "abs_diff": 1.8189894035458565e-12,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 2.0,
+              "bitwise_identical": false,
+              "both_neg_inf": false
+            }
+          },
+          {
+            "f_agn": 0.75,
+            "arm_S_index": 75,
+            "marked_dmu0_vs_armS": {
+              "a": -4292.410011323365,
+              "b": -4292.410011323365,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -4292.410011323365,
+              "b": -4292.410011323365,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            }
+          },
+          {
+            "f_agn": 1.0,
+            "arm_S_index": 100,
+            "marked_dmu0_vs_armS": {
+              "a": -5384.693400331347,
+              "b": -5384.693400331347,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            },
+            "spatial_only_vs_armS": {
+              "a": -5384.693400331347,
+              "b": -5384.693400331347,
+              "diff": 0.0,
+              "abs_diff": 0.0,
+              "ulp": 9.094947017729282e-13,
+              "diff_in_ulp": 0.0,
+              "bitwise_identical": true,
+              "both_neg_inf": false
+            }
+          }
+        ]
+      },
+      "pass": true
+    },
+    "c93_branch_endpoints": {
+      "description": "f = 0: mu_chi_c2 must be inert, bitwise.  f = 1: only the AGN branch remains, against a K=1 AGN reference built on the same events and injections.  Both at H0 = [64.74, 67.74, 71.74].",
+      "mu_nodes_probed": [
+        -0.2,
+        -0.05,
+        0.0,
+        0.1075,
+        0.25
+      ],
+      "f0_rows": [
+        {
+          "H0": 64.74,
+          "f_agn": 0.0,
+          "mu_chi_c2": [
+            -0.2,
+            -0.05,
+            0.0,
+            0.1075,
+            0.25
+          ],
+          "logL": [
+            -4265.704557183182,
+            -4265.704557183182,
+            -4265.704557183182,
+            -4265.704557183182,
+            -4265.704557183182
+          ],
+          "logL_hex": [
+            "-0x1.0a9b45ddc0beep+12",
+            "-0x1.0a9b45ddc0beep+12",
+            "-0x1.0a9b45ddc0beep+12",
+            "-0x1.0a9b45ddc0beep+12",
+            "-0x1.0a9b45ddc0beep+12"
+          ],
+          "n_distinct_hex": 1,
+          "bitwise_frozen": true,
+          "spread_logL": 0.0,
+          "pe_hex": [
+            -16199.699205034161,
+            -16199.699205034161,
+            -16199.699205034161,
+            -16199.699205034161,
+            -16199.699205034161
+          ],
+          "selection_hex": [
+            11933.99464785098,
+            11933.99464785098,
+            11933.99464785098,
+            11933.99464785098,
+            11933.99464785098
+          ],
+          "n_distinct_pe": 1,
+          "n_distinct_selection": 1,
+          "n_rejected": 0
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.0,
+          "mu_chi_c2": [
+            -0.2,
+            -0.05,
+            0.0,
+            0.1075,
+            0.25
+          ],
+          "logL": [
+            -4261.767957928765,
+            -4261.767957928765,
+            -4261.767957928765,
+            -4261.767957928765,
+            -4261.767957928765
+          ],
+          "logL_hex": [
+            "-0x1.0a5c498e40cc0p+12",
+            "-0x1.0a5c498e40cc0p+12",
+            "-0x1.0a5c498e40cc0p+12",
+            "-0x1.0a5c498e40cc0p+12",
+            "-0x1.0a5c498e40cc0p+12"
+          ],
+          "n_distinct_hex": 1,
+          "bitwise_frozen": true,
+          "spread_logL": 0.0,
+          "pe_hex": [
+            -16067.162166483613,
+            -16067.162166483613,
+            -16067.162166483613,
+            -16067.162166483613,
+            -16067.162166483613
+          ],
+          "selection_hex": [
+            11805.394208554848,
+            11805.394208554848,
+            11805.394208554848,
+            11805.394208554848,
+            11805.394208554848
+          ],
+          "n_distinct_pe": 1,
+          "n_distinct_selection": 1,
+          "n_rejected": 0
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.0,
+          "mu_chi_c2": [
+            -0.2,
+            -0.05,
+            0.0,
+            0.1075,
+            0.25
+          ],
+          "logL": [
+            -4261.7724568589,
+            -4261.7724568589,
+            -4261.7724568589,
+            -4261.7724568589,
+            -4261.7724568589
+          ],
+          "logL_hex": [
+            "-0x1.0a5c5bfbb928cp+12",
+            "-0x1.0a5c5bfbb928cp+12",
+            "-0x1.0a5c5bfbb928cp+12",
+            "-0x1.0a5c5bfbb928cp+12",
+            "-0x1.0a5c5bfbb928cp+12"
+          ],
+          "n_distinct_hex": 1,
+          "bitwise_frozen": true,
+          "spread_logL": 0.0,
+          "pe_hex": [
+            -15905.089813345632,
+            -15905.089813345632,
+            -15905.089813345632,
+            -15905.089813345632,
+            -15905.089813345632
+          ],
+          "selection_hex": [
+            11643.317356486732,
+            11643.317356486732,
+            11643.317356486732,
+            11643.317356486732,
+            11643.317356486732
+          ],
+          "n_distinct_pe": 1,
+          "n_distinct_selection": 1,
+          "n_rejected": 0
+        }
+      ],
+      "f1_rows": [
+        {
+          "H0": 64.74,
+          "f_agn": 1.0,
+          "mu_chi_c2": [
+            -0.2,
+            -0.05,
+            0.0,
+            0.1075,
+            0.25
+          ],
+          "logL": [
+            -6338.466661661641,
+            -5583.122277795275,
+            -5495.0291685441025,
+            -5599.51141372589,
+            -Infinity
+          ],
+          "logL_hex": [
+            "-0x1.8c27777237f0cp+12",
+            "-0x1.5cf1f4d98fbbcp+12",
+            "-0x1.577077796f6fep+12",
+            "-0x1.5df82ec028b6cp+12",
+            "-inf"
+          ],
+          "n_distinct_hex": 5,
+          "bitwise_frozen": false,
+          "spread_logL": 843.4374931175389,
+          "pe_hex": [
+            -18313.549928274148,
+            -17506.524762384714,
+            -17418.001455518708,
+            -17525.953344890942,
+            NaN
+          ],
+          "selection_hex": [
+            11975.083266612506,
+            11923.402484589438,
+            11922.972286974606,
+            11926.441931165053,
+            -Infinity
+          ],
+          "n_distinct_pe": 5,
+          "n_distinct_selection": 5,
+          "n_rejected": 1
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 1.0,
+          "mu_chi_c2": [
+            -0.2,
+            -0.05,
+            0.0,
+            0.1075,
+            0.25
+          ],
+          "logL": [
+            -6232.264716617034,
+            -5476.092839529463,
+            -5384.693400331347,
+            -5486.327866511798,
+            -Infinity
+          ],
+          "logL_hex": [
+            "-0x1.85843c477dcdep+12",
+            "-0x1.56417c454d6d2p+12",
+            "-0x1.508b182af222cp+12",
+            "-0x1.56e53ef0f49a0p+12",
+            "-inf"
+          ],
+          "n_distinct_hex": 5,
+          "bitwise_frozen": false,
+          "spread_logL": 847.5713162856864,
+          "pe_hex": [
+            -18072.07913125087,
+            -17271.344242021343,
+            -17180.701741021385,
+            -17286.15206594798,
+            NaN
+          ],
+          "selection_hex": [
+            11839.814414633836,
+            11795.25140249188,
+            11796.008340690038,
+            11799.824199436182,
+            -Infinity
+          ],
+          "n_distinct_pe": 5,
+          "n_distinct_selection": 5,
+          "n_rejected": 1
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 1.0,
+          "mu_chi_c2": [
+            -0.2,
+            -0.05,
+            0.0,
+            0.1075,
+            0.25
+          ],
+          "logL": [
+            -6129.8951879070755,
+            -5372.1251541840775,
+            -5283.597564779846,
+            -5387.948172341681,
+            -Infinity
+          ],
+          "logL_hex": [
+            "-0x1.7f1e52b08e0aap+12",
+            "-0x1.4fc200a1ac792p+12",
+            "-0x1.4a398fa0162aep+12",
+            "-0x1.50bf2bb6c2e7ep+12",
+            "-inf"
+          ],
+          "n_distinct_hex": 5,
+          "bitwise_frozen": false,
+          "spread_logL": 846.2976231272296,
+          "pe_hex": [
+            -17802.43876119597,
+            -17006.91027653171,
+            -16919.262343164424,
+            -17025.914807157205,
+            NaN
+          ],
+          "selection_hex": [
+            11672.543573288893,
+            11634.785122347634,
+            11635.664778384578,
+            11637.966634815524,
+            -Infinity
+          ],
+          "n_distinct_pe": 5,
+          "n_distinct_selection": 5,
+          "n_rejected": 1
+        }
+      ],
+      "f0_all_bitwise_frozen": true,
+      "f1_any_bitwise_frozen": false,
+      "f1_min_spread_logL": 843.4374931175389,
+      "k1_reference_comparison": [
+        {
+          "H0": 64.74,
+          "f_agn": 0.0,
+          "reference": "K1_GAL",
+          "total": {
+            "a": -4265.704557183182,
+            "b": -4265.704557183182,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16199.699205034161,
+            "b": -16199.699205034161,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11933.99464785098,
+            "b": 11933.99464785098,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.93299994150072,
+            "b": -11.93299994150072,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 64.74,
+          "f_agn": 1.0,
+          "reference": "K1_AGN",
+          "total": {
+            "a": -5495.0291685441025,
+            "b": -5495.0291685441025,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17418.001455518708,
+            "b": -17418.001455518708,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11922.972286974606,
+            "b": 11922.972286974606,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.921557440238812,
+            "b": -11.921557440238812,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 0.0,
+          "reference": "K1_GAL",
+          "total": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16067.162166483613,
+            "b": -16067.162166483613,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11805.394208554848,
+            "b": 11805.394208554848,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.804419802168809,
+            "b": -11.804419802168809,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 67.74,
+          "f_agn": 1.0,
+          "reference": "K1_AGN",
+          "total": {
+            "a": -5384.693400331347,
+            "b": -5384.693400331347,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -17180.701741021385,
+            "b": -17180.701741021385,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11796.008340690038,
+            "b": 11796.008340690038,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.794684221780553,
+            "b": -11.794684221780553,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 0.0,
+          "reference": "K1_GAL",
+          "total": {
+            "a": -4261.7724568589,
+            "b": -4261.7724568589,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -15905.089813345632,
+            "b": -15905.089813345632,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11643.317356486732,
+            "b": 11643.317356486732,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.642365904627017,
+            "b": -11.642365904627017,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "H0": 71.74,
+          "f_agn": 1.0,
+          "reference": "K1_AGN",
+          "total": {
+            "a": -5283.597564779846,
+            "b": -5283.597564779846,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "pe": {
+            "a": -16919.262343164424,
+            "b": -16919.262343164424,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 3.637978807091713e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "selection": {
+            "a": 11635.664778384578,
+            "b": 11635.664778384578,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.8189894035458565e-12,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "log_mu": {
+            "a": -11.6344395041214,
+            "b": -11.6344395041214,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 1.7763568394002505e-15,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        }
+      ],
+      "k1_max_abs_diff_any_term": 0.0,
+      "k1_build_seconds": {
+        "K1_GAL": 27.854273796081543,
+        "K1_AGN": 3.047940731048584
+      },
+      "pass": true
+    },
+    "h0_liveness": {
+      "description": "H0 was already a label in the Analysis-8 parameter space and was never varied; an equivalence test passes for free if the new coordinate is ignored.",
+      "reference": {
+        "H0": 67.74,
+        "f_agn": 0.275,
+        "mu_chi_c2": 0.10750000000000004,
+        "logL": -4211.84259284502
+      },
+      "cells": [
+        {
+          "H0": 68.24,
+          "logL": -4211.078779446925,
+          "delta_logL_vs_anchor": 0.7638133980944986
+        },
+        {
+          "H0": 67.24,
+          "logL": -4212.902953565757,
+          "delta_logL_vs_anchor": -1.0603607207376626
+        },
+        {
+          "H0": 60.24,
+          "logL": -4245.462665687202,
+          "delta_logL_vs_anchor": -33.62007284218271
+        },
+        {
+          "H0": 77.74,
+          "logL": -4235.798875437857,
+          "delta_logL_vs_anchor": -23.956282592836942
+        }
+      ],
+      "min_abs_delta_logL": 0.7638133980944986,
+      "pass": true
+    }
+  },
+  "grid_proposal": {
+    "seconds_per_eval_used": 3.0188318490982056,
+    "S9": {
+      "shape": "2-D (H0, f_AGN) at dmu_chi = 0",
+      "H0_nodes": 202,
+      "H0_range": [
+        50.0,
+        100.0
+      ],
+      "H0_step": 0.25,
+      "H0_note": "Analysis 2's own joint grid [50, 100] x 201 (step 0.25) plus the single node 67.74, so the Analysis-8 anchor is on the grid and the J9 nodes stay a strict subset.  Full registered production range: it DEMONSTRATES where the H0 posterior mass lies instead of assuming it.",
+      "f_nodes": 41,
+      "f_range": [
+        0.0,
+        1.0
+      ],
+      "f_step": 0.025,
+      "cells": 8282,
+      "gpu_hours": 6.9449903817309275,
+      "wall_hours_1_gpu": 6.9449903817309275,
+      "wall_hours_2_gpu": 3.4724951908654638
+    },
+    "J9": {
+      "shape": "3-D (H0, f_AGN, mu_chi_c2)",
+      "H0_nodes": 28,
+      "H0_range": [
+        63.0,
+        76.0
+      ],
+      "H0_step": 0.5,
+      "H0_is_subset_of_S9": true,
+      "H0_nodes_list": [
+        63.0,
+        63.5,
+        64.0,
+        64.5,
+        65.0,
+        65.5,
+        66.0,
+        66.5,
+        67.0,
+        67.5,
+        67.74,
+        68.0,
+        68.5,
+        69.0,
+        69.5,
+        70.0,
+        70.5,
+        71.0,
+        71.5,
+        72.0,
+        72.5,
+        73.0,
+        73.5,
+        74.0,
+        74.5,
+        75.0,
+        75.5,
+        76.0
+      ],
+      "H0_window_evidence": {
+        "source": "analysis_2/results/joint_s100.h5 -- the SAME realisation, unmarked, one shared population",
+        "median": 69.217036,
+        "ci68": [
+          68.249133,
+          70.191466
+        ],
+        "ci90": [
+          67.599776,
+          70.836534
+        ],
+        "ci999": [
+          65.922882,
+          72.594041
+        ],
+        "mass_outside_63_76": 2.076e-08,
+        "edge_density_over_peak_at_63": 7.666e-08,
+        "edge_density_over_peak_at_76": 9.164e-08,
+        "edge_density_over_peak_at_64": 3.952e-06,
+        "gate_B3_criterion": 1e-06,
+        "why_not_64": "[64, 76] leaves the low edge at 3.95e-06 of the peak, ABOVE the B3 criterion; 63 is where the measured marginal clears it with a decade of margin",
+        "confirm_against": "S9's own marked marginal, before J9 is committed"
+      },
+      "f_nodes": 41,
+      "f_range": [
+        0.0,
+        1.0
+      ],
+      "f_step": 0.025,
+      "mu_nodes": 61,
+      "mu_range": [
+        -0.2,
+        0.25
+      ],
+      "mu_step": 0.0075,
+      "resolution_vs_A8_widths": {
+        "A8_ci68_width_f": 0.0921,
+        "nodes_across_A8_ci68_f": 4.683999999999999,
+        "A8_ci68_width_dmu": 0.0394,
+        "nodes_across_A8_ci68_dmu": 6.253333333333333,
+        "A2_ci68_width_H0": 1.942,
+        "nodes_across_A2_ci68_H0_at_step_0p5": 4.884,
+        "note": "freeing H0 can only widen f and dmu_chi, so these node counts are lower bounds; H0 at step 0.5 is the thinnest axis, which is why S9 resolves it at 0.25 and the section-11 width comparison is made on the shared subset"
+      },
+      "cells": 70028,
+      "gpu_hours": 58.722987980180314,
+      "wall_hours_1_gpu": 58.722987980180314,
+      "wall_hours_2_gpu": 29.361493990090157,
+      "mu_trim_if_needed": {
+        "justification": "Analysis-8 SELECTION diagnostics only: the hard N_eff guard rejects at mu_chi_c2 >= +0.2350 for f >= 0.750 (23 of 2501 arm-J cells) and the posterior mass behind that corner is bounded by 3.86e-104",
+        "mu_nodes_kept": 58,
+        "mu_range_kept": [
+          -0.2,
+          0.22750000000000004
+        ],
+        "cells": 66584,
+        "gpu_hours": 55.83497217787637,
+        "saving_gpu_hours": 2.888015802303947,
+        "dmu_chi_zero_inside": true,
+        "taken": false
+      }
+    },
+    "total_cells": 78310,
+    "total_gpu_hours": 65.66797836191124,
+    "total_wall_hours_1_gpu": 65.66797836191124,
+    "total_wall_hours_2_gpu": 32.83398918095562,
+    "preregistered_trim_threshold_gpu_hours": 80.0,
+    "preregistered_trim_fires": false,
+    "anchor_slab_cells": 2501,
+    "anchor_slab_gpu_hours": 2.0972495707207255,
+    "anchor_slab_note": "the H0 = 67.74 slab is cell for cell Analysis 8's arm-J grid, so the full equivalence gate is 1/28 of J9 and costs nothing extra.  Dropping 67.74 from both grids would save this much and force the gate to be run standalone."
+  },
+  "a8_range_evidence": {
+    "mu_marginal_edge_density_over_peak": [
+      2.8468200739726574e-23,
+      9.330988782860558e-07
+    ],
+    "f_marginal_edge_density_over_peak": [
+      2.286508851374135e-21,
+      0.0
+    ],
+    "n_rejected_cells": 23,
+    "rejected_min_f": 0.75,
+    "rejected_min_mu": 0.23500000000000004,
+    "note": "the guard-rejected corner is where a mu trim would be justified by SELECTION diagnostics; dmu_chi = 0 must stay inside any restricted range because figure 3 compares to it"
+  },
+  "verdict": "PASS"
+}

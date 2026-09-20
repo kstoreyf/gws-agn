@@ -1,0 +1,14 @@
+{
+  "check": "the S9 row at H0 = 67.74 against Analysis 8's recorded arm S (arm_S_spatial.h5): the spatial analogue of Gate A, free",
+  "a8_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/arm_S_spatial.h5",
+  "a8_f_grid_n": 101,
+  "s9_f_grid_n": 41,
+  "n_shared_f_nodes": 21,
+  "n_bitwise_identical": 19,
+  "max_abs_delta_logL": 1.8189894035458565e-12,
+  "max_delta_in_ulp": 2.0,
+  "one_ulp_at_this_scale": 9.094947017729282e-13,
+  "a8_logL_max_recorded": -4233.939503109996,
+  "s9_row_max_at_shared_nodes": -4233.981765970611,
+  "cross_hardware": "Analysis 8 arm S ran on a local H100 NVL; S9 ran on a rita A100-80"
+}

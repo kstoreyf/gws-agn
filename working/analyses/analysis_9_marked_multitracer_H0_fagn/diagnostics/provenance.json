@@ -1,0 +1,344 @@
+{
+  "stage": "provenance",
+  "checks": [
+    {
+      "check": "PYTHONPATH carries darksirens-a8",
+      "ok": true,
+      "detail": "PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8"
+    },
+    {
+      "check": "DARKSIRENS_SRC unset or darksirens-a8",
+      "ok": true,
+      "detail": "DARKSIRENS_SRC='/hildafs/projects/phy230014p/magana/src/darksirens-a8' (a8_likelihood.provenance reads it)"
+    },
+    {
+      "check": "darksirens-a8 HEAD == af896ca",
+      "ok": true,
+      "detail": "af896cae6f3f3dd1f87dec50046e3a8228f59b39 (expected af896cae6f3f3dd1f87dec50046e3a8228f59b39)"
+    },
+    {
+      "check": "darksirens-a8 worktree clean",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "check": "tracer-dependent population blocks present",
+      "ok": true,
+      "detail": "9 references to mixture_pop_params in /hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/likelihood/core.py"
+    },
+    {
+      "check": "darksirens imports from darksirens-a8",
+      "ok": true,
+      "detail": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py"
+    },
+    {
+      "check": "pinned base 2b86a2d is an ancestor",
+      "ok": true,
+      "detail": "base 2b86a2d"
+    },
+    {
+      "check": "input present: events",
+      "ok": true,
+      "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5 (162743429 bytes)"
+    },
+    {
+      "check": "input present: survey_gal",
+      "ok": true,
+      "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5 (1650316659 bytes)"
+    },
+    {
+      "check": "input present: survey_agn",
+      "ok": true,
+      "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5 (19934497 bytes)"
+    },
+    {
+      "check": "input present: selection",
+      "ok": true,
+      "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5 (203346016 bytes)"
+    }
+  ],
+  "host": "miko.ib.vera.psc.edu",
+  "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+  "mixture_pop_params_references": 9,
+  "gws_agn_sha": "335d9a3bb646f4d2809a492f72e77d223d2a34f2",
+  "gws_agn_dirty": true,
+  "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+  "darksirens_version": "0.0.1",
+  "a8_provenance": {
+    "gws_agn_sha": "335d9a3bb646f4d2809a492f72e77d223d2a34f2",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_paths_used": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "inputs": {
+    "events": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+    "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+    "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+    "selection": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+  },
+  "grid": {
+    "H0": {
+      "values": [
+        60.239999999999995,
+        60.739999999999995,
+        61.239999999999995,
+        61.739999999999995,
+        62.239999999999995,
+        62.739999999999995,
+        63.239999999999995,
+        63.739999999999995,
+        64.24,
+        64.74,
+        65.24,
+        65.74,
+        66.24,
+        66.74,
+        67.24,
+        67.74,
+        68.24,
+        68.74,
+        69.24,
+        69.74,
+        70.24,
+        70.74,
+        71.24,
+        71.74,
+        72.24,
+        72.74,
+        73.24,
+        73.74,
+        74.24,
+        74.74,
+        75.24,
+        75.74,
+        76.24,
+        76.74,
+        77.24,
+        77.74
+      ],
+      "n": 36,
+      "min": 60.239999999999995,
+      "max": 77.74,
+      "step": 0.5,
+      "anchor": 67.74,
+      "anchor_index": 15
+    },
+    "f_agn": {
+      "values": [
+        0.0,
+        0.025,
+        0.05,
+        0.07500000000000001,
+        0.1,
+        0.125,
+        0.15000000000000002,
+        0.17500000000000002,
+        0.2,
+        0.225,
+        0.25,
+        0.275,
+        0.30000000000000004,
+        0.325,
+        0.35000000000000003,
+        0.375,
+        0.4,
+        0.42500000000000004,
+        0.45,
+        0.47500000000000003,
+        0.5,
+        0.525,
+        0.55,
+        0.5750000000000001,
+        0.6000000000000001,
+        0.625,
+        0.65,
+        0.675,
+        0.7000000000000001,
+        0.7250000000000001,
+        0.75,
+        0.775,
+        0.8,
+        0.8250000000000001,
+        0.8500000000000001,
+        0.875,
+        0.9,
+        0.925,
+        0.9500000000000001,
+        0.9750000000000001,
+        1.0
+      ],
+      "n": 41,
+      "source": "gate_c_three_arms.F_GRID_2D (imported)"
+    },
+    "mu_chi_c2": {
+      "values": [
+        -0.2,
+        -0.1925,
+        -0.185,
+        -0.17750000000000002,
+        -0.17,
+        -0.1625,
+        -0.155,
+        -0.14750000000000002,
+        -0.14,
+        -0.1325,
+        -0.125,
+        -0.11750000000000001,
+        -0.11,
+        -0.10250000000000001,
+        -0.095,
+        -0.08750000000000001,
+        -0.08,
+        -0.07250000000000001,
+        -0.065,
+        -0.057499999999999996,
+        -0.04999999999999999,
+        -0.04250000000000001,
+        -0.035,
+        -0.027499999999999997,
+        -0.01999999999999999,
+        -0.012499999999999983,
+        -0.0050000000000000044,
+        0.0025000000000000022,
+        0.010000000000000009,
+        0.017500000000000016,
+        0.024999999999999994,
+        0.0325,
+        0.04000000000000001,
+        0.047500000000000014,
+        0.05499999999999999,
+        0.0625,
+        0.07,
+        0.07750000000000001,
+        0.08500000000000002,
+        0.09250000000000003,
+        0.10000000000000003,
+        0.10750000000000004,
+        0.11499999999999999,
+        0.1225,
+        0.13,
+        0.1375,
+        0.14500000000000002,
+        0.15250000000000002,
+        0.16000000000000003,
+        0.16750000000000004,
+        0.17500000000000004,
+        0.1825,
+        0.19,
+        0.1975,
+        0.20500000000000002,
+        0.21250000000000002,
+        0.22000000000000003,
+        0.22750000000000004,
+        0.23500000000000004,
+        0.24250000000000005,
+        0.25
+      ],
+      "n": 61,
+      "source": "gate_c_three_arms.MU_GRID_2D (imported)"
+    },
+    "n_cells": 90036
+  },
+  "parameter_space": {
+    "sampled_labels": [
+      "H0",
+      "log10n0",
+      "delta",
+      "sigma_kde",
+      "log10n0_c2",
+      "delta_c2",
+      "sigma_kde_c2",
+      "$\\mu_\\chi$_c2",
+      "fcat_2"
+    ],
+    "free_parameters_analysis_9": [
+      "H0",
+      "fcat_2",
+      "$\\mu_\\chi$_c2"
+    ],
+    "held_at_analysis_8_values": [
+      "log10n0",
+      "delta",
+      "sigma_kde",
+      "log10n0_c2",
+      "delta_c2",
+      "sigma_kde_c2"
+    ],
+    "n_fixed_parameter_values": 13,
+    "fixed_parameter_values": {
+      "Om0": 0.3075,
+      "$v_1$": 0.1,
+      "$\\alpha_{\\rm PL}$": 2.3,
+      "$m_{\\min,\\rm PL}$": 5.0,
+      "$m_{\\max,\\rm PL}$": 80.0,
+      "$\\delta m_{\\min,\\rm PL}$": 3.0,
+      "$\\delta m_{\\max,\\rm PL}$": 10.0,
+      "$\\mu_{\\rm G}$": 35.0,
+      "$\\sigma_{\\rm G}$": 5.0,
+      "$\\beta$": 1.0,
+      "$\\mu_\\chi$": 0.0,
+      "$\\sigma_\\chi$": 0.1,
+      "$\\gamma$": 0.0
+    },
+    "mu_chi_fiducial_GAL_branch": 0.0,
+    "H0_prior_bounds_in_darksirens": [
+      20.0,
+      120.0
+    ],
+    "note": "the scanned closure is the PURE likelihood, so the flat prior of record is the REGISTERED GRID RANGE, not these bounds"
+  },
+  "truth": {
+    "f_agn_planted": 0.3,
+    "f_agn_realised": 0.295,
+    "dmu_chi_planted": 0.1,
+    "dmu_chi_realised": 0.111924,
+    "dmu_chi_realised_err": 0.006815,
+    "mu_chi_gal_fixed": 0.0,
+    "note": "mu_chi_c2 is the AGN branch's ABSOLUTE spin mean; dmu_chi = mu_chi_c2 - mu_chi_gal and the two coincide only because mu_chi_gal is pinned at the powerlaw+peak fiducial 0.0.  The realised truth is the detected-set branch-mean difference in true chi_eff, which already carried +0.011924 before the mark.",
+    "H0_planted": 67.74,
+    "H0_note": "67.74 is the planted cosmology.  Seed 100's own draw sits high: Analysis 2 recovered 69.217 (68% [68.249, 70.191]) on the UNMARKED data with the same catalogs and selection.  That is a property of this realisation, not a bias, so quote H0 differentially against Analysis 2 as well as against 67.74."
+  },
+  "tolerances": {
+    "anchor_equivalence_abs_logL": 1e-06,
+    "anchor_equivalence_rel_logL": 2.4e-10,
+    "anchor_equivalence_same_hardware_ulp": 4.0,
+    "anchor_marginal_abs": 0.0001,
+    "note": "Analysis 8's arm J ran on the local H100 NVL and Analysis 9 runs on a rita A100-80, so the pre-registered criterion is an ABSOLUTE bound of 1e-6 in logL (2.4e-10 relative at logL ~ -4.2e3) with the measured residual ALSO quoted in ULP (1 ULP = 9.0949470177292824e-13 at that scale).  Gate A of Analysis 8 measured 2 ULP for the same-node comparison; if the same node is used the 4 ULP criterion applies.  A measurement above the bound is a FAIL to be diagnosed, not widened."
+  },
+  "reuse": {
+    "likelihood": "analysis_8/scripts/a8_likelihood.py (imported: build, provenance, set_env, guard spy, KDE window, opts, pins)",
+    "grid_and_truths": "analysis_8/scripts/gate_c_three_arms.py (imported: F_GRID_2D, MU_GRID_2D, TRUTH, _cell_record, _trapz_weights, _marginals, _truth_flags)",
+    "posterior_convention": "analysis_2/scripts/scan_h0f.py marginal_ci (imported via a8_likelihood.import_scan_h0f)"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "analysis": "analysis_9_marked_multitracer_H0_fagn",
+  "check": "width[p(H0)] S9 vs J9 with the H0 quadrature made identical: S9's own cube re-marginalised on exactly the 28 J9 nodes",
+  "why": "section 11's ratio uses S9's 202-node axis (0.25 spacing over [50, 100]) against J9's 28-node window (0.5 spacing over [63, 76] plus 67.74).  Every J9 node is bitwise an S9 node, so the same S9 log-likelihoods can be integrated on the J9 lattice and the comparison made at identical resolution AND range.",
+  "lattice": {
+    "S9_nodes": 202,
+    "J9_nodes": 28,
+    "every_J9_node_is_bitwise_an_S9_node": true,
+    "S9_indices_used": [
+      52,
+      54,
+      56,
+      58,
+      60,
+      62,
+      64,
+      66,
+      68,
+      70,
+      71,
+      73,
+      75,
+      77,
+      79,
+      81,
+      83,
+      85,
+      87,
+      89,
+      91,
+      93,
+      95,
+      97,
+      99,
+      101,
+      103,
+      105
+    ]
+  },
+  "S9_full_202_node_axis": {
+    "median": 69.08719312931473,
+    "ci68": [
+      68.08645321162231,
+      70.08805401413429
+    ],
+    "ci90": [
+      67.43750205545881,
+      70.73933090610578
+    ],
+    "width68": 2.001600802511973,
+    "width90": 3.30182885064697
+  },
+  "S9_on_the_28_J9_nodes": {
+    "median": 69.09012940404264,
+    "ci68": [
+      68.06711728949365,
+      70.12005769565143
+    ],
+    "ci90": [
+      67.38919638197302,
+      70.81263386504972
+    ],
+    "width68": 2.0529404061577736,
+    "width90": 3.4234374830766967
+  },
+  "J9_marked": {
+    "median": 69.09053431531436,
+    "ci68": [
+      68.1739564259807,
+      69.99669788966213
+    ],
+    "ci90": [
+      67.59783043059615,
+      70.67770576665758
+    ],
+    "width68": 1.8227414636814245,
+    "width90": 3.079875336061434
+  },
+  "ratios": {
+    "S9_sublattice_over_S9_full_68": 1.0256492721132857,
+    "S9_sublattice_over_S9_full_90": 1.0368306892726733,
+    "J9_over_S9_sublattice_68": 0.8878686678941728,
+    "J9_over_S9_sublattice_90": 0.8996441007865293,
+    "J9_over_S9_full_68": 0.9106418529578508,
+    "J9_over_S9_full_90": 0.9327786131185916
+  },
+  "median_shift_J9_minus_S9_sublattice": 0.00040491127171549124,
+  "reading": "the coarser lattice WIDENS S9, so the section-11 ratio quoted against S9's full axis UNDER-states the sharpening; the matched-lattice ratio is the number to quote"
+}

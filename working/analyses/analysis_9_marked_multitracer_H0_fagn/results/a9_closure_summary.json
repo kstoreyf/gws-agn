@@ -1,0 +1,1041 @@
+{
+  "verdict": "PASS",
+  "cost": {
+    "build_seconds_K2_NEW": 29.217926740646362,
+    "build_seconds_spatial_only_same_data": 3.3685548305511475,
+    "first_eval_seconds": 11.156066656112671,
+    "steady_state_median_seconds": 3.0188318490982056,
+    "steady_state_mean_seconds": 3.018937361240387,
+    "steady_state_min_seconds": 3.0160861015319824,
+    "steady_state_max_seconds": 3.023411273956299,
+    "steady_state_sd_seconds": 0.001978815051244523,
+    "steady_state_n": 20,
+    "all_evals_median_seconds": 3.0180916786193848,
+    "n_evaluations_K2_NEW": 117,
+    "n_evaluations_spatial": 35,
+    "jax_memory_stats_after_build": {
+      "num_allocs": 2610,
+      "bytes_in_use": 10672442112,
+      "peak_bytes_in_use": 13345922560,
+      "largest_alloc_size": 1432224000,
+      "bytes_limit": 63740018688,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 18255708160,
+      "peak_pool_bytes": 18255708160
+    },
+    "jax_memory_stats_peak": {
+      "num_allocs": 3370,
+      "bytes_in_use": 10672442112,
+      "peak_bytes_in_use": 19591196160,
+      "largest_alloc_size": 8918753024,
+      "bytes_limit": 63740018688,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 35435577344,
+      "peak_pool_bytes": 35435577344
+    },
+    "peak_gpu_nvidia_smi": {
+      "peak_mib_this_pid": 34254.0,
+      "peak_mib_all_compute_apps": 34254.0,
+      "pid_matched_in_nvidia_smi": true
+    }
+  },
+  "gpu_name": "NVIDIA A100 80GB PCIe, 81920 MiB",
+  "c91": {
+    "description": "the Analysis-9 marked likelihood with H0 pinned at 67.74, against the recorded arm-J grid, cell for cell",
+    "n_cells": 40,
+    "n_bitwise_identical": 37,
+    "n_both_neg_inf": 5,
+    "max_abs_diff_total": 1.8189894035458565e-12,
+    "max_abs_diff_pe": 1.8189894035458565e-12,
+    "max_abs_diff_selection": 1.8189894035458565e-12,
+    "max_abs_diff_in_ulp_total": 2.0,
+    "max_abs_diff_in_ulp_pe": 1.0,
+    "max_abs_diff_in_ulp_selection": 1.0,
+    "ulp_at_the_seed100_scale": 9.094947017729282e-13,
+    "rejected_mask_matches": true,
+    "map_cell": {
+      "f_agn": 0.275,
+      "mu_chi_c2": 0.1075,
+      "a8_recorded_logL_max": -4211.84259284502,
+      "a8_grid_value": -4211.84259284502,
+      "a9_value": -4211.84259284502,
+      "diff": 0.0,
+      "diff_in_ulp": 0.0
+    },
+    "pass": true,
+    "pass_same_hardware_ulp_criterion": true
+  },
+  "c92": {
+    "description": "the marked model at dmu_chi = 0 against the spatial-only H0-f_AGN model -- Analysis 8's K2_OLD shape, the same builder and the same data object, with NO mu_chi_c2 coordinate in the parameter space at all",
+    "spatial_only_labels": [
+      "H0",
+      "log10n0",
+      "delta",
+      "sigma_kde",
+      "log10n0_c2",
+      "delta_c2",
+      "sigma_kde_c2",
+      "fcat_2"
+    ],
+    "marked_labels": [
+      "H0",
+      "log10n0",
+      "delta",
+      "sigma_kde",
+      "log10n0_c2",
+      "delta_c2",
+      "sigma_kde_c2",
+      "$\\mu_\\chi$_c2",
+      "fcat_2"
+    ],
+    "n_pairs": 35,
+    "n_bitwise_identical": 27,
+    "H0_values": [
+      60.24,
+      64.74,
+      67.74,
+      71.74,
+      77.74
+    ],
+    "f_values": [
+      0.0,
+      0.25,
+      0.26,
+      0.3,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "max_abs_diff_total": 1.8189894035458565e-12,
+    "max_abs_diff_pe": 1.8189894035458565e-12,
+    "max_abs_diff_selection": 1.8189894035458565e-12,
+    "max_abs_diff_in_ulp_total": 2.0,
+    "arm_S_crosscheck": {
+      "description": "the H0 = 67.74 line of both models against the recorded arm_S_spatial.h5",
+      "a8_recorded_logL_max": -4233.939503109996,
+      "a8_recorded_map_f": 0.26,
+      "max_abs_diff": 1.8189894035458565e-12,
+      "max_abs_diff_in_ulp": 2.0,
+      "per_f": [
+        {
+          "f_agn": 0.0,
+          "arm_S_index": 0,
+          "marked_dmu0_vs_armS": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -4261.767957928765,
+            "b": -4261.767957928765,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "f_agn": 0.25,
+          "arm_S_index": 25,
+          "marked_dmu0_vs_armS": {
+            "a": -4233.981765970611,
+            "b": -4233.981765970611,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -4233.981765970611,
+            "b": -4233.981765970611,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "f_agn": 0.26,
+          "arm_S_index": 26,
+          "marked_dmu0_vs_armS": {
+            "a": -4233.939503109996,
+            "b": -4233.939503109996,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -4233.939503109996,
+            "b": -4233.939503109996,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "f_agn": 0.3,
+          "arm_S_index": 30,
+          "marked_dmu0_vs_armS": {
+            "a": -4234.238956707322,
+            "b": -4234.238956707322,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -4234.238956707322,
+            "b": -4234.238956707322,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "f_agn": 0.5,
+          "arm_S_index": 50,
+          "marked_dmu0_vs_armS": {
+            "a": -4246.494649495144,
+            "b": -4246.494649495144,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -4246.494649495142,
+            "b": -4246.494649495144,
+            "diff": 1.8189894035458565e-12,
+            "abs_diff": 1.8189894035458565e-12,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 2.0,
+            "bitwise_identical": false,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "f_agn": 0.75,
+          "arm_S_index": 75,
+          "marked_dmu0_vs_armS": {
+            "a": -4292.410011323365,
+            "b": -4292.410011323365,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -4292.410011323365,
+            "b": -4292.410011323365,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        },
+        {
+          "f_agn": 1.0,
+          "arm_S_index": 100,
+          "marked_dmu0_vs_armS": {
+            "a": -5384.693400331347,
+            "b": -5384.693400331347,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          },
+          "spatial_only_vs_armS": {
+            "a": -5384.693400331347,
+            "b": -5384.693400331347,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "ulp": 9.094947017729282e-13,
+            "diff_in_ulp": 0.0,
+            "bitwise_identical": true,
+            "both_neg_inf": false
+          }
+        }
+      ]
+    },
+    "pass": true
+  },
+  "c93": {
+    "description": "f = 0: mu_chi_c2 must be inert, bitwise.  f = 1: only the AGN branch remains, against a K=1 AGN reference built on the same events and injections.  Both at H0 = [64.74, 67.74, 71.74].",
+    "mu_nodes_probed": [
+      -0.2,
+      -0.05,
+      0.0,
+      0.1075,
+      0.25
+    ],
+    "f0_rows": [
+      {
+        "H0": 64.74,
+        "f_agn": 0.0,
+        "mu_chi_c2": [
+          -0.2,
+          -0.05,
+          0.0,
+          0.1075,
+          0.25
+        ],
+        "logL": [
+          -4265.704557183182,
+          -4265.704557183182,
+          -4265.704557183182,
+          -4265.704557183182,
+          -4265.704557183182
+        ],
+        "logL_hex": [
+          "-0x1.0a9b45ddc0beep+12",
+          "-0x1.0a9b45ddc0beep+12",
+          "-0x1.0a9b45ddc0beep+12",
+          "-0x1.0a9b45ddc0beep+12",
+          "-0x1.0a9b45ddc0beep+12"
+        ],
+        "n_distinct_hex": 1,
+        "bitwise_frozen": true,
+        "spread_logL": 0.0,
+        "pe_hex": [
+          -16199.699205034161,
+          -16199.699205034161,
+          -16199.699205034161,
+          -16199.699205034161,
+          -16199.699205034161
+        ],
+        "selection_hex": [
+          11933.99464785098,
+          11933.99464785098,
+          11933.99464785098,
+          11933.99464785098,
+          11933.99464785098
+        ],
+        "n_distinct_pe": 1,
+        "n_distinct_selection": 1,
+        "n_rejected": 0
+      },
+      {
+        "H0": 67.74,
+        "f_agn": 0.0,
+        "mu_chi_c2": [
+          -0.2,
+          -0.05,
+          0.0,
+          0.1075,
+          0.25
+        ],
+        "logL": [
+          -4261.767957928765,
+          -4261.767957928765,
+          -4261.767957928765,
+          -4261.767957928765,
+          -4261.767957928765
+        ],
+        "logL_hex": [
+          "-0x1.0a5c498e40cc0p+12",
+          "-0x1.0a5c498e40cc0p+12",
+          "-0x1.0a5c498e40cc0p+12",
+          "-0x1.0a5c498e40cc0p+12",
+          "-0x1.0a5c498e40cc0p+12"
+        ],
+        "n_distinct_hex": 1,
+        "bitwise_frozen": true,
+        "spread_logL": 0.0,
+        "pe_hex": [
+          -16067.162166483613,
+          -16067.162166483613,
+          -16067.162166483613,
+          -16067.162166483613,
+          -16067.162166483613
+        ],
+        "selection_hex": [
+          11805.394208554848,
+          11805.394208554848,
+          11805.394208554848,
+          11805.394208554848,
+          11805.394208554848
+        ],
+        "n_distinct_pe": 1,
+        "n_distinct_selection": 1,
+        "n_rejected": 0
+      },
+      {
+        "H0": 71.74,
+        "f_agn": 0.0,
+        "mu_chi_c2": [
+          -0.2,
+          -0.05,
+          0.0,
+          0.1075,
+          0.25
+        ],
+        "logL": [
+          -4261.7724568589,
+          -4261.7724568589,
+          -4261.7724568589,
+          -4261.7724568589,
+          -4261.7724568589
+        ],
+        "logL_hex": [
+          "-0x1.0a5c5bfbb928cp+12",
+          "-0x1.0a5c5bfbb928cp+12",
+          "-0x1.0a5c5bfbb928cp+12",
+          "-0x1.0a5c5bfbb928cp+12",
+          "-0x1.0a5c5bfbb928cp+12"
+        ],
+        "n_distinct_hex": 1,
+        "bitwise_frozen": true,
+        "spread_logL": 0.0,
+        "pe_hex": [
+          -15905.089813345632,
+          -15905.089813345632,
+          -15905.089813345632,
+          -15905.089813345632,
+          -15905.089813345632
+        ],
+        "selection_hex": [
+          11643.317356486732,
+          11643.317356486732,
+          11643.317356486732,
+          11643.317356486732,
+          11643.317356486732
+        ],
+        "n_distinct_pe": 1,
+        "n_distinct_selection": 1,
+        "n_rejected": 0
+      }
+    ],
+    "f1_rows": [
+      {
+        "H0": 64.74,
+        "f_agn": 1.0,
+        "mu_chi_c2": [
+          -0.2,
+          -0.05,
+          0.0,
+          0.1075,
+          0.25
+        ],
+        "logL": [
+          -6338.466661661641,
+          -5583.122277795275,
+          -5495.0291685441025,
+          -5599.51141372589,
+          -Infinity
+        ],
+        "logL_hex": [
+          "-0x1.8c27777237f0cp+12",
+          "-0x1.5cf1f4d98fbbcp+12",
+          "-0x1.577077796f6fep+12",
+          "-0x1.5df82ec028b6cp+12",
+          "-inf"
+        ],
+        "n_distinct_hex": 5,
+        "bitwise_frozen": false,
+        "spread_logL": 843.4374931175389,
+        "pe_hex": [
+          -18313.549928274148,
+          -17506.524762384714,
+          -17418.001455518708,
+          -17525.953344890942,
+          NaN
+        ],
+        "selection_hex": [
+          11975.083266612506,
+          11923.402484589438,
+          11922.972286974606,
+          11926.441931165053,
+          -Infinity
+        ],
+        "n_distinct_pe": 5,
+        "n_distinct_selection": 5,
+        "n_rejected": 1
+      },
+      {
+        "H0": 67.74,
+        "f_agn": 1.0,
+        "mu_chi_c2": [
+          -0.2,
+          -0.05,
+          0.0,
+          0.1075,
+          0.25
+        ],
+        "logL": [
+          -6232.264716617034,
+          -5476.092839529463,
+          -5384.693400331347,
+          -5486.327866511798,
+          -Infinity
+        ],
+        "logL_hex": [
+          "-0x1.85843c477dcdep+12",
+          "-0x1.56417c454d6d2p+12",
+          "-0x1.508b182af222cp+12",
+          "-0x1.56e53ef0f49a0p+12",
+          "-inf"
+        ],
+        "n_distinct_hex": 5,
+        "bitwise_frozen": false,
+        "spread_logL": 847.5713162856864,
+        "pe_hex": [
+          -18072.07913125087,
+          -17271.344242021343,
+          -17180.701741021385,
+          -17286.15206594798,
+          NaN
+        ],
+        "selection_hex": [
+          11839.814414633836,
+          11795.25140249188,
+          11796.008340690038,
+          11799.824199436182,
+          -Infinity
+        ],
+        "n_distinct_pe": 5,
+        "n_distinct_selection": 5,
+        "n_rejected": 1
+      },
+      {
+        "H0": 71.74,
+        "f_agn": 1.0,
+        "mu_chi_c2": [
+          -0.2,
+          -0.05,
+          0.0,
+          0.1075,
+          0.25
+        ],
+        "logL": [
+          -6129.8951879070755,
+          -5372.1251541840775,
+          -5283.597564779846,
+          -5387.948172341681,
+          -Infinity
+        ],
+        "logL_hex": [
+          "-0x1.7f1e52b08e0aap+12",
+          "-0x1.4fc200a1ac792p+12",
+          "-0x1.4a398fa0162aep+12",
+          "-0x1.50bf2bb6c2e7ep+12",
+          "-inf"
+        ],
+        "n_distinct_hex": 5,
+        "bitwise_frozen": false,
+        "spread_logL": 846.2976231272296,
+        "pe_hex": [
+          -17802.43876119597,
+          -17006.91027653171,
+          -16919.262343164424,
+          -17025.914807157205,
+          NaN
+        ],
+        "selection_hex": [
+          11672.543573288893,
+          11634.785122347634,
+          11635.664778384578,
+          11637.966634815524,
+          -Infinity
+        ],
+        "n_distinct_pe": 5,
+        "n_distinct_selection": 5,
+        "n_rejected": 1
+      }
+    ],
+    "f0_all_bitwise_frozen": true,
+    "f1_any_bitwise_frozen": false,
+    "f1_min_spread_logL": 843.4374931175389,
+    "k1_reference_comparison": [
+      {
+        "H0": 64.74,
+        "f_agn": 0.0,
+        "reference": "K1_GAL",
+        "total": {
+          "a": -4265.704557183182,
+          "b": -4265.704557183182,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "pe": {
+          "a": -16199.699205034161,
+          "b": -16199.699205034161,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "selection": {
+          "a": 11933.99464785098,
+          "b": 11933.99464785098,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "log_mu": {
+          "a": -11.93299994150072,
+          "b": -11.93299994150072,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.7763568394002505e-15,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        }
+      },
+      {
+        "H0": 64.74,
+        "f_agn": 1.0,
+        "reference": "K1_AGN",
+        "total": {
+          "a": -5495.0291685441025,
+          "b": -5495.0291685441025,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "pe": {
+          "a": -17418.001455518708,
+          "b": -17418.001455518708,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 3.637978807091713e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "selection": {
+          "a": 11922.972286974606,
+          "b": 11922.972286974606,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "log_mu": {
+          "a": -11.921557440238812,
+          "b": -11.921557440238812,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.7763568394002505e-15,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        }
+      },
+      {
+        "H0": 67.74,
+        "f_agn": 0.0,
+        "reference": "K1_GAL",
+        "total": {
+          "a": -4261.767957928765,
+          "b": -4261.767957928765,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "pe": {
+          "a": -16067.162166483613,
+          "b": -16067.162166483613,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "selection": {
+          "a": 11805.394208554848,
+          "b": 11805.394208554848,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "log_mu": {
+          "a": -11.804419802168809,
+          "b": -11.804419802168809,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.7763568394002505e-15,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        }
+      },
+      {
+        "H0": 67.74,
+        "f_agn": 1.0,
+        "reference": "K1_AGN",
+        "total": {
+          "a": -5384.693400331347,
+          "b": -5384.693400331347,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "pe": {
+          "a": -17180.701741021385,
+          "b": -17180.701741021385,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 3.637978807091713e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "selection": {
+          "a": 11796.008340690038,
+          "b": 11796.008340690038,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "log_mu": {
+          "a": -11.794684221780553,
+          "b": -11.794684221780553,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.7763568394002505e-15,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        }
+      },
+      {
+        "H0": 71.74,
+        "f_agn": 0.0,
+        "reference": "K1_GAL",
+        "total": {
+          "a": -4261.7724568589,
+          "b": -4261.7724568589,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "pe": {
+          "a": -15905.089813345632,
+          "b": -15905.089813345632,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "selection": {
+          "a": 11643.317356486732,
+          "b": 11643.317356486732,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "log_mu": {
+          "a": -11.642365904627017,
+          "b": -11.642365904627017,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.7763568394002505e-15,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        }
+      },
+      {
+        "H0": 71.74,
+        "f_agn": 1.0,
+        "reference": "K1_AGN",
+        "total": {
+          "a": -5283.597564779846,
+          "b": -5283.597564779846,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 9.094947017729282e-13,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "pe": {
+          "a": -16919.262343164424,
+          "b": -16919.262343164424,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 3.637978807091713e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "selection": {
+          "a": 11635.664778384578,
+          "b": 11635.664778384578,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.8189894035458565e-12,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        },
+        "log_mu": {
+          "a": -11.6344395041214,
+          "b": -11.6344395041214,
+          "diff": 0.0,
+          "abs_diff": 0.0,
+          "ulp": 1.7763568394002505e-15,
+          "diff_in_ulp": 0.0,
+          "bitwise_identical": true,
+          "both_neg_inf": false
+        }
+      }
+    ],
+    "k1_max_abs_diff_any_term": 0.0,
+    "k1_build_seconds": {
+      "K1_GAL": 27.854273796081543,
+      "K1_AGN": 3.047940731048584
+    },
+    "pass": true
+  },
+  "h0_liveness": {
+    "description": "H0 was already a label in the Analysis-8 parameter space and was never varied; an equivalence test passes for free if the new coordinate is ignored.",
+    "reference": {
+      "H0": 67.74,
+      "f_agn": 0.275,
+      "mu_chi_c2": 0.10750000000000004,
+      "logL": -4211.84259284502
+    },
+    "cells": [
+      {
+        "H0": 68.24,
+        "logL": -4211.078779446925,
+        "delta_logL_vs_anchor": 0.7638133980944986
+      },
+      {
+        "H0": 67.24,
+        "logL": -4212.902953565757,
+        "delta_logL_vs_anchor": -1.0603607207376626
+      },
+      {
+        "H0": 60.24,
+        "logL": -4245.462665687202,
+        "delta_logL_vs_anchor": -33.62007284218271
+      },
+      {
+        "H0": 77.74,
+        "logL": -4235.798875437857,
+        "delta_logL_vs_anchor": -23.956282592836942
+      }
+    ],
+    "min_abs_delta_logL": 0.7638133980944986,
+    "pass": true
+  },
+  "grid_proposal": {
+    "seconds_per_eval_used": 3.0188318490982056,
+    "S9": {
+      "shape": "2-D (H0, f_AGN) at dmu_chi = 0",
+      "H0_nodes": 202,
+      "H0_range": [
+        50.0,
+        100.0
+      ],
+      "H0_step": 0.25,
+      "H0_note": "Analysis 2's own joint grid [50, 100] x 201 (step 0.25) plus the single node 67.74, so the Analysis-8 anchor is on the grid and the J9 nodes stay a strict subset.  Full registered production range: it DEMONSTRATES where the H0 posterior mass lies instead of assuming it.",
+      "f_nodes": 41,
+      "f_range": [
+        0.0,
+        1.0
+      ],
+      "f_step": 0.025,
+      "cells": 8282,
+      "gpu_hours": 6.9449903817309275,
+      "wall_hours_1_gpu": 6.9449903817309275,
+      "wall_hours_2_gpu": 3.4724951908654638
+    },
+    "J9": {
+      "shape": "3-D (H0, f_AGN, mu_chi_c2)",
+      "H0_nodes": 28,
+      "H0_range": [
+        63.0,
+        76.0
+      ],
+      "H0_step": 0.5,
+      "H0_is_subset_of_S9": true,
+      "H0_nodes_list": [
+        63.0,
+        63.5,
+        64.0,
+        64.5,
+        65.0,
+        65.5,
+        66.0,
+        66.5,
+        67.0,
+        67.5,
+        67.74,
+        68.0,
+        68.5,
+        69.0,
+        69.5,
+        70.0,
+        70.5,
+        71.0,
+        71.5,
+        72.0,
+        72.5,
+        73.0,
+        73.5,
+        74.0,
+        74.5,
+        75.0,
+        75.5,
+        76.0
+      ],
+      "H0_window_evidence": {
+        "source": "analysis_2/results/joint_s100.h5 -- the SAME realisation, unmarked, one shared population",
+        "median": 69.217036,
+        "ci68": [
+          68.249133,
+          70.191466
+        ],
+        "ci90": [
+          67.599776,
+          70.836534
+        ],
+        "ci999": [
+          65.922882,
+          72.594041
+        ],
+        "mass_outside_63_76": 2.076e-08,
+        "edge_density_over_peak_at_63": 7.666e-08,
+        "edge_density_over_peak_at_76": 9.164e-08,
+        "edge_density_over_peak_at_64": 3.952e-06,
+        "gate_B3_criterion": 1e-06,
+        "why_not_64": "[64, 76] leaves the low edge at 3.95e-06 of the peak, ABOVE the B3 criterion; 63 is where the measured marginal clears it with a decade of margin",
+        "confirm_against": "S9's own marked marginal, before J9 is committed"
+      },
+      "f_nodes": 41,
+      "f_range": [
+        0.0,
+        1.0
+      ],
+      "f_step": 0.025,
+      "mu_nodes": 61,
+      "mu_range": [
+        -0.2,
+        0.25
+      ],
+      "mu_step": 0.0075,
+      "resolution_vs_A8_widths": {
+        "A8_ci68_width_f": 0.0921,
+        "nodes_across_A8_ci68_f": 4.683999999999999,
+        "A8_ci68_width_dmu": 0.0394,
+        "nodes_across_A8_ci68_dmu": 6.253333333333333,
+        "A2_ci68_width_H0": 1.942,
+        "nodes_across_A2_ci68_H0_at_step_0p5": 4.884,
+        "note": "freeing H0 can only widen f and dmu_chi, so these node counts are lower bounds; H0 at step 0.5 is the thinnest axis, which is why S9 resolves it at 0.25 and the section-11 width comparison is made on the shared subset"
+      },
+      "cells": 70028,
+      "gpu_hours": 58.722987980180314,
+      "wall_hours_1_gpu": 58.722987980180314,
+      "wall_hours_2_gpu": 29.361493990090157,
+      "mu_trim_if_needed": {
+        "justification": "Analysis-8 SELECTION diagnostics only: the hard N_eff guard rejects at mu_chi_c2 >= +0.2350 for f >= 0.750 (23 of 2501 arm-J cells) and the posterior mass behind that corner is bounded by 3.86e-104",
+        "mu_nodes_kept": 58,
+        "mu_range_kept": [
+          -0.2,
+          0.22750000000000004
+        ],
+        "cells": 66584,
+        "gpu_hours": 55.83497217787637,
+        "saving_gpu_hours": 2.888015802303947,
+        "dmu_chi_zero_inside": true,
+        "taken": false
+      }
+    },
+    "total_cells": 78310,
+    "total_gpu_hours": 65.66797836191124,
+    "total_wall_hours_1_gpu": 65.66797836191124,
+    "total_wall_hours_2_gpu": 32.83398918095562,
+    "preregistered_trim_threshold_gpu_hours": 80.0,
+    "preregistered_trim_fires": false,
+    "anchor_slab_cells": 2501,
+    "anchor_slab_gpu_hours": 2.0972495707207255,
+    "anchor_slab_note": "the H0 = 67.74 slab is cell for cell Analysis 8's arm-J grid, so the full equivalence gate is 1/28 of J9 and costs nothing extra.  Dropping 67.74 from both grids would save this much and force the gate to be run standalone."
+  },
+  "a8_range_evidence": {
+    "mu_marginal_edge_density_over_peak": [
+      2.8468200739726574e-23,
+      9.330988782860558e-07
+    ],
+    "f_marginal_edge_density_over_peak": [
+      2.286508851374135e-21,
+      0.0
+    ],
+    "n_rejected_cells": 23,
+    "rejected_min_f": 0.75,
+    "rejected_min_mu": 0.23500000000000004,
+    "note": "the guard-rejected corner is where a mu trim would be justified by SELECTION diagnostics; dmu_chi = 0 must stay inside any restricted range because figure 3 compares to it"
+  }
+}

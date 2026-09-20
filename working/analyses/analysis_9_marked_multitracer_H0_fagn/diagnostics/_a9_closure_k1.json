@@ -1,0 +1,263 @@
+{
+  "stage": "k1refs",
+  "environment": {
+    "stage": "k1refs",
+    "checks": [
+      {
+        "check": "PYTHONPATH carries darksirens-a8",
+        "ok": true,
+        "detail": "PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8"
+      },
+      {
+        "check": "DARKSIRENS_SRC unset or darksirens-a8",
+        "ok": true,
+        "detail": "DARKSIRENS_SRC='/hildafs/projects/phy230014p/magana/src/darksirens-a8' (a8_likelihood.provenance reads it)"
+      },
+      {
+        "check": "darksirens-a8 HEAD == af896ca",
+        "ok": true,
+        "detail": "af896cae6f3f3dd1f87dec50046e3a8228f59b39 (expected af896cae6f3f3dd1f87dec50046e3a8228f59b39)"
+      },
+      {
+        "check": "darksirens-a8 worktree clean",
+        "ok": true,
+        "detail": "clean"
+      },
+      {
+        "check": "tracer-dependent population blocks present",
+        "ok": true,
+        "detail": "9 references to mixture_pop_params in /hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/likelihood/core.py"
+      },
+      {
+        "check": "darksirens imports from darksirens-a8",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py"
+      },
+      {
+        "check": "pinned base 2b86a2d is an ancestor",
+        "ok": true,
+        "detail": "base 2b86a2d"
+      },
+      {
+        "check": "input present: events",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5 (162743429 bytes)"
+      },
+      {
+        "check": "input present: survey_gal",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5 (1650316659 bytes)"
+      },
+      {
+        "check": "input present: survey_agn",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5 (19934497 bytes)"
+      },
+      {
+        "check": "input present: selection",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5 (203346016 bytes)"
+      }
+    ],
+    "host": "rita.ib.vera.psc.edu",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "mixture_pop_params_references": 9,
+    "gws_agn_sha": "335d9a3bb646f4d2809a492f72e77d223d2a34f2",
+    "gws_agn_dirty": true,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_version": "0.0.1",
+    "a8_provenance": {
+      "gws_agn_sha": "335d9a3bb646f4d2809a492f72e77d223d2a34f2",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+      "darksirens_pinned_base_sha": "2b86a2d",
+      "darksirens_pinned_base_is_ancestor": true,
+      "inputs": {
+        "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+        "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+        "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "survey_paths_used": [
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+        ],
+        "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+      },
+      "settings": {
+        "universe_model": "dark_sirens",
+        "catalog_sky_weighting": "field",
+        "log10n0": -24.0,
+        "log10n0_c2": -24.0,
+        "selection_neff_guard": "hard",
+        "max_likelihood_variance": 1000000.0,
+        "kde_window": 4096,
+        "kde_window_nsigma": 8.0,
+        "sel_batch_size": 50000,
+        "pe_event_block": 25
+      },
+      "H0_fixed": 67.74,
+      "Om0_fixed": 0.3075,
+      "pop_model": "powerlaw+peak"
+    },
+    "inputs": {
+      "events": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "selection": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "jax_devices": "[CudaDevice(id=0)]"
+  },
+  "configs": {
+    "K1_GAL": {
+      "mode": "old",
+      "labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde"
+      ],
+      "per_catalog_pop_params": [],
+      "fix_population": true,
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5"
+      ],
+      "events_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "selection_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
+      "nEvents": 1000,
+      "Ndraw": 150000000.0
+    },
+    "K1_AGN": {
+      "mode": "old",
+      "labels": [
+        "H0",
+        "log10n0",
+        "delta",
+        "sigma_kde"
+      ],
+      "per_catalog_pop_params": [],
+      "fix_population": true,
+      "survey_paths": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "events_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "selection_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
+      "nEvents": 1000,
+      "Ndraw": 150000000.0
+    }
+  },
+  "cells": {
+    "K1_GAL": {
+      "64.74": {
+        "H0": 64.74,
+        "logL_hex": "-0x1.0a9b45ddc0beep+12",
+        "logL": -4265.704557183182,
+        "finite": true,
+        "Neff": 504168.8935331173,
+        "threshold": 5000.0,
+        "passes": true,
+        "pe_variance_sum": 5.895977100939777,
+        "sigma2_total": 7.879439414515283,
+        "logL_selection": 11933.99464785098,
+        "logL_pe": -16199.699205034161,
+        "log_mu": -11.93299994150072,
+        "seconds": 8.296239852905273,
+        "n_guard_calls": 1
+      },
+      "67.74": {
+        "H0": 67.74,
+        "logL_hex": "-0x1.0a5c498e40cc0p+12",
+        "logL": -4261.767957928765,
+        "finite": true,
+        "Neff": 514672.32479741675,
+        "threshold": 5000.0,
+        "passes": true,
+        "pe_variance_sum": 5.781661359730455,
+        "sigma2_total": 7.724645180346059,
+        "logL_selection": 11805.394208554848,
+        "logL_pe": -16067.162166483613,
+        "log_mu": -11.804419802168809,
+        "seconds": 2.8936376571655273,
+        "n_guard_calls": 1
+      },
+      "71.74": {
+        "H0": 71.74,
+        "logL_hex": "-0x1.0a5c5bfbb928cp+12",
+        "logL": -4261.7724568589,
+        "finite": true,
+        "Neff": 527089.2004460447,
+        "threshold": 5000.0,
+        "passes": true,
+        "pe_variance_sum": 5.577331002013393,
+        "sigma2_total": 7.474543085193543,
+        "logL_selection": 11643.317356486732,
+        "logL_pe": -15905.089813345632,
+        "log_mu": -11.642365904627017,
+        "seconds": 2.8884594440460205,
+        "n_guard_calls": 1
+      }
+    },
+    "K1_AGN": {
+      "64.74": {
+        "H0": 64.74,
+        "logL_hex": "-0x1.577077796f6fep+12",
+        "logL": -5495.0291685441025,
+        "finite": true,
+        "Neff": 354455.3535819006,
+        "threshold": 5000.0,
+        "passes": true,
+        "pe_variance_sum": 60.66975688759749,
+        "sigma2_total": 63.49098666983842,
+        "logL_selection": 11922.972286974606,
+        "logL_pe": -17418.001455518708,
+        "log_mu": -11.921557440238812,
+        "seconds": 4.647488832473755,
+        "n_guard_calls": 1
+      },
+      "67.74": {
+        "H0": 67.74,
+        "logL_hex": "-0x1.508b182af222cp+12",
+        "logL": -5384.693400331347,
+        "finite": true,
+        "Neff": 378742.41988969396,
+        "threshold": 5000.0,
+        "passes": true,
+        "pe_variance_sum": 56.34199541031809,
+        "sigma2_total": 58.98231227868273,
+        "logL_selection": 11796.008340690038,
+        "logL_pe": -17180.701741021385,
+        "log_mu": -11.794684221780553,
+        "seconds": 0.17279720306396484,
+        "n_guard_calls": 1
+      },
+      "71.74": {
+        "H0": 71.74,
+        "logL_hex": "-0x1.4a398fa0162aep+12",
+        "logL": -5283.597564779846,
+        "finite": true,
+        "Neff": 409296.11848614295,
+        "threshold": 5000.0,
+        "passes": true,
+        "pe_variance_sum": 47.59725851915888,
+        "sigma2_total": 50.04047738890698,
+        "logL_selection": 11635.664778384578,
+        "logL_pe": -16919.262343164424,
+        "log_mu": -11.6344395041214,
+        "seconds": 0.17279863357543945,
+        "n_guard_calls": 1
+      }
+    }
+  },
+  "build_seconds": {
+    "K1_GAL": 27.854273796081543,
+    "K1_AGN": 3.047940731048584
+  },
+  "peak_gpu_nvidia_smi": {
+    "peak_mib_this_pid": 61226.0,
+    "peak_mib_all_compute_apps": 61226.0,
+    "pid_matched_in_nvidia_smi": true
+  }
+}

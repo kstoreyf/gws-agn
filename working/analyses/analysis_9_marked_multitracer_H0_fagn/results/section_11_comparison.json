@@ -1,0 +1,215 @@
+{
+  "analysis": "analysis_9_marked_multitracer_H0_fagn",
+  "section": "11 -- what the mark does, measured",
+  "matched_axes": {
+    "f_axis_shared": true,
+    "mu_axis_shared_with_analysis_8": true,
+    "every_J9_H0_node_is_an_S9_node": true,
+    "n_H0_nodes": {
+      "S9": 202,
+      "J9": 28
+    },
+    "note": "all three arms share Analysis 8's f and mu_chi_c2 axes and every J9 H0 node is bitwise an S9 node, so the widths below are compared on matched axes, not on resampled ones"
+  },
+  "comparisons": {
+    "H0_spatial_S9_vs_marked_J9": {
+      "S9": {
+        "median": 69.08719312931473,
+        "mode": 69.0,
+        "map": 69.0,
+        "ci68": [
+          68.08645321162231,
+          70.08805401413429
+        ],
+        "ci90": [
+          67.43750205545881,
+          70.73933090610578
+        ],
+        "width68": 2.001600802511973,
+        "width90": 3.30182885064697
+      },
+      "J9": {
+        "median": 69.09053431531436,
+        "mode": 69.0,
+        "map": 69.0,
+        "ci68": [
+          68.1739564259807,
+          69.99669788966213
+        ],
+        "ci90": [
+          67.59783043059615,
+          70.67770576665758
+        ],
+        "width68": 1.8227414636814245,
+        "width90": 3.079875336061434
+      },
+      "width68_ratio_J9_over_S9": 0.9106418529578508,
+      "width90_ratio_J9_over_S9": 0.9327786131185916,
+      "median_shift_J9_minus_S9": 0.003341185999630625,
+      "map_shift_J9_minus_S9": 0.0
+    },
+    "f_AGN_S9_vs_J9": {
+      "S9": {
+        "median": 0.2694720507001648,
+        "mode": 0.275,
+        "map": 0.275,
+        "ci68": [
+          0.2219467203807117,
+          0.31872182418550166
+        ],
+        "ci90": [
+          0.190256986372764,
+          0.3494560927252702
+        ],
+        "width68": 0.09677510380478996,
+        "width90": 0.15919910635250617
+      },
+      "J9": {
+        "median": 0.26392705339229494,
+        "mode": 0.25,
+        "map": 0.275,
+        "ci68": [
+          0.2182835254047799,
+          0.3113347856975667
+        ],
+        "ci90": [
+          0.18891718185719888,
+          0.34254814335640243
+        ],
+        "width68": 0.09305126029278676,
+        "width90": 0.15363096149920355
+      },
+      "width68_ratio_J9_over_S9": 0.9615206456454467,
+      "width90_ratio_J9_over_S9": 0.9650240194126883,
+      "median_shift_J9_minus_S9": -0.005544997307869837,
+      "map_shift_J9_minus_S9": 0.0
+    },
+    "dmu_chi_A8_fixed_H0_vs_J9_free_H0": {
+      "analysis_8_fixed_H0": {
+        "file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/arm_J_joint.json",
+        "median": 0.10738647338252715,
+        "map": 0.10750000000000004,
+        "ci68": [
+          0.08858746649682828,
+          0.12795961570571388
+        ],
+        "ci90": [
+          0.0776208741482017,
+          0.14269497283842306
+        ],
+        "width68": 0.0393721492088856,
+        "width90": 0.06507409869022136
+      },
+      "J9_free_H0": {
+        "median": 0.10827523203502087,
+        "mode": 0.10750000000000004,
+        "map": 0.10750000000000004,
+        "ci68": [
+          0.08937194098529477,
+          0.1287821778680334
+        ],
+        "ci90": [
+          0.0781531138766578,
+          0.1434958081787921
+        ],
+        "width68": 0.03941023688273862,
+        "width90": 0.0653426943021343
+      },
+      "width68_ratio_J9_over_A8": 1.000967376041652,
+      "width90_ratio_J9_over_A8": 1.004127534876688,
+      "median_shift_J9_minus_A8": 0.0008887586524937291,
+      "map_shift_J9_minus_A8": 0.0
+    }
+  },
+  "J9_correlations": {
+    "H0|f_agn": 0.01482254334561058,
+    "H0|mu_chi_c2": 0.024663514032710398,
+    "f_agn|mu_chi_c2": -0.5593558929032484
+  },
+  "S9_correlation": {
+    "H0|f_agn": 0.05903910803736938
+  },
+  "analysis_2_unmarked_reference": {
+    "file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.json",
+    "logL_max": -4174.860742780727,
+    "map": {
+      "H0": 69.25,
+      "f": 0.275,
+      "logL": -4174.860742780727
+    },
+    "rho_H0_f": 0.06780323902572614,
+    "H0": {
+      "median": 69.21703609455713,
+      "map": 69.25,
+      "ci68": [
+        68.2491328695226,
+        70.19146640599386
+      ],
+      "ci90": [
+        67.59977565736291,
+        70.83653361087575
+      ],
+      "width68": 1.942333536471267,
+      "width90": 3.2367579535128357
+    },
+    "f": {
+      "median": 0.2733538008194015,
+      "map": 0.275,
+      "ci68": [
+        0.2259766950057067,
+        0.32223559834878623
+      ],
+      "ci90": [
+        0.19444042814865092,
+        0.3549343167413337
+      ],
+      "width68": 0.09625890334307954,
+      "width90": 0.16049388859268277
+    },
+    "note": "same realisation and the same H0 axis, but the UNMARKED events and ONE shared population: the difference from S9 is what the two-tracer marked mock does to the spatial measurement, and the difference from J9 is what the spin mark does on top of that"
+  },
+  "analysis_2_as_recorded_in_s9": {
+    "file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.json",
+    "logL_max": -4174.860742780727,
+    "map": {
+      "H0": 69.25,
+      "f": 0.275,
+      "logL": -4174.860742780727
+    },
+    "rho_H0_f": 0.06780323902572614,
+    "H0": {
+      "median": 69.21703609455713,
+      "map": 69.25,
+      "ci68": [
+        68.2491328695226,
+        70.19146640599386
+      ],
+      "ci90": [
+        67.59977565736291,
+        70.83653361087575
+      ],
+      "width68": 1.942333536471267,
+      "width90": 3.2367579535128357
+    },
+    "f": {
+      "median": 0.2733538008194015,
+      "map": 0.275,
+      "ci68": [
+        0.2259766950057067,
+        0.32223559834878623
+      ],
+      "ci90": [
+        0.19444042814865092,
+        0.3549343167413337
+      ],
+      "width68": 0.09625890334307954,
+      "width90": 0.16049388859268277
+    },
+    "note": "same realisation and the same H0 axis, but the UNMARKED events and ONE shared population: the difference from S9 is what the two-tracer marked mock does to the spatial measurement, and the difference from J9 is what the spin mark does on top of that",
+    "h0_median_shift_s9_minus_a2": -0.12984296524240335,
+    "h0_width68_ratio_s9_over_a2": 1.030513433932866,
+    "h0_width90_ratio_s9_over_a2": 1.02010372665139,
+    "f_median_shift_s9_minus_a2": -0.0038817501192367487,
+    "f_width68_ratio_s9_over_a2": 1.0053626256250874
+  }
+}

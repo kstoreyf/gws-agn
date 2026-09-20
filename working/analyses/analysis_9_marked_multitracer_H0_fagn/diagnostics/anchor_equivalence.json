@@ -1,0 +1,91 @@
+{
+  "check": "anchor slab (H0 = 67.74) vs analysis_8 results/arm_J_joint.h5",
+  "a8_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/arm_J_joint.h5",
+  "n_cells": 2501,
+  "n_rows_missing": 0,
+  "rows_missing": [],
+  "tolerances": {
+    "anchor_equivalence_abs_logL": 1e-06,
+    "anchor_equivalence_rel_logL": 2.4e-10,
+    "anchor_equivalence_same_hardware_ulp": 4.0,
+    "anchor_marginal_abs": 0.0001,
+    "note": "Analysis 8's arm J ran on the local H100 NVL and Analysis 9 runs on a rita A100-80, so the pre-registered criterion is an ABSOLUTE bound of 1e-6 in logL (2.4e-10 relative at logL ~ -4.2e3) with the measured residual ALSO quoted in ULP (1 ULP = 9.0949470177292824e-13 at that scale).  Gate A of Analysis 8 measured 2 ULP for the same-node comparison; if the same node is used the 4 ULP criterion applies.  A measurement above the bound is a FAIL to be diagnosed, not widened."
+  },
+  "rejected_a8": 23,
+  "rejected_a9": 23,
+  "rejected_masks_identical": true,
+  "n_compared": 2478,
+  "max_abs_delta_logL": 5.4569682106375694e-12,
+  "max_rel_delta_logL": 1.248207239741273e-15,
+  "max_delta_in_ulp": 6.0,
+  "n_exactly_equal": 2165,
+  "one_ulp_at_logL_scale": 9.094947017729282e-13,
+  "argmax_cell": {
+    "i_f": 27,
+    "j_mu": 53,
+    "f_agn": 0.675,
+    "mu_chi_c2": 0.1975,
+    "logL_a8": -4371.844704064273,
+    "logL_a9": -4371.844704064268
+  },
+  "marginals": {
+    "f": {
+      "a9_median": 0.26165329946926646,
+      "a8_median": 0.26165329946926197,
+      "delta_median": 4.496403249731884e-15,
+      "a9_ci68": [
+        0.2161735903182448,
+        0.30829797565505473
+      ],
+      "a8_ci68": [
+        0.21617359031824485,
+        0.30829797565504924
+      ],
+      "delta_ci68": [
+        -5.551115123125783e-17,
+        5.495603971894525e-15
+      ],
+      "a9_ci90": [
+        0.1871699807924195,
+        0.3396088113110645
+      ],
+      "a8_ci90": [
+        0.18716998079241864,
+        0.3396088113110654
+      ]
+    },
+    "mu_chi_c2": {
+      "a9_median": 0.10738647338252748,
+      "a8_median": 0.10738647338252715,
+      "delta_median": 3.3306690738754696e-16,
+      "a9_ci68": [
+        0.08858746649682725,
+        0.1279596157057143
+      ],
+      "a8_ci68": [
+        0.08858746649682828,
+        0.12795961570571388
+      ],
+      "delta_ci68": [
+        -1.0269562977782698e-15,
+        4.163336342344337e-16
+      ],
+      "a9_ci90": [
+        0.07762087414820207,
+        0.14269497283842394
+      ],
+      "a8_ci90": [
+        0.0776208741482017,
+        0.14269497283842306
+      ]
+    }
+  },
+  "a8_logL_max": -4211.84259284502,
+  "a9_logL_max": -4211.84259284502,
+  "delta_logL_max": 0.0,
+  "max_abs_marginal_delta": 4.496403249731884e-15,
+  "passes_abs": true,
+  "passes_rel": true,
+  "passes_marginals": true,
+  "verdict": "PASS"
+}
