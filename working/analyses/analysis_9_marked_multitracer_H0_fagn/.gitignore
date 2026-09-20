@@ -1,0 +1,4 @@
+# Per-cell append-only scan checkpoints (26 MB): raw run output, reproducible from
+# scripts/a9_scan.py.  The assembled results and the diagnostics JSONs are what carry
+# the analysis.
+diagnostics/_a9_*.jsonl
