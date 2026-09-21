@@ -322,8 +322,9 @@ coordinate is live and the reductions are exact.
 
 ### Registered wording (pre-run)
 
-Status: **NOT RUN** — blocked by Gate G. Residuals in ULP alongside the absolute
-bound, per **Registered tolerances** above.
+Written before the run (status then: NOT RUN, blocked by Gate G). Residuals in ULP
+alongside the absolute bound, per **Registered tolerances** above. The measured
+verdicts are in the section header above and in `diagnostics/a10_closure.json`.
 
 - [ ] **15.1 both marks zero → shared-population K=2.** At
       \(\Delta\mu_\chi = 0\) **and** \(\Delta\mu_{\rm G} = 0\) the two-mark model
