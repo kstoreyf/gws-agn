@@ -1,11 +1,52 @@
-# Analysis 10 — owner report: the registered mass mark is inadmissible
+# Analysis 10 — owner report
 
-**Sources.** `diagnostics/a10_mass_mark_feasibility.json`, written by
-`scripts/check_mass_mark_feasibility.py` (CPU, exit status 2). darksirens
-`af896ca` on the pinned base `2b86a2d`, worktree clean; gws-agn `408990a`.
-Nothing was generated, no likelihood was built or evaluated, no GPU second was
-spent, and `working/data/**`, the Analysis-8 tree and the Analysis-9 tree were
-read only. Every number below comes from that one JSON.
+## Owner decision
+
+> The originally registered peak-fraction mark was rejected before generation
+> because it lay outside the mixture simplex. The owner replaced it with a
+> Gaussian-peak-location mark Δμ_G = +5 Msun. The original failed gate remains
+> part of the provenance record; the new mass-mark gate begins from this owner
+> decision.
+
+**The replacement mark.** Option (c) of the table below: mark the **location**
+of the Gaussian component, not its weight.
+
+\[
+  \mu_{\rm G}^{\rm GAL} = 35\,M_\odot, \quad
+  \mu_{\rm G}^{\rm AGN} = 40\,M_\odot, \quad
+  \Delta\mu_{\rm G} = +5\,M_\odot,
+\]
+
+with the spin mark unchanged at \(\Delta\mu_\chi = +0.10\). The peak fraction
+stays 0.90 in both branches; the power-law component, the mass limits, the
+tapers and the \(q\) distribution are identical in both branches. Single seed
+(100), one realisation, science exploration — no calibration, no extra
+realisations.
+
+**It is admissible.** `G.mu` is slot 6 of `powerlaw+peak`: fiducial **35.0**,
+prior bounds **[20, 50]**, LaTeX label `$\mu_{\rm G}$`. The planted 40 sits
+inside with room, and the exploratory axis \(\Delta\mu_{\rm G} \in [-10, +10]\)
+(\(\mu_{{\rm G},\rm AGN} \in [25, 45]\), 21 nodes at \(1\,M_\odot\)) leaves
+\(5\,M_\odot\) of margin at each prior edge. The per-catalog resolver already
+emits the coordinate: with
+`per_catalog_pop_params=('G.mu_c2', 'mu_chi_c2')` the space carries 10 labels
+including `$\mu_{\rm G}$_c2` at [20, 50] and `$\mu_\chi$_c2` at [−1, 1], with
+**no darksirens change** (Gate R). Whether the coordinate is *live* — reaching
+the PE and selection terms rather than being emitted and ignored, Analysis 8's
+trap — is unproven and is a mandatory closure gate.
+
+**What it costs.** A new event set, because the mass mark needs a
+branch-conditioned draw and therefore changes detection; the spin mark's trick
+of shifting a completed draw does not transfer. Planned: a new
+`--dmu_G_agn` flag (default 0.0, existing paths bitwise unchanged), a new file
+`working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5`, and a bitwise
+control at `--dmu_G_agn 0.0 --dmu_chi_agn 0.10` against the existing
+`events_marked_dmu0p10.h5`. Gate B (selection support of
+`injections_targeted.h5` under both branch populations) remains mandatory, for
+the same reason.
+
+Nothing has been run under the new mark. `GATES.md` carries the re-keyed
+ledger; `STATE.md` the verified facts.
 
 ## Analysis-9 mechanism follow-up (Part I of this task)
 
@@ -34,7 +75,22 @@ change. Every per-event sum was verified against the recorded cubes at ten `H0`
 nodes (34/34, worst one ULP). Analysis 9's `REPORT.md`/`STATE.md` attribution to
 the global fraction has been corrected; no measured number changed.
 
-## The finding
+---
+
+## Provenance: the rejected peak-fraction mark (2026-09-21)
+
+*The report as it stood when Gate M failed. It is kept as provenance and is
+superseded, not corrected, by the owner decision above. Option (c) of the
+options table is the one the owner chose.*
+
+**Sources.** `diagnostics/a10_mass_mark_feasibility.json`, written by
+`scripts/check_mass_mark_feasibility.py` (CPU, exit status 2). darksirens
+`af896ca` on the pinned base `2b86a2d`, worktree clean; gws-agn `408990a`.
+Nothing was generated, no likelihood was built or evaluated, no GPU second was
+spent, and `working/data/**`, the Analysis-8 tree and the Analysis-9 tree were
+read only. Every number below comes from that one JSON.
+
+### The finding
 
 The specification plants \(\lambda_{\rm peak}^{\rm AGN} = \lambda_{\rm peak}^{\rm GAL}
 + 0.15\) and registers the check \(0 < \lambda_{\rm peak}^{\rm fid} + 0.15 < 1\)
@@ -90,7 +146,7 @@ Three independent lines of evidence fix \(\lambda_{\rm peak}^{\rm fid} = 0.90\):
 The mark was **not** altered and nothing downstream was run, per the
 specification's instruction.
 
-## One thing that is ready, and one that is not
+### One thing that is ready, and one that is not
 
 **The inference side is ready.** `build_parameter_space`, called exactly as
 `analysis_8/scripts/a8_likelihood.py::build` calls it with `n_catalogs = 2`,
@@ -116,14 +172,17 @@ itself. Masses today come from a single shared `PopulationConfig` with one
 population-wide `peak_fraction`. Whatever mark is chosen, planting it is a
 generator change, and that is a second owner decision beyond the value.
 
-## Options for the owner — none executed
+### Options for the owner — none executed
 
 | | mark | AGN peak fraction | \(v_{1,c2}\) | in \([0,1]\) | what it costs the specification |
 |---|---|---|---|---|---|
 | **(a)** | \(\Delta\lambda_{\rm peak} = -0.15\) | 0.75 | 0.25 | yes, comfortably | keeps the registered **magnitude** and the registered **coordinate**; flips the sign. Physically: AGN mergers are *less* peak-dominated, i.e. more power-law, than field mergers |
 | **(b)** | \(\Delta\lambda_{\rm peak} = +0.05\) | 0.95 | 0.05 | yes, but 0.05 from the edge | keeps the **sign**, loses the magnitude. \(v_{1,c2} = 0.05\) sits 0.05 from the prior boundary, so a symmetric scan axis **clips**: the branch coordinate admits only \(\Delta\lambda_{\rm peak} < +0.10\), and any node at or past +0.10 is \(v_{1,c2} \le 0\) and must be dropped, not evaluated |
-| **(c)** | mark a different single mass coordinate, e.g. \(\mu_{\rm G}\) (peak **location**, fiducial 35, bounds [20, 50]) | 0.90 both branches | n/a (`G.mu_c2`) | yes | **changes the specification's coordinate.** The scientific question becomes "do AGN mergers peak at a different mass" rather than "are AGN mergers more peak-dominated". Both are single mass marks and both respect the scope lock, but they are different measurements. Owner's call |
+| **(c) — CHOSEN** | mark a different single mass coordinate, e.g. \(\mu_{\rm G}\) (peak **location**, fiducial 35, bounds [20, 50]) | 0.90 both branches | n/a (`G.mu_c2`) | yes | **changes the specification's coordinate.** The scientific question becomes "do AGN mergers peak at a different mass" rather than "are AGN mergers more peak-dominated". Both are single mass marks and both respect the scope lock, but they are different measurements. Owner's call |
 | **(d)** | re-pin the fiducial \(\lambda_{\rm peak}\) so that +0.15 fits | — | — | — | **not admissible.** \(\lambda_{\rm peak} = 0.90\) is the value the seed-100 catalogs, events, injections and every Analysis 0–9 result were generated and measured at. Changing it invalidates the shared dataset, not just Analysis 10 |
+
+**The owner chose (c)**, at \(\Delta\mu_{\rm G} = +5\,M_\odot\) (\(\mu_{\rm G}: 35 \to 40\)). The paragraph below is the recommendation as it
+stood before that decision and is kept unchanged.
 
 **Which option preserves the specification's intent.** (a) is the only option
 that keeps both the registered coordinate and the registered magnitude
@@ -132,7 +191,7 @@ physical claim. (b) keeps the sign and the coordinate but neither the magnitude
 nor a clean scan axis. (c) keeps the "one mass mark" scope but not the
 coordinate. (d) is ruled out by the dataset, not by taste.
 
-## Cost sketch for option (a) — not a commitment
+### Cost sketch for option (a) — not a commitment
 
 Measured rates, not extrapolations: **3.0203 s/eval** for the K=2 marked
 likelihood on a rita A100-80 (Analysis 9, J9, median over 70,028 cells;
@@ -174,7 +233,7 @@ it is not an acceptable substitute and a targeted injection set is required.
 Analyses 8 and 9 could skip this only because \(\chi_{\rm eff}\) does not enter
 \(\rho_{\rm opt}\) at all.
 
-## Status
+### Status
 
 Analysis 10 is **stopped at specification §9, before generation**. Gate 0 passes;
 Gate M fails at \(0.90 + 0.15 = 1.05\); every gate after it is NOT RUN with its

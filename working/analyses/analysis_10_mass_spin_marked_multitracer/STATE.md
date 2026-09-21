@@ -1,6 +1,96 @@
 # Analysis 10 state
 
-## Current status
+## Owner decision (2026-09-21)
+
+> The originally registered peak-fraction mark was rejected before generation
+> because it lay outside the mixture simplex. The owner replaced it with a
+> Gaussian-peak-location mark Δμ_G = +5 Msun. The original failed gate remains
+> part of the provenance record; the new mass-mark gate begins from this owner
+> decision.
+
+**Stage: owner decision recorded; generator extension, mock, selection-support
+gate in progress. Nothing run yet under the new mark.**
+
+### The replacement mark
+
+\[
+  \mu_{\rm G}^{\rm GAL} = 35\,M_\odot, \qquad
+  \mu_{\rm G}^{\rm AGN} = 40\,M_\odot, \qquad
+  \Delta\mu_{\rm G} \equiv \mu_{\rm G}^{\rm AGN} - \mu_{\rm G}^{\rm GAL}
+  = +5\,M_\odot,
+\]
+
+with the spin mark unchanged at \(\Delta\mu_\chi = +0.10\). The peak fraction is
+0.90 in **both** branches; the power-law component, the mass limits, the tapers
+and the \(q\) distribution are identical in both branches. Single seed (100),
+one realisation, science exploration — no calibration, no extra realisations.
+
+Reporting coordinate \(\Delta\mu_{\rm G} = \mu_{{\rm G},c_2} - 35\); internal
+coordinate the sampled `$\mu_{\rm G}$_c2`; the GAL branch stays pinned at 35
+through the base block.
+
+### Verified facts under the new mark
+
+Verified on the pinned checkout
+`/hildafs/projects/phy230014p/magana/src/darksirens-a8`, HEAD `af896ca`, clean.
+
+**1. The slot.** `powerlaw+peak` slot 6: plain name `G.mu`, LaTeX label
+`$\mu_{\rm G}$`, fiducial **35.0**, prior bounds **[20, 50]**. Slot 7
+`G.sigma` = 5.0 (shared). Slot 0 `v1` = 0.10 (shared; peak fraction 0.90). Slot
+9 `mu_chi` = 0.0, slot 10 `sigma_chi` = 0.10.
+
+**2. The resolver emits it.**
+`build_parameter_space(..., n_catalogs=2, per_catalog_pop_params=('G.mu_c2', 'mu_chi_c2'))`,
+called exactly as `analysis_8/scripts/a8_likelihood.py::build` calls it, emits
+**10** labels:
+
+    ['H0', 'log10n0', 'delta', 'sigma_kde',
+     'log10n0_c2', 'delta_c2', 'sigma_kde_c2',
+     '$\mu_{\rm G}$_c2', '$\mu_\chi$_c2', 'fcat_2']
+
+with bounds **[20, 50]** on `$\mu_{\rm G}$_c2` and **[−1, 1]** on
+`$\mu_\chi$_c2`. The generic per-catalog resolver therefore accepts the
+second-catalog Gaussian mean **with no darksirens change**.
+
+**Liveness is not shown.** That the coordinate is *emitted* does not mean it
+reaches the PE and selection terms. Analysis 8's trap was exactly an emitted but
+dead coordinate, and Gaussian-mean liveness is a registered, mandatory closure
+gate (`GATES.md` 15.6), not an assumption.
+
+**3. Admissibility.** \(20 < 40 < 50\), and the exploratory axis
+\(\Delta\mu_{\rm G} \in [-10, +10]\) — i.e. \(\mu_{{\rm G},\rm AGN} \in [25, 45]\),
+21 nodes at \(1\,M_\odot\) — sits inside the bounds with \(5\,M_\odot\) to spare
+on each side.
+
+**4. The generator needs a new hook, and a new event set (PLANNED).**
+`working/data/generate_dataset.py` today carries only the spin hook
+`--dmu_chi_agn`, which shifts an **already-drawn** value and therefore leaves
+the RNG stream, the host labels, the masses, the sky, the distances and the
+detected set untouched. A mass mark cannot borrow that trick: it needs a
+**branch-conditioned draw**, and because \(\rho_{\rm opt} \propto \mathcal{M}_{\rm det}^{5/6}/d_L\)
+it changes detection. So a **new event set is generated**; the Analysis-8 file
+is **not** reusable. Planned, and being implemented by another worker:
+
+| item | planned value |
+|---|---|
+| new flag | `--dmu_G_agn`, default **0.0** = the record (existing paths bitwise unchanged) |
+| new file | `working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5` |
+| bitwise control | same generator, `--dmu_G_agn 0.0 --dmu_chi_agn 0.10`, compared against the existing `events_marked_dmu0p10.h5` |
+
+**5. Provenance carried forward.** Same pin `af896ca` on base `2b86a2d`, same
+environment of record (`PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8`;
+`DARKSIRENS_SRC` does **not** steer the import). The Gate-0 provenance record
+below stands unchanged.
+
+---
+
+## Provenance: the rejected peak-fraction mark
+
+*Everything below is the record as it stood when Gate M failed on 2026-09-21. It
+is kept verbatim as provenance and is superseded, not corrected, by the owner
+decision above.*
+
+### Current status
 
 **STOPPED at specification §9, before generation** (2026-09-21).
 
@@ -17,9 +107,9 @@ value; do not silently alter the registered mark.** The mark was not altered,
 nothing was generated, and the analysis waits on an owner decision (`REPORT.md`
 carries the options, none executed).
 
-## The verified facts
+### The verified facts
 
-### 1. The twelve `powerlaw+peak` slots
+#### 1. The twelve `powerlaw+peak` slots
 
 Read off `model.param_specs` and `pop_model_prior_parser`, not retyped
 (`shared_beta = shared_spin = shared_gamma = True`):
@@ -42,7 +132,7 @@ Read off `model.param_specs` and `pop_model_prior_parser`, not retyped
 **There is no \(\lambda_{\rm peak}\) slot.** The mixture fraction is not sampled
 directly; slot 0 is a stick-breaking input.
 
-### 2. The stick-breaking map
+#### 2. The stick-breaking map
 
 `darksirens/gw/populations/base.py::_stick_breaking_weights` maps \(k-1\) inputs
 \(v\) to \(k\) weights. At \(k = 2\) in composition order (PowerLaw, Gaussian):
@@ -57,7 +147,7 @@ from `[0.1, 0.9]` with a round-trip error of exactly 0.0. Hence
   \lambda_{\rm peak}^{\rm fid} = 1 - 0.10 = \mathbf{0.90}.
 \]
 
-### 3. The composition order, established twice
+#### 3. The composition order, established twice
 
 **From the registry.** `darksirens/gw/populations/registry.py` carries the
 curated entry
@@ -86,7 +176,7 @@ monotonically. \(v_1\) is the power-law weight; component 0 is `PowerLaw`,
 component 1 is `Gaussian`. The two lines of evidence agree, and the script
 asserts the monotonicity rather than assuming it.
 
-### 4. The check, in both coordinates
+#### 4. The check, in both coordinates
 
 | quantity | value |
 |---|---|
@@ -103,7 +193,7 @@ for 105% of its mass in the Gaussian peak, i.e. a *negative* power-law weight.
 It is not a grid or prior-width problem that a wider axis could fix — it is
 outside the simplex.
 
-### 5. Corroboration from the seed-100 mock (read-only)
+#### 5. Corroboration from the seed-100 mock (read-only)
 
 `working/data/seed100/events/events_marked_dmu0p10.h5`, dataset `true_m1src`,
 1000 detected events:
@@ -121,7 +211,7 @@ attribute carries `"population": {..., "peak_fraction": 0.9, ...}`. The
 seed-100 dataset every analysis in this campaign is built on **was generated at
 \(\lambda_{\rm peak} = 0.90\)**.
 
-### 6. Code readiness (informative only — it decides nothing here)
+#### 6. Code readiness (informative only — it decides nothing here)
 
 `build_parameter_space`, called exactly as
 `analysis_8/scripts/a8_likelihood.py::build` calls it (`n_catalogs = 2`,
@@ -140,7 +230,7 @@ The resolver does **not** refuse: it emits `$v_1$_c2` beside `$\mu_\chi$_c2` and
 `fcat_2`. The inference side is ready to carry a mass mark. The blocker is the
 value of the mark, not the code — and, separately, the generator (§7).
 
-### 7. The generator has no mass-mark hook
+#### 7. The generator has no mass-mark hook
 
 `working/data/generate_dataset.py` (not modified, read-only) carries exactly one
 branch-dependent mark: `--dmu_chi_agn`, applied to the **shared** truncated-
@@ -153,7 +243,7 @@ mixture weight changes which component each event is drawn from, hence the
 masses, hence — through \(\rho_{\rm opt} \propto \mathcal{M}_{\rm det}^{5/6}/d_L\)
 — the detected set itself. That is an owner decision, not a scaffolding one.
 
-## What was NOT done
+### What was NOT done
 
 - **No mock generated.** `working/data/**` was read, never written.
 - **No injections generated.** The existing `injections_targeted.h5` was not
@@ -165,7 +255,7 @@ masses, hence — through \(\rho_{\rm opt} \propto \mathcal{M}_{\rm det}^{5/6}/d
 - **No commit, no push.**
 - **No figure.** `figs/` and `results/` hold only `.gitkeep`.
 
-## Provenance — as asserted by the script, not as expected
+### Provenance — as asserted by the script, not as expected
 
     == provenance ==
       [OK ] darksirens_head: af896cae6f3f3dd1f87dec50046e3a8228f59b39
@@ -198,7 +288,7 @@ masses, hence — through \(\rho_{\rm opt} \propto \mathcal{M}_{\rm det}^{5/6}/d
   `analysis_8_marked_multitracer_H0_fagn/**` or `working/data/**` has an mtime
   later than its close.
 
-## How to re-run the check
+### How to re-run the check
 
     export PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8
     export JAX_PLATFORMS=cpu PYTHONDONTWRITEBYTECODE=1
