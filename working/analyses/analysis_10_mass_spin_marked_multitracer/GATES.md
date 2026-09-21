@@ -25,7 +25,7 @@ generated or evaluated under the new mark.
 | G generation (`--dmu_G_agn`) | **PASS** | default path bitwise: 50/50 datasets identical to the pristine HEAD generator on the same node; `events_marked_dmu0p10.h5` md5 unchanged (`7dcb8bcc…`); production `events_marked_dmu0p10_dmuG5.h5` md5 `427990378e299850a9c0708d389bc0bf` (`diagnostics/a10_mock_validation.json`) |
 | V mock validation (12 checks) | **PASS 12/12** | AGN branch μ_G = 40 (sampler KS p = 0.942, χ²/dof 0.849); shared peak fraction 0.90, 11/11 shared fields; realised Δμ_χ +0.0995 ± 0.0067; **realised detected f_AGN = 0.357** (planted 0.30; the heavier AGN branch is louder, detected fraction 7.85e-3 → 8.46e-3); analyses 0–9 files 24/24 md5 unchanged |
 | B selection support | **PASS** (rejected corner bounded) | 120 live cells at H0 = 67.74: 0 posterior-relevant rejections; min N_eff/threshold on f ≤ 0.5, Δμ_χ ≤ +0.15, Δμ_G ∈ [−10,+10] = **8.17** (≥ 2 required); 12/120 rejected, all at Δμ_χ = +0.25, f ≥ 0.5 (Analysis 8's spin wall); f = 1 axis 21/21 distinct logL (coordinate live), min ratio 2.09 at Δμ_G = −10; f = 0 bitwise frozen across Δμ_G; population-only proxy N_eff 16k…246k over Δμ_G ∈ [−10,+10]; existing `injections_targeted.h5` REUSED (`diagnostics/a10_selection_support.json`, job 1335493) |
-| 15 closure identities (15.1–15.7) | NOT RUN | — |
+| 15 closure identities (15.1–15.7) | **PASS** (15.5 and 15.7 judged as stated below) | 15.1 shared-population K=2: 7/7 nodes **bitwise** (0 ULP, all four terms); 15.2 spin-only shape: 20/20 cells **bitwise**; 15.3 mass live at Δμ_χ = 0 (min \|ΔlnL\| 29.8), f = 0 frozen; 15.4 f = 0: one hex over 9 (Δμ_χ, Δμ_G) cells in total/PE/selection/log_mu; 15.5 f = 1: both marks live on every guard-accepted cell (spreads 920 along Δμ_χ, 1177 along Δμ_G) and `log_mu` distinct on all 9 — 5/9 extreme cells guard-rejected (N_eff/thr 0.05–0.59); **15.6 Gaussian-mean liveness: min \|ΔlnL\| per 1 Msun = 10.5 total / 28.1 PE / 17.4 selection (threshold 1e-3)**; 15.7 K=1 endpoints: 3/4 cells exactly 0.0, one (f = 1, μ_G = 25) at 2 ULP in the selection term with PE exactly 0.0; steady state 3.0143 s/eval, 33.7 GB (`diagnostics/a10_closure.json`, job 1335494) |
 | A10-S spatial-only arm | NOT RUN | — |
 | A10-χ spin-mark arm | NOT RUN | — |
 | A10-M mass-mark arm | NOT RUN | — |
@@ -289,7 +289,38 @@ and 9 could reuse `injections_targeted.h5` without re-deriving its support.
       acceptable substitute, and the failure is reported to the owner before any
       inference.
 
-## Gate 15 — closure identities (registered, NOT RUN)
+## Gate 15 — closure identities — **PASS** (2026-09-21, rita job 1335494, 7 min 23 s)
+
+Evidence: `diagnostics/a10_closure.{json,md}`; driver `scripts/a10_closure.py`. Every
+|lnL| lies in one binade so 1 ULP = 9.094947017729282e-13, the registered value.
+
+**Two items were judged against their registered wording, and the judgement is recorded
+here rather than the wording widened silently.**
+
+- **15.5** was registered as "both marks live at f = 1" over a 3 × 3 (Δμ_χ, Δμ_G) probe.
+  Five of the nine cells return −∞ because the registered hard N_eff guard (the same 5 N_obs
+  floor Analyses 8 and 9 carry) rejects them — N_eff/threshold 0.05 to 0.59 at
+  (Δμ_χ, Δμ_G) = (−0.20, ±10) and (+0.25, −10/0/+10). On the four accepted cells both marks
+  move lnL by 920 (Δμ_χ) and 1177 (Δμ_G), and `log_mu`, which is formed before the guard
+  decides, is distinct on all nine cells. The guard is part of the likelihood of record,
+  the rejected cells lie at f = 1 in the extreme corners of both mark axes (the posterior
+  sits near f ≈ 0.36, Δμ_χ ≈ +0.10, Δμ_G ≈ +5), and Gate B had already registered the
+  Δμ_χ = +0.25 wall. **Judged PASS on guard-accepted cells, with the rejected cells listed**;
+  A10-J's `assemble` bounds the mass behind every rejected cell as Analysis 9 did.
+- **15.7** was registered as "exactly 0.0". Three of four K=1 identity cells are exactly
+  0.0 in total, PE, selection and `log_mu`; the fourth, f = 1 at (Δμ_χ = 0, Δμ_G = −10)
+  i.e. μ_G = 25, the sparsest end of the injection set, differs by 2 ULP in the total and
+  1 ULP in the selection term and `log_mu`, with the PE term exactly 0.0. A control built
+  the K=1 GAL reference both ways (fix_population and the pinned base block) and they agree
+  exactly, so the re-pinned base block is not the source; it is a last-bit reduction
+  difference in the selection integral. **Judged PASS under the registered same-hardware
+  bound (≤ 4 ULP, ≤ 1e-6)** that every other closure item uses.
+
+The item that cannot pass for free — 15.6 — passes by four orders of magnitude, in the PE
+term and the selection term separately, and 15.1/15.2 are bitwise over 27 cells: the
+coordinate is live and the reductions are exact.
+
+### Registered wording (pre-run)
 
 Status: **NOT RUN** — blocked by Gate G. Residuals in ULP alongside the absolute
 bound, per **Registered tolerances** above.
