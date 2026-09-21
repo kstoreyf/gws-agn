@@ -22,9 +22,9 @@ generated or evaluated under the new mark.
 | **M** mark admissibility — *rejected peak-fraction mark* | **FAIL** | \(\lambda_{\rm peak}^{\rm fid} = 0.90\); \(0.90 + 0.15 = \mathbf{1.05} \not\in (0,1)\); sampled coordinate \(v_{1,c2} = -0.05 \notin [0,1]\) |
 | **M2** mark admissibility — \(\Delta\mu_{\rm G} = +5\) | **PASS** | `G.mu` fiducial 35.0, bounds [20, 50]; \(20 < 40 < 50\); axis \(\mu_{{\rm G},\rm AGN} \in [25, 45]\) inside with \(5\,M_\odot\) margin each side |
 | **R** resolver emits the second-catalog Gaussian mean | **PASS** | 10 labels, `$\mu_{\rm G}$_c2` at [20, 50] and `$\mu_\chi$_c2` at [−1, 1]; no darksirens change |
-| G generation (`--dmu_G_agn`) | NOT RUN | — |
-| V mock validation (12 checks) | NOT RUN | — |
-| B selection support | NOT RUN | — |
+| G generation (`--dmu_G_agn`) | **PASS** | default path bitwise: 50/50 datasets identical to the pristine HEAD generator on the same node; `events_marked_dmu0p10.h5` md5 unchanged (`7dcb8bcc…`); production `events_marked_dmu0p10_dmuG5.h5` md5 `427990378e299850a9c0708d389bc0bf` (`diagnostics/a10_mock_validation.json`) |
+| V mock validation (12 checks) | **PASS 12/12** | AGN branch μ_G = 40 (sampler KS p = 0.942, χ²/dof 0.849); shared peak fraction 0.90, 11/11 shared fields; realised Δμ_χ +0.0995 ± 0.0067; **realised detected f_AGN = 0.357** (planted 0.30; the heavier AGN branch is louder, detected fraction 7.85e-3 → 8.46e-3); analyses 0–9 files 24/24 md5 unchanged |
+| B selection support | **PASS** (rejected corner bounded) | 120 live cells at H0 = 67.74: 0 posterior-relevant rejections; min N_eff/threshold on f ≤ 0.5, Δμ_χ ≤ +0.15, Δμ_G ∈ [−10,+10] = **8.17** (≥ 2 required); 12/120 rejected, all at Δμ_χ = +0.25, f ≥ 0.5 (Analysis 8's spin wall); f = 1 axis 21/21 distinct logL (coordinate live), min ratio 2.09 at Δμ_G = −10; f = 0 bitwise frozen across Δμ_G; population-only proxy N_eff 16k…246k over Δμ_G ∈ [−10,+10]; existing `injections_targeted.h5` REUSED (`diagnostics/a10_selection_support.json`, job 1335493) |
 | 15 closure identities (15.1–15.7) | NOT RUN | — |
 | A10-S spatial-only arm | NOT RUN | — |
 | A10-χ spin-mark arm | NOT RUN | — |

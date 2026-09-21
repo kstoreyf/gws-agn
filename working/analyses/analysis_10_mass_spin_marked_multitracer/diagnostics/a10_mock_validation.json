@@ -1,0 +1,555 @@
+{
+  "title": "Analysis 10 -- mock validation record",
+  "date_utc": "2026-09-21T08:44:48.182059+00:00",
+  "product": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5",
+  "mark": {
+    "planted_f_agn": 0.3,
+    "realised_detected_f_agn": 0.357,
+    "realised_n_host_agn": 357,
+    "realised_n_host_gal": 643,
+    "planted_dmu_chi_agn": 0.1,
+    "realised_detected_dmu_chi": 0.09950237972556862,
+    "realised_detected_dmu_chi_se": 0.006689551135597419,
+    "planted_dmu_G_agn": 5.0,
+    "mu_G_gal": 35.0,
+    "mu_G_agn": 40.0,
+    "detected_set_m1src_median_gal": 36.81269496839907,
+    "detected_set_m1src_median_agn": 41.5574474884,
+    "detected_set_m1src_median_shift": 4.7447525200009295,
+    "note": "the planted Delta mu_G = +5.00 is a hyperparameter of the DRAW; the detected-set median shift is a different quantity, damped by the shared power-law component, the peak truncation and the SNR-weighted selection, and is reported beside it, never as it"
+  },
+  "branches": {
+    "gal": {
+      "n": 643,
+      "m1src_median": 36.81269496839907,
+      "m1src_p16": 31.547311501122316,
+      "m1src_p84": 41.80421346512805,
+      "m1src_mean": 36.638645271056625,
+      "m1src_sem": 0.24905130901623368,
+      "chieff_mean": -0.0037198226768707823,
+      "chieff_sem": 0.003926554232981001,
+      "q_median": 0.8084190094954145
+    },
+    "agn": {
+      "n": 357,
+      "m1src_median": 41.5574474884,
+      "m1src_p16": 36.54133832711895,
+      "m1src_p84": 45.97144092041793,
+      "m1src_mean": 41.30030756948896,
+      "m1src_sem": 0.28305628550028095,
+      "chieff_mean": 0.09578255704869784,
+      "chieff_sem": 0.0054159270906495496,
+      "q_median": 0.798635089834234
+    },
+    "gal_a8_marked_mock": {
+      "n": 705,
+      "m1src_median": 36.51219905724959,
+      "m1src_p16": 31.614619011201814,
+      "m1src_p84": 41.51554074555791,
+      "m1src_mean": 36.70741712912591,
+      "m1src_sem": 0.23336024119741322,
+      "chieff_mean": -0.001196805984493934,
+      "chieff_sem": 0.0035161614293990604,
+      "q_median": 0.8127553938065308
+    },
+    "agn_a8_marked_mock": {
+      "n": 295,
+      "m1src_median": 36.562517857561936,
+      "m1src_p16": 32.06646305823943,
+      "m1src_p84": 42.281484657347995,
+      "m1src_mean": 37.149948633265225,
+      "m1src_sem": 0.3738663160342298,
+      "chieff_mean": 0.11072669628691698,
+      "chieff_sem": 0.005837563679931653,
+      "q_median": 0.8240802952903505
+    }
+  },
+  "realised": {
+    "new": {
+      "n_proposed_for_events": 200000,
+      "n_detected_total": 1692,
+      "detected_fraction": 0.00846,
+      "detected_fraction_snr_only": 0.00954,
+      "horizon_z_max_detected": 0.3200450510623517,
+      "z_median_detected": 0.136390366200317,
+      "realised_f_agn": 0.357,
+      "unique_agn_hosts": 355,
+      "unique_gal_hosts": 643,
+      "snr_obs_min": 8.001235694238803,
+      "snr_obs_max": 238.6322439090328
+    },
+    "a8_marked_mock": {
+      "n_proposed_for_events": 200000,
+      "n_detected_total": 1570,
+      "detected_fraction": 0.00785,
+      "detected_fraction_snr_only": 0.008925,
+      "horizon_z_max_detected": 0.3105331267611167,
+      "z_median_detected": 0.13277658099501014,
+      "realised_f_agn": 0.295,
+      "unique_agn_hosts": 294,
+      "unique_gal_hosts": 705,
+      "snr_obs_min": 8.003205458585647,
+      "snr_obs_max": 240.31091254101358
+    }
+  },
+  "sampler_checks": {
+    "gal_mu35": {
+      "label": "GAL branch, pop (mu_G = 35)",
+      "peak_mu": 35.0,
+      "peak_sigma": 5.0,
+      "n_draws": 2000000,
+      "rng_seed": 20261010,
+      "n_peak_lane": 1800055,
+      "peak_lane_fraction": 0.9000275,
+      "peak_lane_mean": 34.998694764486515,
+      "peak_lane_std": 4.9985910119560195,
+      "peak_lane_ks_D": 0.000394374927366381,
+      "peak_lane_ks_p": 0.9421152932502317,
+      "full_chi2": 103.2479,
+      "full_chi2_dof": 99,
+      "full_chi2_per_dof": 1.0429080808080808,
+      "full_chi2_p": 0.36508243560532433,
+      "n_bins": 100
+    },
+    "agn_mu40": {
+      "label": "AGN branch, pop_agn (mu_G = 40)",
+      "peak_mu": 40.0,
+      "peak_sigma": 5.0,
+      "n_draws": 2000000,
+      "rng_seed": 20261010,
+      "n_peak_lane": 1800055,
+      "peak_lane_fraction": 0.9000275,
+      "peak_lane_mean": 39.99869476448654,
+      "peak_lane_std": 4.9985910119560195,
+      "peak_lane_ks_D": 0.00039437492336438784,
+      "peak_lane_ks_p": 0.94211529783619,
+      "full_chi2": 84.07700000000001,
+      "full_chi2_dof": 99,
+      "full_chi2_per_dof": 0.8492626262626264,
+      "full_chi2_p": 0.8579231347607684,
+      "n_bins": 100
+    }
+  },
+  "rng_child_derivation": "np.random.default_rng(np.random.SeedSequence(_SEED_EV, spawn_key=(0x4D47,)))",
+  "branch_mass_rule": "the AGN-hosted lanes' primary mass and peak/power-law component flag are drawn from pop_agn (= pop with peak_mu -> peak_mu + dmu_G_agn and every other field identical) on a deterministic CHILD RNG stream and spliced in by the host label; the q pairing, the spin (with dmu_chi_agn), the detector-frame conversion, the observation, the detection and the v3 PE all run through the SHARED code, so -- unlike the spin mark -- this mark moves the masses, the SNR and the detected set",
+  "runs": [
+    {
+      "role": "bitwise control (patched generator at the default)",
+      "argv": "--seed 100 --stage events --darksirens .../darksirens-a8 --dmu_chi_agn 0.10 --dmu_G_agn 0.0 --events_suffix _a10ctrl_dmu0p10_dmuG0",
+      "generator": "working/data/generate_dataset.py (patched)",
+      "slurm_job": 1335487,
+      "host": "r008.opa.vera.psc.edu",
+      "wall_seconds": 44,
+      "events_stage_seconds": 6.9
+    },
+    {
+      "role": "pristine reference (HEAD generator, same node)",
+      "argv": "--seed 100 --stage events --outroot working/data --darksirens .../darksirens-a8 --dmu_chi_agn 0.10 --events_suffix _a10headctrl_dmu0p10",
+      "generator": "git show HEAD:working/data/generate_dataset.py (unpatched)",
+      "slurm_job": 1335488,
+      "host": "r008.opa.vera.psc.edu",
+      "wall_seconds": 23,
+      "events_stage_seconds": 6.0
+    },
+    {
+      "role": "production mock",
+      "argv": "--seed 100 --stage events --darksirens .../darksirens-a8 --dmu_chi_agn 0.10 --dmu_G_agn 5.0 --events_suffix _marked_dmu0p10_dmuG5",
+      "generator": "working/data/generate_dataset.py (patched)",
+      "slurm_job": 1335489,
+      "host": "r008.opa.vera.psc.edu",
+      "wall_seconds": 24,
+      "events_stage_seconds": 7.1
+    }
+  ],
+  "files_written_md5": {
+    "events_a10ctrl_dmu0p10_dmuG0.h5": "c53e24f67f5d0198f627a81f215a58c2",
+    "events_a10headctrl_dmu0p10.h5": "e29c88123260eac3577e73980875cfd7",
+    "events_marked_dmu0p10_dmuG5.h5": "427990378e299850a9c0708d389bc0bf",
+    "events_meta_a10ctrl_dmu0p10_dmuG0.json": "b7f475723566471a80f5c52b26fa18f2",
+    "events_meta_a10headctrl_dmu0p10.json": "f961825f7017a781c4b66bd4cf89814f",
+    "events_meta_marked_dmu0p10_dmuG5.json": "6da4d772b1eab87f33d7bd626089b456",
+    "events_rejected_sample_a10ctrl_dmu0p10_dmuG0.h5": "f05bb1f0f44e34ff9ae2824b6c6353f5",
+    "events_rejected_sample_a10headctrl_dmu0p10.h5": "f05bb1f0f44e34ff9ae2824b6c6353f5",
+    "events_rejected_sample_marked_dmu0p10_dmuG5.h5": "00d94d7066144803f45116b3f31401f4"
+  },
+  "protected_md5_after": {
+    "events/events.h5": "adeabf81c627778092fdc76015ec6c36",
+    "events/events_marked_dmu0p10.h5": "7dcb8bccba7f7a360a6da2741d4cf9d1",
+    "injections/injections_popuni.h5": "cb1991fbf431fb04bf3975be98e86cc8",
+    "injections/injections_targeted.h5": "e8a611a27f1f0699adc1768b2a3e395a",
+    "surveys/survey_agn_complete_ns32.h5": "6dcc38d17bd5cf6b006fde1427524e3e",
+    "surveys/survey_agn_m18_ns32.h5": "7bd5e50423ae1f649a426b3ee987a866",
+    "surveys/survey_agn_m19_ns32.h5": "ad16ada39876c4e700e477e3b5d5b5d3",
+    "surveys/survey_agn_m20_ns32.h5": "73f09666bdd4aad6bdc769b525a235de",
+    "surveys/survey_agn_m21_ns32.h5": "d8f84f1f7d522b51f5c81961a12a7b3d",
+    "surveys/survey_gal_complete_ns32.h5": "3568cf69344b13d13de13a7e7b1d4fc6",
+    "surveys/survey_gal_m18_ns32.h5": "c09d37ef065749f90c497040269be2e7",
+    "surveys/survey_gal_m19_ns32.h5": "b9c19d7d9a79368f48ddfcadd4ed041d",
+    "surveys/survey_gal_m20_ns32.h5": "a2d24f3797d1f96e72f1a8d06739a85e",
+    "surveys/survey_gal_m21_ns32.h5": "d261eecfeb70b566cb2ef385a1945cf8",
+    "catalogs/catalog_agn_complete.h5": "ca10cb1cf1f2d0abedc702d0f98d1037",
+    "catalogs/catalog_agn_m18.h5": "662db188cd8db9225a06b118975d4572",
+    "catalogs/catalog_agn_m19.h5": "9fa4d5c75e26ef932dad6134d01432f0",
+    "catalogs/catalog_agn_m20.h5": "0f2d43ca0c0881324aece3fb7ac38d02",
+    "catalogs/catalog_agn_m21.h5": "6d656c6ffcf2990deef3c5d00d9b6a90",
+    "catalogs/catalog_gal_complete.h5": "ecb3f4ad05098052792923f53b214e31",
+    "catalogs/catalog_gal_m18.h5": "8a6193eaf443bfed6f56911384b9cc23",
+    "catalogs/catalog_gal_m19.h5": "7fe074428361390a2cec7b168a2a5db2",
+    "catalogs/catalog_gal_m20.h5": "e7f4d3f97450d713be735727d1c4b213",
+    "catalogs/catalog_gal_m21.h5": "4f75ed97687ca53be9fb6af381d942a9"
+  },
+  "provenance": {
+    "gws_agn_head": "7ab5412b795e5adcda99c66987d94c82dc59670b",
+    "gws_agn_generator_diff_sha256": "5a7f190f5b0366398aa89b025c00214f58c54459916e548d951259115e1e1299",
+    "gws_agn_generator_lines_added": 53,
+    "gws_agn_generator_lines_removed": 0,
+    "darksirens_worktree": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_head": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_clean": true,
+    "darksirens_sha_in_product": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "python": "/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python",
+    "numpy": "1.26.4",
+    "h5py": "3.12.1",
+    "generation_host": "r008.opa.vera.psc.edu (SLURM RM, CPU only)"
+  },
+  "checks": [
+    {
+      "id": 1,
+      "name": "one realisation, seed 100",
+      "statement": "the mock is a single draw on the record's event sub-seed",
+      "numbers": {
+        "attrs.seed_events": 100003,
+        "sub_seeds(100)['events']": 100003,
+        "meta.seed_events_is_record_default": true,
+        "attrs.nobs": 1000,
+        "attrs.nsamp": 2000,
+        "meta.planted_f_agn_is_record_default": true
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 2,
+      "name": "same LSS and survey catalogs",
+      "statement": "the events stage read the seed-100 complete catalogs and left every catalog and survey file byte-identical",
+      "numbers": {
+        "n_catalog_files": 10,
+        "n_survey_files": 10,
+        "catalog_or_survey_md5_changed": [],
+        "catalog_gal_complete_rows": 151179870,
+        "catalog_agn_complete_rows": 1514567,
+        "generator_log_hosts": "GAL 151,179,870  AGN 1,514,567",
+        "rows_match_generator_log": true
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 3,
+      "name": "GAL branch generated from mu_G = 35",
+      "statement": "the GAL-hosted branch keeps the record's Gaussian-peak location",
+      "numbers": {
+        "meta.branch_mass.mu_G_gal": 35.0,
+        "attrs.mu_G_gal": 35.0,
+        "DETECTED-SET true_m1src median [Msun]": 36.81269496839907,
+        "DETECTED-SET true_m1src p16 [Msun]": 31.547311501122316,
+        "DETECTED-SET true_m1src p84 [Msun]": 41.80421346512805,
+        "DETECTED-SET mean peak-component responsibility": 0.9629973471884273,
+        "DETECTED-SET n": 643,
+        "sampler check (mu_G = 35)": {
+          "label": "GAL branch, pop (mu_G = 35)",
+          "peak_mu": 35.0,
+          "peak_sigma": 5.0,
+          "n_draws": 2000000,
+          "rng_seed": 20261010,
+          "n_peak_lane": 1800055,
+          "peak_lane_fraction": 0.9000275,
+          "peak_lane_mean": 34.998694764486515,
+          "peak_lane_std": 4.9985910119560195,
+          "peak_lane_ks_D": 0.000394374927366381,
+          "peak_lane_ks_p": 0.9421152932502317,
+          "full_chi2": 103.2479,
+          "full_chi2_dof": 99,
+          "full_chi2_per_dof": 1.0429080808080808,
+          "full_chi2_p": 0.36508243560532433,
+          "n_bins": 100
+        }
+      },
+      "note": "the median/percentiles/responsibility are DETECTED-SET descriptive statistics, not the hyperparameter: detection reweights the mixture and the peak lanes carry a hard truncation at [1, 200] Msun",
+      "verdict": "PASS"
+    },
+    {
+      "id": 4,
+      "name": "AGN branch generated from mu_G = 40",
+      "statement": "the AGN-hosted branch draws its primary mass from a peak at 40",
+      "numbers": {
+        "meta.branch_mass.mu_G_agn": 40.0,
+        "meta.branch_mass.dmu_G_agn": 5.0,
+        "attrs.mu_G_agn": 40.0,
+        "attrs.dmu_G_agn": 5.0,
+        "DETECTED-SET true_m1src median [Msun]": 41.5574474884,
+        "DETECTED-SET true_m1src p16 [Msun]": 36.54133832711895,
+        "DETECTED-SET true_m1src p84 [Msun]": 45.97144092041793,
+        "DETECTED-SET mean peak-component responsibility": 0.9837624978884043,
+        "DETECTED-SET n": 357,
+        "DETECTED-SET median shift AGN - GAL [Msun]": 4.7447525200009295,
+        "sampler check (mu_G = 40)": {
+          "label": "AGN branch, pop_agn (mu_G = 40)",
+          "peak_mu": 40.0,
+          "peak_sigma": 5.0,
+          "n_draws": 2000000,
+          "rng_seed": 20261010,
+          "n_peak_lane": 1800055,
+          "peak_lane_fraction": 0.9000275,
+          "peak_lane_mean": 39.99869476448654,
+          "peak_lane_std": 4.9985910119560195,
+          "peak_lane_ks_D": 0.00039437492336438784,
+          "peak_lane_ks_p": 0.94211529783619,
+          "full_chi2": 84.07700000000001,
+          "full_chi2_dof": 99,
+          "full_chi2_per_dof": 0.8492626262626264,
+          "full_chi2_p": 0.8579231347607684,
+          "n_bins": 100
+        }
+      },
+      "note": "same caveat as check 3; the planted mark is +5.00 exactly and is carried separately from these detected-set descriptives",
+      "verdict": "PASS"
+    },
+    {
+      "id": 5,
+      "name": "both branches share peak fraction 0.90",
+      "statement": "the mixture weight is untouched by the mark",
+      "numbers": {
+        "pop.peak_fraction": 0.9,
+        "pop_agn.peak_fraction": 0.9,
+        "meta.branch_mass.peak_fraction": 0.9,
+        "meta.population.peak_fraction": 0.9
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 6,
+      "name": "shared PL slope, mass limits and tapers",
+      "statement": "pop and pop_agn are equal in every dataclass field but peak_mu",
+      "numbers": {
+        "fields_compared": [
+          "alpha",
+          "mmin",
+          "mmax",
+          "dm_min",
+          "dm_max",
+          "peak_fraction",
+          "peak_sigma",
+          "beta",
+          "chi_mu",
+          "chi_sigma",
+          "gamma"
+        ],
+        "all_shared_fields_equal": true,
+        "fields_unequal": [],
+        "pop.peak_mu": 35.0,
+        "pop_agn.peak_mu": 40.0,
+        "pop fields": {
+          "alpha": 2.3,
+          "mmin": 5.0,
+          "mmax": 80.0,
+          "dm_min": 3.0,
+          "dm_max": 10.0,
+          "peak_fraction": 0.9,
+          "peak_mu": 35.0,
+          "peak_sigma": 5.0,
+          "beta": 1.0,
+          "chi_mu": 0.0,
+          "chi_sigma": 0.1,
+          "gamma": 0.0
+        },
+        "meta.branch_mass.peak_sigma": 5.0
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 7,
+      "name": "shared q distribution",
+      "statement": "both branches pair through the same beta and the same per-component taper: the generator calls _sample_q(rng, m1, pop) once, with pop, for every lane",
+      "numbers": {
+        "pop.beta": 1.0,
+        "pop_agn.beta": 1.0,
+        "generator call": "q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)",
+        "DETECTED-SET KS D (GAL vs AGN q)": 0.0467434252083415,
+        "DETECTED-SET KS p": 0.675043743197323,
+        "DETECTED-SET q median GAL": 0.8084190094954145,
+        "DETECTED-SET q median AGN": 0.798635089834234
+      },
+      "note": "the KS numbers are DESCRIPTIVE ONLY.  The pairing model is shared by construction; a detected-set q difference is an expected consequence of the mass mark (the AGN peak sits 5 Msun higher, so its per-lane q support and its detectability both move) and of seed 100's own unplanted GAL/AGN q difference recorded in Analysis 8 Gate B",
+      "verdict": "PASS"
+    },
+    {
+      "id": 8,
+      "name": "spin difference +0.10",
+      "statement": "the Analysis-8 spin mark is carried unchanged",
+      "numbers": {
+        "meta.branch_spin.dmu_chi_agn": 0.1,
+        "attrs.dmu_chi_agn": 0.1,
+        "attrs.mu_chi_gal": 0.0,
+        "attrs.mu_chi_agn": 0.1,
+        "planted": 0.1,
+        "DETECTED-SET realised mean chi_eff AGN - GAL": 0.09950237972556862,
+        "DETECTED-SET standard error": 0.006689551135597419,
+        "DETECTED-SET realised, A8 marked mock": 0.11192350227141092,
+        "DETECTED-SET standard error, A8 marked mock": 0.006814729702258985
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 9,
+      "name": "v3 PE unchanged",
+      "statement": "every measurement-family constant equals the Analysis-8 mock's",
+      "numbers": {
+        "attrs.pe_model": "v3",
+        "attrs.a_mc": 0.08,
+        "attrs.a_q": 0.6,
+        "attrs.a_chi": 0.2,
+        "attrs.sigma_rho": 1.0,
+        "attrs.sky_a_deg": 35.0,
+        "keys_differing_from_A8": [],
+        "PE function sources identical to HEAD": [
+          "observe_v3",
+          "posterior_samples_v3",
+          "p_pe_v3"
+        ]
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 10,
+      "name": "observed-SNR detection unchanged",
+      "statement": "the detection rule and its constants are the Analysis-8 mock's, and the generator diff is confined to the mass-mark hunk, the argparse entry and the metadata/attribute records",
+      "numbers": {
+        "attrs.detection_rule": "observed-data",
+        "attrs.snr_threshold": 8.0,
+        "attrs.snr_ref": 6.278363879917771,
+        "keys_differing_from_A8": [],
+        "git diff lines added": 53,
+        "git diff lines removed": 0,
+        "git diff hunks": [
+          "@@ -158,6 +158,7 @@ recorded in ``META.json``.",
+          "@@ -1296,12 +1297,28 @@ def stage_events(args):",
+          "@@ -1340,6 +1357,15 @@ def stage_events(args):",
+          "@@ -1491,6 +1517,21 @@ def stage_events(args):",
+          "@@ -1599,6 +1640,9 @@ def stage_events(args):",
+          "@@ -3805,6 +3849,15 @@ def parse_args(argv=None):"
+        ],
+        "git diff sha256": "5a7f190f5b0366398aa89b025c00214f58c54459916e548d951259115e1e1299",
+        "untouched functions compared": [
+          "observe",
+          "observe_v3",
+          "detect_from_observation",
+          "detect_v3",
+          "snr_amplitude",
+          "posterior_samples",
+          "posterior_samples_v3",
+          "p_pe_v3",
+          "sub_seeds",
+          "seed_dir",
+          "stage_catalogs",
+          "stage_surveys",
+          "stage_injections",
+          "stage_validation"
+        ],
+        "untouched functions whose source changed": []
+      },
+      "note": "removed == 0 means the change is purely additive: no existing line of generate_dataset.py was altered or deleted",
+      "verdict": "PASS"
+    },
+    {
+      "id": 11,
+      "name": "analyses 0-9 files unchanged",
+      "statement": "every file Analyses 0-9 stand on carries its pre-edit md5",
+      "numbers": {
+        "n_files_checked": 24,
+        "files_changed": [],
+        "events/events_marked_dmu0p10.h5": "7dcb8bccba7f7a360a6da2741d4cf9d1",
+        "events/events.h5": "adeabf81c627778092fdc76015ec6c36"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "id": 12,
+      "name": "control behaves",
+      "statement": "the patched generator at --dmu_G_agn 0.0 reproduces the pristine HEAD generator bit for bit on the same node",
+      "numbers": {
+        "patched vs pristine HEAD (same node r008)": {
+          "n_datasets": 50,
+          "datasets_bitwise_identical": true,
+          "datasets_differing": [],
+          "attrs_only_in_patched": [
+            "dmu_G_agn",
+            "mu_G_agn",
+            "mu_G_gal"
+          ],
+          "shared_attrs_differing": [],
+          "metadata_keys_differing": [
+            "events_suffix"
+          ]
+        },
+        "patched control vs the Analysis-8 marked mock": {
+          "datasets_differing_n": 36,
+          "datasets_differing": [
+            "chieff",
+            "dL",
+            "dec",
+            "m1det",
+            "m1src",
+            "m2det",
+            "m2src",
+            "mc_det",
+            "p_pe",
+            "q",
+            "ra",
+            "rho",
+            "true_m1src",
+            "true_m2src",
+            "truth/m1det",
+            "truth/m1src",
+            "truth/m2det",
+            "truth/m2src",
+            "truth/obs_chieff",
+            "truth/obs_dL",
+            "truth/obs_dec",
+            "truth/obs_lnmc",
+            "truth/obs_lnq",
+            "truth/obs_m1det",
+            "truth/obs_m2det",
+            "truth/obs_ra",
+            "truth/obs_rho",
+            "truth/obs_rho_true",
+            "truth/obs_sig_chieff",
+            "truth/obs_sig_lnmc",
+            "truth/obs_sig_lnq",
+            "truth/obs_sig_ra",
+            "truth/obs_sigma_ang",
+            "truth/q",
+            "truth/snr_obs",
+            "truth/snr_true"
+          ],
+          "max_abs_diff_true_m1src": {
+            "n_differing": 11,
+            "n": 1000,
+            "max_abs_diff": 1.4210854715202004e-14
+          },
+          "shared_attrs_differing": [],
+          "diagnosis": "1-ULP environment drift in the tapered power-law inverse CDF, NOT the generator change: host labels, host indices, redshifts, sky and source chi_eff are bit-identical, the detected set and its order are unchanged, and the same drift (11 of 1000 primary masses, max 1.42e-14) is recorded in Analysis 8 GATES.md Gate B as a different pow kernel on the generating node"
+        },
+        "production vs control (the mark itself)": {
+          "datasets_differing_n": 48,
+          "datasets_identical_n": 2,
+          "datasets_identical": [
+            "p_pe_unity",
+            "truth/obs_sigma_rho"
+          ]
+        }
+      },
+      "verdict": "PASS"
+    }
+  ],
+  "n_pass": 12,
+  "n_checks": 12
+}

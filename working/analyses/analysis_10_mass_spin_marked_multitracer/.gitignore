@@ -1,0 +1,4 @@
+# Per-cell append-only checkpoints and stage scratch: raw run output, reproducible
+# from scripts/.  The assembled diagnostics JSONs are what carry the analysis.
+diagnostics/_a10_*.json
+diagnostics/_a10_*.jsonl

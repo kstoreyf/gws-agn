@@ -8,8 +8,7 @@
 > part of the provenance record; the new mass-mark gate begins from this owner
 > decision.
 
-**Stage: owner decision recorded; generator extension, mock, selection-support
-gate in progress. Nothing run yet under the new mark.**
+**Stage (2026-09-21): generator, mock and selection support DONE — Gates G, V, B PASS; closure gate 15.x next.** Production mock `working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5` (md5 `427990378e299850a9c0708d389bc0bf`, generator commit `18c5a7f`, darksirens `af896ca`): realised detected f_AGN **0.357** (357/1000; planted 0.30 — the μ_G = 40 branch is louder, so the detected fraction rises 7.85e-3 → 8.46e-3 and the realised fraction must be scored at 0.357, not 0.295), realised Δμ_χ +0.0995 ± 0.0067, detected-set median m1src GAL 36.8 / AGN 41.6 Msun (descriptive; the hyperparameter truth is Δμ_G = +5). Selection: the existing `injections_targeted.h5` is reused — minimum N_eff/threshold 8.17 on the posterior-relevant region, the only guard-rejected cells sit on Analysis 8's Δμ_χ = +0.25 wall at f ≥ 0.5, and the f = 1 axis shows the Gaussian-mean coordinate live in the full likelihood (21/21 distinct values). Bitwise control `events_a10ctrl_dmu0p10_dmuG0.h5` equals the pristine-HEAD generator 50/50 on the same node (a 1-ULP pow-kernel drift between nodes, documented by Analysis 8, is why the control is compared against a same-node pristine run rather than the 2026-09-18 file).
 
 ### The replacement mark
 
