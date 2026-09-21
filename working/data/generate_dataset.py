@@ -158,6 +158,7 @@ recorded in ``META.json``.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import os
 import subprocess
@@ -1296,12 +1297,28 @@ def stage_events(args):
     _SEED_EV = (seeds["events"] if getattr(args, "seed_events", None) is None
                 else int(args.seed_events))
     _DMU = float(getattr(args, "dmu_chi_agn", 0.0))
+    _DMUG = float(getattr(args, "dmu_G_agn", 0.0))
     if not 0.0 <= _FAGN <= 1.0:
         raise SystemExit(f"--f_agn must lie in [0, 1]; got {_FAGN}")
     rng = np.random.default_rng(_SEED_EV)
     cosmo = gmd._build_cosmology(H0_FID, OM0_FID, W0_FID, WA_FID)
     grids = gmd._cosmology_grids(cosmo, ZMAX_GRID)
     pop = gmd.PopulationConfig(gamma=GAMMA)
+    # --- the branch-conditioned MASS mark (default 0.0 = the record) -----------
+    # ``pop_agn`` differs from ``pop`` in peak_mu ALONE: the AGN-hosted branch's
+    # Gaussian-peak LOCATION is shifted by ``--dmu_G_agn``.  Unlike the spin mark
+    # this changes the DRAW itself, so the detector-frame masses, the SNR and the
+    # detected set all move with it.  The AGN draw is therefore taken from its own
+    # deterministic CHILD stream, created once here, so the main stream is consumed
+    # exactly as it is at dmu_G_agn = 0 and the default path stays bit-identical.
+    pop_agn = dataclasses.replace(pop, peak_mu=pop.peak_mu + _DMUG)
+    for _fld in pop.__dataclass_fields__:
+        if _fld != "peak_mu" and getattr(pop, _fld) != getattr(pop_agn, _fld):
+            raise SystemExit(f"--dmu_G_agn must move peak_mu alone; {_fld} differs")
+    _RNG_MASS_AGN_DERIV = ("np.random.default_rng(np.random.SeedSequence("
+                           "_SEED_EV, spawn_key=(0x4D47,)))")
+    rng_mass_agn = np.random.default_rng(
+        np.random.SeedSequence(_SEED_EV, spawn_key=(0x4D47,)))
 
     pe_model = getattr(args, "pe_model", PE_MODEL_DEFAULT)
     _observe = observe_v3 if pe_model == "v3" else observe
@@ -1340,6 +1357,15 @@ def stage_events(args):
         dl = gmd._interp_dl(z, grids)
 
         m1, use_peak = gmd._sample_powerlaw_peak_m1(rng, ntry, pop, return_component=True)
+        if _DMUG != 0.0:
+            # AGN lanes only: redraw the primary and its peak/power-law component
+            # flag from pop_agn on the child stream, then splice by host label.
+            # The main stream above is consumed identically either way, so the GAL
+            # lanes and the host draw are untouched.
+            m1_agn, use_peak_agn = gmd._sample_powerlaw_peak_m1(
+                rng_mass_agn, ntry, pop_agn, return_component=True)
+            m1 = np.where(is_agn, m1_agn, m1)
+            use_peak = np.where(is_agn, use_peak_agn, use_peak)
         q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)
         m2 = q * m1
         chi = gmd._sample_chieff(rng, ntry, pop)
@@ -1491,6 +1517,21 @@ def stage_events(args):
                     "the masses, the sky, the distances and the detected set are "
                     "untouched; the AGN branch support is [-1, 1] + dmu_chi_agn",
             "is_record_default": bool(_DMU == 0.0)},
+        "branch_mass": {
+            "dmu_G_agn": _DMUG, "mu_G_gal": pop.peak_mu,
+            "mu_G_agn": pop.peak_mu + _DMUG, "peak_sigma": pop.peak_sigma,
+            "peak_fraction": pop.peak_fraction,
+            "rule": "the AGN-hosted lanes' primary mass and peak/power-law "
+                    "component flag are drawn from pop_agn (= pop with peak_mu -> "
+                    "peak_mu + dmu_G_agn and every other field identical) on a "
+                    "deterministic CHILD RNG stream and spliced in by the host "
+                    "label; the q pairing, the spin (with dmu_chi_agn), the "
+                    "detector-frame conversion, the observation, the detection and "
+                    "the v3 PE all run through the SHARED code, so -- unlike the "
+                    "spin mark -- this mark moves the masses, the SNR and the "
+                    "detected set",
+            "rng_child_derivation": _RNG_MASS_AGN_DERIV,
+            "is_record_default": bool(_DMUG == 0.0)},
         "gamma": GAMMA,
         "cosmology": {"H0": H0_FID, "Om0": OM0_FID, "w0": W0_FID, "wa": WA_FID,
                       "zmax_grid": ZMAX_GRID},
@@ -1599,6 +1640,9 @@ def stage_events(args):
         f.attrs["mu_chi_gal"] = float(pop.chi_mu)
         f.attrs["mu_chi_agn"] = float(pop.chi_mu + _DMU)
         f.attrs["sigma_chi"] = float(pop.chi_sigma)
+        f.attrs["dmu_G_agn"] = float(_DMUG)
+        f.attrs["mu_G_gal"] = float(pop.peak_mu)
+        f.attrs["mu_G_agn"] = float(pop.peak_mu + _DMUG)
         f.attrs["shared_gamma"] = True
         f.attrs["detection_rule"] = "observed-data"
         f.attrs["detection_shares_noise_with_pe"] = True
@@ -3805,6 +3849,15 @@ def parse_args(argv=None):
                         "made, so the RNG stream, the host labels, the masses, the "
                         "redshifts, the sky, the distances and the detected set are "
                         "bit-identical to a dmu=0 run.")
+    p.add_argument("--dmu_G_agn", type=float, default=0.0,
+                   help="MARKED DRAWS ONLY: shift of the AGN-hosted branch's "
+                        "Gaussian-peak LOCATION, mu_G_AGN = pop.peak_mu + "
+                        "dmu_G_agn.  Default 0.0 = the record (one shared mass "
+                        "population).  Unlike --dmu_chi_agn this changes the DRAW "
+                        "itself, hence the masses, the detector-frame masses, the "
+                        "SNR, the detection and the detected set; the AGN lanes are "
+                        "redrawn from a deterministic child RNG stream so the "
+                        "dmu_G_agn=0 path stays bit-identical to the record.")
     p.add_argument("--_glass_worker", action="store_true",
                    help=argparse.SUPPRESS)
     return p.parse_args(argv)
