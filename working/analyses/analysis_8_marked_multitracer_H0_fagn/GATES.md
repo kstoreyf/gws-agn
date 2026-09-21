@@ -162,10 +162,12 @@ Three things this gate established that Gate C must carry.
   the detected set; permuting labels within redshift quartiles gives p = 0.0066; the
   z-stratified Fisher statistic 29.57 is the largest of the 41 seeds examined (median
   7.54). It is the record's own property, present in the unmarked data and not created
-  here, but it means the branch label is partly identifiable from `q` alone. The
-  intrinsic arm therefore cannot be read as measuring the spin mark in isolation, and
-  Gate C must report this confound rather than attribute all intrinsic information to
-  `dmu_chi`.
+  here. Since the inferred GAL and AGN branches share the same `q` distribution, it
+  does not directly create branch evidence — `q` supplies no GAL-versus-AGN likelihood
+  ratio under this model — but correlations among `q`, mass, distance and `chi_eff` in
+  the event posteriors can indirectly affect recovery of the spin mark, so Gate C must
+  report it rather than attribute all intrinsic information to `dmu_chi` (wording
+  corrected 2026-09-21).
 
 Two caveats for readers. The `shared_spin` HDF5 attribute is still `True` in the marked
 file (correct in darksirens' vocabulary, where it means one spin component shared across
@@ -246,9 +248,11 @@ Three things this gate established that any later phase must carry.
 * **The `q` confound is live in the intrinsic channel.** Seed 100's detected set
   separates GAL from AGN in mass ratio (KS p = 0.0096; z-stratified Fisher 29.57,
   the largest of 41 seeds examined, median 7.54) and the model holds `q` identical
-  in both branches. Arm I and the per-event `log BF_intrinsic` therefore do not
-  measure the spin mark in isolation, and the C2 tail is conditional on a model
-  that is wrong in this respect.
+  in both branches. Because both inferred branches share that `q` distribution the
+  difference creates no branch evidence directly; through posterior correlations
+  among `q`, mass, distance and `chi_eff` it can still affect arm I and the per-event
+  `log BF_intrinsic` indirectly, and the C2 tail is conditional on a model that is
+  wrong in this respect (wording corrected 2026-09-21).
 * **Arm I is a diagnostic, not a physical model**, and its thin `N_eff` floor
   (1.708x) is a consequence of that deliberate misspecification, not a warning
   about the production arm.

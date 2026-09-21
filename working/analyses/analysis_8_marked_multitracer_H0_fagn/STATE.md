@@ -270,9 +270,12 @@ model and this grid and is explicitly NOT a sigma claim.
    attribute (3714.98, a flat-target quantity).
 2. **An unplanted confound.** Seed 100's detected set already separates GAL from AGN in
    mass ratio `q` (KS p = 0.0096; z-stratified Fisher 29.57, the largest of 41 seeds).
-   It is the record's own property, not this campaign's, but the branch label is
-   therefore partly identifiable without the spin mark, and the intrinsic arm cannot be
-   read as measuring `dmu_chi` in isolation.
+   It is the record's own property, not this campaign's. Since the inferred GAL and
+   AGN branches share the same `q` distribution, it does not directly create branch
+   evidence; correlations among `q`, mass, distance and `chi_eff` in the event
+   posteriors can nevertheless indirectly affect recovery of `dmu_chi`, so the
+   intrinsic arm is not guaranteed to measure it in isolation (wording corrected
+   2026-09-21).
 3. **Score against both truths.** Planted `dmu_chi` = +0.100000; realised (detected-set
    branch-mean difference) = +0.111924 +/- 0.006815. The +0.011924 excess is the
    record's own finite-sample draw, identical to the last digit in the unmarked run.

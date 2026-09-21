@@ -310,8 +310,10 @@ Both orders give the identical `log BF_total` and the identical `P_i(AGN)`.
 
 Two caveats attach to this table specifically: it is one hyperparameter point, not
 marginalised over the `(f_AGN, Δμ_χ)` posterior, and `log BF_intrinsic` is not a clean
-measurement of the spin mark alone, because this seed's detected set also separates the two
-branches in mass ratio (see Limitations).
+measurement of the spin mark alone: this seed's detected set also differs between the two
+host populations in mass ratio, and although that difference creates no branch evidence by
+itself — both inferred branches share one `q` distribution — correlations among `q`, mass,
+distance and `χ_eff` in the event posteriors can indirectly affect it (see Limitations).
 
 ## Selection diagnostics
 
@@ -369,17 +371,20 @@ posterior shift is reported.
 
 ## Limitations
 
-**Seed 100's detected set already separates GAL from AGN in mass ratio, and the model does
-not know that.** The separation is the record's own property, present in the unmarked data
-and not created here: KS `p = 0.0096` on the detected set, `p = 0.0066` when labels are
-permuted within redshift quartiles, and a z-stratified Fisher statistic of 29.57 — the
-largest of the 41 seeds examined, against a median of 7.54. The model holds `q` identical in
-both branches, so this is an **unmodelled channel difference**. Two consequences follow, and
-neither is cosmetic. The branch label is partly identifiable without the spin mark, so arm I
-cannot be read as measuring `Δμ_χ` in isolation, and neither can the per-event
-`log BF_intrinsic`. And because the `P(Δμ_χ ≤ 0)` tail is conditional on the model being
+**Seed 100 contains an accidental finite-realisation difference in the true mass-ratio
+distributions of the two host populations.** The difference is the record's own property,
+present in the unmarked data and not created here: KS `p = 0.0096` on the detected set,
+`p = 0.0066` when labels are permuted within redshift quartiles, and a z-stratified Fisher
+statistic of 29.57 — the largest of the 41 seeds examined, against a median of 7.54. Since
+the inferred GAL and AGN branches share the same `q` distribution, this does **not** directly
+create branch evidence: `q` supplies no GAL-versus-AGN likelihood ratio when the two branch
+population models differ only in `χ_eff`. Correlations among `q`, mass, distance and `χ_eff`
+in the event posterior can nevertheless indirectly affect recovery of the environmental
+spin parameters, so arm I and the per-event `log BF_intrinsic` are not guaranteed to measure
+`Δμ_χ` in isolation. And because the `P(Δμ_χ ≤ 0)` tail is conditional on the model being
 right, an unmodelled intrinsic difference is exactly the kind of error that tail does not
-account for.
+account for. (Wording corrected 2026-09-21; the earlier text said the label was "partly
+identifiable from `q`", which is too strong under this model.)
 
 **Arm I is a diagnostic construction, not a physical model.** It puts the same GAL survey in
 both catalog slots so the common spatial prior multiplies out of the branch sum. Nothing in

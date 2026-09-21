@@ -161,15 +161,36 @@ factor 24 smaller at 90%.
 The mechanism is not the obvious one, and it is worth stating carefully, because the
 natural reading — a degeneracy between the mark and the cosmology being broken — is
 excluded by the correlations. `ρ(H0, Δμ_χ) = +0.025` and `ρ(H0, f_AGN) = +0.015`: the mark
-is nearly orthogonal to `H0`, so there is no `H0`–`Δμ_χ` ridge for it to cut. What the mark
-does is tighten `f_AGN`, and `f_AGN` sets the weighting between the two tracers whose
-redshift-space structure carries `H0`. The cosmological information arrives through the
-tracer weighting, not through the spin channel directly.
+is nearly orthogonal to `H0`, so there is no `H0`–`Δμ_χ` ridge for it to cut.
 
-The supporting evidence is that `ρ(H0, f_AGN)` falls monotonically along the ladder as more
-information about the host fraction enters: **+0.0678** with unmarked events and one shared
-population (Analysis 2), **+0.0590** with two tracers and no mark (S9), **+0.0148** with the
-mark (J9). The better `f_AGN` is known, the less `H0` has to move with it.
+**Corrected 2026-09-21** (`MECHANISM_FOLLOWUP.md`, `diagnostics/a9_mechanism_fixed_f.json`).
+The first version of this report attributed the gain to the mark tightening `f_AGN`, the
+global weight between the two tracers. That was inferred from the correlations and the
+fixed-`f` slices of the two cubes contradict it. Holding `f_AGN = 0.275` (the shared MAP
+node) in **both** arms, so that no global-mixture tightening is possible, the marked `H0`
+interval is still **0.8879** of the spatial-only one at 68% and **0.8985** at 90% — against
+0.8879 and 0.8996 with `f` marginalised. Writing the marginalised ratio exactly as the
+product of a fixed-`f` factor and a global-mixture factor gives 0.99997 (68%) and 1.0013
+(90%) for the latter: the tighter `f_AGN` posterior contributes nothing to the `H0` gain,
+and at 90% it is very slightly the other way. Fixing the mark as well (`Δμ_χ = +0.1075`)
+changes the marked width by a further 0.25%, and the fixed-`f` ratio moves by less than 0.01
+across the `f` nodes inside the 90% interval (0.883 to 0.892 at 68%).
+
+So the information enters **event by event**: the spin mark changes the relative weight of
+the GAL and AGN branches in each event's likelihood, i.e. which tracer's redshift-space
+structure that event listens to, and the sharper `H0` follows from the better-routed events,
+not from the better-known global fraction. At the fixed-`H0` anchor (67.74) the mark moves
+`P_i(AGN)` by more than 0.1 for 339 of the 1000 events and across 0.5 for 70 of them
+(Analysis 8's recorded decomposition, `diagnostics/a9_event_routing_h0_67p74_from_a8.json`);
+the same statistics at the Analysis-9 point `H0 = 69.0`, and the per-event `H0`
+log-likelihood profiles that tie the routed events to the added curvature, are in
+`MECHANISM_FOLLOWUP.md`. Of the added `H0` curvature at 69.0, 81% sits in the event term
+and 19% in the selection term; detection is spin-independent, so that 19% is the injection
+estimator's response to the reweighted AGN branch, not a mechanism.
+
+The ladder `ρ(H0, f_AGN)` = +0.0678 (Analysis 2) → +0.0590 (S9) → +0.0148 (J9) is still
+real, but it is a consequence — once each event's branch is better resolved, `H0` no longer
+has to move with the global fraction — not the channel the gain came through.
 
 An 11% width change measured on one realisation is a scoping measurement, not a calibrated
 gain. It says the effect exists and gives its size on this draw; it does not establish that
@@ -232,11 +253,14 @@ correct, that the measured offsets are unbiased in expectation, or that the 11% 
 sharpening holds on average or with any particular scatter. No additional realisation, no
 repeat draw and no effect-size ladder was run.
 
-**The mass-ratio confound is live, and inherited.** Seed 100's detected set separates GAL
-from AGN in mass ratio — KS `p = 0.0096` — while the model holds `q` identical in both
-branches. That is an unmodelled channel difference, so the branch label is partly
-identifiable without the spin mark and any intrinsic-channel statement carries it. That
-includes `P(Δμ_χ ≤ 0) = 2.94e-11`, which is a posterior probability under **this** model and
+**The mass-ratio difference is inherited, and it is indirect.** Seed 100 contains an
+accidental finite-realisation difference in the true mass-ratio distributions of the two
+host populations — KS `p = 0.0096` on the detected set — while the model holds `q`
+identical in both branches. Since the inferred GAL and AGN branches share the same `q`
+distribution, this does not directly create branch evidence. Correlations among `q`, mass,
+distance and `χ_eff` in the event posterior can nevertheless indirectly affect recovery of
+the environmental spin parameters, and every intrinsic-channel statement carries that
+caveat (wording corrected 2026-09-21; see `MECHANISM_FOLLOWUP.md`). That includes `P(Δμ_χ ≤ 0) = 2.94e-11`, which is a posterior probability under **this** model and
 **this** grid, with 0.0 interpolated between the neighbouring nodes at −0.0050 and +0.0025.
 It is **not** a sigma, and it does not account for the kind of model error the `q`
 separation is.

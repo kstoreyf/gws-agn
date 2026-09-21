@@ -2,6 +2,12 @@
 
 ## Current status
 
+**Mechanism follow-up added 2026-09-21** (`MECHANISM_FOLLOWUP.md`): the `H0`
+gain survives in full with `f_AGN` fixed (0.8879 / 0.8985 at 68 / 90%), so the
+mechanism is event-level tracer routing, not the tighter global fraction; the
+`REPORT.md` attribution is corrected in place. One 8-minute rita job (1335485)
+for the per-event routing; no new realisation, no new scan.
+
 **ANALYSIS 9 IS COMPLETE AND THE OWNER GATE IS REACHED** (2026-09-20). Both
 production arms are measured, gates 0, 9, W, A, A(S), B, S11, C and D all PASS,
 the three figures are rendered as `.pdf` **and** `.png`, and `REPORT.md` is
@@ -44,10 +50,14 @@ the request, partition, qos, account and gres are byte-identical, and without it
   68% and 0.41% at 90% — two orders of magnitude less than the forward effect.
   The mechanism is **not** a broken degeneracy: \(\rho(H_0, \Delta\mu_\chi)\)
   = +0.025 and \(\rho(H_0, f) = +0.015\), so the mark is nearly orthogonal to
-  the cosmology and the gain arrives through \(f_{\rm AGN}\), which sets the
-  tracer weighting that carries \(H_0\). \(\rho(H_0, f)\) falls monotonically
-  along the ladder: +0.0678 (Analysis 2, unmarked) -> +0.0590 (S9) -> +0.0148
-  (J9).
+  the cosmology. **Corrected 2026-09-21 (`MECHANISM_FOLLOWUP.md`):** the gain
+  does NOT arrive through the tighter \(f_{\rm AGN}\). With \(f_{\rm AGN}\)
+  held at 0.275 in both arms the marked/spatial \(H_0\) width ratio is
+  0.8879 (68%) / 0.8985 (90%) against 0.8879 / 0.8996 marginalised, so the
+  global-mixture factor is 0.99997 / 1.0013 and the whole gain is event-level:
+  the mark re-routes each event between the GAL and AGN redshift structures.
+  \(\rho(H_0, f)\) still falls along the ladder, +0.0678 (Analysis 2) ->
+  +0.0590 (S9) -> +0.0148 (J9), as a consequence rather than the channel.
 - **\(H_0\) is quoted differentially.** The planted 67.74 sits outside the 68%
   and inside the 90% in both arms (offset +1.347 S9, +1.351 J9); Analysis 2
   recovered 69.2170 on this same realisation with unmarked data, and J9 sits
@@ -303,10 +313,14 @@ to another node.
    quantity).
 2. **Score against both truths**, planted and realised, for all three
    coordinates, and quote \(H_0\) differentially against Analysis 2 as well.
-3. **The `q` confound is live.** Seed 100's detected set separates GAL from AGN
-   in mass ratio (KS p = 0.0096; z-stratified Fisher 29.57, the largest of 41
-   seeds) and the model holds `q` identical in both branches. Any intrinsic-channel
-   statement inherits that.
+3. **The `q` difference is indirect.** Seed 100 contains an accidental
+   finite-realisation difference in the true mass-ratio distributions of the two
+   host populations (KS p = 0.0096; z-stratified Fisher 29.57, the largest of 41
+   seeds) and the model holds `q` identical in both branches. Since the inferred
+   GAL and AGN branches share the same `q` distribution this does not directly
+   create branch evidence; correlations among `q`, mass, distance and `chi_eff`
+   in the event posterior can nevertheless indirectly affect recovery of the
+   environmental spin parameters (wording corrected 2026-09-21).
 4. **Quote the equivalence tolerance in ULP, not in absolute logL.** At the
    seed-100 scale 1 ULP is 9.0949470177292824e-13; Analysis 8's Gate A residual
    was 2 ULP = 1.819e-12. Analysis 9's anchor check has the extra burden that
@@ -339,13 +353,24 @@ is written, and `REPORT.md` is built from these files alone:
     REPORT.md                             the owner report
     GATES.md                              every criterion with its deciding number
 
+    Mechanism follow-up (2026-09-21):
+    MECHANISM_FOLLOWUP.md                 fixed-f / fixed-mark / routing verdict
+    diagnostics/a9_mechanism_fixed_f.json cube slices at f = 0.275, two-factor split
+    diagnostics/a9_event_routing.{h5,json}  per-event routing + H0 profiles at 69.0
+    diagnostics/a9_event_routing_h0_67p74_from_a8.{h5,json}  the anchor, from A8
+    figs/fig_mechanism_fixed_f.{pdf,png}, figs/fig_mechanism_event_routing.{pdf,png}
+    scripts/a9_mechanism_fixed_f.py, a9_event_routing.py, a9_event_routing_from_a8.py,
+    make_mechanism_figures.py, make_routing_figure.py, submit_a9_event_routing_rita.sbatch
+
 The report closes on the three statements the numbers support: the 3-D model
 recovers `f_AGN` and `Δμ_χ` against both truths at 68% and reproduces the
 unmarked `H0` measurement of the same realisation; the mark narrows `H0` by
 11.2% (68%) and 10.0% (90%) on the matched lattice while freeing `H0` costs
-`Δμ_χ` 0.10% and 0.41%, so the flow is one-way; and the mechanism is the mark
-tightening `f_AGN`, not a degeneracy being broken, since `H0` is nearly
-orthogonal to both other coordinates (+0.015, +0.025).
+`Δμ_χ` 0.10% and 0.41%, so the flow is one-way; and the mechanism is event-level
+routing between the two tracers' redshift structures — not a degeneracy being
+broken (`H0` is nearly orthogonal to both other coordinates, +0.015, +0.025) and,
+as the 2026-09-21 fixed-`f` follow-up showed, not the tighter global `f_AGN`
+either (`MECHANISM_FOLLOWUP.md`).
 
 ## Next allowed action
 

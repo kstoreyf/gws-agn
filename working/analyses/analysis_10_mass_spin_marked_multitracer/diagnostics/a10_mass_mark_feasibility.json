@@ -1,0 +1,410 @@
+{
+  "script": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer/scripts/check_mass_mark_feasibility.py",
+  "run_utc": "2026-09-21T07:15:10.193816+00:00",
+  "purpose": "pre-registered admissibility check of the Analysis-10 mass mark, run BEFORE any generation",
+  "registered_mark": {
+    "statement": "lambda_peak^AGN = lambda_peak^GAL + Delta_lambda_peak",
+    "delta": 0.15,
+    "spec_condition": "0 < lambda_peak^fid + 0.15 < 1",
+    "spec_action_on_failure": "STOP and report the real fiducial value; do not silently alter the registered mark"
+  },
+  "provenance": {
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_head": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_head_expected": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_worktree_clean": true,
+    "darksirens_import_path": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_base_is_ancestor": {
+      "base": "2b86a2d",
+      "ok": true
+    },
+    "gws_agn_repo": "/hildafs/projects/phy230014p/magana/gws-agn",
+    "gws_agn_head": "408990af79afd82d403d600621aa6525e97e6d6d",
+    "gws_agn_dirty": true,
+    "pythonpath": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "jax_platforms": "cpu",
+    "python": "/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python",
+    "cpu_only": true
+  },
+  "param_specs": {
+    "pop_model": "powerlaw+peak",
+    "latex_name": "PL+G",
+    "shared_beta": true,
+    "shared_spin": true,
+    "shared_gamma": true,
+    "n_slots": 12,
+    "specs": [
+      {
+        "index": 0,
+        "name": "v1",
+        "label": "$v_1$",
+        "fiducial": 0.1,
+        "low": 0.0,
+        "high": 1.0
+      },
+      {
+        "index": 1,
+        "name": "PL.alpha",
+        "label": "$\\alpha_{\\rm PL}$",
+        "fiducial": 2.3,
+        "low": -4.0,
+        "high": 6.0
+      },
+      {
+        "index": 2,
+        "name": "PL.m_min",
+        "label": "$m_{\\min,\\rm PL}$",
+        "fiducial": 5.0,
+        "low": 2.0,
+        "high": 10.0
+      },
+      {
+        "index": 3,
+        "name": "PL.m_max",
+        "label": "$m_{\\max,\\rm PL}$",
+        "fiducial": 80.0,
+        "low": 50.0,
+        "high": 100.0
+      },
+      {
+        "index": 4,
+        "name": "PL.dm_min",
+        "label": "$\\delta m_{\\min,\\rm PL}$",
+        "fiducial": 3.0,
+        "low": 0.01,
+        "high": 10.0
+      },
+      {
+        "index": 5,
+        "name": "PL.dm_max",
+        "label": "$\\delta m_{\\max,\\rm PL}$",
+        "fiducial": 10.0,
+        "low": 0.01,
+        "high": 20.0
+      },
+      {
+        "index": 6,
+        "name": "G.mu",
+        "label": "$\\mu_{\\rm G}$",
+        "fiducial": 35.0,
+        "low": 20.0,
+        "high": 50.0
+      },
+      {
+        "index": 7,
+        "name": "G.sigma",
+        "label": "$\\sigma_{\\rm G}$",
+        "fiducial": 5.0,
+        "low": 1.0,
+        "high": 10.0
+      },
+      {
+        "index": 8,
+        "name": "beta",
+        "label": "$\\beta$",
+        "fiducial": 1.0,
+        "low": -2.0,
+        "high": 7.0
+      },
+      {
+        "index": 9,
+        "name": "mu_chi",
+        "label": "$\\mu_\\chi$",
+        "fiducial": 0.0,
+        "low": -1.0,
+        "high": 1.0
+      },
+      {
+        "index": 10,
+        "name": "sigma_chi",
+        "label": "$\\sigma_\\chi$",
+        "fiducial": 0.1,
+        "low": 0.01,
+        "high": 1.0
+      },
+      {
+        "index": 11,
+        "name": "gamma",
+        "label": "$\\gamma$",
+        "fiducial": 0.0,
+        "low": -10.0,
+        "high": 10.0
+      }
+    ],
+    "fiducial_vector": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      35.0,
+      5.0,
+      1.0,
+      0.0,
+      0.1,
+      0.0
+    ]
+  },
+  "stick_breaking": {
+    "source_forward": "darksirens/gw/populations/base.py::_stick_breaking_weights",
+    "source_inverse": "darksirens/gw/populations/grammar.py::_w_to_v",
+    "k": 2,
+    "n_stick_inputs": 1,
+    "composition_order": [
+      "PowerLaw",
+      "Gaussian"
+    ],
+    "v_fiducial": [
+      0.1
+    ],
+    "w_fiducial": [
+      0.1,
+      0.9
+    ],
+    "w_fiducial_meaning": {
+      "PowerLaw": 0.1,
+      "Gaussian": 0.9
+    },
+    "inverse_of_w_fiducial": [
+      0.1
+    ],
+    "roundtrip_max_abs_dv": 0.0,
+    "numpy_forward_check": [
+      0.1,
+      0.9
+    ],
+    "inverse_at_candidate_peak_fractions": {
+      "lambda_peak=0.75": {
+        "w": [
+          0.25,
+          0.75
+        ],
+        "v1": 0.25,
+        "v1_in_bounds": true
+      },
+      "lambda_peak=0.9": {
+        "w": [
+          0.09999999999999998,
+          0.9
+        ],
+        "v1": 0.09999999999999998,
+        "v1_in_bounds": true
+      },
+      "lambda_peak=0.95": {
+        "w": [
+          0.050000000000000044,
+          0.95
+        ],
+        "v1": 0.050000000000000044,
+        "v1_in_bounds": true
+      },
+      "lambda_peak=1.05": {
+        "w": [
+          -0.050000000000000044,
+          1.05
+        ],
+        "v1": -0.050000000000000044,
+        "v1_in_bounds": false
+      }
+    }
+  },
+  "composition_order": {
+    "verdict": "component 0 = PowerLaw, component 1 = Gaussian; v1 is the POWER-LAW weight and lambda_peak = 1 - v1",
+    "evidence_registry": {
+      "curated_weights": [
+        0.1
+      ],
+      "curated_weights_meaning": "leading DESIRED FINAL fractions; the last is implied as 1 - sum",
+      "implied_w_full": [
+        0.1,
+        0.9
+      ],
+      "source_line": [
+        "        weights=(0.10,),                       # w_PL=0.10, w_G=0.90"
+      ],
+      "source_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/gw/populations/registry.py"
+    },
+    "evidence_numerical": {
+      "method": "model.log_p_pop on an m1 grid at fixed q=0.9, z=0.1, chieff=0; conditional slice normalised over the grid",
+      "m1_grid": {
+        "low": 2.0,
+        "high": 100.0,
+        "n": 4001
+      },
+      "peak_band": [
+        25.0,
+        45.0
+      ],
+      "pl_band": [
+        5.0,
+        20.0
+      ],
+      "trials": [
+        {
+          "v1": 0.1,
+          "frac_peak_band": 0.813219636028929,
+          "frac_pl_band": 0.13971656627634668
+        },
+        {
+          "v1": 0.25,
+          "frac_peak_band": 0.6322156192685472,
+          "frac_pl_band": 0.3167866057198461
+        },
+        {
+          "v1": 0.9,
+          "frac_peak_band": 0.11462205383087597,
+          "frac_pl_band": 0.8231306896142881
+        }
+      ],
+      "peak_band_falls_with_v1": true,
+      "pl_band_rises_with_v1": true
+    }
+  },
+  "admissibility": {
+    "lambda_peak_definition": "the Gaussian-peak mixture fraction, lambda_peak = w_G = 1 - v1",
+    "lambda_peak_fid": 0.9,
+    "delta_lambda_registered": 0.15,
+    "lambda_peak_agn": 1.05,
+    "check": "0 < lambda_peak_fid + delta < 1",
+    "check_passes": false,
+    "offending_value": 1.05,
+    "sampled_coordinate": {
+      "name": "v1_c2",
+      "meaning": "the AGN branch's stick-breaking input = the POWER-LAW weight of the AGN branch",
+      "required_value": -0.050000000000000044,
+      "prior_bounds": [
+        0.0,
+        1.0
+      ],
+      "in_bounds": false
+    },
+    "verdict": "INADMISSIBLE -- STOP before generation"
+  },
+  "mock": {
+    "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+    "read_only": true,
+    "dataset": "true_m1src",
+    "peak_band": [
+      25.0,
+      45.0
+    ],
+    "all": {
+      "n": 1000,
+      "median": 36.52318123822809,
+      "mean": 36.837963922847,
+      "min": 9.027587043785402,
+      "max": 74.75701341901166,
+      "frac_in_peak_band": 0.924,
+      "frac_below_20": 0.006
+    },
+    "by_host_type": {
+      "0_GAL": {
+        "n": 705,
+        "median": 36.51219905724959,
+        "mean": 36.70741712912591,
+        "min": 9.387208955914327,
+        "max": 74.71009782953494,
+        "frac_in_peak_band": 0.9319148936170213,
+        "frac_below_20": 0.0070921985815602835
+      },
+      "1_AGN": {
+        "n": 295,
+        "median": 36.562517857561936,
+        "mean": 37.149948633265225,
+        "min": 9.027587043785402,
+        "max": 74.75701341901166,
+        "frac_in_peak_band": 0.9050847457627119,
+        "frac_below_20": 0.003389830508474576
+      }
+    },
+    "generator_population_record": {
+      "alpha": 2.3,
+      "mmin": 5.0,
+      "mmax": 80.0,
+      "dm_min": 3.0,
+      "dm_max": 10.0,
+      "peak_fraction": 0.9,
+      "peak_mu": 35.0,
+      "peak_sigma": 5.0,
+      "beta": 1.0,
+      "chi_mu": 0.0,
+      "chi_sigma": 0.1,
+      "gamma": 0.0
+    },
+    "generator_peak_fraction": 0.9,
+    "detection": {
+      "detection_rule": "observed-data",
+      "snr_threshold": 8.0,
+      "note": "rho_opt scales as (Mc_det/30)^(5/6) / dL, so the detection rule depends on the CHIRP MASS: a mass mark changes detectability branch by branch"
+    },
+    "dmu_chi_agn": 0.1,
+    "planted_f_agn": 0.3,
+    "truth_f_agn": 0.295
+  },
+  "readiness_probe": {
+    "informative_only": true,
+    "note": "a PASS here means the resolver would carry a per-catalog mass weight; it says nothing about whether +0.15 is admissible",
+    "n_catalogs": 2,
+    "called_as": "a8_likelihood.build (same arguments, no data loaded)",
+    "a8_baseline_labels": [
+      "H0",
+      "log10n0",
+      "delta",
+      "sigma_kde",
+      "log10n0_c2",
+      "delta_c2",
+      "sigma_kde_c2",
+      "$\\mu_\\chi$_c2",
+      "fcat_2"
+    ],
+    "a10_extended_labels": [
+      "H0",
+      "log10n0",
+      "delta",
+      "sigma_kde",
+      "log10n0_c2",
+      "delta_c2",
+      "sigma_kde_c2",
+      "$v_1$_c2",
+      "$\\mu_\\chi$_c2",
+      "fcat_2"
+    ],
+    "new_labels": [
+      "$v_1$_c2"
+    ],
+    "results": {
+      "mu_chi_c2": {
+        "ok": true,
+        "labels": [
+          "H0",
+          "log10n0",
+          "delta",
+          "sigma_kde",
+          "log10n0_c2",
+          "delta_c2",
+          "sigma_kde_c2",
+          "$\\mu_\\chi$_c2",
+          "fcat_2"
+        ],
+        "n_labels": 9
+      },
+      "v1_c2+mu_chi_c2": {
+        "ok": true,
+        "labels": [
+          "H0",
+          "log10n0",
+          "delta",
+          "sigma_kde",
+          "log10n0_c2",
+          "delta_c2",
+          "sigma_kde_c2",
+          "$v_1$_c2",
+          "$\\mu_\\chi$_c2",
+          "fcat_2"
+        ],
+        "n_labels": 10
+      }
+    }
+  }
+}

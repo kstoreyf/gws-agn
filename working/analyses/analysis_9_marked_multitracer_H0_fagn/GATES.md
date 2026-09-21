@@ -325,9 +325,12 @@ Every interval at 68% **and** 90%; plots show 90%.
 - [x] **C7 \(P(\Delta\mu_\chi \le 0) = 2.94\times10^{-11}\)** — a posterior
       probability under THIS model and THIS grid, with 0.0 interpolated between
       the neighbouring nodes (−0.0050 and +0.0025). It is **not** a sigma. The
-      `q` confound is live in the intrinsic channel: seed 100's detected set
-      separates GAL from AGN in mass ratio (KS p = 0.0096) and the model holds
-      `q` identical in both branches.
+      seed carries an accidental finite-realisation difference in the true
+      mass-ratio distributions of the two host populations (KS p = 0.0096) while
+      the model holds `q` identical in both branches; that creates no branch
+      evidence directly, but posterior correlations among `q`, mass, distance and
+      `chi_eff` can indirectly affect the spin-mark recovery (wording corrected
+      2026-09-21).
 
 ## Gate D — figures and report
 

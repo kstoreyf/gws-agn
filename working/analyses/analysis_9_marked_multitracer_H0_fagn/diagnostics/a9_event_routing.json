@@ -1,0 +1,1227 @@
+{
+  "analysis": "analysis_9_marked_multitracer_H0_fagn",
+  "diagnostic": "mechanism follow-up part B -- event-level routing and the per-event dlnL(H0) profile",
+  "point": {
+    "f_agn": 0.275,
+    "f_index": 11,
+    "mu_chi_c2": 0.10750000000000004,
+    "mu_index": 41,
+    "H0_nodes": [
+      67.0,
+      67.5,
+      67.74,
+      68.0,
+      68.5,
+      69.0,
+      69.5,
+      70.0,
+      70.5,
+      71.0
+    ],
+    "H0_representative": 69.0,
+    "log_f_gal": -0.32158362412746233,
+    "log_f_agn": -1.2909841813155656,
+    "nEvents": 1000,
+    "nsamp": 2000,
+    "pe_event_block": 25,
+    "node_indices": [
+      {
+        "H0": 67.0,
+        "H0_hex": "0x1.0c00000000000p+6",
+        "iJ9": 8,
+        "iS9": 68
+      },
+      {
+        "H0": 67.5,
+        "H0_hex": "0x1.0e00000000000p+6",
+        "iJ9": 9,
+        "iS9": 70
+      },
+      {
+        "H0": 67.74,
+        "H0_hex": "0x1.0ef5c28f5c28fp+6",
+        "iJ9": 10,
+        "iS9": 71
+      },
+      {
+        "H0": 68.0,
+        "H0_hex": "0x1.1000000000000p+6",
+        "iJ9": 11,
+        "iS9": 73
+      },
+      {
+        "H0": 68.5,
+        "H0_hex": "0x1.1200000000000p+6",
+        "iJ9": 12,
+        "iS9": 75
+      },
+      {
+        "H0": 69.0,
+        "H0_hex": "0x1.1400000000000p+6",
+        "iJ9": 13,
+        "iS9": 77
+      },
+      {
+        "H0": 69.5,
+        "H0_hex": "0x1.1600000000000p+6",
+        "iJ9": 14,
+        "iS9": 79
+      },
+      {
+        "H0": 70.0,
+        "H0_hex": "0x1.1800000000000p+6",
+        "iJ9": 15,
+        "iS9": 81
+      },
+      {
+        "H0": 70.5,
+        "H0_hex": "0x1.1a00000000000p+6",
+        "iJ9": 16,
+        "iS9": 83
+      },
+      {
+        "H0": 71.0,
+        "H0_hex": "0x1.1c00000000000p+6",
+        "iJ9": 17,
+        "iS9": 85
+      }
+    ]
+  },
+  "model": {
+    "marked": "Z_i^J = f_G E_i[GG] + f_A E_i[AA]",
+    "spatial": "Z_i^S = f_G E_i[GG] + f_A E_i[AG]; exact because S9 holds dmu_chi = 0 so both branches share the GAL population (closure 9.2, <= 2 ULP between the two code shapes)",
+    "P_spatial": "sigmoid(log(f_A/f_G) + log E[AG] - log E[GG])",
+    "P_marked": "sigmoid(log(f_A/f_G) + log E[AA] - log E[GG])",
+    "curvature": "I_i^X = -[lnZ_i^X(69.5) - 2 lnZ_i^X(69.0) + lnZ_i^X(68.5)] / 0.25"
+  },
+  "verification": {
+    "ulp_definition": {
+      "one_ulp_near_4200": 9.094947017729282e-13,
+      "fail_threshold_absolute": 1e-06
+    },
+    "per_node": [
+      {
+        "quantity": "sum_i lnZ^J_i (H0=67.0)",
+        "mine": -16047.377502799702,
+        "reference": -16047.377502799702,
+        "source": "results/j9_marked.h5 guard/logL_pe[8,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.0
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=67.0)",
+        "mine": -16047.377502799702,
+        "reference": -16047.377502799702,
+        "source": "results/j9_marked.h5 guard/logL_pe[8,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.0
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=67.0)",
+        "mine": -16068.62304190777,
+        "reference": -16068.62304190777,
+        "source": "results/s9_spatial.h5 guard/logL_pe[68,11]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.0
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=67.5)",
+        "mine": -16025.225076851755,
+        "reference": -16025.225076851755,
+        "source": "results/j9_marked.h5 guard/logL_pe[9,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.5
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=67.5)",
+        "mine": -16025.225076851755,
+        "reference": -16025.225076851755,
+        "source": "results/j9_marked.h5 guard/logL_pe[9,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.5
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=67.5)",
+        "mine": -16046.726490737337,
+        "reference": -16046.726490737336,
+        "source": "results/s9_spatial.h5 guard/logL_pe[70,11]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": -1.8189894035458565e-12,
+        "pass": true,
+        "H0": 67.5
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=67.74)",
+        "mine": -16014.75553768314,
+        "reference": -16014.75553768314,
+        "source": "results/j9_marked.h5 guard/logL_pe[10,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.74
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=67.74)",
+        "mine": -16014.75553768314,
+        "reference": -16014.75553768314,
+        "source": "results/j9_marked.h5 guard/logL_pe[10,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.74
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=67.74)",
+        "mine": -16036.383392737058,
+        "reference": -16036.383392737058,
+        "source": "results/s9_spatial.h5 guard/logL_pe[71,11]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 67.74
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=68.0)",
+        "mine": -16003.536981641988,
+        "reference": -16003.536981641988,
+        "source": "results/j9_marked.h5 guard/logL_pe[11,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 68.0
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=68.0)",
+        "mine": -16003.53698164199,
+        "reference": -16003.536981641988,
+        "source": "results/j9_marked.h5 guard/logL_pe[11,11,41]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": -1.8189894035458565e-12,
+        "pass": true,
+        "H0": 68.0
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=68.0)",
+        "mine": -16025.295184201092,
+        "reference": -16025.295184201092,
+        "source": "results/s9_spatial.h5 guard/logL_pe[73,11]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 68.0
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=68.5)",
+        "mine": -15982.335052237104,
+        "reference": -15982.335052237104,
+        "source": "results/j9_marked.h5 guard/logL_pe[12,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 68.5
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=68.5)",
+        "mine": -15982.335052237104,
+        "reference": -15982.335052237104,
+        "source": "results/j9_marked.h5 guard/logL_pe[12,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 68.5
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=68.5)",
+        "mine": -16004.299142522868,
+        "reference": -16004.299142522867,
+        "source": "results/s9_spatial.h5 guard/logL_pe[75,11]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": -1.8189894035458565e-12,
+        "pass": true,
+        "H0": 68.5
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=69.0)",
+        "mine": -15961.627830355057,
+        "reference": -15961.627830355057,
+        "source": "results/j9_marked.h5 guard/logL_pe[13,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 69.0
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=69.0)",
+        "mine": -15961.627830355057,
+        "reference": -15961.627830355057,
+        "source": "results/j9_marked.h5 guard/logL_pe[13,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 69.0
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=69.0)",
+        "mine": -15983.710423908211,
+        "reference": -15983.710423908211,
+        "source": "results/s9_spatial.h5 guard/logL_pe[77,11]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 69.0
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=69.5)",
+        "mine": -15941.393433716981,
+        "reference": -15941.393433716981,
+        "source": "results/j9_marked.h5 guard/logL_pe[14,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 69.5
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=69.5)",
+        "mine": -15941.393433716981,
+        "reference": -15941.393433716981,
+        "source": "results/j9_marked.h5 guard/logL_pe[14,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 69.5
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=69.5)",
+        "mine": -15963.502312479082,
+        "reference": -15963.502312479084,
+        "source": "results/s9_spatial.h5 guard/logL_pe[79,11]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": 1.8189894035458565e-12,
+        "pass": true,
+        "H0": 69.5
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=70.0)",
+        "mine": -15921.592756934942,
+        "reference": -15921.592756934944,
+        "source": "results/j9_marked.h5 guard/logL_pe[15,11,41]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": 1.8189894035458565e-12,
+        "pass": true,
+        "H0": 70.0
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=70.0)",
+        "mine": -15921.592756934942,
+        "reference": -15921.592756934944,
+        "source": "results/j9_marked.h5 guard/logL_pe[15,11,41]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": 1.8189894035458565e-12,
+        "pass": true,
+        "H0": 70.0
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=70.0)",
+        "mine": -15943.662940068949,
+        "reference": -15943.66294006895,
+        "source": "results/s9_spatial.h5 guard/logL_pe[81,11]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": 1.8189894035458565e-12,
+        "pass": true,
+        "H0": 70.0
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=70.5)",
+        "mine": -15902.185173950398,
+        "reference": -15902.185173950398,
+        "source": "results/j9_marked.h5 guard/logL_pe[16,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 70.5
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=70.5)",
+        "mine": -15902.185173950398,
+        "reference": -15902.185173950398,
+        "source": "results/j9_marked.h5 guard/logL_pe[16,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 70.5
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=70.5)",
+        "mine": -15924.190308465611,
+        "reference": -15924.19030846561,
+        "source": "results/s9_spatial.h5 guard/logL_pe[83,11]",
+        "abs_difference": 1.8189894035458565e-12,
+        "ulp": 2.0,
+        "signed_difference": -1.8189894035458565e-12,
+        "pass": true,
+        "H0": 70.5
+      },
+      {
+        "quantity": "sum_i lnZ^J_i (H0=71.0)",
+        "mine": -15883.141225719311,
+        "reference": -15883.141225719311,
+        "source": "results/j9_marked.h5 guard/logL_pe[17,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 71.0
+      },
+      {
+        "quantity": "sum_i logZ_prod (H0=71.0)",
+        "mine": -15883.141225719311,
+        "reference": -15883.141225719311,
+        "source": "results/j9_marked.h5 guard/logL_pe[17,11,41]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 71.0
+      },
+      {
+        "quantity": "sum_i lnZ^S_i (H0=71.0)",
+        "mine": -15905.079828182807,
+        "reference": -15905.079828182807,
+        "source": "results/s9_spatial.h5 guard/logL_pe[85,11]",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true,
+        "H0": 71.0
+      }
+    ],
+    "live_production_call": [
+      {
+        "quantity": "live production logL_pe vs the recorded cube",
+        "mine": -15961.627830355057,
+        "reference": -15961.627830355057,
+        "source": "one live cell.evaluate(H0=69.0, fcat_2=0.275, mu_chi_c2=0.10750000000000004) vs j9_marked.h5 guard/logL_pe",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true
+      },
+      {
+        "quantity": "live production logL_pe vs sum_i lnZ^J_i",
+        "mine": -15961.627830355057,
+        "reference": -15961.627830355057,
+        "source": "the same live call vs this script's per-event sum",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true
+      },
+      {
+        "quantity": "live production logL vs the recorded cube",
+        "mine": -4210.586470980414,
+        "reference": -4210.586470980414,
+        "source": "the same live call vs j9_marked.h5 log_likelihood",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true
+      },
+      {
+        "quantity": "live production logL_selection vs the recorded cube",
+        "mine": 11751.041359374643,
+        "reference": 11751.041359374643,
+        "source": "the same live call vs j9_marked.h5 guard/logL_selection",
+        "abs_difference": 0.0,
+        "ulp": 0.0,
+        "signed_difference": 0.0,
+        "pass": true
+      }
+    ],
+    "live_production_record": {
+      "logL": -4210.586470980414,
+      "logL_pe": -15961.627830355057,
+      "logL_selection": 11751.041359374643,
+      "Neff": 564002.5533833904,
+      "guard_passes": true,
+      "seconds": 10.982149600982666
+    },
+    "internal": {
+      "max_abs_per_event_lnZ_marked_minus_logZ_prod": 7.105427357601002e-15,
+      "note": "logZ_prod is the production per-event value; lnZ^J is the same branch sum re-associated from the four E's"
+    },
+    "curvature_identity": [
+      {
+        "quantity": "sum_i I^J_i vs the curvature of the recorded J9 PE line",
+        "mine": 1.8913009758815278,
+        "reference": 1.891300975883496,
+        "source": "j9_marked.h5 guard/logL_pe at 68.5 / 69.0 / 69.5",
+        "abs_difference": 1.9682033780554775e-12,
+        "ulp": 2.1640625,
+        "signed_difference": -1.9682033780554775e-12,
+        "pass": true
+      },
+      {
+        "quantity": "sum_i I^S_i vs the curvature of the recorded S9 PE line",
+        "mine": 1.5224287421019511,
+        "reference": 1.522428742115153,
+        "source": "s9_spatial.h5 guard/logL_pe at 68.5 / 69.0 / 69.5",
+        "abs_difference": 1.3201884030422661e-11,
+        "ulp": 14.515625,
+        "signed_difference": -1.3201884030422661e-11,
+        "pass": true
+      }
+    ],
+    "n_checks": 34,
+    "n_fail": 0,
+    "worst_ulp": 2.0,
+    "n_nonfinite_per_event_entries": 0
+  },
+  "routing_at_H0_rep": {
+    "H0": 69.0,
+    "f_agn": 0.275,
+    "mu_chi_c2": 0.10750000000000004,
+    "log_prior_odds_log_fA_over_fG": -0.9694005571881033,
+    "delta_P_percentiles": {
+      "1": -0.2409624121903408,
+      "5": -0.16634928950644506,
+      "16": -0.1036273159177732,
+      "50": -0.008132882926656268,
+      "84": 0.1114819345911919,
+      "95": 0.20780329344661955,
+      "99": 0.3039231096138796
+    },
+    "delta_P_median": -0.008132882926656268,
+    "delta_P_mean": -0.0010168209250271617,
+    "abs_delta_P_median": 0.06787452484616358,
+    "abs_delta_P_rms": 0.11151120801463094,
+    "abs_delta_P_max": 0.44686654786420565,
+    "n_abs_delta_P_gt_0p05": 602,
+    "n_abs_delta_P_gt_0p1": 348,
+    "n_abs_delta_P_gt_0p2": 75,
+    "n_crossing_0p5_total": 71,
+    "n_crossing_GAL_to_AGN": 55,
+    "n_crossing_AGN_to_GAL": 16,
+    "sum_P_spatial": 276.2869813520046,
+    "sum_P_marked": 275.27016042697744,
+    "sum_P_marked_minus_spatial": -1.0168209250271616,
+    "realised_AGN_count": 295,
+    "P_spatial_range": [
+      3.7988985515709795e-129,
+      0.9965613356564614
+    ],
+    "P_marked_range": [
+      1.6235290857210788e-129,
+      0.9997368709882666
+    ],
+    "n_called_AGN_spatial": 52,
+    "n_called_AGN_marked": 91,
+    "log_BF_spatial_median": 0.005283105498567586,
+    "log_BF_intrinsic_median": -0.08191459864149486,
+    "log_BF_total_median": -0.10147469996419911
+  },
+  "h0_information": {
+    "sum_delta_I": 0.3688722337795767,
+    "sum_abs_delta_I": 5.46290921097269,
+    "sum_I_marked": 1.8913009758815278,
+    "sum_I_spatial": 1.5224287421019511,
+    "correlations": [
+      {
+        "pair": "|dP_i| vs |dI_i|",
+        "spearman_rho": 0.33955543260075,
+        "spearman_p": 2.0884227185423916e-28,
+        "pearson_r": 0.3345870779178577,
+        "pearson_p": 1.3964075639953293e-27
+      },
+      {
+        "pair": "|dP_i| vs range_H0[dlnL_i]",
+        "spearman_rho": 0.48479865170251285,
+        "spearman_p": 4.507497693677189e-60,
+        "pearson_r": 0.5174126309158467,
+        "pearson_p": 1.453423554693501e-69
+      },
+      {
+        "pair": "|dP_i| vs dI_i (signed)",
+        "spearman_rho": 0.011560813503030334,
+        "spearman_p": 0.7150069181795397,
+        "pearson_r": 0.05556992223798902,
+        "pearson_p": 0.07901421395565977
+      },
+      {
+        "pair": "dP_i (signed) vs dI_i (signed)",
+        "spearman_rho": 0.09815217064173667,
+        "spearman_p": 0.0018869734165733608,
+        "pearson_r": 0.12522490604961542,
+        "pearson_p": 7.167809500422809e-05
+      }
+    ],
+    "fractions": [
+      {
+        "selector": "|dP_i| > 0.05",
+        "n_events": 602,
+        "fraction_of_sum_abs_delta_I": 0.7391769878479144,
+        "fraction_of_sum_delta_I": 0.9113173460873871,
+        "sum_delta_I_in_selection": 0.33615966513333007,
+        "sum_abs_delta_I_in_selection": 4.03805677545342,
+        "fraction_of_events": 0.602
+      },
+      {
+        "selector": "|dP_i| > 0.1",
+        "n_events": 348,
+        "fraction_of_sum_abs_delta_I": 0.48671885096538753,
+        "fraction_of_sum_delta_I": 0.5776453740971835,
+        "sum_delta_I_in_selection": 0.21307733947566732,
+        "sum_abs_delta_I_in_selection": 2.6589008940928593,
+        "fraction_of_events": 0.348
+      },
+      {
+        "selector": "|dP_i| > 0.2",
+        "n_events": 75,
+        "fraction_of_sum_abs_delta_I": 0.15885337034700592,
+        "fraction_of_sum_delta_I": 0.6007414208374561,
+        "sum_delta_I_in_selection": 0.22159682982822915,
+        "sum_abs_delta_I_in_selection": 0.8678015400627146,
+        "fraction_of_events": 0.075
+      },
+      {
+        "selector": "crosses 0.5",
+        "n_events": 71,
+        "fraction_of_sum_abs_delta_I": 0.11125647134323051,
+        "fraction_of_sum_delta_I": 0.609762219147206,
+        "sum_delta_I_in_selection": 0.22492435185122162,
+        "sum_abs_delta_I_in_selection": 0.607784002081253,
+        "fraction_of_events": 0.071
+      },
+      {
+        "selector": "crosses 0.5 GAL -> AGN",
+        "n_events": 55,
+        "fraction_of_sum_abs_delta_I": 0.09518787200349119,
+        "fraction_of_sum_delta_I": 0.7915084243542726,
+        "sum_delta_I_in_selection": 0.2919654805469136,
+        "sum_abs_delta_I_in_selection": 0.5200027027407614,
+        "fraction_of_events": 0.055
+      },
+      {
+        "selector": "crosses 0.5 AGN -> GAL",
+        "n_events": 16,
+        "fraction_of_sum_abs_delta_I": 0.01606859933973932,
+        "fraction_of_sum_delta_I": -0.18174620520706666,
+        "sum_delta_I_in_selection": -0.06704112869569201,
+        "sum_abs_delta_I_in_selection": 0.08778129934049161,
+        "fraction_of_events": 0.016
+      }
+    ],
+    "binned_in_delta_P": [
+      {
+        "lo": -1.0,
+        "hi": -0.2,
+        "n_events": 22,
+        "mean_delta_I": -0.003642077665488004,
+        "sum_delta_I": -0.08012570864073609,
+        "sum_abs_delta_I": 0.2049924953723945,
+        "mean_abs_delta_P": 0.25606334672104025,
+        "mean_delta_P": -0.25606334672104025
+      },
+      {
+        "lo": -0.2,
+        "hi": -0.1,
+        "n_events": 148,
+        "mean_delta_I": -0.00015958513326625652,
+        "sum_delta_I": -0.023618599723405964,
+        "sum_abs_delta_I": 0.8443852868912956,
+        "mean_abs_delta_P": 0.1368651618006458,
+        "mean_delta_P": -0.1368651618006458
+      },
+      {
+        "lo": -0.1,
+        "hi": -0.05,
+        "n_events": 164,
+        "mean_delta_I": 0.00023379825716660966,
+        "sum_delta_I": 0.03834291417532398,
+        "sum_abs_delta_I": 0.809137605822265,
+        "mean_abs_delta_P": 0.07385172268760118,
+        "mean_delta_P": -0.07385172268760118
+      },
+      {
+        "lo": -0.05,
+        "hi": -0.01,
+        "n_events": 149,
+        "mean_delta_I": -0.00015457194216659463,
+        "sum_delta_I": -0.0230312193828226,
+        "sum_abs_delta_I": 0.551931616321248,
+        "mean_abs_delta_P": 0.02884246938352058,
+        "mean_delta_P": -0.02884246938352058
+      },
+      {
+        "lo": -0.01,
+        "hi": 0.01,
+        "n_events": 130,
+        "mean_delta_I": 0.0005370092973745517,
+        "sum_delta_I": 0.06981120865869173,
+        "sum_abs_delta_I": 0.34299017648461927,
+        "mean_abs_delta_P": 0.004073776011673081,
+        "mean_delta_P": -0.0007650626745069072
+      },
+      {
+        "lo": 0.01,
+        "hi": 0.05,
+        "n_events": 119,
+        "mean_delta_I": -0.00011821361873632368,
+        "sum_delta_I": -0.014067420629622518,
+        "sum_abs_delta_I": 0.5299306427134027,
+        "mean_abs_delta_P": 0.029545634096293762,
+        "mean_delta_P": 0.029545634096293762
+      },
+      {
+        "lo": 0.05,
+        "hi": 0.1,
+        "n_events": 90,
+        "mean_delta_I": 0.0009415490164704308,
+        "sum_delta_I": 0.08473941148233877,
+        "sum_abs_delta_I": 0.5700182755382954,
+        "mean_abs_delta_P": 0.07038589157831115,
+        "mean_delta_P": 0.07038589157831115
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.2,
+        "n_events": 125,
+        "mean_delta_I": 0.00012079287496675307,
+        "sum_delta_I": 0.015099109370844133,
+        "sum_abs_delta_I": 0.9467140671388492,
+        "mean_abs_delta_P": 0.14055628951662086,
+        "mean_delta_P": 0.14055628951662086
+      },
+      {
+        "lo": 0.2,
+        "hi": 1.0,
+        "n_events": 53,
+        "mean_delta_I": 0.005692878084320099,
+        "sum_delta_I": 0.30172253846896524,
+        "sum_abs_delta_I": 0.6628090446903201,
+        "mean_abs_delta_P": 0.26341676163856204,
+        "mean_delta_P": 0.26341676163856204
+      }
+    ],
+    "peak_node_change": {
+      "definition": "the H0 node at which the event's own lnZ peaks over the ten nodes; a coarse per-event 'H0 profile' summary",
+      "n_events_changing_peak_node": 69,
+      "fraction_changing": 0.069,
+      "mean_shift_in_H0": 0.04197999999999999,
+      "median_shift_in_H0": 0.0,
+      "n_moving_up": 39,
+      "n_moving_down": 30,
+      "n_at_axis_edge_marked": 956,
+      "n_at_axis_edge_spatial": 956,
+      "peak_movers_are_routed": {
+        "median_abs_delta_P_movers": 0.14905058413980032,
+        "median_abs_delta_P_stayers": 0.06306896017113328
+      }
+    },
+    "delta_lnL_profile": {
+      "H0_nodes": [
+        67.0,
+        67.5,
+        67.74,
+        68.0,
+        68.5,
+        69.0,
+        69.5,
+        70.0,
+        70.5,
+        71.0
+      ],
+      "sum_delta_lnL": [
+        21.24553910806822,
+        21.501413885582394,
+        21.627855053916228,
+        21.758202559102948,
+        21.964090285763135,
+        22.082593553154915,
+        22.108878762101796,
+        22.070183134008207,
+        22.00513451521414,
+        21.938602463494874
+      ],
+      "sum_delta_lnL_recentred_at_69": [
+        -0.8370544450866966,
+        -0.5811796675725205,
+        -0.4547384992386867,
+        -0.32439099405196714,
+        -0.1185032673917803,
+        0.0,
+        0.0262852089468808,
+        -0.012410419146707596,
+        -0.07745903794077336,
+        -0.14399108966004093
+      ],
+      "median_range_H0_delta_lnL": 0.022009484157391235,
+      "max_range_H0_delta_lnL": 0.4448763526054478
+    }
+  },
+  "selection_term": {
+    "definition": "logL_selection_J(H0; f=0.275, mu_chi_c2=+0.1075) - logL_selection_S(H0; f=0.275), both READ from the cubes",
+    "H0_nodes": [
+      67.0,
+      67.5,
+      67.74,
+      68.0,
+      68.5,
+      69.0,
+      69.5,
+      70.0,
+      70.5,
+      71.0
+    ],
+    "logL_selection_J": [
+      11833.871521933886,
+      11812.907769468442,
+      11802.91294483812,
+      11792.131638909115,
+      11771.5200653891,
+      11751.041359374643,
+      11730.668388892058,
+      11710.395898150757,
+      11690.242765767012,
+      11670.24022201283
+    ],
+    "logL_selection_S": [
+      11833.327002345482,
+      11812.397173632893,
+      11802.418427324466,
+      11791.655061555672,
+      11771.084491421458,
+      11750.664576105786,
+      11730.372227262249,
+      11710.190906931552,
+      11690.115631232802,
+      11670.152821218804
+    ],
+    "difference": [
+      0.5445195884040004,
+      0.5105958355488838,
+      0.49451751365450036,
+      0.4765773534436448,
+      0.43557396764299483,
+      0.37678326885725255,
+      0.29616162980892113,
+      0.20499121920511243,
+      0.1271345342101995,
+      0.08740079402559786
+    ],
+    "difference_recentred_at_69": [
+      0.16773631954674784,
+      0.13381256669163122,
+      0.11773424479724781,
+      0.09979408458639227,
+      0.05879069878574228,
+      0.0,
+      -0.08062163904833142,
+      -0.17179204965214012,
+      -0.24964873464705306,
+      -0.2893824748316547
+    ],
+    "range_of_recentred_difference": 0.4571187943784025,
+    "logL_pe_J": [
+      -16047.377502799702,
+      -16025.225076851755,
+      -16014.75553768314,
+      -16003.536981641988,
+      -15982.335052237104,
+      -15961.627830355057,
+      -15941.393433716981,
+      -15921.592756934944,
+      -15902.185173950398,
+      -15883.141225719311
+    ],
+    "logL_pe_S": [
+      -16068.62304190777,
+      -16046.726490737336,
+      -16036.383392737058,
+      -16025.295184201092,
+      -16004.299142522867,
+      -15983.710423908211,
+      -15963.502312479084,
+      -15943.66294006895,
+      -15924.19030846561,
+      -15905.079828182807
+    ],
+    "logL_pe_difference_recentred_at_69": [
+      -0.8370544450863235,
+      -0.5811796675734513,
+      -0.45473849923655507,
+      -0.3243909940501908,
+      -0.1185032673911337,
+      0.0,
+      0.026285208949047956,
+      -0.012410419147272478,
+      -0.07745903794238984,
+      -0.1439910896588117
+    ],
+    "total_logL_difference_recentred_at_69": [
+      -0.6693181255395757,
+      -0.4473671008818201,
+      -0.33700425443930726,
+      -0.2245969094637985,
+      -0.059712568605391425,
+      0.0,
+      -0.05433643009928346,
+      -0.1842024687994126,
+      -0.3271077725894429,
+      -0.4333735644904664
+    ],
+    "curvature_at_69": {
+      "selection_J": -0.4229421274867491,
+      "selection_S": -0.5102658885371056,
+      "selection_difference": 0.08732376105035655,
+      "pe_J": 1.891300975883496,
+      "pe_S": 1.522428742115153,
+      "pe_difference": 0.368872233768343,
+      "total_J": 1.468358848396747,
+      "total_S": 1.0121628535780474,
+      "total_difference": 0.45619599481869955,
+      "note": "curvature I = -d2/dH0^2 on the 0.5 stencil (69.0 +- 0.5); positive = information"
+    }
+  },
+  "interpretation_only": {
+    "caveat": "the true host label is read here for the first time, AFTER every inference quantity above was formed; it is never an input to any of them",
+    "n_true_AGN": 295,
+    "n_true_GAL": 705,
+    "delta_P": {
+      "true_GAL_median": -0.02019147712823162,
+      "true_AGN_median": 0.034494366621945514,
+      "true_GAL_mean": -0.019773100511190574,
+      "true_AGN_mean": 0.043807508255465054
+    },
+    "abs_delta_P": {
+      "true_GAL_median": 0.06416736799136064,
+      "true_AGN_median": 0.07658215193327189,
+      "true_GAL_mean": 0.07816095639097602,
+      "true_AGN_mean": 0.09866457598331314
+    },
+    "delta_I": {
+      "true_GAL_median": 0.00019192358114850094,
+      "true_AGN_median": -7.646048334208899e-05,
+      "true_GAL_mean": 0.00042449363232766426,
+      "true_AGN_mean": 0.0002359465186053335
+    },
+    "P_spatial": {
+      "true_GAL_median": 0.26023574859318027,
+      "true_AGN_median": 0.30734851797194934,
+      "true_GAL_mean": 0.2500805304682917,
+      "true_AGN_mean": 0.3389159571927422
+    },
+    "P_marked": {
+      "true_GAL_median": 0.2233212054043796,
+      "true_AGN_median": 0.3597098862123211,
+      "true_GAL_mean": 0.23030742995710107,
+      "true_AGN_mean": 0.3827234654482073
+    },
+    "classification_at_0p5": {
+      "spatial": {
+        "true_AGN_called_AGN": 31,
+        "true_AGN_called_GAL": 264,
+        "true_GAL_called_AGN": 21,
+        "true_GAL_called_GAL": 684,
+        "accuracy": 0.715
+      },
+      "marked": {
+        "true_AGN_called_AGN": 60,
+        "true_AGN_called_GAL": 235,
+        "true_GAL_called_AGN": 31,
+        "true_GAL_called_GAL": 674,
+        "accuracy": 0.734
+      }
+    },
+    "crossings_by_true_label": {
+      "GAL_to_AGN_true_AGN": 32,
+      "GAL_to_AGN_true_GAL": 23,
+      "AGN_to_GAL_true_AGN": 3,
+      "AGN_to_GAL_true_GAL": 13
+    }
+  },
+  "timings": {
+    "per_node": [
+      {
+        "H0": 67.0,
+        "capture_build_s": 10.524868488311768,
+        "per_event_pass_s": 30.15187692642212,
+        "n_samples_kept_min": 1956,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 67.5,
+        "capture_build_s": 9.650014638900757,
+        "per_event_pass_s": 32.843897342681885,
+        "n_samples_kept_min": 1956,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 67.74,
+        "capture_build_s": 9.56791877746582,
+        "per_event_pass_s": 29.987935781478882,
+        "n_samples_kept_min": 1956,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 68.0,
+        "capture_build_s": 9.57872724533081,
+        "per_event_pass_s": 29.60025715827942,
+        "n_samples_kept_min": 1957,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 68.5,
+        "capture_build_s": 9.737720012664795,
+        "per_event_pass_s": 30.72303032875061,
+        "n_samples_kept_min": 1958,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 69.0,
+        "capture_build_s": 10.539157390594482,
+        "per_event_pass_s": 30.71584415435791,
+        "n_samples_kept_min": 1959,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 69.5,
+        "capture_build_s": 10.148081302642822,
+        "per_event_pass_s": 32.52256488800049,
+        "n_samples_kept_min": 1959,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 70.0,
+        "capture_build_s": 10.058818817138672,
+        "per_event_pass_s": 32.62670063972473,
+        "n_samples_kept_min": 1959,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 70.5,
+        "capture_build_s": 10.05329442024231,
+        "per_event_pass_s": 30.02350926399231,
+        "n_samples_kept_min": 1959,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "H0": 71.0,
+        "capture_build_s": 10.363820314407349,
+        "per_event_pass_s": 29.578713178634644,
+        "n_samples_kept_min": 1960,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      }
+    ],
+    "wall_seconds": 468.87516617774963
+  },
+  "environment": {
+    "stage": "event_routing",
+    "checks": [
+      {
+        "check": "PYTHONPATH carries darksirens-a8",
+        "ok": true,
+        "detail": "PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8"
+      },
+      {
+        "check": "DARKSIRENS_SRC unset or darksirens-a8",
+        "ok": true,
+        "detail": "DARKSIRENS_SRC='/hildafs/projects/phy230014p/magana/src/darksirens-a8' (a8_likelihood.provenance reads it)"
+      },
+      {
+        "check": "darksirens-a8 HEAD == af896ca",
+        "ok": true,
+        "detail": "af896cae6f3f3dd1f87dec50046e3a8228f59b39 (expected af896cae6f3f3dd1f87dec50046e3a8228f59b39)"
+      },
+      {
+        "check": "darksirens-a8 worktree clean",
+        "ok": true,
+        "detail": "clean"
+      },
+      {
+        "check": "tracer-dependent population blocks present",
+        "ok": true,
+        "detail": "9 references to mixture_pop_params in /hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/likelihood/core.py"
+      },
+      {
+        "check": "darksirens imports from darksirens-a8",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py"
+      },
+      {
+        "check": "pinned base 2b86a2d is an ancestor",
+        "ok": true,
+        "detail": "base 2b86a2d"
+      },
+      {
+        "check": "input present: events",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5 (162743429 bytes)"
+      },
+      {
+        "check": "input present: survey_gal",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5 (1650316659 bytes)"
+      },
+      {
+        "check": "input present: survey_agn",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5 (19934497 bytes)"
+      },
+      {
+        "check": "input present: selection",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5 (203346016 bytes)"
+      }
+    ],
+    "host": "rita.ib.vera.psc.edu",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "mixture_pop_params_references": 9,
+    "gws_agn_sha": "408990af79afd82d403d600621aa6525e97e6d6d",
+    "gws_agn_dirty": true,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_version": "0.0.1",
+    "a8_provenance": {
+      "gws_agn_sha": "408990af79afd82d403d600621aa6525e97e6d6d",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+      "darksirens_pinned_base_sha": "2b86a2d",
+      "darksirens_pinned_base_is_ancestor": true,
+      "inputs": {
+        "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+        "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+        "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "survey_paths_used": [
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+        ],
+        "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+      },
+      "settings": {
+        "universe_model": "dark_sirens",
+        "catalog_sky_weighting": "field",
+        "log10n0": -24.0,
+        "log10n0_c2": -24.0,
+        "selection_neff_guard": "hard",
+        "max_likelihood_variance": 1000000.0,
+        "kde_window": 4096,
+        "kde_window_nsigma": 8.0,
+        "sel_batch_size": 50000,
+        "pe_event_block": 25
+      },
+      "H0_fixed": 67.74,
+      "Om0_fixed": 0.3075,
+      "pop_model": "powerlaw+peak"
+    },
+    "inputs": {
+      "events": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "selection": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "jax_devices": "[CudaDevice(id=0)]"
+  },
+  "provenance": {
+    "gws_agn_sha": "408990af79afd82d403d600621aa6525e97e6d6d",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_paths_used": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "slurm_job_id": "1335485",
+  "inputs_read": [
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/results/j9_marked.h5",
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/results/s9_spatial.h5",
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5"
+  ],
+  "outputs": {
+    "h5": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/diagnostics/a9_event_routing.h5",
+    "json": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/diagnostics/a9_event_routing.json"
+  },
+  "caveats": [
+    "Seed 100 only, one realisation.",
+    "One (f_AGN, mu_chi_c2) node: the shared S9/J9 MAP.  Nothing here is marginalised over the posterior.",
+    "The true host label enters no inference quantity; it is read once, at the end, for the interpretation columns.",
+    "The per-event curvature is a three-point second difference on the 0.5 lattice, not an analytic Fisher information."
+  ]
+}

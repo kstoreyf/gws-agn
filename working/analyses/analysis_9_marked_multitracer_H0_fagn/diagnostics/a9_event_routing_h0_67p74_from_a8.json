@@ -1,0 +1,127 @@
+{
+  "analysis": "analysis_9_marked_multitracer_H0_fagn",
+  "diagnostic": "mechanism part A -- per-event host routing with and without the spin mark, at Analysis 8's anchor point",
+  "seed": 100,
+  "recomputed_through_the_likelihood": false,
+  "source": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_8_marked_multitracer_H0_fagn/results/event_decomposition.h5",
+  "point": {
+    "H0": 67.74,
+    "f_agn": 0.275,
+    "mu_chi_c2": 0.1075,
+    "log_f_gal": -0.32158362412746233,
+    "log_f_agn": -1.2909841813155656,
+    "log_odds_prior": -0.9694005571881033
+  },
+  "definitions": {
+    "P_AGN_spatial": "sigmoid(log(f_AGN/f_GAL) + log_BF_spatial)",
+    "P_AGN_marked": "sigmoid(log(f_AGN/f_GAL) + log_BF_total) = recorded P_AGN",
+    "log_BF_spatial": "log E[AG] - log E[GG]",
+    "log_BF_total": "log E[AA] - log E[GG] = log_BF_spatial + log_BF_intrinsic",
+    "delta_P": "P_AGN_marked - P_AGN_spatial"
+  },
+  "closure_checks": {
+    "max_abs_P_marked_minus_recorded_P_AGN": 1.1102230246251565e-16,
+    "max_abs_sum_rule_residual_logBF": 7.105427357601002e-15,
+    "max_abs_logBF_spatial_minus_AG_minus_GG": 0.0,
+    "max_abs_logBF_total_minus_AA_minus_GG": 0.0,
+    "log_f_gal_vs_log1m_f": -5.551115123125783e-17,
+    "log_f_agn_vs_log_f": 0.0
+  },
+  "all_events": {
+    "n_events": 1000,
+    "percentiles_delta_P": {
+      "1": -0.2409036253096745,
+      "5": -0.16568377842876852,
+      "16": -0.10195156494663805,
+      "50": -0.007432281970148696,
+      "84": 0.10758980251745426,
+      "95": 0.20142110122669343,
+      "99": 0.3127643834747681
+    },
+    "median_delta_P": -0.007432281970148696,
+    "median_abs_delta_P": 0.0673867282083975,
+    "rms_abs_delta_P": 0.11127846982870264,
+    "mean_delta_P": -0.001250210029149759,
+    "max_abs_delta_P": 0.42007130770294643,
+    "n_abs_delta_P_gt_0p1": 339,
+    "n_abs_delta_P_gt_0p2": 74,
+    "n_crossing_0p5_upward": 55,
+    "n_crossing_0p5_downward": 15,
+    "n_crossing_0p5_either_way": 70,
+    "sum_P_spatial": 276.0091190037929,
+    "sum_P_marked": 274.7589089746431,
+    "sum_P_marked_minus_spatial": -1.2502100291497982,
+    "n_P_spatial_ge_0p5": 52,
+    "n_P_marked_ge_0p5": 92
+  },
+  "interpretation_only_split_by_true_label": {
+    "note": "true_host_type is not used anywhere in the inference; this split exists so the reader can see which events move",
+    "GAL": {
+      "n_events": 705,
+      "percentiles_delta_P": {
+        "1": -0.2701239168758295,
+        "5": -0.17175127862894018,
+        "16": -0.10957836039367982,
+        "50": -0.020951000092435307,
+        "84": 0.06824748307690247,
+        "95": 0.16468245172329882,
+        "99": 0.25229307277421686
+      },
+      "median_delta_P": -0.020951000092435307,
+      "median_abs_delta_P": 0.06352874685659919,
+      "rms_abs_delta_P": 0.10401843975763621,
+      "mean_delta_P": -0.019856778028065614,
+      "max_abs_delta_P": 0.38966182591048915,
+      "n_abs_delta_P_gt_0p1": 219,
+      "n_abs_delta_P_gt_0p2": 46,
+      "n_crossing_0p5_upward": 24,
+      "n_crossing_0p5_downward": 15,
+      "n_crossing_0p5_either_way": 39,
+      "sum_P_spatial": 175.50945699569996,
+      "sum_P_marked": 161.5104284859137,
+      "sum_P_marked_minus_spatial": -13.999028509786257,
+      "n_P_spatial_ge_0p5": 22,
+      "n_P_marked_ge_0p5": 31
+    },
+    "AGN": {
+      "n_events": 295,
+      "percentiles_delta_P": {
+        "1": -0.17738108059065813,
+        "5": -0.14782156671120938,
+        "16": -0.0748459090246293,
+        "50": 0.0350963402641537,
+        "84": 0.15411467110322072,
+        "95": 0.25179293024649996,
+        "99": 0.3726566719818252
+      },
+      "median_delta_P": 0.0350963402641537,
+      "median_abs_delta_P": 0.07834776459514098,
+      "rms_abs_delta_P": 0.1269580686368578,
+      "mean_delta_P": 0.0432163338326661,
+      "max_abs_delta_P": 0.42007130770294643,
+      "n_abs_delta_P_gt_0p1": 120,
+      "n_abs_delta_P_gt_0p2": 28,
+      "n_crossing_0p5_upward": 31,
+      "n_crossing_0p5_downward": 0,
+      "n_crossing_0p5_either_way": 31,
+      "sum_P_spatial": 100.49966200809288,
+      "sum_P_marked": 113.24848048872938,
+      "sum_P_marked_minus_spatial": 12.748818480636501,
+      "n_P_spatial_ge_0p5": 30,
+      "n_P_marked_ge_0p5": 61
+    },
+    "n_true_GAL": 705,
+    "n_true_AGN": 295
+  },
+  "log_bayes_factor_summary": {
+    "median_log_BF_spatial": -0.001988722313605251,
+    "median_log_BF_intrinsic": -0.08822124664137743,
+    "median_log_BF_total": -0.1099433543751811,
+    "std_log_BF_spatial": 12.301883776917874,
+    "std_log_BF_intrinsic": 0.6808161208563899,
+    "std_log_BF_total": 12.383664065368002
+  },
+  "outputs": [
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/diagnostics/a9_event_routing_h0_67p74_from_a8.h5"
+  ]
+}
