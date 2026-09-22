@@ -95,9 +95,19 @@ NSAMP_EXPECTED = 2000
 
 # Truths, both planted and realised, carried into every output.
 TRUTH = {
+    # The model's f_AGN is the PRE-SELECTION host fraction, so the TARGET is the
+    # planted 0.30 (the underlying draw among ~2e5 proposals, 0.30 to +/-0.001).
+    # 0.357 is the DETECTED-SET fraction: a descriptive number that a correctly
+    # selection-corrected marked model should NOT recover -- a model blind to
+    # the branch-dependent detectability would drift towards it.  The two are
+    # not two equivalent truths and are never labelled as such.
     "f_agn_planted": 0.30,
-    "f_agn_realised_detected": 0.357,
-    "f_agn_realised_detected_note": "357 of 1000 detected events are AGN-hosted",
+    "f_agn_detected_fraction": 0.357,
+    "f_agn_convention": (
+        "TARGET = the planted / underlying pre-selection host fraction 0.30.  "
+        "DESCRIPTIVE = the detected-set fraction 0.357 (357 of 1000 detected "
+        "events are AGN-hosted), which the heavier, louder AGN branch inflates "
+        "above 0.30 and which a selection-corrected model should NOT recover."),
     "dmu_chi_planted": 0.10,
     "dmu_chi_realised": 0.099502,
     "dmu_chi_realised_err": 0.006690,
@@ -151,6 +161,14 @@ K1_REFS = {
 F_GRID = np.asarray(GC.F_GRID_2D, dtype=float)            # linspace(0, 1, 41)
 MU_GRID = np.asarray(GC.MU_GRID_2D, dtype=float)          # linspace(-.20,.25,61)
 MG_GRID = np.linspace(-10.0, 10.0, 21)                    # 1 Msun spacing
+# THE ONE ALLOWED GRID REFINEMENT (owner decision, 2026-09-21): six half-integer
+# nodes inside [2, 8], where A10-M's measured dmu_G marginal sits above ~e^-9 of
+# its peak.  They are ADDITIVE ROWS on the same physical-coordinate key, not a
+# new grid; the merged axis is 1 Msun outside [2, 8] and 0.5 Msun inside, and it
+# is integrated with the SAME non-uniform trapezoid weights.  No second
+# refinement follows.
+MG_REFINE = np.array([2.5, 3.5, 4.5, 5.5, 6.5, 7.5])
+MG_GRID_REFINED = np.sort(np.concatenate([MG_GRID, MG_REFINE]))   # 27 nodes
 
 
 # --------------------------------------------------------------------------- #
