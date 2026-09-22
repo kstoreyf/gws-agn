@@ -1,0 +1,1178 @@
+{
+  "analysis": "analysis_10_mass_spin_marked_multitracer",
+  "diagnostic": "per-event GAL/AGN branch decomposition under four nested models at one hyperparameter point",
+  "tag": "map_f0p275_mu0p1150_G5",
+  "point": {
+    "H0": 67.74,
+    "H0_hex": "0x1.0ef5c28f5c28fp+6",
+    "f_agn": 0.275,
+    "dmu_chi": 0.11499999999999999,
+    "dmu_G": 5.0,
+    "mu_chi_c2": 0.11499999999999999,
+    "mu_G_c2": 40.0,
+    "axes": {
+      "f_agn": {
+        "value": 0.275,
+        "hex": "0x1.199999999999ap-2",
+        "axis": "linspace(0, 1, 41)",
+        "is_grid_node": true,
+        "node_index": 11,
+        "requested": 0.275,
+        "snap_residual": 0.0
+      },
+      "dmu_chi": {
+        "value": 0.11499999999999999,
+        "hex": "0x1.d70a3d70a3d70p-4",
+        "axis": "linspace(-0.20, 0.25, 61)",
+        "is_grid_node": true,
+        "node_index": 42,
+        "requested": 0.115,
+        "snap_residual": 1.3877787807814457e-17
+      },
+      "dmu_G": {
+        "value": 5.0,
+        "hex": "0x1.4000000000000p+2",
+        "axis": "linspace(-10, 10, 21)",
+        "is_grid_node": true,
+        "node_index": 15,
+        "requested": 5.0,
+        "snap_residual": 0.0
+      }
+    },
+    "kind": "provisional registered point; NOT a posterior summary -- the A10-J cube that would locate the MAP is still running",
+    "log_f_gal": -0.32158362412746233,
+    "log_f_agn": -1.2909841813155656,
+    "log_prior_odds_log_fA_over_fG": -0.9694005571881033,
+    "nEvents": 1000,
+    "nsamp": 2000,
+    "pe_event_block": 25
+  },
+  "model": {
+    "E": "E_i[X|Y] = (1/n) sum_s exp(A_X(s) + B_Y(s) + C(s)) over the SAME samples with the SAME production mask; A_X the spatial factor of tracer X, B_Y = log p_pop(theta_s | Lambda_Y), C branch-free",
+    "Z": "Z_i = (1 - f) E_i[GG] + f E_i[A|Y] for the model carrying Lambda_Y",
+    "P": "P_i(AGN | Y) = f E[A|Y] / ((1 - f) E[GG] + f E[A|Y])",
+    "log_BF_spatial": "log E[A|G] - log E[GG]",
+    "log_BF_spin": "log E[A|chi] - log E[A|G]",
+    "log_BF_mass": "log E[A|M] - log E[A|G]",
+    "log_BF_joint": "log E[A|AM] - log E[A|G]",
+    "interaction": "I_i = log BF_joint - log BF_spin - log BF_mass",
+    "machinery": "analysis_8/scripts/event_decomposition.py :: capture_operands (through a10_likelihood._steer, i.e. build_a10's own steering) and build_evaluator, imported not reimplemented; the four models differ only in the AGN population vector handed to build_evaluator"
+  },
+  "population_vectors": {
+    "Lambda_G": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      35.0,
+      5.0,
+      1.0,
+      0.0,
+      0.1,
+      0.0
+    ],
+    "Lambda_AM_captured": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      40.0,
+      5.0,
+      1.0,
+      0.11499999999999999,
+      0.1,
+      0.0
+    ],
+    "Lambda_chi_built": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      35.0,
+      5.0,
+      1.0,
+      0.11499999999999999,
+      0.1,
+      0.0
+    ],
+    "Lambda_M_built": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      40.0,
+      5.0,
+      1.0,
+      0.0,
+      0.1,
+      0.0
+    ],
+    "Lambda_AM_rebuilt_from_Lambda_G": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      40.0,
+      5.0,
+      1.0,
+      0.11499999999999999,
+      0.1,
+      0.0
+    ],
+    "rebuilt_equals_captured_bitwise": true,
+    "max_abs_difference": 0.0,
+    "slots_that_differ_G_vs_AM": [
+      6,
+      9
+    ],
+    "Lambda_G_equals_pinned_fiducial_bitwise": true,
+    "Lambda_G_minus_pinned_fiducial_max_abs": 0.0,
+    "tolerance": 1e-09
+  },
+  "slot_map": {
+    "G.mu": {
+      "index": 6,
+      "label": "$\\mu_{\\rm G}$",
+      "fiducial": 35.0,
+      "set_to": 40.0
+    },
+    "mu_chi": {
+      "index": 9,
+      "label": "$\\mu_\\chi$",
+      "fiducial": 0.0,
+      "set_to": 0.11499999999999999
+    },
+    "n_slots": 12,
+    "plain_names": [
+      "v1",
+      "PL.alpha",
+      "PL.m_min",
+      "PL.m_max",
+      "PL.dm_min",
+      "PL.dm_max",
+      "G.mu",
+      "G.sigma",
+      "beta",
+      "mu_chi",
+      "sigma_chi",
+      "gamma"
+    ],
+    "fiducial_vector": [
+      0.1,
+      2.3,
+      5.0,
+      80.0,
+      3.0,
+      10.0,
+      35.0,
+      5.0,
+      1.0,
+      0.0,
+      0.1,
+      0.0
+    ]
+  },
+  "verification": {
+    "pe_term_magnitude": 15995.393887130618,
+    "one_ulp_of_pe_term": 1.8189894035458565e-12,
+    "fail_threshold_absolute": 1e-06,
+    "checks": [
+      {
+        "a": -15995.39388713062,
+        "b": -15995.393887130618,
+        "diff": -1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": -1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i ln Z_i [spatial+mass+spin] (re-associated)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.11499999999999999, dmu_G=5.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -15995.393887130618,
+        "b": -15995.393887130618,
+        "diff": 0.0,
+        "abs_diff": 0.0,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 0.0,
+        "bitwise_identical": true,
+        "both_neg_inf": false,
+        "quantity": "sum_i logZ_prod [spatial+mass+spin] (production kernel)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.11499999999999999, dmu_G=5.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16125.73927848899,
+        "b": -16125.73927848899,
+        "diff": 0.0,
+        "abs_diff": 0.0,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 0.0,
+        "bitwise_identical": true,
+        "both_neg_inf": false,
+        "quantity": "sum_i ln Z_i [spatial+spin] (re-associated)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.11499999999999999, dmu_G=0.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16125.739278488993,
+        "b": -16125.73927848899,
+        "diff": -1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": -1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i logZ_prod [spatial+spin] (production kernel)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.11499999999999999, dmu_G=0.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16036.792423489274,
+        "b": -16036.792423489274,
+        "diff": 0.0,
+        "abs_diff": 0.0,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 0.0,
+        "bitwise_identical": true,
+        "both_neg_inf": false,
+        "quantity": "sum_i ln Z_i [spatial+mass] (re-associated)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.0, dmu_G=5.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16036.792423489276,
+        "b": -16036.792423489274,
+        "diff": -1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": -1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i logZ_prod [spatial+mass] (production kernel)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.0, dmu_G=5.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16159.831661727389,
+        "b": -16159.831661727389,
+        "diff": 0.0,
+        "abs_diff": 0.0,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 0.0,
+        "bitwise_identical": true,
+        "both_neg_inf": false,
+        "quantity": "sum_i ln Z_i [spatial] (re-associated)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.0, dmu_G=0.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16159.831661727387,
+        "b": -16159.831661727389,
+        "diff": 1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i logZ_prod [spatial] (production kernel)",
+        "source": "live cell.evaluate_at(67.74, f=0.275, dmu_chi=0.0, dmu_G=0.0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16191.97509016955,
+        "b": -16191.975090169552,
+        "diff": 1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i log E_i[GG]",
+        "source": "live cell.evaluate_at(67.74, f=0, 0, 0) logL - logL_selection",
+        "pass": true
+      },
+      {
+        "a": -16191.97509016955,
+        "b": -16191.975090169552,
+        "diff": 1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i log E_i[GG] (f=0 with BOTH marks set)",
+        "source": "live cell.evaluate_at(67.74, f=0, dmu_chi, dmu_G): at f=0 the marks must be inert",
+        "pass": true
+      },
+      {
+        "a": -16191.97509016955,
+        "b": -16191.975090169552,
+        "diff": 1.8189894035458565e-12,
+        "abs_diff": 1.8189894035458565e-12,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 1.0,
+        "bitwise_identical": false,
+        "both_neg_inf": false,
+        "quantity": "sum_i log E_i[GG] vs the RECORDED closure 15.1 f=0 cell",
+        "source": "diagnostics/a10_closure.json checks.15_1_both_marks_zero.per_f[f=0].two_mark.logL_pe",
+        "pass": true
+      },
+      {
+        "a": -16159.831661727389,
+        "b": -16159.831661727389,
+        "diff": 0.0,
+        "abs_diff": 0.0,
+        "ulp": 1.8189894035458565e-12,
+        "diff_in_ulp": 0.0,
+        "bitwise_identical": true,
+        "both_neg_inf": false,
+        "quantity": "sum_i ln Z_i [spatial] vs the RECORDED closure 15.1 cell",
+        "source": "diagnostics/a10_closure.json 15.1 per_f[f=0.275] two_mark.logL_pe (spatial-only: both marks zero)",
+        "pass": true
+      }
+    ],
+    "n_checks": 12,
+    "n_fail": 0,
+    "worst_ulp": 1.0,
+    "max_per_event_reassociated_minus_production": {
+      "joint": 3.552713678800501e-15,
+      "spin": 3.552713678800501e-15,
+      "mass": 3.552713678800501e-15,
+      "spatial": 3.552713678800501e-15
+    },
+    "internal": {
+      "production_mask_identical_across_passes": false,
+      "logE_GG_across_passes": {
+        "AM": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        },
+        "chi": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        },
+        "M": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        },
+        "G": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        }
+      },
+      "logE_A_G_across_passes": {
+        "AM": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        },
+        "chi": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        },
+        "M": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        },
+        "G": {
+          "bitwise": true,
+          "max_abs_difference": 0.0
+        }
+      },
+      "pass_G_AA_equals_AG": {
+        "bitwise": true,
+        "max_abs_difference": 0.0
+      },
+      "note": "E[GG] and E[A|G] must not depend on the AGN population vector; with Lambda_A = Lambda_G the pass-G E[A|A] IS E[A|G]",
+      "n_nonfinite_logE": {
+        "GG": 0,
+        "A_G": 0,
+        "A_chi": 0,
+        "A_M": 0,
+        "A_AM": 0
+      }
+    },
+    "live_production_records": {
+      "joint": {
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_{\\rm G}$_c2": 40.0,
+          "$\\mu_\\chi$_c2": 0.11499999999999999,
+          "fcat_2": 0.275
+        },
+        "logL": -4283.938707913658,
+        "logL_pe": -15995.393887130618,
+        "logL_selection": 11711.45517921696,
+        "log_mu": -11.709917496324204,
+        "Neff": 326140.0659150474,
+        "guard_passes": true,
+        "seconds": 17.508458375930786
+      },
+      "spin": {
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_{\\rm G}$_c2": 35.0,
+          "$\\mu_\\chi$_c2": 0.11499999999999999,
+          "fcat_2": 0.275
+        },
+        "logL": -4322.830491401279,
+        "logL_pe": -16125.73927848899,
+        "logL_selection": 11802.908787087712,
+        "log_mu": -11.801954065994046,
+        "Neff": 525284.2985529791,
+        "guard_passes": true,
+        "seconds": 2.9984512329101562
+      },
+      "mass": {
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_{\\rm G}$_c2": 40.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 0.275
+        },
+        "logL": -4325.425562535225,
+        "logL_pe": -16036.792423489274,
+        "logL_selection": 11711.36686095405,
+        "log_mu": -11.710554456750694,
+        "Neff": 617303.551519268,
+        "guard_passes": true,
+        "seconds": 2.9977362155914307
+      },
+      "spatial": {
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_{\\rm G}$_c2": 35.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 0.275
+        },
+        "logL": -4357.413234457223,
+        "logL_pe": -16159.831661727389,
+        "logL_selection": 11802.418427270166,
+        "log_mu": -11.801733055191097,
+        "Neff": 731719.3321920088,
+        "guard_passes": true,
+        "seconds": 2.99949049949646
+      },
+      "f0": {
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_{\\rm G}$_c2": 35.0,
+          "$\\mu_\\chi$_c2": 0.0,
+          "fcat_2": 0.0
+        },
+        "logL": -4386.580881668782,
+        "logL_pe": -16191.975090169552,
+        "logL_selection": 11805.39420850077,
+        "log_mu": -11.804419802114701,
+        "Neff": 514672.3247819112,
+        "guard_passes": true,
+        "seconds": 3.0010342597961426
+      },
+      "f0_both_marks": {
+        "coord": {
+          "H0": 67.74,
+          "log10n0": -24.0,
+          "delta": 0.0,
+          "sigma_kde": 0.0,
+          "log10n0_c2": -24.0,
+          "delta_c2": 0.0,
+          "sigma_kde_c2": 0.0,
+          "$\\mu_{\\rm G}$_c2": 40.0,
+          "$\\mu_\\chi$_c2": 0.11499999999999999,
+          "fcat_2": 0.0
+        },
+        "logL": -4386.580881668782,
+        "logL_pe": -16191.975090169552,
+        "logL_selection": 11805.39420850077,
+        "log_mu": -11.804419802114701,
+        "Neff": 514672.3247819112,
+        "guard_passes": true,
+        "seconds": 3.0033884048461914
+      }
+    },
+    "recorded_references": {
+      "closure_15_1_f0_logL_pe": -16191.975090169552,
+      "closure_15_1_f0_source": "diagnostics/a10_closure.json checks.15_1_both_marks_zero.per_f[f=0].two_mark.logL_pe",
+      "closure_15_1_f_logL_pe": -16159.831661727389,
+      "closure_15_1_f_source": "diagnostics/a10_closure.json 15.1 per_f[f=0.275] two_mark.logL_pe (spatial-only: both marks zero)"
+    }
+  },
+  "n_events_total": 1000,
+  "n_events_in_statistics": 1000,
+  "n_events_excluded_non_finite": 0,
+  "statistics": {
+    "spin": {
+      "name": "spin",
+      "percentiles": {
+        "1": -0.2624615699996028,
+        "5": -0.1716980008013102,
+        "16": -0.10857160088326094,
+        "50": -0.001645303334817473,
+        "84": 0.11648035240134595,
+        "95": 0.2274020315486671,
+        "99": 0.3554857100422024
+      },
+      "median": -0.001645303334817473,
+      "mean": 0.003656520168277881,
+      "median_abs": 0.07492008840758976,
+      "rms_abs": 0.12169341777146928,
+      "max_abs": 0.46778482460830223,
+      "n_abs_gt": {
+        "0.05": 643,
+        "0.1": 381,
+        "0.2": 98
+      },
+      "n_crossing_0p5_total": 77,
+      "n_crossing_GAL_to_AGN": 70,
+      "n_crossing_AGN_to_GAL": 7,
+      "sum_P_reference": 278.6627711476945,
+      "sum_P_model": 282.31929131597235,
+      "sum_P_model_minus_reference": 3.6565201682778365,
+      "realised_AGN_count": 357,
+      "n_called_AGN_at_0p5": 104,
+      "P_range": [
+        1.2212856117208206e-131,
+        0.9927116258433133
+      ]
+    },
+    "mass": {
+      "name": "mass",
+      "percentiles": {
+        "1": -0.1981747446223787,
+        "5": -0.13680182306263844,
+        "16": -0.06355008469184145,
+        "50": 0.02908086641400713,
+        "84": 0.20316279165912451,
+        "95": 0.3185041671931716,
+        "99": 0.41013344952005265
+      },
+      "median": 0.02908086641400713,
+      "mean": 0.060848000790222755,
+      "median_abs": 0.08541468809654282,
+      "rms_abs": 0.1490327881239281,
+      "max_abs": 0.4593489981871275,
+      "n_abs_gt": {
+        "0.05": 637,
+        "0.1": 435,
+        "0.2": 175
+      },
+      "n_crossing_0p5_total": 162,
+      "n_crossing_GAL_to_AGN": 156,
+      "n_crossing_AGN_to_GAL": 6,
+      "sum_P_reference": 278.6627711476945,
+      "sum_P_model": 339.5107719379173,
+      "sum_P_model_minus_reference": 60.848000790222784,
+      "realised_AGN_count": 357,
+      "n_called_AGN_at_0p5": 191,
+      "P_range": [
+        9.68086121028727e-131,
+        0.9970620747014556
+      ]
+    },
+    "joint": {
+      "name": "joint",
+      "percentiles": {
+        "1": -0.28908204448455127,
+        "5": -0.19744198405413968,
+        "16": -0.1096576587791392,
+        "50": 0.02625390021229139,
+        "84": 0.24552348688814518,
+        "95": 0.42275270240728324,
+        "99": 0.5382681738652317
+      },
+      "median": 0.02625390021229139,
+      "mean": 0.05972661747594204,
+      "median_abs": 0.11169833881400192,
+      "rms_abs": 0.19391181236006877,
+      "max_abs": 0.6819566694472989,
+      "n_abs_gt": {
+        "0.05": 738,
+        "0.1": 543,
+        "0.2": 264
+      },
+      "n_crossing_0p5_total": 204,
+      "n_crossing_GAL_to_AGN": 197,
+      "n_crossing_AGN_to_GAL": 7,
+      "sum_P_reference": 278.6627711476945,
+      "sum_P_model": 338.38938862363653,
+      "sum_P_model_minus_reference": 59.72661747594202,
+      "realised_AGN_count": 357,
+      "n_called_AGN_at_0p5": 231,
+      "P_range": [
+        3.1702487585677187e-131,
+        0.9957244666692615
+      ]
+    }
+  },
+  "complementarity": {
+    "dP_mass_vs_dP_spin": {
+      "pearson_r": 0.1390188673177841,
+      "pearson_p": 1.0237054490830045e-05,
+      "spearman_rho": 0.1008785088785089,
+      "spearman_p": 0.0014020917999895011
+    },
+    "logBF_mass_vs_logBF_spin": {
+      "pearson_r": 0.15360322062043918,
+      "pearson_p": 1.0593832122902298e-06,
+      "spearman_rho": 0.12535584535584537,
+      "spearman_p": 7.042936376365189e-05
+    },
+    "quadrants_both_abs_gt_0p05": {
+      "n_events": 439,
+      "mass_pos_spin_pos": 156,
+      "mass_pos_spin_neg": 149,
+      "mass_neg_spin_pos": 52,
+      "mass_neg_spin_neg": 82,
+      "same_sign": 238,
+      "opposite_sign": 201
+    },
+    "sets_abs_gt_0p1": {
+      "n_mass": 435,
+      "n_spin": 381,
+      "n_intersection": 182,
+      "n_union": 634,
+      "jaccard": 0.2870662460567823,
+      "n_mass_only": 253,
+      "n_spin_only": 199
+    },
+    "share_of_abs_dP_joint": {
+      "sum_abs_dP_joint": 145.65184037334333,
+      "sum_abs_dP_spin": 91.89758943959231,
+      "sum_abs_dP_mass": 110.09045445195747,
+      "ratio_spin_over_joint": 0.6309401186008705,
+      "ratio_mass_over_joint": 0.7558466420318972,
+      "additivity_residual_sum_abs": 20.65506008717989,
+      "additivity_residual_share": 0.1418111850439763,
+      "definition": "ratios are sum_i |dP^X_i| / sum_i |dP^joint_i|; the additivity residual is sum_i |dP^joint - dP^spin - dP^mass| over the same denominator"
+    },
+    "regression_dP_joint_on_dP_spin_and_dP_mass": {
+      "intercept": 0.0014596910140094131,
+      "coef_dP_spin": 0.9773668803423509,
+      "coef_dP_mass": 0.898849001476844,
+      "r_squared": 0.9733996787358317,
+      "r_squared_dP_spin_alone": 0.5425311876458967,
+      "coefficients_dP_spin_alone": [
+        0.055641832487095956,
+        1.1171236040986716
+      ],
+      "r_squared_dP_mass_alone": 0.5661487895494319,
+      "coefficients_dP_mass_alone": [
+        -0.0023586067502252596,
+        1.0203330170240095
+      ],
+      "residual_rms": 0.03008868928574181
+    },
+    "crossings_0p5": {
+      "n_called_AGN": {
+        "spatial": 41,
+        "spin": 104,
+        "mass": 191,
+        "joint": 231
+      },
+      "n_crossing_under_joint_but_neither_single_mark": 48,
+      "n_crossing_under_spin_only": 44,
+      "n_crossing_under_mass_only": 129,
+      "n_crossing_under_both_single_marks": 33
+    }
+  },
+  "interaction": {
+    "definition": "I_i = log BF_joint - log BF_spin - log BF_mass",
+    "percentiles": {
+      "1": -0.21824414022726313,
+      "5": -0.1111114310351077,
+      "16": -0.049522144905402216,
+      "50": 0.001971497736311001,
+      "84": 0.049966635927943905,
+      "95": 0.10876080922361371,
+      "99": 0.2444757051914019
+    },
+    "median": 0.001971497736311001,
+    "mean": 0.0014687577201225395,
+    "rms": 0.07752767783936722,
+    "median_abs": 0.03328059208321488,
+    "max_abs": 0.6224707511490486,
+    "n_abs_gt_0p01": 797,
+    "n_abs_gt_0p1": 125,
+    "n_abs_gt_1": 0,
+    "scale_comparison": {
+      "median_abs_logBF_spin": 0.45797171024509176,
+      "median_abs_logBF_mass": 0.49694535962471065,
+      "median_abs_logBF_joint": 0.6957374142726591,
+      "median_abs_I_over_median_abs_logBF_joint": 0.047834989754011174,
+      "median_ratio_abs_I_over_abs_logBF_joint": 0.0488434734004746
+    },
+    "sum_over_events": {
+      "sum_logBF_spin": -83.82597076186227,
+      "sum_logBF_mass": 245.83870802044478,
+      "sum_logBF_joint": 163.4814949787051,
+      "sum_I": 1.4687577201225395
+    },
+    "note": "additivity of the two marks in the per-event log Bayes factor is a MEASURED statement: it holds only to the extent that |I_i| is small against |log BF_joint|, and both are quoted"
+  },
+  "interpretation_only": {
+    "caveat": "the true host label is read here for the first time, AFTER every inference quantity above was formed; it is never an input to any of them",
+    "n_true_AGN": 357,
+    "n_true_GAL": 643,
+    "delta_P_by_true_label": {
+      "spin": {
+        "true_GAL_median": -0.023673580278724043,
+        "true_AGN_median": 0.04137559392464063,
+        "true_GAL_mean": -0.019712581335625288,
+        "true_AGN_mean": 0.045747086742534845,
+        "median_difference_AGN_minus_GAL": 0.06504917420336467
+      },
+      "mass": {
+        "true_GAL_median": 0.0007720366603914952,
+        "true_AGN_median": 0.11279817374714743,
+        "true_GAL_mean": 0.026066398815522498,
+        "true_AGN_mean": 0.12349385532728795,
+        "median_difference_AGN_minus_GAL": 0.11202613708675593
+      },
+      "joint": {
+        "true_GAL_median": -0.004626898388775169,
+        "true_AGN_median": 0.14793807783967078,
+        "true_GAL_mean": 0.004106849227312775,
+        "true_AGN_mean": 0.1599045193915404,
+        "median_difference_AGN_minus_GAL": 0.15256497622844595
+      }
+    },
+    "abs_delta_P_by_true_label": {
+      "spin": {
+        "true_GAL_median": 0.06646546640727474,
+        "true_AGN_median": 0.09375893546154512,
+        "true_GAL_mean": 0.08083718683197796,
+        "true_AGN_mean": 0.11181870674126189,
+        "median_difference_AGN_minus_GAL": 0.02729346905427038
+      },
+      "mass": {
+        "true_GAL_median": 0.06588398621560651,
+        "true_AGN_median": 0.13008558272066706,
+        "true_GAL_mean": 0.08701508096561993,
+        "true_AGN_mean": 0.15165198148757386,
+        "median_difference_AGN_minus_GAL": 0.06420159650506055
+      },
+      "joint": {
+        "true_GAL_median": 0.09259183254048758,
+        "true_AGN_median": 0.16950919935899006,
+        "true_GAL_mean": 0.11423520873158528,
+        "true_AGN_mean": 0.20223697803622964,
+        "median_difference_AGN_minus_GAL": 0.07691736681850248
+      }
+    },
+    "P_by_true_label": {
+      "spatial": {
+        "true_GAL_median": 0.26357896201432024,
+        "true_AGN_median": 0.29112281991742833,
+        "true_GAL_mean": 0.2533734396629341,
+        "true_AGN_mean": 0.3242119032056802,
+        "median_difference_AGN_minus_GAL": 0.027543857903108093
+      },
+      "spin": {
+        "true_GAL_median": 0.2185723700465919,
+        "true_AGN_median": 0.3383255133292273,
+        "true_GAL_mean": 0.23366085832730887,
+        "true_AGN_mean": 0.3699589899482151,
+        "median_difference_AGN_minus_GAL": 0.11975314328263537
+      },
+      "mass": {
+        "true_GAL_median": 0.27131401831447827,
+        "true_AGN_median": 0.43632230858867227,
+        "true_GAL_mean": 0.27943983847845666,
+        "true_AGN_mean": 0.4477057585329681,
+        "median_difference_AGN_minus_GAL": 0.165008290274194
+      },
+      "joint": {
+        "true_GAL_median": 0.22961761899924954,
+        "true_AGN_median": 0.4677060159154874,
+        "true_GAL_mean": 0.25748028889024693,
+        "true_AGN_mean": 0.4841164225972206,
+        "median_difference_AGN_minus_GAL": 0.23808839691623784
+      }
+    },
+    "logBF_by_true_label": {
+      "spatial": {
+        "true_GAL_median": -0.058048471276947566,
+        "true_AGN_median": 0.07946351514727468,
+        "true_GAL_mean": -1.9252691951436327,
+        "true_AGN_mean": 0.21041686355533848,
+        "median_difference_AGN_minus_GAL": 0.13751198642422224
+      },
+      "spin": {
+        "true_GAL_median": -0.22095048808078843,
+        "true_AGN_median": 0.1949941669845323,
+        "true_GAL_mean": -0.2331304397353114,
+        "true_AGN_mean": 0.1850893613107646,
+        "median_difference_AGN_minus_GAL": 0.41594465506532075
+      },
+      "mass": {
+        "true_GAL_median": 0.02846805013514775,
+        "true_AGN_median": 0.574965586243831,
+        "true_GAL_mean": 0.07527032738525251,
+        "true_AGN_mean": 0.5530529061953149,
+        "median_difference_AGN_minus_GAL": 0.5464975361086832
+      },
+      "joint": {
+        "true_GAL_median": -0.11659595115105859,
+        "true_AGN_median": 0.6731189424544866,
+        "true_GAL_mean": -0.15621710328341062,
+        "true_AGN_mean": 0.7392971775628518,
+        "median_difference_AGN_minus_GAL": 0.7897148936055451
+      },
+      "interaction": {
+        "true_GAL_median": 0.002410727520699041,
+        "true_AGN_median": 0.0012502860251828452,
+        "true_GAL_mean": 0.0016430090666482177,
+        "true_AGN_mean": 0.0011549100567723684,
+        "median_difference_AGN_minus_GAL": -0.0011604414955161957
+      }
+    },
+    "auc_for_true_AGN": {
+      "log_BF_spatial": 0.6318116671240813,
+      "log_BF_spin": 0.6635257524471686,
+      "log_BF_mass": 0.6958453676960675,
+      "log_BF_joint": 0.7423709763843329,
+      "log_BF_total_spatial_plus_joint": 0.7806239136401061,
+      "P_spatial": 0.6318116671240813,
+      "P_spin": 0.7079733915339075,
+      "P_mass": 0.7480472748975173,
+      "P_joint": 0.7806239136401061
+    },
+    "classification_at_0p5": {
+      "spatial": {
+        "true_AGN_called_AGN": 27,
+        "true_AGN_called_GAL": 330,
+        "true_GAL_called_AGN": 14,
+        "true_GAL_called_GAL": 629,
+        "n_called_AGN": 41,
+        "accuracy": 0.656
+      },
+      "spin": {
+        "true_AGN_called_AGN": 73,
+        "true_AGN_called_GAL": 284,
+        "true_GAL_called_AGN": 31,
+        "true_GAL_called_GAL": 612,
+        "n_called_AGN": 104,
+        "accuracy": 0.685
+      },
+      "mass": {
+        "true_AGN_called_AGN": 133,
+        "true_AGN_called_GAL": 224,
+        "true_GAL_called_AGN": 58,
+        "true_GAL_called_GAL": 585,
+        "n_called_AGN": 191,
+        "accuracy": 0.718
+      },
+      "joint": {
+        "true_AGN_called_AGN": 161,
+        "true_AGN_called_GAL": 196,
+        "true_GAL_called_AGN": 70,
+        "true_GAL_called_GAL": 573,
+        "n_called_AGN": 231,
+        "accuracy": 0.734
+      }
+    },
+    "crossings_by_true_label": {
+      "spin": {
+        "up_true_AGN": 46,
+        "up_true_GAL": 24,
+        "down_true_AGN": 0,
+        "down_true_GAL": 7
+      },
+      "mass": {
+        "up_true_AGN": 108,
+        "up_true_GAL": 48,
+        "down_true_AGN": 2,
+        "down_true_GAL": 4
+      },
+      "joint": {
+        "up_true_AGN": 134,
+        "up_true_GAL": 63,
+        "down_true_AGN": 0,
+        "down_true_GAL": 7
+      }
+    },
+    "joint_only_crossers_by_true_label": {
+      "n": 48,
+      "true_AGN": 26,
+      "true_GAL": 22
+    }
+  },
+  "truth": {
+    "f_agn_planted": 0.3,
+    "f_agn_detected_fraction": 0.357,
+    "f_agn_convention": "TARGET = the planted / underlying pre-selection host fraction 0.30.  DESCRIPTIVE = the detected-set fraction 0.357 (357 of 1000 detected events are AGN-hosted), which the heavier, louder AGN branch inflates above 0.30 and which a selection-corrected model should NOT recover.",
+    "dmu_chi_planted": 0.1,
+    "dmu_chi_realised": 0.099502,
+    "dmu_chi_realised_err": 0.00669,
+    "dmu_G_planted": 5.0,
+    "dmu_G_note": "the planted +5 Msun is a HYPERPARAMETER of the draw (mu_G = 35 GAL / 40 AGN); the detected-set medians 36.813 / 41.557 Msun are descriptive only and are NOT the mark",
+    "mu_G_gal_fixed": 35.0,
+    "mu_chi_gal_fixed": 0.0
+  },
+  "timings": {
+    "build_seconds": 48.403902769088745,
+    "per_pass": [
+      {
+        "pass": "AM",
+        "build_seconds": 6.6978888511657715,
+        "per_event_seconds": 32.40843868255615,
+        "n_samples_kept_min": 1947,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "pass": "chi",
+        "build_seconds": 6.092296123504639,
+        "per_event_seconds": 34.60576677322388,
+        "n_samples_kept_min": 1936,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "pass": "M",
+        "build_seconds": 5.829503774642944,
+        "per_event_seconds": 32.496689796447754,
+        "n_samples_kept_min": 1948,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      },
+      {
+        "pass": "G",
+        "build_seconds": 5.823998212814331,
+        "per_event_seconds": 29.790459156036377,
+        "n_samples_kept_min": 1936,
+        "n_samples_kept_median": 2000.0,
+        "n_samples_kept_max": 2000
+      }
+    ],
+    "wall_seconds": 775.5488169193268
+  },
+  "environment": {
+    "stage": "event_decomposition",
+    "checks": [
+      {
+        "check": "PYTHONPATH carries darksirens-a8",
+        "ok": true,
+        "detail": "PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8"
+      },
+      {
+        "check": "DARKSIRENS_SRC unset or darksirens-a8",
+        "ok": true,
+        "detail": "DARKSIRENS_SRC='/hildafs/projects/phy230014p/magana/src/darksirens-a8' (a8_likelihood.provenance reads it)"
+      },
+      {
+        "check": "darksirens-a8 HEAD == af896ca",
+        "ok": true,
+        "detail": "af896cae6f3f3dd1f87dec50046e3a8228f59b39 (expected af896cae6f3f3dd1f87dec50046e3a8228f59b39)"
+      },
+      {
+        "check": "darksirens-a8 worktree clean",
+        "ok": true,
+        "detail": "clean"
+      },
+      {
+        "check": "tracer-dependent population blocks present",
+        "ok": true,
+        "detail": "9 references to mixture_pop_params in /hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/likelihood/core.py"
+      },
+      {
+        "check": "darksirens imports from darksirens-a8",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py"
+      },
+      {
+        "check": "pinned base 2b86a2d is an ancestor",
+        "ok": true,
+        "detail": "base 2b86a2d"
+      },
+      {
+        "check": "input present: events",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5 (162743429 bytes)"
+      },
+      {
+        "check": "input present: survey_gal",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5 (1650316659 bytes)"
+      },
+      {
+        "check": "input present: survey_agn",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5 (19934497 bytes)"
+      },
+      {
+        "check": "input present: selection",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5 (203346016 bytes)"
+      }
+    ],
+    "host": "rita.ib.vera.psc.edu",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "mixture_pop_params_references": 9,
+    "gws_agn_sha": "10d370efee307f3ff38bffdd1de9d2562728727c",
+    "gws_agn_dirty": true,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_version": "0.0.1",
+    "a8_provenance": {
+      "gws_agn_sha": "10d370efee307f3ff38bffdd1de9d2562728727c",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+      "darksirens_pinned_base_sha": "2b86a2d",
+      "darksirens_pinned_base_is_ancestor": true,
+      "inputs": {
+        "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+        "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+        "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "survey_paths_used": [
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+        ],
+        "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+      },
+      "settings": {
+        "universe_model": "dark_sirens",
+        "catalog_sky_weighting": "field",
+        "log10n0": -24.0,
+        "log10n0_c2": -24.0,
+        "selection_neff_guard": "hard",
+        "max_likelihood_variance": 1000000.0,
+        "kde_window": 4096,
+        "kde_window_nsigma": 8.0,
+        "sel_batch_size": 50000,
+        "pe_event_block": 25
+      },
+      "H0_fixed": 67.74,
+      "Om0_fixed": 0.3075,
+      "pop_model": "powerlaw+peak"
+    },
+    "inputs": {
+      "events": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "selection": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "jax_devices": "[CudaDevice(id=0)]",
+    "a10_inputs": {
+      "events_file": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5",
+      "events_bytes": 162734165,
+      "events_md5": "427990378e299850a9c0708d389bc0bf",
+      "events_md5_seconds": 0.4863619804382324,
+      "fiducials": {
+        "G.mu": {
+          "slot": 6,
+          "label": "$\\mu_{\\rm G}$",
+          "fiducial": 35.0
+        },
+        "mu_chi": {
+          "slot": 9,
+          "label": "$\\mu_\\chi$",
+          "fiducial": 0.0
+        }
+      }
+    }
+  },
+  "provenance": {
+    "gws_agn_sha": "10d370efee307f3ff38bffdd1de9d2562728727c",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5",
+      "survey_paths_used": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "slurm_job_id": "1336522",
+  "inputs_read": [
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5",
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
+    "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer/diagnostics/a10_closure.json"
+  ],
+  "outputs": {
+    "h5": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer/diagnostics/a10_event_decomposition_map_f0p275_mu0p1150_G5.h5",
+    "json": "/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer/diagnostics/a10_event_decomposition_map_f0p275_mu0p1150_G5.json"
+  },
+  "caveats": [
+    "Seed 100 only, one realisation.",
+    "ONE hyperparameter point, and a PROVISIONAL one: the A10-J cube is still running, so this point is a registered grid node chosen before the posterior exists, not a MAP.  Nothing here is marginalised.",
+    "H0 is pinned at 67.74; the spectral-siren channel of the mass mark is therefore not exercised, only the event-level routing channel.",
+    "The true host label is a mock diagnostic; it enters no inference quantity and is read only for the interpretation block.",
+    "Seed 100's detected set separates GAL from AGN in mass ratio q before any mark is applied (Analysis 8's caveat), and the mass mark moves the detected set itself, so log BF_mass is not a clean measurement of the planted peak-location offset alone.",
+    "Additivity of the two marks is not asserted: the interaction term I_i is reported with the Bayes factors it is to be judged against."
+  ]
+}

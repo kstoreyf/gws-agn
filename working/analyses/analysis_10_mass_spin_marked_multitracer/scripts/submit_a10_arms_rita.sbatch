@@ -19,6 +19,13 @@
 #
 #   sbatch --export=ALL,STAGE="S M" scripts/submit_a10_arms_rita.sbatch
 #
+# THE ONE ALLOWED GRID REFINEMENT (owner decision, 2026-09-21): six 0.5 Msun
+# dmu_G nodes {2.5, 3.5, 4.5, 5.5, 6.5, 7.5} added to arm M as ADDITIVE ROWS.
+# 6 x 41 = 246 cells, ~13 min.  The coarse rows are untouched and reused.
+#
+#   sbatch --export=ALL,STAGE="M",DMUG_NODES=refine \
+#       scripts/submit_a10_arms_rita.sbatch
+#
 # Each arm checkpoints one f row at a time into diagnostics/_a10_arm_<arm>.jsonl
 # and resumes from it, so an eviction costs at most one row.  Both stages run in
 # the same job but in separate processes.
@@ -27,8 +34,9 @@ source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_m
 A10_DIR=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer
 echo "[a10] host=$(hostname) job=${SLURM_JOB_ID:-none} stages='${STAGE:-S M}'"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
+NODES=${DMUG_NODES:-registered}
 for s in ${STAGE:-S M}; do
-  echo "[a10] === arm ${s} ==="
-  "${A9_PY}" "${A10_DIR}/scripts/a10_arms.py" --stage "${s}"
+  echo "[a10] === arm ${s} (dmu_G nodes: ${NODES}) ==="
+  "${A9_PY}" "${A10_DIR}/scripts/a10_arms.py" --stage "${s}" --dmuG_nodes "${NODES}"
 done
 echo "[a10] arms done"

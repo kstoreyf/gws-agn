@@ -48,6 +48,148 @@ the same reason.
 Nothing has been run under the new mark. `GATES.md` carries the re-keyed
 ledger; `STATE.md` the verified facts.
 
+## Fixed-`H0` results: the two-mark environmental population is recovered (2026-09-22)
+
+**Sources.** `results/a10_arm_{S,chi,M,J}.{h5,json}`, `diagnostics/a10_closure.json`,
+`diagnostics/a10_selection_support.json`, `diagnostics/a10_mock_validation.json`,
+`diagnostics/a10_event_decomposition_map_f0p275_mu0p1150_G5.json`, figures
+`figs/fig_a10_{fagn,marks,planes}.{pdf,png}` and `figs/fig_event_mass_vs_spin_map_*.{pdf,png}`.
+darksirens `af896ca` on the pinned base `2b86a2d`, clean; the two-mark mock
+`events_marked_dmu0p10_dmuG5.h5` (md5 `427990378e29…`), the existing targeted injections.
+`H0 = 67.74`, `Ω_m = 0.3075`, twelve base population parameters pinned; free coordinates
+`f_AGN`, `Δμ_χ = μ_{χ,c2}`, `Δμ_G = μ_{G,c2} − 35`. Rita jobs 1335495/1335500 (arms),
+1335496 + 1335661 + 1335501 + 1335665 (cube, 56.7 GPU-h at 3.019 s/cell), 1336522
+(event decomposition). Every number below is read from those files.
+
+### What was planted and what the detected set looks like
+
+The AGN branch's Gaussian peak sits at `μ_G = 40` against `35` in the GAL branch
+(`Δμ_G = +5 Msun`; peak fraction 0.90, power law and `q` identical), and its spin mean at
+`+0.10`. Because the heavier branch is louder, the detected host fraction is **0.357**
+(357 of 1000) against the planted 0.30, and the detected fraction of proposals rises from
+7.85e-3 to 8.46e-3. The model's `f_AGN` is the pre-selection host fraction, so its target is
+**0.30**; 0.357 is a descriptive number a selection-corrected model should *not* recover.
+The detected-set spin-mean difference is +0.0995 ± 0.0067; the detected-set primary-mass
+medians are 36.8 (GAL) and 41.6 Msun (AGN), descriptive only.
+
+### The four arms
+
+| arm | free | `f_AGN` median, 68%, 90% | `Δμ_χ` | `Δμ_G` [Msun] | MAP |
+|---|---|---|---|---|---|
+| A10-S spatial only | `f` | 0.2953 [0.2451, 0.3463] [0.2120, 0.3801] | ≡ 0 | ≡ 0 | 0.300 |
+| A10-χ spin mark | `f, Δμ_χ` | 0.3039 [0.2594, 0.3485] [0.2317, 0.3793] | 0.1207 [0.1039, 0.1382] [0.0936, 0.1506] | ≡ 0 | (0.300, +0.1225) |
+| A10-M mass mark | `f, Δμ_G` | 0.2938 [0.2487, 0.3420] [0.2191, 0.3728] | ≡ 0 | 4.528 [3.848, 5.247] [3.485, 5.732] | (0.275, +4.5) |
+| **A10-J joint** | `f, Δμ_χ, Δμ_G` | **0.2762 [0.2350, 0.3191] [0.2093, 0.3472]** | **0.1172 [0.1018, 0.1334] [0.0927, 0.1442]** | **4.756 [4.109, 5.420] [3.674, 5.888]** | (0.275, +0.115, +5.0) |
+
+**Recovery.** The joint model recovers all three coordinates. `f_AGN`: planted 0.30 inside
+the 68% interval (offset −0.024); the detected-set 0.357 is outside the 90% interval, as it
+should be. `Δμ_G`: planted +5 inside the 68% interval (offset −0.24, 0.4 posterior sd);
+zero is excluded by the whole width of the axis (the marginal density at `Δμ_G = 0` is
+below e^−30 of the peak). `Δμ_χ`: planted +0.10 and realised +0.0995 sit inside the 90%
+interval and just outside the 68% (offset +0.017, 1.1 posterior sd); the spin-only arm,
+which is misspecified on this mock because it ignores the mass mark, sits higher still at
+0.1207. Zero is excluded on every mark axis by far more than the axis width.
+
+**Widths, marked against spatial-only** (68% / 90%):
+
+| quantity | χ / S | M / S | J / S | J / χ | J / M |
+|---|---|---|---|---|---|
+| `f_AGN` | 0.881 / 0.878 | 0.922 / 0.914 | **0.830 / 0.821** | 0.942 / 0.934 | 0.900 / 0.897 |
+| `Δμ_χ` | — | — | — | **0.920 / 0.905** | — |
+| `Δμ_G` | — | — | — | — | **0.938 / 0.985** |
+
+**Correlations** (joint arm): `ρ(f, Δμ_G) = −0.580`, `ρ(f, Δμ_χ) = −0.521`,
+`ρ(Δμ_G, Δμ_χ) = +0.272`; posterior sd 0.039 in `f`, 0.596 Msun in `Δμ_G`, 0.0153 in
+`Δμ_χ`. The mass-mark arm alone has `ρ(f, Δμ_G) = −0.612`.
+
+### The answers to the fixed-`H0` questions
+
+1. **Can the Gaussian-peak shift be recovered jointly with the spin shift?** Yes. Both marks
+   are recovered against their planted values with the host fraction free, and the joint
+   posterior is compact on every axis (edges ≤ 7e-10 of the peak; the `Δμ_χ` top edge that
+   Analysis 9 cleared by 6% is cleared here by three orders of magnitude, because the
+   mass mark takes over part of the branch identification).
+2. **Is the mass mark more informative about the environmental label than the spin mark?**
+   Event by event, yes; on the global fraction, no. At the joint MAP the mass mark moves
+   `P_i(AGN)` by more than 0.1 for 435 events and across 0.5 for 162 (156 upward), against
+   381 and 77 for the spin mark, and it moves the expected AGN count by +61 where the spin
+   mark moves it by +3.7; AUC for the true label 0.748 (mass) against 0.708 (spin). But the
+   spin mark sharpens `f_AGN` more (0.881 against 0.922 at 68%), because `Δμ_G` is more
+   strongly degenerate with `f` (−0.58) than `Δμ_χ` is (−0.52) and the mass mark carries the
+   selection function with it: a heavier AGN branch is a louder one, so part of what the
+   mass mark learns about the label is spent on the branch-dependent detectability.
+3. **Does the spatial tracer improve the measurement of `Δμ_G`?** Not measurable here in
+   isolation: unlike Analysis 8, no intrinsic-only arm was run (the spec fixed four arms).
+   What is measured is the reverse direction: adding the mass mark to the spatial model
+   narrows `f_AGN` by 8% at 68%, and adding the spin mark narrows `Δμ_G` by 6% (J/M 0.938).
+4. **Are mass and spin complementary or redundant?** Complementary. The two marks re-route
+   largely different events: Pearson correlation +0.14 (Spearman +0.10) between `ΔP_i^mass`
+   and `ΔP_i^spin`; of the 435 and 381 events each mark moves by more than 0.1, only 182 are
+   shared (Jaccard 0.29); 48 events cross 0.5 under the joint model that neither single mark
+   moves across. `ΔP^joint ≈ 0.98 ΔP^spin + 0.90 ΔP^mass` (R² 0.973, against 0.54 and 0.57
+   for either alone), and the per-event log-Bayes-factor interaction term has median |I|
+   0.033 against a median |log BF_joint| of 0.70 (4.8%; 125 events above 0.1) — near-additive
+   in the bulk, not in the tail. On the global fraction the joint gain, 0.830, is slightly
+   less than the product of the single-mark gains, 0.812: the marks overlap a little in
+   what they say about `f`, and both are anticorrelated with it.
+5. **`ρ(Δμ_G, Δμ_χ)`** = +0.272: weak and positive, the sign expected when both marks compete
+   for the same AGN branch weight (a larger `Δμ_G` makes the branch louder and lowers `f`,
+   which pushes `Δμ_χ` up through its own −0.52 anticorrelation with `f`).
+6. **`ρ(f, Δμ_G)`** = −0.580 in the joint arm, −0.612 in the mass-only arm: the strongest
+   degeneracy in the problem and the new one. It is the selection coupling: the same data
+   are fit by a lighter, more numerous AGN branch or a heavier, rarer one.
+7. **Does the combined intrinsic information improve routing beyond spin-only?** Yes.
+   Called-AGN counts at 0.5 go 41 (spatial) → 104 (spin) → 191 (mass) → 231 (joint); the
+   AUC for the true label goes 0.632 → 0.708 → 0.748 → 0.781; accuracy 0.656 → 0.685 →
+   0.718 → 0.734. The joint model is still far from a classifier (231 called AGN against 357
+   true, 70 false positives), which is the same statement Analyses 8 and 9 made.
+8. **Which events are identified by mass versus spin?** Different ones, by the numbers in 4;
+   `figs/fig_event_mass_vs_spin_map_*.png` shows the near-uncorrelated cloud. Read after the
+   fact, the true AGN hosts move upward under both marks (median `ΔP` +0.041 spin, +0.113
+   mass, +0.148 joint) and true GAL hosts barely move (−0.024, +0.001, −0.005).
+
+### Selection and closure
+
+The existing injections support the whole registered grid: minimum `N_eff`/threshold 8.17
+on the posterior-relevant region and 5.58 anywhere in the mass-only arm. The joint cube
+rejects 2,500 of 67,527 cells (3.7%), all at `f ≥ 0.35` in the extreme corners of both mark
+axes (`Δμ_χ` at −0.20 or ≥ +0.2425, `Δμ_G` at ±10), where the accepted boundary density is
+2.2e-27 of the peak; filling every rejected cell with that value bounds the mass behind the
+guard at 1.5e-25. No result stands behind a rejected cell. The two-mark likelihood reduces
+bitwise to the shared-population model at zero marks and to the spin-only model at zero mass
+mark (the χ slab re-check: 7 of 8 on-lattice cells bitwise, worst 2 ULP), the GAL branch is
+frozen at `f = 0`, and the mass coordinate moves the likelihood by 10.5 nats per Msun.
+
+### The one refinement, measured
+
+The registered 1-Msun `Δμ_G` axis under-resolved the posterior (fewer than two nodes across
+the 68% width), so six half-integer nodes were added inside [2, 8] as additive rows. On the
+mass-only arm the median moved by 0.001 and the 68% width fell from 1.87 to 1.40 Msun; on
+the joint arm from 1.654 to 1.312, the median by 0.002, `f` and `Δμ_χ` by < 1e-4. The
+coarse trapezoid was over-stating the mass-mark width by a third; the refined numbers are
+the ones quoted. No second refinement was made.
+
+### Fixed-`H0` owner gate
+
+All six registered conditions hold: selection valid over posterior support; closure;
+mass coordinate live; `Δμ_G = +5` recovered with zero excluded; the mass mark adds
+identifiable information beyond spin-only (`f` width J/χ 0.94, `Δμ_χ` width J/χ 0.92, and
+the mark itself measured to ±0.6 Msun); no pathological degeneracy (largest |ρ| 0.58).
+**The gate PASSES**; the `H0` release proceeds as the next stage.
+
+### Limitations
+
+One realisation, seed 100, one hyperparameter point for the event-level statistics (the
+MAP; the provisional node `f = 0.350` gave the same picture: Pearson +0.13, Jaccard 0.32).
+`Δμ_χ` is recovered at 90% but not at 68% (+1.1 sd); on one draw that is unremarkable, and
+the spin-only arm's larger offset shows it is partly the mass mark being absorbed into the
+spin coordinate when the mass mark is switched off. The event-level nested-model sums are
+exact (12 of 12 at 1 ULP), but the four models share the production sample mask only up to
+its model dependence (`keep = valid & isfinite(ldw)`), which changes the kept-sample count
+by at most 64 of 2000 in a few events; each model's sum verifies against its own production
+call, so the statistics are the production numbers. Nothing here is a statement about real
+BBHs in AGN.
+
 ## Analysis-9 mechanism follow-up (Part I of this task)
 
 Full write-up: `../analysis_9_marked_multitracer_H0_fagn/MECHANISM_FOLLOWUP.md`.
