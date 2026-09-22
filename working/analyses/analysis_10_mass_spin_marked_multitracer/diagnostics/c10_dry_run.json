@@ -1,0 +1,12 @@
+{
+  "which": [
+    "profile"
+  ],
+  "seconds_per_eval": 3.0143216848373413,
+  "profile": {
+    "H0_nodes": 28,
+    "bitwise_equal_to_a9_j9_H0_grid": true,
+    "n_cells": 56,
+    "gpu_hours_projected": 0.04688944843080309
+  }
+}
