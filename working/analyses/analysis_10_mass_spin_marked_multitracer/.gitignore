@@ -2,3 +2,7 @@
 # from scripts/.  The assembled diagnostics JSONs are what carry the analysis.
 diagnostics/_a10_*.json
 diagnostics/_a10_*.jsonl
+
+# C10 (H0-released) per-cell checkpoints: raw run output, reproducible from scripts/.
+diagnostics/_c10_*.json
+diagnostics/_c10_*.jsonl

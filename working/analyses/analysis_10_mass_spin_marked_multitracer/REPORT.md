@@ -48,6 +48,107 @@ the same reason.
 Nothing has been run under the new mark. `GATES.md` carries the re-keyed
 ledger; `STATE.md` the verified facts.
 
+## Cosmology stage, part 1: the spatial-only baseline and the pinned-mark arms (2026-09-23)
+
+**Status.** C10-S, the `H0` profile and the three pinned-mark arms (P1, I0, I1) are done
+and assembled. **C10-J (all four coordinates free) is still running**: rita job 1336631,
+12,909 of 72,930 cells at 03:17 EDT on 2026-09-23, ~50 GPU-h left, expected
+~04:00–06:00 EDT on 2026-09-24. Nothing below is a marginalised-mark `H0` result; that
+is C10-J's job, and part 2 of this section will carry it.
+
+**Sources.** `results/c10_arm_S.{h5,json}`, `results/c10_mech.{h5,json}`,
+`diagnostics/c10_profile.json`, figures `figs/fig_c10_h0.{pdf,png}` (C10-S only for now)
+and `figs/fig_c10_mech.{pdf,png}`. Same mock (`events_marked_dmu0p10_dmuG5.h5`, md5
+`427990378e29…`, confirmed in every checkpoint header), injections, darksirens `af896ca`
+and pinned base as the fixed-`H0` stage. Rita jobs 1336591 (C10-S, 4 chunks, 6.95 GPU-h,
+3.015 s/cell), 1336628/29/30 (P1/I0/I1, 5.9 GPU-h). The results JSONs' `environment.inputs.events`
+field echoes a default path (`events_marked_dmu0p10.h5`); the file actually read is the
+`gw_path_used` / `events_file` entry, which is the two-mark mock.
+
+### The spatial-only model is biased high on this mock, and the sign is the spectral-siren sign
+
+| arm | model | `H0` median, 68%, 90% | w68 / w90 |
+|---|---|---|---|
+| **C10-S** | two tracers, both marks ≡ 0, (`H0`, `f`) free, 202 × 41 lattice | **70.60 [69.60, 71.80] [68.93, 72.89]** | 2.20 / 3.96 |
+| profile, marks at the fixed-`H0` MAP | (`f`, `Δμ_χ`, `Δμ_G`) = (0.275, 0.115, 5.0), `H0` only | 67.57 [66.30, 68.68] [65.42, 69.33], argmax 67.74 | 2.38 / 3.91 |
+| profile, marks ≡ 0 | `f` = 0.275 | 70.61 [69.58, 71.81] [68.88, 72.77], argmax 70.50 | 2.23 / 3.89 |
+
+C10-S: `f_AGN` 0.287 [0.233, 0.341] (90% [0.200, 0.375], planted 0.30 inside 68%), MAP
+(70.5, 0.300), `ρ(H0, f)` = −0.24, 0 of 8,282 cells guard-rejected (min `N_eff`/threshold
+46). Both axes contained (edges ≤ 2e-7 of the peak).
+
+The spatial-only model assigns the GAL mass function (`μ_G` = 35) to the 36% of detected
+events whose true peak sits at 40. Assuming source masses that are too light makes the model
+put those events at a larger `1+z` at the same luminosity distance, and a larger redshift at
+fixed distance is a larger `H0`. So the offset is in the expected direction. Relative to the marked model
+on the same data it is **+3.01 in `H0`** (C10-S median minus the pinned-mark P1 median), 2.5
+of C10-S's own posterior sd (1.22). The same difference appears in the two profiles
+(argmax 70.50 against 67.74) with `f` held fixed, so it is not an `f` effect. The spatial
+marginal also has a heavy high-`H0` tail: its density at 76 is 3.9e-3 of the peak, and
+1e-6 containment would need [63, 87.5].
+
+**Not a differential against Analysis 9.** A9's S9 on the spin-only seed-100 mock gave
+69.09 [67.44, 70.74]. The two mocks share the seed but not the detected set: the mass
+mark changes which events are detected (643 unique GAL hosts here, 705 there). So the
++1.51 between C10-S and S9 mixes the misspecification with a different draw and is not
+quoted as either. The on-mock difference C10-S − P1 is the clean one.
+
+### The pinned-mark arms (marks at the fixed-`H0` MAP, `Δμ_χ` = 0.115, `Δμ_G` = 5.0)
+
+Window [60, 76], 34 `H0` nodes × 41 `f` nodes each. P0 is the [60, 76] slice of C10-S, so it
+cost nothing.
+
+| arm | surveys | marks | `H0` median, 68%, 90% | w68 / w90 | MAP (`H0`, `f`) |
+|---|---|---|---|---|---|
+| P0 | [GAL, AGN] | 0, 0 | 70.60 [69.57, 71.83] [68.88, 72.89] | 2.26 / 4.01 | (70.5, 0.300) |
+| **P1** | [GAL, AGN] | pinned | **67.58 [66.32, 68.70] [65.43, 69.35]** | 2.39 / 3.92 | (67.74, 0.275) |
+| I0 | [GAL, GAL] | 0, 0 | 75.24 [74.34, 75.78] [73.62, 75.93], **truncated** | (1.44 / 2.32) | (76.0, 0.00) |
+| I1 | [GAL, GAL] | pinned | 70.98 [68.82, 73.63] [67.63, 74.86] | 4.81 / 7.23 | (70.0, 0.25) |
+
+**P1 against P0: the mass mark moves `H0` and leaves the width unchanged.** Width ratio
+P1/P0 = 1.056 (68%) / 0.977 (90%), against Analysis 9's spin-only 0.888 / 0.900. At its
+own MAP marks the mass-marked model's job on this mock is to fix a misspecified mass
+function, not to narrow the posterior. The width comparison is therefore between a
+misspecified model and a correctly specified one, and a ratio near 1 does not mean the
+marks carry no `H0` information. What the marginalised gain is comes from C10-J against
+C10-S on the matched lattice (the matched S widths are 2.260 / 4.012, ratio 1.025 / 1.013
+to the full 202-node axis).
+
+**The [GAL, GAL] split does not separate the two channels here.** The design (c10_design_notes
+§5) takes W(I1)/W(I0) as the spectral-siren-only gain and the residual as routing. Measured:
+W(I1)/W(I0) = 3.35 (68%) / 3.12 (90%), residual "routing factor" 0.315 / 0.313. These
+numbers cannot be read that way on this mock, for two reasons.
+
+1. I0 is doubly misspecified. It gives the AGN-hosted events the GAL redshift structure
+   *and* the GAL mass function, and its posterior runs into the window edge (mode 76.0, MAP
+   `f` = 0). Its width is set by the truncation, not the data, so any ratio against it is
+   meaningless as a gain.
+2. I1 carries the correct marks but still gives the AGN events the wrong spatial prior, so it
+   has its own `H0` bias. Unlike the spin-only case the design note reasoned from, equal
+   tracers here are not a neutral control.
+
+The one comparison that holds up is **P1 against I1**, at identical pinned marks.
+Removing the AGN tracer's own redshift structure roughly doubles the `H0` width
+(W(P1)/W(I1) = 0.496 at 68%, 0.542 at 90%) and moves the median by +3.40. So on this mock,
+at the right marks, the AGN catalog carries about half the `H0` precision. What this
+construction cannot give is the spectral-siren share. C10-3 as registered (scramble the
+branch labels so the peak-location information survives and the routing does not) is
+**not met**. See the gate note in `GATES.md`.
+
+### What stays open until C10-J lands
+
+- The marginalised `H0` and its width against C10-S on the matched lattice. P1 shows
+  where the posterior sits at the MAP marks. How much marginalising over `Δμ_G`
+  broadens it depends on `ρ(H0, Δμ_G)`, which only the cube measures. Through
+  `m_det = (1+z) m_src` a heavier AGN peak and a lower `H0` trade against each other,
+  so a strong negative correlation is expected.
+- Containment of the `Δμ_G` axis at [1, 9] and of `H0` at [60, 76], checked on C10-J's
+  own marginal. If either fails, the fix is additive rows, not a rerun.
+- Whether to run a proper spectral-siren control (C10-3) is an owner decision. Nothing
+  has been run for it. The registered route is a label-scrambled event set, which needs
+  new generator code. The coupling itself, the conditional slope of `H0` on `Δμ_G`, comes
+  free from the C10-J cube.
+
 ## Fixed-`H0` results: the two-mark environmental population is recovered (2026-09-22)
 
 **Sources.** `results/a10_arm_{S,chi,M,J}.{h5,json}`, `diagnostics/a10_closure.json`,
