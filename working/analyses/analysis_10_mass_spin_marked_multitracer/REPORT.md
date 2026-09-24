@@ -48,13 +48,103 @@ the same reason.
 Nothing has been run under the new mark. `GATES.md` carries the re-keyed
 ledger; `STATE.md` the verified facts.
 
+## Cosmology stage, part 2: all four coordinates free (C10-J, 2026-09-24)
+
+**Sources.** `results/c10_arm_J.{h5,json}`, figures `figs/fig_c10_h0.{pdf,png}` (now with
+C10-J) and `figs/fig_c10_planes.{pdf,png}`. The same mock (`events_marked_dmu0p10_dmuG5.h5`,
+md5 `427990378e29…`, the `events_file` entry), injections, darksirens `af896ca` and pinned
+base as part 1. Lattice: `H0` 34 nodes on [60, 76] (0.5 spacing plus 67.74) × `f_AGN` 11
+{0.05, …, 0.55} × `Δμ_χ` 13 {0.025, …, 0.205} × `Δμ_G` 15 {1, 2, 2.5, …, 8, 9} = 72,930
+cells, 61.2 GPU-h at 3.018 s/cell. Rita job 1336631 (chunks 0–6) and 1337582 (chunk 7,
+resubmitted unchanged after a `TaskProlog failed` node fault that killed it in 5 s with no
+row written). No cell was guard-rejected (min `N_eff`/threshold 1.36).
+
+### The marked model recovers the planted `H0`, and releasing `H0` costs the marks almost nothing
+
+| coordinate | C10-J median, 68%, 90% | MAP | fixed-`H0` A10-J (part of the fixed-`H0` section) |
+|---|---|---|---|
+| `H0` | **67.66 [66.34, 68.80] [65.39, 69.43]** | 68.0 | ≡ 67.74 |
+| `f_AGN` | 0.274 [0.223, 0.326] [0.202, 0.349] | 0.300 | 0.2762 [0.2350, 0.3191] [0.2093, 0.3472] |
+| `Δμ_G` [Msun] | 4.80 [4.13, 5.47] [3.68, 5.95] | 4.5 | 4.756 [4.109, 5.420] [3.674, 5.888] |
+| `Δμ_χ` | 0.1185 [0.1015, 0.1370] [0.0894, 0.1484] | 0.115 | 0.1172 [0.1018, 0.1334] [0.0927, 0.1442] |
+
+Correlations: `ρ(H0, Δμ_G)` = −0.251, `ρ(H0, f)` = +0.090, `ρ(H0, Δμ_χ)` = −0.079;
+`ρ(f, Δμ_G)` = −0.586, `ρ(f, Δμ_χ)` = −0.529, `ρ(Δμ_G, Δμ_χ)` = +0.292, all within 0.03 of
+their fixed-`H0` values.
+
+**`H0`.** The marked posterior sits on the planted 67.74 (median −0.08, 0.07 of its posterior
+sd of 1.11). Marginalising the two marks broadens it only slightly compared with pinning them at
+the fixed-`H0` MAP (P1): width C10-J/P1 = 1.030 at both 68% and 90%, median shift +0.08.
+
+**The marks.** On matched lattices, releasing `H0` widens `f_AGN` by 0.2% (68%) / −1.5% (90%),
+`Δμ_G` by 2.3% / 2.1% and `Δμ_χ` by 2.0% / 3.7%. The medians move by −0.002, +0.035 and
++0.001. These were measured against the fixed-`H0` cube restricted to C10-J's nodes, which
+reproduces C10-J's 67.74 slab exactly (2,145 cells, 0 ULP). The wider `f_AGN` interval in
+the table (68% width 0.103 against 0.084) is the coarser `f` lattice (0.05 spacing against
+0.0125) and not `H0`. The fixed-`H0` numbers remain the precise mark measurements, and C10-J
+shows they survive a free `H0`.
+
+**The mass–distance coupling.** Through `m_det = (1+z) m_src`, a heavier AGN peak and a
+lower `H0` trade against each other, so the expected sign is negative, and it is. The
+conditional mean `E[H0 | Δμ_G]` falls by **0.42 per Msun** across the posterior-supported
+range (68.27 at `Δμ_G` = 3 to 66.74 at 6.5), `ρ` = −0.25. The coupling is weaker than part 1
+anticipated because `Δμ_G` is pinned down by the event masses themselves to ±0.67 Msun (68%),
+and that spread moves `H0` by only ±0.3.
+
+### Against the spatial-only baseline
+
+On the matched lattice (C10-S restricted to [60, 76]: 70.60 [69.57, 71.83], w68 2.260 /
+w90 4.012), C10-J's `H0` is **2.94 lower** and its width ratio is **1.088 (68%) / 1.007
+(90%)**. On this mock the marks buy no `H0` precision. What they buy is the removal of a +2.9
+offset (2.6 posterior sd of C10-J) that the spatial-only model takes on by giving the AGN
+branch the GAL mass function. The width ratio is between a misspecified and a correctly
+specified model, so it is not a clean measure of information gained. The spatial-only
+posterior is narrow partly because it is wrong. Analysis 9's spin-only gain (0.888 / 0.900)
+came from a mock on which the spatial-only model was correctly specified. That comparison
+does not carry over here, and it is shown only as a grey reference on `fig_c10_h0`.
+
+Stated differentially, per C10-4: C10-J − C10-S = −2.94; C10-J − P1 = +0.08; P1 − P0 = −3.02.
+The closeness of C10-J to the planted value is a statement about this one draw, not a
+calibration.
+
+### Containment and checks
+
+- `H0` [60, 76]: edge densities 5.6e-12 / 2.9e-11 of the peak. `f_AGN` 9e-15 / 5.5e-9.
+  `Δμ_G` [1, 9]: 9.3e-11 / 2.4e-7. All contained at the 1e-6 criterion. The `Δμ_G` axis part 1
+  flagged as a risk is contained, and no additive rows were needed.
+- **`Δμ_χ` misses the criterion at its top node**: density at 0.205 = 1.6e-5 of the peak
+  (low edge 1.6e-11). The missing tail was measured rather than filled. The fixed-`H0` cube
+  runs `Δμ_χ` to 0.25 and matches C10-J's 67.74 slab bit for bit. On C10-J's `f` and `Δμ_G` nodes
+  it puts **3.9e-7** of the posterior above 0.205, and cutting it there leaves every `Δμ_χ`
+  quantile unchanged to 1e-5. C10-J's own marginal falls by a factor of 14–18 per node
+  approaching the edge, which extrapolates to the same ~4e-7. The largest per-`H0` edge
+  density is 1.2e-5 at `H0` = 65.5, so the tail does not grow at the `H0` edges either. Judged
+  immaterial. No rows were added; extending the axis by two nodes would cost ~9 GPU-h.
+- 67.74-slab closure against `results/a10_arm_J.h5`: 2,145 cells, all bitwise identical.
+- Every drawn number in `fig_c10_h0` and `fig_c10_mech` was diffed against its JSON (all 0.0).
+  All plotted intervals and contours are 90%.
+
+### The mechanism gates
+
+- **C10-1 / C10-2 (separate routing from the spectral-siren channel; measure routing A9-style).**
+  Neither can be met in the form registered, because there is no width gain to decompose. The
+  marked/unmarked ratio is 1.088 / 1.007 against a misspecified baseline. What the marks do to
+  `H0` on this mock is a *shift*. Its direction is the spectral-siren one: an unmodelled heavier AGN
+  peak pulls `H0` up, and the P1 − P0 profiles show the whole shift at fixed `f`. The routing
+  statistics already exist at the fixed-`H0` MAP (the event decomposition in the fixed-`H0`
+  section: the mass mark moves ΣP by +61, against +0.1 for spin). The `H0`-curvature split at
+  ~10 `H0` nodes that C10-2 prescribes has not been run. It is new script work on top of
+  `a10_event_decomposition.py`, costs under 1 GPU-h, and is an owner decision.
+- **C10-3.** NOT MET, as recorded in part 1. The label-scramble control awaits an owner
+  decision.
+- **C10-4.** Met: every `H0` statement above is a difference on the same data.
+
 ## Cosmology stage, part 1: the spatial-only baseline and the pinned-mark arms (2026-09-23)
 
 **Status.** C10-S, the `H0` profile and the three pinned-mark arms (P1, I0, I1) are done
-and assembled. **C10-J (all four coordinates free) is still running**: rita job 1336631,
-12,909 of 72,930 cells at 03:17 EDT on 2026-09-23, ~50 GPU-h left, expected
-~04:00–06:00 EDT on 2026-09-24. Nothing below is a marginalised-mark `H0` result; that
-is C10-J's job, and part 2 of this section will carry it.
+and assembled. At the time of writing, C10-J (all four coordinates free) was still running. It
+finished on 2026-09-24 and is reported in part 2 above. The "what stays open" list at the
+end of this part is answered there.
 
 **Sources.** `results/c10_arm_S.{h5,json}`, `results/c10_mech.{h5,json}`,
 `diagnostics/c10_profile.json`, figures `figs/fig_c10_h0.{pdf,png}` (C10-S only for now)

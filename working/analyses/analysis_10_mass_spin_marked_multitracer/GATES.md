@@ -34,7 +34,7 @@ generated or evaluated under the new mark.
 | **fixed-\(H_0\) owner gate** | **PASS on the six conditions** | selection valid (Gate B, no posterior-relevant rejection); closure (Gate 15); mass coordinate live (15.6, 10.5 nats/Msun); Δμ_G = +5 meaningfully recovered (J: 4.76 [4.11, 5.42], zero excluded by ~8σ; planted inside 68%); mass adds information beyond spin-only (f width J/χ 0.94 at 68%, Δμ_χ width J/χ 0.92; the mass mark is itself measured); no pathological degeneracy (max \|ρ\| 0.58). Reached 2026-09-22; the H0 release is a separate owner decision |
 | C10-S spatial-only cosmology arm | **PASS** (as a baseline) | 8,282 cells, 0 rejected; \(H_0\) 70.60 [69.60, 71.80] / [68.93, 72.89], f 0.287 [0.233, 0.341]; biased high on the two-mark mock (+3.01 against P1 at the same data), the spectral-siren sign of an unmodelled heavier AGN peak (`results/c10_arm_S.json`) |
 | C10 mechanism arms P1 / I0 / I1 | **RUN; C10-3 NOT MET by this construction** | P1 67.58 [66.32, 68.70], w(P1)/w(P0) 1.056 / 0.977; I0 truncated at the 76 edge (mode 76.0); the [GAL,GAL] ratio 3.35 / 3.12 is confounded (equal tracers mis-assign the AGN events' spatial prior) and is not a spectral-siren share; w(P1)/w(I1) 0.496 / 0.542 (`results/c10_mech.json`) |
-| C10-J full cosmology arm | RUNNING | rita job 1336631, 72,930 cells, window [60, 76]; ETA ~2026-09-24 04:00–06:00 EDT |
+| C10-J full cosmology arm | **PASS** (Δμ_χ top edge judged) | 72,930 cells, 61.2 GPU-h, 0 rejected (min N_eff/thr 1.36); jobs 1336631 + 1337582 (chunk 7 prolog fault, resubmitted unchanged); **H0 67.66 [66.34, 68.80] / [65.39, 69.43]** (planted 67.74 inside 68%); f 0.274 [0.223, 0.326]; Δμ_G 4.80 [4.13, 5.47]; Δμ_χ 0.1185 [0.1015, 0.1370]; ρ(H0, Δμ_G) −0.25, dE[H0|Δμ_G]/dΔμ_G = −0.42 per Msun; width C10-J/C10-S matched 1.088 / 1.007 (no precision gain; C10-J − C10-S = −2.94), C10-J/P1 1.030 / 1.030; H0, f, Δμ_G contained at 1e-6; **Δμ_χ top edge 1.6e-5 of the peak**, tail mass above 0.205 measured at 3.9e-7 on the bitwise-identical fixed-H0 cube, quantiles unchanged to 1e-5, judged immaterial; 67.74-slab closure 2,145/2,145 bitwise (`results/c10_arm_J.json`) |
 
 ## Scope lock
 
@@ -433,7 +433,9 @@ to the cosmology arms.
    multimodality that the grid cannot resolve, no \(f_{\rm AGN}\) posterior that
    piles at 0 or 1.
 
-## Gates C10-S, C10-J — the cosmology arms (C10-S PASS; C10-J RUNNING)
+## Gates C10-S, C10-J — the cosmology arms (C10-S PASS; C10-J PASS)
+
+Status (2026-09-24): **C10-J PASS.** The marked model recovers the planted \(H_0\) (67.66 [66.34, 68.80]) and removes the spatial-only model's +2.94 offset at a width ratio of 1.088 / 1.007, so it gives no precision gain on this mock. C10-1 and C10-2 cannot be met as registered because there is no gain to decompose; the \(H_0\)-curvature split (under 1 GPU-h, new script work) is an owner decision. C10-3 NOT MET (below). C10-4 met. Detail in `REPORT.md`, *Cosmology stage, part 2*.
 
 Status (2026-09-23): the fixed-\(H_0\) owner gate passed on 2026-09-22 and the
 release went ahead. **C10-S PASS** as the spatial-only baseline. **C10-J RUNNING.**
@@ -468,7 +470,7 @@ decision. C10-1, C10-2 and C10-4 are judged once C10-J is assembled. Detail in
 - [ ] **C10-3.** The spectral-siren share is measured against a control in which
       the branch labels are scrambled, so that the peak-location information
       survives but the tracer routing does not.
-- [ ] **C10-4.** \(H_0\) is quoted **differentially** throughout. Seed 100's draw
+- [x] **C10-4.** \(H_0\) is quoted **differentially** throughout. Seed 100's draw
       sits high; that is the realisation, not a bias, and one realisation
       calibrates nothing.
 
