@@ -1,0 +1,603 @@
+{
+  "what": "Analysis 11, selection-support gate, part (b): injection weight tails.\n\nPOPULATION-ONLY PROXY (as Analysis 10 Gate B, part b).  For each branch\npopulation at the ABSOLUTE means the free-baseline domains reach, the weight of\ndetected injection j is\n\n    w_j = p_pop(theta_j | mu_G_abs, mu_chi_abs) / pdraw_j\n\nwith p_pop the generator's density in the SAME canonical coordinates as the\nstored pdraw (checked: at the fiducial it reproduces the file's\npdraw_population to < 1e-10).  The numerator carries the smooth\nuniform-in-comoving-volume redshift prior, not the catalogue one the dark-siren\nselection term uses, so this diagnoses each branch population's demand on the\nproposal; the real selection term is measured live in ``a11_closure.py``.",
+  "provenance": {
+    "gws_agn_sha": "788138f031b1706987e34964b0ba6285901b3f1b",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "host": "r008.opa.vera.psc.edu",
+    "injections": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
+    "n_detected": 2205380,
+    "Ndraw": 150000000.0
+  },
+  "convention_check": {
+    "max_rel_diff": 8.437520337587222e-16,
+    "passes": true,
+    "fiducial": {
+      "peak_mu": 35.0,
+      "chi_mu": 0.0
+    }
+  },
+  "rows": [
+    {
+      "tag": "mass GAL mu_G=31",
+      "sector": "mass",
+      "branch": "GAL",
+      "mu_G_abs": 31,
+      "mu_chi_abs": 0.0,
+      "point": [
+        31,
+        -4
+      ],
+      "Pdet_proxy": 0.001516309595159721,
+      "Neff": 289129.3690651096,
+      "Neff_over_5Nobs": 57.825873813021914,
+      "max_normalised_weight": 4.1344139338335394e-05,
+      "share_top": {
+        "10": 0.00035347441378153193,
+        "100": 0.0028120155418802223,
+        "1000": 0.024787484397906297
+      }
+    },
+    {
+      "tag": "mass AGN mu_G+dmu_G=27",
+      "sector": "mass",
+      "branch": "AGN",
+      "mu_G_abs": 27,
+      "mu_chi_abs": 0.1,
+      "point": [
+        31,
+        -4
+      ],
+      "Pdet_proxy": 0.0011197140385834751,
+      "Neff": 31416.761084021724,
+      "Neff_over_5Nobs": 6.283352216804345,
+      "max_normalised_weight": 0.0006021189206219238,
+      "share_top": {
+        "10": 0.005214916386808666,
+        "100": 0.03251450872359186,
+        "1000": 0.13239704519145853
+      }
+    },
+    {
+      "tag": "mass mix f=0.3 (31,-4)",
+      "sector": "mass",
+      "branch": "mixture",
+      "point": [
+        31,
+        -4
+      ],
+      "Pdet_proxy": 0.0013973309281868473,
+      "Neff": 167831.55591043466,
+      "Neff_over_5Nobs": 33.566311182086935,
+      "max_normalised_weight": 0.00015896273718092333,
+      "share_top": {
+        "10": 0.0013989933701097517,
+        "100": 0.009412988344305437,
+        "1000": 0.04702370177092503
+      }
+    },
+    {
+      "tag": "mass GAL mu_G=31",
+      "sector": "mass",
+      "branch": "GAL",
+      "mu_G_abs": 31,
+      "mu_chi_abs": 0.0,
+      "point": [
+        31,
+        10
+      ],
+      "Pdet_proxy": 0.001516309595159721,
+      "Neff": 289129.3690651096,
+      "Neff_over_5Nobs": 57.825873813021914,
+      "max_normalised_weight": 4.1344139338335394e-05,
+      "share_top": {
+        "10": 0.00035347441378153193,
+        "100": 0.0028120155418802223,
+        "1000": 0.024787484397906297
+      }
+    },
+    {
+      "tag": "mass AGN mu_G+dmu_G=41",
+      "sector": "mass",
+      "branch": "AGN",
+      "mu_G_abs": 41,
+      "mu_chi_abs": 0.1,
+      "point": [
+        31,
+        10
+      ],
+      "Pdet_proxy": 0.00287093004365192,
+      "Neff": 128047.65033350897,
+      "Neff_over_5Nobs": 25.609530066701794,
+      "max_normalised_weight": 0.0001803451589557221,
+      "share_top": {
+        "10": 0.0016185961378623584,
+        "100": 0.011568783033724554,
+        "1000": 0.05294878219197168
+      }
+    },
+    {
+      "tag": "mass mix f=0.3 (31,10)",
+      "sector": "mass",
+      "branch": "mixture",
+      "point": [
+        31,
+        10
+      ],
+      "Pdet_proxy": 0.0019226957297073812,
+      "Neff": 337010.68148729095,
+      "Neff_over_5Nobs": 67.40213629745818,
+      "max_normalised_weight": 8.123675997705594e-05,
+      "share_top": {
+        "10": 0.0007299475244736641,
+        "100": 0.005236716487909105,
+        "1000": 0.024400664761745596
+      }
+    },
+    {
+      "tag": "mass GAL mu_G=35",
+      "sector": "mass",
+      "branch": "GAL",
+      "mu_G_abs": 35,
+      "mu_chi_abs": 0.0,
+      "point": [
+        35,
+        5
+      ],
+      "Pdet_proxy": 0.0019980684844346872,
+      "Neff": 620604.91452021,
+      "Neff_over_5Nobs": 124.120982904042,
+      "max_normalised_weight": 5.129565625811973e-06,
+      "share_top": {
+        "10": 5.129502564629106e-05,
+        "100": 0.0005129354592305939,
+        "1000": 0.0051290250291585815
+      }
+    },
+    {
+      "tag": "mass AGN mu_G+dmu_G=40",
+      "sector": "mass",
+      "branch": "AGN",
+      "mu_G_abs": 40,
+      "mu_chi_abs": 0.1,
+      "point": [
+        35,
+        5
+      ],
+      "Pdet_proxy": 0.002713125015074358,
+      "Neff": 160727.61710483182,
+      "Neff_over_5Nobs": 32.14552342096636,
+      "max_normalised_weight": 0.00014441382332983823,
+      "share_top": {
+        "10": 0.0013011700064503966,
+        "100": 0.009616549218842863,
+        "1000": 0.04599550354352851
+      }
+    },
+    {
+      "tag": "mass mix f=0.3 (35,5)",
+      "sector": "mass",
+      "branch": "mixture",
+      "point": [
+        35,
+        5
+      ],
+      "Pdet_proxy": 0.0022125854436265916,
+      "Neff": 472910.13630034635,
+      "Neff_over_5Nobs": 94.58202726006927,
+      "max_normalised_weight": 5.511372349450624e-05,
+      "share_top": {
+        "10": 0.0005022252363120969,
+        "100": 0.0037829556408644893,
+        "1000": 0.019594611735472243
+      }
+    },
+    {
+      "tag": "mass GAL mu_G=39",
+      "sector": "mass",
+      "branch": "GAL",
+      "mu_G_abs": 39,
+      "mu_chi_abs": 0.0,
+      "point": [
+        39,
+        -4
+      ],
+      "Pdet_proxy": 0.002561826955324052,
+      "Neff": 463290.8643894348,
+      "Neff_over_5Nobs": 92.65817287788695,
+      "max_normalised_weight": 2.5394424723357688e-05,
+      "share_top": {
+        "10": 0.0002515425923465389,
+        "100": 0.0023903970866210713,
+        "1000": 0.018327674463990022
+      }
+    },
+    {
+      "tag": "mass AGN mu_G+dmu_G=35",
+      "sector": "mass",
+      "branch": "AGN",
+      "mu_G_abs": 35,
+      "mu_chi_abs": 0.1,
+      "point": [
+        39,
+        -4
+      ],
+      "Pdet_proxy": 0.0019989084426406943,
+      "Neff": 246355.8190368106,
+      "Neff_over_5Nobs": 49.27116380736212,
+      "max_normalised_weight": 7.480597328268806e-05,
+      "share_top": {
+        "10": 0.0007113135851203869,
+        "100": 0.0057985817820216485,
+        "1000": 0.03435934719468539
+      }
+    },
+    {
+      "tag": "mass mix f=0.3 (39,-4)",
+      "sector": "mass",
+      "branch": "mixture",
+      "point": [
+        39,
+        -4
+      ],
+      "Pdet_proxy": 0.0023929514015190445,
+      "Neff": 501991.63839150156,
+      "Neff_over_5Nobs": 100.39832767830032,
+      "max_normalised_weight": 2.0789372664472652e-05,
+      "share_top": {
+        "10": 0.00020119975305732315,
+        "100": 0.0019178088600783562,
+        "1000": 0.015715223723651594
+      }
+    },
+    {
+      "tag": "mass GAL mu_G=39",
+      "sector": "mass",
+      "branch": "GAL",
+      "mu_G_abs": 39,
+      "mu_chi_abs": 0.0,
+      "point": [
+        39,
+        10
+      ],
+      "Pdet_proxy": 0.002561826955324052,
+      "Neff": 463290.8643894348,
+      "Neff_over_5Nobs": 92.65817287788695,
+      "max_normalised_weight": 2.5394424723357688e-05,
+      "share_top": {
+        "10": 0.0002515425923465389,
+        "100": 0.0023903970866210713,
+        "1000": 0.018327674463990022
+      }
+    },
+    {
+      "tag": "mass AGN mu_G+dmu_G=49",
+      "sector": "mass",
+      "branch": "AGN",
+      "mu_G_abs": 49,
+      "mu_chi_abs": 0.1,
+      "point": [
+        39,
+        10
+      ],
+      "Pdet_proxy": 0.004341216560983963,
+      "Neff": 17354.94935406965,
+      "Neff_over_5Nobs": 3.4709898708139297,
+      "max_normalised_weight": 0.0007603940450545316,
+      "share_top": {
+        "10": 0.0065744037592090744,
+        "100": 0.03978862405797333,
+        "1000": 0.16942487558776914
+      }
+    },
+    {
+      "tag": "mass mix f=0.3 (39,10)",
+      "sector": "mass",
+      "branch": "mixture",
+      "point": [
+        39,
+        10
+      ],
+      "Pdet_proxy": 0.003095643837022027,
+      "Neff": 80279.8918889607,
+      "Neff_over_5Nobs": 16.05597837779214,
+      "max_normalised_weight": 0.0003272837430793831,
+      "share_top": {
+        "10": 0.0028417379642004946,
+        "100": 0.017351876588447373,
+        "1000": 0.07446486565069607
+      }
+    },
+    {
+      "tag": "spin GAL mu_chi=-0.1",
+      "sector": "spin",
+      "branch": "GAL",
+      "mu_G_abs": 35.0,
+      "mu_chi_abs": -0.1,
+      "point": [
+        -0.1,
+        -0.05
+      ],
+      "Pdet_proxy": 0.0019995291874020976,
+      "Neff": 247277.39684118232,
+      "Neff_over_5Nobs": 49.45547936823646,
+      "max_normalised_weight": 7.368433288624134e-05,
+      "share_top": {
+        "10": 0.0006864508599652283,
+        "100": 0.005732949895572703,
+        "1000": 0.034089545111151066
+      }
+    },
+    {
+      "tag": "spin AGN mu_chi+dmu_chi=-0.15",
+      "sector": "spin",
+      "branch": "AGN",
+      "mu_G_abs": 40.0,
+      "mu_chi_abs": -0.15000000000000002,
+      "point": [
+        -0.1,
+        -0.05
+      ],
+      "Pdet_proxy": 0.0027254014921443298,
+      "Neff": 63612.37674665989,
+      "Neff_over_5Nobs": 12.722475349331978,
+      "max_normalised_weight": 0.00033026658986864065,
+      "share_top": {
+        "10": 0.0028494879203501723,
+        "100": 0.019389788034653944,
+        "1000": 0.08461947111387777
+      }
+    },
+    {
+      "tag": "spin mix f=0.3 (-0.1,-0.05)",
+      "sector": "spin",
+      "branch": "mixture",
+      "point": [
+        -0.1,
+        -0.05
+      ],
+      "Pdet_proxy": 0.002217290878824767,
+      "Neff": 163795.6486218249,
+      "Neff_over_5Nobs": 32.759129724364975,
+      "max_normalised_weight": 0.00014589491331338877,
+      "share_top": {
+        "10": 0.001279284688755356,
+        "100": 0.009674369962562194,
+        "1000": 0.04648918093649524
+      }
+    },
+    {
+      "tag": "spin GAL mu_chi=-0.1",
+      "sector": "spin",
+      "branch": "GAL",
+      "mu_G_abs": 35.0,
+      "mu_chi_abs": -0.1,
+      "point": [
+        -0.1,
+        0.2
+      ],
+      "Pdet_proxy": 0.0019995291874020976,
+      "Neff": 247277.39684118232,
+      "Neff_over_5Nobs": 49.45547936823646,
+      "max_normalised_weight": 7.368433288624134e-05,
+      "share_top": {
+        "10": 0.0006864508599652283,
+        "100": 0.005732949895572703,
+        "1000": 0.034089545111151066
+      }
+    },
+    {
+      "tag": "spin AGN mu_chi+dmu_chi=0.10",
+      "sector": "spin",
+      "branch": "AGN",
+      "mu_G_abs": 40.0,
+      "mu_chi_abs": 0.1,
+      "point": [
+        -0.1,
+        0.2
+      ],
+      "Pdet_proxy": 0.002713125015074358,
+      "Neff": 160727.61710483182,
+      "Neff_over_5Nobs": 32.14552342096636,
+      "max_normalised_weight": 0.00014441382332983823,
+      "share_top": {
+        "10": 0.0013011700064503966,
+        "100": 0.009616549218842863,
+        "1000": 0.04599550354352851
+      }
+    },
+    {
+      "tag": "spin mix f=0.3 (-0.1,0.2)",
+      "sector": "spin",
+      "branch": "mixture",
+      "point": [
+        -0.1,
+        0.2
+      ],
+      "Pdet_proxy": 0.002213607935703776,
+      "Neff": 371242.7279129373,
+      "Neff_over_5Nobs": 74.24854558258745,
+      "max_normalised_weight": 5.318224479483371e-05,
+      "share_top": {
+        "10": 0.00048166148432672785,
+        "100": 0.003983726594085357,
+        "1000": 0.02465745730759156
+      }
+    },
+    {
+      "tag": "spin GAL mu_chi=0.0",
+      "sector": "spin",
+      "branch": "GAL",
+      "mu_G_abs": 35.0,
+      "mu_chi_abs": 0.0,
+      "point": [
+        0.0,
+        0.1
+      ],
+      "Pdet_proxy": 0.0019980684844346872,
+      "Neff": 620604.91452021,
+      "Neff_over_5Nobs": 124.120982904042,
+      "max_normalised_weight": 5.129565625811973e-06,
+      "share_top": {
+        "10": 5.129502564629106e-05,
+        "100": 0.0005129354592305939,
+        "1000": 0.0051290250291585815
+      }
+    },
+    {
+      "tag": "spin AGN mu_chi+dmu_chi=0.10",
+      "sector": "spin",
+      "branch": "AGN",
+      "mu_G_abs": 40.0,
+      "mu_chi_abs": 0.1,
+      "point": [
+        0.0,
+        0.1
+      ],
+      "Pdet_proxy": 0.002713125015074358,
+      "Neff": 160727.61710483182,
+      "Neff_over_5Nobs": 32.14552342096636,
+      "max_normalised_weight": 0.00014441382332983823,
+      "share_top": {
+        "10": 0.0013011700064503966,
+        "100": 0.009616549218842863,
+        "1000": 0.04599550354352851
+      }
+    },
+    {
+      "tag": "spin mix f=0.3 (0.0,0.1)",
+      "sector": "spin",
+      "branch": "mixture",
+      "point": [
+        0.0,
+        0.1
+      ],
+      "Pdet_proxy": 0.0022125854436265916,
+      "Neff": 472910.13630034635,
+      "Neff_over_5Nobs": 94.58202726006927,
+      "max_normalised_weight": 5.511372349450624e-05,
+      "share_top": {
+        "10": 0.0005022252363120969,
+        "100": 0.0037829556408644893,
+        "1000": 0.019594611735472243
+      }
+    },
+    {
+      "tag": "spin GAL mu_chi=0.1",
+      "sector": "spin",
+      "branch": "GAL",
+      "mu_G_abs": 35.0,
+      "mu_chi_abs": 0.1,
+      "point": [
+        0.1,
+        -0.05
+      ],
+      "Pdet_proxy": 0.0019989084426406943,
+      "Neff": 246355.8190368106,
+      "Neff_over_5Nobs": 49.27116380736212,
+      "max_normalised_weight": 7.480597328268806e-05,
+      "share_top": {
+        "10": 0.0007113135851203869,
+        "100": 0.0057985817820216485,
+        "1000": 0.03435934719468539
+      }
+    },
+    {
+      "tag": "spin AGN mu_chi+dmu_chi=0.05",
+      "sector": "spin",
+      "branch": "AGN",
+      "mu_G_abs": 40.0,
+      "mu_chi_abs": 0.05,
+      "point": [
+        0.1,
+        -0.05
+      ],
+      "Pdet_proxy": 0.0027133993684993873,
+      "Neff": 300387.89214429556,
+      "Neff_over_5Nobs": 60.07757842885911,
+      "max_normalised_weight": 6.355614674039456e-05,
+      "share_top": {
+        "10": 0.0005954296907312536,
+        "100": 0.004873035022208025,
+        "1000": 0.02889141549397121
+      }
+    },
+    {
+      "tag": "spin mix f=0.3 (0.1,-0.05)",
+      "sector": "spin",
+      "branch": "mixture",
+      "point": [
+        0.1,
+        -0.05
+      ],
+      "Pdet_proxy": 0.0022132557203983017,
+      "Neff": 324803.05748778593,
+      "Neff_over_5Nobs": 64.96061149755718,
+      "max_normalised_weight": 5.172960295235818e-05,
+      "share_top": {
+        "10": 0.0004894964823011709,
+        "100": 0.0041313741743568486,
+        "1000": 0.0267239626356322
+      }
+    },
+    {
+      "tag": "spin GAL mu_chi=0.1",
+      "sector": "spin",
+      "branch": "GAL",
+      "mu_G_abs": 35.0,
+      "mu_chi_abs": 0.1,
+      "point": [
+        0.1,
+        0.2
+      ],
+      "Pdet_proxy": 0.0019989084426406943,
+      "Neff": 246355.8190368106,
+      "Neff_over_5Nobs": 49.27116380736212,
+      "max_normalised_weight": 7.480597328268806e-05,
+      "share_top": {
+        "10": 0.0007113135851203869,
+        "100": 0.0057985817820216485,
+        "1000": 0.03435934719468539
+      }
+    },
+    {
+      "tag": "spin AGN mu_chi+dmu_chi=0.30",
+      "sector": "spin",
+      "branch": "AGN",
+      "mu_G_abs": 40.0,
+      "mu_chi_abs": 0.30000000000000004,
+      "point": [
+        0.1,
+        0.2
+      ],
+      "Pdet_proxy": 0.0027491408775533357,
+      "Neff": 3894.403426756105,
+      "Neff_over_5Nobs": 0.778880685351221,
+      "max_normalised_weight": 0.002075351952433823,
+      "share_top": {
+        "10": 0.016234286719676656,
+        "100": 0.10325428273020455,
+        "1000": 0.4027596307822614
+      }
+    },
+    {
+      "tag": "spin mix f=0.3 (0.1,0.2)",
+      "sector": "spin",
+      "branch": "mixture",
+      "point": [
+        0.1,
+        0.2
+      ],
+      "Pdet_proxy": 0.0022239781731144856,
+      "Neff": 24153.089485898654,
+      "Neff_over_5Nobs": 4.830617897179731,
+      "max_normalised_weight": 0.0007848859836909351,
+      "share_top": {
+        "10": 0.006251969550845335,
+        "100": 0.03941499063387487,
+        "1000": 0.1583252785191479
+      }
+    }
+  ],
+  "min_Neff_over_5Nobs": 0.778880685351221,
+  "seconds": 903.5858409404755
+}

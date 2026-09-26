@@ -8,10 +8,10 @@ the fact; if a boundary becomes relevant it is extended once and reported.
 |---|---|---|
 | 0 provenance | **PASS** | gws-agn `2db436a`; darksirens-a8 `af896ca` clean; events `427990378e29…`, injections `e8a611a27f1f…` (both re-hashed 2026-09-26) |
 | L labels | **PASS** (CPU selftest) | exactly `$\mu_{\rm G}$` and `$\mu_\chi$` released; the other ten base slots stay pinned |
-| C closure C1–C6 | NOT RUN | see below |
-| S selection support | NOT RUN | see below |
-| 11A | NOT RUN | |
-| 11B | NOT RUN | |
+| C closure C1–C6 | **PASS** (C1, C2 judged at 1 ULP) | `diagnostics/a11_closure.json`, rita job 1339461. C1: 15/20 cells bitwise against both the live A10 cell and the recorded `a10_arm_J.h5`; the other 5 differ by exactly 1.82e-12 = 1 ULP of logL ≈ 1.6e4 (selection term at f = 0 in four, PE term at f = 0.3 in one). C2: 3/4 bitwise, one at 1 ULP. C3 (Δ = 0 ⇔ shared population) 4/4 bitwise; C4 (f = 0) 8/8 bitwise constant and equal to the shared cell; C5 (f = 1, only μ+Δμ enters) 9/9 bitwise constant; C6 live (logL moves by 136 over the μ_G axis, 161 over μ_χ) |
+| S selection support | **PASS WITH REJECTED CORNER** | live (30 cells): 29 pass; the one rejection is (μ_χ, Δμ_χ) = (+0.1, +0.2) at f = 1 — AGN spin mean 0.30 — N_eff/threshold 0.16 (1.07 at f = 0.3). Mass extremes pass (min 1.27 at AGN mean 49, f = 1). File proxy (`diagnostics/a11_selection_file.json`): every branch point ≥ 3.5 × 5000 except AGN spin mean 0.30 (N_eff 3,894, w_max/Σw 2.1e-3). The local posterior puts the AGN spin mean at ≈ 0.12 ± 0.02; the grids bound the rejected region's mass |
+| 11A | RUNNING | rita array 1339462 (4 chunks), 25 f × 29 μ_G × 37 Δμ_G = 26,825 cells ≈ 22.4 GPU-h |
+| 11B | RUNNING | rita array 1339463 (4 chunks), 25 f × 37 μ_χ × 35 Δμ_χ = 32,375 cells ≈ 27.1 GPU-h |
 | G11AB gate after 11A/11B | NOT REACHED | |
 | S1 sampler validation | NOT REACHED | |
 | 11C | NOT REACHED | |

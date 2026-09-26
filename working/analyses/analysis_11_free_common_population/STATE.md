@@ -1,6 +1,24 @@
 # Analysis 11 state
 
-**Stage (2026-09-26): specification written; closure + selection-support jobs running.**
+**Stage (2026-09-26, later): closure PASS (1-ULP residuals judged), selection support PASS with one rejected corner; 11A and 11B grids RUNNING; S0 queued.**
+
+- Timing: 3.011 s per evaluation steady state (first call 12.3 s), the same as Analysis 10.
+- Grid-design profiles at the planted point (f = 0.3): local marginal sd μ_G 0.38, Δμ_G 0.72
+  (ρ −0.77); μ_χ 0.0089, Δμ_χ 0.019 (ρ −0.78). The brief's suggested 0.5 M☉ / 0.01 spacings
+  would put 2–3 nodes across the μ_G and μ_χ posteriors, so the one production resolution
+  (`scripts/a11_grid_axes.json`) keeps the brief's coarse spacing over the full domains and
+  adds a fine core (μ_G 0.125 in [34, 36], Δμ_G 0.25 in [3, 7], μ_χ 0.0025 in
+  [−0.025, 0.025], Δμ_χ 0.005 in [0.07, 0.16]); f uses every 0.025 node in [0.1, 0.5] and
+  coarser nodes elsewhere, all on Analysis 10's lattice.
+- 11A: rita array 1339462, 26,825 cells ≈ 22.4 GPU-h. 11B: rita array 1339463,
+  32,375 cells ≈ 27.1 GPU-h. Both about 25–30 h of wall time, one GPU each.
+- S0 (`a11_sampler.py --stage s0`, job 1339466) queued behind them.
+- tinyns: darksirens' `run_sampler` uses a FIXED isotropic rwalk step of 0.1 in the unit
+  cube, several posterior widths here (unit-cube posterior sd ≈ 0.02–0.05), so with
+  `min_accepts = 1` late iterations would burn up to `max_attempts` calls each. tinyns'
+  own `rwalk_adaptive_step_scale` (not forwarded by darksirens) is therefore used by calling
+  `tinyns.NestedSampler` directly; dynesty is run with `bound='multi', sample='unif'` and
+  darksirens' checkpoint helpers. Both engines are validated in S1 before either is trusted.
 
 - gws-agn HEAD at start: `2db436aa880563f470b0b94cba811c22a3fa9bcf` (in sync with
   origin). darksirens-a8 `af896cae6f3f3dd1f87dec50046e3a8228f59b39`, clean.
