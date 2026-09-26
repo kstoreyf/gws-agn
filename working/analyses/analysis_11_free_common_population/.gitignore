@@ -1,0 +1,6 @@
+# bulk and checkpoint products stay local (repo push policy)
+*.h5
+*.npz
+diagnostics/_*.jsonl
+logs/
+queue/*.jsonl
