@@ -38,6 +38,12 @@ STAGES
                      checkpoints diagnostics/_c10_j_c{k}of8.jsonl.  The H0 =
                      67.74 slab is dealt FIRST (it is cell-for-cell a
                      sub-lattice of the fixed-H0 A10-J cube).
+    jx               GPU, rita.  Additive dmu_chi rows for C10-J: the two
+                     nodes {0.220, 0.235} above the 0.205 top edge (exact
+                     MU_GRID nodes), on every (H0, f, dmu_G) row of the cube.
+                     Row = those 2 cells.  Checkpoints
+                     diagnostics/_c10_jx_c{k}of{n}.jsonl.  Nothing already
+                     evaluated is recomputed.
     j_assemble       CPU.  -> results/c10_arm_J.{h5,json}: the 4-D cube, six
                      2-D marginals, six correlations, MAP, edge masses on every
                      axis, guard report, the FREE 67.74-slab closure against
@@ -45,6 +51,8 @@ STAGES
                      against C10-S (matched lattice) and, for reference only
                      (a DIFFERENT mock), against Analysis 9's
                      diagnostics/a9_h0_matched_lattice.json.
+                     --with_ext merges the jx rows onto a 15-node dmu_chi axis
+                     (the 13-node assembly is kept as c10_arm_J_mu13.*).
 
     mech             GPU, rita.  Section-21 mechanism arms, 2-D (H0, f) on the
                      28 (default window) x 41 (full F_GRID) lattice, marks
@@ -204,6 +212,13 @@ if J_F_AXIS.size != 11 or J_MU_AXIS.size != 13 or J_MG_AXIS.size != 15:
 
 J_CELLS_PER_H0_NODE = int(J_F_AXIS.size * J_MG_AXIS.size * J_MU_AXIS.size)  # 2145
 
+# The additive dmu_chi nodes (jx): the 13-node axis missed 1e-6 containment at
+# its 0.205 top edge (1.6e-5 of the peak), so two more nodes on the same 0.015
+# stride, taken from MU_GRID so the 67.74 slab still closes against A10-J.
+_J_MU_EXT_FORMULA = np.array([-0.20 + 0.015 * m for m in (28, 29)])     # 2
+J_MU_EXT, J_MU_EXT_IDX = _nodes_from_formula(MU_GRID, _J_MU_EXT_FORMULA, 1e-9,
+                                             "C10-J dmu_chi extension")
+
 MECH_ARMS = {
     "P1": {"surveys": "gal_agn", "marks": "pinned",
            "measures": "the total marked H0 width"},
@@ -296,9 +311,13 @@ def _j_checkpoints():
     return sorted(DIAG.glob("_c10_j_c*of*.jsonl"))
 
 
-def _load_done_j(exclude=None):
+def _jx_checkpoints():
+    return sorted(DIAG.glob("_c10_jx_c*of*.jsonl"))
+
+
+def _load_done_j(exclude=None, ext=False):
     done, headers, dropped = {}, {}, 0
-    for path in _j_checkpoints():
+    for path in (_jx_checkpoints() if ext else _j_checkpoints()):
         if exclude is not None and path == Path(exclude):
             continue
         hdr, rows, drop = _read_jsonl(path)
@@ -927,7 +946,10 @@ def _check_j_h0_axis_default(h0_axis, window):
 
 
 def stage_j(args):
-    env = A9._gpu_setup("j")
+    ext = args.stage == "jx"
+    mu_axis = J_MU_EXT if ext else J_MU_AXIS
+    arm = "C10-J-ext" if ext else "C10-J"
+    env = A9._gpu_setup(args.stage)
     env["a10_inputs"] = C.assert_a10_inputs(with_md5=False)
     h0_axis = j_h0_axis(*args.h0_window)
     axis_check = _check_j_h0_axis_default(h0_axis, args.h0_window)
@@ -937,32 +959,34 @@ def stage_j(args):
     order = j_row_order(h0_axis, J_F_AXIS, J_MG_AXIS)
     mine = [x for i, x in enumerate(order) if i % args.n_chunks == args.chunk]
     tag = f"c{args.chunk}of{args.n_chunks}"
-    path = DIAG / f"_c10_j_{tag}.jsonl"
-    print(f"[C10-J] chunk {args.chunk}/{args.n_chunks}: {len(mine)} rows "
-          f"({len(mine) * J_MU_AXIS.size} cells); h0_window={list(args.h0_window)}, "
-          f"H0={h0_axis.size} f={J_F_AXIS.size} dmu_G={J_MG_AXIS.size} nodes")
+    path = DIAG / f"_c10_{'jx' if ext else 'j'}_{tag}.jsonl"
+    print(f"[{arm}] chunk {args.chunk}/{args.n_chunks}: {len(mine)} rows "
+          f"({len(mine) * mu_axis.size} cells); h0_window={list(args.h0_window)}, "
+          f"H0={h0_axis.size} f={J_F_AXIS.size} dmu_G={J_MG_AXIS.size} nodes, "
+          f"dmu_chi={mu_axis.tolist()}")
 
-    done_elsewhere, headers, dropped = _load_done_j(exclude=path)
+    done_elsewhere, headers, dropped = _load_done_j(exclude=path, ext=ext)
     hdr_self, rows_self, drop_self = _read_jsonl(path)
     done_self = {_key3(r["H0"], r["f_agn"], r["dmu_G"]): r for r in rows_self}
     todo = [(h0, f, g) for (h0, f, g) in mine
             if _key3(h0, f, g) not in done_self
             and _key3(h0, f, g) not in done_elsewhere]
     print(f"rows to do in this worker: {len(todo)} "
-          f"({len(todo) * J_MU_AXIS.size} cells), "
+          f"({len(todo) * mu_axis.size} cells), "
           f"{dropped + drop_self} truncated line(s) dropped")
     if not todo:
         print("nothing to do")
         return
 
     t_build = time.time()
-    cell = build_c10_cell(f"C10_J_c{args.chunk}", [A8.SURVEY_GAL, A8.SURVEY_AGN])
+    cell = build_c10_cell(f"C10_{'JX' if ext else 'J'}_c{args.chunk}",
+                          [A8.SURVEY_GAL, A8.SURVEY_AGN])
     print(f"build: {time.time() - t_build:.1f}s")
     if hdr_self is None:
-        _append_jsonl(path, _header(cell, "C10-J", tag, {
+        _append_jsonl(path, _header(cell, arm, tag, {
             "h0_window": list(args.h0_window), "H0_grid": h0_axis.tolist(),
             "H0_grid_default_check": axis_check,
-            "f_grid": J_F_AXIS.tolist(), "dmu_chi_grid": J_MU_AXIS.tolist(),
+            "f_grid": J_F_AXIS.tolist(), "dmu_chi_grid": mu_axis.tolist(),
             "dmu_G_grid": J_MG_AXIS.tolist(),
             "chunk": args.chunk, "n_chunks": args.n_chunks,
             "rows_this_worker": len(mine),
@@ -970,7 +994,7 @@ def stage_j(args):
 
     t0 = time.time()
     for n, (h0, f, g) in enumerate(todo, start=1):
-        cells = [_eval(cell, h0, f, mu, g) for mu in J_MU_AXIS]
+        cells = [_eval(cell, h0, f, mu, g) for mu in mu_axis]
         _append_jsonl(path, {
             "record": "row", "H0": float(h0), "f_agn": float(f), "dmu_G": float(g),
             "key": _key3(h0, f, g), "cells": cells,
@@ -979,20 +1003,20 @@ def stage_j(args):
         lls = np.array([c["logL"] for c in cells], dtype=float)
         fin = np.isfinite(lls)
         el = time.time() - t0
-        print(f"[C10-J] row {n}/{len(todo)} H0={h0:.2f} f={f:.4f} dmu_G={g:+.2f} "
+        print(f"[{arm}] row {n}/{len(todo)} H0={h0:.2f} f={f:.4f} dmu_G={g:+.2f} "
               f"maxlogL={(lls[fin].max() if fin.any() else float('nan')):.4f} "
-              f"rejected={int((~fin).sum())}/{J_MU_AXIS.size} "
+              f"rejected={int((~fin).sum())}/{mu_axis.size} "
               f"elapsed={el/60:.1f}min eta={el/n*(len(todo)-n)/60:.1f}min")
         sys.stdout.flush()
         if args.stop_after_s and el > args.stop_after_s:
-            print(f"[C10-J] stopping cleanly at the requested budget; "
+            print(f"[{arm}] stopping cleanly at the requested budget; "
                   f"{len(todo) - n} rows left")
             break
-    print(f"[C10-J] done -> {path}")
+    print(f"[{arm}] done -> {path}")
 
 
-def _j_cube(done, h0_axis):
-    shape = (h0_axis.size, J_F_AXIS.size, J_MG_AXIS.size, J_MU_AXIS.size)
+def _j_cube(done, h0_axis, mu_axis=J_MU_AXIS):
+    shape = (h0_axis.size, J_F_AXIS.size, J_MG_AXIS.size, mu_axis.size)
     ll = np.full(shape, np.nan)
     fin = np.zeros(shape, dtype=bool)
     store, missing = {}, []
@@ -1186,7 +1210,7 @@ def _guard_report_4d(h0, f, mg, mu, ll, fin, pull):
     return rep
 
 
-def _closure_j_slab_check(h0_axis, ll, fin, pull):
+def _closure_j_slab_check(h0_axis, ll, fin, pull, mu_axis=J_MU_AXIS):
     """FREE CLOSURE: the H0 = 67.74 slab of C10-J against the fixed-H0
     results/a10_arm_J.h5 cube -- cell for cell, in ULP."""
     import h5py
@@ -1212,7 +1236,7 @@ def _closure_j_slab_check(h0_axis, ll, fin, pull):
             gi = np.where(ref_mg == g)[0]
             if gi.size != 1:
                 raise RuntimeError(f"[fatal] dmu_G node {g} not a unique a10_arm_J node")
-            for j, mu in enumerate(J_MU_AXIS):
+            for j, mu in enumerate(mu_axis):
                 mi = np.where(ref_mu == mu)[0]
                 if mi.size != 1:
                     raise RuntimeError(f"[fatal] dmu_chi node {mu} not a unique "
@@ -1312,7 +1336,30 @@ def stage_j_assemble(args):
     if md5s and md5s != {GW_MD5_A10}:
         raise RuntimeError(f"[fatal] checkpoints carry events md5 {md5s}")
 
-    ll, fin, pull, missing = _j_cube(done, h0_axis)
+    mu_axis = J_MU_AXIS
+    if args.with_ext:
+        # Merge the additive jx rows: each row's cells become the 13 original
+        # dmu_chi cells followed by the 2 extension cells (ascending order).
+        done_x, headers_x, dropped_x = _load_done_j(ext=True)
+        for h in headers_x.values():
+            if h.get("darksirens_sha") != A9.DARKSIRENS_A8_SHA or h.get("events_md5") != GW_MD5_A10:
+                raise RuntimeError("[fatal] a jx checkpoint carries the wrong SHA or events md5")
+        merged, n_no_ext = {}, 0
+        for key, (name, row) in done.items():
+            hit = done_x.get(key)
+            if hit is None:
+                n_no_ext += 1
+                continue
+            merged[key] = (name, dict(row, cells=list(row["cells"]) + list(hit[1]["cells"])))
+        print(f"[with_ext] merged {len(merged)} rows; {n_no_ext} base rows have no jx row")
+        done, dropped = merged, dropped + dropped_x
+        mu_axis = np.concatenate([J_MU_AXIS, J_MU_EXT])
+        for p in ("json", "h5"):
+            src, dst = RESULTS / f"c10_arm_J.{p}", RESULTS / f"c10_arm_J_mu13.{p}"
+            if src.exists() and not dst.exists():
+                src.rename(dst)
+                print(f"kept the 13-node assembly as {dst.name}")
+    ll, fin, pull, missing = _j_cube(done, h0_axis, mu_axis)
     n_want = int(h0_axis.size * J_F_AXIS.size * J_MG_AXIS.size)
     if missing and not args.allow_partial:
         raise RuntimeError(
@@ -1327,7 +1374,7 @@ def stage_j_assemble(args):
 
     scan_h0f = A8.import_scan_h0f()
     marginal_ci = scan_h0f.marginal_ci
-    marg = _marginals_4d(h0_axis, J_F_AXIS, J_MG_AXIS, J_MU_AXIS, ll, fin, marginal_ci)
+    marg = _marginals_4d(h0_axis, J_F_AXIS, J_MG_AXIS, mu_axis, ll, fin, marginal_ci)
     P = marg.pop("_P")
     m2 = marg.pop("marginals_2d")
     GC._truth_flags(marg["H0"], {"planted": 67.74})
@@ -1336,9 +1383,9 @@ def stage_j_assemble(args):
                                       "realised": TRUTH["dmu_chi_realised"]})
     GC._truth_flags(marg["dmu_G"], {"planted": TRUTH["dmu_G_planted"]})
 
-    edges = _edge_mass_4(marg, h0_axis, J_F_AXIS, J_MG_AXIS, J_MU_AXIS)
-    guard = _guard_report_4d(h0_axis, J_F_AXIS, J_MG_AXIS, J_MU_AXIS, ll, fin, pull)
-    slab_check = _closure_j_slab_check(h0_axis, ll, fin, pull)
+    edges = _edge_mass_4(marg, h0_axis, J_F_AXIS, J_MG_AXIS, mu_axis)
+    guard = _guard_report_4d(h0_axis, J_F_AXIS, J_MG_AXIS, mu_axis, ll, fin, pull)
+    slab_check = _closure_j_slab_check(h0_axis, ll, fin, pull, mu_axis)
     if slab_check.get("available"):
         w = slab_check["worst"]
         print(f"[67.74-slab closure] {slab_check['n_compared']} cells, "
@@ -1372,7 +1419,8 @@ def stage_j_assemble(args):
         "survey_paths": hdr.get("survey_paths"),
         "truth": dict(TRUTH),
         "grid": {"H0": h0_axis.tolist(), "f_agn": J_F_AXIS.tolist(),
-                "dmu_G": J_MG_AXIS.tolist(), "dmu_chi": J_MU_AXIS.tolist()},
+                "dmu_G": J_MG_AXIS.tolist(), "dmu_chi": mu_axis.tolist()},
+        "dmu_chi_extension_merged": bool(args.with_ext),
         "n_cells": int(ll.size), "n_rejected": int((~fin).sum()),
         "logL_max": marg["logL_max"], "map": marg["map"],
         "H0": marg["H0"], "f_agn": marg["f_agn"], "dmu_G": marg["dmu_G"],
@@ -1387,7 +1435,8 @@ def stage_j_assemble(args):
         "timing": {"cells": int(ll.size),
                    "gpu_hours": float(np.nansum(pull("seconds")) / 3600.0),
                    "median_seconds_per_cell": float(np.nanmedian(pull("seconds")))},
-        "checkpoints": [p.name for p in _j_checkpoints()],
+        "checkpoints": [p.name for p in _j_checkpoints()]
+                       + ([p.name for p in _jx_checkpoints()] if args.with_ext else []),
         "truncated_lines_dropped": dropped,
     }
 
@@ -1396,7 +1445,7 @@ def stage_j_assemble(args):
         h5.create_dataset("H0_grid", data=h0_axis)
         h5.create_dataset("f_grid", data=J_F_AXIS)
         h5.create_dataset("dmu_G_grid", data=J_MG_AXIS)
-        h5.create_dataset("dmu_chi_grid", data=J_MU_AXIS)
+        h5.create_dataset("dmu_chi_grid", data=mu_axis)
         h5.create_dataset("log_likelihood", data=ll)
         h5.create_dataset("posterior_unnormalised", data=P)
         g = h5.create_group("guard")
@@ -1681,6 +1730,21 @@ def stage_status(args):
             "truncated_lines_dropped": dropped,
         }
 
+    if _jx_checkpoints():
+        done, _headers, dropped = _load_done_j(ext=True)
+        h0_axis = j_h0_axis(*args.h0_window)
+        want = {_key3(h0, f, g) for h0 in h0_axis for f in J_F_AXIS for g in J_MG_AXIS}
+        have = want & set(done)
+        secs = [c["seconds"] for _, r in done.values() for c in r["cells"]]
+        out["jx"] = {
+            "rows_done": len(have), "rows_total": len(want),
+            "cells_done": len(have) * J_MU_EXT.size,
+            "cells_total": len(want) * J_MU_EXT.size,
+            "gpu_hours_spent": float(np.sum(secs) / 3600.0) if secs else 0.0,
+            "checkpoints": [p.name for p in _jx_checkpoints()],
+            "truncated_lines_dropped": dropped,
+        }
+
     mech_files = sorted(DIAG.glob("_c10_mech_*.jsonl"))
     if mech_files:
         h0_axis = j_h0_axis(*args.h0_window)
@@ -1797,7 +1861,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--stage", required=True, choices=(
-        "profile", "s", "s_assemble", "j", "j_assemble",
+        "profile", "s", "s_assemble", "j", "jx", "j_assemble",
         "mech", "mech_assemble", "status", "dry_run"))
     ap.add_argument("--chunk", type=int, default=0)
     ap.add_argument("--n_chunks", type=int, default=1)
@@ -1814,6 +1878,8 @@ def main(argv=None):
                     help="mech: which of P1/I0/I1 this worker computes")
     ap.add_argument("--which", default="all",
                     help="status/dry_run: comma list of profile,s,j,mech or 'all'")
+    ap.add_argument("--with_ext", action="store_true",
+                    help="j_assemble: merge the jx dmu_chi extension rows")
     ap.add_argument("--allow_partial", action="store_true",
                     help="*_assemble: write a coverage report instead of failing")
     ap.add_argument("--stop_after_s", type=float, default=0.0,
@@ -1826,7 +1892,7 @@ def main(argv=None):
     return {
         "profile": stage_profile,
         "s": stage_s, "s_assemble": stage_s_assemble,
-        "j": stage_j, "j_assemble": stage_j_assemble,
+        "j": stage_j, "jx": stage_j, "j_assemble": stage_j_assemble,
         "mech": stage_mech, "mech_assemble": stage_mech_assemble,
         "status": stage_status, "dry_run": stage_dry_run,
     }[args.stage](args)

@@ -48,6 +48,150 @@ the same reason.
 Nothing has been run under the new mark. `GATES.md` carries the re-keyed
 ledger; `STATE.md` the verified facts.
 
+## Cosmology stage, part 3: routing, the single-tracer control, and the `Δμ_χ` edge (2026-09-25)
+
+Owner request after part 2: push, then run (1) the C10-2 `H0`-curvature split, (2) the C10-3
+control, and (3) the `Δμ_χ` axis extension. For C10-3 the owner chose the single-tracer
+construction.
+
+### (1) Where the marks' effect on `H0` comes from, event by event (C10-2)
+
+**Sources.** `diagnostics/c10_event_routing.{h5,json}`, `scripts/c10_event_routing.py`, rita
+job 1337860 (37 min). The point is P1's pin (`f` = 0.275, `Δμ_χ` = +0.115, `Δμ_G` = +5.0). Twelve
+`H0` nodes cover [66, 71] on the 0.5 lattice, plus 67.74. At each node the four nested models
+of the event decomposition are evaluated: spatial (G), + spin (χ), + mass (M), and + both (AM).
+At every node, each model's per-event sum reproduces its live production evaluation. The AM
+and G sums also reproduce the recorded P1 and C10-S cells, and the selection terms match too.
+The worst difference over all 12 nodes is 3.6e-12, about 2 ULP. No event is excluded.
+
+**The mass mark moves `H0`; the spin mark barely does.** With `f` and the marks held at
+the pin, the whole-likelihood argmax is 70.5 (G), 70.0 (χ), 68.0 (M) and 67.74 (AM). The score
+budget at the marked peak (stencil 67.0/67.5/68.0) says the same thing:
+
+| mark | added d lnL/dH0, event term | selection term | implied local peak shift | events with \|ΔP\| > 0.1 | 0.5 crossers | ΣP change |
+|---|---|---|---|---|---|---|
+| spin | −0.47 | −0.08 | −0.71 | 377 | 77 | +3.7 |
+| mass | −2.36 | +0.45 | −3.54 | 439 | 164 | +61.1 |
+| both | −2.42 | +0.23 | −3.89 | 541 | 202 | +59.9 |
+
+At the spatial peak (70.5) the shifts are −0.61, −2.02 and −2.59. The event term drives the
+shift, and the selection term partly offsets it for the mass mark.
+
+**The mass-mark shift is not carried by the events it re-routes.** Across events, the
+change in score correlates only weakly with |ΔP_i| (Pearson r = −0.09 at 67.5, −0.19 at 70.5).
+The 75 most re-routed events carry 21–23% of the added score, and the 439 events with |ΔP| > 0.1
+carry 71%. True-GAL events contribute −0.91 of the −2.36 at 67.5. A heavier AGN-branch mass
+function changes how every event's detector-frame mass maps onto redshift, spread over the
+events with any AGN-branch weight. That is a population (spectral-siren-type) effect, not a
+re-sorting between the two redshift structures. The spin mark behaves as it did in Analysis 9.
+Its (small) added score is concentrated in the most re-routed events: the top 25 carry 98% at
+67.5 and the top 75 carry 61%.
+
+**Why the marks buy no `H0` width.** At a common `H0` the marks add curvature. The total
+(event + selection) curvature rises by ×1.19 (AM) and ×1.27 (M) at 67.5, and ×1.35 and ×1.50
+at 70.5, a local width gain of 0.82–0.92. But the whole likelihood is about half as curved at
+67.5 as at 70.5 (spatial model: 0.57 against 1.19). The shift carries the posterior to where
+the data constrain `H0` less, and that gives the local gain back. The fixed-`f` width ratio
+P1/P0 from the (`H0`, `f`) grids shows this trade and how it depends on `f`:
+
+| `f` | 0.225 | 0.250 | 0.275 | 0.300 | 0.325 |
+|---|---|---|---|---|---|
+| width P1/P0, 68% | 0.899 | 0.998 | 1.068 | 1.135 | 1.197 |
+| width P1/P0, 90% | 0.870 | 0.942 | 1.006 | 1.079 | 1.120 |
+| median shift P1 − P0 | −3.13 | −3.08 | −3.05 | −3.03 | −3.03 |
+
+The shift is the same at every `f`. The width ratio is not: it crosses 1 inside C10-J's `f`
+interval. The local curvatures come from a three-point stencil, and the event-level shares of
+the added *curvature* are not well conditioned where that total is small. Only the score
+shares are quoted.
+
+**C10-2 verdict.** Measured as registered. The routing statistics are large for the mass mark
+(ΣP +61, 164 crossers), but its `H0` effect is a shift that is not concentrated in the
+re-routed events. The spin mark's effect is small and routing-concentrated, as in Analysis 9.
+Whether the mass mark's shift is the spectral-siren channel is for (2) to test on a mock
+where routing cannot act.
+
+### (2) The single-tracer spectral-siren control (C10-3): the mass mark is a bias correction, not a ruler
+
+**Construction (owner decision 2026-09-25).** A new generator flag,
+`--branch_frac_independent p`, draws each proposal's population branch as Bernoulli(p) on its
+own child RNG stream (spawn key 0x4252), independent of the host. Both marks follow that branch
+instead of the AGN host label. With the flag unset, the patched generator reproduces the
+production mock bit for bit on the production node (r008): 50 of 50 datasets and every
+attribute except `metadata_json`, whose only differences are the new flag's record, the suffix
+and the timestamp. The md5s of the existing mocks are unchanged. Two twins, both with
+`--f_agn 0` (every host a GAL galaxy) and p = 0.30, `Δμ_χ` = +0.10:
+
+| mock | marked branch `μ_G` | detected branch fraction | median `m1src`, marked / other | realised spin shift |
+|---|---|---|---|---|
+| B5 `events_single_b0p30_dmu0p10_dmuG5.h5` | 40 | 0.350 | 41.4 / 36.7 | +0.088 ± 0.007 |
+| B0 `events_single_b0p30_dmu0p10_dmuG0.h5` | 35 | 0.279 | 36.7 / 36.6 | +0.114 ± 0.007 |
+
+On these mocks the [GAL, GAL] two-mark model is correctly specified. Both branches share the
+spatial prior, so routing cannot carry redshift information, and the branch-dependent peak
+location is the only branch-dependent `H0` information. Three (`H0`, `f`) arms were run with the
+marks pinned at the planted values (`scripts/c10_control.py`; rita jobs 1337864–6, then
+additive `H0` rows in 1337880–2; ~6 s/cell because the GAL survey is loaded twice; no cell
+rejected). Results are in `results/c10_control.{h5,json}` and `figs/fig_c10_control`.
+
+| arm | mock, model | `H0` median, 68%, 90% | w68 / w90 | MAP (`H0`, `f`) | `f` |
+|---|---|---|---|---|---|
+| **B5M** | B5, both marks (correct) | **68.86 [66.68, 72.56] [65.12, 74.64]** | 5.88 / 9.52 | (68.0, 0.300) | 0.281 [0.212, 0.349] |
+| **B0M** | B0, spin mark only (correct) | **67.38 [65.54, 69.08] [64.50, 70.18]** | 3.54 / 5.69 | (67.74, 0.225) | 0.221 [0.130, 0.317] |
+| B5U | B5, no marks (mass misspecified) | 88.92 [86.59, 91.56] [84.64, 93.65], **truncated** | (4.97 / 9.01) | (88.5, —) | unconstrained |
+
+Windows: B5M [54, 95], edges 1.6e-11 / 8.9e-11 of the peak. B0M [58, 82], edges 1.2e-7 / 8.1e-9.
+B5U [58, 100], upper edge 4.6e-3, so its interval is bounded by the window. It is reported as
+a lower bound, the same treatment as I0 in part 1.
+
+**Both correctly specified arms recover the planted `H0`.** B5M's MAP is (68.0, 0.30) with the
+planted 67.74 inside its 68% interval. B0M's MAP is exactly 67.74. The planted branch fraction
+is inside both 90% intervals.
+
+**The mass mark costs `H0` precision here: width B5M/B0M = 1.66 (68%) / 1.67 (90%).** The
+peaks sit 5 Msun apart with a common width of 5 Msun (`peak_sigma`), so they overlap heavily.
+Their mixture is a broader mass feature than one peak, and a free mixing fraction mimics a
+rescaling of the mass scale. In B5M `H0` and `f` are anticorrelated (ρ = −0.46). At higher
+`H0` the source masses come out lighter, fewer events need the heavy branch, and the best `f`
+falls from 0.30 at 67.7 to 0.225 at 77.5 for a cost of only 3.8 in lnL. That is the high-`H0`
+shoulder in `fig_c10_control`. Holding `f` fixed removes the trade but not the broader feature.
+At `f` = 0.30, B5M's `H0` width is 4.53 (68%) against B0M's 3.53, a ratio of 1.28. B0M's
+width does not depend on `f` at all (3.52–3.54 across `f` = 0.20–0.35). The twins' detected
+sets differ, because the heavier branch is louder (350 against 279 marked-branch events), and
+that caveat stays with the ratio.
+
+**Ignoring the heavier peak is catastrophic on one tracer and mild on two.** The unmarked fit
+to B5 puts `H0` at ≥ 88.9: an offset of at least +20 from B5M, and truncated. On the production
+mock the same misspecification costs only +3.02 (C10-S − P1). The difference is the AGN
+tracer. When about a third of the events sit in a sparse catalogue with its own redshift
+structure, the spatial term anchors `H0` against the mass scale. With one dense tracer nothing
+does, and the mass scale runs.
+
+**C10-3 verdict: MET, in the owner's single-tracer form.** With routing switched off by
+construction, the branch-dependent peak location adds no `H0` precision. It removes precision
+(×1.66) through the `f`–mass-scale trade. What it does supply is the correct mass scale, without
+which `H0` is biased by ≥ +20 here. Read together with (1): the production marks' `H0` effect is
+the spectral-siren correction of a misspecified mass function. It shows as a −3.0 shift, not a
+narrower posterior, and it is not carried by re-routing. The half of the `H0` precision the AGN
+catalogue carries (part 1, w(P1)/w(I1) = 0.50) comes from its redshift structure, not from the
+marks.
+
+### (3) The `Δμ_χ` axis extension: contained, and nothing moves
+
+Two additive nodes, `Δμ_χ` = 0.220 and 0.235 (exact `MU_GRID` nodes on the same 0.015 stride),
+were evaluated on all 5,610 (`H0`, `f`, `Δμ_G`) rows of C10-J. That is 11,220 cells and
+9.4 GPU-h (rita job 1337604 chunks 0–2; chunk 3 was resubmitted as 1337856 after another
+`TaskProlog failed` start). `c10_scan.py --stage jx` writes the rows. `--stage j_assemble
+--with_ext` merges them onto a 15-node axis, and the 13-node assembly is kept as
+`results/c10_arm_J_mu13.{h5,json}`.
+
+- Every axis is now contained at 1e-6: `Δμ_χ` edges 1.6e-11 / 4.1e-8 of the peak (was 1.6e-5
+  at 0.205), `H0` 5.6e-12 / 2.9e-11, `f` 1.4e-14 / 5.5e-9, `Δμ_G` 9.3e-11 / 2.5e-7.
+- The 67.74-slab closure now covers 2,475 cells, all bitwise identical to the fixed-`H0` cube.
+- Every quoted C10-J number is unchanged at the fifth decimal (`H0` 67.6612 [65.3932, 69.4318],
+  `Δμ_χ` 0.1185 [0.0894, 0.1484], the 90% upper end moving by 1e-6). Part 2's judgement that
+  the tail was immaterial is confirmed by measurement.
+
 ## Cosmology stage, part 2: all four coordinates free (C10-J, 2026-09-24)
 
 **Sources.** `results/c10_arm_J.{h5,json}`, figures `figs/fig_c10_h0.{pdf,png}` (now with

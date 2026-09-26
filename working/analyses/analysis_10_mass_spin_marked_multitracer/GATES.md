@@ -34,7 +34,9 @@ generated or evaluated under the new mark.
 | **fixed-\(H_0\) owner gate** | **PASS on the six conditions** | selection valid (Gate B, no posterior-relevant rejection); closure (Gate 15); mass coordinate live (15.6, 10.5 nats/Msun); Δμ_G = +5 meaningfully recovered (J: 4.76 [4.11, 5.42], zero excluded by ~8σ; planted inside 68%); mass adds information beyond spin-only (f width J/χ 0.94 at 68%, Δμ_χ width J/χ 0.92; the mass mark is itself measured); no pathological degeneracy (max \|ρ\| 0.58). Reached 2026-09-22; the H0 release is a separate owner decision |
 | C10-S spatial-only cosmology arm | **PASS** (as a baseline) | 8,282 cells, 0 rejected; \(H_0\) 70.60 [69.60, 71.80] / [68.93, 72.89], f 0.287 [0.233, 0.341]; biased high on the two-mark mock (+3.01 against P1 at the same data), the spectral-siren sign of an unmodelled heavier AGN peak (`results/c10_arm_S.json`) |
 | C10 mechanism arms P1 / I0 / I1 | **RUN; C10-3 NOT MET by this construction** | P1 67.58 [66.32, 68.70], w(P1)/w(P0) 1.056 / 0.977; I0 truncated at the 76 edge (mode 76.0); the [GAL,GAL] ratio 3.35 / 3.12 is confounded (equal tracers mis-assign the AGN events' spatial prior) and is not a spectral-siren share; w(P1)/w(I1) 0.496 / 0.542 (`results/c10_mech.json`) |
-| C10-J full cosmology arm | **PASS** (Δμ_χ top edge judged) | 72,930 cells, 61.2 GPU-h, 0 rejected (min N_eff/thr 1.36); jobs 1336631 + 1337582 (chunk 7 prolog fault, resubmitted unchanged); **H0 67.66 [66.34, 68.80] / [65.39, 69.43]** (planted 67.74 inside 68%); f 0.274 [0.223, 0.326]; Δμ_G 4.80 [4.13, 5.47]; Δμ_χ 0.1185 [0.1015, 0.1370]; ρ(H0, Δμ_G) −0.25, dE[H0|Δμ_G]/dΔμ_G = −0.42 per Msun; width C10-J/C10-S matched 1.088 / 1.007 (no precision gain; C10-J − C10-S = −2.94), C10-J/P1 1.030 / 1.030; H0, f, Δμ_G contained at 1e-6; **Δμ_χ top edge 1.6e-5 of the peak**, tail mass above 0.205 measured at 3.9e-7 on the bitwise-identical fixed-H0 cube, quantiles unchanged to 1e-5, judged immaterial; 67.74-slab closure 2,145/2,145 bitwise (`results/c10_arm_J.json`) |
+| C10-J full cosmology arm | **PASS** | 72,930 cells, 61.2 GPU-h, 0 rejected (min N_eff/thr 1.36); jobs 1336631 + 1337582 (chunk 7 prolog fault, resubmitted unchanged); **H0 67.66 [66.34, 68.80] / [65.39, 69.43]** (planted 67.74 inside 68%); f 0.274 [0.223, 0.326]; Δμ_G 4.80 [4.13, 5.47]; Δμ_χ 0.1185 [0.1015, 0.1370]; ρ(H0, Δμ_G) −0.25, dE[H0|Δμ_G]/dΔμ_G = −0.42 per Msun; width C10-J/C10-S matched 1.088 / 1.007 (no precision gain; C10-J − C10-S = −2.94), C10-J/P1 1.030 / 1.030; H0, f, Δμ_G contained at 1e-6; Δμ_χ axis extended to 0.235 by additive rows (jx, 11,220 cells, 9.4 GPU-h): **all four axes contained** (Δμ_χ top edge 4.1e-8), every number unchanged at 1e-5; 67.74-slab closure 2,475/2,475 bitwise (`results/c10_arm_J.json`) |
+| C10-2 event-level routing with H0 free | **MET** | `diagnostics/c10_event_routing.json`: 12 H0 nodes, four nested models, every per-event sum = production to ≤ 3.6e-12; mass mark: argmax H0 70.5 → 68.0 (both marks 67.74), added score −2.36 (event) +0.45 (selection) at 67.5, ΣP +61, 164 crossers, but the shift is spread (top-75 re-routed events carry 21%, r(\|ΔP\|, Δscore) −0.09/−0.19); spin mark small and routing-concentrated (top-25 carry 98%); fixed-f width P1/P0 0.87 → 1.12 over f 0.225–0.325 at a constant −3.0 shift |
+| C10-3 single-tracer spectral-siren control | **MET** (owner's single-tracer construction) | generator `--branch_frac_independent` (default path bitwise 50/50); twins B5/B0 (all GAL hosts, p = 0.30); B5M 68.86 [65.12, 74.64], B0M 67.38 [64.50, 70.18], both recover 67.74; **width B5M/B0M 1.66 / 1.67** (1.28 at fixed f = 0.30): the location mark costs precision via the f–mass-scale trade (ρ −0.46); B5U (unmarked) ≥ 88.9, truncated: ignoring the heavier peak biases H0 ≥ +20 on one tracer against +3.0 on two (`results/c10_control.json`) |
 
 ## Scope lock
 
@@ -435,6 +437,8 @@ to the cosmology arms.
 
 ## Gates C10-S, C10-J — the cosmology arms (C10-S PASS; C10-J PASS)
 
+Status (2026-09-25): C10-J re-assembled with the Δμ_χ extension, contained on every axis. **C10-2 MET**: the mass mark's H0 effect is a shift that the re-routed events do not carry. **C10-3 MET** in the owner's single-tracer form: with routing off, the branch-dependent peak location costs H0 precision (×1.66) and its role is to correct the mass scale (≥ +20 bias when ignored on one tracer). C10-1 is answered by the two together. Detail in `REPORT.md`, *Cosmology stage, part 3*.
+
 Status (2026-09-24): **C10-J PASS.** The marked model recovers the planted \(H_0\) (67.66 [66.34, 68.80]) and removes the spatial-only model's +2.94 offset at a width ratio of 1.088 / 1.007, so it gives no precision gain on this mock. C10-1 and C10-2 cannot be met as registered because there is no gain to decompose; the \(H_0\)-curvature split (under 1 GPU-h, new script work) is an owner decision. C10-3 NOT MET (below). C10-4 met. Detail in `REPORT.md`, *Cosmology stage, part 2*.
 
 Status (2026-09-23): the fixed-\(H_0\) owner gate passed on 2026-09-22 and the
@@ -452,7 +456,7 @@ decision. C10-1, C10-2 and C10-4 are judged once C10-J is assembled. Detail in
 | **C10-S** | mark-free \(H_0\) | \(H_0, f_{\rm AGN}\) | the spatial-only \(H_0\) baseline on the two-mark mock; every marked width is quoted against this, differentially |
 | **C10-J** | full | \(H_0, f_{\rm AGN}, \Delta\mu_\chi, \Delta\mu_{\rm G}\) | \(H_0\) recovers seed 100's own draw; the marked/unmarked width ratio is reported with its mechanism decomposed |
 
-- [ ] **C10-1. The two channels are separated.** A mass mark reaches \(H_0\) by
+- [x] **C10-1. The two channels are separated.** A mass mark reaches \(H_0\) by
       two distinct routes and reporting one number for the gain would be a wrong
       attribution:
       **(i) event-level tracer routing** — the Analysis-9 mechanism, in which the
@@ -464,10 +468,10 @@ decision. C10-1, C10-2 and C10-4 are judged once C10-J is assembled. Detail in
       spectral-siren rulers, constraining \(H_0\) with no reference to the galaxy
       catalog at all. \(\chi_{\rm eff}\) has no analogue of (ii): it does not
       redshift and does not enter \(\rho_{\rm opt}\).
-- [ ] **C10-2.** The routing share is measured as Analysis 9 measured it: the
+- [x] **C10-2.** The routing share is measured as Analysis 9 measured it: the
       fixed-\(f\) width ratio, the \(|\Delta P_i|\) distribution, the crossers,
       and the event-term / selection-term split of the added \(H_0\) curvature.
-- [ ] **C10-3.** The spectral-siren share is measured against a control in which
+- [x] **C10-3.** The spectral-siren share is measured against a control in which
       the branch labels are scrambled, so that the peak-location information
       survives but the tracer routing does not.
 - [x] **C10-4.** \(H_0\) is quoted **differentially** throughout. Seed 100's draw

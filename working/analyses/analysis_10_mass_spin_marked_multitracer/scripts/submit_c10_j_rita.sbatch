@@ -42,5 +42,5 @@ CHUNK=${SLURM_ARRAY_TASK_ID:-0}
 NCH=${N_CHUNKS:-${SLURM_ARRAY_TASK_COUNT:-8}}
 echo "[c10] host=$(hostname) job=${SLURM_JOB_ID:-none} chunk=${CHUNK}/${NCH} arm=C10-J"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
-exec "${A9_PY}" "${A10_DIR}/scripts/c10_scan.py" --stage j \
+exec "${A9_PY}" "${A10_DIR}/scripts/c10_scan.py" --stage "${C10_STAGE:-j}" \
      --chunk "${CHUNK}" --n_chunks "${NCH}" ${C10_EXTRA:-}

@@ -1298,6 +1298,10 @@ def stage_events(args):
                 else int(args.seed_events))
     _DMU = float(getattr(args, "dmu_chi_agn", 0.0))
     _DMUG = float(getattr(args, "dmu_G_agn", 0.0))
+    _BFRAC = getattr(args, "branch_frac_independent", None)
+    _BFRAC = None if _BFRAC is None else float(_BFRAC)
+    if _BFRAC is not None and not 0.0 <= _BFRAC <= 1.0:
+        raise SystemExit(f"--branch_frac_independent must lie in [0, 1]; got {_BFRAC}")
     if not 0.0 <= _FAGN <= 1.0:
         raise SystemExit(f"--f_agn must lie in [0, 1]; got {_FAGN}")
     rng = np.random.default_rng(_SEED_EV)
@@ -1319,6 +1323,16 @@ def stage_events(args):
                            "_SEED_EV, spawn_key=(0x4D47,)))")
     rng_mass_agn = np.random.default_rng(
         np.random.SeedSequence(_SEED_EV, spawn_key=(0x4D47,)))
+    # --- the population branch decoupled from the host (default None = the record)
+    # By default the marked branch IS the AGN host label.  With
+    # ``--branch_frac_independent p`` each proposal's population branch is instead a
+    # Bernoulli(p) draw on its own CHILD stream, independent of the host tracer, and
+    # both marks follow that branch.  The main stream is consumed exactly as without
+    # the flag, so the hosts and the GAL-branch draws are unchanged.
+    _RNG_BRANCH_DERIV = ("np.random.default_rng(np.random.SeedSequence("
+                         "_SEED_EV, spawn_key=(0x4252,)))")
+    rng_branch = (np.random.default_rng(np.random.SeedSequence(_SEED_EV, spawn_key=(0x4252,)))
+                  if _BFRAC is not None else None)
 
     pe_model = getattr(args, "pe_model", PE_MODEL_DEFAULT)
     _observe = observe_v3 if pe_model == "v3" else observe
@@ -1355,6 +1369,8 @@ def stage_events(args):
         ra = np.where(is_agn, cats["agn"]["ra"][i_agn], cats["gal"]["ra"][i_gal])
         dec = np.where(is_agn, cats["agn"]["dec"][i_agn], cats["gal"]["dec"][i_gal])
         dl = gmd._interp_dl(z, grids)
+        is_mark = (is_agn if rng_branch is None
+                   else rng_branch.uniform(size=ntry) < _BFRAC)
 
         m1, use_peak = gmd._sample_powerlaw_peak_m1(rng, ntry, pop, return_component=True)
         if _DMUG != 0.0:
@@ -1364,12 +1380,12 @@ def stage_events(args):
             # lanes and the host draw are untouched.
             m1_agn, use_peak_agn = gmd._sample_powerlaw_peak_m1(
                 rng_mass_agn, ntry, pop_agn, return_component=True)
-            m1 = np.where(is_agn, m1_agn, m1)
-            use_peak = np.where(is_agn, use_peak_agn, use_peak)
+            m1 = np.where(is_mark, m1_agn, m1)
+            use_peak = np.where(is_mark, use_peak_agn, use_peak)
         q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)
         m2 = q * m1
         chi = gmd._sample_chieff(rng, ntry, pop)
-        chi = chi + np.where(is_agn, _DMU, 0.0)
+        chi = chi + np.where(is_mark, _DMU, 0.0)
 
         m1det, m2det = m1 * (1.0 + z), m2 * (1.0 + z)
         obs = _observe(rng, m1det, m2det, chi, dl, ra, dec, need_sky=True)
@@ -1401,6 +1417,8 @@ def stage_events(args):
                "host_type": is_agn[det].astype(np.int64),
                "host_index": host_idx[det].astype(np.int64),
                "snr_obs": rho_obs[det], "snr_true": rho_true[det]}
+        if rng_branch is not None:
+            rec["pop_branch"] = is_mark[det].astype(np.int64)
         for k, v in obs.items():
             rec[f"obs_{k}"] = v[det]
         keep.append(rec)
@@ -1532,6 +1550,19 @@ def stage_events(args):
                     "detected set",
             "rng_child_derivation": _RNG_MASS_AGN_DERIV,
             "is_record_default": bool(_DMUG == 0.0)},
+        "branch_decoupled_from_host": {
+            "branch_frac_independent": _BFRAC,
+            "rule": ("the marked population branch IS the AGN host label"
+                     if _BFRAC is None else
+                     "each proposal's population branch is Bernoulli("
+                     "branch_frac_independent) on its own CHILD RNG stream, "
+                     "independent of the host tracer; dmu_G_agn and dmu_chi_agn "
+                     "apply to that branch, not to the AGN hosts. The truth "
+                     "field pop_branch records it per event."),
+            "rng_child_derivation": (None if _BFRAC is None else _RNG_BRANCH_DERIV),
+            "realised_branch_frac_detected": (None if _BFRAC is None else
+                                              float(truth["pop_branch"].mean())),
+            "is_record_default": bool(_BFRAC is None)},
         "gamma": GAMMA,
         "cosmology": {"H0": H0_FID, "Om0": OM0_FID, "w0": W0_FID, "wa": WA_FID,
                       "zmax_grid": ZMAX_GRID},
@@ -1643,6 +1674,8 @@ def stage_events(args):
         f.attrs["dmu_G_agn"] = float(_DMUG)
         f.attrs["mu_G_gal"] = float(pop.peak_mu)
         f.attrs["mu_G_agn"] = float(pop.peak_mu + _DMUG)
+        if _BFRAC is not None:
+            f.attrs["branch_frac_independent"] = float(_BFRAC)
         f.attrs["shared_gamma"] = True
         f.attrs["detection_rule"] = "observed-data"
         f.attrs["detection_shares_noise_with_pe"] = True
@@ -3858,6 +3891,13 @@ def parse_args(argv=None):
                         "SNR, the detection and the detected set; the AGN lanes are "
                         "redrawn from a deterministic child RNG stream so the "
                         "dmu_G_agn=0 path stays bit-identical to the record.")
+    p.add_argument("--branch_frac_independent", type=float, default=None,
+                   help="MARKED DRAWS ONLY: draw each event's population branch "
+                        "as Bernoulli(p) on a child RNG stream, independent of the "
+                        "host tracer, and apply --dmu_G_agn/--dmu_chi_agn to that "
+                        "branch instead of to the AGN hosts.  Default None = the "
+                        "record (the branch is the host label).  With --f_agn 0 "
+                        "this is the single-tracer spectral-siren control.")
     p.add_argument("--_glass_worker", action="store_true",
                    help=argparse.SUPPRESS)
     return p.parse_args(argv)

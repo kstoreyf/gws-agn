@@ -537,6 +537,115 @@ def fig_c10_mech(M):
 
 
 # --------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# 4. C10-3: the single-tracer spectral-siren control
+# --------------------------------------------------------------------------- #
+def fig_c10_control():
+    print("\n[4] fig_c10_control  (p(H0); single-tracer arms B5M, B0M, B5U)")
+    jp, hp = RESULTS / "c10_control.json", RESULTS / "c10_control.h5"
+    if not (jp.exists() and hp.exists()):
+        notice("fig_c10_control: results/c10_control.{json,h5} not found")
+        return
+    READS.extend([str(jp), str(hp)])
+    js = json.loads(jp.read_text())
+    arms = (("B5M", C_M, "B5M  both marks"),
+            ("B0M", C_CHI, "B0M  twin, spin only"),
+            ("B5U", fs.MUTED, "B5U  no marks"))
+    fig, ax = plt.subplots(figsize=(fs.ONECOL, 2.7))
+    fig.subplots_adjust(left=0.165, right=0.97, bottom=0.15, top=0.90)
+    rows, handles, ymax = [], [], 0.0
+    with h5py.File(hp, "r") as h:
+        f = h["f_grid"][:]
+        for arm, col, lab in arms:
+            H = h[f"{arm}/H0_grid"][:]
+            L = h[f"{arm}/log_likelihood"][:]
+            P = np.exp(np.where(np.isfinite(L), L, -np.inf) - np.nanmax(L))
+            s = summarise(H, np.log(np.trapz(P, f, axis=1)))
+            b = js["arms"][arm]
+            print(f"    {arm}")
+            check("H0 median", s["median"], b["H0"]["median"])
+            check("H0 90% low", s["ci90"][0], b["H0"]["ci90"][0])
+            check("H0 90% high", s["ci90"][1], b["H0"]["ci90"][1])
+            print(f"        H0 68% [{s['ci68'][0]:.4f}, {s['ci68'][1]:.4f}] (printed only)")
+            ax.plot(s["x"], s["p"], color=col, lw=1.5, zorder=3)
+            ymax = max(ymax, float(np.nanmax(s["p"])))
+            rows.append((col, s["ci90"][0], s["ci90"][1], s["median"]))
+            trunc = "" if b["H0_contained_1e-6"] else " (truncated)"
+            handles.append(Line2D([], [], color=col, lw=1.5,
+                                  label=f"{lab}{trunc}"))
+    interval_strip(ax, rows, ymax)
+    ax.set_ylim(ax.get_ylim()[0], ymax * 1.6)
+    ax.axvline(67.74, color=fs.TRUTH, lw=0.9, ls=(0, (3, 2)), alpha=0.75, zorder=1.5)
+    handles.append(Line2D([], [], color=fs.TRUTH, lw=0.9, ls=(0, (3, 2)), alpha=0.75,
+                          label="planted (67.74)"))
+    ax.set_xlabel(r"$H_0$  [km s$^{-1}$ Mpc$^{-1}$]")
+    ax.set_ylabel(r"$p(H_0)$")
+    ax.set_xlim(55.0, 100.0)
+    ax.legend(handles=handles, loc="upper right", fontsize=5.4, frameon=False,
+              handlelength=1.6)
+    ax.annotate("all hosts GAL; branch drawn\nindependently of host (p = 0.30)",
+                (0.985, 0.50), xycoords="axes fraction", ha="right", va="top",
+                fontsize=5.2, color=fs.MUTED)
+    save(fig, "fig_c10_control")
+
+
+# --------------------------------------------------------------------------- #
+# 5. C10-2: routing -- fixed-f width ratio, and per-event score vs |dP|
+# --------------------------------------------------------------------------- #
+def fig_c10_routing():
+    print("\n[5] fig_c10_routing  (fixed-f P1/P0; per-event d score vs |dP| at 67.5)")
+    jp = A10 / "diagnostics" / "c10_event_routing.json"
+    hp = A10 / "diagnostics" / "c10_event_routing.h5"
+    if not (jp.exists() and hp.exists()):
+        notice("fig_c10_routing: diagnostics/c10_event_routing.{json,h5} not found")
+        return
+    READS.extend([str(jp), str(hp)])
+    js = json.loads(jp.read_text())
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(fs.TWOCOL, 2.5))
+    fig.subplots_adjust(left=0.08, right=0.97, bottom=0.17, top=0.92, wspace=0.62)
+
+    ff = js["fixed_f_width_ratio_P1_over_P0"]["per_f"]
+    fx = np.array([r["f_agn"] for r in ff])
+    r90 = np.array([r["ratio_90"] for r in ff])
+    sh = np.array([r["shift_P1_minus_P0"] for r in ff])
+    a1.plot(fx, r90, color=C_J, marker="o", ms=3, lw=1.3)
+    a1.axhline(1.0, color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.7)
+    a1.set_xlabel(r"$f_{\rm AGN}$ (held fixed)")
+    a1.set_ylabel(r"$H_0$ 90% width, marked / spatial", color=C_J)
+    b1 = a1.twinx()
+    b1.plot(fx, sh, color=fs.MUTED, marker="s", ms=2.5, lw=1.0, ls=(0, (1, 1)))
+    b1.set_ylabel(r"median shift, marked $-$ spatial", color=fs.MUTED)
+    b1.set_ylim(-4.0, -2.0)
+    print("    fixed-f ratios (90%):", np.round(r90, 4).tolist(), " shifts:",
+          np.round(sh, 3).tolist())
+
+    with h5py.File(hp, "r") as h:
+        nodes = h["H0_nodes"][:]
+        k = {float(x): i for i, x in enumerate(nodes)}
+        a, lo, hi = k[67.5], k[67.0], k[68.0]
+        lf = json.loads(h.attrs["log_w"])
+        EGG = h["logE_GG"][:]
+
+        def P(m):
+            return 1.0 / (1.0 + np.exp((lf[0] + EGG[a]) - (lf[1] + h[f"logE_A_{m}"][a])))
+
+        def score(m):
+            Z = h[f"logZ_{m}"]
+            return (Z[hi] - Z[lo]) / 1.0
+
+        sG, PG = score("G"), P("G")
+        for m, col, lab in (("chi", C_CHI, "spin mark"), ("M", C_M, "mass mark")):
+            dP, ds = np.abs(P(m) - PG), score(m) - sG
+            tot = js["centres"]["marked_peak"][m]["added_score"]["pe"]
+            check(f"{m} summed added score", float(ds.sum()), tot, tol=1e-9)
+            a2.scatter(dP, ds, s=3, color=col, alpha=0.55, lw=0, label=lab, zorder=3)
+    a2.axhline(0.0, color=fs.TRUTH, lw=0.7, alpha=0.6)
+    a2.set_xlabel(r"$|\Delta P_i({\rm AGN})|$ at $H_0 = 67.5$")
+    a2.set_ylabel(r"$\Delta\, \partial \ln Z_i / \partial H_0$")
+    a2.legend(loc="lower left", fontsize=5.8, frameon=False, markerscale=2.5)
+    save(fig, "fig_c10_routing")
+
+
 def main():
     print(f"A10     = {A10}")
     print(f"RESULTS = {RESULTS}")
@@ -547,6 +656,8 @@ def main():
     fig_c10_h0(S, J)
     fig_c10_planes(J)
     fig_c10_mech(M)
+    fig_c10_control()
+    fig_c10_routing()
 
     print("\n[files read]")
     for p in READS:

@@ -1,0 +1,1047 @@
+{
+  "point": {
+    "f_agn": 0.275,
+    "dmu_chi": 0.115,
+    "dmu_G": 5.0
+  },
+  "H0_nodes": [
+    66.0,
+    66.5,
+    67.0,
+    67.5,
+    67.74,
+    68.0,
+    68.5,
+    69.0,
+    69.5,
+    70.0,
+    70.5,
+    71.0
+  ],
+  "verification": [
+    {
+      "H0": 66.0,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": 0.0,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 0.0,
+      "pass": true
+    },
+    {
+      "H0": 66.5,
+      "sum_G_minus_live": 1.8189894035458565e-12,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": 0.0,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 67.0,
+      "sum_G_minus_live": -1.8189894035458565e-12,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 1.8189894035458565e-12,
+      "sum_AM_minus_live": 1.8189894035458565e-12,
+      "sum_prod_minus_live_AM": 1.8189894035458565e-12,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 67.5,
+      "sum_G_minus_live": 3.637978807091713e-12,
+      "sum_chi_minus_live": -3.637978807091713e-12,
+      "sum_M_minus_live": 1.8189894035458565e-12,
+      "sum_AM_minus_live": -1.8189894035458565e-12,
+      "sum_prod_minus_live_AM": -1.8189894035458565e-12,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 3.637978807091713e-12,
+      "pass": true
+    },
+    {
+      "H0": 67.74,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": -1.8189894035458565e-12,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 68.0,
+      "sum_G_minus_live": -1.8189894035458565e-12,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": 1.8189894035458565e-12,
+      "sum_prod_minus_live_AM": 1.8189894035458565e-12,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 68.5,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": -1.8189894035458565e-12,
+      "sum_M_minus_live": 1.8189894035458565e-12,
+      "sum_AM_minus_live": 0.0,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 69.0,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 1.8189894035458565e-12,
+      "sum_AM_minus_live": 0.0,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 69.5,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": -1.8189894035458565e-12,
+      "sum_M_minus_live": -1.8189894035458565e-12,
+      "sum_AM_minus_live": 0.0,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 70.0,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": -1.8189894035458565e-12,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": 0.0,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 70.5,
+      "sum_G_minus_live": 0.0,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": 1.8189894035458565e-12,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    },
+    {
+      "H0": 71.0,
+      "sum_G_minus_live": -1.8189894035458565e-12,
+      "sum_chi_minus_live": 0.0,
+      "sum_M_minus_live": 0.0,
+      "sum_AM_minus_live": -1.8189894035458565e-12,
+      "sum_prod_minus_live_AM": 0.0,
+      "live_AM_minus_recorded_P1": 0.0,
+      "live_G_minus_recorded_S": 0.0,
+      "sel_AM_minus_recorded_P1": 0.0,
+      "sel_G_minus_recorded_S": 0.0,
+      "worst_abs": 1.8189894035458565e-12,
+      "pass": true
+    }
+  ],
+  "verification_all_pass": true,
+  "verification_worst_abs": 3.637978807091713e-12,
+  "n_events": 1000,
+  "n_events_excluded_nonfinite": 0,
+  "centres": {
+    "marked_peak": {
+      "H0": 67.5,
+      "stencil": [
+        67.0,
+        67.5,
+        68.0
+      ],
+      "spatial_totals": {
+        "score_pe": 43.999658948198615,
+        "score_selection": -41.671940789914515,
+        "curvature_pe": 1.3178219540247156,
+        "curvature_selection": -0.7508665413188282
+      },
+      "chi": {
+        "dP": {
+          "name": "chi",
+          "percentiles": {
+            "1": -0.2681807100929733,
+            "5": -0.17266177456959528,
+            "16": -0.10790182027987462,
+            "50": -0.0012666914502365706,
+            "84": 0.11674906325443203,
+            "95": 0.22717674114358377,
+            "99": 0.3521083140578467
+          },
+          "median": -0.0012666914502365706,
+          "mean": 0.003663196918036932,
+          "median_abs": 0.07473478810557374,
+          "rms_abs": 0.12170366699927412,
+          "max_abs": 0.46346651769228,
+          "n_abs_gt": {
+            "0.05": 642,
+            "0.1": 377,
+            "0.2": 98
+          },
+          "n_crossing_0p5_total": 77,
+          "n_crossing_GAL_to_AGN": 70,
+          "n_crossing_AGN_to_GAL": 7,
+          "sum_P_reference": 278.69313967667927,
+          "sum_P_model": 282.3563365947162,
+          "sum_P_model_minus_reference": 3.663196918036931,
+          "realised_AGN_count": 357,
+          "n_called_AGN_at_0p5": 103,
+          "P_range": [
+            1.0410147207999784e-131,
+            0.9927755367005324
+          ]
+        },
+        "added_score": {
+          "pe": -0.4660296397210981,
+          "selection": -0.08184485724632395,
+          "total": -0.5478744969674221,
+          "implied_peak_shift_newton": -0.7085613396786372,
+          "note": "score at the stencil centre; the Newton step score/curvature from the centre is the local peak offset, so its change is the shift the mark induces"
+        },
+        "added_curvature": {
+          "pe": -0.03516402664065765,
+          "selection": -0.007858691271394491,
+          "total": -0.043022717912052144,
+          "ratio_total_new_over_spatial": 0.9241162233433504,
+          "implied_width_ratio": 1.04024755263245
+        },
+        "concentration_by_abs_dP": {
+          "25": {
+            "share_of_added_score_pe": 0.9803902858364633,
+            "share_of_added_curvature_pe": -4.1543069349718,
+            "min_abs_dP_in_set": 0.3089200538051561
+          },
+          "75": {
+            "share_of_added_score_pe": 0.6058821459684519,
+            "share_of_added_curvature_pe": -1.9242252382486735,
+            "min_abs_dP_in_set": 0.22508687664925361
+          },
+          "150": {
+            "share_of_added_score_pe": 0.527930681205737,
+            "share_of_added_curvature_pe": -0.9287754707245482,
+            "min_abs_dP_in_set": 0.16405432028586597
+          }
+        },
+        "abs_dP_gt_0p1_set": {
+          "n": 377,
+          "added_score_pe": -0.17432976119806476,
+          "added_curvature_pe": -0.15341512752759456
+        },
+        "corr_absdP_vs_dscore": {
+          "pearson_r": -0.057393155803881005,
+          "pearson_p": 0.06965363756967145,
+          "spearman_rho": -0.0074822021757954445,
+          "spearman_p": 0.8131879491651706
+        },
+        "corr_absdP_vs_dcurv": {
+          "pearson_r": 0.013949666732703307,
+          "pearson_p": 0.6595048433825775,
+          "spearman_rho": 0.006243548491226352,
+          "spearman_p": 0.8436762570054264
+        },
+        "per_event_dscore_pct": {
+          "1": -0.050957762157385865,
+          "5": -0.024294685177507522,
+          "16": -0.011236974217415749,
+          "50": 2.3600985699090415e-06,
+          "84": 0.010982139488938428,
+          "95": 0.021384950428852252,
+          "99": 0.04459730260946632
+        },
+        "per_event_dcurv_pct": {
+          "1": -0.03396196923200094,
+          "5": -0.01677043974135941,
+          "16": -0.006893302039330251,
+          "50": 1.792329413774496e-05,
+          "84": 0.0067907511301183365,
+          "95": 0.01626177241105146,
+          "99": 0.029851077982126377
+        },
+        "by_true_host (interpretation only)": {
+          "added_score_pe_true_AGN": -0.041271010735647096,
+          "added_score_pe_true_GAL": -0.424758628985451,
+          "added_curvature_pe_true_AGN": -0.15197508682278027,
+          "added_curvature_pe_true_GAL": 0.11681106018212262
+        }
+      },
+      "M": {
+        "dP": {
+          "name": "M",
+          "percentiles": {
+            "1": -0.1987556807796482,
+            "5": -0.13558312177261683,
+            "16": -0.06314469455891286,
+            "50": 0.02820133663653033,
+            "84": 0.2036020490189504,
+            "95": 0.3181043776255897,
+            "99": 0.4067685440347021
+          },
+          "median": 0.02820133663653033,
+          "mean": 0.06111953235561135,
+          "median_abs": 0.08657198589796258,
+          "rms_abs": 0.1492249138136559,
+          "max_abs": 0.45888015744452226,
+          "n_abs_gt": {
+            "0.05": 636,
+            "0.1": 439,
+            "0.2": 177
+          },
+          "n_crossing_0p5_total": 164,
+          "n_crossing_GAL_to_AGN": 159,
+          "n_crossing_AGN_to_GAL": 5,
+          "sum_P_reference": 278.69313967667927,
+          "sum_P_model": 339.8126720322906,
+          "sum_P_model_minus_reference": 61.11953235561134,
+          "realised_AGN_count": 357,
+          "n_called_AGN_at_0p5": 194,
+          "P_range": [
+            8.252992207568282e-131,
+            0.9970891128614557
+          ]
+        },
+        "added_score": {
+          "pe": -2.361990911866382,
+          "selection": 0.4458713061394519,
+          "total": -1.91611960572693,
+          "implied_peak_shift_newton": -3.534818111521749,
+          "note": "score at the stencil centre; the Newton step score/curvature from the centre is the local peak offset, so its change is the shift the mark induces"
+        },
+        "added_curvature": {
+          "pe": 0.2541927234926291,
+          "selection": -0.10009255648765247,
+          "total": 0.15410016700497664,
+          "ratio_total_new_over_spatial": 1.2718029734816507,
+          "implied_width_ratio": 0.8867273051647161
+        },
+        "concentration_by_abs_dP": {
+          "25": {
+            "share_of_added_score_pe": 0.050089891078733705,
+            "share_of_added_curvature_pe": 0.10345826395733237,
+            "min_abs_dP_in_set": 0.36644749989136793
+          },
+          "75": {
+            "share_of_added_score_pe": 0.2098492244013819,
+            "share_of_added_curvature_pe": 1.5134995436119902,
+            "min_abs_dP_in_set": 0.284674220754062
+          },
+          "150": {
+            "share_of_added_score_pe": 0.4311396099362612,
+            "share_of_added_curvature_pe": 1.2561040042092428,
+            "min_abs_dP_in_set": 0.21577158735223345
+          }
+        },
+        "abs_dP_gt_0p1_set": {
+          "n": 439,
+          "added_score_pe": -1.6694191330515267,
+          "added_curvature_pe": 0.3605675138376583
+        },
+        "corr_absdP_vs_dscore": {
+          "pearson_r": -0.08553392886289747,
+          "pearson_p": 0.006801738974798429,
+          "spearman_rho": -0.08917437964632614,
+          "spearman_p": 0.0047719473555497575
+        },
+        "corr_absdP_vs_dcurv": {
+          "pearson_r": 0.0952676225923794,
+          "pearson_p": 0.0025636973011674493,
+          "spearman_rho": 0.06897224635325462,
+          "spearman_p": 0.029186106626883316
+        },
+        "per_event_dscore_pct": {
+          "1": -0.06010261369735471,
+          "5": -0.026099738993777953,
+          "16": -0.012395185724678726,
+          "50": -0.0015719871546959752,
+          "84": 0.007336332436637106,
+          "95": 0.02004094033348131,
+          "99": 0.0486727344999161
+        },
+        "per_event_dcurv_pct": {
+          "1": -0.026150784380734534,
+          "5": -0.012365854352812988,
+          "16": -0.005685215541300863,
+          "50": 0.0,
+          "84": 0.006051199010374261,
+          "95": 0.013047192061209485,
+          "99": 0.03241560805117614
+        },
+        "by_true_host (interpretation only)": {
+          "added_score_pe_true_AGN": -1.455440858674761,
+          "added_score_pe_true_GAL": -0.9065500531916211,
+          "added_curvature_pe_true_AGN": 0.24683991291193053,
+          "added_curvature_pe_true_GAL": 0.007352810580698588
+        }
+      },
+      "AM": {
+        "dP": {
+          "name": "AM",
+          "percentiles": {
+            "1": -0.2884645651661594,
+            "5": -0.1970197681001853,
+            "16": -0.10898981695255586,
+            "50": 0.025455813789429155,
+            "84": 0.24601120707018817,
+            "95": 0.4196706552038642,
+            "99": 0.5355648393649587
+          },
+          "median": 0.025455813789429155,
+          "mean": 0.05990725061042152,
+          "median_abs": 0.11207342765378726,
+          "rms_abs": 0.19393004514298093,
+          "max_abs": 0.6799296120269142,
+          "n_abs_gt": {
+            "0.05": 739,
+            "0.1": 541,
+            "0.2": 264
+          },
+          "n_crossing_0p5_total": 202,
+          "n_crossing_GAL_to_AGN": 197,
+          "n_crossing_AGN_to_GAL": 5,
+          "sum_P_reference": 278.69313967667927,
+          "sum_P_model": 338.6003902871008,
+          "sum_P_model_minus_reference": 59.907250610421556,
+          "realised_AGN_count": 357,
+          "n_called_AGN_at_0p5": 232,
+          "P_range": [
+            2.702766228111777e-131,
+            0.9957637784160576
+          ]
+        },
+        "added_score": {
+          "pe": -2.415586664884824,
+          "selection": 0.2319873084761639,
+          "total": -2.18359935640866,
+          "implied_peak_shift_newton": -3.892842623967165,
+          "note": "score at the stencil centre; the Newton step score/curvature from the centre is the local peak offset, so its change is the shift the mark induces"
+        },
+        "added_curvature": {
+          "pe": 0.690431415615528,
+          "selection": -0.5801472041421221,
+          "total": 0.11028421147340595,
+          "ratio_total_new_over_spatial": 1.1945200786549626,
+          "implied_width_ratio": 0.9149624539813711
+        },
+        "concentration_by_abs_dP": {
+          "25": {
+            "share_of_added_score_pe": 0.2628419842187399,
+            "share_of_added_curvature_pe": 0.34745623595355046,
+            "min_abs_dP_in_set": 0.4812522563614018
+          },
+          "75": {
+            "share_of_added_score_pe": 0.4263677936216978,
+            "share_of_added_curvature_pe": 0.2620664428999987,
+            "min_abs_dP_in_set": 0.37165260063360206
+          },
+          "150": {
+            "share_of_added_score_pe": 0.6450161093132466,
+            "share_of_added_curvature_pe": 0.6907414572619552,
+            "min_abs_dP_in_set": 0.2752258782463128
+          }
+        },
+        "abs_dP_gt_0p1_set": {
+          "n": 541,
+          "added_score_pe": -1.3677542945454313,
+          "added_curvature_pe": 0.7798912141108829
+        },
+        "corr_absdP_vs_dscore": {
+          "pearson_r": -0.10126227925566779,
+          "pearson_p": 0.0013439088209071766,
+          "spearman_rho": -0.0015899899906675187,
+          "spearman_p": 0.9599494295687242
+        },
+        "corr_absdP_vs_dcurv": {
+          "pearson_r": 0.07102427902871494,
+          "pearson_p": 0.024703194369061102,
+          "spearman_rho": 0.06695765983099222,
+          "spearman_p": 0.03425008040799099
+        },
+        "per_event_dscore_pct": {
+          "1": -0.08936922069615054,
+          "5": -0.03419409567663951,
+          "16": -0.017258524557029347,
+          "50": -0.001234514547775234,
+          "84": 0.012580480061725224,
+          "95": 0.028711338166181703,
+          "99": 0.0633487001089897
+        },
+        "per_event_dcurv_pct": {
+          "1": -0.038452160859925755,
+          "5": -0.017380673153331118,
+          "16": -0.007959842612361285,
+          "50": 1.8477089149371295e-05,
+          "84": 0.008788710107497764,
+          "95": 0.023173637200305557,
+          "99": 0.05044646685643584
+        },
+        "by_true_host (interpretation only)": {
+          "added_score_pe_true_AGN": -1.512199439428299,
+          "added_score_pe_true_GAL": -0.903387225456525,
+          "added_curvature_pe_true_AGN": 0.13169436941566204,
+          "added_curvature_pe_true_GAL": 0.558737046199866
+        }
+      }
+    },
+    "spatial_peak": {
+      "H0": 70.5,
+      "stencil": [
+        70.0,
+        70.5,
+        71.0
+      ],
+      "spatial_totals": {
+        "score_pe": 40.03054548224404,
+        "score_selection": -40.03808571280024,
+        "curvature_pe": 1.6414250769967396,
+        "curvature_selection": -0.44986273888207506
+      },
+      "chi": {
+        "dP": {
+          "name": "chi",
+          "percentiles": {
+            "1": -0.25174729327063894,
+            "5": -0.1712256011200442,
+            "16": -0.10752078549288506,
+            "50": -0.002703167688945074,
+            "84": 0.11877353549371879,
+            "95": 0.22832062421493338,
+            "99": 0.34770346755984677
+          },
+          "median": -0.002703167688945074,
+          "mean": 0.0037304437713592373,
+          "median_abs": 0.07355319048489518,
+          "rms_abs": 0.12132365718548371,
+          "max_abs": 0.43290496478768786,
+          "n_abs_gt": {
+            "0.05": 638,
+            "0.1": 386,
+            "0.2": 98
+          },
+          "n_crossing_0p5_total": 70,
+          "n_crossing_GAL_to_AGN": 62,
+          "n_crossing_AGN_to_GAL": 8,
+          "sum_P_reference": 277.93873913714634,
+          "sum_P_model": 281.66918290850555,
+          "sum_P_model_minus_reference": 3.730443771359205,
+          "realised_AGN_count": 357,
+          "n_called_AGN_at_0p5": 97,
+          "P_range": [
+            7.668087208963912e-131,
+            0.9918981970742575
+          ]
+        },
+        "added_score": {
+          "pe": -0.493459488974727,
+          "selection": -0.12430364933788951,
+          "total": -0.6177631383126165,
+          "implied_peak_shift_newton": -0.6057815895924334,
+          "note": "score at the stencil centre; the Newton step score/curvature from the centre is the local peak offset, so its change is the shift the mark induces"
+        },
+        "added_curvature": {
+          "pe": -0.003267764250281857,
+          "selection": -0.16674000446073478,
+          "total": -0.17000776871101664,
+          "ratio_total_new_over_spatial": 0.8573236470531542,
+          "implied_width_ratio": 1.0800095570885453
+        },
+        "concentration_by_abs_dP": {
+          "25": {
+            "share_of_added_score_pe": -0.28888000363333793,
+            "share_of_added_curvature_pe": 24.386876536967037,
+            "min_abs_dP_in_set": 0.30680031760803367
+          },
+          "75": {
+            "share_of_added_score_pe": 0.47061363996633154,
+            "share_of_added_curvature_pe": -37.26510917432158,
+            "min_abs_dP_in_set": 0.22404693456693578
+          },
+          "150": {
+            "share_of_added_score_pe": 0.8364253519281023,
+            "share_of_added_curvature_pe": -21.907853324795365,
+            "min_abs_dP_in_set": 0.15830405019982902
+          }
+        },
+        "abs_dP_gt_0p1_set": {
+          "n": 386,
+          "added_score_pe": -0.4494761551780453,
+          "added_curvature_pe": 0.1227440498480874
+        },
+        "corr_absdP_vs_dscore": {
+          "pearson_r": -0.060431435992060134,
+          "pearson_p": 0.05608612923050748,
+          "spearman_rho": -0.02433223642005248,
+          "spearman_p": 0.44212825175010284
+        },
+        "corr_absdP_vs_dcurv": {
+          "pearson_r": 0.009513117007878897,
+          "pearson_p": 0.7638249934264479,
+          "spearman_rho": 0.00042462049595674525,
+          "spearman_p": 0.9892999823070199
+        },
+        "per_event_dscore_pct": {
+          "1": -0.051104194308337195,
+          "5": -0.020218385118799097,
+          "16": -0.01017911553722712,
+          "50": -2.2437094482796738e-05,
+          "84": 0.009869482107557346,
+          "95": 0.019658677722548545,
+          "99": 0.041225508681383985
+        },
+        "per_event_dcurv_pct": {
+          "1": -0.026394842734850245,
+          "5": -0.014775172543940585,
+          "16": -0.0067929407524337645,
+          "50": 1.4724259067122603e-05,
+          "84": 0.006535746654698467,
+          "95": 0.01282696875951749,
+          "99": 0.030217937644679286
+        },
+        "by_true_host (interpretation only)": {
+          "added_score_pe_true_AGN": -0.2253190358770727,
+          "added_score_pe_true_GAL": -0.26814045309765433,
+          "added_curvature_pe_true_AGN": 0.30465733842686404,
+          "added_curvature_pe_true_GAL": -0.3079251026771459
+        }
+      },
+      "M": {
+        "dP": {
+          "name": "M",
+          "percentiles": {
+            "1": -0.20240630334442677,
+            "5": -0.13318327845671188,
+            "16": -0.06608772162598327,
+            "50": 0.02431111371777256,
+            "84": 0.19730335564757123,
+            "95": 0.3118441645075888,
+            "99": 0.41265901020088536
+          },
+          "median": 0.02431111371777256,
+          "mean": 0.05693106723567791,
+          "median_abs": 0.08277899458510278,
+          "rms_abs": 0.1457690734573242,
+          "max_abs": 0.45354253772375586,
+          "n_abs_gt": {
+            "0.05": 631,
+            "0.1": 418,
+            "0.2": 169
+          },
+          "n_crossing_0p5_total": 159,
+          "n_crossing_GAL_to_AGN": 149,
+          "n_crossing_AGN_to_GAL": 10,
+          "sum_P_reference": 277.93873913714634,
+          "sum_P_model": 334.86980637282426,
+          "sum_P_model_minus_reference": 56.931067235677915,
+          "realised_AGN_count": 357,
+          "n_called_AGN_at_0p5": 182,
+          "P_range": [
+            6.0690201589887474e-130,
+            0.9967175101353636
+          ]
+        },
+        "added_score": {
+          "pe": -3.718461110418229,
+          "selection": 0.11051719305396546,
+          "total": -3.6079439173642633,
+          "implied_peak_shift_newton": -2.018787047648453,
+          "note": "score at the stencil centre; the Newton step score/curvature from the centre is the local peak offset, so its change is the shift the mark induces"
+        },
+        "added_curvature": {
+          "pe": 0.5372141518373894,
+          "selection": 0.05654633209633175,
+          "total": 0.5937604839337212,
+          "ratio_total_new_over_spatial": 1.4983041717088774,
+          "implied_width_ratio": 0.8169585186486905
+        },
+        "concentration_by_abs_dP": {
+          "25": {
+            "share_of_added_score_pe": 0.13334099319763826,
+            "share_of_added_curvature_pe": 0.12364451622803962,
+            "min_abs_dP_in_set": 0.35708220906019456
+          },
+          "75": {
+            "share_of_added_score_pe": 0.2257789908651295,
+            "share_of_added_curvature_pe": 0.4537762778783475,
+            "min_abs_dP_in_set": 0.27674183934298224
+          },
+          "150": {
+            "share_of_added_score_pe": 0.3836073214133475,
+            "share_of_added_curvature_pe": 0.9305505219531398,
+            "min_abs_dP_in_set": 0.2112506149878164
+          }
+        },
+        "abs_dP_gt_0p1_set": {
+          "n": 418,
+          "added_score_pe": -2.587300403731975,
+          "added_curvature_pe": 0.5939208719373781
+        },
+        "corr_absdP_vs_dscore": {
+          "pearson_r": -0.18565819556089244,
+          "pearson_p": 3.3150553244466427e-09,
+          "spearman_rho": -0.13636179872497634,
+          "spearman_p": 1.5117329863074822e-05
+        },
+        "corr_absdP_vs_dcurv": {
+          "pearson_r": 0.11490906558215651,
+          "pearson_p": 0.00027130017218155334,
+          "spearman_rho": 0.045242752843535954,
+          "spearman_p": 0.15281917861674482
+        },
+        "per_event_dscore_pct": {
+          "1": -0.055011626970325515,
+          "5": -0.02619848486468843,
+          "16": -0.012463519606339162,
+          "50": -0.0023077718738262476,
+          "84": 0.006155958549712323,
+          "95": 0.015107956370140724,
+          "99": 0.03229537854147467
+        },
+        "per_event_dcurv_pct": {
+          "1": -0.022943158600491245,
+          "5": -0.011696103333936135,
+          "16": -0.005059346441771594,
+          "50": 2.1905024283341845e-07,
+          "84": 0.005681229167028901,
+          "95": 0.013516964463068597,
+          "99": 0.03479455827763301
+        },
+        "by_true_host (interpretation only)": {
+          "added_score_pe_true_AGN": -2.2756948434183037,
+          "added_score_pe_true_GAL": -1.442766266999925,
+          "added_curvature_pe_true_AGN": 0.4104752767338127,
+          "added_curvature_pe_true_GAL": 0.12673887510357673
+        }
+      },
+      "AM": {
+        "dP": {
+          "name": "AM",
+          "percentiles": {
+            "1": -0.3067554756001282,
+            "5": -0.20138212108042025,
+            "16": -0.11068668404671642,
+            "50": 0.01991836120428848,
+            "84": 0.2401607349383299,
+            "95": 0.41498766804091525,
+            "99": 0.5302464019240661
+          },
+          "median": 0.01991836120428848,
+          "mean": 0.056444930922642175,
+          "median_abs": 0.11054317837187982,
+          "rms_abs": 0.1922444260915069,
+          "max_abs": 0.6861784005361498,
+          "n_abs_gt": {
+            "0.05": 731,
+            "0.1": 537,
+            "0.2": 259
+          },
+          "n_crossing_0p5_total": 192,
+          "n_crossing_GAL_to_AGN": 184,
+          "n_crossing_AGN_to_GAL": 8,
+          "sum_P_reference": 277.93873913714634,
+          "sum_P_model": 334.3836700597885,
+          "sum_P_model_minus_reference": 56.444930922642186,
+          "realised_AGN_count": 357,
+          "n_called_AGN_at_0p5": 219,
+          "P_range": [
+            1.9865279711201135e-130,
+            0.9952236407642818
+          ]
+        },
+        "added_score": {
+          "pe": -4.055597207089789,
+          "selection": -0.12143464780274371,
+          "total": -4.177031854892533,
+          "implied_peak_shift_newton": -2.588084304598862,
+          "note": "score at the stencil centre; the Newton step score/curvature from the centre is the local peak offset, so its change is the shift the mark induces"
+        },
+        "added_curvature": {
+          "pe": 0.23999321779117366,
+          "selection": 0.18136157582193846,
+          "total": 0.4213547936131121,
+          "ratio_total_new_over_spatial": 1.353615400667829,
+          "implied_width_ratio": 0.859512815649424
+        },
+        "concentration_by_abs_dP": {
+          "25": {
+            "share_of_added_score_pe": 0.22755559350194995,
+            "share_of_added_curvature_pe": 0.24873304678433972,
+            "min_abs_dP_in_set": 0.4958257002613796
+          },
+          "75": {
+            "share_of_added_score_pe": 0.3322333563076419,
+            "share_of_added_curvature_pe": 1.883070550313043,
+            "min_abs_dP_in_set": 0.3639195150711623
+          },
+          "150": {
+            "share_of_added_score_pe": 0.42821388055737536,
+            "share_of_added_curvature_pe": 1.84958916722059,
+            "min_abs_dP_in_set": 0.2722749224146145
+          }
+        },
+        "abs_dP_gt_0p1_set": {
+          "n": 537,
+          "added_score_pe": -2.8600819167016773,
+          "added_curvature_pe": 0.39549083135358387
+        },
+        "corr_absdP_vs_dscore": {
+          "pearson_r": -0.16757317184754258,
+          "pearson_p": 9.808584601267245e-08,
+          "spearman_rho": -0.0805772021141732,
+          "spearman_p": 0.010802187303454716
+        },
+        "corr_absdP_vs_dcurv": {
+          "pearson_r": 0.061536710987783565,
+          "pearson_p": 0.051730261683153145,
+          "spearman_rho": 0.04945906576818951,
+          "spearman_p": 0.11804472565974707
+        },
+        "per_event_dscore_pct": {
+          "1": -0.0859823861868901,
+          "5": -0.037171564340331906,
+          "16": -0.017436189581055073,
+          "50": -0.002220686168001862,
+          "84": 0.009942898550733825,
+          "95": 0.02471746421515925,
+          "99": 0.05739380725996415
+        },
+        "per_event_dcurv_pct": {
+          "1": -0.041020125767732764,
+          "5": -0.01990929628133955,
+          "16": -0.00804453982591781,
+          "50": 0.0001571837900939954,
+          "84": 0.00883685876142493,
+          "95": 0.019632305408275385,
+          "99": 0.04441201943716121
+        },
+        "by_true_host (interpretation only)": {
+          "added_score_pe_true_AGN": -2.1838829671337514,
+          "added_score_pe_true_GAL": -1.871714239956038,
+          "added_curvature_pe_true_AGN": 0.5073099637175389,
+          "added_curvature_pe_true_GAL": -0.26731674592636523
+        }
+      }
+    }
+  },
+  "profile_lines": {
+    "G": {
+      "logL_pe_minus_max": [
+        -214.08519309101212,
+        -191.12164735000442,
+        -168.56275497928982,
+        -146.39819776093464,
+        -135.88068859949453,
+        -124.56309603109185,
+        -102.99546231524073,
+        -81.68284136316834,
+        -60.67083335912503,
+        -40.030545482242815,
+        -19.810094606495113,
+        0.0
+      ],
+      "logL_selection": [
+        11875.79890827392,
+        11854.457302530544,
+        11833.327002291255,
+        11812.397173578633,
+        11802.418427270166,
+        11791.65506150134,
+        11771.084491367146,
+        11750.664576051515,
+        11730.37222720794,
+        11710.190906877206,
+        11690.115631178445,
+        11670.152821164405
+      ],
+      "total_argmax_H0": 70.5
+    },
+    "chi": {
+      "logL_pe_minus_max": [
+        -211.65710891551498,
+        -188.97134844122775,
+        -166.6710937953485,
+        -144.74394690018744,
+        -134.33644235808788,
+        -123.13746448687016,
+        -101.79973858633093,
+        -80.71824285783077,
+        -59.93854285454472,
+        -39.53708599327001,
+        -19.563773332540222,
+        0.0
+      ],
+      "logL_selection": [
+        11876.40555993173,
+        11855.047619233128,
+        11833.878414708965,
+        11812.90668123131,
+        11802.908787087712,
+        11792.124629061804,
+        11771.50827506236,
+        11751.024415191143,
+        11730.645066858015,
+        11710.365822947551,
+        11690.207552923564,
+        11670.203433585413
+      ],
+      "total_argmax_H0": 70.0
+    },
+    "M": {
+      "logL_pe_minus_max": [
+        -200.16989818234651,
+        -178.25273616036066,
+        -156.7857413122747,
+        -135.77040545941782,
+        -125.82701754834852,
+        -115.14807327594463,
+        -94.8580002132112,
+        -74.89577932425891,
+        -55.33988465534458,
+        -36.31208437182431,
+        -17.883712282307897,
+        0.0
+      ],
+      "logL_selection": [
+        11784.130314505375,
+        11762.911967435884,
+        11741.95402716684,
+        11721.234622537726,
+        11711.36686095405,
+        11700.727957683064,
+        11680.39595884353,
+        11660.187775420161,
+        11640.054423106532,
+        11619.974530089099,
+        11599.961581278378,
+        11580.046961569353
+      ],
+      "total_argmax_H0": 68.0
+    },
+    "AM": {
+      "logL_pe_minus_max": [
+        -198.84615499983192,
+        -176.85460607023379,
+        -155.30268841162615,
+        -134.25962059876474,
+        -124.33979108401945,
+        -113.71861612831162,
+        -93.63231877557882,
+        -73.96182013350517,
+        -54.72269680994759,
+        -35.9749482751522,
+        -17.752296850725543,
+        0.0
+      ],
+      "logL_selection": [
+        11785.017462385025,
+        11763.480892552023,
+        11742.245442971915,
+        11721.359089513013,
+        11711.45517921696,
+        11700.805489490476,
+        11680.513040491207,
+        11660.374300785636,
+        11640.279872341991,
+        11620.169044451704,
+        11600.05572162602,
+        11580.009524091101
+      ],
+      "total_argmax_H0": 67.74
+    }
+  },
+  "fixed_f_width_ratio_P1_over_P0": {
+    "f_range_C10J_90": [
+      0.20172317975920095,
+      0.349495891279729
+    ],
+    "per_f": [
+      {
+        "f_agn": 0.225,
+        "P1_median": 67.76740242976034,
+        "P0_median": 70.9013605969638,
+        "ratio_68": 0.898917209682868,
+        "ratio_90": 0.8700178787193914,
+        "shift_P1_minus_P0": -3.1339581672034598
+      },
+      {
+        "f_agn": 0.25,
+        "P1_median": 67.65912388309016,
+        "P0_median": 70.73758452221163,
+        "ratio_68": 0.9980520445091424,
+        "ratio_90": 0.9419383502338284,
+        "shift_P1_minus_P0": -3.0784606391214737
+      },
+      {
+        "f_agn": 0.275,
+        "P1_median": 67.56773964950983,
+        "P0_median": 70.61480895836368,
+        "ratio_68": 1.0676211898132604,
+        "ratio_90": 1.0058576704631625,
+        "shift_P1_minus_P0": -3.0470693088538496
+      },
+      {
+        "f_agn": 0.30000000000000004,
+        "P1_median": 67.48871218158963,
+        "P0_median": 70.51877037334584,
+        "ratio_68": 1.1349457914725503,
+        "ratio_90": 1.0785413714848047,
+        "shift_P1_minus_P0": -3.0300581917562113
+      },
+      {
+        "f_agn": 0.325,
+        "P1_median": 67.41737666815476,
+        "P0_median": 70.44537556462988,
+        "ratio_68": 1.1965312272102135,
+        "ratio_90": 1.1203977962595484,
+        "shift_P1_minus_P0": -3.0279988964751254
+      }
+    ]
+  }
+}
