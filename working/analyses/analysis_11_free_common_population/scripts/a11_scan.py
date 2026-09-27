@@ -67,7 +67,8 @@ def _load_axes():
 
 
 def _key(mu, dmu):
-    return f"{float(mu):.10g}|{float(dmu):.10g}"
+    # + 0.0 folds a signed zero (np.round can emit -0.0) onto 0.0
+    return f"{float(mu) + 0.0:.10g}|{float(dmu) + 0.0:.10g}"
 
 
 def _append(path, obj):

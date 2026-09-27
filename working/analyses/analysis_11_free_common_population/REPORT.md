@@ -55,4 +55,45 @@ within 2 ULP everywhere.
 
 ## 3. 11B — the reference spin zero point free
 
-Running.
+H0 = 67.74, mass sector at the planted (35, +5); grid over (f, μ_χ, Δμ_χ), 32,375 cells,
+27.2 GPU-h. `results/a11_11B.{h5,json}`, `figs/fig_11B`.
+
+| | median | 68% | 90% | planted |
+|---|---|---|---|---|
+| μ_χ | −0.0054 | [−0.0143, +0.0034] | [−0.0202, +0.0091] | 0 |
+| Δμ_χ | 0.126 | [0.107, 0.145] | [0.094, 0.158] | +0.10 |
+| f_AGN | 0.274 | [0.239, 0.311] | [0.217, 0.335] | 0.30 |
+| μ_χ + Δμ_χ | 0.120 | [0.105, 0.135] | [0.098, 0.145] | 0.10 |
+
+MAP (0.275, −0.005, 0.125). ρ(μ_χ, Δμ_χ) = −0.64, ρ(f, μ_χ) = −0.29, ρ(f, Δμ_χ) = −0.15.
+
+**The environmental spin shift survives a free zero point, and does not trade it away.**
+The density at Δμ_χ = 0 is 8.5 × 10⁻⁹ of the peak. The reference spin mean is pinned
+to ±0.009 by the reference-branch events. The offset is anticorrelated with it
+(ρ = −0.64) for the same reason as in 11A: the AGN-branch events measure the absolute
+AGN spin mean most directly. The zero point comes out 0.005 below 0 and the offset 0.009
+above the Analysis-10 value, so the absolute AGN mean is 0.120. The planted offset is
+inside the 90% interval and 1.4 posterior sd below the median.
+
+**Cost against Analysis 10:** D_Δμ_χ = 1.21 (68%) and 1.24 (90%) against A10-J. On the
+μ_χ = 0 slab of this grid Δμ_χ is 0.119 [0.095, 0.144], indistinguishable from A10-J's
+0.117 [0.093, 0.144]. The f interval is narrower than A10-J's (0.86×) because the mass
+offset is pinned here and free there.
+
+**Domain edge and rejected cells.** The Δμ_χ marginal at the top of the domain (0.20) is
+4.3 × 10⁻⁴ of the peak. It falls by factors of 3–7 per node towards the edge, the edge is
+3.9 posterior sd above the median, and the extrapolated mass beyond it is 4 × 10⁻⁵. It is
+reported, not extended. 245 cells (AGN spin mean ≥ 0.22 at f ≥ 0.325) are
+guard-rejected, and a fill bound puts at most 6 × 10⁻⁶⁸ of the posterior there. The
+μ_χ = 0 slab reproduces A10-J's recorded cells in 258 of 300 cases bitwise, and within
+2 ULP everywhere.
+
+## Gate after 11A and 11B: PASS
+
+Selection support is valid over both explored regions (the only rejections are in the
+AGN-spin-mean ≥ 0.22 corner, bounded at 6 × 10⁻⁶⁸). Both likelihood paths close. μ_G and
+Δμ_G are separately informative (ρ = −0.73, zero offset at 2.3 × 10⁻⁴), and so are μ_χ
+and Δμ_χ (ρ = −0.64, zero offset at 8.5 × 10⁻⁹). No posterior is edge-dominated, and
+neither offset is lost. Neither environmental measurement depended on the pinned
+reference: freeing it widens the offsets by 1.2–1.3× and moves them by about one
+posterior sd.

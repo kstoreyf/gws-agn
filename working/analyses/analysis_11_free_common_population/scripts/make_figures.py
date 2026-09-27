@@ -137,6 +137,9 @@ def fig_sector(arm, mu, dmu, a10_key, a10_marg_key, a10_axis_key):
                        Line2D([], [], color=C10, lw=1.4, label="A10-J: reference pinned"),
                        Line2D([], [], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), label="planted")],
               fontsize=5.6, frameon=False, loc="upper left")
+    from matplotlib.ticker import MaxNLocator
+    for a in axs:
+        a.xaxis.set_major_locator(MaxNLocator(5))
     save(fig, f"fig_{arm}")
 
 
