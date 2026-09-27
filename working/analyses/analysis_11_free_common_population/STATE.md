@@ -46,3 +46,18 @@ vmappable likelihood, so the redshift-prior optimisation barrier must be off
 (`opts.redshift_prior_barrier = "off"` before `make_likelihood`). The factory
 likelihood is jitted, one point per call, with no host callbacks. No measured
 darksirens nested-sampling costs exist in the repository; S0/S1 will measure them.
+
+## S0 — sampler preflight on the exact 11C likelihood (2026-09-27, job 1339466, 6 min)
+
+- Redshift-prior barrier off vs on: logL bitwise identical at all four probe points
+  (including a guard-rejected one).
+- `jit(loglike)` of the sampler map: first call 41.7 s (compile), steady 2.99 s; equals
+  `cell.evaluate_at` bitwise.
+- vmap width 1: 3.12 s, equals the scalar value. Width 2: 6.15 s (no batching gain: the A100
+  is saturated by one point), values move by 5e-12 (reduction order).
+- Device memory: 10.7 GB in use, peak 28.5 GB of a 63.7 GB limit.
+- darksirens `_nested_sampler_preflight` on the 11C box: 31/32 prior draws finite
+  (logL in [−5049, −4344]), 96 s.
+- S1 queued: dynesty (multi/unif, nlive 300; job 1339614) and tinyns (direct, adaptive
+  rwalk, 5 walks, nlive 250; job 1339615) on the A10-J problem.
+- 11A chunk 3 hit the rita `TaskProlog failed` start fault (0 rows); resubmitted as 1339613.

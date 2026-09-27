@@ -1,0 +1,201 @@
+{
+  "environment": {
+    "stage": "a11_s0",
+    "checks": [
+      {
+        "check": "PYTHONPATH carries darksirens-a8",
+        "ok": true,
+        "detail": "PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8"
+      },
+      {
+        "check": "DARKSIRENS_SRC unset or darksirens-a8",
+        "ok": true,
+        "detail": "DARKSIRENS_SRC='/hildafs/projects/phy230014p/magana/src/darksirens-a8' (a8_likelihood.provenance reads it)"
+      },
+      {
+        "check": "darksirens-a8 HEAD == af896ca",
+        "ok": true,
+        "detail": "af896cae6f3f3dd1f87dec50046e3a8228f59b39 (expected af896cae6f3f3dd1f87dec50046e3a8228f59b39)"
+      },
+      {
+        "check": "darksirens-a8 worktree clean",
+        "ok": true,
+        "detail": "clean"
+      },
+      {
+        "check": "tracer-dependent population blocks present",
+        "ok": true,
+        "detail": "9 references to mixture_pop_params in /hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/likelihood/core.py"
+      },
+      {
+        "check": "darksirens imports from darksirens-a8",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py"
+      },
+      {
+        "check": "pinned base 2b86a2d is an ancestor",
+        "ok": true,
+        "detail": "base 2b86a2d"
+      },
+      {
+        "check": "input present: events",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5 (162743429 bytes)"
+      },
+      {
+        "check": "input present: survey_gal",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5 (1650316659 bytes)"
+      },
+      {
+        "check": "input present: survey_agn",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5 (19934497 bytes)"
+      },
+      {
+        "check": "input present: selection",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5 (203346016 bytes)"
+      }
+    ],
+    "host": "rita.ib.vera.psc.edu",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "mixture_pop_params_references": 9,
+    "gws_agn_sha": "82a3d8cd1b9ace396114d80e88f3323cdcfd10f6",
+    "gws_agn_dirty": true,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_version": "0.0.1",
+    "a8_provenance": {
+      "gws_agn_sha": "82a3d8cd1b9ace396114d80e88f3323cdcfd10f6",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+      "darksirens_pinned_base_sha": "2b86a2d",
+      "darksirens_pinned_base_is_ancestor": true,
+      "inputs": {
+        "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+        "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+        "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "survey_paths_used": [
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+        ],
+        "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+      },
+      "settings": {
+        "universe_model": "dark_sirens",
+        "catalog_sky_weighting": "field",
+        "log10n0": -24.0,
+        "log10n0_c2": -24.0,
+        "selection_neff_guard": "hard",
+        "max_likelihood_variance": 1000000.0,
+        "kde_window": 4096,
+        "kde_window_nsigma": 8.0,
+        "sel_batch_size": 50000,
+        "pe_event_block": 25
+      },
+      "H0_fixed": 67.74,
+      "Om0_fixed": 0.3075,
+      "pop_model": "powerlaw+peak"
+    },
+    "inputs": {
+      "events": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "selection": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "jax_devices": "[CudaDevice(id=0)]"
+  },
+  "slurm_job_id": "1339466",
+  "build_seconds": 39.864312171936035,
+  "barrier_on_vs_off": [
+    {
+      "point": {
+        "fcat_2": 0.3,
+        "mu_G": 35.0,
+        "dmu_G": 5.0,
+        "mu_chi": 0.0,
+        "dmu_chi": 0.1
+      },
+      "on": -4284.872258867179,
+      "off": -4284.872258867179,
+      "bitwise": true,
+      "abs_diff": 0.0
+    },
+    {
+      "point": {
+        "fcat_2": 0.0,
+        "mu_G": 33.0,
+        "dmu_G": -2.0,
+        "mu_chi": -0.05,
+        "dmu_chi": 0.0
+      },
+      "on": -4596.407248707801,
+      "off": -4596.407248707801,
+      "bitwise": true,
+      "abs_diff": 0.0
+    },
+    {
+      "point": {
+        "fcat_2": 1.0,
+        "mu_G": 38.0,
+        "dmu_G": 9.0,
+        "mu_chi": 0.08,
+        "dmu_chi": 0.15
+      },
+      "on": -Infinity,
+      "off": -Infinity,
+      "bitwise": true,
+      "abs_diff": NaN
+    },
+    {
+      "point": {
+        "fcat_2": 0.55,
+        "mu_G": 31.5,
+        "dmu_G": 2.5,
+        "mu_chi": 0.02,
+        "dmu_chi": -0.04
+      },
+      "on": -4495.17640754877,
+      "off": -4495.17640754877,
+      "bitwise": true,
+      "abs_diff": 0.0
+    }
+  ],
+  "jit_loglike": {
+    "first_call_seconds": 41.66601204872131,
+    "steady_seconds": 2.992802858352661,
+    "value": -4284.872258867179,
+    "equals_cell_evaluate": true
+  },
+  "vmap_width1": {
+    "first_seconds": 38.75533699989319,
+    "steady_seconds": 3.118161678314209,
+    "values": [
+      -4284.872258867179
+    ],
+    "matches_scalar": true
+  },
+  "vmap_width2": {
+    "first_seconds": 49.89635419845581,
+    "steady_seconds": 6.154303073883057,
+    "values": [
+      -4284.872258867184,
+      -4286.925149035687
+    ],
+    "matches_scalar": false
+  },
+  "device_memory": {
+    "bytes_in_use": 10694766848,
+    "peak_bytes_in_use": 28474778368,
+    "bytes_limit": 63740018688
+  },
+  "darksirens_preflight_11C": {
+    "stdout": "[*] preflight: 31/32 prior draws have finite logL (finite logL in [-5049, -4344]) [96.08 s]",
+    "seconds": 96.08320450782776
+  }
+}
