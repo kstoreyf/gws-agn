@@ -17,6 +17,7 @@
 # death within seconds is a rita node fault: resubmit that index once, identical.
 set -euo pipefail
 source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+export PYTHONUNBUFFERED=1
 cd /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_11_free_common_population
 echo "[a11_scan] host=$(hostname) job=${SLURM_JOB_ID:-none} arm=${ARM:?} chunk=${SLURM_ARRAY_TASK_ID:-0}/${N_CHUNKS:?}"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true

@@ -279,7 +279,10 @@ def stage_assemble(args):
                 if not (kk.size and jj.size):
                     continue
                 for i in range(F_AXIS.size):
-                    x, y = ll[i, kref[0], j], R[i, kk[0], jj[0]]
+                    fi = np.where(np.isclose(fg, F_AXIS[i], atol=1e-12))[0]
+                    if not fi.size:
+                        continue
+                    x, y = ll[i, kref[0], j], R[fi[0], kk[0], jj[0]]
                     n_cmp += 1
                     n_bit += int(float(x).hex() == float(y).hex())
                     if np.isfinite(x) and np.isfinite(y):
