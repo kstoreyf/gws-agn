@@ -61,3 +61,22 @@ darksirens nested-sampling costs exist in the repository; S0/S1 will measure the
 - S1 queued: dynesty (multi/unif, nlive 300; job 1339614) and tinyns (direct, adaptive
   rwalk, 5 walks, nlive 250; job 1339615) on the A10-J problem.
 - 11A chunk 3 hit the rita `TaskProlog failed` start fault (0 rows); resubmitted as 1339613.
+
+## Owner decision (2026-09-27): no tinyns
+
+The owner excluded tinyns. The S1 tinyns job (1339615) was cancelled before it started (no
+GPU time spent). S1, 11C and 11D use dynesty only (`bound='multi'`, `sample='unif'`,
+darksirens checkpoint helpers); S1 dynesty job 1339614 continues.
+
+## S1 — dynesty validated against the A10-J grid (2026-09-27, job 1339614)
+
+- dynesty `bound='multi', sample='unif'`, nlive 300, seed 1: 3,067 iterations, 15,173
+  likelihood calls, 12.7 h, logZ −4291.68 ± 0.18, 3,367 equal-weight samples.
+  `results/a11_ns_a10J_dynesty_n300_s1.json`, `diagnostics/a11_s1_compare_*.json`.
+- About 10.7k of the calls were spent before the first bound: dynesty 2 builds its
+  first ellipsoid only once the unit-cube efficiency falls below 10%
+  (`first_update` default). Production runs build the first bound after 2·nlive calls.
+- Grid quantiles: the Analysis-10/11 grid code interpolates the CDF linearly between nodes.
+  Where nodes are ≥ 0.6 posterior sd apart this widens the 90% ends by up to 0.22
+  half-widths. Sampler-vs-grid comparisons use spline-interpolated grid quantiles, and
+  the 11A/11B 90% ends quoted from the linear CDF are slightly conservative.
