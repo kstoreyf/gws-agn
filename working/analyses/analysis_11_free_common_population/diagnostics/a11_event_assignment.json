@@ -1,0 +1,157 @@
+{
+  "points": {
+    "A10_median": {
+      "f": 0.276247986483916,
+      "dmu_chi": 0.11715952506139164,
+      "dmu_G": 4.756459122015246
+    },
+    "A11_11C": {
+      "f": 0.2736466440953983,
+      "mu_G": 35.56019121450694,
+      "dmu_G": 3.929367732991073,
+      "mu_chi": -0.0043274946634443145,
+      "dmu_chi": 0.12847762139922345
+    }
+  },
+  "verification": {
+    "A10": {
+      "sum_logZ_prod": -15999.506290544363,
+      "live_logL_pe": -15999.506290544366,
+      "abs_diff": 3.637978807091713e-12,
+      "pass": true
+    },
+    "A11": {
+      "sum_logZ_prod": -15980.339341814117,
+      "live_logL_pe": -15980.339341814115,
+      "abs_diff": 1.8189894035458565e-12,
+      "pass": true
+    }
+  },
+  "rms_dP": 0.028134350950784915,
+  "n_abs_dP_gt_0p1": 1,
+  "n_abs_dP_gt_0p05": 98,
+  "n_crossing_0p5": 32,
+  "spearman_rho": 0.9942693582693585,
+  "sum_P": {
+    "A10": 337.89974473669383,
+    "A11": 323.2338384644572
+  },
+  "median_abs_dP": 0.014829477820102563,
+  "max_abs_dP": 0.10278794827862625,
+  "true_label_agreement_at_0p5 (interpretation only)": {
+    "A10": 0.724,
+    "A11": 0.72
+  },
+  "environment": {
+    "stage": "a11_event_assign",
+    "checks": [
+      {
+        "check": "PYTHONPATH carries darksirens-a8",
+        "ok": true,
+        "detail": "PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8"
+      },
+      {
+        "check": "DARKSIRENS_SRC unset or darksirens-a8",
+        "ok": true,
+        "detail": "DARKSIRENS_SRC='/hildafs/projects/phy230014p/magana/src/darksirens-a8' (a8_likelihood.provenance reads it)"
+      },
+      {
+        "check": "darksirens-a8 HEAD == af896ca",
+        "ok": true,
+        "detail": "af896cae6f3f3dd1f87dec50046e3a8228f59b39 (expected af896cae6f3f3dd1f87dec50046e3a8228f59b39)"
+      },
+      {
+        "check": "darksirens-a8 worktree clean",
+        "ok": true,
+        "detail": "clean"
+      },
+      {
+        "check": "tracer-dependent population blocks present",
+        "ok": true,
+        "detail": "9 references to mixture_pop_params in /hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/likelihood/core.py"
+      },
+      {
+        "check": "darksirens imports from darksirens-a8",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py"
+      },
+      {
+        "check": "pinned base 2b86a2d is an ancestor",
+        "ok": true,
+        "detail": "base 2b86a2d"
+      },
+      {
+        "check": "input present: events",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5 (162743429 bytes)"
+      },
+      {
+        "check": "input present: survey_gal",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5 (1650316659 bytes)"
+      },
+      {
+        "check": "input present: survey_agn",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5 (19934497 bytes)"
+      },
+      {
+        "check": "input present: selection",
+        "ok": true,
+        "detail": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5 (203346016 bytes)"
+      }
+    ],
+    "host": "rita.ib.vera.psc.edu",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "mixture_pop_params_references": 9,
+    "gws_agn_sha": "bb9669b7628046429f1b52ed3b56513f3ab6d93c",
+    "gws_agn_dirty": true,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_version": "0.0.1",
+    "a8_provenance": {
+      "gws_agn_sha": "bb9669b7628046429f1b52ed3b56513f3ab6d93c",
+      "gws_agn_dirty": true,
+      "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+      "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+      "darksirens_dirty": false,
+      "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+      "darksirens_pinned_base_sha": "2b86a2d",
+      "darksirens_pinned_base_is_ancestor": true,
+      "inputs": {
+        "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+        "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+        "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+        "survey_paths_used": [
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+          "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+        ],
+        "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+      },
+      "settings": {
+        "universe_model": "dark_sirens",
+        "catalog_sky_weighting": "field",
+        "log10n0": -24.0,
+        "log10n0_c2": -24.0,
+        "selection_neff_guard": "hard",
+        "max_likelihood_variance": 1000000.0,
+        "kde_window": 4096,
+        "kde_window_nsigma": 8.0,
+        "sel_batch_size": 50000,
+        "pe_event_block": 25
+      },
+      "H0_fixed": 67.74,
+      "Om0_fixed": 0.3075,
+      "pop_model": "powerlaw+peak"
+    },
+    "inputs": {
+      "events": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "selection": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "jax_devices": "[CudaDevice(id=0)]"
+  },
+  "slurm_job_id": "1345022"
+}

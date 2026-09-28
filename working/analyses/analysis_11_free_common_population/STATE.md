@@ -80,3 +80,25 @@ darksirens checkpoint helpers); S1 dynesty job 1339614 continues.
   Where nodes are ≥ 0.6 posterior sd apart this widens the 90% ends by up to 0.22
   half-widths. Sampler-vs-grid comparisons use spline-interpolated grid quantiles, and
   the 11A/11B 90% ends quoted from the linear CDF are slightly conservative.
+
+## 11C launched (2026-09-28)
+
+Gate G11AB and S1 passed, so 11C runs: (f, μ_G, Δμ_G, μ_χ, Δμ_χ) at H0 = 67.74 on the
+brief's domains. Two independent dynesty runs (multi/unif, nlive 200, seeds 1 and 2,
+first bound after 2·nlive calls; jobs 1341008, 1341009), one per rita GPU, merged with
+`dynesty.utils.merge_runs` (`a11_sampler.py --stage merge`) into an nlive-400-equivalent
+posterior. The two runs also serve as a run-to-run consistency check.
+
+Cost estimate before submission: S1 needed ≈ 10 × nlive iterations in 3-D. 5-D adds
+roughly 5 nats of prior-to-posterior compression, so ≈ 15 × nlive = 3,000 iterations per
+run; at 10–15% efficiency that is ≈ 20–30k calls ≈ 17–25 GPU-h per run, ≈ 35–50 GPU-h total,
+about one day of wall time. That is below Analysis 10's ≈ 150 GPU-h, so no owner stop
+applies.
+
+## 11C complete, fixed-H0 owner gate PASS (2026-09-28)
+
+Jobs 1341008 (seed 1: 2,590 iterations, 10,816 calls, 9.5 h) and 1341009 (seed 2: 2,628
+iterations, 9,677 calls, 7.8 h), merged to `results/a11_11C.json`. The efficiency (22–30%)
+beat the pre-run estimate, so 11C cost ≈ 17 GPU-h, not 35–50. Event assignment: job
+1345022 (3 min). Comparisons: `diagnostics/a11_11C_comparisons.json`. Figure
+`figs/fig_11C`. Next: 11D (H0 released), which is not started.

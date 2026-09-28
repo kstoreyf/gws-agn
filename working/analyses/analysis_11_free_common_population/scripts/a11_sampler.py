@@ -286,14 +286,20 @@ def stage_run(args):
             sampler = restore_dynesty_sampler(str(ckpt), ll_np, pt_np)
             resume = True
         else:
-            sampler = dynesty.NestedSampler(ll_np, pt_np, ndim, nlive=args.nlive,
-                                            bound="multi", sample="unif",
-                                            rstate=np.random.default_rng(args.seed))
+            sampler = dynesty.NestedSampler(
+                ll_np, pt_np, ndim, nlive=args.nlive, bound="multi", sample="unif",
+                rstate=np.random.default_rng(args.seed),
+                first_update={"min_ncall": 2 * args.nlive,
+                              "min_eff": float(args.first_update_min_eff)})
             resume = False
         install_dynesty_checkpointing(sampler)
         sampler.run_nested(dlogz=args.dlogz, print_progress=True, resume=resume,
                            checkpoint_file=str(ckpt), checkpoint_every=900)
         res = sampler.results
+        import pickle
+        with open(CKPT / f"{tag}.results.pkl", "wb") as fh:
+            pickle.dump(res, fh)
+        info["first_update_min_eff"] = float(args.first_update_min_eff)
         logwt = np.asarray(res["logwt"])
         w = np.exp(logwt - logwt.max())
         w /= w.sum()
@@ -330,6 +336,40 @@ def summarise(s, names):
     return out
 
 
+def stage_merge(args):
+    """Merge independent dynesty runs (dynesty.utils.merge_runs) into one posterior."""
+    import pickle
+    from dynesty.utils import merge_runs, resample_equal
+    runs, infos = [], []
+    for j in args.runs:
+        info = json.loads(Path(j).read_text())
+        pk = CKPT / f"{info['tag']}.results.pkl"
+        with open(pk, "rb") as fh:
+            runs.append(pickle.load(fh))
+        infos.append(info)
+    names = infos[0]["names"]
+    res = merge_runs(runs)
+    logwt = np.asarray(res["logwt"])
+    w = np.exp(logwt - logwt.max())
+    w /= w.sum()
+    samples = resample_equal(np.asarray(res.samples), w, rstate=np.random.default_rng(12345))
+    out = {"what": f"merged dynesty runs for {infos[0]['problem']}",
+           "runs": [{"tag": i["tag"], "logZ": i["logZ"], "logZerr": i["logZerr"],
+                     "ncall_total": i["ncall_total"], "niter": i["niter"],
+                     "summary": i["summary"]} for i in infos],
+           "logZ": float(res.logz[-1]), "logZerr": float(res.logzerr[-1]),
+           "ncall_total": int(sum(i["ncall_total"] for i in infos)),
+           "gpu_hours_approx": float(sum(i["ncall_total"] for i in infos) * 3.0 / 3600),
+           "n_equal_weight_samples": int(samples.shape[0]), "names": names,
+           "box": infos[0]["box"], "summary": summarise(samples, names)}
+    dst = RESULTS / f"a11_{args.out}.json"
+    dst.write_text(json.dumps(out, indent=2))
+    np.savez(RESULTS / f"a11_{args.out}.npz", samples=samples, names=np.array(names),
+             logwt=logwt, logl=np.asarray(res.logl), dead=np.asarray(res.samples))
+    print(json.dumps(out["summary"], indent=1))
+    print(f"wrote {dst}")
+
+
 def stage_compare(args):
     run = json.loads(Path(args.run_json).read_text())
     grid = json.loads((A10_RESULTS / "a10_arm_J.json").read_text())
@@ -360,7 +400,7 @@ def stage_compare(args):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--stage", required=True, choices=("s0", "run", "compare"))
+    ap.add_argument("--stage", required=True, choices=("s0", "run", "merge", "compare"))
     ap.add_argument("--problem", choices=list(BOXES), default="a10J")
     ap.add_argument("--engine", choices=("tinyns", "dynesty"), default="dynesty")
     ap.add_argument("--nlive", type=int, default=250)
@@ -369,9 +409,15 @@ def main(argv=None):
     ap.add_argument("--max_attempts", type=int, default=2000)
     ap.add_argument("--dlogz", type=float, default=0.1)
     ap.add_argument("--run_json")
+    ap.add_argument("--runs", nargs="+", help="merge: run JSONs")
+    ap.add_argument("--out", help="merge: output tag, results/a11_<out>.json")
+    ap.add_argument("--first_update_min_eff", type=float, default=10.0,
+                    help="dynesty first_update min_eff (10 = dynesty default; 100 builds "
+                         "the first bound as soon as 2*nlive calls are spent)")
     ap.add_argument("--tol", type=float, default=0.1)
     args = ap.parse_args(argv)
-    {"s0": stage_s0, "run": stage_run, "compare": stage_compare}[args.stage](args)
+    {"s0": stage_s0, "run": stage_run, "merge": stage_merge,
+     "compare": stage_compare}[args.stage](args)
 
 
 if __name__ == "__main__":

@@ -143,9 +143,98 @@ def fig_sector(arm, mu, dmu, a10_key, a10_marg_key, a10_axis_key):
     save(fig, f"fig_{arm}")
 
 
+
+C11C = fs.C["orange"]
+
+
+def _kde1(x, grid):
+    from scipy.stats import gaussian_kde
+    k = gaussian_kde(x)
+    p = k(grid)
+    return p / np.trapz(p, grid)
+
+
+def _kde2(x, y, gx, gy):
+    from scipy.stats import gaussian_kde
+    k = gaussian_kde(np.vstack([x, y]))
+    X, Y = np.meshgrid(gx, gy, indexing="ij")
+    return k(np.vstack([X.ravel(), Y.ravel()])).reshape(X.shape)
+
+
+def fig_11C():
+    jp, npz = RESULTS / "a11_11C.json", RESULTS / "a11_11C.npz"
+    if not jp.exists():
+        print("[skip] 11C: not merged yet")
+        return
+    js = json.loads(jp.read_text())
+    S = np.load(npz)["samples"]
+    names = list(js["names"])
+    col = {n: S[:, names.index(n)] for n in names}
+    print("\n[11C]")
+    for n in ("dmu_G", "dmu_chi", "f_agn"):
+        q = np.quantile(col[n], [0.05, 0.5, 0.95])
+        check(f"11C {n} median", float(q[1]), js["summary"][n]["median"])
+        check(f"11C {n} 90% low", float(q[0]), js["summary"][n]["ci90"][0])
+        check(f"11C {n} 90% high", float(q[2]), js["summary"][n]["ci90"][1])
+    a10 = h5py.File(A10_RESULTS / "a10_arm_J.h5", "r")
+    gA = h5py.File(RESULTS / "a11_11A.h5", "r")
+    gB = h5py.File(RESULTS / "a11_11B.h5", "r")
+    fig, axs = plt.subplots(2, 3, figsize=(fs.TWOCOL, 4.6))
+    fig.subplots_adjust(left=0.075, right=0.985, bottom=0.1, top=0.95, wspace=0.42, hspace=0.45)
+    rows = (("dmu_G", a10["dmu_G_grid"][:], a10["marginal/dmu_G"][:], gA, "11A"),
+            ("dmu_chi", a10["dmu_chi_grid"][:], a10["marginal/dmu_chi"][:], gB, "11B"),
+            ("f_agn", a10["f_grid"][:], a10["marginal/f"][:], None, None))
+    for ax, (n, x10, m10, g, gname) in zip(axs[0], rows):
+        lo, hi = np.quantile(col[n], [0.0005, 0.9995])
+        w = hi - lo
+        grid = np.linspace(lo - 0.3 * w, hi + 0.3 * w, 400)
+        s10 = summarise(x10, m10)
+        ax.plot(x10, s10["p"], color=C10, lw=1.3, label="A10-J: reference pinned")
+        strips = [(C10, s10)]
+        if g is not None:
+            sg = summarise(g[f"axis/{n}"][:], g[f"marginal/{n}"][:])
+            ax.plot(g[f"axis/{n}"][:], sg["p"], color=C11, lw=1.3,
+                    label="11A / 11B: that sector's reference free")
+            strips.append((C11, sg))
+        p = _kde1(col[n], grid)
+        ax.plot(grid, p, color=C11C, lw=1.5, label="11C: both references free")
+        s11c = {"median": js["summary"][n]["median"], "ci90": js["summary"][n]["ci90"]}
+        strips.append((C11C, s11c))
+        ymax = max(p.max(), s10["p"].max())
+        for k, (c, s_) in enumerate(strips):
+            y = -0.07 * ymax * (k + 1)
+            ax.plot(s_["ci90"], [y, y], color=c, lw=2.2, solid_capstyle="butt", clip_on=False)
+            ax.plot([s_["median"]], [y], marker="|", color=c, ms=6.5, mew=1.5, clip_on=False)
+        ax.set_ylim(-0.07 * ymax * (len(strips) + 0.8), ymax * 1.3)
+        ax.axvline(TRUTH[n], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
+        ax.set_xlim(grid[0], grid[-1])
+        ax.set_xlabel(LABEL[n]); ax.set_yticks([])
+    axs[0][0].legend(fontsize=5.2, frameon=False, loc="upper left")
+    pairs = (("mu_G", "dmu_G", gA, "mu_G__dmu_G"), ("mu_chi", "dmu_chi", gB, "mu_chi__dmu_chi"),
+             ("dmu_G", "dmu_chi", None, None))
+    for ax, (a, b, g, key) in zip(axs[1], pairs):
+        la, ha = np.quantile(col[a], [0.001, 0.999]); lb, hb = np.quantile(col[b], [0.001, 0.999])
+        ga = np.linspace(la - 0.3 * (ha - la), ha + 0.3 * (ha - la), 120)
+        gb = np.linspace(lb - 0.3 * (hb - lb), hb + 0.3 * (hb - lb), 120)
+        if g is not None:
+            hpd(ax, g[f"axis/{a}"][:], g[f"axis/{b}"][:], g[f"marginal_2d/{key}"][:], C11, fill=False)
+        hpd(ax, ga, gb, _kde2(col[a], col[b], ga, gb), C11C)
+        ax.axvline(TRUTH[a], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
+        ax.axhline(TRUTH[b], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
+        ax.set_xlim(ga[0], ga[-1]); ax.set_ylim(gb[0], gb[-1])
+        ax.set_xlabel(LABEL[a]); ax.set_ylabel(LABEL[b])
+        r = js["summary"]["correlations"].get(f"{a}|{b}")
+        ax.annotate(rf"11C $\rho$ = {r:+.2f}", (0.05, 0.92), xycoords="axes fraction",
+                    fontsize=6.2, va="top")
+    from matplotlib.ticker import MaxNLocator
+    for a in axs.ravel():
+        a.xaxis.set_major_locator(MaxNLocator(5))
+    save(fig, "fig_11C")
+
 def main():
     fig_sector("11A", "mu_G", "dmu_G", "dmu_G", "marginal/dmu_G", "dmu_G_grid")
     fig_sector("11B", "mu_chi", "dmu_chi", "dmu_chi", "marginal/dmu_chi", "dmu_chi_grid")
+    fig_11C()
     print("\ndone.")
 
 
