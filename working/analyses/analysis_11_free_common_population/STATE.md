@@ -1,5 +1,7 @@
 # Analysis 11 state
 
+**RESUME HERE (2026-09-28): fixed-H0 stage complete and gate PASSED; 11D is ON HOLD by owner instruction ("dont launch it yet"). Nothing is running. See `RESTART.md` for the full checkpoint and the exact 11D launch commands.**
+
 **Stage (2026-09-26, later): closure PASS (1-ULP residuals judged), selection support PASS with one rejected corner; 11A and 11B grids RUNNING; S0 queued.**
 
 - Timing: 3.011 s per evaluation steady state (first call 12.3 s), the same as Analysis 10.
