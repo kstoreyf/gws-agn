@@ -1,9 +1,8 @@
 # Analysis 11 — restart checkpoint (2026-09-28)
 
-**Status: fixed-H0 stage COMPLETE; the fixed-H0 owner gate PASSED. 11D (H0 released) is ON
-HOLD by owner instruction (2026-09-28): "dont launch it yet". Nothing is running.**
-
-Do not submit 11D, the §21 mechanism diagnostic or Analysis 12 until the owner says so.
+**Status (2026-09-29): 11D COMPLETE and written up (`REPORT.md` §§7–9, `figs/fig_11D`,
+`diagnostics/a11_11D_comparisons.json`). Nothing is running. The §21 mechanism profile and
+Analysis 12 wait for the owner.**
 
 ## What is done (all committed)
 
@@ -29,6 +28,8 @@ Owner decisions on record: tinyns is excluded (dynesty only), and 11D is on hold
 - `results/a11_ns_a10J_dynesty_n300_s1.{json,npz}`: S1 run.
 - `results/a11_ns_11C_dynesty_n200_s{1,2}.{json,npz}` and `results/a11_11C.{json,npz}`:
   11C runs and their merge.
+- `results/a11_ns_11D_dynesty_n200_s{1,2}.{json,npz}` and `results/a11_11D.{json,npz}`:
+  11D runs and their merge.
 - `queue/*.ckpt`, `queue/*.results.pkl`: dynesty checkpoints and pickled Results (the
   merge input).
 

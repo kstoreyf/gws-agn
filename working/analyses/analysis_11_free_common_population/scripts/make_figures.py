@@ -5,6 +5,10 @@
               (reference mass scale free) against Analysis 10's A10-J (reference
               pinned at 35 Msun, spin offset free).
     fig_11B   the same for the spin sector: (mu_chi, dmu_chi), (f, dmu_chi), p(dmu_chi).
+    fig_11C   the 5-D fixed-H0 posterior: 1-D marks against A10-J and 11A/11B; the
+              (mu_G, dmu_G), (mu_chi, dmu_chi), (dmu_G, dmu_chi) planes.
+    fig_11D   H0 released: p(H0) against C10-J; (H0, mu_G), (H0, dmu_G), (H0, mu_chi),
+              (H0, dmu_chi) 90% HPD regions, C10-J's where the coordinate existed there.
 
 Every drawn median / 90% end is diffed against its JSON (``check``).  All plotted
 intervals and regions are 90%; 68% numbers are printed only.  Colours from
@@ -147,16 +151,16 @@ def fig_sector(arm, mu, dmu, a10_key, a10_marg_key, a10_axis_key):
 C11C = fs.C["orange"]
 
 
-def _kde1(x, grid):
+def _kde1(x, grid, neff=None):
     from scipy.stats import gaussian_kde
-    k = gaussian_kde(x)
+    k = gaussian_kde(x, bw_method=None if neff is None else neff ** (-1 / 5))
     p = k(grid)
     return p / np.trapz(p, grid)
 
 
-def _kde2(x, y, gx, gy):
+def _kde2(x, y, gx, gy, neff=None):
     from scipy.stats import gaussian_kde
-    k = gaussian_kde(np.vstack([x, y]))
+    k = gaussian_kde(np.vstack([x, y]), bw_method=None if neff is None else neff ** (-1 / 6))
     X, Y = np.meshgrid(gx, gy, indexing="ij")
     return k(np.vstack([X.ravel(), Y.ravel()])).reshape(X.shape)
 
@@ -231,10 +235,89 @@ def fig_11C():
         a.xaxis.set_major_locator(MaxNLocator(5))
     save(fig, "fig_11C")
 
+def fig_11D():
+    jp, npz = RESULTS / "a11_11D.json", RESULTS / "a11_11D.npz"
+    cp = A11 / "diagnostics" / "a11_11D_comparisons.json"
+    if not (jp.exists() and cp.exists()):
+        print("[skip] 11D: not merged / compared yet")
+        return
+    js, cmp_ = json.loads(jp.read_text()), json.loads(cp.read_text())
+    Z = np.load(npz)
+    S = Z["samples"]
+    # KDE bandwidths from the Kish effective size of the merged weights: the
+    # equal-weight resample repeats points, so its length overstates the information
+    w = np.exp(Z["logwt"] - Z["logwt"].max())
+    neff = float(w.sum() ** 2 / (w ** 2).sum())
+    names = list(js["names"])
+    col = {n: S[:, names.index(n)] for n in names}
+    print(f"\n[11D]  Kish n_eff {neff:.0f} of {len(S)} samples")
+    for n in ("H0", "mu_G", "dmu_G", "mu_chi", "dmu_chi"):
+        q = np.quantile(col[n], [0.05, 0.5, 0.95])
+        check(f"11D {n} median", float(q[1]), js["summary"][n]["median"])
+        check(f"11D {n} 90% low", float(q[0]), js["summary"][n]["ci90"][0])
+        check(f"11D {n} 90% high", float(q[2]), js["summary"][n]["ci90"][1])
+    c10 = h5py.File(A10_RESULTS / "c10_arm_J.h5", "r")
+    xH = c10["H0_grid"][:]
+    fig = plt.figure(figsize=(fs.TWOCOL, 4.3))
+    gs = fig.add_gridspec(2, 3, left=0.07, right=0.985, bottom=0.1, top=0.97, wspace=0.45,
+                          hspace=0.42)
+    # p(H0): C10-J (references pinned) against 11D (references free)
+    ax = fig.add_subplot(gs[:, 0])
+    lo, hi = np.quantile(col["H0"], [0.0005, 0.9995])
+    grid = np.linspace(lo - 1.0, hi + 1.0, 400)
+    p11 = _kde1(col["H0"], grid, neff)
+    xs = np.linspace(xH[0], xH[-1], 2000)
+    from scipy.interpolate import CubicSpline
+    p10 = np.exp(CubicSpline(xH, np.log(np.maximum(c10["marginal/H0"][:], 1e-300)))(xs))
+    p10 /= np.trapz(p10, xs)
+    ax.plot(xs, p10, color=C10, lw=1.4)
+    ax.plot(grid, p11, color=C11, lw=1.5)
+    s10 = cmp_["C10_J_quantiles"]["H0"]["spline"]
+    s11 = js["summary"]["H0"]
+    ymax = max(p10.max(), p11.max())
+    for k, (c, s_) in enumerate(((C11, s11), (C10, s10))):
+        y = -0.06 * ymax * (k + 1)
+        ax.plot(s_["ci90"], [y, y], color=c, lw=2.4, solid_capstyle="butt", clip_on=False)
+        ax.plot([s_["median"]], [y], marker="|", color=c, ms=7, mew=1.6, clip_on=False)
+    ax.set_ylim(-0.06 * ymax * 2.8, ymax * 1.3)
+    ax.axvline(fs.H0_TRUTH, color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
+    ax.set_xlim(grid[0], grid[-1])
+    ax.set_xlabel(r"$H_0$  [km s$^{-1}$ Mpc$^{-1}$]"); ax.set_yticks([])
+    ax.set_ylabel("posterior density")
+    ax.legend(handles=[Line2D([], [], color=C11, lw=1.5, label="11D: references free"),
+                       Line2D([], [], color=C10, lw=1.4, label="C10-J: references pinned"),
+                       Line2D([], [], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), label="planted")],
+              fontsize=5.6, frameon=True, framealpha=1.0, edgecolor="none", loc="upper left")
+    # (H0, population) planes, 11D 90% HPD; C10-J 90% HPD where the coordinate existed there
+    planes = (("mu_G", None), ("dmu_G", ("dmu_G_grid", "marginal_2d/H0_dmu_G")),
+              ("mu_chi", None), ("dmu_chi", ("dmu_chi_grid", "marginal_2d/H0_dmu_chi")))
+    lH, hH = np.quantile(col["H0"], [0.001, 0.999])
+    gH = np.linspace(lH - 0.3 * (hH - lH), hH + 0.3 * (hH - lH), 120)
+    for k, (n, ref) in enumerate(planes):
+        ax = fig.add_subplot(gs[k // 2, 1 + k % 2])
+        lb, hb = np.quantile(col[n], [0.001, 0.999])
+        gb = np.linspace(lb - 0.3 * (hb - lb), hb + 0.3 * (hb - lb), 120)
+        if ref is not None:
+            hpd(ax, xH, c10[ref[0]][:], c10[ref[1]][:], C10, fill=False)
+        hpd(ax, gH, gb, _kde2(col["H0"], col[n], gH, gb, neff), C11)
+        ax.axvline(fs.H0_TRUTH, color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
+        ax.axhline(TRUTH[n], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
+        ax.set_xlim(gH[0], gH[-1]); ax.set_ylim(gb[0], gb[-1])
+        ax.set_xlabel(r"$H_0$"); ax.set_ylabel(LABEL[n])
+        r = js["summary"]["correlations"][f"H0|{n}"]
+        ax.annotate(rf"$\rho$ = {r:+.2f}", (0.05, 0.92), xycoords="axes fraction",
+                    fontsize=6.2, va="top")
+        from matplotlib.ticker import MaxNLocator
+        ax.xaxis.set_major_locator(MaxNLocator(5))
+    c10.close()
+    save(fig, "fig_11D")
+
+
 def main():
     fig_sector("11A", "mu_G", "dmu_G", "dmu_G", "marginal/dmu_G", "dmu_G_grid")
     fig_sector("11B", "mu_chi", "dmu_chi", "dmu_chi", "marginal/dmu_chi", "dmu_chi_grid")
     fig_11C()
+    fig_11D()
     print("\ndone.")
 
 

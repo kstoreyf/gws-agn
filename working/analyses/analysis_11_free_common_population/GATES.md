@@ -16,7 +16,8 @@ the fact; if a boundary becomes relevant it is extended once and reported.
 | S1 sampler validation | **PASS** (dynesty; judged against spline-interpolated grid quantiles) | dynesty multi/unif, nlive 300, seed 1 (job 1339614): 3,067 iterations, 15,173 calls, 12.7 h, logZ −4291.68 ± 0.18. Against the A10-J grid's own linear-CDF quantiles: medians ≤ 0.05, 68% ends ≤ 0.093, 90% ends up to 0.158 half-widths (all ends on the narrow side). The grid's linear CDF between coarse nodes widens its 90% ends by up to 0.22 half-widths (Δμ_G, 1 M☉ outer spacing); against cubic-spline quantiles of the same grid marginals the sampler agrees within 0.055 (medians), 0.033 (68%), 0.057 (90%), consistent with its bootstrap SE 0.024–0.035; correlations within 0.03. tinyns excluded by the owner (job 1339615 cancelled before starting) |
 | 11C | **PASS** | dynesty, 2 × nlive 200 merged, 20,293 calls ≈ 17 GPU-h, seeds agree ≤ 0.17 sd; f 0.274 [0.206, 0.350], μ_G 35.56 [34.90, 36.17], Δμ_G 3.93 [2.49, 5.29], μ_χ −0.0043 [−0.0195, 0.0100], Δμ_χ 0.128 [0.096, 0.160] (90%); D vs A10-J Δμ_G 1.43/1.43, Δμ_χ 1.29/1.27; vs 11A/11B 1.00–1.04; cross-sector |ρ| ≤ 0.12; P_i(AGN) vs A10: RMS ΔP 0.028, 1 event > 0.1, Spearman 0.994 |
 | fixed-H0 owner gate | **PASS on all five conditions** | REPORT.md, *Fixed-H0 owner gate*; 11D not started |
-| 11D | **ON HOLD (owner, 2026-09-28)** | fixed-H0 gate passed; not launched; see `RESTART.md` |
+| 11D | **COMPLETE** (owner-released 2026-09-28) | dynesty, 2 × nlive 200 merged, 29,262 calls ≈ 24 GPU-h, seeds agree ≤ 0.16 sd; H0 67.16 [64.83, 69.13] (90%), planted 67.74; vs C10-J (spline) W68 1.13 / W90 1.09, median −0.50; Δμ_G 3.94 [2.52, 5.37], Δμ_χ 0.131 [0.097, 0.164], both ≥ 4.6 sd from 0; vs 11C every 90% width 1.01–1.06; ρ(H0, μ_G) −0.22 vs ρ(H0, Δμ_G) −0.09 (`diagnostics/a11_11D_comparisons.json`) |
+| §21 mechanism profile | NOT RUN (owner gate) | |
 | A12M / A12χ | NOT REACHED | |
 
 ## Gate C — closure (brief §11)

@@ -1,6 +1,6 @@
 # Analysis 11 state
 
-**RESUME HERE (2026-09-28): fixed-H0 stage complete and gate PASSED; 11D is ON HOLD by owner instruction ("dont launch it yet"). Nothing is running. See `RESTART.md` for the full checkpoint and the exact 11D launch commands.**
+**RESUME HERE (2026-09-29): 11D complete and reported (REPORT.md §§7–9). Nothing is running. §21 and Analysis 12 wait for the owner. `RESTART.md` holds the checkpoint.**
 
 **Stage (2026-09-26, later): closure PASS (1-ULP residuals judged), selection support PASS with one rejected corner; 11A and 11B grids RUNNING; S0 queued.**
 
@@ -104,3 +104,14 @@ iterations, 9,677 calls, 7.8 h), merged to `results/a11_11C.json`. The efficienc
 beat the pre-run estimate, so 11C cost ≈ 17 GPU-h, not 35–50. Event assignment: job
 1345022 (3 min). Comparisons: `diagnostics/a11_11C_comparisons.json`. Figure
 `figs/fig_11C`. Next: 11D (H0 released), which is not started.
+
+## 11D complete (2026-09-29)
+
+Released by the owner on 2026-09-28. Jobs 1345442 (seed 1: 2,871 iterations, 14,245
+calls, 11.9 h) and 1345443 (seed 2: 2,942 iterations, 15,017 calls, 12.6 h), same
+configuration as 11C, both on rita, no restarts. Merged to `results/a11_11D.json`
+(logZ −4294.89 ± 0.19, Kish n_eff 2,548 of 6,213 equal-weight samples). The cost came in
+at the low end of the 20–35 GPU-h estimate (≈ 24 GPU-h). Comparisons against C10-J and 11C:
+`scripts/a11_11D_compare.py` → `diagnostics/a11_11D_comparisons.json`. C10-J grid
+quantiles use a cubic spline in log density (it reproduces the 11C comparison's A10-J
+numbers to 2.5e-5). Figure `figs/fig_11D`; KDE bandwidths use the Kish n_eff.
