@@ -16,6 +16,10 @@ Problems (flat priors on the boxes below; guard-rejected points are -inf)
            results/a10_arm_J.json of Analysis 10.
     11C    (f, mu_G, dmu_G, mu_chi, dmu_chi) on the brief's domains, H0 = 67.74.
     11D    11C plus H0 on [60, 76] (Analysis 10's contained C10-J window).
+    12M    Analysis 12M: 11D plus ONE shared Gaussian-peak width sigma_G on the
+           production bounds [1, 10] Msun (common to GAL and AGN).
+    12chi  Analysis 12chi: 11D plus ONE shared spin width sigma_chi on the
+           production bounds [0.01, 1].
 
 Engines (the two darksirens supports for nested sampling; nothing reimplemented)
     tinyns   tinyns.NestedSampler, sample='rwalk', kernel='jax', one chain,
@@ -62,6 +66,9 @@ BOXES = {
     "11D": [("H0", 60.0, 76.0), ("f_agn", 0.0, 1.0), ("mu_G", 31.0, 39.0),
             ("dmu_G", -4.0, 10.0), ("mu_chi", -0.10, 0.10), ("dmu_chi", -0.05, 0.20)],
 }
+BOXES["12M"] = BOXES["11D"] + [("sigma_G", 1.0, 10.0)]
+BOXES["12chi"] = BOXES["11D"] + [("sigma_chi", 0.01, 1.0)]
+SHARED = {"12M": ("sigma_G",), "12chi": ("sigma_chi",)}
 
 
 @contextmanager
@@ -90,7 +97,8 @@ def build(problem, barrier="off", data=None):
             cell = L.A10.build_a10(f"NS_{problem}_{barrier}", [L.SURVEY_GAL, L.SURVEY_AGN],
                                    data=data, gw_path=L.GW_PATH_A11)
         else:
-            cell = L.build_a11(f"NS_{problem}_{barrier}", data=data)
+            cell = L.build_a11(f"NS_{problem}_{barrier}", data=data,
+                               shared_width=SHARED.get(problem, ()))
     return cell
 
 
@@ -114,8 +122,10 @@ def affine_map(cell, problem):
         rows[L.MU_G_C2_LABEL] = ({"mu_G": 1.0, "dmu_G": 1.0}, 0.0)
         rows[L.MU_CHI_LABEL] = ({"mu_chi": 1.0}, 0.0)
         rows[L.MU_CHI_C2_LABEL] = ({"mu_chi": 1.0, "dmu_chi": 1.0}, 0.0)
-        if problem == "11D":
+        if "H0" in names:
             rows["H0"] = ({"H0": 1.0}, 0.0)
+        for n in SHARED.get(problem, ()):
+            rows[L.SHARED_WIDTH[n][0]] = ({n: 1.0}, 0.0)
     labels = list(cell.labels)
     idx = np.array([labels.index(l) for l in rows])
     A = np.zeros((len(rows), len(names)))

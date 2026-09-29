@@ -1,8 +1,10 @@
 # Analysis 11 — restart checkpoint (2026-09-28)
 
-**Status (2026-09-29): 11D COMPLETE and written up (`REPORT.md` §§7–9, `figs/fig_11D`,
-`diagnostics/a11_11D_comparisons.json`). Nothing is running. The §21 mechanism profile and
-Analysis 12 wait for the owner.**
+**Status (2026-09-29): 11D and §21 are complete and reported. Analysis 12 is RUNNING on rita:
+12M s1 1348933, 12χ s1 1348934 (one A100 each), and s2 1348935 / 1348936 queued behind them.
+A killed run resumes from `queue/a11_ns_<12M|12chi>_dynesty_n200_s<SEED>.ckpt` when resubmitted
+with the identical command (see STATE.md). Once both arms are merged, the brief ends at §31: the
+owner-gate line and the 15-line summary.**
 
 ## What is done (all committed)
 

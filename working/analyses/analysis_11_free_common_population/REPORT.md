@@ -247,13 +247,43 @@ across the slices (sd 1.21, 1.27, 1.28, 1.32 from low to high μ_G). A linear re
 (μ_G, μ_χ) therefore gets the shift right (E[H0 | 35, 0] = 67.56) but understates the width
 (R² = 0.047, a 2% narrowing).
 
-These statements come from the posterior samples. The section-21 H0 profile at pinned
-references is the likelihood-level test of the same claim, and it has not been run.
+These statements come from the posterior samples. The likelihood-level test follows.
+
+### The H0 profile with the references pinned (brief §21)
+
+logL(H0) on 67 nodes over [60, 76], at f = 0.266 and the 11D median offsets
+(Δμ_G = 3.94, Δμ_χ = 0.131), with the references either at their 11D medians
+(μ_G = 35.61, μ_χ = −0.0035) or pinned at Analysis 10's (35, 0). Rita job 1348931, 8 min;
+`scripts/a11_h0_profile.py`, `diagnostics/a11_h0_profile.json`. Quantiles are of the
+normalised exp(logL) on the nodes.
+
+| | peak | median | 90% | curvature sd |
+|---|---|---|---|---|
+| references at the 11D medians | 67.24 | 67.17 | [65.03, 69.06] | 1.25 |
+| references pinned at (35, 0) | 68.27 | 68.09 | [66.13, 69.67] | 0.99 |
+
+**Pinning the reference zero point moves H0 up by about 1, and it does so through the
+event masses.** The pinned profile peaks 1.03 higher (median +0.92) and is 0.88 as wide.
+The PE term carries the shift. The pinned − free difference in logL_pe grows steadily with
+H0, from −45.1 at H0 = 62 to −37.6 at 72 (+0.75 per unit H0). The selection-term difference
+barely moves (+37.6 to +37.3). The sign is the mass–redshift relation: a lower reference
+scale (35 instead of 35.61) means a larger 1 + z = m_det / m_src for the same detected
+masses, hence a higher H0 at fixed distance. At fixed offsets and f the profile moves by
+about −1.7 per M☉ of μ_G. The posterior regression slope is shallower (−0.73) because
+f and the offsets partly compensate along the posterior.
+
+The pinned point does not reproduce C10-J (67.66): its offset Δμ_G = 3.94 is 11D's, not
+the 4.8 C10-J infers with the reference pinned, so it sits 3.2 below the free point's peak
+logL. This is the counterfactual the brief asks for, not a re-fit.
+
+**Most of the H0 width is conditional.** At a fixed population the H0 profile's 90% width
+is 4.03, against the 11D marginal's 4.30. Marginalising all five population coordinates
+widens H0 by 7%.
 
 ## 10. Common-width stress tests
 
-Not reached. Analysis 12 (a shared σ_G, then separately a shared σ_χ) waits for the
-owner.
+Running, owner-released 2026-09-29. See the Analysis-12 section of `STATE.md` until the
+runs finish.
 
 ## 11. The model to calibrate
 

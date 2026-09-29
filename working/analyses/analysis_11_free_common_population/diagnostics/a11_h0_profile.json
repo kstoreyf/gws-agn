@@ -1,0 +1,1383 @@
+{
+  "what": "Analysis 11 -- the one mechanism diagnostic for H0 (brief section 21).\n\nAt a representative 11D posterior point, the likelihood as a function of H0 alone:\n\n    full     (f, mu_G, dmu_G, mu_chi, dmu_chi) at the 11D posterior medians;\n    pinned   the same offsets and f, with the references pinned at (mu_G, mu_chi)\n             = (35, 0), Analysis 10's values.\n\nThe difference between the two isolates what the free reference zero point does to\nH0 at fixed environmental offsets. Each node records logL and its PE and selection\nparts. H0 nodes: 60 to 76 in steps of 0.25, plus 67.74 and the 11D median.",
+  "f_agn": 0.26598280563010196,
+  "points": {
+    "full": {
+      "mu_G": 35.61469223369211,
+      "dmu_G": 3.9448132101448428,
+      "mu_chi": -0.0034760937701758116,
+      "dmu_chi": 0.1307275590034781
+    },
+    "pinned": {
+      "mu_G": 35.0,
+      "dmu_G": 3.9448132101448428,
+      "mu_chi": 0.0,
+      "dmu_chi": 0.1307275590034781
+    }
+  },
+  "H0_nodes": [
+    60.0,
+    60.25,
+    60.5,
+    60.75,
+    61.0,
+    61.25,
+    61.5,
+    61.75,
+    62.0,
+    62.25,
+    62.5,
+    62.75,
+    63.0,
+    63.25,
+    63.5,
+    63.75,
+    64.0,
+    64.25,
+    64.5,
+    64.75,
+    65.0,
+    65.25,
+    65.5,
+    65.75,
+    66.0,
+    66.25,
+    66.5,
+    66.75,
+    67.0,
+    67.164876939,
+    67.25,
+    67.5,
+    67.74,
+    67.75,
+    68.0,
+    68.25,
+    68.5,
+    68.75,
+    69.0,
+    69.25,
+    69.5,
+    69.75,
+    70.0,
+    70.25,
+    70.5,
+    70.75,
+    71.0,
+    71.25,
+    71.5,
+    71.75,
+    72.0,
+    72.25,
+    72.5,
+    72.75,
+    73.0,
+    73.25,
+    73.5,
+    73.75,
+    74.0,
+    74.25,
+    74.5,
+    74.75,
+    75.0,
+    75.25,
+    75.5,
+    75.75,
+    76.0
+  ],
+  "D11_H0_median": 67.16487693903568,
+  "provenance": {
+    "gws_agn_sha": "ba2a1630b522e93bd62e46a443e203838eb591c1",
+    "gws_agn_dirty": true,
+    "darksirens_repo": "/hildafs/projects/phy230014p/magana/src/darksirens-a8",
+    "darksirens_sha": "af896cae6f3f3dd1f87dec50046e3a8228f59b39",
+    "darksirens_dirty": false,
+    "darksirens_module_file": "/hildafs/projects/phy230014p/magana/src/darksirens-a8/darksirens/__init__.py",
+    "darksirens_pinned_base_sha": "2b86a2d",
+    "darksirens_pinned_base_is_ancestor": true,
+    "inputs": {
+      "survey_gal": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+      "survey_agn": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5",
+      "gw_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events.h5",
+      "gw_path_marked": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10.h5",
+      "gw_path_used": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5.h5",
+      "survey_paths_used": [
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5",
+        "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5"
+      ],
+      "gwselection_path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5"
+    },
+    "settings": {
+      "universe_model": "dark_sirens",
+      "catalog_sky_weighting": "field",
+      "log10n0": -24.0,
+      "log10n0_c2": -24.0,
+      "selection_neff_guard": "hard",
+      "max_likelihood_variance": 1000000.0,
+      "kde_window": 4096,
+      "kde_window_nsigma": 8.0,
+      "sel_batch_size": 50000,
+      "pe_event_block": 25
+    },
+    "H0_fixed": 67.74,
+    "Om0_fixed": 0.3075,
+    "pop_model": "powerlaw+peak"
+  },
+  "slurm_job_id": "1348931",
+  "curves": {
+    "full": {
+      "rows": [
+        {
+          "logL": -4308.444158737286,
+          "logL_pe": -16345.350026934615,
+          "logL_selection": 12036.90586819733,
+          "Neff": 300764.8391251547,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 12.258368968963623
+        },
+        {
+          "logL": -4306.4949855062005,
+          "logL_pe": -16331.819992936378,
+          "logL_selection": 12025.325007430178,
+          "Neff": 303314.3309388713,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 2.999739408493042
+        },
+        {
+          "logL": -4304.532727238695,
+          "logL_pe": -16318.361875528679,
+          "logL_selection": 12013.829148289984,
+          "Neff": 305951.584177706,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 2.9994304180145264
+        },
+        {
+          "logL": -4302.5604552106015,
+          "logL_pe": -16304.961196897595,
+          "logL_selection": 12002.400741686994,
+          "Neff": 308548.46846470825,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.002031087875366
+        },
+        {
+          "logL": -4300.588363780076,
+          "logL_pe": -16291.61152770562,
+          "logL_selection": 11991.023163925543,
+          "Neff": 310981.5416095709,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.003790855407715
+        },
+        {
+          "logL": -4298.6346934823505,
+          "logL_pe": -16278.316250388474,
+          "logL_selection": 11979.681556906124,
+          "Neff": 313138.213314736,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0034754276275635
+        },
+        {
+          "logL": -4296.727341278893,
+          "logL_pe": -16265.092258702038,
+          "logL_selection": 11968.364917423145,
+          "Neff": 314921.13065364724,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.005488395690918
+        },
+        {
+          "logL": -4294.901135482123,
+          "logL_pe": -16251.967917315498,
+          "logL_selection": 11957.066781833375,
+          "Neff": 316255.25531332445,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.002572774887085
+        },
+        {
+          "logL": -4293.1939215457205,
+          "logL_pe": -16238.979142474083,
+          "logL_selection": 11945.785220928363,
+          "Neff": 317105.19917965896,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.007190704345703
+        },
+        {
+          "logL": -4291.640436081925,
+          "logL_pe": -16226.164667765388,
+          "logL_selection": 11934.524231683463,
+          "Neff": 317503.5225725055,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0088958740234375
+        },
+        {
+          "logL": -4290.266119640954,
+          "logL_pe": -16213.556395881806,
+          "logL_selection": 11923.290276240852,
+          "Neff": 317549.74008007086,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0095860958099365
+        },
+        {
+          "logL": -4289.082759701581,
+          "logL_pe": -16201.17507905213,
+          "logL_selection": 11912.092319350548,
+          "Neff": 317394.9537305674,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010341167449951
+        },
+        {
+          "logL": -4288.087197512308,
+          "logL_pe": -16189.025536863901,
+          "logL_selection": 11900.938339351593,
+          "Neff": 317210.0161136688,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0098609924316406
+        },
+        {
+          "logL": -4287.262699212157,
+          "logL_pe": -16177.096276335484,
+          "logL_selection": 11889.833577123327,
+          "Neff": 317150.33341172634,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.012247323989868
+        },
+        {
+          "logL": -4286.582180208312,
+          "logL_pe": -16165.361836454264,
+          "logL_selection": 11878.779656245952,
+          "Neff": 317321.6319828919,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.015977621078491
+        },
+        {
+          "logL": -4286.014337009485,
+          "logL_pe": -16153.787874632784,
+          "logL_selection": 11867.7735376233,
+          "Neff": 317771.15140587476,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0133473873138428
+        },
+        {
+          "logL": -4285.529304449667,
+          "logL_pe": -16142.33670256642,
+          "logL_selection": 11856.807398116753,
+          "Neff": 318477.97454738047,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0125513076782227
+        },
+        {
+          "logL": -4285.101862527497,
+          "logL_pe": -16130.973882249047,
+          "logL_selection": 11845.87201972155,
+          "Neff": 319379.8641971197,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.013162136077881
+        },
+        {
+          "logL": -4284.714872823575,
+          "logL_pe": -16119.672012986832,
+          "logL_selection": 11834.957140163257,
+          "Neff": 320384.43715741497,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0115911960601807
+        },
+        {
+          "logL": -4284.360022590068,
+          "logL_pe": -16108.413104576708,
+          "logL_selection": 11824.05308198664,
+          "Neff": 321383.29769734334,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0116617679595947
+        },
+        {
+          "logL": -4284.034592091479,
+          "logL_pe": -16097.188683264225,
+          "logL_selection": 11813.154091172746,
+          "Neff": 322276.53259786504,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0152199268341064
+        },
+        {
+          "logL": -4283.739341388549,
+          "logL_pe": -16085.9984814311,
+          "logL_selection": 11802.25914004255,
+          "Neff": 322979.43586093304,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0141217708587646
+        },
+        {
+          "logL": -4283.475491921567,
+          "logL_pe": -16074.848286626537,
+          "logL_selection": 11791.37279470497,
+          "Neff": 323426.07898200495,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.013301134109497
+        },
+        {
+          "logL": -4283.243949178162,
+          "logL_pe": -16063.748354118845,
+          "logL_selection": 11780.504404940682,
+          "Neff": 323582.2071643134,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0136890411376953
+        },
+        {
+          "logL": -4283.045763264878,
+          "logL_pe": -16052.712429739047,
+          "logL_selection": 11769.66666647417,
+          "Neff": 323448.44961524446,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0137526988983154
+        },
+        {
+          "logL": -4282.882073956576,
+          "logL_pe": -16041.756053884423,
+          "logL_selection": 11758.873979927846,
+          "Neff": 323066.9577976082,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0126564502716064
+        },
+        {
+          "logL": -4282.75400292998,
+          "logL_pe": -16030.894926902498,
+          "logL_selection": 11748.140923972518,
+          "Neff": 322522.21568178653,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0106608867645264
+        },
+        {
+          "logL": -4282.6625322765485,
+          "logL_pe": -16020.142036198315,
+          "logL_selection": 11737.479503921766,
+          "Neff": 321918.9268573501,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0113365650177
+        },
+        {
+          "logL": -4282.608635314053,
+          "logL_pe": -16009.506616761597,
+          "logL_selection": 11726.897981447544,
+          "Neff": 321363.4135675232,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0109846591949463
+        },
+        {
+          "logL": -4282.593913691759,
+          "logL_pe": -16002.55924590914,
+          "logL_selection": 11719.965332217382,
+          "Neff": 321068.38615976856,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0106210708618164
+        },
+        {
+          "logL": -4282.592454833204,
+          "logL_pe": -15998.993162809398,
+          "logL_selection": 11716.400707976194,
+          "Neff": 320946.51312115166,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0112721920013428
+        },
+        {
+          "logL": -4282.612505481749,
+          "logL_pe": -15988.600692590604,
+          "logL_selection": 11705.988187108855,
+          "Neff": 320727.3716583251,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.011643171310425
+        },
+        {
+          "logL": -4282.665805637382,
+          "logL_pe": -15978.734396304277,
+          "logL_selection": 11696.068590666895,
+          "Neff": 320722.17339133593,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0123400688171387
+        },
+        {
+          "logL": -4282.668750442268,
+          "logL_pe": -15978.32556570075,
+          "logL_selection": 11695.656815258482,
+          "Neff": 320726.20645244065,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0108742713928223
+        },
+        {
+          "logL": -4282.761933627058,
+          "logL_pe": -15968.161646401668,
+          "logL_selection": 11685.39971277461,
+          "Neff": 320926.1608270883,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.012644052505493
+        },
+        {
+          "logL": -4282.894690161476,
+          "logL_pe": -15958.102063440976,
+          "logL_selection": 11675.2073732795,
+          "Neff": 321290.6136507602,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0117027759552
+        },
+        {
+          "logL": -4283.073433630854,
+          "logL_pe": -15948.141337663426,
+          "logL_selection": 11665.067904032572,
+          "Neff": 321769.22642867034,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010728597640991
+        },
+        {
+          "logL": -4283.307442437515,
+          "logL_pe": -15938.275261230845,
+          "logL_selection": 11654.96781879333,
+          "Neff": 322309.68581255805,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010761260986328
+        },
+        {
+          "logL": -4283.610618827881,
+          "logL_pe": -15928.503954333886,
+          "logL_selection": 11644.893335506005,
+          "Neff": 322867.93779311463,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0097408294677734
+        },
+        {
+          "logL": -4284.000090090396,
+          "logL_pe": -15918.83187743484,
+          "logL_selection": 11634.831787344445,
+          "Neff": 323407.6934676893,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0114939212799072
+        },
+        {
+          "logL": -4284.492858271304,
+          "logL_pe": -15909.266462826741,
+          "logL_selection": 11624.773604555437,
+          "Neff": 323906.9361433509,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009697675704956
+        },
+        {
+          "logL": -4285.10247271654,
+          "logL_pe": -15899.816078827087,
+          "logL_selection": 11614.713606110547,
+          "Neff": 324356.4815206673,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0108819007873535
+        },
+        {
+          "logL": -4285.83646192951,
+          "logL_pe": -15890.487376266792,
+          "logL_selection": 11604.650914337282,
+          "Neff": 324760.55503911455,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0111348628997803
+        },
+        {
+          "logL": -4286.694150862228,
+          "logL_pe": -15881.283536370172,
+          "logL_selection": 11594.589385507945,
+          "Neff": 325141.4026997603,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0116121768951416
+        },
+        {
+          "logL": -4287.666344876547,
+          "logL_pe": -15872.202439553066,
+          "logL_selection": 11584.53609467652,
+          "Neff": 325530.13737536315,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0118672847747803
+        },
+        {
+          "logL": -4288.735090573753,
+          "logL_pe": -15863.23541397284,
+          "logL_selection": 11574.500323399086,
+          "Neff": 325955.73203115707,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0094525814056396
+        },
+        {
+          "logL": -4289.875226488144,
+          "logL_pe": -15854.36766421782,
+          "logL_selection": 11564.492437729676,
+          "Neff": 326432.16327912017,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010183095932007
+        },
+        {
+          "logL": -4291.0570729358315,
+          "logL_pe": -15845.579825349745,
+          "logL_selection": 11554.522752413914,
+          "Neff": 326960.17653984926,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.008185863494873
+        },
+        {
+          "logL": -4292.250749372697,
+          "logL_pe": -15836.850871011076,
+          "logL_selection": 11544.60012163838,
+          "Neff": 327519.3363017519,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0109992027282715
+        },
+        {
+          "logL": -4293.429200502669,
+          "logL_pe": -15828.161560596896,
+          "logL_selection": 11534.732360094227,
+          "Neff": 328078.0189830364,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010734796524048
+        },
+        {
+          "logL": -4294.570432339262,
+          "logL_pe": -15819.496707166578,
+          "logL_selection": 11524.926274827316,
+          "Neff": 328601.69150745124,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0105156898498535
+        },
+        {
+          "logL": -4295.660872862294,
+          "logL_pe": -15810.847284207026,
+          "logL_selection": 11515.186411344732,
+          "Neff": 329060.2760299884,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0109241008758545
+        },
+        {
+          "logL": -4296.695948608649,
+          "logL_pe": -15802.212089678227,
+          "logL_selection": 11505.516141069578,
+          "Neff": 329445.20800691657,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0114407539367676
+        },
+        {
+          "logL": -4297.680123566935,
+          "logL_pe": -15793.597363177756,
+          "logL_selection": 11495.91723961082,
+          "Neff": 329772.29168213386,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0117979049682617
+        },
+        {
+          "logL": -4298.624920466016,
+          "logL_pe": -15785.014002981123,
+          "logL_selection": 11486.389082515107,
+          "Neff": 330074.4313523517,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0093986988067627
+        },
+        {
+          "logL": -4299.546039630357,
+          "logL_pe": -15776.474975997895,
+          "logL_selection": 11476.928936367538,
+          "Neff": 330390.41498610354,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0096487998962402
+        },
+        {
+          "logL": -4300.460481176273,
+          "logL_pe": -15767.992346235404,
+          "logL_selection": 11467.53186505913,
+          "Neff": 330746.1022914941,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009089231491089
+        },
+        {
+          "logL": -4301.38478788483,
+          "logL_pe": -15759.576194165325,
+          "logL_selection": 11458.191406280495,
+          "Neff": 331146.7766153939,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0102601051330566
+        },
+        {
+          "logL": -4302.3326294366325,
+          "logL_pe": -15751.232037639424,
+          "logL_selection": 11448.899408202791,
+          "Neff": 331572.2685043799,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0092525482177734
+        },
+        {
+          "logL": -4303.313824744871,
+          "logL_pe": -15742.96028546044,
+          "logL_selection": 11439.646460715569,
+          "Neff": 331990.62867517344,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0101513862609863
+        },
+        {
+          "logL": -4304.332706345178,
+          "logL_pe": -15734.756464886139,
+          "logL_selection": 11430.423758540961,
+          "Neff": 332376.40382031334,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0106282234191895
+        },
+        {
+          "logL": -4305.388936825233,
+          "logL_pe": -15726.61273766968,
+          "logL_selection": 11421.223800844447,
+          "Neff": 332724.9964499133,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010655641555786
+        },
+        {
+          "logL": -4306.477136180663,
+          "logL_pe": -15718.518045241452,
+          "logL_selection": 11412.040909060788,
+          "Neff": 333053.3167067335,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0096404552459717
+        },
+        {
+          "logL": -4307.588818284425,
+          "logL_pe": -15710.459958189758,
+          "logL_selection": 11402.871139905334,
+          "Neff": 333390.12132967706,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0085761547088623
+        },
+        {
+          "logL": -4308.7140606732555,
+          "logL_pe": -15702.426387550673,
+          "logL_selection": 11393.712326877418,
+          "Neff": 333760.4076239624,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.011380910873413
+        },
+        {
+          "logL": -4309.8432779850355,
+          "logL_pe": -15694.40741725898,
+          "logL_selection": 11384.564139273945,
+          "Neff": 334173.06091035285,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0093283653259277
+        },
+        {
+          "logL": -4310.968820064902,
+          "logL_pe": -15686.396478923562,
+          "logL_selection": 11375.42765885866,
+          "Neff": 334619.66936917114,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0096938610076904
+        }
+      ],
+      "n_nonfinite": 0,
+      "summary": {
+        "median": 67.1708695307626,
+        "ci68": [
+          65.89033658423497,
+          68.37252046107176
+        ],
+        "ci90": [
+          65.02890794637317,
+          69.05701533815378
+        ],
+        "peak": 67.2376,
+        "logL_peak": -4282.592407721821,
+        "curvature_sd": 1.249089050826338
+      },
+      "d_logL_pe_dH0_at_11D_median": 42.05381580879475,
+      "d_logL_selection_dH0_at_11D_median": -41.98909388540051
+    },
+    "pinned": {
+      "rows": [
+        {
+          "logL": -4317.307867843303,
+          "logL_pe": -16392.02254053469,
+          "logL_selection": 12074.714672691387,
+          "Neff": 302434.4690922252,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0087778568267822
+        },
+        {
+          "logL": -4315.193587759975,
+          "logL_pe": -16378.300041755669,
+          "logL_selection": 12063.106453995693,
+          "Neff": 305031.2025371335,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.008871078491211
+        },
+        {
+          "logL": -4313.06719138635,
+          "logL_pe": -16364.65021656538,
+          "logL_selection": 12051.58302517903,
+          "Neff": 307737.4220879092,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009152889251709
+        },
+        {
+          "logL": -4310.928758653814,
+          "logL_pe": -16351.056649242517,
+          "logL_selection": 12040.127890588703,
+          "Neff": 310435.0101431686,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0102438926696777
+        },
+        {
+          "logL": -4308.785629048076,
+          "logL_pe": -16337.510935822102,
+          "logL_selection": 12028.725306774026,
+          "Neff": 313005.0835394916,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0108048915863037
+        },
+        {
+          "logL": -4306.6540051259,
+          "logL_pe": -16324.01495625073,
+          "logL_selection": 12017.36095112483,
+          "Neff": 315332.62956483755,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.011115550994873
+        },
+        {
+          "logL": -4304.560910267433,
+          "logL_pe": -16310.584905451306,
+          "logL_selection": 12006.023995183872,
+          "Neff": 317314.4029397983,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.011363983154297
+        },
+        {
+          "logL": -4302.541726673688,
+          "logL_pe": -16297.249501808932,
+          "logL_selection": 11994.707775135244,
+          "Neff": 318866.37301095,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0102579593658447
+        },
+        {
+          "logL": -4300.635829604846,
+          "logL_pe": -16284.045846255913,
+          "logL_selection": 11983.410016651067,
+          "Neff": 319944.4707771385,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010495901107788
+        },
+        {
+          "logL": -4298.880010633524,
+          "logL_pe": -16271.014420728767,
+          "logL_selection": 11972.134410095243,
+          "Neff": 320573.495350196,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0105948448181152
+        },
+        {
+          "logL": -4297.301957504433,
+          "logL_pe": -16258.189090514905,
+          "logL_selection": 11960.887133010472,
+          "Neff": 320845.2731433163,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.008331775665283
+        },
+        {
+          "logL": -4295.915525566803,
+          "logL_pe": -16245.592399149078,
+          "logL_selection": 11949.676873582275,
+          "Neff": 320904.2691273291,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0065360069274902
+        },
+        {
+          "logL": -4294.718928765698,
+          "logL_pe": -16233.230500163805,
+          "logL_selection": 11938.511571398107,
+          "Neff": 320914.7785049268,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009758710861206
+        },
+        {
+          "logL": -4293.696147821576,
+          "logL_pe": -16221.092739540998,
+          "logL_selection": 11927.396591719422,
+          "Neff": 321027.1573838077,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009188413619995
+        },
+        {
+          "logL": -4292.820170122102,
+          "logL_pe": -16209.154000685667,
+          "logL_selection": 11916.333830563564,
+          "Neff": 321344.1499733283,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0064709186553955
+        },
+        {
+          "logL": -4292.059339504105,
+          "logL_pe": -16197.380010037386,
+          "logL_selection": 11905.320670533281,
+          "Neff": 321914.97350840503,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0073812007904053
+        },
+        {
+          "logL": -4291.383367139839,
+          "logL_pe": -16185.733090433127,
+          "logL_selection": 11894.349723293288,
+          "Neff": 322725.00099459017,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0104589462280273
+        },
+        {
+          "logL": -4290.766616255662,
+          "logL_pe": -16174.178907344729,
+          "logL_selection": 11883.412291089067,
+          "Neff": 323724.3259043944,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009483575820923
+        },
+        {
+          "logL": -4290.191656543273,
+          "logL_pe": -16162.690212272759,
+          "logL_selection": 11872.498555729486,
+          "Neff": 324837.20410791057,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0090723037719727
+        },
+        {
+          "logL": -4289.649980422804,
+          "logL_pe": -16151.249064978207,
+          "logL_selection": 11861.599084555402,
+          "Neff": 325973.69291137735,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0064995288848877
+        },
+        {
+          "logL": -4289.138736453748,
+          "logL_pe": -16139.846846408123,
+          "logL_selection": 11850.708109954376,
+          "Neff": 327050.9927173318,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0087337493896484
+        },
+        {
+          "logL": -4288.6586457327285,
+          "logL_pe": -16128.482841000729,
+          "logL_selection": 11839.824195268,
+          "Neff": 327997.4781997951,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0093090534210205
+        },
+        {
+          "logL": -4288.211026353412,
+          "logL_pe": -16117.16205007358,
+          "logL_selection": 11828.951023720168,
+          "Neff": 328753.4767336311,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010985851287842
+        },
+        {
+          "logL": -4287.796895271666,
+          "logL_pe": -16105.893641661223,
+          "logL_selection": 11818.096746389558,
+          "Neff": 329281.1408040252,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.010931968688965
+        },
+        {
+          "logL": -4287.417647234777,
+          "logL_pe": -16094.690250098161,
+          "logL_selection": 11807.272602863384,
+          "Neff": 329566.557970112,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0096070766448975
+        },
+        {
+          "logL": -4287.074894747335,
+          "logL_pe": -16083.566388537412,
+          "logL_selection": 11796.491493790078,
+          "Neff": 329629.46666557714,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.009899616241455
+        },
+        {
+          "logL": -4286.770375295513,
+          "logL_pe": -16072.536998131747,
+          "logL_selection": 11785.766622836234,
+          "Neff": 329528.2825996277,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.008899450302124
+        },
+        {
+          "logL": -4286.505665171428,
+          "logL_pe": -16061.61457200579,
+          "logL_selection": 11775.108906834363,
+          "Neff": 329343.8056739824,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0064945220947266
+        },
+        {
+          "logL": -4286.28211597852,
+          "logL_pe": -16050.808024314774,
+          "logL_selection": 11764.525908336254,
+          "Neff": 329164.43296240974,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.011145830154419
+        },
+        {
+          "logL": -4286.157554575981,
+          "logL_pe": -16043.746840544205,
+          "logL_selection": 11757.589285968224,
+          "Neff": 329089.1407773616,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0092356204986572
+        },
+        {
+          "logL": -4286.1000082777355,
+          "logL_pe": -16040.121671677747,
+          "logL_selection": 11754.021663400012,
+          "Neff": 329071.4102386659,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0105531215667725
+        },
+        {
+          "logL": -4285.957547450109,
+          "logL_pe": -16029.554236159784,
+          "logL_selection": 11743.596688709675,
+          "Neff": 329122.39988155063,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0137007236480713
+        },
+        {
+          "logL": -4285.857385644185,
+          "logL_pe": -16019.517724273133,
+          "logL_selection": 11733.660338628948,
+          "Neff": 329331.9257543306,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.00986385345459
+        },
+        {
+          "logL": -4285.853978361703,
+          "logL_pe": -16019.101749333033,
+          "logL_selection": 11733.24777097133,
+          "Neff": 329344.109256989,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0127224922180176
+        },
+        {
+          "logL": -4285.789073801463,
+          "logL_pe": -16008.75771118949,
+          "logL_selection": 11722.968637388027,
+          "Neff": 329731.5367983666,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.011995792388916
+        },
+        {
+          "logL": -4285.764283993432,
+          "logL_pe": -15998.514841492834,
+          "logL_selection": 11712.750557499401,
+          "Neff": 330261.0294188059,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0124266147613525
+        },
+        {
+          "logL": -4285.784771545283,
+          "logL_pe": -15988.367407115746,
+          "logL_selection": 11702.582635570463,
+          "Neff": 330893.5399720096,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.012389659881592
+        },
+        {
+          "logL": -4285.8586210350495,
+          "logL_pe": -15978.311152983759,
+          "logL_selection": 11692.45253194871,
+          "Neff": 331585.04724306875,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0095481872558594
+        },
+        {
+          "logL": -4285.99877622126,
+          "logL_pe": -15968.346460525165,
+          "logL_selection": 11682.347684303904,
+          "Neff": 332295.8586112145,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0134928226470947
+        },
+        {
+          "logL": -4286.221734227665,
+          "logL_pe": -15958.478403655647,
+          "logL_selection": 11672.256669427981,
+          "Neff": 332991.2089196086,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.012237071990967
+        },
+        {
+          "logL": -4286.544239262337,
+          "logL_pe": -15948.715334442199,
+          "logL_selection": 11662.171095179861,
+          "Neff": 333649.6574120765,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.016831159591675
+        },
+        {
+          "logL": -4286.980020350635,
+          "logL_pe": -15939.06667629888,
+          "logL_selection": 11652.086655948246,
+          "Neff": 334261.9659498242,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.018677234649658
+        },
+        {
+          "logL": -4287.537196976411,
+          "logL_pe": -15929.540177729577,
+          "logL_selection": 11642.002980753166,
+          "Neff": 334830.2760787599,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0203521251678467
+        },
+        {
+          "logL": -4288.216071009423,
+          "logL_pe": -15920.140108289408,
+          "logL_selection": 11631.924037279985,
+          "Neff": 335373.1876910522,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.015887975692749
+        },
+        {
+          "logL": -4289.008562511073,
+          "logL_pe": -15910.865242861917,
+          "logL_selection": 11621.856680350844,
+          "Neff": 335917.0594640751,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0166423320770264
+        },
+        {
+          "logL": -4289.89787443525,
+          "logL_pe": -15901.707493859336,
+          "logL_selection": 11611.809619424086,
+          "Neff": 336484.44966350443,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0143730640411377
+        },
+        {
+          "logL": -4290.860040708121,
+          "logL_pe": -15892.65237608154,
+          "logL_selection": 11601.792335373419,
+          "Neff": 337081.58278304414,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.013300895690918
+        },
+        {
+          "logL": -4291.866294910122,
+          "logL_pe": -15883.680493704052,
+          "logL_selection": 11591.81419879393,
+          "Neff": 337703.2803328213,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.01318097114563
+        },
+        {
+          "logL": -4292.887415454046,
+          "logL_pe": -15874.770545280528,
+          "logL_selection": 11581.883129826481,
+          "Neff": 338326.29900315043,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0141353607177734
+        },
+        {
+          "logL": -4293.8968303957445,
+          "logL_pe": -15865.902933210959,
+          "logL_selection": 11572.006102815214,
+          "Neff": 338920.1970046929,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.014779567718506
+        },
+        {
+          "logL": -4294.872878437669,
+          "logL_pe": -15857.062156487711,
+          "logL_selection": 11562.189278050042,
+          "Neff": 339456.95535048,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0198352336883545
+        },
+        {
+          "logL": -4295.8021725920535,
+          "logL_pe": -15848.238994594205,
+          "logL_selection": 11552.436822002152,
+          "Neff": 339918.216816923,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0123586654663086
+        },
+        {
+          "logL": -4296.680267675041,
+          "logL_pe": -15839.4321704241,
+          "logL_selection": 11542.751902749058,
+          "Neff": 340310.8416346946,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0148239135742188
+        },
+        {
+          "logL": -4297.511632216063,
+          "logL_pe": -15830.647942796939,
+          "logL_selection": 11533.136310580876,
+          "Neff": 340667.14182774955,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0197322368621826
+        },
+        {
+          "logL": -4298.307579474409,
+          "logL_pe": -15821.897259527808,
+          "logL_selection": 11523.5896800534,
+          "Neff": 341035.61190711166,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.015986919403076
+        },
+        {
+          "logL": -4299.083405112728,
+          "logL_pe": -15813.193170905151,
+          "logL_selection": 11514.109765792424,
+          "Neff": 341466.6906778254,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.014676094055176
+        },
+        {
+          "logL": -4299.85562785177,
+          "logL_pe": -15804.547743152016,
+          "logL_selection": 11504.692115300246,
+          "Neff": 341991.7820231055,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.015716552734375
+        },
+        {
+          "logL": -4300.640196426961,
+          "logL_pe": -15795.97097010491,
+          "logL_selection": 11495.33077367795,
+          "Neff": 342616.49696749414,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0208981037139893
+        },
+        {
+          "logL": -4301.450189032352,
+          "logL_pe": -15787.468211949978,
+          "logL_selection": 11486.018022917626,
+          "Neff": 343315.06080197496,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0150907039642334
+        },
+        {
+          "logL": -4302.294794232643,
+          "logL_pe": -15779.039606173617,
+          "logL_selection": 11476.744811940975,
+          "Neff": 344045.55770556355,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0153019428253174
+        },
+        {
+          "logL": -4303.177681031493,
+          "logL_pe": -15770.680251017595,
+          "logL_selection": 11467.502569986102,
+          "Neff": 344768.58336833626,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0202574729919434
+        },
+        {
+          "logL": -4304.097943281251,
+          "logL_pe": -15762.381792381573,
+          "logL_selection": 11458.283849100322,
+          "Neff": 345462.01988297433,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.0159592628479004
+        },
+        {
+          "logL": -4305.049619553294,
+          "logL_pe": -15754.132565754673,
+          "logL_selection": 11449.082946201379,
+          "Neff": 346124.34742460866,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.016918420791626
+        },
+        {
+          "logL": -4306.023689238211,
+          "logL_pe": -15745.91941972027,
+          "logL_selection": 11439.89573048206,
+          "Neff": 346767.1569338181,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.020939826965332
+        },
+        {
+          "logL": -4307.0096409128,
+          "logL_pe": -15737.729534441816,
+          "logL_selection": 11430.719893529016,
+          "Neff": 347403.5081958376,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.013044834136963
+        },
+        {
+          "logL": -4307.997375422539,
+          "logL_pe": -15729.552240503173,
+          "logL_selection": 11421.554865080634,
+          "Neff": 348037.2839439291,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.016984462738037
+        },
+        {
+          "logL": -4308.978733858381,
+          "logL_pe": -15721.380277932007,
+          "logL_selection": 11412.401544073626,
+          "Neff": 348663.5173794104,
+          "threshold": 5000.0,
+          "finite": true,
+          "seconds": 3.015918016433716
+        }
+      ],
+      "n_nonfinite": 0,
+      "summary": {
+        "median": 68.0879184241089,
+        "ci68": [
+          66.92514296508631,
+          69.1055641559783
+        ],
+        "ci90": [
+          66.13113422619898,
+          69.67414624468768
+        ],
+        "peak": 68.268,
+        "logL_peak": -4285.764167186377,
+        "curvature_sd": 0.9919738865462252
+      },
+      "d_logL_pe_dH0_at_11D_median": 42.74541054810834,
+      "d_logL_selection_dH0_at_11D_median": -42.01697974497074
+    }
+  },
+  "pinned_minus_full": {
+    "median": 0.9170488933463048,
+    "peak": 1.0304000000000002,
+    "W68_ratio": 0.8784285528720173,
+    "W90_ratio": 0.8795723832284725
+  },
+  "wall_seconds": 448.5469810962677
+}

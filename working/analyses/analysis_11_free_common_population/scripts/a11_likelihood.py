@@ -76,9 +76,20 @@ FREED_BASE = (MU_G_LABEL, MU_CHI_LABEL)
 if (_fidG, _fidC) != (35.0, 0.0):
     raise RuntimeError(f"[fatal] base fiducials are ({_fidG}, {_fidC}), not (35, 0)")
 
+# Analysis 12: ONE shared width released on top of Analysis 11.  The per-catalogue
+# block is only (G.mu_c2, mu_chi_c2), so catalogue 2 reads every other slot from the
+# base labels: releasing the base width makes it common to GAL and AGN.
+_iSG, SIGMA_G_LABEL, _fidSG = A10.fiducial_slot("G.sigma")      # '$\sigma_{\rm G}$'
+_iSC, SIGMA_CHI_LABEL, _fidSC = A10.fiducial_slot("sigma_chi")  # '$\sigma_\chi$'
+SHARED_WIDTH = {"sigma_G": (SIGMA_G_LABEL, _fidSG), "sigma_chi": (SIGMA_CHI_LABEL, _fidSC)}
+if (_fidSG, _fidSC) != (5.0, 0.1):
+    raise RuntimeError(f"[fatal] width fiducials are ({_fidSG}, {_fidSC}), not (5, 0.1)")
+
 # Science-exploration domains (owner brief, section 4).
 DOMAIN = {"mu_G": (31.0, 39.0), "dmu_G": (-4.0, 10.0),
-          "mu_chi": (-0.10, 0.10), "dmu_chi": (-0.05, 0.20), "f_agn": (0.0, 1.0)}
+          "mu_chi": (-0.10, 0.10), "dmu_chi": (-0.05, 0.20), "f_agn": (0.0, 1.0),
+          # Analysis 12: darksirens production bounds (GAUSS_SIGMA, CHI_SIGMA)
+          "sigma_G": (1.0, 10.0), "sigma_chi": (0.01, 1.0)}
 MU_G_ABS_BOUNDS = A10.MU_G_BOUNDS                    # (20, 50): registry prior
 MU_CHI_ABS_BOUNDS = (-1.0, 1.0)                      # production spin support
 
@@ -125,8 +136,11 @@ class A11LikelihoodCell(A10.A10LikelihoodCell):
     EXTRA_BASE_POINT = {MU_G_C2_LABEL: 35.0, MU_G_LABEL: 35.0, MU_CHI_LABEL: 0.0}
 
     def evaluate_at(self, H0=None, fcat_2=None, mu_G=35.0, dmu_G=0.0,
-                    mu_chi=0.0, dmu_chi=0.0):
-        """Evaluate at the REPORTING coordinates (reference + environmental)."""
+                    mu_chi=0.0, dmu_chi=0.0, sigma_G=None, sigma_chi=None):
+        """Evaluate at the REPORTING coordinates (reference + environmental).
+
+        ``sigma_G`` / ``sigma_chi`` exist only on an Analysis-12 cell that released them.
+        """
         mu_G, dmu_G, mu_chi, dmu_chi = (float(mu_G), float(dmu_G),
                                         float(mu_chi), float(dmu_chi))
         check_point(mu_G, dmu_G, mu_chi, dmu_chi)
@@ -136,18 +150,32 @@ class A11LikelihoodCell(A10.A10LikelihoodCell):
             ov["H0"] = float(H0)
         if fcat_2 is not None:
             ov["fcat_2"] = float(fcat_2)
+        for name, v in (("sigma_G", sigma_G), ("sigma_chi", sigma_chi)):
+            if v is not None:
+                lbl = SHARED_WIDTH[name][0]
+                if lbl not in self.labels:
+                    raise RuntimeError(f"[fatal] {name} is pinned on this cell")
+                ov[lbl] = float(v)
         rec = self.evaluate(**ov)
-        rec.update({"mu_G": mu_G, "dmu_G": dmu_G, "mu_chi": mu_chi, "dmu_chi": dmu_chi})
+        rec.update({"mu_G": mu_G, "dmu_G": dmu_G, "mu_chi": mu_chi, "dmu_chi": dmu_chi,
+                    "sigma_G": sigma_G, "sigma_chi": sigma_chi})
         return rec
 
 
 def build_a11(name, survey_paths=(SURVEY_GAL, SURVEY_AGN), data=None, verbose=True,
-              gw_path=GW_PATH_A11):
+              gw_path=GW_PATH_A11, shared_width=()):
+    """``shared_width`` (Analysis 12): names from SHARED_WIDTH to release as well."""
     A10.assert_fiducials()
-    with A10._steer(A10.PER_CATALOG_A10, A11LikelihoodCell), _free_base():
+    extra = tuple(SHARED_WIDTH[n][0] for n in shared_width)
+    cls = A11LikelihoodCell
+    if extra:
+        cls = type("A12LikelihoodCell", (A11LikelihoodCell,), {"EXTRA_BASE_POINT": {
+            **A11LikelihoodCell.EXTRA_BASE_POINT,
+            **{SHARED_WIDTH[n][0]: SHARED_WIDTH[n][1] for n in shared_width}}})
+    with A10._steer(A10.PER_CATALOG_A10, cls), _free_base(FREED_BASE + extra):
         cell = a8.build(name, "new", list(survey_paths), data=data, verbose=verbose,
                         gw_path=gw_path)
-    assert_a11_labels(cell)
+    assert_a11_labels(cell, extra)
     return cell
 
 
@@ -158,12 +186,12 @@ def build_a10_reference(name, survey_paths=(SURVEY_GAL, SURVEY_AGN), data=None,
                          gw_path=gw_path)
 
 
-def assert_a11_labels(cell):
-    """The A10 labels, in their A10 order, plus exactly the two base labels."""
+def assert_a11_labels(cell, shared=()):
+    """The A10 labels, in their A10 order, plus exactly the released base labels."""
     labels = list(cell.labels)
     extra = [lbl for lbl in labels if lbl not in A10.EXPECTED_LABELS_A10]
     kept = [lbl for lbl in labels if lbl in A10.EXPECTED_LABELS_A10]
-    if sorted(extra) != sorted(FREED_BASE) or kept != A10.EXPECTED_LABELS_A10:
+    if sorted(extra) != sorted(FREED_BASE + tuple(shared)) or kept != A10.EXPECTED_LABELS_A10:
         raise RuntimeError(f"[fatal] A11 parameter space {labels}: extra {extra}")
     return labels
 
@@ -178,6 +206,11 @@ def selftest():
     print(f"base labels released: {dropped}")
     print(f"pinned base labels kept: {len(fpv_a11) - 1} of {len(fpv_new) - 1}")
     assert dropped == sorted(FREED_BASE)
+    for n, (lbl, fid) in SHARED_WIDTH.items():
+        with _free_base(FREED_BASE + (lbl,)):
+            d12 = sorted(set(fpv_new) - set(a8.fixed_parameter_values_for("new")))
+        assert d12 == sorted(FREED_BASE + (lbl,)), d12
+        print(f"A12 {n}: releases {lbl!r} (fiducial {fid}) on top of the A11 pair")
     for p in [(35, 5, 0, 0.1), (31, -4, -0.1, -0.05), (39, 10, 0.1, 0.2)]:
         check_point(*p)
     print("selftest OK")
