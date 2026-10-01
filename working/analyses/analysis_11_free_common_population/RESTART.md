@@ -1,9 +1,10 @@
 # Analysis 11 — restart checkpoint (2026-09-28)
 
 **Status (2026-10-01): the brief is complete through its §31 mandatory stop (REPORT.md, end).
-Analysis 12 is complete in `../analysis_12_shared_width_robustness/`. Nothing is running. Open owner
-decisions: extend the 12χ Δμ_χ box to [−0.05, 0.30]; one seed-100 run with both widths free; the
-multi-realisation calibration of the recommended 8-parameter model.**
+Analysis 12 is complete in `../analysis_12_shared_width_robustness/`. Nothing is running. Deferred by the
+owner: extending the 12χ Δμ_χ box to [−0.05, 0.30] (the conclusion holds with the cut). Not yet
+run: the recommended 8-parameter model (both widths free together) on any seed, then the
+multi-realisation calibration.**
 
 ## What is done (all committed)
 

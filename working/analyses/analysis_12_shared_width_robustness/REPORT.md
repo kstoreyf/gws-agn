@@ -90,9 +90,18 @@ and fitted to the samples puts 4.3% of the untruncated mass above 0.20 and gives
 the offset down, so it does not change the conclusion: the offset is, if anything, larger and
 its interval wider (R_χ ≈ 1.11). The box is the brief's domain, set before any result. The
 registered rule is to extend a boundary once when it becomes relevant, which here means one
-more 12χ pair with Δμ_χ on [−0.05, 0.30] (≈ 41 GPU-h). That run is an owner decision and has
-not been made. The AGN spin means it would add (up to ≈ 0.29) approach the region the selection
+more 12χ pair with Δμ_χ on [−0.05, 0.30] (≈ 41 GPU-h). The owner deferred that run on
+2026-10-01: the science result does not depend on it (see the note below), and the re-run can be
+done later. The AGN spin means it would add (up to ≈ 0.29) approach the region the selection
 guard rejected in 11B.
+
+**Note on the prior edge (deferred extension).** The 12χ numbers above are from the brief's
+domain Δμ_χ ∈ [−0.05, 0.20]. That box cuts about 4% of the Δμ_χ posterior. The cut can only
+pull the offset down and narrow its interval, so every quoted Δμ_χ number and R_χ sits at or
+below its uncut value (truncated-normal estimate: 0.161 [0.124, 0.198], R_χ ≈ 1.11). The
+conclusion, that a shared spin width does not absorb the spin offset, holds either way. To
+remove the cut: one more 12χ pair with Δμ_χ on [−0.05, 0.30], same configuration, ≈ 41 GPU-h
+(`scripts/a12_sampler.py`; widen `BOXES["12chi"]` in the Analysis-11 sampler first).
 
 Freeing σ_χ leaves the mass sector and H0 alone: every other 90% width is 0.92–0.99 of 11D's,
 H0 moves by +0.02, ρ(σ_χ, H0) = −0.04.

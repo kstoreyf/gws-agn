@@ -1,6 +1,6 @@
 # Analysis 11 state
 
-**RESUME HERE (2026-10-01): the brief is complete through the §31 mandatory stop (REPORT.md end). Analysis 12 is in `../analysis_12_shared_width_robustness/`. Nothing is running. Open owner decisions: extend the 12χ Δμ_χ box; the joint-width seed-100 run; the calibration campaign.**
+**RESUME HERE (2026-10-01): the brief is complete through the §31 mandatory stop (REPORT.md end). Analysis 12 is in `../analysis_12_shared_width_robustness/`. Nothing is running. Deferred: the 12χ Δμ_χ box extension (owner, 2026-10-01). Not yet run: the recommended 8-parameter model (both widths free together) on any seed; the calibration campaign.**
 
 **Stage (2026-09-26, later): closure PASS (1-ULP residuals judged), selection support PASS with one rejected corner; 11A and 11B grids RUNNING; S0 queued.**
 

@@ -295,7 +295,8 @@ and both offsets move away from zero (4.95 and 7.7 posterior sd from it). H0's 9
 0.98 of 11D's in both arms. The narrow spin width matches this draw's noise realisation (the
 GAL branch's noise-removed χ_eff spread is 0.082 ± 0.011). With it, Δμ_χ rises to 0.160, the
 planted 0.10 falls below its 90% interval, and the posterior reaches the top of the Δμ_χ prior
-box at 0.20 (≈ 4% of the mass cut). Extending that box is an owner decision.
+box at 0.20 (≈ 4% of the mass cut; the cut can only pull the offset down, so the conclusion
+holds). Extending the box is deferred to a later re-run (owner, 2026-10-01).
 
 ## 11. The model to calibrate
 

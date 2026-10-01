@@ -1,6 +1,6 @@
 # Analysis 12 state
 
-**RESUME HERE (2026-10-01): Analysis 12 COMPLETE and reported (REPORT.md). Both arms merged (2 × nlive 200 each). One open owner decision: extend the 12χ Δμ_χ box to [−0.05, 0.30] (the posterior reaches the 0.20 edge; ≈ 41 GPU-h).**
+**RESUME HERE (2026-10-01): Analysis 12 COMPLETE and reported (REPORT.md). Both arms merged (2 × nlive 200 each). The 12χ Δμ_χ box extension ([−0.05, 0.30], ≈ 41 GPU-h) was DEFERRED by the owner: the science result stands with the cut; the re-run can be done later (REPORT §3 note).**
 
 ## Launch (2026-09-29, owner-released)
 
