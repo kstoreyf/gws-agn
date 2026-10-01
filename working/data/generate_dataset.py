@@ -137,8 +137,8 @@ Adapted from validated campaign components (each read before adapting):
         the observed-data detection rule (a) and the sequential sky width (b)
   * ``experiments/experiment_twotracer_seeds/scripts/build_targeted_injections_k2.py``
         the catalog-targeted injection mixture with exact pdraw
-  * ``experiments/experiment_completeness_anchored/scripts/pixelate_complete_catalog.py``
-    and ``experiment_twotracer_incomplete/scripts/materialise_tracer_catalogs.py``
+  * ``archive/experiments/experiment_completeness_anchored/scripts/pixelate_complete_catalog.py``
+    and ``archive/experiments/experiment_twotracer_incomplete/scripts/materialise_tracer_catalogs.py``
         the isotropic magnitude-limit machinery
 The population samplers, cosmology grids, ``_selection_pdraw`` and ``_pixelate_catalog``
 are IMPORTED from darksirens' own ``generate_mock_data.py`` so the mock is the

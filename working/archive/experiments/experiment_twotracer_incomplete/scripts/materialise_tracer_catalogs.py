@@ -30,7 +30,7 @@ import h5py
 import numpy as np
 
 EXP_ROOT = Path(__file__).resolve().parents[1]
-DEEP = EXP_ROOT.parent / "experiment_twotracer_deep"
+DEEP = EXP_ROOT.parents[2] / "analyses" / "experiments" / "experiment_twotracer_deep"  # archived 2026-10-01; deep stays live
 
 CATALOG_KEYS = ("ra", "dec", "z", "abs_mag", "app_mag")
 

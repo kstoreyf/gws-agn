@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt
 
 import figstyle as fs
 
-FREE = fs.EXP / "experiment_completeness_free" / "results"
-INC = fs.EXP / "experiment_twotracer_incomplete" / "results"
+FREE = fs.ARCH_EXP / "experiment_completeness_free" / "results"
+INC = fs.ARCH_EXP / "experiment_twotracer_incomplete" / "results"
 RUNGS = ["complete", "m21.0", "m20.0", "m19.0", "m18.0"]
 TAG = {"complete": "complete", "m21.0": "m21.0", "m20.0": "m20.0",
        "m19.0": "m19.0", "m18.0": "m18.0"}

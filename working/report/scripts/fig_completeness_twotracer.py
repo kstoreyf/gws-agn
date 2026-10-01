@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 import figstyle as fs
 
-RES = fs.EXP / "experiment_twotracer_incomplete" / "results"
+RES = fs.ARCH_EXP / "experiment_twotracer_incomplete" / "results"
 ORDER = ["complete", "m21.0", "m20.0", "m19.0", "m18.0"]
 NULLS = ["complete", "m20.0", "m18.0"]
 

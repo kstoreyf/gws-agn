@@ -2,12 +2,12 @@
 # Post-fix rerun of the completeness ladder on the sigma_ang-FIXED events
 # (darksirens PR #335). Surveys, density anchors and per-rung targeted injection
 # sets are reused unchanged: the fix touches only the events' PE (truth/detected
-# set verified bit-identical, ../experiment_twotracer_deep/results/events_fix_check.json).
+# set verified bit-identical, ../../../analyses/experiments/experiment_twotracer_deep/results/events_fix_check.json).
 # Identical to run_scans.sh + run_null.sh apart from the events file and _fix tags.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python
-GW=../experiment_twotracer_deep/data_derived/twotracer_gw_events_fix.h5
+GW=../../../analyses/experiments/experiment_twotracer_deep/data_derived/twotracer_gw_events_fix.h5
 N0_GAL=-5.806380
 N0_AGN=-7.720033
 NUIS='{"delta": 0.0194, "delta_c2": -0.0031}'

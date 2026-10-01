@@ -23,6 +23,8 @@ import numpy as np
 PAPER = Path(__file__).resolve().parent.parent
 FIGDIR = PAPER / "figures"
 EXP = (PAPER.parent / "analyses" / "experiments").resolve()
+# per-pixel-era experiments, archived 2026-10-01 (working/analyses/INDEX.md)
+ARCH_EXP = (PAPER.parent / "archive" / "experiments").resolve()
 
 # ---- identity: fixed categorical order, never cycled -----------------------
 C = {

@@ -20,8 +20,8 @@ from matplotlib.colors import LinearSegmentedColormap, Normalize
 
 import figstyle as fs
 
-FREE = fs.EXP / "experiment_completeness_free" / "results"
-INC = fs.EXP / "experiment_twotracer_incomplete" / "results"
+FREE = fs.ARCH_EXP / "experiment_completeness_free" / "results"
+INC = fs.ARCH_EXP / "experiment_twotracer_incomplete" / "results"
 RUNGS = ["complete", "m21.0", "m20.0", "m19.0", "m18.0"]
 ARMS = ["fixed", "5%", "10%", "30%", "factor 2", "free"]
 ARM_LAB = ["exact", "5%", "10%", "30%", "factor 2", "free"]

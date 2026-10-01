@@ -24,15 +24,17 @@ import numpy as np
 
 PAPER = Path(__file__).resolve().parent.parent
 EXP = (PAPER.parent / "analyses" / "experiments").resolve()
+# per-pixel-era experiments, archived 2026-10-01 (working/analyses/INDEX.md)
+ARCH_EXP = (PAPER.parent / "archive" / "experiments").resolve()
 GWAGN = (PAPER.parent / "gw_agn_darksirens").resolve()
 GWAGN_SRC = (PAPER.parent / "gw_agn").resolve()
 
 E_BASE = EXP / "experiment_h0f_baseline"
 E_CLO = EXP / "experiment_matched_mock"
-E_ANC = EXP / "experiment_completeness_anchored"
+E_ANC = ARCH_EXP / "experiment_completeness_anchored"
 E_DEEP = EXP / "experiment_twotracer_deep"
-E_INC = EXP / "experiment_twotracer_incomplete"
-E_FREE = EXP / "experiment_completeness_free"
+E_INC = ARCH_EXP / "experiment_twotracer_incomplete"
+E_FREE = ARCH_EXP / "experiment_completeness_free"
 E_SEED = EXP / "experiment_twotracer_seeds"
 
 H0_TRUTH = 67.74

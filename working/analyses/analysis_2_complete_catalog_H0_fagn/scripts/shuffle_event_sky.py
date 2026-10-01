@@ -15,7 +15,7 @@ paired with its own host's redshift any more.  If the f posterior survives the
 permutation with the same width, it was never host-association information.
 
 Adapted (not imported) from
-`working/analyses/experiments/experiment_twotracer_incomplete/scripts/shuffle_event_sky.py`;
+`working/archive/experiments/experiment_twotracer_incomplete/scripts/shuffle_event_sky.py`;
 this version also permutes `host_index` / `host_type` in step with the sky blocks so
 the bookkeeping columns keep describing the patch they travel with, records the
 provenance in the file attrs, and refuses to run on a file it has already shuffled.

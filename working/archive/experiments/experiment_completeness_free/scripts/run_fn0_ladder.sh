@@ -6,7 +6,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 INC=../experiment_twotracer_incomplete
-GW=../experiment_twotracer_deep/data_derived/twotracer_gw_events.h5
+GW=../../../analyses/experiments/experiment_twotracer_deep/data_derived/twotracer_gw_events.h5
 COMMON="--universe_model dark_sirens --catalog_sky_weighting field --gw_path $GW \
   --log10n0 -5.806380 --log10n0_c2 -7.720033 \
   --nuisance_json {\"delta\":0.0194,\"delta_c2\":-0.0031} \

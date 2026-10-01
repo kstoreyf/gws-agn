@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 import figstyle as fs
 
-RES = fs.EXP / "experiment_completeness_anchored" / "results"
+RES = fs.ARCH_EXP / "experiment_completeness_anchored" / "results"
 ORDER = ["c100", "m20", "m19", "m18"]
 
 

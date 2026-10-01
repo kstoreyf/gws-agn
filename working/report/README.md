@@ -86,8 +86,8 @@ Complete and written from finalized results:
 | §2 Method (incl. the measured kernel-width window, §2.6) | all + `experiment_matched_mock` (`kernel_width_neff.json`, `skde_summary.json`) |
 | §3 the fraction across its range | `experiment_h0f_baseline` |
 | §4 the selection integral: proposal validity (pre-fix exhibit, same events), the post-fix measurement, the two-lever tilt mechanism, AGN anchoring | `experiment_twotracer_deep` (`summary.json` + `summary_fix.json`), `experiment_h0f_baseline` (`tilt_*.json/h5`) |
-| §5 completeness, one tracer and two | `experiment_completeness_anchored`, `experiment_twotracer_incomplete` (`summary_fix.json`, `ladder_prepost_fix.json`) |
-| §6 the density requirement | `experiment_completeness_free` (`n0_arms_summary_fix.json`, `fn0_*_fix.h5`) |
+| §5 completeness, one tracer and two | `experiment_completeness_anchored`, `experiment_twotracer_incomplete` (in `../archive/experiments/` since 2026-10-01) (`summary_fix.json`, `ladder_prepost_fix.json`) |
+| §6 the density requirement | `experiment_completeness_free` (in `../archive/experiments/` since 2026-10-01) (`n0_arms_summary_fix.json`, `fn0_*_fix.h5`) |
 | §7 error budget (closes: 2 generator defects + estimator overhead, exact-likelihood oracle, post-fix campaign endpoint) + sample variance | `experiment_matched_mock` (`obsdet_summary.json`, `oracle_summary.json`, `obsdet_fix_summary.json`) |
 | §8 catalog realisation, two tracers, pre/post-repair ensembles | `experiment_twotracer_seeds` (`seeds_summary.json`, `seeds_summary_fix.json`) |
 | §9 conclusions | all |

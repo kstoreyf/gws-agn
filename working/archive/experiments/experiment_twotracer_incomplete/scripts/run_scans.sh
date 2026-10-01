@@ -4,7 +4,7 @@
 # their matched injection set and nothing else change.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-GW=../experiment_twotracer_deep/data_derived/twotracer_gw_events.h5
+GW=../../../analyses/experiments/experiment_twotracer_deep/data_derived/twotracer_gw_events.h5
 N0_GAL=-5.806380
 N0_AGN=-7.720033
 NUIS='{"delta": 0.0194, "delta_c2": -0.0031}'

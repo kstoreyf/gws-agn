@@ -26,8 +26,9 @@ Other directories here:
 - `selection_redo/`: the 2026-08-12 selection-mode campaign that reran Analyses 3–7 (shared
   drivers, the queues it ran, the 2026-08-24 follow-ups `FU_REPORT.md` and `fu_*`). Not an
   analysis; its `README.md` maps campaign labels to analysis directories.
-- `experiments/`: the 2026-07 pre-campaign ladder (baseline, matched mock, two-tracer depth,
-  seeds and incompleteness, completeness anchored and free, the 4-D estimator recheck).
+- `experiments/`: the live part of the 2026-07 pre-campaign ladder (baseline, matched mock,
+  two-tracer depth and seeds, the 4-D estimator recheck, model equivalence). Its per-pixel
+  incomplete-catalog experiments are in `../archive/experiments/`.
 - `../archive/`: superseded work (below). `../campaign_100seeds/`: the 100-seed campaign.
 
 ## Directory structure
@@ -55,10 +56,11 @@ names what it supersedes. The per-pixel completeness estimator (darksirens `c_mo
 the legacy default) is the case so far: Analyses 3–6 ran on it, were archived, and were rerun
 with `c_mode=selection` (`selection_redo/`).
 
-Still per-pixel era and not yet rerun: `experiments/experiment_completeness_anchored/`,
-`experiment_completeness_free/` and `experiment_twotracer_incomplete/` (2026-07, before
-`c_mode` existed). They stay in place for now because the frozen `../report/` build reads them.
-`experiment_dsmaster_4d_recheck/` compares the two estimators on purpose and stays live.
+The pre-campaign experiments that ran on it with incomplete catalogs (2026-07, before `c_mode`
+existed) and were never rerun are archived too: `../archive/experiments/experiment_completeness_anchored/`,
+`experiment_completeness_free/` and `experiment_twotracer_incomplete/` (moved 2026-10-01; the frozen
+`../report/` build reads them there). `experiments/experiment_dsmaster_4d_recheck/` compares the two
+estimators on purpose and stays live.
 Analyses 0–2 use complete catalogs, so the completeness estimator does not enter.
 
 ## Renames and moves (2026-10-01)
@@ -70,6 +72,7 @@ Analyses 0–2 use complete catalogs, so the completeness estimator does not ent
 | `selection_redo/a7/` (+ `scripts/analyze_a7.py`, `make_a7_queue.py`) | `analysis_7_pixel_occupancy_fagn/` |
 | Analysis 12 inside `analysis_11_free_common_population/` | `analysis_12_shared_width_robustness/` |
 | `analysis_{0,1,2}_*/README.md` (held the results) | `REPORT.md`, with a new short `README.md` |
+| `experiments/experiment_completeness_anchored/`, `experiment_completeness_free/`, `experiment_twotracer_incomplete/` | `../archive/experiments/` (same names; per-pixel era) |
 
 Scripts, sbatch files and markdown were updated to the new paths. Recorded JSON provenance
 (diagnostics and result files written before the rename) keeps the paths that were true when it
