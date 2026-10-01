@@ -22,6 +22,8 @@ Problems (flat priors on the boxes below; guard-rejected points are -inf)
            production bounds [1, 10] Msun (common to GAL and AGN).
     12chi  Analysis 12chi: 11D plus ONE shared spin width sigma_chi on the
            production bounds [0.01, 1].
+    13     Analysis 13 (run through ../analysis_13_joint_shared_widths/scripts/
+           a13_sampler.py): 11D plus BOTH shared widths, with dmu_chi on [-0.05, 0.30].
 
 Engines (the two darksirens supports for nested sampling; nothing reimplemented)
     tinyns   tinyns.NestedSampler, sample='rwalk', kernel='jax', one chain,
@@ -71,7 +73,11 @@ BOXES = {
 }
 BOXES["12M"] = BOXES["11D"] + [("sigma_G", 1.0, 10.0)]
 BOXES["12chi"] = BOXES["11D"] + [("sigma_chi", 0.01, 1.0)]
-SHARED = {"12M": ("sigma_G",), "12chi": ("sigma_chi",)}
+# Analysis 13: both shared widths free together, and the Delta mu_chi domain extended to
+# 0.30 (12chi's posterior reached the 0.20 edge)
+BOXES["13"] = ([b if b[0] != "dmu_chi" else ("dmu_chi", -0.05, 0.30) for b in BOXES["11D"]]
+               + [("sigma_G", 1.0, 10.0), ("sigma_chi", 0.01, 1.0)])
+SHARED = {"12M": ("sigma_G",), "12chi": ("sigma_chi",), "13": ("sigma_G", "sigma_chi")}
 
 
 @contextmanager
