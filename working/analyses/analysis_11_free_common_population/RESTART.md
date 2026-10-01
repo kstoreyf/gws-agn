@@ -1,9 +1,9 @@
 # Analysis 11 — restart checkpoint (2026-09-28)
 
-**Status (2026-10-01): 11D and §21 are complete and reported. Nothing of Analysis 11 is running.
-Analysis 12 has its own directory, `../analysis_12_shared_width_robustness/` (STATE.md there holds
-its jobs and resume commands). Once Analysis 12 is merged, REPORT §§10–11 here and the brief's §31
-stop (owner-gate line and 15-line summary) close the ladder.**
+**Status (2026-10-01): the brief is complete through its §31 mandatory stop (REPORT.md, end).
+Analysis 12 is complete in `../analysis_12_shared_width_robustness/`. Nothing is running. Open owner
+decisions: extend the 12χ Δμ_χ box to [−0.05, 0.30]; one seed-100 run with both widths free; the
+multi-realisation calibration of the recommended 8-parameter model.**
 
 ## What is done (all committed)
 

@@ -18,7 +18,8 @@ the fact; if a boundary becomes relevant it is extended once and reported.
 | fixed-H0 owner gate | **PASS on all five conditions** | REPORT.md, *Fixed-H0 owner gate*; 11D not started |
 | 11D | **COMPLETE** (owner-released 2026-09-28) | dynesty, 2 × nlive 200 merged, 29,262 calls ≈ 24 GPU-h, seeds agree ≤ 0.16 sd; H0 67.16 [64.83, 69.13] (90%), planted 67.74; vs C10-J (spline) W68 1.13 / W90 1.09, median −0.50; Δμ_G 3.94 [2.52, 5.37], Δμ_χ 0.131 [0.097, 0.164], both ≥ 4.6 sd from 0; vs 11C every 90% width 1.01–1.06; ρ(H0, μ_G) −0.22 vs ρ(H0, Δμ_G) −0.09 (`diagnostics/a11_11D_comparisons.json`) |
 | §21 mechanism profile | **DONE** (job 1348931) | pinning (μ_G, μ_χ) = (35, 0) at the 11D offsets moves the H0 profile peak 67.24 → 68.27 (width 0.88×), carried by logL_pe (+0.75 per unit H0), selection flat (`diagnostics/a11_h0_profile.json`) |
-| Analysis 12 (12M, 12χ) | moved | `../analysis_12_shared_width_robustness/GATES.md` |
+| Analysis 12 (12M, 12χ) | **COMPLETE** (own directory) | neither shared width absorbs its offset; `../analysis_12_shared_width_robustness/GATES.md` |
+| §31 mandatory stop | **REACHED** (2026-10-01) | REPORT.md, end: owner-gate line and 15-line summary |
 
 ## Gate C — closure (brief §11)
 

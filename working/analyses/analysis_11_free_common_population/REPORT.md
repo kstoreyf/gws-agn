@@ -280,11 +280,60 @@ logL. This is the counterfactual the brief asks for, not a re-fit.
 is 4.03, against the 11D marginal's 4.30. Marginalising all five population coordinates
 widens H0 by 7%.
 
-## 10. Common-width stress tests
+## 10. Common-width stress tests (Analysis 12)
 
-Analysis 12, in `../analysis_12_shared_width_robustness/` (owner-released 2026-09-29).
-Its REPORT is the answer to this question.
+`../analysis_12_shared_width_robustness/REPORT.md`. One width, shared by GAL and AGN, freed on
+top of 11D, one arm at a time:
+
+| | width | offset | R (90%) | shift (11D sd) | ρ(width, offset) |
+|---|---|---|---|---|---|
+| 12M | σ_G 4.70 [4.24, 5.14] (planted 5) | Δμ_G 4.47 [2.91, 5.90] | 1.05 | +0.6 | −0.47 |
+| 12χ | σ_χ 0.081 [0.067, 0.095] (planted 0.10) | Δμ_χ 0.160 [0.123, 0.191] | 1.01 (≈ 1.11 uncut) | +1.4 | −0.56 |
+
+**Neither common width absorbs its offset.** Both widths come out narrower than the fiducial,
+and both offsets move away from zero (4.95 and 7.7 posterior sd from it). H0's 90% width is
+0.98 of 11D's in both arms. The narrow spin width matches this draw's noise realisation (the
+GAL branch's noise-removed χ_eff spread is 0.082 ± 0.011). With it, Δμ_χ rises to 0.160, the
+planted 0.10 falls below its 90% interval, and the posterior reaches the top of the Δμ_χ prior
+box at 0.20 (≈ 4% of the mass cut). Extending that box is an owner decision.
 
 ## 11. The model to calibrate
 
-Deferred until Analysis 12 shows whether a common width absorbs either offset.
+**(H0, f_AGN, μ_G, Δμ_G, μ_χ, Δμ_χ, σ_G, σ_χ)**: the K = 2 marked mixture with the
+reference population's peak location and spin mean free, the two environmental offsets, and
+one shared Gaussian-peak width and one shared spin width. Everything else in the powerlaw +
+peak stays at the fiducial, and no branch-dependent widths.
+
+- The references must be free. Pinning them at the 11D offsets moves the H0 profile by +1.0
+  (§9), and pinning them moved Δμ_G by 0.8 M☉ at fixed H0 (§5).
+- The widths are unknowns in any real population. Freeing either costs H0 nothing and
+  absorbs neither offset (§10).
+- σ_χ is where this draw moves the spin offset by 1.4 sd and leaves its planted value outside
+  the 90% interval. How often that happens, and whether the intervals cover at their nominal
+  rate, is the calibration question. A model with the widths pinned would not see it.
+
+Before calibrating, two things on seed 100: one run with both widths free together (never
+tested; the brief kept them apart), and the Δμ_χ domain extended to at least 0.30. Cost: 2 ×
+nlive 200 took ≈ 40 GPU-h per realisation at 7 dimensions, so 8 dimensions is ≈ 45–50 GPU-h
+per realisation, ≈ 2,300–2,500 GPU-h for 50 realisations (≈ 7 weeks on rita's two A100s).
+
+---
+
+**OWNER GATE: the free-baseline marked-population science exploration is complete. No
+additional realizations were run.**
+
+1. 11A: PASS. With the reference mass scale free, the environmental mass shift survives (Δμ_G = 0 at 2.3 × 10⁻⁴ of the peak).
+2. μ_G = 35.48 [34.80, 36.30] M☉ (planted 35).
+3. Δμ_G = 3.85 [2.37, 5.23] M☉ (planted 5).
+4. 11B: PASS. With the spin zero point free, the environmental spin shift survives (Δμ_χ = 0 at 8.5 × 10⁻⁹ of the peak).
+5. μ_χ = −0.0054 [−0.020, +0.009] (planted 0).
+6. Δμ_χ = 0.126 [0.094, 0.158] (planted 0.10).
+7. 11C: PASS. Both references and both offsets are measured together; the offsets sit 4.6 and 6.6 sd from zero, and the mass and spin sectors decouple (|ρ| ≤ 0.12).
+8. Against Analysis 10 (references pinned), the offsets widen by 1.43× (Δμ_G) and 1.27–1.29× (Δμ_χ) at fixed H0, and by 1.39× and 1.32× with H0 free.
+9. Event-level P_i(AGN) is stable: RMS ΔP 0.028, Spearman 0.994, one event moves by more than 0.1.
+10. H0 = 67.16 [64.83, 69.13] (planted 67.74).
+11. H0 widens by 1.13× (68%) and 1.09× (90%) against C10-J; the median moves by −0.50.
+12. The strongest H0–population correlation is ρ(H0, μ_G) = −0.22, against ρ(H0, Δμ_G) = −0.09: H0 trades against the overall mass scale.
+13. 12M: a shared σ_G does not absorb Δμ_G (σ_G 4.70 [4.24, 5.14], R_M = 1.05, Δμ_G 4.47 [2.91, 5.90]).
+14. 12χ: a shared σ_χ does not absorb Δμ_χ (σ_χ 0.081 [0.067, 0.095], R_χ ≈ 1.0–1.1); Δμ_χ rises to 0.160 [0.123, 0.191], against the 0.20 prior edge.
+15. Calibrate (H0, f_AGN, μ_G, Δμ_G, μ_χ, Δμ_χ, σ_G, σ_χ): free references, both offsets, one shared width per sector, Δμ_χ domain to ≥ 0.30, after one seed-100 run with both widths free.

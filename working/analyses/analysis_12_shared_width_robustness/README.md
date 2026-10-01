@@ -1,5 +1,7 @@
 # Analysis 12 — can one shared population width absorb an environmental offset?
 
+**Status:** complete (2026-10-01). Neither shared width absorbs its offset; see `REPORT.md`.
+
 Seed 100 only. Science exploration, not calibration. Same mock, surveys, injections,
 detection and PE model as Analyses 10 and 11.
 

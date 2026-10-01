@@ -19,7 +19,7 @@ things live and the rules the directories follow.
 | 9 | `analysis_9_spin_marked_H0_fagn/` | spin mark with H0 free; the event-routing mechanism | complete |
 | 10 | `analysis_10_mass_spin_marked_multitracer/` | mass mark on top of the spin mark, fixed then free H0 | complete |
 | 11 | `analysis_11_free_common_population/` | reference population inferred with the offsets; 11D H0 free | complete through 11D and §21 |
-| 12 | `analysis_12_shared_width_robustness/` | one shared σ_G or σ_χ freed on top of 11D | running |
+| 12 | `analysis_12_shared_width_robustness/` | one shared σ_G or σ_χ freed on top of 11D | complete |
 
 Other directories here:
 

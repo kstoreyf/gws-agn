@@ -1,6 +1,6 @@
 # Analysis 12 state
 
-**RESUME HERE (2026-10-01): seed 1 of both arms finished; seed 2 of both RUNNING (rita 1348935 12M, 1348936 12χ). Those two jobs were launched before this directory existed: they write `../analysis_11_free_common_population/{queue,results,logs}/a11_ns_12*_s2*` and `a12_*_s2_*` logs. Move those files here when the jobs exit, then merge with `scripts/a12_sampler.py --stage merge`. A resubmission must go through `scripts/submit_a12_gpu.sbatch` + `a12_sampler.py` after moving the s2 checkpoint here.**
+**RESUME HERE (2026-10-01): Analysis 12 COMPLETE and reported (REPORT.md). Both arms merged (2 × nlive 200 each). One open owner decision: extend the 12χ Δμ_χ box to [−0.05, 0.30] (the posterior reaches the 0.20 edge; ≈ 41 GPU-h).**
 
 ## Launch (2026-09-29, owner-released)
 
@@ -24,3 +24,31 @@
   [0.124, 0.191].
 - 2026-10-01: moved here from the Analysis-11 directory (scripts, closure record, seed-1
   runs and logs). `a11_sampler.PREFIX` lets this directory's merges write `a12_*`.
+
+## Post-processing, prepared 2026-10-01 (owner: "continue with all of these items when the runs land")
+
+Ready and dry-run on seed-1-only merges (the real merges overwrite `results/a12_*.json`):
+`scripts/a12_compare.py` → `diagnostics/a12_comparisons.json`; `scripts/make_figures.py` →
+`figs/fig_12.{pdf,png}`. When 1348935 / 1348936 exit:
+
+1. `mv ../analysis_11_free_common_population/{results,queue}/a11_ns_12*_s2.* results|queue/`
+   and the `a12_*_s2_*` logs into `logs/`.
+2. `python scripts/a12_sampler.py --stage merge --out 12M --runs results/a11_ns_12M_dynesty_n200_s{1,2}.json`
+   (and 12chi).
+3. `a12_compare.py`, `make_figures.py`; write REPORT.md, GATES rows, A11 REPORT §§10–11, then the
+   brief's §31 stop (owner-gate line + 15-line summary with the recommended calibration model).
+4. Commit and push.
+
+Realised-draw finding (from `a12_compare.py`): the per-event chi_eff noise (sd 0.155, pull sd 1.01,
+calibrated) exceeds the intrinsic width (0.10), so σ_χ is a deconvolution. In this draw the GAL
+branch's observed spread is 0.176 against an expected 0.184; the moment deconvolution gives
+0.082 ± 0.011 (AGN 0.099 ± 0.013). Seed 1's σ_χ = 0.081 matches this draw's noise realisation. The
+observed AGN−GAL mean difference is 0.100, so the Δμ_χ rise to 0.16 is the width–offset trade
+(ρ −0.56), not the draw.
+
+## Complete (2026-10-01)
+
+Seed 2: 12M 1348935 (3,499 iterations, 22,898 calls, 19.1 h), 12χ 1348936 (3,717 iterations,
+22,759 calls, 18.9 h), both clean. Files moved here from the A11 directory, merged
+(`results/a12_{12M,12chi}.{json,npz}`), compared (`diagnostics/a12_comparisons.json`), figure
+`figs/fig_12` (densities clipped at the prior box, edge marked). REPORT.md written.
