@@ -6,7 +6,7 @@ never a bound to widen.
 | gate | status | the number that decides it |
 |---|---|---|
 | K closure + joint selection support | **PASS** (job 1350473, 4 min) | K1 4/4 bitwise against A11 at the fiducial widths; K2 both widths live at f = 0, 0.266, 1; K3 6 rejections, all at f = 1 with AGN spin mean ≥ 0.237 (≈ 1,600 nats below the posterior). At the posterior f the logL along Δμ_χ 0.24–0.30 flattens ~30 nats below the peak as N_eff/threshold falls to 1.5 (selection-noise regime; negligible weight) (`diagnostics/a13_closure.json`) |
-| S smoke test (single GPU, seed 100) | RUNNING (dynesty 1350474); second sampler awaits the owner | |
+| S smoke test (single GPU, seed 100) | dynesty RUNNING (1350474); second sampler DEFERRED by the owner (`SAMPLER_NOTES.md`) | |
 | P two-seed production | OWNER-GATED | |
 | C calibration campaign | OWNER-GATED, after P | |
 

@@ -1,6 +1,6 @@
 # Analysis 13 state
 
-**RESUME HERE (2026-10-01): closure PASS. Dynesty smoke run 1350474 RUNNING (it doubles as production seed 1). The second smoke sampler (tinyns ≈ 85–135 GPU-h vs Nautilus ≈ 17–33 GPU-h, per the tinyns session) awaits the owner. Production and calibration are owner-gated.**
+**RESUME HERE (2026-10-01): closure PASS. Dynesty smoke run 1350474 RUNNING (it doubles as production seed 1). The second smoke sampler is DEFERRED by the owner; everything the tinyns session said (tinyns and Nautilus settings, costs, pitfalls) is in `SAMPLER_NOTES.md`. Production and calibration are owner-gated.**
 smoke sampler (tinyns or Nautilus) awaits the owner's choice. Production and calibration are
 owner-gated.**
 
