@@ -28,7 +28,7 @@
 # H0 node (two cells).  A 'TaskProlog failed' death is a node fault: resubmit
 # once, identical.
 set -euo pipefail
-source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 A10_DIR=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer
 echo "[c10] host=$(hostname) job=${SLURM_JOB_ID:-none} stage=profile"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true

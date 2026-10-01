@@ -30,7 +30,7 @@
 # and resumes from it, so an eviction costs at most one row.  Both stages run in
 # the same job but in separate processes.
 set -euo pipefail
-source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 A10_DIR=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer
 echo "[a10] host=$(hostname) job=${SLURM_JOB_ID:-none} stages='${STAGE:-S M}'"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true

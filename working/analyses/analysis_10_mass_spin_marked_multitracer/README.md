@@ -114,8 +114,8 @@ fixed-\(H_0\) owner gate passes and never in the same campaign:
   second-catalog Gaussian mean (Gate R). `working/data/generate_dataset.py`
   gains exactly one new flag, `--dmu_G_agn`, whose default 0.0 leaves every
   existing path **bitwise** unchanged. Nothing is pushed.
-- `working/data/seed100/**` as it stands, `analysis_8_marked_multitracer_H0_fagn/**`
-  and `analysis_9_marked_multitracer_H0_fagn/**` are **read-only inputs**. The
+- `working/data/seed100/**` as it stands, `analysis_8_spin_marked_fagn_fixed_H0/**`
+  and `analysis_9_spin_marked_H0_fagn/**` are **read-only inputs**. The
   new event set is a new file; no existing file is overwritten. Every analysis
   write lands under this directory.
 - No likelihood is reimplemented: the Analysis-8 builder is imported.

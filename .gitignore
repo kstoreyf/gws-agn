@@ -185,3 +185,7 @@ cython_debug/
 *.h5
 *.h5
 
+
+# sampler checkpoints and pickled Results (bulk, regenerable; local merge inputs)
+*.ckpt
+*.results.pkl

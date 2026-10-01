@@ -26,7 +26,7 @@
 # A10-J cube chunks is the expected state: WAIT.  Do not resubmit, do not shrink
 # the request, do not drop the qos, do not relocate.  The local H100 stays free.
 set -euo pipefail
-source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 A10_DIR=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer
 echo "[a10] host=$(hostname) job=${SLURM_JOB_ID:-none} args='${A10_DECOMP_ARGS:-<defaults>}'"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true

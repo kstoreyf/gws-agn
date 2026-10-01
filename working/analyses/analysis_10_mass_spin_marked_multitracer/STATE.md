@@ -290,7 +290,7 @@ masses, hence — through \(\rho_{\rm opt} \propto \mathcal{M}_{\rm det}^{5/6}/d
 - The script sets `sys.dont_write_bytecode = True` before importing
   `a8_likelihood`, so the readiness probe leaves no `__pycache__` in the
   Analysis-8 tree. Verified afterwards: no file under
-  `analysis_8_marked_multitracer_H0_fagn/**` or `working/data/**` has an mtime
+  `analysis_8_spin_marked_fagn_fixed_H0/**` or `working/data/**` has an mtime
   later than its close.
 
 ### How to re-run the check

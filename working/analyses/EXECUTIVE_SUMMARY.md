@@ -3,6 +3,8 @@
 *2026-08-12. Written at the close of the selection-mode redo (48/48 cells,
 committed `a5020c1`). Covers every analysis in `working/analyses/`.*
 
+*Directory map, layout conventions, the archive rule and the 2026-10-01 renames: `INDEX.md`.*
+
 ---
 
 ## The one-paragraph version
@@ -187,7 +189,7 @@ contrast to 0.013 in `f_AGN` and 0.008 dex in the anchor.
 
 ## Per-analysis detail
 
-`analysis_{3,4,5,6}_*/REPORT.md` and `selection_redo/a7/REPORT.md`. Numeric
+`analysis_{3,4,5,6}_*/REPORT.md` and `analysis_7_pixel_occupancy_fagn/REPORT.md`. Numeric
 companions: `ladder_summary.json`, `arms_summary.json`,
 `free_anchor_summary.json`, `surface_summary.json`, `a7_verdict.json`. Figures
 render deterministically to PDF + PNG via each directory's `make_figures.py`.

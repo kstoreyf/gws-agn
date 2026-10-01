@@ -527,7 +527,7 @@ BBHs in AGN.
 
 ## Analysis-9 mechanism follow-up (Part I of this task)
 
-Full write-up: `../analysis_9_marked_multitracer_H0_fagn/MECHANISM_FOLLOWUP.md`.
+Full write-up: `../analysis_9_spin_marked_H0_fagn/MECHANISM_FOLLOWUP.md`.
 
 **Did the `H0` improvement remain when `f_AGN` was fixed? Yes — all of it.** With
 `f_AGN = 0.275` (the shared S9/J9 MAP node) held fixed in both arms, the marked

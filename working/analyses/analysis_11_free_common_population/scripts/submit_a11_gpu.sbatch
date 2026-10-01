@@ -16,7 +16,7 @@
 #   sbatch --job-name=NAME --export=ALL,A11_SCRIPT=scripts/X.py,A11_ARGS="..." scripts/submit_a11_gpu.sbatch
 # A 'TaskProlog failed' death within seconds is a rita node fault: resubmit once, identical.
 set -euo pipefail
-source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 export PYTHONUNBUFFERED=1
 cd /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_11_free_common_population
 echo "[a11_gpu] host=$(hostname) job=${SLURM_JOB_ID:-none} script=${A11_SCRIPT:?} args=${A11_ARGS:-}"

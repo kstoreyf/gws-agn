@@ -15,7 +15,7 @@ The luminosity-function shape parameters are pinned at their offline fit centres
 in every arm, so all arms sample the same four parameters.
 
 **Sources.** `results/campaign_{rung}_dynesty_s100.json`,
-`results/free_anchor_summary.json`, `figs/fig1_free_anchors.*`,
+`results/free_anchor_summary.json`, `figs/fig1_free_anchors.*`, `figs/fig3_corner.*` (all four parameters, every rung, 90% regions),
 `figs/fig2_degeneracy.*`. darksirens `0c5b3db`, K = 2 field mixture, 1000
 events, targeted-injection lane, seed 100. Total 13.6 + 6.4 + 3.4 + 2.7 h on one
 H100.

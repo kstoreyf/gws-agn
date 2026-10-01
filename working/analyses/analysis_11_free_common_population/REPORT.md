@@ -282,8 +282,8 @@ widens H0 by 7%.
 
 ## 10. Common-width stress tests
 
-Running, owner-released 2026-09-29. See the Analysis-12 section of `STATE.md` until the
-runs finish.
+Analysis 12, in `../analysis_12_shared_width_robustness/` (owner-released 2026-09-29).
+Its REPORT is the answer to this question.
 
 ## 11. The model to calibrate
 

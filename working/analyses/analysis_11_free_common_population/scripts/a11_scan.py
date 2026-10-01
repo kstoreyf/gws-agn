@@ -109,7 +109,7 @@ def row_order(arm):
 
 def stage_scan(args):
     import a11_likelihood as L
-    sys.path.insert(0, str(A11.parent / "analysis_9_marked_multitracer_H0_fagn" / "scripts"))
+    sys.path.insert(0, str(A11.parent / "analysis_9_spin_marked_H0_fagn" / "scripts"))
     import a9_scan as A9
     cfg = _load_axes()
     arm = ARMS[args.arm]

@@ -81,7 +81,7 @@ STAGES
 
 ENVIRONMENT (load-bearing; the same as every other Analysis-10/-9 driver)
 
-    source .../analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+    source .../analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 
 COMPUTE.  Every GPU stage runs on RITA via SLURM and refuses to run anywhere
 else (checked by ``a9_scan._gpu_setup`` -> ``assert_rita``); the local H100

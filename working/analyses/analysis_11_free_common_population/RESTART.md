@@ -1,10 +1,9 @@
 # Analysis 11 — restart checkpoint (2026-09-28)
 
-**Status (2026-09-29): 11D and §21 are complete and reported. Analysis 12 is RUNNING on rita:
-12M s1 1348933, 12χ s1 1348934 (one A100 each), and s2 1348935 / 1348936 queued behind them.
-A killed run resumes from `queue/a11_ns_<12M|12chi>_dynesty_n200_s<SEED>.ckpt` when resubmitted
-with the identical command (see STATE.md). Once both arms are merged, the brief ends at §31: the
-owner-gate line and the 15-line summary.**
+**Status (2026-10-01): 11D and §21 are complete and reported. Nothing of Analysis 11 is running.
+Analysis 12 has its own directory, `../analysis_12_shared_width_robustness/` (STATE.md there holds
+its jobs and resume commands). Once Analysis 12 is merged, REPORT §§10–11 here and the brief's §31
+stop (owner-gate line and 15-line summary) close the ladder.**
 
 ## What is done (all committed)
 
@@ -39,7 +38,7 @@ Owner decisions on record: tinyns is excluded (dynesty only), and 11D is on hold
 
 - GPU: rita only, `--partition=RITA-GPU --qos=rita`, account `phy220048p`. There is no
   separate "priority" QOS; RITA-GPU accepts only `rita` and `rita-s`.
-- `source ../analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh` (PYTHONPATH →
+- `source ../analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh` (PYTHONPATH →
   darksirens-a8 at `af896ca`, clean). Inputs: events `events_marked_dmu0p10_dmuG5.h5`
   (md5 `427990378e29…`), injections `injections_targeted.h5` (md5 `e8a611a27f1f…`).
 - The provenance blocks list `events_marked_dmu0p10.h5`: a stale default label that

@@ -33,7 +33,7 @@ dependent only):
 
 Environment (must hold before this module is imported):
 
-    source .../analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+    source .../analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
       -> PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-a8
       -> XLA_PYTHON_CLIENT_PREALLOCATE=false
 
@@ -62,10 +62,10 @@ from pathlib import Path
 import numpy as np
 
 A8_DIR = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/"
-               "analysis_8_marked_multitracer_H0_fagn")
+               "analysis_8_spin_marked_fagn_fixed_H0")
 A8_SCRIPTS = A8_DIR / "scripts"
 A9_DIR = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/"
-               "analysis_9_marked_multitracer_H0_fagn")
+               "analysis_9_spin_marked_H0_fagn")
 A10_DIR = Path(__file__).resolve().parent.parent
 
 os.environ.setdefault("PYTHONDONTWRITEBYTECODE", "1")

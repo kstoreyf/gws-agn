@@ -16,7 +16,9 @@ Problems (flat priors on the boxes below; guard-rejected points are -inf)
            results/a10_arm_J.json of Analysis 10.
     11C    (f, mu_G, dmu_G, mu_chi, dmu_chi) on the brief's domains, H0 = 67.74.
     11D    11C plus H0 on [60, 76] (Analysis 10's contained C10-J window).
-    12M    Analysis 12M: 11D plus ONE shared Gaussian-peak width sigma_G on the
+    12M    Analysis 12M (run through ../analysis_12_shared_width_robustness/
+           scripts/a12_sampler.py, which writes into that directory): 11D plus
+           ONE shared Gaussian-peak width sigma_G on the
            production bounds [1, 10] Msun (common to GAL and AGN).
     12chi  Analysis 12chi: 11D plus ONE shared spin width sigma_chi on the
            production bounds [0.01, 1].
@@ -55,8 +57,9 @@ HERE = Path(__file__).resolve().parent
 A11 = HERE.parent
 RESULTS, DIAG = A11 / "results", A11 / "diagnostics"
 CKPT = A11 / "queue"
+PREFIX = "a11"   # merged-output prefix; Analysis 12's wrapper sets "a12" and its own dirs
 sys.path.insert(0, str(HERE))
-A9_SCRIPTS = A11.parent / "analysis_9_marked_multitracer_H0_fagn" / "scripts"
+A9_SCRIPTS = A11.parent / "analysis_9_spin_marked_H0_fagn" / "scripts"
 A10_RESULTS = A11.parent / "analysis_10_mass_spin_marked_multitracer" / "results"
 
 BOXES = {
@@ -372,9 +375,9 @@ def stage_merge(args):
            "gpu_hours_approx": float(sum(i["ncall_total"] for i in infos) * 3.0 / 3600),
            "n_equal_weight_samples": int(samples.shape[0]), "names": names,
            "box": infos[0]["box"], "summary": summarise(samples, names)}
-    dst = RESULTS / f"a11_{args.out}.json"
+    dst = RESULTS / f"{PREFIX}_{args.out}.json"
     dst.write_text(json.dumps(out, indent=2))
-    np.savez(RESULTS / f"a11_{args.out}.npz", samples=samples, names=np.array(names),
+    np.savez(RESULTS / f"{PREFIX}_{args.out}.npz", samples=samples, names=np.array(names),
              logwt=logwt, logl=np.asarray(res.logl), dead=np.asarray(res.samples))
     print(json.dumps(out["summary"], indent=1))
     print(f"wrote {dst}")

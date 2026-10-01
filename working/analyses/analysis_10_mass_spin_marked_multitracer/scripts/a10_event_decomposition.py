@@ -108,7 +108,7 @@ ANALYSIS_DIR = HERE.parent
 DIAG = ANALYSIS_DIR / "diagnostics"
 
 A9_SCRIPTS = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/"
-                  "analysis_9_marked_multitracer_H0_fagn/scripts")
+                  "analysis_9_spin_marked_H0_fagn/scripts")
 for _p in (str(HERE), str(A9_SCRIPTS)):
     if _p not in sys.path:
         sys.path.insert(0, _p)

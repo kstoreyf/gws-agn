@@ -1,6 +1,6 @@
 # Analysis 11 state
 
-**RESUME HERE (2026-09-29): 11D and §21 done and reported. Analysis 12 (12M, 12χ) RUNNING on rita, one A100 per arm; see the Analysis-12 section below and `RESTART.md`.**
+**RESUME HERE (2026-10-01): Analysis 11 is complete through 11D and §21. Analysis 12 runs from `../analysis_12_shared_width_robustness/` (its own STATE/GATES/REPORT); REPORT §§10–11 here wait for it.**
 
 **Stage (2026-09-26, later): closure PASS (1-ULP residuals judged), selection support PASS with one rejected corner; 11A and 11B grids RUNNING; S0 queued.**
 
@@ -116,21 +116,7 @@ at the low end of the 20–35 GPU-h estimate (≈ 24 GPU-h). Comparisons against
 quantiles use a cubic spline in log density (it reproduces the 11C comparison's A10-J
 numbers to 2.5e-5). Figure `figs/fig_11D`; KDE bandwidths use the Kish n_eff.
 
-## §21 profile and Analysis 12 launched (2026-09-29, owner-released)
+## §21 profile (2026-09-29)
 
-- §21: rita job 1348931, 134 evaluations, 8 min → `diagnostics/a11_h0_profile.json`,
-  REPORT §9.
-- Analysis 12 wiring: `a11_likelihood.build_a11(shared_width=("sigma_G",)|("sigma_chi",))`
-  releases the base σ label on top of the A11 pair. Catalogue 2 has no σ copy (the
-  per-catalogue block is only G.mu_c2, mu_chi_c2), so the width is common to both branches.
-  Sampler problems `12M` (11D + σ_G ∈ [1, 10]) and `12chi` (11D + σ_χ ∈ [0.01, 1]), the
-  darksirens production bounds (GAUSS_SIGMA, CHI_SIGMA).
-- Closure (job 1348932, 6 min, `diagnostics/a12_closure.json`): K1 8/8 bitwise, K2 live at
-  f = 0, 0.266, 1, K3 7 guard rejections, all in the wide-σ_χ corner, ≥ 98 nats down. 3.00 s
-  per evaluation, the same as A11.
-- Runs: dynesty multi/unif, nlive 200, first_update_min_eff 100, 96 h limit; 12M s1 1348933,
-  12χ s1 1348934 (one A100 each; rita has two), s2 1348935/1348936 queued behind them. Merge
-  each arm with `--stage merge --runs ... --out 12M|12chi`. Estimate 18–25k calls per run,
-  ≈ 70–85 GPU-h in all, about two days of wall time.
-- The brief's "do not run 12M and 12χ simultaneously" is read as never freeing both widths
-  in one fit. The two one-width fits run side by side on the owner's instruction.
+Rita job 1348931, 134 evaluations, 8 min → `diagnostics/a11_h0_profile.json`, REPORT §9.
+Analysis 12 (launched the same day) now lives in `../analysis_12_shared_width_robustness/`.

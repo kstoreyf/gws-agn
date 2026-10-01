@@ -8,6 +8,10 @@ fig1_free_anchors   H0, f_AGN and the two completion densities down the
                     per_pixel against selection. Intervals are 90%.
 fig2_degeneracy     the f_AGN-vs-GAL-anchor plane, one panel per rung, 90%
                     credible contours for both estimators, truth crossed.
+fig3_corner         the four free parameters (H0, both completion densities,
+                    f_AGN) as a corner plot, selection only, all four rungs
+                    overlaid: 90% credible contours and 1-D marginals of the
+                    same equal-weight dynesty chains (no reweighting).
 
 Analyses 3, 4 and 6 fix the completion densities at truth so the estimator is
 the only moving part. This arm removes that support: both densities are free
@@ -154,18 +158,21 @@ def fig_ladder(data):
     save(fig, "fig1_free_anchors")
 
 
-def contour90(ax, xs, ys, colour, label, bins=32, smooth=1.5):
+def contour90(ax, xs, ys, colour, label, bins=32, smooth=1.5, fill=True, rng=None,
+              lw=1.8):
     """90% credible contour of an equal-weight chain. No RNG, no fitting."""
-    H, xe, ye = np.histogram2d(xs, ys, bins=bins)
+    H, xe, ye = np.histogram2d(xs, ys, bins=bins, range=rng)
     H = gaussian_filter(H, smooth)
     flat = np.sort(H.ravel())[::-1]
     csum = np.cumsum(flat)
     level = flat[np.searchsorted(csum, 0.90 * csum[-1])]
     xc = 0.5 * (xe[1:] + xe[:-1])
     yc = 0.5 * (ye[1:] + ye[:-1])
-    ax.contour(xc, yc, H.T, levels=[level], colors=colour, linewidths=1.8)
-    ax.contourf(xc, yc, H.T, levels=[level, H.max()], colors=colour, alpha=0.13)
-    ax.plot([], [], color=colour, lw=1.8, label=label)
+    ax.contour(xc, yc, H.T, levels=[level], colors=colour, linewidths=lw)
+    if fill:
+        ax.contourf(xc, yc, H.T, levels=[level, H.max()], colors=colour, alpha=0.13)
+    if label:
+        ax.plot([], [], color=colour, lw=lw, label=label)
 
 
 def fig_degeneracy(data):
@@ -211,6 +218,78 @@ def fig_degeneracy(data):
                  fontsize=11.5, color=INK, y=1.08)
     fig.tight_layout()
     save(fig, "fig2_degeneracy")
+
+
+# completeness ramp for the ladder: light (nearly complete) to dark (m<18)
+RUNG_COLOURS = {"m21": "#a6dba0", "m20": "#5aae61", "m19": "#1b7837", "m18": "#00441b"}
+CORNER_TICKS = {"H0": [62, 66, 70, 74], "log10n0": [-3.5, -2.5, -1.5],
+                "log10n0_c2": [-5.5, -5.0, -4.5], "f_AGN": [0.2, 0.5, 0.8]}
+CORNER = [("H0", r"$H_0$", (60.0, 78.0)),
+          ("log10n0", r"$\log_{10} n_0^{\rm GAL}$", (-4.0, -1.0)),
+          ("log10n0_c2", r"$\log_{10} n_0^{\rm AGN}$", (-6.0, -4.0)),
+          ("f_AGN", r"$f_{\rm AGN}$", (0.0, 1.0))]
+
+
+def fig_corner(data):
+    """fig3: the full four-parameter posterior, selection only, every rung.
+
+    The densities are shown over their full flat priors so a railing anchor is
+    visible; H0 is shown on [60, 78] of its [50, 100] prior (no posterior mass
+    sits outside it).
+    """
+    sel = dict((lbl, d) for lbl, _, d in data)["selection (this work)"]
+    n = len(CORNER)
+    fig, axes = plt.subplots(n, n, figsize=(8.6, 8.6))
+    fig.subplots_adjust(left=0.1, right=0.98, bottom=0.08, top=0.98,
+                        wspace=0.08, hspace=0.08)
+    for i, (ki, li, ri) in enumerate(CORNER):
+        for j, (kj, lj, rj) in enumerate(CORNER):
+            ax = axes[i, j]
+            if j > i:
+                ax.axis("off")
+                continue
+            style(ax)
+            ax.grid(False)
+            for r in RUNGS:
+                if r not in sel:
+                    continue
+                ch = sel[r]["chain"]
+                x = ch[:, CHAIN_LABELS[kj]]
+                if i == j:
+                    h, e = np.histogram(x, bins=40, range=rj, density=True)
+                    ax.step(0.5 * (e[1:] + e[:-1]), h, where="mid",
+                            color=RUNG_COLOURS[r], lw=1.4)
+                else:
+                    y = ch[:, CHAIN_LABELS[ki]]
+                    contour90(ax, x, y, RUNG_COLOURS[r], None, bins=40, fill=False,
+                              rng=[rj, ri], lw=1.5)
+            ax.axvline(TRUTH[kj], color="black", ls="--", lw=0.9, zorder=1)
+            if i != j:
+                ax.axhline(TRUTH[ki], color="black", ls="--", lw=0.9, zorder=1)
+                ax.set_ylim(ri)
+            else:
+                ax.set_yticks([])
+            ax.set_xlim(rj)
+            ax.set_xticks(CORNER_TICKS[kj])
+            if i != j:
+                ax.set_yticks(CORNER_TICKS[ki])
+            if i == n - 1:
+                ax.set_xlabel(lj, fontsize=11, color=INK)
+            else:
+                ax.set_xticklabels([])
+            if j == 0 and i != 0:
+                ax.set_ylabel(li, fontsize=11, color=INK)
+            elif j != i:
+                ax.set_yticklabels([])
+    handles = [plt.Line2D([], [], color=RUNG_COLOURS[r], lw=1.8,
+                          label=f"m<{r[1:]}  (C = {fmt_c(COMPLETENESS[r])})")
+               for r in RUNGS if r in sel]
+    handles.append(plt.Line2D([], [], color="black", ls="--", lw=0.9, label="truth"))
+    axes[0, n - 1].legend(handles=handles, frameon=False, fontsize=9.5,
+                          loc="upper right", labelcolor=INK,
+                          title="selection completeness, 90% regions",
+                          title_fontsize=9.5)
+    save(fig, "fig3_corner")
 
 
 def save(fig, stem):
@@ -267,6 +346,7 @@ def main():
     data = [(lbl, c, load(d)) for lbl, c, d in SERIES]
     fig_ladder(data)
     fig_degeneracy(data)
+    fig_corner(data)
     write_summary(data)
 
 

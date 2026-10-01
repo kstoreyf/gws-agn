@@ -111,7 +111,7 @@ RESULTS = A10 / "results"
 FIGS = A10 / "figs"
 WORKING = A10.parent.parent
 PAPER_SCRIPTS = WORKING / "paper" / "scripts"
-A9_RESULTS = WORKING / "analyses" / "analysis_9_marked_multitracer_H0_fagn" / "results"
+A9_RESULTS = WORKING / "analyses" / "analysis_9_spin_marked_H0_fagn" / "results"
 
 if str(PAPER_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(PAPER_SCRIPTS))

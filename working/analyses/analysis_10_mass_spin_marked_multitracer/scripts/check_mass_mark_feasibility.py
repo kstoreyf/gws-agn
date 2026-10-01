@@ -64,7 +64,7 @@ DARKSIRENS_BASE = "2b86a2d"
 GWS_AGN_REPO = "/hildafs/projects/phy230014p/magana/gws-agn"
 
 A8_SCRIPTS = Path(GWS_AGN_REPO) / (
-    "working/analyses/analysis_8_marked_multitracer_H0_fagn/scripts"
+    "working/analyses/analysis_8_spin_marked_fagn_fixed_H0/scripts"
 )
 EVENTS = Path(GWS_AGN_REPO) / "working/data/seed100/events/events_marked_dmu0p10.h5"
 

@@ -77,7 +77,7 @@ def main():
     ap.add_argument("--a10_point", type=float, nargs=3, default=None,
                     metavar=("f", "dmu_chi", "dmu_G"))
     args = ap.parse_args()
-    sys.path.insert(0, str(A11.parent / "analysis_9_marked_multitracer_H0_fagn" / "scripts"))
+    sys.path.insert(0, str(A11.parent / "analysis_9_spin_marked_H0_fagn" / "scripts"))
     import a9_scan as A9
     env = A9._gpu_setup("a11_event_assign")
     if args.a10_point is None:

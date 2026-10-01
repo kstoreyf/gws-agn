@@ -37,7 +37,7 @@
 # after an eviction, so a kill costs at most one 41-cell row.  A
 # 'TaskProlog failed' death is a node fault: resubmit once, identical.
 set -euo pipefail
-source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 A10_DIR=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer
 if [ -z "${ARM:-}" ]; then
   echo "[fatal] pass --export=ALL,ARM={P1,I0,I1}" >&2

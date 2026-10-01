@@ -65,7 +65,7 @@ it would have to change to move the threshold.
 EXACT COMMAND LINES
 -------------------
     A10=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_10_mass_spin_marked_multitracer
-    source .../analysis_9_marked_multitracer_H0_fagn/scripts/env_a9.sh
+    source .../analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 
     "${A9_PY}" $A10/scripts/a10_selection_support.py --stage file       # CPU
     sbatch --export=ALL,STAGE=likelihood $A10/scripts/submit_a10_gate_b_rita.sbatch
@@ -91,7 +91,7 @@ DIAG = A10_DIR / "diagnostics"
 LOGS = A10_DIR / "logs"
 
 A9_SCRIPTS = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/"
-                  "analysis_9_marked_multitracer_H0_fagn/scripts")
+                  "analysis_9_spin_marked_H0_fagn/scripts")
 DATA_ROOT = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100")
 INJ_TARGETED = DATA_ROOT / "injections" / "injections_targeted.h5"
 DARKSIRENS_A8 = "/hildafs/projects/phy230014p/magana/src/darksirens-a8"
