@@ -40,6 +40,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=list(MODES), required=True)
     ap.add_argument("--max_cells", type=int, default=None)
+    ap.add_argument("--gamma", type=float, default=None,
+                    help="pin the merger-rate slope (core's legacy fiducial is 2.5; the mock has 0)")
+    ap.add_argument("--tag", default="")
     args = ap.parse_args()
     m = MODES[args.mode]
     os.environ.setdefault("XLA_PYTHON_CLIENT_PREALLOCATE", "false")
@@ -52,8 +55,20 @@ def main():
         sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core")
     t0 = time.time()
     cat = ds.load_catalog(C.SURVEY)
+    # the resolved legacy fiducial vector, by label (core's is c042527's: gamma = 2.5)
+    probe = ds.model(cosmology=ds.Cosmology(H0=(50.0, 100.0), Om0=C.OM0),
+                     population=ds.Population("powerlaw+peak", fixed=True)).parameters
+    fv = dict(zip(probe.population_labels, probe.fixed_population))
+    gkeys = [k for k in fv if "gamma" in k.lower()]
+    if len(gkeys) != 1:
+        sys.exit(f"[fatal] cannot find the single gamma entry in {list(fv)}")
+    gamma_fid = float(fv[gkeys[0]])
+    pop = ds.Population("powerlaw+peak", fixed=True)
+    if args.gamma is not None:
+        fv[gkeys[0]] = float(args.gamma)
+        pop = ds.Population("powerlaw+peak", fixed=fv)
     an = ds.model(cosmology=ds.Cosmology(H0=(50.0, 100.0), Om0=C.OM0),
-                  population=ds.Population("powerlaw+peak", fixed=True),
+                  population=pop,
                   catalog=cat, completeness=None, fixed_survey=dict(C.FIXED_SURVEY),
                   kernel_pin=m["kernel_pin"])
     kw = {}
@@ -75,16 +90,17 @@ def main():
         v = float(jb(theta))
         dt = time.time() - t0
         rows.append({**c, "logL": v, "logL_hex": float(v).hex(), "seconds": dt})
-        print(f"[core_{args.mode}] {k:3d} {c['grid']} H0 {c['H0']:6.2f} n0 {c['log10n0']:5.2f} "
+        print(f"[core_{args.mode}{args.tag}] {k:3d} {c['grid']} H0 {c['H0']:6.2f} n0 {c['log10n0']:5.2f} "
               f"logL {v:.10f} ({dt:.2f}s)", flush=True)
     plan = an.parameters
-    out = {"arm": f"core_{args.mode}", "darksirens_file": ds.__file__, "labels": labels,
+    out = {"arm": f"core_{args.mode}{args.tag}", "darksirens_file": ds.__file__, "labels": labels,
+           "gamma_fiducial_of_commit": gamma_fid, "gamma_used": float(fv[gkeys[0]]),
            "mode": args.mode, "env": m["env"], "kernel_pin": m["kernel_pin"],
            "kernel_pin_active": getattr(plan, "kernel_pin_active", None),
            "compute_dtype": m["compute_dtype"] or "float64", "jax": jax.__version__,
            "devices": [str(d) for d in jax.devices()], "build_seconds": t_build,
            "slurm_job_id": os.environ.get("SLURM_JOB_ID"), "rows": rows}
-    dst = HERE.parent / "results" / f"core_{args.mode}.json"
+    dst = HERE.parent / "results" / f"core_{args.mode}{args.tag}.json"
     dst.write_text(json.dumps(out, indent=1))
     print(f"wrote {dst}")
 

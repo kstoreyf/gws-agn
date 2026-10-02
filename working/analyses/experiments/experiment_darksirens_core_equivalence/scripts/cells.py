@@ -33,3 +33,8 @@ def cells():
         for n in np.round(np.arange(-3.6, -2.39, 0.2), 10):
             out.append({"grid": "g2", "H0": float(h), "log10n0": float(n)})
     return out
+
+
+def bisect_cells():
+    """Three fixed cells for the legacy-history bisection (log10n0 at the truth)."""
+    return [{"grid": "bisect", "H0": h, "log10n0": -3.0} for h in (60.0, 67.0, 75.0)]

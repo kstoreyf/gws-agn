@@ -27,7 +27,13 @@ from scipy.special import logsumexp
 RES = Path(__file__).resolve().parent.parent / "results"
 PAIRS = [("legacy_2b86a2d", "legacy_0c5b3db"), ("legacy_0c5b3db", "legacy_c042527"),
          ("legacy_c042527", "core_legacy_arith"), ("legacy_c042527", "core_default"),
-         ("core_default", "core_fast")]
+         ("core_default", "core_fast"),
+         # merger-rate slope pinned to the mock's gamma = 0 (c042527/core fiducial is 2.5)
+         ("legacy_0c5b3db", "legacy_c042527_gamma0"),
+         ("legacy_c042527_gamma0", "core_default_gamma0"),
+         ("core_default_gamma0", "core_fast_gamma0"),
+         ("legacy_0c5b3db", "core_default_gamma0"),
+         ("legacy_0c5b3db", "core_fast_gamma0")]
 
 
 def load(arm):

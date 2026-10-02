@@ -1,6 +1,7 @@
 # Experiment — darksirens-core as gws-agn's darksirens (K = 1 equivalence)
 
-**Status (2026-10-02): K = 1 grids running (rita job 1350666). Owner criterion: posterior-level
+**Status (2026-10-02): K = 1 COMPLETE. Core reproduces our old code at the posterior level once the
+merger-rate slope is pinned to the mock's γ = 0 (see the end). Owner criterion: posterior-level
 agreement (KS, 90% widths), bitwise not required. K = 2 / A5 / A8–13 wait for darksirens-work
 to port the mixture, c_mode=selection and per-catalogue population blocks into core.**
 
@@ -33,3 +34,26 @@ Core reproduces its frozen reference to rounding, and the opt-in speed-ups chang
 posterior level. The posterior shift is the 435 legacy commits between 0c5b3db and c042527, not
 core: moving gws-agn to core moves K = 1 incomplete-catalogue posteriors on this mock. Timing
 (median s/call): legacy 0.266, c042527 0.043, core default 0.029, core fast 0.016 (16× legacy).
+
+## Where the legacy-history shift comes from (bisect, job 1350701; `results/bisect/summary.json`)
+
+Bisected the 92-merge first-parent chain 0c5b3db..c042527 at H0 = 60, 67, 75 (log10n0 = −3),
+1e-3 tolerance, logL recorded at every step (13 evaluations, 5 min). Essentially all of it is one
+merge: **PR #359 `review/populations`** (575464d, 2026-08-11, inside the #367 review-fixes merge):
+dlogL −5.34, −5.99, +0.30. The only other change is #355 `review/selection-catalog`
+(−0.002). Inside #359, **0befab7 "fiducial rate slope is the measured kappa_z, not zero"** changes
+the fixed powerlaw+peak fiducial **γ from 0 to 2.5**. The mock was generated with γ = 0, so at
+c042527 and in core a `fixed=True` population assumes the wrong merger-rate evolution.
+
+## With γ pinned to 0 (job 1350706; `legacy_k1_grid.py --gamma 0`, `core_k1_grid.py --gamma 0`)
+
+| pair | max abs dlogL | posterior |
+|---|---|---|
+| c042527(γ=0) → core default(γ=0) | 3.6e-12 | identical |
+| core default(γ=0) → core fast(γ=0) | 4.0e-5 | identical |
+| **0c5b3db → core (γ=0)** | 1.25 (mean −0.92, spread 0.20) | H0 KS 0.035 (1-D) / 0.039 (2-D), 90% width 0.99 / 0.97, median shift 0.05 half-widths; log10n0 KS 0.018; joint TV 0.039 |
+
+The remaining 0.2-nat shape change is the other #359 population commits (7f82fc0 shared low-mass
+edge, 214c2ba closed-form normalisers, 8f3826a pairing quadrature). **For gws-agn on core: pin γ
+to the mock's value explicitly** (`Population("powerlaw+peak", fixed={..., "$\\gamma$": 0.0})`);
+never rely on `fixed=True`.

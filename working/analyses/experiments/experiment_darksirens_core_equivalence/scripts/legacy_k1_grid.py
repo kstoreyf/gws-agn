@@ -43,6 +43,10 @@ def main():
     ap.add_argument("--arm", required=True)
     ap.add_argument("--expect", required=True, help="substring darksirens.__file__ must contain")
     ap.add_argument("--max_cells", type=int, default=None)
+    ap.add_argument("--bisect", action="store_true", help="the three bisection cells only")
+    ap.add_argument("--outdir", default=None)
+    ap.add_argument("--gamma", type=float, default=None,
+                    help="override the fiducial merger-rate slope (last fiducial entry); the mock has 0")
     args = ap.parse_args()
     os.environ.setdefault("XLA_PYTHON_CLIENT_PREALLOCATE", "false")
     import darksirens
@@ -85,6 +89,10 @@ def main():
     labels = list(res[0])
     pop = get_fixed_population_params("powerlaw+peak", shared_beta=True, shared_spin=True,
                                       shared_gamma=True)
+    gamma_fid = float(np.asarray(pop)[-1])
+    if args.gamma is not None:
+        pop = np.asarray(pop, dtype=float).copy()
+        pop[-1] = float(args.gamma)
     t0 = time.time()
     like = make_likelihood(opts=opts, data=data, pop_params_fid=pop,
                            fixed_parameter_values=fixed)
@@ -95,7 +103,7 @@ def main():
         sys.exit(f"[fatal] labels without a pinned value: {unknown} (labels {labels})")
     jl = jax.jit(like)
     rows = []
-    for k, c in enumerate(C.cells()[: args.max_cells]):
+    for k, c in enumerate((C.bisect_cells() if args.bisect else C.cells())[: args.max_cells]):
         coord = jnp.asarray([{"H0": c["H0"], "log10n0": c["log10n0"]}.get(l, point.get(l))
                              for l in labels], dtype=jnp.float64)
         t0 = time.time()
@@ -105,11 +113,13 @@ def main():
         print(f"[{args.arm}] {k:3d} {c['grid']} H0 {c['H0']:6.2f} n0 {c['log10n0']:5.2f} "
               f"logL {v:.10f} ({dt:.2f}s)", flush=True)
     out = {"arm": args.arm, "darksirens_file": f, "labels": labels,
+           "gamma_fiducial_of_commit": gamma_fid, "gamma_used": float(np.asarray(pop)[-1]),
            "dropped_kwargs": sorted(set(dropped)), "jax": jax.__version__,
            "devices": [str(d) for d in jax.devices()], "load_seconds": t_load,
            "build_seconds": t_build, "nEvents": data.get("nEvents"),
            "slurm_job_id": os.environ.get("SLURM_JOB_ID"), "rows": rows}
-    dst = HERE.parent / "results" / f"{args.arm}.json"
+    dst = Path(args.outdir or HERE.parent / "results") / f"{args.arm}.json"
+    dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text(json.dumps(out, indent=1))
     print(f"wrote {dst}")
 
