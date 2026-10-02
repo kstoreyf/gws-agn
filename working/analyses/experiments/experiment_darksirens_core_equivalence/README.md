@@ -87,3 +87,28 @@ Kish n_eff is 146 (legacy) and 127 (core) at dlogz 10, so the 95% KS critical va
 every KS is inside sampling noise (the naive p-values count duplicated resamples as
 independent). Max correlation difference 0.09. The legacy logZ equals the archived full A5 m<18
 run (−4187.537). **Verdict: core reproduces A5 at the posterior level**, with γ pinned to 0.
+
+## A8–A13 line: the Analysis-11 likelihood on core b47e41c against af896ca (2026-10-02)
+
+Core build (darksirens-work's equivalent of a11_likelihood.build_a11): complete GAL + AGN
+catalogues, field weighting, completeness=None at log10n0 = log10n0_c2 = −24
+(allow_out_of_prior), per_catalog_population={2: [μ_G, μ_χ]}, rest of powerlaw+peak pinned
+with γ = 0, hard guard 1e6, sel_batch 5000, pe_event_block 5, **kernel_window = 1e-10 set
+explicitly** (kernel_layout padded, missing_density grid recorded). Scripts `core_a11_cells.py`,
+`legacy_window_check.py`, `a11_grid_cells.py`, `compare_a11.py`.
+
+1. **af896ca's own KDE window drops nothing:** W = 4096 and full rows give identical logL at
+   all four cells (`results/legacy_af896ca_window_{4096,full}.json`).
+2. **Core vs af896ca, 212 cells around the 11D posterior** (`results/a11_comparison.json`):
+
+| slice | mean dlogL | spread | KS | 90% width ratio | median shift (half-widths) |
+|---|---|---|---|---|---|
+| H0 (33) | −3.55 | 0.18 | 0.015 | 1.007 | +0.023 |
+| f_AGN (17) | −3.63 | 0.29 | 0.028 | 1.002 | +0.043 |
+| (μ_G, Δμ_G) 9×9 | −3.68 | 0.31 | 0.026 / 0.044 | 1.000 / 0.999 | −0.040 / +0.067 |
+| (μ_χ, Δμ_χ) 9×9 | −3.69 | 0.07 | 0.003 / 0.005 | 0.998 / 0.999 | +0.004 / +0.007 |
+
+The ~−3.6 nat offset is constant to ±0.3 and moves no posterior; it is the legacy population
+fixes after 2b86a2d that af896ca lacks (darksirens-work). Conditional slices, not full marginals.
+Speed: core 0.28 s/call vs af896ca 3.43 s (12×). **Verdict: A8–A13 can move to core**, with
+γ and every population value pinned explicitly and the core commit pinned.

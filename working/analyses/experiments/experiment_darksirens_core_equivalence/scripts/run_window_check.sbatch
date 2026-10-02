@@ -16,4 +16,8 @@ set -uo pipefail
 source /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_9_spin_marked_H0_fagn/scripts/env_a9.sh
 cd /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/experiments/experiment_darksirens_core_equivalence/scripts
 export PYTHONUNBUFFERED=1 JAX_PLATFORMS=cuda,cpu   # the a8 guard spy needs a CPU device
-for W in 4096 full; do "$A9_PY" legacy_window_check.py --window $W || echo "[window] $W FAILED"; done
+if [ -n "${GRID:-}" ]; then
+  "$A9_PY" legacy_window_check.py --window 4096 --grid || echo "[window] grid FAILED"
+else
+  for W in 4096 full; do "$A9_PY" legacy_window_check.py --window $W || echo "[window] $W FAILED"; done
+fi

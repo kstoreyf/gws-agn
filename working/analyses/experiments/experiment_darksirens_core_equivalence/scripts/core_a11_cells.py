@@ -26,6 +26,14 @@ D = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100")
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--grid", action="store_true", help="the a11_grid_cells posterior grids")
+    args = ap.parse_args()
+    cells = CELLS
+    if args.grid:
+        import a11_grid_cells
+        cells = a11_grid_cells.cells()
     os.environ.setdefault("XLA_PYTHON_CLIENT_PREALLOCATE", "false")
     import darksirens as ds
     from darksirens.runtime_binding import bind_analysis
@@ -60,7 +68,7 @@ def main():
     print(f"[core] labels {labels}  build {t_build:.1f}s", flush=True)
     jb = jax.jit(b.__call__)
     rows = []
-    for c in CELLS:
+    for c in cells:
         absval = {"H0": c["H0"], "fcat_2": c["fcat_2"], MU_G: c["mu_G"], MU_CHI: c["mu_chi"],
                   MU_G + "_c2": c["mu_G"] + c["dmu_G"], MU_CHI + "_c2": c["mu_chi"] + c["dmu_chi"]}
         missing = [l for l in labels if l not in absval]
@@ -84,7 +92,7 @@ def main():
            "build_seconds": t_build, "device_memory": mem,
            "host_maxrss_GB": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1e6,
            "slurm_job_id": os.environ.get("SLURM_JOB_ID"), "rows": rows}
-    dst = HERE.parent / "results" / "core_b47e41c_a11_cells.json"
+    dst = HERE.parent / "results" / ("core_b47e41c_a11_" + ("grid" if args.grid else "cells") + ".json")
     dst.write_text(json.dumps(out, indent=2))
     print(f"wrote {dst}")
 

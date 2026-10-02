@@ -35,7 +35,12 @@ CELLS = [
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--window", choices=("4096", "full"), required=True)
+    ap.add_argument("--grid", action="store_true", help="the a11_grid_cells posterior grids")
     args = ap.parse_args()
+    cells = CELLS
+    if args.grid:
+        import a11_grid_cells
+        cells = a11_grid_cells.cells()
     import a11_likelihood as L
     a8 = L.a8
     if "darksirens-a8" not in os.environ.get("PYTHONPATH", ""):
@@ -53,7 +58,7 @@ def main():
     cell = L.build_a11(f"WINCHK_{args.window}")
     t_build = time.time() - t0
     rows = []
-    for c in CELLS:
+    for c in cells:
         kw = {k: v for k, v in c.items() if k != "name"}
         t1 = time.time()
         r = cell.evaluate_at(**kw)
@@ -70,7 +75,8 @@ def main():
     out = {"window": args.window, "darksirens_file": darksirens.__file__, "build_seconds": t_build,
            "sel_batch_size": 5000, "pe_event_block": 5, "device_memory": mem,
            "slurm_job_id": os.environ.get("SLURM_JOB_ID"), "rows": rows}
-    dst = HERE.parent / "results" / f"legacy_af896ca_window_{args.window}.json"
+    dst = HERE.parent / "results" / (f"legacy_af896ca_window_{args.window}"
+                                     + ("_grid" if args.grid else "") + ".json")
     dst.write_text(json.dumps(out, indent=2))
     print(f"wrote {dst}")
 

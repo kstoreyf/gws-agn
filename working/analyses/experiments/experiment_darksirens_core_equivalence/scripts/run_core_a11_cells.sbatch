@@ -15,4 +15,4 @@
 set -euo pipefail
 cd /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/experiments/experiment_darksirens_core_equivalence/scripts
 export PYTHONPATH= XLA_PYTHON_CLIENT_PREALLOCATE=false PYTHONUNBUFFERED=1 JAX_PLATFORMS=cuda OMP_NUM_THREADS=4
-/hildafs/projects/phy230014p/magana/envs/darksirens-core-b47e41c/bin/python core_a11_cells.py
+/hildafs/projects/phy230014p/magana/envs/darksirens-core-b47e41c/bin/python core_a11_cells.py ${GRID:+--grid}
