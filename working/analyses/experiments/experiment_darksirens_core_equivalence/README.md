@@ -57,3 +57,12 @@ The remaining 0.2-nat shape change is the other #359 population commits (7f82fc0
 edge, 214c2ba closed-form normalisers, 8f3826a pairing quadrature). **For gws-agn on core: pin γ
 to the mock's value explicitly** (`Population("powerlaw+peak", fixed={..., "$\\gamma$": 0.0})`);
 never rely on `fixed=True`.
+
+## A5 free-anchor dynesty smoke (prepared 2026-10-02; waiting for core #48/#49 to MERGE)
+
+Old code: `scripts/a5_smoke_legacy.sbatch` (0c5b3db, the archived A5 m<18 recipe: GAL+AGN m<18,
+field weighting, c_mode=selection with the true-z Schechter fits, n0 priors [−4, −1] / [−6, −4],
+nlive 1000, rstate 7, dlogz 10). Core: `ds.model(catalog=[GAL, AGN], catalog_sky_weighting="field",
+completeness="selection", selection=<stripped fits>, survey_priors={log10n0: [−4, −1],
+log10n0_c2: [−6, −4]})`, γ pinned to 0, same nlive/dlogz, to be written against the merged API.
+Compare: logZ, per-parameter KS on the 4 posteriors, 90% widths; quick check only, not production.
