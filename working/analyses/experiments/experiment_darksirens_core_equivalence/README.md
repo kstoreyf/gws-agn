@@ -18,3 +18,18 @@ core legacy_arith was OOM-killed at 100 GB host RAM; the full job asks for 140 G
 Environment: core clone `src/darksirens-core-f527b94`, venv `envs/darksirens-core-f527b94`
 (--system-site-packages on the jax env, core installed -e --no-deps); legacy worktree
 `src/darksirens-c042527`. Next: A5 dynesty smoke (dlogz ~10) once the K = 2 mixture lands in core.
+
+## Full K = 1 result (job 1350666, 96 cells per arm; `results/comparison.json`)
+
+| pair | bitwise | max abs dlogL | posterior (g1 H0) |
+|---|---|---|---|
+| 2b86a2d → 0c5b3db | 96/96 | 0 | identical |
+| 0c5b3db → c042527 (legacy history) | 0/96 | 19.4 (mean −1.20, spread 6.6) | **KS 0.43, 90% width 1.14×: posterior moves** |
+| c042527 → core legacy_arith | 85/96 | 1.8e-12 | identical |
+| c042527 → core default | 51/96 | 3.6e-12 | identical |
+| core default → core fast | 0/96 | 3.6e-5 | identical (KS 0) |
+
+Core reproduces its frozen reference to rounding, and the opt-in speed-ups change nothing at the
+posterior level. The posterior shift is the 435 legacy commits between 0c5b3db and c042527, not
+core: moving gws-agn to core moves K = 1 incomplete-catalogue posteriors on this mock. Timing
+(median s/call): legacy 0.266, c042527 0.043, core default 0.029, core fast 0.016 (16× legacy).
