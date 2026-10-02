@@ -66,3 +66,24 @@ nlive 1000, rstate 7, dlogz 10). Core: `ds.model(catalog=[GAL, AGN], catalog_sky
 completeness="selection", selection=<stripped fits>, survey_priors={log10n0: [−4, −1],
 log10n0_c2: [−6, −4]})`, γ pinned to 0, same nlive/dlogz, to be written against the merged API.
 Compare: logZ, per-parameter KS on the 4 posteriors, 90% widths; quick check only, not production.
+
+### A5 smoke result (jobs 1350894 legacy, 1350895 core 661ef3d; `results/a5_smoke/comparison.json`)
+
+| | legacy 0c5b3db | core 661ef3d (γ = 0) |
+|---|---|---|
+| logZ | −4187.54 ± 0.70 | −4188.11 ± 0.72 (Δ −0.57, combined error 1.0) |
+| calls / iterations | 43,915 / 5,530 | 44,791 / 5,556 |
+| time per call | ≈ 0.19 s | 0.034 s (5.7×) |
+| wall | 2 h 25 m | 26 m |
+| peak memory | — | host 5.6 GB, device 1.4 GB |
+
+| | H0 | log10n0 | log10n0_c2 | f_AGN |
+|---|---|---|---|---|
+| median shift (half-widths) | −0.015 | −0.025 | +0.022 | +0.018 |
+| 90% width ratio | 0.992 | 0.991 | 0.977 | 0.984 |
+| KS | 0.108 | 0.092 | 0.069 | 0.104 |
+
+Kish n_eff is 146 (legacy) and 127 (core) at dlogz 10, so the 95% KS critical value is 0.165:
+every KS is inside sampling noise (the naive p-values count duplicated resamples as
+independent). Max correlation difference 0.09. The legacy logZ equals the archived full A5 m<18
+run (−4187.537). **Verdict: core reproduces A5 at the posterior level**, with γ pinned to 0.

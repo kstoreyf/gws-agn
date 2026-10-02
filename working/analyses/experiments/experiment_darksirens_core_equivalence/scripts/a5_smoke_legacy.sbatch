@@ -12,7 +12,7 @@
 #SBATCH --output=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/experiments/experiment_darksirens_core_equivalence/logs/%x_%j.out
 #SBATCH --error=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/experiments/experiment_darksirens_core_equivalence/logs/%x_%j.err
 # A5 free-anchor smoke, OLD code (0c5b3db, the commit A5 ran on): the archived A5 m<18 recipe
-# (results/campaign_m18_dynesty_s100.h5 attrs) with dlogz 10. Do NOT submit before core #48/#49 merge.
+# (results/campaign_m18_dynesty_s100.h5 attrs) with dlogz 10. Core #48/#49 merged at 661ef3d (2026-10-02).
 set -euo pipefail
 R=/hildafs/projects/phy230014p/magana/gws-agn/working
 D=$R/data/seed100; S=$R/analyses/selection_redo/scripts
@@ -26,5 +26,5 @@ export PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-0c5b3db XLA
   --sel_batch_size 50000 --pe_event_block 25 --kde_window 4096 --kde_window_nsigma 8 \
   --c_mode selection --selection_fit $S/selection_fits_truez/fit_gal_m18_schechter.json,$S/selection_fits_truez/fit_agn_m18_schechter.json \
   --h0_prior 50 100 --f_prior 0 1 --n0_prior -4 -1 --n0c2_prior -6 -4 \
-  --sampler dynesty --nlive 1000 --dlogz 10 --rstate_seed 7 --skip_wiring \
+  --sampler dynesty --nlive 1000 --dlogz 10 --maxcall 500000 --rstate_seed 7 --skip_wiring \
   --out_tag a5smoke_legacy_0c5b3db_m18 --outdir $OUT
