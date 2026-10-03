@@ -40,9 +40,13 @@ def main():
     from darksirens.catalog import settings as cs
     import jax
     import jax.numpy as jnp
-    if "darksirens-core-b47e41c" not in ds.__file__:
-        sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core b47e41c")
-    cs.configure_catalog_evaluation(kernel_window=1e-10)
+    tag = os.environ.get("CORE_TAG", "b47e41c")
+    if f"darksirens-core-{tag}" not in ds.__file__:
+        sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core {tag}")
+    cs.configure_catalog_evaluation(kernel_window=1e-10, kernel_layout="padded",
+                                    missing_density="grid")
+    from darksirens.population.utils import configure_normalization_grids
+    configure_normalization_grids(pairing_norm="per_sample", pairing_scale="analytic")
     _s = cs.catalog_evaluation_settings()
     settings = {k: str(getattr(_s, k)) for k in getattr(_s, "__dataclass_fields__", {})} or str(_s)
     t0 = time.time()
@@ -86,13 +90,13 @@ def main():
     except Exception as e:  # noqa: BLE001
         mem = {"error": str(e)}
     import resource
-    out = {"arm": "core_b47e41c_a11", "darksirens_file": ds.__file__, "labels": labels,
+    out = {"arm": f"core_{tag}_a11", "darksirens_file": ds.__file__, "labels": labels,
            "gamma_used": 0.0, "kernel_window": 1e-10, "catalog_evaluation": settings,
            "env": {k: v for k, v in os.environ.items() if k.startswith("DARKSIRENS_")},
            "build_seconds": t_build, "device_memory": mem,
            "host_maxrss_GB": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1e6,
            "slurm_job_id": os.environ.get("SLURM_JOB_ID"), "rows": rows}
-    dst = HERE.parent / "results" / ("core_b47e41c_a11_" + ("grid" if args.grid else "cells") + ".json")
+    dst = HERE.parent / "results" / (f"core_{tag}_a11_" + ("grid" if args.grid else "cells") + ".json")
     dst.write_text(json.dumps(out, indent=2))
     print(f"wrote {dst}")
 

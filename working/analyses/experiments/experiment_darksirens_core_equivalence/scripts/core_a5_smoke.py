@@ -52,8 +52,11 @@ def main():
     import dynesty
     import jax
     import jax.numpy as jnp
-    if "darksirens-core-661ef3d" not in ds.__file__:
-        sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core 661ef3d")
+    tag = os.environ.get("CORE_TAG", "661ef3d")
+    if f"darksirens-core-{tag}" not in ds.__file__:
+        sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core {tag}")
+    from darksirens.population.utils import configure_normalization_grids
+    configure_normalization_grids(pairing_norm="per_sample", pairing_scale="analytic")
     OUT.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     cos = ds.Cosmology(H0=BOX["H0"], Om0=0.3075)
@@ -96,6 +99,12 @@ def main():
 
     # timing at the archived A5 m<18 median before sampling
     t1 = time.time(); v0 = loglike(np.array([69.2, -3.0, -5.0, 0.3])); t_first = time.time() - t1
+    if os.environ.get("PROBE_ONLY") == "1":
+        (OUT / f"a5probe_core_{tag}.json").write_text(json.dumps(
+            {"core": tag, "theta": [69.2, -3.0, -5.0, 0.3], "logL": v0,
+             "logL_hex": float(v0).hex()}, indent=2))
+        print(f"[probe] core {tag} logL {v0!r}")
+        return
     rstate = np.random.default_rng(7)
     s = dynesty.NestedSampler(loglike, ptform, ndim=4, nlive=1000, rstate=rstate)
     t1 = time.time()

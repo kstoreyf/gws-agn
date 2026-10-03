@@ -1,6 +1,6 @@
 # Analysis 13 state
 
-**RESUME HERE (2026-10-01): closure PASS. Dynesty smoke run 1350474 RUNNING (it doubles as production seed 1). The second smoke sampler is DEFERRED by the owner; everything the tinyns session said (tinyns and Nautilus settings, costs, pitfalls) is in `SAMPLER_NOTES.md`. Production and calibration are owner-gated.**
+**RESUME HERE (2026-10-02): owner decision: RESTART A13 ON darksirens-core (pinned b47e41c). The af896ca dynesty run (rita 1350718) was cancelled at 1,852+ iterations (checkpoint kept, not used). Driver `scripts/a13_core_sampler.py` + `scripts/submit_a13core_gpu.sbatch` (SEED=1); launches once the seed-100 data move to phy230054p is verified. Second smoke sampler still DEFERRED. Production (second seed) and calibration remain owner-gated.**
 smoke sampler (tinyns or Nautilus) awaits the owner's choice. Production and calibration are
 owner-gated.**
 
@@ -28,3 +28,13 @@ owner-gated.**
   `/hildafs/projects/phy220048p/magana/darksirens-core-data/tinyns_h100_2026-09-30/nautilus_bench_REPORT.md`.
 - Jobs: closure 1350473; dynesty smoke = seed 1 of production, 1350474 (afterok closure; it doubles
   as production seed 1 if the smoke passes).
+
+## Restart on darksirens-core (2026-10-02)
+
+Owner: "Restart on core"; "New runs on core" (finished analyses keep their results with the code
+version recorded); second sampler still deferred. Core b47e41c is validated for this likelihood
+(A11 grids: KS ≤ 0.044, 90% widths within 0.2%, 12× faster; experiment_darksirens_core_equivalence).
+The core run uses the same coordinates, boxes and dynesty settings as problem 13 and a pre-flight
+that reproduces the measured core A11 cells to 1e-8 at the fiducial widths. The af896ca run's
+checkpoint (`queue/a11_ns_13_dynesty_n200_s1.ckpt`, cancelled at ~30k calls, dlogz 27) is kept but
+not resumed.

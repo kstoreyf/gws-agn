@@ -1,0 +1,77 @@
+{
+  "arm": "core_bf58aa6_a11",
+  "darksirens_file": "/hildafs/projects/phy230014p/magana/src/darksirens-core-bf58aa6/src/darksirens/__init__.py",
+  "labels": [
+    "H0",
+    "$\\mu_{\\rm G}$",
+    "$\\mu_\\chi$",
+    "$\\mu_{\\rm G}$_c2",
+    "$\\mu_\\chi$_c2",
+    "fcat_2"
+  ],
+  "gamma_used": 0.0,
+  "kernel_window": 1e-10,
+  "catalog_evaluation": {
+    "kernel_layout": "padded",
+    "missing_density": "grid",
+    "kernel_window": "1e-10"
+  },
+  "env": {},
+  "build_seconds": 63.808608293533325,
+  "device_memory": {
+    "peak_bytes_in_use": 17256977152,
+    "bytes_limit": 63740018688
+  },
+  "host_maxrss_GB": 94.508964,
+  "slurm_job_id": "1351068",
+  "rows": [
+    {
+      "name": "fiducial",
+      "H0": 67.74,
+      "fcat_2": 0.3,
+      "mu_G": 35.0,
+      "dmu_G": 5.0,
+      "mu_chi": 0.0,
+      "dmu_chi": 0.1,
+      "logL": -4288.350485012768,
+      "logL_hex": "-0x1.0c059b962c394p+12",
+      "seconds": 70.04053211212158
+    },
+    {
+      "name": "11D_H0_62",
+      "H0": 62.0,
+      "fcat_2": 0.266,
+      "mu_G": 35.61,
+      "dmu_G": 3.94,
+      "mu_chi": -0.0035,
+      "dmu_chi": 0.131,
+      "logL": -4296.940487675183,
+      "logL_hex": "-0x1.0c8f0c3ccdf34p+12",
+      "seconds": 0.2822387218475342
+    },
+    {
+      "name": "11D_median",
+      "H0": 67.16,
+      "fcat_2": 0.266,
+      "mu_G": 35.61,
+      "dmu_G": 3.94,
+      "mu_chi": -0.0035,
+      "dmu_chi": 0.131,
+      "logL": -4286.282136870672,
+      "logL_hex": "-0x1.0be483a1f3888p+12",
+      "seconds": 0.2826707363128662
+    },
+    {
+      "name": "11D_H0_72",
+      "H0": 72.0,
+      "fcat_2": 0.266,
+      "mu_G": 35.61,
+      "dmu_G": 3.94,
+      "mu_chi": -0.0035,
+      "dmu_chi": 0.131,
+      "logL": -4297.901909808885,
+      "logL_hex": "-0x1.0c9e6e38fad1ap+12",
+      "seconds": 0.2826545238494873
+    }
+  ]
+}

@@ -20,7 +20,7 @@ things live and the rules the directories follow.
 | 10 | `analysis_10_mass_spin_marked_multitracer/` | mass mark on top of the spin mark, fixed then free H0 | complete |
 | 11 | `analysis_11_free_common_population/` | reference population inferred with the offsets; 11D H0 free | complete through 11D and §21 |
 | 12 | `analysis_12_shared_width_robustness/` | one shared σ_G or σ_χ freed on top of 11D | complete |
-| 13 | `analysis_13_joint_shared_widths/` | both shared widths free together (the recommended calibration model) | smoke test running |
+| 13 | `analysis_13_joint_shared_widths/` | both shared widths free together (the recommended calibration model) | restarting on darksirens-core |
 
 Other directories here:
 
@@ -31,6 +31,19 @@ Other directories here:
   two-tracer depth and seeds, the 4-D estimator recheck, model equivalence). Its per-pixel
   incomplete-catalog experiments are in `../archive/experiments/`.
 - `../archive/`: superseded work (below). `../campaign_100seeds/`: the 100-seed campaign.
+
+## Code base (owner, 2026-10-02)
+
+New runs use **darksirens-core, at a pinned commit, with every population value (γ included) and
+every catalogue-evaluation option set explicitly**. Finished analyses keep their results and the
+legacy commit they ran on (2b86a2d, 0c5b3db or af896ca). Equivalence evidence:
+`experiments/experiment_darksirens_core_equivalence/`.
+
+## Data location (2026-10-02)
+
+The mock datasets moved from phy220048p to `/hildafs/projects/phy230054p/magana/gws-agn-data-v3`
+(and `gws-agn-data`); `working/data/seedNNN` symlinks point there. Run records written before the
+move keep the old path.
 
 ## Directory structure
 

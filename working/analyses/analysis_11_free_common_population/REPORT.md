@@ -314,9 +314,13 @@ peak stays at the fiducial, and no branch-dependent widths.
   rate, is the calibration question. A model with the widths pinned would not see it.
 
 Before calibrating, two things on seed 100: one run with both widths free together (never
-tested; the brief kept them apart), and the Δμ_χ domain extended to at least 0.30. Cost: 2 ×
-nlive 200 took ≈ 40 GPU-h per realisation at 7 dimensions, so 8 dimensions is ≈ 45–50 GPU-h
-per realisation, ≈ 2,300–2,500 GPU-h for 50 realisations (≈ 7 weeks on rita's two A100s).
+tested; the brief kept them apart), and the Δμ_χ domain extended to at least 0.30. Cost (corrected
+2026-10-02): on af896ca at 3.4 s per call, 2 × nlive 200 took ≈ 40 GPU-h per realisation at
+7 dimensions, and the 8-dimensional run's measured pace (each added width ≈ 1.65× the calls,
+efficiency falling to ≈ 6%) puts it at ≈ 60–70 GPU-h, ≈ 3,000–3,500 GPU-h for 50 realisations.
+On darksirens-core, validated for this likelihood at 0.28 s per call (12× faster;
+`../experiments/experiment_darksirens_core_equivalence/`), the same campaign is ≈ 250–300 GPU-h.
+New runs, the calibration included, use pinned core (owner, 2026-10-02).
 
 ---
 

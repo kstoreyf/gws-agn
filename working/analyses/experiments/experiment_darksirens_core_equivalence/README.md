@@ -112,3 +112,12 @@ The ~−3.6 nat offset is constant to ±0.3 and moves no posterior; it is the le
 fixes after 2b86a2d that af896ca lacks (darksirens-work). Conditional slices, not full marginals.
 Speed: core 0.28 s/call vs af896ca 3.43 s (12×). **Verdict: A8–A13 can move to core**, with
 γ and every population value pinned explicitly and the core commit pinned.
+
+## Post-#54 recheck on core bf58aa6 (2026-10-02, job 1351068)
+
+darksirens-core #54 fixed a mixture bug (a failed per-catalog safety verdict returned the other
+catalog's finite value instead of -inf). On bf58aa6, the last commit before the #52 default
+changes, with every setting explicit (kernel_window 1e-10, padded, grid, pairing_norm per_sample,
+pairing_scale analytic, γ = 0): the 4 A11 cells and all 212 A11 grid cells are bitwise equal to
+b47e41c, and the A5 probe point is bitwise equal to 661ef3d. **bf58aa6 is the validated pin for new
+runs** (A13 onward).
