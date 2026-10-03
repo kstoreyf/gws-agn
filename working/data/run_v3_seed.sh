@@ -9,7 +9,7 @@ set -euo pipefail
 HERE=/hildafs/projects/phy230014p/magana/gws-agn/working/data
 cd "$HERE"
 S=${1:?usage: run_v3_seed.sh SEED [OUTROOT]}
-OUT=${2:-/hildafs/projects/phy220048p/magana/gws-agn-data-v3}
+OUT=${2:-/hildafs/projects/phy230054p/magana/gws-agn-data-v3}
 LOG=$HERE/logs_gen/v3_seed${S}.log
 mkdir -p "$OUT" "$HERE/logs_gen"
 

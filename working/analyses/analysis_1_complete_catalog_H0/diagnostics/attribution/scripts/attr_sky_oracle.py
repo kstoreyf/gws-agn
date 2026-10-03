@@ -81,7 +81,7 @@ NSIG_D = 7.0
 DZ_SCALE = 3.0e-3      # the survey block's declared photo-z kernel, dz = DZ_SCALE (1+z)
 KPAD = 10.0            # kernel widths of padding on the KDE arms' galaxy window
 KCHUNK = 200_000       # galaxies per chunk in the kde_host kernel integral
-SKYINDEX = Path("/hildafs/projects/phy220048p/magana/gws-agn-data/derived/"
+SKYINDEX = Path("/hildafs/projects/phy230054p/magana/gws-agn-data/derived/"
                 "analysis_1_complete_catalog_H0/skyindex")
 
 

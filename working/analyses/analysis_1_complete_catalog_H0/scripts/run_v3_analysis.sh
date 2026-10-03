@@ -44,7 +44,7 @@ if [ "${SKIP_CONTROLS:-0}" != "1" ]; then
   echo "[$(date -u +%H:%M:%S)] the four remaining matched controls"
   # run_seed_controls.sh only rebuilds a host-type subset when it is ABSENT, so the
   # stale v2 subsets on the bulk allocation must go first.
-  BULK=/hildafs/projects/phy220048p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0
+  BULK=/hildafs/projects/phy230054p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0
   for S in 101 102 103 105; do
     rm -f "$BULK/seed$S/events_gal_hosted.h5" "$BULK/seed$S/events_agn_hosted.h5"
   done

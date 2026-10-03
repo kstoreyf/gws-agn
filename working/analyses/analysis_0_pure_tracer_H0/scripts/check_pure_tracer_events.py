@@ -14,7 +14,7 @@ import h5py
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = Path("/hildafs/projects/phy220048p/magana/gws-agn-data-v3")
+DATA = Path("/hildafs/projects/phy230054p/magana/gws-agn-data-v3")
 SEEDS = [100, 101, 102, 103, 105]
 # (suffix, tracer, planted f_agn, sub-seed offset)
 SETS = [("puregal", "gal", 0.0, 8), ("pureagn", "agn", 1.0, 9)]

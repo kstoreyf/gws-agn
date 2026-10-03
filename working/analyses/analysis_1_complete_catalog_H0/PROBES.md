@@ -373,7 +373,7 @@ figs/
   probe4_continuum.{png,pdf}     the four posteriors
 
 synthetic surveys (bulk filesystem, not in this directory):
-  /hildafs/projects/phy220048p/magana/gws-agn-data/derived/
+  /hildafs/projects/phy230054p/magana/gws-agn-data/derived/
       analysis_1_complete_catalog_H0/probe4/survey_gal_probe4{a_continuum,
       b_uniform,bemp_uniform}_s100_ns32.h5
 ```

@@ -16,7 +16,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 S=${1:-100}
-ROOT=${2:-/hildafs/projects/phy220048p/magana/gws-agn-data-v3}
+ROOT=${2:-/hildafs/projects/phy230054p/magana/gws-agn-data-v3}
 D=$ROOT/seed$S
 mkdir -p logs results
 

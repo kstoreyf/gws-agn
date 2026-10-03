@@ -3286,7 +3286,7 @@
   },
   "b_injection_file": {
     "path": "/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5",
-    "realpath": "/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100/injections/injections_targeted.h5",
+    "realpath": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100/injections/injections_targeted.h5",
     "n_detected": 2205380,
     "Ndraw": 150000000.0,
     "detected_fraction": 0.014702533333333333,

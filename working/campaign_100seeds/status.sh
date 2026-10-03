@@ -41,7 +41,7 @@ fi
 echo "  worker alive: $(pgrep -c -f a2_worker.sh 2>/dev/null || echo 0)"
 echo
 
-echo "-- disk (the binding limit is the phy220048p PROJECT quota, not the mount) --"
-timeout 60 lfs quota -hp 553067 /hildafs 2>/dev/null | awk '/hildafs/{print "  phy220048p (data)     "$2" of "$3}'
+echo "-- disk (the binding limit is the phy230054p PROJECT quota, not the mount) --"
+timeout 60 lfs quota -hp 554257 /hildafs 2>/dev/null | awk '/hildafs/{print "  phy230054p (data)     "$2" of "$3}'
 timeout 60 lfs quota -hp 553654 /hildafs 2>/dev/null | awk '/hildafs/{print "  phy230014p (results)  "$2" of "$3}'
-du -sh /hildafs/projects/phy220048p/magana/gws-agn-data-v3 2>/dev/null | awk '{print "  dataset: "$1}'
+du -sh /hildafs/projects/phy230054p/magana/gws-agn-data-v3 2>/dev/null | awk '{print "  dataset: "$1}'

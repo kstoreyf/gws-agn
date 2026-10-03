@@ -31,7 +31,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 RES = ROOT / "results"
-SCRATCH = Path("/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test")
+SCRATCH = Path("/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test")
 KEYS = ("pop", "rate", "mass", "pz", "jac", "tot")
 
 

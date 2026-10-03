@@ -6,7 +6,7 @@
 # the EXACT oracle B on the same block identifies the channel.
 set -u
 cd "$(dirname "$0")/.."
-SC=/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test
+SC=/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test
 MEGA=$SC/events_notrunc_replicas_s100_n1500.h5
 T=${T:-agn}
 for S in ${SCALES:-0.5 2 3}; do

@@ -3,7 +3,7 @@
 # property of seed 100's realisation.  Wants the GPU to itself.
 set -u
 cd "$(dirname "$0")/.."
-MEGA=/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test/events_notrunc_replicas_s103_n500.h5
+MEGA=/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test/events_notrunc_replicas_s103_n500.h5
 for T in agn gal; do
   echo "=== A on the seed-103 replay, $T ==="
   python scripts/attr_abc_split.py --seed 103 --tracer "$T" --extra_only \

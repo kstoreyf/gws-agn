@@ -9,8 +9,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 S=${1:-100}
 N=${2:-500}
-ROOT=${3:-/hildafs/projects/phy220048p/magana/gws-agn-data-v3}
-SC=${SCRATCH_V3:-/hildafs/projects/phy220048p/magana/gws-agn-data-v3/scratch_ab}
+ROOT=${3:-/hildafs/projects/phy230054p/magana/gws-agn-data-v3}
+SC=${SCRATCH_V3:-/hildafs/projects/phy230054p/magana/gws-agn-data-v3/scratch_ab}
 D=$ROOT/seed$S
 mkdir -p "$SC" logs results
 

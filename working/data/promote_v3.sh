@@ -9,8 +9,8 @@
 # is reversible up to that point.
 set -euo pipefail
 HERE=/hildafs/projects/phy230014p/magana/gws-agn/working/data
-OLD=/hildafs/projects/phy220048p/magana/gws-agn-data
-NEW=/hildafs/projects/phy220048p/magana/gws-agn-data-v3
+OLD=/hildafs/projects/phy230054p/magana/gws-agn-data
+NEW=/hildafs/projects/phy230054p/magana/gws-agn-data-v3
 SEEDS=${SEEDS:-"100 101 102 103 105"}
 ACT=${1:-check}
 

@@ -155,4 +155,4 @@ Colour is the project data-viz standard: identity is the tracer and only the tra
 | `figs/` | the five rendered figures, PDF + PNG |
 | `logs/` | generation, per-scan and SLURM logs |
 
-Event files live beside the record in `/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed<S>/events/`.
+Event files live beside the record in `/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed<S>/events/`.

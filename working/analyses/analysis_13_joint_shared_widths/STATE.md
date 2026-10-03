@@ -1,8 +1,6 @@
 # Analysis 13 state
 
-**RESUME HERE (2026-10-02): owner decision: RESTART A13 ON darksirens-core (pinned b47e41c). The af896ca dynesty run (rita 1350718) was cancelled at 1,852+ iterations (checkpoint kept, not used). Driver `scripts/a13_core_sampler.py` + `scripts/submit_a13core_gpu.sbatch` (SEED=1); launches once the seed-100 data move to phy230054p is verified. Second smoke sampler still DEFERRED. Production (second seed) and calibration remain owner-gated.**
-smoke sampler (tinyns or Nautilus) awaits the owner's choice. Production and calibration are
-owner-gated.**
+**RESUME HERE (2026-10-03): A13 seed 1 RUNNING on darksirens-core bf58aa6 (post-#54; pinned, bitwise-rechecked), rita job 1351377 (`sbatch --export=ALL,SEED=1 scripts/submit_a13core_gpu.sbatch`; resubmit identically to resume from `queue/a13core_*.save`). The af896ca dynesty run (rita 1350718) was cancelled at 1,852+ iterations (checkpoint kept, not used). Second smoke sampler still DEFERRED. Production (second seed) and calibration remain owner-gated; core main e7c3007 (#52 defaults, #53) is NOT adopted — move deliberately before calibration.**
 
 ## Setup (2026-10-01)
 

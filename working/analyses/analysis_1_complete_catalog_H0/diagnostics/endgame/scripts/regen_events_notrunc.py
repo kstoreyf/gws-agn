@@ -46,7 +46,7 @@ from pathlib import Path
 import numpy as np
 
 DATA = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data")
-SCRATCH = Path("/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test")
+SCRATCH = Path("/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test")
 
 TRUTH_KEYS = ("z", "ra", "dec", "dl", "m1src", "m2src", "q", "chieff",
               "m1det", "m2det", "host_type", "host_index", "snr_obs", "snr_true")

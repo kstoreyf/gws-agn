@@ -29,7 +29,7 @@ set -uo pipefail
 S=${1:?usage: gen_one_seed.sh SEED}
 HERE=$(cd "$(dirname "$0")" && pwd)
 DATA=/hildafs/projects/phy230014p/magana/gws-agn/working/data
-OUTROOT=${OUTROOT:-/hildafs/projects/phy220048p/magana/gws-agn-data-v3}
+OUTROOT=${OUTROOT:-/hildafs/projects/phy230054p/magana/gws-agn-data-v3}
 GEN=$DATA/generate_dataset.py
 MANIFEST=$HERE/manifest/seeds.tsv
 LOG=$HERE/logs/gen_s${S}.log

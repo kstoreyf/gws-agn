@@ -26,7 +26,7 @@ export SEL_BATCH=${SEL_BATCH:-50000}
 export PE_BLOCK=${PE_BLOCK:-25}
 export KDE_W=${KDE_W:-4096}
 export LOG10N0=${LOG10N0:--24}
-BULK=/hildafs/projects/phy220048p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0
+BULK=/hildafs/projects/phy230054p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0
 for S in "$@"; do
   rm -f "$BULK/seed$S/events_gal_hosted.h5" "$BULK/seed$S/events_agn_hosted.h5"
 done

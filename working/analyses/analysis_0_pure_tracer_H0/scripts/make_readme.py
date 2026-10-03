@@ -332,7 +332,7 @@ def main(argv=None):
         ["`logs/`", "generation, per-scan and SLURM logs"],
     ]) + "\n")
     P.append("Event files live beside the record in "
-             "`/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed<S>/events/`.\n")
+             "`/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed<S>/events/`.\n")
 
     Path(a.out).write_text("\n".join(P))
     print(f"wrote {a.out}")

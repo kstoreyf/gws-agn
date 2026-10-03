@@ -43,7 +43,7 @@ legacy commit they ran on (2b86a2d, 0c5b3db or af896ca). Equivalence evidence:
 
 The mock datasets moved from phy220048p to `/hildafs/projects/phy230054p/magana/gws-agn-data-v3`
 (and `gws-agn-data`); `working/data/seedNNN` symlinks point there. Run records written before the
-move keep the old path.
+move were rewritten to the new path on 2026-10-03.
 
 ## Directory structure
 

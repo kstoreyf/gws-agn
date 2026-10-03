@@ -4,7 +4,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
-B=/hildafs/projects/phy220048p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0/probe4
+B=/hildafs/projects/phy230054p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0/probe4
 run () {
   local suf=$1 sur=$2
   echo "=== $(date -u) decomposition on $suf ==="

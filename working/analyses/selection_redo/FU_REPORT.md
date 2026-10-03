@@ -5,7 +5,7 @@ HildaFS SLURM (jobs 1136816-18): the KDE-window pin, the zero-density probe,
 and the m<18 seed replication at seeds 101 and 102. All six cells completed,
 zero failures. darksirens `0c5b3db` throughout (fresh worktree,
 provenance-guarded); data = the v3 family under
-`/hildafs/projects/phy220048p/magana/gws-agn-data-v3`. Queues, logs, results
+`/hildafs/projects/phy230054p/magana/gws-agn-data-v3`. Queues, logs, results
 and figures live under `fu_probes/`, `fu_seed101/`, `fu_seed102/`.
 
 ## 1. KDE-window pin — bandwidth RULED OUT

@@ -53,7 +53,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 DATA = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data")
-BULK = Path("/hildafs/projects/phy220048p/magana/gws-agn-data/derived/"
+BULK = Path("/hildafs/projects/phy230054p/magana/gws-agn-data/derived/"
             "analysis_1_complete_catalog_H0/probe4")
 
 DZ_SCALE = 3.0e-3

@@ -17,7 +17,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-BULK=/hildafs/projects/phy220048p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0
+BULK=/hildafs/projects/phy230054p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0
 DATAROOT=${DATAROOT:-/hildafs/projects/phy230014p/magana/gws-agn/working/data}
 KDE_W=${KDE_W:-4096}
 

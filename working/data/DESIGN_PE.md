@@ -611,7 +611,7 @@ quoted for v3 rather than left out.
 
 ## 6. Realised on seed 100 (the first v3 dataset)
 
-`/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100`, generated
+`/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100`, generated
 2026-08-01, **12/12 validation checks pass**.
 
 | quantity | v2 (the previous record) | v3 |

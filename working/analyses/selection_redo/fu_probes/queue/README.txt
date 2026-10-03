@@ -25,5 +25,5 @@ Task 2: zero-density probe (the AGN=complete offset, exec summary open item 1).
 Environment differences vs the campaign (J2 H100 -> HildaFS A100), recorded:
 same darksirens SHA 0c5b3db (fresh worktree at
 /hildafs/projects/phy230014p/magana/src/darksirens-0c5b3db), same data bytes
-(working/data symlinks -> phy220048p/gws-agn-data-v3), same fits, same flags.
+(working/data symlinks -> phy230054p/gws-agn-data-v3), same fits, same flags.
 Cross-GPU float noise is far below every effect probed here.

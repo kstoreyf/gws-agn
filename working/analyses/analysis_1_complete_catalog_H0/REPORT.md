@@ -719,7 +719,7 @@ analysis_1_complete_catalog_H0/
 ```
 
 The datasets themselves live on the bulk filesystem,
-`/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed<N>`, reached through the
+`/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed<N>`, reached through the
 `working/data/seed<N>` symlinks. Seed 104 is present there but deliberately
 unlinked — it failed validation, and it was not regenerated.
 

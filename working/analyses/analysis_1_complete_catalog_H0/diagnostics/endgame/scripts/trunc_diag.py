@@ -28,7 +28,7 @@ from scipy import stats
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 RES = ROOT / "results"
-SCRATCH = Path("/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test")
+SCRATCH = Path("/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test")
 
 
 def gap_chi2(gaps, p, n_bins=20):

@@ -28,7 +28,7 @@
 set -euo pipefail
 
 GEN=/hildafs/projects/phy230014p/magana/gws-agn/working/data/generate_dataset.py
-OUTROOT=${OUTROOT:-/hildafs/projects/phy220048p/magana/gws-agn-data-v3}
+OUTROOT=${OUTROOT:-/hildafs/projects/phy230054p/magana/gws-agn-data-v3}
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 mkdir -p "$HERE/logs"
 

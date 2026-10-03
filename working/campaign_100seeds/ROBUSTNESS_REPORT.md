@@ -97,7 +97,7 @@ The sparse tracer is ~4.5x the more constraining at equal event count, measured 
 darksirens `2b86a2d`, the SHA of record for analyses 0-2 and for the seed datasets.
 Verified bit-identical to the working checkout `b324bed` on identical hardware
 (max abs diff in logL = 0.000e+00); see the README section on the pin. Data under
-`phy220048p/magana/gws-agn-data-v3`, generated with the record's 1.5e8/4.0e8
+`phy230054p/magana/gws-agn-data-v3`, generated with the record's 1.5e8/4.0e8
 injection draws and the v3 PE family.
 
 Sources: `analysis_0/results/h0_pure_tracer_ens93.json`,

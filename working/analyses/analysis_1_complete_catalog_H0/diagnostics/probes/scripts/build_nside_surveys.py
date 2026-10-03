@@ -34,7 +34,7 @@ import h5py
 import numpy as np
 
 DATA = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data")
-OUT = Path("/hildafs/projects/phy220048p/magana/gws-agn-data/derived/"
+OUT = Path("/hildafs/projects/phy230054p/magana/gws-agn-data/derived/"
            "analysis_1_complete_catalog_H0/surveys_nside")
 DARKSIRENS = Path(os.environ.get(
     "DARKSIRENS_SRC", "/hildafs/projects/phy230014p/magana/src/darksirens"))

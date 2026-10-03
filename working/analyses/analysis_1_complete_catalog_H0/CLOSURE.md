@@ -1416,7 +1416,7 @@ analyses/analysis_1_complete_catalog_H0/
     fig_h0_recovery, fig_guard, fig_closure_seeds          REGENERATED
     fig_closure_after_fix, fig_sky_oracle_{gal,agn}, fig_nside_curve   NEW
 
-bulk (/hildafs/projects/phy220048p/magana/gws-agn-data/derived/analysis_1_.../):
+bulk (/hildafs/projects/phy230054p/magana/gws-agn-data/derived/analysis_1_.../):
   skyindex/seed100_{gal,agn}_ns32.h5        3.67 GB, the position index
   surveys_nside/survey_{gal,agn}_complete_ns{64,128}.h5   3.6 GB, the resolution study
   seed{101,102,103,105}/events_{gal,agn}_hosted.h5        rebuilt matched subsets
@@ -1484,7 +1484,7 @@ THE ENDGAME (2026-08-01)  --  section 15
     attr_selmu_agn_regress.json                       the no-override regression
     abc_summary.json, trunc_diag.json, endgame_summary.json
 
-scratch (/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test/):
+scratch (/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test/):
   events_notrunc_full_s100.h5              the untruncated seed-100 replay (1521)
   events_notrunc_replicas_s100_n1500.h5    2,091,126 detections, 1500 replays
   events_notrunc_replicas_s103_n500.h5       699,075 detections,  500 replays
@@ -1555,7 +1555,7 @@ JAX_PLATFORMS=cpu python scripts/regen_events_notrunc.py --seed 100 --verify
 JAX_PLATFORMS=cpu python scripts/regen_events_notrunc.py --seed 100 --replicas 1500
 JAX_PLATFORMS=cpu python scripts/regen_events_notrunc.py --seed 103 --replicas 500 \
        --rep_seed0 7000000
-SC=/hildafs/projects/phy220048p/magana/gws-agn-data/scratch_truncation_test
+SC=/hildafs/projects/phy230054p/magana/gws-agn-data/scratch_truncation_test
 for T in gal agn; do
   python scripts/attr_abc_split.py --seed 100 --tracer $T --extra_only \
          --extra_truth $SC/events_notrunc_replicas_s100_n1500.h5 --tag ${T}_mega
@@ -1653,7 +1653,7 @@ prior for the host's true redshift.
 ## 16.2 The pilot — the gate, measured before anything was regenerated
 
 Seed 100 was regenerated end to end under v3 + D3 into a separate tree
-(`/hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed100`) and the split was
+(`/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100`) and the split was
 measured there before the other four realisations were touched.  `darksirens` is
 anchored `|Δ log μ| = 0` **exactly** in every run below.
 
@@ -1740,7 +1740,7 @@ sets by a Poisson bootstrap (delta-method influence function in brackets):
 
 All five realisations were regenerated **end to end** — catalogs (the new `z_obs`
 column), events, surveys, injections — into a separate tree
-(`/hildafs/projects/phy220048p/magana/gws-agn-data-v3`), validated there, and only
+(`/hildafs/projects/phy230054p/magana/gws-agn-data-v3`), validated there, and only
 then promoted by re-pointing `working/data/seed<N>`.  The superseded v2 tree is
 still on disk (`promote_v3.sh delete` removes it).  Injection sizes are the
 record's: `1.5e8` targeted, `4.0e8` popuni.
@@ -1944,7 +1944,7 @@ working/data/
   run_v3_all.sh                NEW -- the remaining seeds, serially
   promote_v3.sh                NEW -- check / promote / delete (move-aside)
   README.md                    the v3 family, D3, and the validation table
-  seed{100,101,102,103,105}    -> /hildafs/projects/phy220048p/.../gws-agn-data-v3/
+  seed{100,101,102,103,105}    -> /hildafs/projects/phy230054p/.../gws-agn-data-v3/
 
 analyses/analysis_1_complete_catalog_H0/
   CLOSURE.md                   this section
@@ -1986,12 +1986,12 @@ analyses/analysis_1_complete_catalog_H0/
                                REGENERATED; fig_closure_v3 NEW
 
 bulk:
-  /hildafs/projects/phy220048p/magana/gws-agn-data-v3/seed{100,101,102,103,105}
+  /hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed{100,101,102,103,105}
       the v3 dataset (9.7 GB/seed)
-  /hildafs/projects/phy220048p/magana/gws-agn-data-v3/scratch_ab/
+  /hildafs/projects/phy230054p/magana/gws-agn-data-v3/scratch_ab/
       events_notrunc_full_s100.h5              the bit-identical replay
       events_notrunc_replicas_s100_n1500.h5    2,197,243 redrawn detections
-  /hildafs/projects/phy220048p/magana/gws-agn-data/seed{...}
+  /hildafs/projects/phy230054p/magana/gws-agn-data/seed{...}
       the SUPERSEDED v2 dataset -- still on disk; `promote_v3.sh delete` removes it
 ```
 
@@ -2019,7 +2019,7 @@ python scripts/fig_closure_after_fix.py --seeds 100 101 102 103 105 \
        --out_json results/closure_v3.json
 for T in gal agn; do for L in targeted popuni; do
   python scripts/attr_selmu_mcerr.py --tracer $T --injections $L --seed 100 \
-         --dataroot /hildafs/projects/phy220048p/magana/gws-agn-data-v3 \
+         --dataroot /hildafs/projects/phy230054p/magana/gws-agn-data-v3 \
          --events .../seed100/events_${T}_hosted.h5 --exact <the oracle value>
 done; done
 ```
@@ -2029,7 +2029,7 @@ dataset being the one actually consumed by analyses 1 and 2; verified before
 recording it:
 
 * `working/data/seed{100,101,102,103,105}` are symlinks into
-  `/hildafs/projects/phy220048p/magana/gws-agn-data-v3` (re-pointed 2026-08-01
+  `/hildafs/projects/phy230054p/magana/gws-agn-data-v3` (re-pointed 2026-08-01
   08:17, before every scan in this analysis' `results/` and before analysis 2
   ran); `promote_v3.sh check` passes all 12 checks per seed
   (`pe_model=v3`, `z_column=z_obs`, `n_failed=0`).
@@ -2040,5 +2040,5 @@ recording it:
   throughout.
 
 The superseded v2 seed trees under
-`/hildafs/projects/phy220048p/magana/gws-agn-data/` are already removed; only
+`/hildafs/projects/phy230054p/magana/gws-agn-data/` are already removed; only
 `derived/` (analysis-1 bulk outputs, current) remains there.

@@ -19,7 +19,7 @@ export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export DARKSIRENS_SRC=${DARKSIRENS_SRC:-/hildafs/projects/phy230014p/magana/src/darksirens}
 
 DATA=/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100
-SURV=/hildafs/projects/phy220048p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0/surveys_nside
+SURV=/hildafs/projects/phy230054p/magana/gws-agn-data/derived/analysis_1_complete_catalog_H0/surveys_nside
 INJ=$DATA/injections/injections_targeted.h5
 KDE_W=${KDE_W:-4096}
 
