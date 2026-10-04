@@ -36,3 +36,23 @@ The core run uses the same coordinates, boxes and dynesty settings as problem 13
 that reproduces the measured core A11 cells to 1e-8 at the fiducial widths. The af896ca run's
 checkpoint (`queue/a11_ns_13_dynesty_n200_s1.ckpt`, cancelled at ~30k calls, dlogz 27) is kept but
 not resumed.
+
+## Checkpoint fix and Jetstream2 (2026-10-03/04)
+
+- rita 1351377 (core bf58aa6, seed 1) passed its pre-flight (4/4 cells |d| = 0) and then died at the
+  first dynesty checkpoint (900 s): dynesty pickles the sampler, and `loglike` is a closure
+  ("Can't pickle local object"). Fixed: checkpoints now go through core's
+  `darksirens.inference.dynesty_checkpoint` (state-only save; the callables are rebound on restore).
+  A toy run killed at iteration 302 and resumed reproduces the uninterrupted logZ exactly
+  (653 iterations both).
+- Owner moved the run to the Jetstream2 A100 VM (rita busy): `scripts/js2/` (README there). The
+  driver takes `A13_DATA`, `A13_REF_CELLS`, `A13_KERNEL_LAYOUT`, `A13_MISSING_DENSITY` from the
+  environment; the defaults are the rita values, so `submit_a13core_gpu.sbatch` is unchanged.
+- The VM's GPU is a 20 GB vGPU slice. The likelihood build ran out of device memory (a 1.43 GB
+  allocation in the pinned field-kernel build) with the default 75% JAX cap (15.8 GB), with the cap at
+  95% (18.7 GB), and with 95% plus the galaxy-list/gather layouts (17.1 GB). Host RAM peaked at ~14 GB.
+- Fourth try, platform allocator (no BFC cache) plus the layouts: it got past that allocation and then
+  requested a single **27.4 GiB** buffer in the same step (`build_pinned_catalog_kernel` →
+  `_state(catalog)`, the field compact view). **A13 cannot run on a 20 GB GPU with core bf58aa6**;
+  it needs an 80 GB card (rita A100-80, js2h100 H100-80) or a core change that chunks that build.
+  `scripts/js2/` works unchanged on a bigger VM (set `JS2`/`JS2_ROOT` in `config.sh`).

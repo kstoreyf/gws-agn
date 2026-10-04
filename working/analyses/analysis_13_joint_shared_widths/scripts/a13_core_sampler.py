@@ -37,6 +37,9 @@ import numpy as np
 A13 = Path(__file__).resolve().parent.parent
 EXP = A13.parent / "experiments" / "experiment_darksirens_core_equivalence"
 D = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100")
+# off-hilda runs (scripts/js2/): point at the copied seed-100 inputs and pre-flight reference
+D = Path(os.environ.get("A13_DATA", D))
+REF_CELLS = Path(os.environ.get("A13_REF_CELLS", EXP / "results" / "core_bf58aa6_a11_cells.json"))
 BOX = [("H0", 60.0, 76.0), ("f_agn", 0.0, 1.0), ("mu_G", 31.0, 39.0), ("dmu_G", -4.0, 10.0),
        ("mu_chi", -0.10, 0.10), ("dmu_chi", -0.05, 0.30), ("sigma_G", 1.0, 10.0),
        ("sigma_chi", 0.01, 1.0)]
@@ -63,8 +66,11 @@ def build():
     from darksirens.catalog import settings as cs
     if "darksirens-core-bf58aa6" not in ds.__file__:
         sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core bf58aa6")
-    cs.configure_catalog_evaluation(kernel_window=1e-10, kernel_layout="padded",
-                                    missing_density="grid")
+    # layout-only opt-ins for small GPUs (the 20 GB js2a100 vGPU): same arithmetic per galaxy,
+    # held to the rita reference cells by the pre-flight below
+    cs.configure_catalog_evaluation(kernel_window=1e-10,
+                                    kernel_layout=os.environ.get("A13_KERNEL_LAYOUT", "padded"),
+                                    missing_density=os.environ.get("A13_MISSING_DENSITY", "grid"))
     # The population pairing normaliser, explicit too: core's default moves from
     # per_sample to per_point (darksirens-core #52, up to ~1e-7 in logL). These are
     # the settings the A11 validation ran with.
@@ -124,7 +130,7 @@ def main():
         return float(jb(jnp.asarray([vals[l] for l in labels], dtype=jnp.float64)))
 
     # pre-flight against the validated core A11 cells (widths at their fiducials)
-    ref = json.loads((EXP / "results" / "core_bf58aa6_a11_cells.json").read_text())
+    ref = json.loads(REF_CELLS.read_text())
     pre = []
     for r in ref["rows"]:
         v = ll_abs(absolute([r["H0"], r["fcat_2"], r["mu_G"], r["dmu_G"], r["mu_chi"], r["dmu_chi"],
@@ -149,19 +155,24 @@ def main():
     def ptform(u):
         return lo + u * (hi - lo)
 
+    # checkpoints store sampler state only; loglike/ptform are closures and are rebound on restore
+    from darksirens.inference.dynesty_checkpoint import (install_dynesty_checkpointing,
+                                                         restore_dynesty_sampler)
     tag = f"a13core_dynesty_n{args.nlive}_s{args.seed}"
     ckpt = A13 / "queue" / f"{tag}.save"
     (A13 / "queue").mkdir(exist_ok=True); (A13 / "results").mkdir(exist_ok=True)
     t1 = time.time()
     if ckpt.exists():
         print(f"[a13core] resuming {ckpt}", flush=True)
-        s = dynesty.NestedSampler.restore(str(ckpt))
+        s = restore_dynesty_sampler(str(ckpt), loglike, ptform)
+        install_dynesty_checkpointing(s)
         s.run_nested(dlogz=args.dlogz, print_progress=True, resume=True,
                      checkpoint_file=str(ckpt), checkpoint_every=900)
     else:
         s = dynesty.NestedSampler(loglike, ptform, len(BOX), nlive=args.nlive, bound="multi",
                                   sample="unif", rstate=np.random.default_rng(args.seed),
                                   first_update={"min_ncall": 2 * args.nlive, "min_eff": 100.0})
+        install_dynesty_checkpointing(s)
         s.run_nested(dlogz=args.dlogz, print_progress=True, checkpoint_file=str(ckpt),
                      checkpoint_every=900)
     res = s.results
