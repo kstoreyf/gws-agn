@@ -111,6 +111,8 @@ def main():
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--nlive", type=int, default=200)
     ap.add_argument("--dlogz", type=float, default=0.1)
+    ap.add_argument("--resume-sample", choices=["rslice"], default=None,
+                    help="on resume, switch the proposal (owner 2026-10-05: rslice after the unif stalls)")
     args = ap.parse_args()
     os.environ.setdefault("XLA_PYTHON_CLIENT_PREALLOCATE", "false")
     import jax
@@ -160,12 +162,20 @@ def main():
                                                          restore_dynesty_sampler)
     tag = f"a13core_dynesty_n{args.nlive}_s{args.seed}"
     ckpt = A13 / "queue" / f"{tag}.save"
+    switch_log = A13 / "queue" / f"{tag}.sampler_switch.json"
     (A13 / "queue").mkdir(exist_ok=True); (A13 / "results").mkdir(exist_ok=True)
     t1 = time.time()
     if ckpt.exists():
         print(f"[a13core] resuming {ckpt}", flush=True)
         s = restore_dynesty_sampler(str(ckpt), loglike, ptform)
         install_dynesty_checkpointing(s)
+        if args.resume_sample:
+            from a13_switch import switch_sampler
+            rec = switch_sampler(s, args.resume_sample)
+            if rec is not None:
+                rec["slurm_job_id"] = os.environ.get("SLURM_JOB_ID")
+                switch_log.write_text(json.dumps(rec, indent=2))
+            print(f"[a13core] proposal {s.method} (switch {rec})", flush=True)
         s.run_nested(dlogz=args.dlogz, print_progress=True, resume=True,
                      checkpoint_file=str(ckpt), checkpoint_every=900)
     else:
@@ -199,6 +209,7 @@ def main():
            "wall_seconds_sampling": time.time() - t1, "device_memory": mem,
            "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
            "n_equal_weight_samples": int(samples.shape[0]), "summary": summarise(samples, names),
+           "sampler_switch": json.loads(switch_log.read_text()) if switch_log.exists() else None,
            "finished": True}
     np.savez(A13 / "results" / f"{tag}.npz", samples=samples, names=np.array(names), logwt=logwt,
              logl=np.asarray(res.logl), dead=np.asarray(res.samples))

@@ -1,6 +1,6 @@
 # Analysis 13 state
 
-**RESUME HERE (2026-10-03): A13 seed 1 RUNNING on darksirens-core bf58aa6 (post-#54; pinned, bitwise-rechecked), rita job 1351377 (`sbatch --export=ALL,SEED=1 scripts/submit_a13core_gpu.sbatch`; resubmit identically to resume from `queue/a13core_*.save`). The af896ca dynesty run (rita 1350718) was cancelled at 1,852+ iterations (checkpoint kept, not used). Second smoke sampler still DEFERRED. Production (second seed) and calibration remain owner-gated; core main e7c3007 (#52 defaults, #53) is NOT adopted — move deliberately before calibration.**
+**RESUME HERE: see the last entry of the log below (2026-10-05/06: rslice resume, rita 1361503).** Earlier header (2026-10-03): A13 seed 1 RUNNING on darksirens-core bf58aa6 (post-#54; pinned, bitwise-rechecked), rita job 1351377 (`sbatch --export=ALL,SEED=1 scripts/submit_a13core_gpu.sbatch`; resubmit identically to resume from `queue/a13core_*.save`). The af896ca dynesty run (rita 1350718) was cancelled at 1,852+ iterations (checkpoint kept, not used). Second smoke sampler still DEFERRED. Production (second seed) and calibration remain owner-gated; core main e7c3007 (#52 defaults, #53) is NOT adopted — move deliberately before calibration.**
 
 ## Setup (2026-10-01)
 
@@ -8,22 +8,8 @@
   tinyns on one GPU, seed 100, comparing logZ and posteriors; gate the two-seed run; defer
   calibration until after the two seeds.
 - Problem `13` added to `a11_sampler.BOXES` (11D + σ_G [1, 10] + σ_χ [0.01, 1], Δμ_χ to 0.30).
-- tinyns session advice (2026-10-01, tinyns 0.2.3 @ 5b6da64): defaults (rwalk, live-cov
-  proposal, walks = max(25, 6·ndim) = 48, no bound, one chain), nlive 200, jax_block_size 4,
-  return −inf directly, checkpoint via run(checkpoint_path=, checkpoint_interval=) and
-  resume(). Its cost estimate for this problem: ~100–160k likelihood calls per run (85–135 GPU-h
-  at 3 s/call), 3–4× dynesty; it recommends tinyns as a cross-check only and suggests Nautilus
-  (installed here: 1.0.5) as the calls-efficient alternative. walks = 25 biased logZ by
-  +0.2–0.3 nats at 8-D in its sweeps.
-- tinyns session, Nautilus advice (2026-10-01): `Sampler(prior, likelihood, n_dim=8, n_live=1000,
-  n_networks=4, n_batch=100, vectorized=False, pass_dict=False, seed=100, filepath=<.hdf5>,
-  resume=True)`; `run(f_live=0.01, n_eff=5000 (2000 to save calls), discard_exploration=True on
-  the FIRST call, timeout=<s before wall limit>)`; −inf allowed (map NaN to −inf); results
-  `sampler.log_z`, `sampler.posterior(equal_weight=True)`. Its estimate (extrapolated from 13-D,
-  not measured at 8-D): ~20–40k calls (17–33 GPU-h), comparable to dynesty, with much tighter
-  logZ; no reported logZ error (seed scatter ~0.01 nats). It advises pinning 1.0.6 in a separate
-  venv; this jax env already has nautilus 1.0.5. Benchmark report:
-  `/hildafs/projects/phy220048p/magana/darksirens-core-data/tinyns_h100_2026-09-30/nautilus_bench_REPORT.md`.
+- Second sampler (tinyns / Nautilus advice from the tinyns session): REMOVED by the owner
+  2026-10-06 — dynesty only. The advice is in git history (SAMPLER_NOTES.md, deleted at that date).
 - Jobs: closure 1350473; dynesty smoke = seed 1 of production, 1350474 (afterok closure; it doubles
   as production seed 1 if the smoke passes).
 
@@ -56,3 +42,41 @@ not resumed.
   `_state(catalog)`, the field compact view). **A13 cannot run on a 20 GB GPU with core bf58aa6**;
   it needs an 80 GB card (rita A100-80, js2h100 H100-80) or a core change that chunks that build.
   `scripts/js2/` works unchanged on a bigger VM (set `JS2`/`JS2_ROOT` in `config.sh`).
+- rita 1352007 (2026-10-04 00:20, core bf58aa6, padded/grid, seed 1): pre-flight |d| = 0, state-only
+  checkpoints work. At 36.6 h: 2,595 it, 465k calls, dlogz 10.05. **60 iterations (~2290–2390) took
+  392k calls (84%)**, up to 22k calls per iteration (multi/unif stall); before and after, ~50 calls/it.
+  The likelihood holds at 0.28 s/call. Live points at the 10-05 snapshot reach Δμ_χ = 0.297 (prior
+  edge 0.30). Resume job 1359937 (`--dependency=afternotok:1352007`) continues from the checkpoint if
+  the 48 h limit hits.
+- **2026-10-05 19:00 durable checkpoint** (owner restarting the session): it 2833 / 533,529 calls,
+  sha256 4c076aaf…18a0, verified to restore, copied to
+  `queue/a13core_dynesty_n200_s1.save.durable_20261005_183906` and
+  `/hildafs/projects/phy230054p/magana/gws-agn-data/checkpoints/analysis_13_joint_shared_widths/`.
+  1352007 keeps running on rita (wall limit 2026-10-06 00:20, it 2878 / dlogz 6.0 at 18:54). If it
+  ends without finishing, 1359937 resumes from `queue/a13core_dynesty_n200_s1.save`. To resume by
+  hand, `sbatch --export=ALL,SEED=1 scripts/submit_a13core_gpu.sbatch`. If the live .save is ever
+  lost or corrupt, copy the durable file over it first. On success the results land in
+  `results/a13core_dynesty_n200_s1.{json,npz}`.
+- **2026-10-05 23:10 second stall:** 1352007 at it 2885 / 588,771 calls / dlogz ≈ 5.95 (43.9 h of 48 h).
+  Since the 18:39 durable checkpoint: 52 iterations for 55k calls (~1,060 calls/it; single
+  iterations up to 11.4k calls). Cause: multi/unif with dynesty 2.1.4's default bootstrap = 5 —
+  dynesty warns the bootstrap enlargement factor is "very large". Live points (200): logL spread
+  −4291.14 to −4285.66; Δμ_χ up to 0.2972 (edge 0.30) — still on the edge; f_AGN 0.15–0.38,
+  H0 63.2–72.2. 1359937 resumes on the 00:20 wall limit with the SAME settings. Changing the
+  sampler mid-run (bootstrap = 0, or rslice) is waiting on the owner.
+- **2026-10-05 23:12 owner: resume with rslice.** `scripts/a13_switch.py` rewires the restored
+  MultiEllipsoidSampler to rslice (slices 3 + ndim = 11, enlarge 1.25, bootstrap 0, bound update every
+  2·slices·nlive = 4,400 calls; idempotent; the record goes to `queue/a13core_dynesty_n200_s1.sampler_switch.json`
+  and into the results JSON as `sampler_switch`). Driver flag `--resume-sample rslice`; sbatch passes
+  `RESUME_SAMPLE`. Toy check (8-D truncated Gaussian near an edge, unif to it 1500 then rslice, 3 seeds):
+  pulls vs analytic logZ +0.76/−0.92/+0.32 (plain unif +1.11/−0.68/+0.65), ~55 calls/it after the switch.
+  Dry run on the real checkpoint (it 2885): one ellipsoid; dropping bootstrap shrinks the bound's
+  log-volume from −5.12 to −7.47, and all live points stay inside.
+  Pre-switch durable copy: `queue/*.save.durable_20261005_231134_preswitch` (+ phy230054p checkpoints dir).
+  1359937 cancelled; 1352007 cancelled 23:12 (7 min after its last checkpoint, mid-stall);
+  **rslice resume = rita job 1361503** (`sbatch --export=ALL,SEED=1,RESUME_SAMPLE=rslice scripts/submit_a13core_gpu.sbatch`;
+  resubmit the same way to continue). Expect ~1.5–2k more iterations at ~55 calls/it ≈ 8–10 h.
+- **2026-10-06 owner decisions:** no second sampler (Nautilus removed; smoke gate S withdrawn);
+  seed 2 HELD until seed 1 is reviewed; the Δμ_χ prior edge is decided after seed 1; seed-1 figures
+  when it finishes; plan the core e7c3007 move (no calibration runs). rslice pace at it 2942:
+  ~59 calls/it, 16.7 s/it, dlogz 6.04.

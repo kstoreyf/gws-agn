@@ -31,7 +31,6 @@ fit to calibrate?
 |---|---|
 | `REPORT.md` | results (not yet) |
 | `STATE.md`, `GATES.md` | running state; criteria registered before results |
-| `SAMPLER_NOTES.md` | the tinyns session's tinyns and Nautilus advice for this problem |
-| `scripts/` | `a13_sampler.py`, `a13_closure.py`, `submit_a13_gpu.sbatch` |
+| `scripts/` | `a13_core_sampler.py` + `submit_a13core_gpu.sbatch` (core bf58aa6, current), `a13_switch.py` (rslice on resume), `a13_closure.py`; `a13_sampler.py`, `submit_a13_gpu.sbatch` (af896ca, superseded); `js2/` |
 | `results/`, `queue/` | runs and merges; sampler checkpoints (git-ignored) |
 | `diagnostics/`, `figs/`, `logs/` | checks, figures, Slurm logs |

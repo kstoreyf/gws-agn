@@ -6,7 +6,7 @@ never a bound to widen.
 | gate | status | the number that decides it |
 |---|---|---|
 | K closure + joint selection support | **PASS** (job 1350473, 4 min) | K1 4/4 bitwise against A11 at the fiducial widths; K2 both widths live at f = 0, 0.266, 1; K3 6 rejections, all at f = 1 with AGN spin mean ≥ 0.237 (≈ 1,600 nats below the posterior). At the posterior f the logL along Δμ_χ 0.24–0.30 flattens ~30 nats below the peak as N_eff/threshold falls to 1.5 (selection-noise regime; negligible weight) (`diagnostics/a13_closure.json`) |
-| S smoke test (single GPU, seed 100) | dynesty RUNNING (1350474); second sampler DEFERRED by the owner (`SAMPLER_NOTES.md`) | |
+| S smoke test (single GPU, seed 100) | WITHDRAWN 2026-10-06: no second sampler (owner). Seed 1 (dynesty, core bf58aa6, rslice from it 2885) is production seed 1 | |
 | P two-seed production | OWNER-GATED | |
 | C calibration campaign | OWNER-GATED, after P | |
 
@@ -20,6 +20,8 @@ never a bound to widen.
   how far they sit below the posterior peak; a rejection inside the posterior bulk is a FAIL.
 
 ## S — smoke test
+
+**Withdrawn by the owner 2026-10-06: no second sampler.** Criteria kept as registered.
 
 One run per sampler on one GPU, seed 100, problem 13, flat priors as in README. Pass if, between
 dynesty (multi/unif, nlive 200, dlogz 0.1, first bound after 2·nlive calls) and the second
