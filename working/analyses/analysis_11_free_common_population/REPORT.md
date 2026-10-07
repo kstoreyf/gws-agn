@@ -322,6 +322,14 @@ On darksirens-core, validated for this likelihood at 0.28 s per call (12× faste
 `../experiments/experiment_darksirens_core_equivalence/`), the same campaign is ≈ 250–300 GPU-h.
 New runs, the calibration included, use pinned core (owner, 2026-10-02).
 
+Measured (corrected 2026-10-06, Analysis 13 seed 1 on core bf58aa6, 0.28 s per call): the 8-D run
+took 5,604 iterations and 753,243 likelihood calls, ≈ 59 GPU-h, for one nlive-200 run. Multi/unif
+stalled (dynesty's default bootstrap inflated the bounding ellipsoid; ~465k calls went to two stalls);
+after the switch to rslice it ran at ≈ 60 calls per iteration. A run on rslice from the start is
+therefore ≈ 5,600 × 60 ≈ 340k calls ≈ 25–30 GPU-h, and 50 realisations ≈ 1,250–1,500 GPU-h, about
+5× the estimate above. The #52 speed defaults (per-point pairing normaliser, untimed on the A100)
+may cut this; they are timed before calibration (`../analysis_13_joint_shared_widths/CORE_MOVE_PLAN.md`).
+
 ---
 
 **OWNER GATE: the free-baseline marked-population science exploration is complete. No

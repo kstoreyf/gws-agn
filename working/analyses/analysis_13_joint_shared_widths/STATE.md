@@ -80,3 +80,41 @@ not resumed.
   seed 2 HELD until seed 1 is reviewed; the Δμ_χ prior edge is decided after seed 1; seed-1 figures
   when it finishes; plan the core e7c3007 move (no calibration runs). rslice pace at it 2942:
   ~59 calls/it, 16.7 s/it, dlogz 6.04.
+- **2026-10-06 03:30 Δμ_χ edge mode.** Interim posterior (checkpoint it 3595, live added, ESS 369):
+  main mode H0 67.5 [65.0, 69.7], f 0.263, Δμ_χ 0.162 [0.123, 0.201], σ_G 4.81, σ_χ 0.082, all away
+  from the box edges; plus a SEPARATE clump at Δμ_χ 0.29–0.30 (3.8% of the weight, nothing in
+  0.23–0.28) with H0 ≈ 71.6, Δμ_G ≈ 7, σ_χ ≈ 0.12, holding the run's max logL (−4282.55, 1.1 nats
+  above the main mode's best), weight dominated by one live point. Closure K3: N_eff ≈ 3e5 at the
+  main mode (σ²_sel = N²/N_eff ≈ 3) vs ≈ 8e3 at Δμ_χ 0.30 (σ²_sel ≈ 120, σ ≈ 11 nats) → the spike
+  regime selection/gw.py's docstring describes. The run's `max_likelihood_variance = 1e6` leaves only
+  the 5·N_obs = 5000 floor. NOTE: the default cap 1 would need N_eff > 1.04e6 — it rejects the
+  main mode too. Owner: let seed 1 finish; check after it. `scripts/a13_edge_check.py` (af896ca cell,
+  reports N_eff): edge points, main-peak points, 300 posterior draws, cap scan → rita job 1361532
+  (afterany:1361503) → `diagnostics/a13_edge_check.json`.
+- **Owner 2026-10-06:** fix = variance guard on the rerun, cap chosen from a13_edge_check's scan
+  (smallest cap that removes the edge clump and cuts ≤ 1% of the main-mode draws); Δμ_χ box stays
+  [−0.05, 0.30]. The rerun of seed 1 waits for the check and the owner's go.
+- **2026-10-06 12:23 SEED 1 FINISHED** (rita 1361503; core bf58aa6; unif to it 2885, rslice after):
+  logZ −4303.18 ± 0.33, 5,604 it, 753,243 calls (0.28 s/call → ~59 GPU-h total, ~46 of them in the
+  unif stalls), 4,364 −inf (guard floor), 5,804 equal-weight samples, ESS 1,570. 90% (5/50/95):
+  H0 64.99/67.51/69.63; f 0.184/0.263/0.330; μ_G 34.95/35.64/36.30; Δμ_G 2.79/4.29/5.99;
+  μ_χ −0.025/−0.011/0.006; Δμ_χ 0.122/0.159/0.199; σ_G 4.30/4.81/5.24; σ_χ 0.068/0.082/0.099.
+  The Δμ_χ edge clump survived: 3.3% of the weight at 0.28–0.30 (nothing in 0.23–0.28), H0 there
+  69.8/70.6/72.2, and the run's max logL −4277.01 sits in it (6.3 nats above the main mode's best,
+  −4283.26). Main mode alone: H0 64.96/67.44/69.15. Edge check 1361532 next.
+- **2026-10-06 13:10 figures + cost.** `scripts/make_figures.py` → `figs/fig_13_marginals.{pdf,png}`
+  (eight marginals vs 11D, 90% strips; 24/24 drawn values match the JSON) and
+  `figs/fig_13_edge.{pdf,png}` (Δμ_χ–H0 plane, 90% region + the edge clump). A11 REPORT §11 now
+  carries the measured cost (753k calls ≈ 59 GPU-h; rslice from the start ≈ 25–30 GPU-h; 50
+  realisations ≈ 1,250–1,500 GPU-h). Edge check 1361532 PENDING (Resources): rita's GPUs are held
+  by phase12u 1361525 and rita-darksirens 1361294 (other sessions).
+- **2026-10-07 07:40 edge check DONE** (rita 1361532, 1 h 31 min; `diagnostics/a13_edge_check.json`, af896ca cell,
+  points from the finished seed-1 results). The edge clump's best points sit at **N_eff ≈ 5,000 — exactly
+  the 5·N_obs floor, the only guard active** (σ²_sel ≈ 200, σ ≈ 14 nats); 203 of 893 points with
+  Δμ_χ > 0.26 are −inf (the floor). Main-mode peak: σ²_sel 3.1–3.8. 300 posterior draws: main-mode
+  σ²_sel 2.6/3.7/5.5 (5/50/95%), max 10.8; the 7 clump draws all ≥ 183. Cap scan on the draws:
+  cap 5 cuts 37 (12%, main mode); cap 10 cuts the 7 clump draws + 1 main draw (Δμ_χ 0.206; 0.34% of
+  the main mode); caps 20–100 cut exactly the 7 clump draws and no main draw. By the registered rule
+  (smallest cap removing the clump with ≤ 1% main cut) → **cap 10**; cap 20 is the margin-safe
+  alternative (zero main cut, clump ≥ 183). Side note: af896ca − core logL = +3.86 (max 4.01) at the
+  main peak (an offset; the posterior-level equivalence holds), +4.5 median / up to 11 at the edge.
