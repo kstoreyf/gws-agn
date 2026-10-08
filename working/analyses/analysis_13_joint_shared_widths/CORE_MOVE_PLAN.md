@@ -87,3 +87,12 @@ No single switch explains the +16% all-defaults result on rita; sum of the per-s
 PR #57 all-defaults (twig 1375291): 0.373 s/call vs baseline 0.327/0.319 (+14–17%), 17.9 GB, ≤3.6e-12 → an interaction between switches, not allocator state; reported to darksirens-work (pairwise runs offered, would need owner OK).
 PR #57 all-but-one (twig 1375300): only all-but-pairing_norm is fast (0.306 vs baselines 0.352/0.370, bitwise); every row with pairing_norm auto sits at baseline level → per_point pairing normaliser is the culprit; galaxy_list + missing_density auto + kernel_window auto with per_sample are bitwise and ~13–17% faster (calibration candidate, owner decision; needs a core with PR #57 for galaxy_list, or keep padded).
 Profiles (twig 1375337, diagnostics/profile_pr57/, ~150 MB, not for git): A all-defaults 0.357 vs B per_sample 0.310 s/call with equal flops/bytes. Our driver's jax.jit(b.__call__) embeds the data as constants (generated_code ≈ 12.5 GB) — possible efficiency item (BoundAnalysis already jits; as_pytree_callable passes data as arguments); not changed for the running rerun.
+
+## Core main 6a54da7 (#57 + #58 merged) on rita A100-80, job 1375793 (2026-10-07)
+
+historical 0.2800 / 0.2792 s/call (bitwise to seed 1); **all defaults 0.2647 / 0.2643 (−5.4%, logL ≤ 3.6e-12,
+peak 17.9 GB at the default cap)**; defaults + per_sample 0.2764 (−1.2%, bitwise); historical called as
+bound(theta) 0.2806 and through as_pytree_callable 0.2794 (bitwise; the driver's jax.jit wrapper costs
+only compile time: first call 63–78 s vs 16–17 s). Options for calibration (owner): stay on e7c3007
+historical; or 6a54da7 with all defaults (5% faster, values differ at 1e-12); the (b)/(c) gains seen on
+twig's A100-40 (13–17%) do not carry over to rita's card (1%).

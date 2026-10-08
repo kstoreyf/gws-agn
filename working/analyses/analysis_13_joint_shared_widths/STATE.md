@@ -140,3 +140,9 @@ not resumed.
   its checkpoint (it ≈ 3,324, dlogz ≈ 1.0, logZ ≈ −4303.27; durable copy `*.durable_20261007_2221*_pretiming`).
   Timing = rita 1375793 (none, all, all_but_pairing_norm, none@direct, none@pytree, all, none on 6a54da7);
   **rerun resume = rita 1375794** (afterany the timing job; same command, resumes from the checkpoint).
+- **2026-10-07 22:35 owner: KEEP THE RERUN PAUSED** (rita needed for something urgent). Resume job
+  1375794 cancelled; nothing of A13 is queued on rita except the timing job 1375793 (finishing).
+  Checkpoint `queue/a13core_e7c3007_rslice_cap20_historical_n200_s1.save` (it ≈ 3,324, dlogz ≈ 1.0) +
+  durable copy. To resume, ONLY on the owner's word:
+  `sbatch --export=ALL,SEED=1,A13_CORE=e7c3007,A13_ARGS="--sample rslice --max-var 20" scripts/submit_a13core_gpu.sbatch`
+- **2026-10-07 23:11 owner: rerun re-queued on rita = job 1375848** (resumes from the it≈3324 checkpoint).
