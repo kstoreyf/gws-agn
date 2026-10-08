@@ -1,0 +1,31 @@
+{
+  "core": "e7c3007",
+  "switch": "pairing_norm",
+  "catalog_evaluation": {
+    "kernel_layout": "padded",
+    "missing_density": "grid",
+    "kernel_window": "1e-10",
+    "pairing_norm": "auto",
+    "pairing_scale": "analytic"
+  },
+  "device": "NVIDIA A100-SXM4-40GB",
+  "build_seconds": 50.12213945388794,
+  "first_call_seconds": 74.86866211891174,
+  "n_timed": 100,
+  "seconds_per_call_median": 0.3490018844604492,
+  "seconds_per_call_p10_p90": [
+    0.34813110828399657,
+    0.3496937036514282
+  ],
+  "dlogL_vs_seed1": {
+    "max_abs": 3.637978807091713e-12,
+    "mean": -3.092281986027956e-13,
+    "sd": 1.2351728307377897e-12,
+    "n_bitwise": 60
+  },
+  "device_memory": {
+    "peak_bytes_in_use": 17257236992,
+    "bytes_limit": 31723339776
+  },
+  "slurm_job_id": "1375255"
+}

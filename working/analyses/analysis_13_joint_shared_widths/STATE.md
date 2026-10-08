@@ -118,3 +118,25 @@ not resumed.
   (smallest cap removing the clump with ≤ 1% main cut) → **cap 10**; cap 20 is the margin-safe
   alternative (zero main cut, clump ≥ 183). Side note: af896ca − core logL = +3.86 (max 4.01) at the
   main peak (an offset; the posterior-level equivalence holds), +4.5 median / up to 11 at the edge.
+- **2026-10-07 owner: rerun seed 1 with max_likelihood_variance 20, rslice from the start, on core
+  e7c3007 after the core-move check** (pushed 22db0c0: results, figures, edge check, §11 cost).
+  Core e7c3007: worktree `src/darksirens-core-e7c3007` + venv `envs/darksirens-core-e7c3007` (editable,
+  same pattern as bf58aa6; no pyproject changes). Driver options (defaults reproduce seed 1):
+  `A13_CORE`, `--sample`, `--max-var` (sampling only; pre-flight at 1e6), `--settings historical|defaults`;
+  non-default runs get the tag `a13core_<core>_<sample>_cap<X>_<settings>_n200_s<seed>`. The run sbatch
+  takes `A13_CORE` and `A13_ARGS`. Check `scripts/a13_core_move_check.py` via
+  `submit_a13_core_move_check.sbatch` → rita 1375152 → `diagnostics/a13_core_move_e7c3007_{historical,defaults}.json`.
+- **2026-10-07 guarded rerun RUNNING: rita 1375189** — seed 1, core e7c3007, historical settings,
+  rslice from the start, max_likelihood_variance 20 (tag `a13core_e7c3007_rslice_cap20_historical_n200_s1`);
+  pre-flight 4/4 |d| = 0, build 50 s. Resubmit to resume:
+  `sbatch --export=ALL,SEED=1,A13_CORE=e7c3007,A13_ARGS="--sample rslice --max-var 20" scripts/submit_a13core_gpu.sbatch`.
+  Core-move results in CORE_MOVE_PLAN.md (historical bitwise; #52 defaults slower, 47.9 GB).
+- **2026-10-07 core work for darksirens-work** (details in CORE_MOVE_PLAN.md): e7c3007 historical = bitwise
+  to seed 1; the #52 defaults were slower because of the per-point pairing table (core #58) and OOMed in the
+  galaxy-list build (core #57); both merged, core main 6a54da7 (worktree + venv built, diagnostic only).
+  Scripts: `a13_core_move_check.py`, `a13_core_timing.py` (+ `@direct` / `@pytree` call modes),
+  `a13_core_profile.py`; twig/rita sbatch files. `diagnostics/profile_pr57/` (150 MB) is not in git.
+- **2026-10-07 22:21 owner: pause the rerun for the 6a54da7 timing.** Rerun 1375189 cancelled 8 s after
+  its checkpoint (it ≈ 3,324, dlogz ≈ 1.0, logZ ≈ −4303.27; durable copy `*.durable_20261007_2221*_pretiming`).
+  Timing = rita 1375793 (none, all, all_but_pairing_norm, none@direct, none@pytree, all, none on 6a54da7);
+  **rerun resume = rita 1375794** (afterany the timing job; same command, resumes from the checkpoint).

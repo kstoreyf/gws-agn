@@ -24,6 +24,16 @@ bound after 2 nlive calls, dlogz 0.1, -inf -> -1e300, checkpoint every 900 s, re
 
 Pre-flight: at sigma_G = 5, sigma_chi = 0.1 the likelihood must reproduce the core A11 cells
 already measured on this commit (results/core_bf58aa6_a11_cells.json) to 1e-8, or the run stops.
+
+Options added 2026-10-06/07 (the defaults reproduce seed 1's run and file names exactly):
+  A13_CORE (env, default bf58aa6)  the core commit; the darksirens import must come from
+                                   src/darksirens-core-<sha> (envs/darksirens-core-<sha>/bin/python)
+  --sample rslice                  rslice from the start (slices 3 + ndim, enlarge 1.25, no bootstrap)
+  --max-var X                      max_likelihood_variance for SAMPLING (default 1e6 = only the
+                                   5 N_obs floor); the pre-flight always runs at 1e6. Owner 2026-10-07:
+                                   20 removes the seed-1 edge clump (diagnostics/a13_edge_check.json)
+  --settings defaults              core's #52 speed defaults instead of the historical evaluation
+                                   (the pre-flight then compares within 1e-6, not 1e-8)
 """
 import argparse
 import json
@@ -43,6 +53,7 @@ REF_CELLS = Path(os.environ.get("A13_REF_CELLS", EXP / "results" / "core_bf58aa6
 BOX = [("H0", 60.0, 76.0), ("f_agn", 0.0, 1.0), ("mu_G", 31.0, 39.0), ("dmu_G", -4.0, 10.0),
        ("mu_chi", -0.10, 0.10), ("dmu_chi", -0.05, 0.30), ("sigma_G", 1.0, 10.0),
        ("sigma_chi", 0.01, 1.0)]
+CORE = os.environ.get("A13_CORE", "bf58aa6")
 MU_G, MU_CHI = r"$\mu_{\rm G}$", r"$\mu_\chi$"
 SIG_G, SIG_CHI = r"$\sigma_{\rm G}$", r"$\sigma_\chi$"
 
@@ -60,22 +71,29 @@ def summarise(s, names):
     return out
 
 
-def build():
+def build(settings_mode="historical"):
     import darksirens as ds
     from darksirens.runtime_binding import bind_analysis
     from darksirens.catalog import settings as cs
-    if "darksirens-core-bf58aa6" not in ds.__file__:
-        sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core bf58aa6")
-    # layout-only opt-ins for small GPUs (the 20 GB js2a100 vGPU): same arithmetic per galaxy,
-    # held to the rita reference cells by the pre-flight below
-    cs.configure_catalog_evaluation(kernel_window=1e-10,
-                                    kernel_layout=os.environ.get("A13_KERNEL_LAYOUT", "padded"),
-                                    missing_density=os.environ.get("A13_MISSING_DENSITY", "grid"))
-    # The population pairing normaliser, explicit too: core's default moves from
-    # per_sample to per_point (darksirens-core #52, up to ~1e-7 in logL). These are
-    # the settings the A11 validation ran with.
+    if f"darksirens-core-{CORE}" not in ds.__file__:
+        sys.exit(f"[fatal] darksirens imported from {ds.__file__}, not core {CORE}")
     from darksirens.population.utils import configure_normalization_grids
-    ng = configure_normalization_grids(pairing_norm="per_sample", pairing_scale="analytic")
+    if settings_mode == "historical":
+        # layout-only opt-ins for small GPUs (the 20 GB js2a100 vGPU): same arithmetic per galaxy,
+        # held to the rita reference cells by the pre-flight below
+        cs.configure_catalog_evaluation(kernel_window=1e-10,
+                                        kernel_layout=os.environ.get("A13_KERNEL_LAYOUT", "padded"),
+                                        missing_density=os.environ.get("A13_MISSING_DENSITY", "grid"))
+        # The population pairing normaliser, explicit too: core's default moves from
+        # per_sample to per_point (darksirens-core #52, up to ~1e-7 in logL). These are
+        # the settings the A11 validation ran with.
+        ng = configure_normalization_grids(pairing_norm="per_sample", pairing_scale="analytic")
+    elif settings_mode == "defaults":
+        if CORE == "bf58aa6":
+            sys.exit("[fatal] --settings defaults needs a core with #52 (e7c3007 or later)")
+        ng = configure_normalization_grids()
+    else:
+        sys.exit(f"[fatal] unknown settings mode {settings_mode}")
     st = cs.catalog_evaluation_settings()
     settings = {k: str(getattr(st, k)) for k in st.__dataclass_fields__}
     settings.update({"pairing_norm": str(getattr(ng, "pairing_norm", "per_sample")),
@@ -111,6 +129,9 @@ def main():
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--nlive", type=int, default=200)
     ap.add_argument("--dlogz", type=float, default=0.1)
+    ap.add_argument("--sample", choices=["unif", "rslice"], default="unif")
+    ap.add_argument("--max-var", type=float, default=1e6)
+    ap.add_argument("--settings", choices=["historical", "defaults"], default="historical")
     ap.add_argument("--resume-sample", choices=["rslice"], default=None,
                     help="on resume, switch the proposal (owner 2026-10-05: rslice after the unif stalls)")
     args = ap.parse_args()
@@ -119,17 +140,17 @@ def main():
     import jax.numpy as jnp
     import dynesty
     t0 = time.time()
-    ds, b, settings = build()
+    ds, b, settings = build(args.settings)
     labels = list(b.labels)
     names = [n for n, _, _ in BOX]
     print(f"[a13core] labels {labels}  build {time.time() - t0:.1f}s", flush=True)
-    jb = jax.jit(b.__call__)
+    jb_now = [jax.jit(b.__call__)]
 
     def ll_abs(vals):
         missing = [l for l in labels if l not in vals]
         if missing:
             sys.exit(f"[fatal] no value for core label(s) {missing}")
-        return float(jb(jnp.asarray([vals[l] for l in labels], dtype=jnp.float64)))
+        return float(jb_now[0](jnp.asarray([vals[l] for l in labels], dtype=jnp.float64)))
 
     # pre-flight against the validated core A11 cells (widths at their fiducials)
     ref = json.loads(REF_CELLS.read_text())
@@ -139,9 +160,14 @@ def main():
                              5.0, 0.1]))
         pre.append({"cell": r["name"], "a13core": v, "core_a11": r["logL"], "abs_diff": abs(v - r["logL"])})
         print(f"[preflight] {r['name']:11s} {v:.10f} vs {r['logL']:.10f}  |d| {abs(v - r['logL']):.2e}", flush=True)
-    if max(p["abs_diff"] for p in pre) > 1e-8:
+    if max(p["abs_diff"] for p in pre) > (1e-8 if args.settings == "historical" else 1e-6):
         sys.exit("[fatal] pre-flight: the joint-width likelihood does not reproduce the core A11 cells")
 
+    if args.max_var != b.max_likelihood_variance:
+        import dataclasses
+        b = dataclasses.replace(b, max_likelihood_variance=args.max_var)
+        jb_now[0] = jax.jit(b.__call__)
+    print(f"[a13core] sampling with max_likelihood_variance {b.max_likelihood_variance:g}", flush=True)
     lo = np.array([a for _, a, _ in BOX]); hi = np.array([c for _, _, c in BOX])
     cnt = {"n": 0, "t": 0.0, "neginf": 0}
 
@@ -161,6 +187,9 @@ def main():
     from darksirens.inference.dynesty_checkpoint import (install_dynesty_checkpointing,
                                                          restore_dynesty_sampler)
     tag = f"a13core_dynesty_n{args.nlive}_s{args.seed}"
+    if (CORE, args.sample, args.max_var, args.settings) != ("bf58aa6", "unif", 1e6, "historical"):
+        tag = (f"a13core_{CORE}_{args.sample}_cap{args.max_var:g}_{args.settings}"
+               f"_n{args.nlive}_s{args.seed}")
     ckpt = A13 / "queue" / f"{tag}.save"
     switch_log = A13 / "queue" / f"{tag}.sampler_switch.json"
     (A13 / "queue").mkdir(exist_ok=True); (A13 / "results").mkdir(exist_ok=True)
@@ -180,7 +209,7 @@ def main():
                      checkpoint_file=str(ckpt), checkpoint_every=900)
     else:
         s = dynesty.NestedSampler(loglike, ptform, len(BOX), nlive=args.nlive, bound="multi",
-                                  sample="unif", rstate=np.random.default_rng(args.seed),
+                                  sample=args.sample, rstate=np.random.default_rng(args.seed),
                                   first_update={"min_ncall": 2 * args.nlive, "min_eff": 100.0})
         install_dynesty_checkpointing(s)
         s.run_nested(dlogz=args.dlogz, print_progress=True, checkpoint_file=str(ckpt),
@@ -198,7 +227,8 @@ def main():
     import pickle
     with open(A13 / "queue" / f"{tag}.results.pkl", "wb") as fh:
         pickle.dump(res, fh)
-    out = {"tag": tag, "problem": "13", "engine": "dynesty", "code": "darksirens-core bf58aa6 (post-#54 mixture fix; last commit before the #52 default changes)",
+    out = {"tag": tag, "problem": "13", "engine": "dynesty", "code": f"darksirens-core {CORE}",
+           "sample": args.sample, "max_likelihood_variance": args.max_var, "settings_mode": args.settings,
            "darksirens_file": ds.__file__, "catalog_evaluation": settings, "gamma_used": 0.0,
            "nlive": args.nlive, "seed": args.seed, "names": names, "box": BOX,
            "core_labels": labels, "preflight": pre, "logZ": float(res.logz[-1]),

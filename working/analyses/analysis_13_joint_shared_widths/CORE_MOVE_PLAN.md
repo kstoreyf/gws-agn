@@ -58,3 +58,32 @@ The checks wait for the owner's review of seed 1 — they do not auto-run.
 - Target: **e7c3007** (as planned), not 5fa48a3.
 - New #52 defaults: decide after timing them on the A100 in check 2.
 - The checks run only after the owner has reviewed seed 1.
+
+## Results (2026-10-07, core e7c3007, rita A100-80)
+
+| check | result |
+|---|---|
+| 1 historical settings vs seed 1 (bf58aa6) | **PASS, bitwise**: 4/4 cells, 500/500 posterior points, 20/20 edge points |d| = 0; 6/6 guard rejections hold; 0.280 s/call; peak 17.3 GB (`diagnostics/a13_core_move_e7c3007_historical.json`, job 1375152) |
+| 2 #52 defaults vs seed 1 | logL within 3.6e-12 (sd 1.2e-12; 317/500 bitwise); 6/6 rejections hold; **0.324 s/call (16% SLOWER)**; peak **47.9 GB**; the build OOMs at JAX's default 75% cap (one 30.4 GB buffer) and needs XLA_PYTHON_CLIENT_MEM_FRACTION=0.95 (`..._defaults.json`, job 1375182) |
+
+The defaults buy nothing for A13 (slower, 2.8x the memory, needs a raised cap); the historical
+settings on e7c3007 are the same program as bf58aa6.
+
+## Per-switch timing (2026-10-07, darksirens-work request; twig A100-SXM4-40GB, jobs 1375238 + 1375255)
+
+Historical settings with ONE #52 default switched on, 100 posterior points each, peak 17.3 GB throughout:
+baseline 0.331/0.336/0.332 s/call (bitwise); pairing_norm auto 0.346/0.346/0.349 (+4–5%, logL
+≤ 3.6e-12); missing_density auto 0.302/0.308 (−8–9%, bitwise); kernel_window auto 0.303/0.314 (−6–9%,
+bitwise); kernel_layout galaxy_list not run (~48 GB build). So galaxy_list carries the all-defaults
+slowdown; missing_density + kernel_window auto are bitwise and faster — a candidate for calibration
+(owner decision). darksirens-work is fixing the galaxy-list build memory (chunked loop).
+
+## PR #57 (fix/galaxy-list-gpu-memory @ a8f104c) timing, twig job 1375275
+
+Own worktree `src/darksirens-core-pr57` + venv `envs/darksirens-core-pr57` (diagnostic only; A13
+stays on e7c3007). Default 75% cap. baseline 0.328 / 0.353 s/call (first/last); galaxy_list 0.334,
+peak 17.9 GB, bitwise (the fix works, no slowdown); kernel_pin off 0.861 (2.6×), ≤ 3.6e-12.
+No single switch explains the +16% all-defaults result on rita; sum of the per-switch effects ≈ −10%.
+PR #57 all-defaults (twig 1375291): 0.373 s/call vs baseline 0.327/0.319 (+14–17%), 17.9 GB, ≤3.6e-12 → an interaction between switches, not allocator state; reported to darksirens-work (pairwise runs offered, would need owner OK).
+PR #57 all-but-one (twig 1375300): only all-but-pairing_norm is fast (0.306 vs baselines 0.352/0.370, bitwise); every row with pairing_norm auto sits at baseline level → per_point pairing normaliser is the culprit; galaxy_list + missing_density auto + kernel_window auto with per_sample are bitwise and ~13–17% faster (calibration candidate, owner decision; needs a core with PR #57 for galaxy_list, or keep padded).
+Profiles (twig 1375337, diagnostics/profile_pr57/, ~150 MB, not for git): A all-defaults 0.357 vs B per_sample 0.310 s/call with equal flops/bytes. Our driver's jax.jit(b.__call__) embeds the data as constants (generated_code ≈ 12.5 GB) — possible efficiency item (BoundAnalysis already jits; as_pytree_callable passes data as arguments); not changed for the running rerun.
