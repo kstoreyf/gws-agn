@@ -146,3 +146,12 @@ not resumed.
   durable copy. To resume, ONLY on the owner's word:
   `sbatch --export=ALL,SEED=1,A13_CORE=e7c3007,A13_ARGS="--sample rslice --max-var 20" scripts/submit_a13core_gpu.sbatch`
 - **2026-10-07 23:11 owner: rerun re-queued on rita = job 1375848** (resumes from the it≈3324 checkpoint).
+- **2026-10-08 01:57 GUARDED RERUN FINISHED** (rita 1375189 → 1375848; seed 1, core e7c3007, historical
+  settings, rslice from the start, max_likelihood_variance 20; `results/a13core_e7c3007_rslice_cap20_historical_n200_s1.{json,npz}`):
+  logZ −4302.90 ± 0.33 (unguarded −4303.18 ± 0.33), 3,898 it, 227,836 calls ≈ 18 GPU-h (unguarded: 753k),
+  4,098 equal-weight samples, ESS 1,463. **The Δμ_χ edge clump is gone**: max Δμ_χ 0.236, nothing above 0.24.
+  90% (5/50/95): H0 65.02/67.42/69.16; f 0.199/0.263/0.333; μ_G 35.02/35.66/36.25; Δμ_G 2.67/4.17/5.57;
+  μ_χ −0.026/−0.011/0.003; Δμ_χ 0.121/0.158/0.191; σ_G 4.41/4.83/5.27; σ_χ 0.069/0.082/0.096.
+  Against the unguarded run's main mode (Δμ_χ < 0.24): every median within 0.09 sd, KS ≤ 0.049.
+  Figures re-rendered on the guarded run (24/24 drawn values match the JSON); fig_13_edge shows the
+  unguarded clump as points. Seed 2, the calibration core/settings and calibration wait for the owner.

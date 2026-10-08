@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 """Analysis 13 figures, deterministic, from results/ only.
 
-    fig_13_marginals  the eight marginals of seed 1 (both shared widths free), against 11D
-                      (widths fixed at 5 Msun and 0.1) where 11D samples the parameter;
-                      90% intervals as strips under each panel, planted values in ink.
-    fig_13_edge       the (Delta mu_chi, H0) plane: 90% HPD region of seed 1, with the
-                      samples of the clump at the Delta mu_chi = 0.30 prior edge drawn as points.
+    fig_13_marginals  the eight marginals of seed 1 with the selection-variance guard (both shared
+                      widths free), against 11D (widths fixed at 5 Msun and 0.1) where 11D samples
+                      the parameter; 90% intervals as strips under each panel, planted values in ink.
+    fig_13_edge       the (Delta mu_chi, H0) plane: 90% HPD region of the guarded run, with the
+                      samples of the unguarded run's clump at the Delta mu_chi = 0.30 prior edge
+                      drawn as points (selection Monte-Carlo noise at the N_eff floor).
+
+RUN is the guarded run (max_likelihood_variance 20, core e7c3007, rslice); UNGUARDED is the first
+seed-1 run (only the 5 N_obs floor), which supplies the clump points.
 
 Every drawn median / 90% end is diffed against its JSON (``check``). All plotted intervals
 and regions are 90%. Colours from ../../paper/scripts/figstyle.py: Analysis 13 = blue,
@@ -34,7 +38,8 @@ import figstyle as fs  # noqa: E402
 
 fs.use()
 C13, C11, CEDGE = fs.C["blue"], fs.C["aqua"], fs.C["orange"]
-RUN = "a13core_dynesty_n200_s1"
+RUN = "a13core_e7c3007_rslice_cap20_historical_n200_s1"
+UNGUARDED = "a13core_dynesty_n200_s1"
 EDGE = 0.26          # Delta mu_chi above which a sample belongs to the edge clump (none in 0.23-0.28)
 NAMES = ("H0", "f_agn", "mu_G", "dmu_G", "mu_chi", "dmu_chi", "sigma_G", "sigma_chi")
 TRUTH = {"H0": fs.H0_TRUTH, "f_agn": 0.30, "mu_G": 35.0, "dmu_G": 5.0, "mu_chi": 0.0,
@@ -116,7 +121,7 @@ def marginals(js, col, neff, j11, c11, n11):
         ax.set_xlabel(LABEL[n], fontsize=7.5)
         ax.xaxis.set_major_locator(MaxNLocator(4))
         ax.tick_params(labelsize=6.5)
-    fig.legend(handles=[Line2D([], [], color=C13, lw=1.5, label="Analysis 13, seed 1: both widths free"),
+    fig.legend(handles=[Line2D([], [], color=C13, lw=1.5, label="Analysis 13: both widths free"),
                         Line2D([], [], color=C11, lw=1.4, label="11D: widths fixed"),
                         Line2D([], [], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), label="planted"),
                         Line2D([], [], color=fs.MUTED, lw=0.9, label="prior edge")],
@@ -124,12 +129,14 @@ def marginals(js, col, neff, j11, c11, n11):
     return fig
 
 
-def edge_plane(js, col, neff):
+def edge_plane(js, col, neff, colu):
     box = {b[0]: (b[1], b[2]) for b in js["box"]}
     x, y = col["dmu_chi"], col["H0"]
-    clump = x > EDGE
+    xu, yu = colu["dmu_chi"], colu["H0"]
+    clump = xu > EDGE
     frac = float(clump.mean())
-    print(f"      edge clump: {clump.sum()} of {len(x)} equal-weight samples ({frac:.4f})")
+    print(f"      unguarded edge clump: {clump.sum()} of {len(xu)} equal-weight samples ({frac:.4f}); "
+          f"guarded run above {EDGE}: {int((x > EDGE).sum())}, max {x.max():.4f}")
     fig, ax = plt.subplots(figsize=(fs.ONECOL, 2.7))
     gx = np.linspace(box["dmu_chi"][0], box["dmu_chi"][1], 200)
     gy = np.linspace(60.0, 76.0, 200)
@@ -137,15 +144,15 @@ def edge_plane(js, col, neff):
     l90 = hpd90(P)
     ax.contourf(gx, gy, P.T, levels=[l90, P.max() * 1.01], colors=[C13], alpha=0.22)
     ax.contour(gx, gy, P.T, levels=[l90], colors=C13, linewidths=1.3)
-    ax.scatter(x[clump], y[clump], s=3, color=CEDGE, lw=0, alpha=0.6, zorder=3)
+    ax.scatter(xu[clump], yu[clump], s=3, color=CEDGE, lw=0, alpha=0.6, zorder=3)
     ax.axvline(TRUTH["dmu_chi"], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
     ax.axhline(TRUTH["H0"], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), alpha=0.75)
     ax.axvline(box["dmu_chi"][1], color=fs.MUTED, lw=0.9)
     ax.set_xlim(0.0, box["dmu_chi"][1] + 0.01); ax.set_ylim(61.0, 75.0)
     ax.set_xlabel(LABEL["dmu_chi"]); ax.set_ylabel(LABEL["H0"])
-    ax.legend(handles=[Line2D([], [], color=C13, lw=1.3, label="90% region"),
+    ax.legend(handles=[Line2D([], [], color=C13, lw=1.3, label="90% region, guarded"),
                        Line2D([], [], color=CEDGE, marker="o", ls="", ms=2.5,
-                              label=f"edge clump ({100 * frac:.1f}% of samples)"),
+                              label=f"unguarded: edge clump ({100 * frac:.1f}%)"),
                        Line2D([], [], color=fs.TRUTH, lw=0.8, ls=(0, (3, 2)), label="planted")],
               fontsize=5.8, frameon=True, framealpha=1.0, edgecolor="none", loc="upper left")
     return fig
@@ -153,14 +160,15 @@ def edge_plane(js, col, neff):
 
 def main():
     if not (RESULTS / f"{RUN}.json").exists():
-        print("[skip] seed 1 not finished")
+        print("[skip] the guarded run has not finished")
         return
     js, col, neff = load(RESULTS / RUN)
+    _, colu, _ = load(RESULTS / UNGUARDED)
     j11, c11, n11 = load(A11_RESULTS / "a11_11D")
     print(f"[{RUN}]  Kish n_eff {neff:.0f}")
     FIGS.mkdir(exist_ok=True)
     for name, fig in (("fig_13_marginals", marginals(js, col, neff, j11, c11, n11)),
-                      ("fig_13_edge", edge_plane(js, col, neff))):
+                      ("fig_13_edge", edge_plane(js, col, neff, colu))):
         for ext, kw in (("pdf", {}), ("png", {"dpi": 300})):
             fig.savefig(FIGS / f"{name}.{ext}", **kw)
             print(f"    wrote figs/{name}.{ext}")
