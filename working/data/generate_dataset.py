@@ -65,6 +65,20 @@ block declared ``dz = 3e-3 (1+z)`` on redshifts copied bit-for-bit from the cata
 the hosts were drawn from -- a kernel on redshifts carrying no error at all, and a
 7.6 sigma ``(A - B)`` violation (CLOSURE.md 15.4).  Gated by validation V9.
 
+THE POPULATION CODE  (--population_code, 2026-11-17)  --  see working/data/corepop/
+===============================================================================
+``legacy`` (the default, the record) draws masses and spins with the samplers of
+legacy darksirens 2b86a2d, whose Gaussian-peak lanes pair their secondary against the
+quadrature floor ``(m_min, dm) = (1, 0.01)``.  darksirens-core e7c3007 pairs EVERY
+component against the power law's low-mass edge ``(m_min, dm_min) = (5, 3)``
+(``MixtureModel._low_mass_edge``), so it gives zero density below 5 Msun in m2 and
+tapers to 8 Msun; everything else in its powerlaw+peak density -- primary-mass
+mixture, q**beta pairing, truncated-Gaussian chi_eff, (1+z)**(gamma-1) -- is the
+legacy draw's.  ``core`` keeps the legacy draw and moves only q|m1 onto core's
+pairing by an exact coupled rejection (``core_pairing_correction``) on its own child
+RNG stream, so the main stream (hosts, m1, chi_eff, measurement noise, PE) is consumed
+exactly as in the legacy draw and the default path is bit-identical.
+
 THE THREE NON-NEGOTIABLE CONVENTIONS
 ====================================
 These are the campaign's three hard-won lessons.  Each was a measured, multi-sigma
@@ -368,7 +382,20 @@ TGT_Z_CAP = 0.50          # upper cap on the box (draws above it are never detec
 
 DARKSIRENS_REPO = Path("/hildafs/projects/phy230014p/magana/src/darksirens")
 
-STAGES = ("catalogs", "events", "surveys", "injections", "validation")
+# --- the population code the events stage draws from (see the docstring) ---------
+# "core" reproduces darksirens-core's powerlaw+peak density in closed form (no core
+# import: core and legacy darksirens cannot share one process).  CORE_POP_COMMIT is
+# the commit that closed form was checked against (working/data/corepop/README.md);
+# the events stage refuses to run "core" unless --core_darksirens is at that commit.
+POPULATION_CODE_DEFAULT = "legacy"
+CORE_DARKSIRENS_REPO = Path(
+    "/hildafs/projects/phy230014p/magana/src/darksirens-core-e7c3007")
+CORE_POP_COMMIT = "e7c3007c659205cf4d55279c8e016014c57aa9b3"
+CORE_SFILTER_EXPO_CAP = 130.0         # core population/utils._sfilter_expo_cap (float64)
+CORE_SFILTER_DELTA_FLOOR = 1.0e-140   # core population/utils._SFILTER_DELTA_FLOOR
+CORE_PAIR_MAX_ITER = 10_000           # redraw loop cap (it never comes near it)
+
+STAGES =("catalogs", "events", "surveys", "injections", "validation")
 TRACERS = ("gal", "agn")
 
 
@@ -952,6 +979,135 @@ def p_pe_v3(m1det, q, dL, mc_det=None):
 
 
 # ================================================================================
+# the source population: the legacy draw and the core route  (--population_code)
+# ================================================================================
+def core_sfilter_low(m, m_min, dm):
+    """float64 numpy mirror of darksirens-core e7c3007 ``population.utils.sfilter_low``.
+
+    The same Planck taper as legacy gmd ``_sfilter_low``; core clips the exponent at
+    130 (legacy 500) and floors the window distance at 1e-140, so the two differ only
+    where S < exp(-130), i.e. within 0.0076 dm of ``m_min``."""
+    m = np.asarray(m, dtype=float)
+    m_min = np.asarray(m_min, dtype=float)
+    dm = np.asarray(dm, dtype=float)
+    delta = m - m_min
+    safe_d = np.where(delta > 0.0, np.maximum(delta, CORE_SFILTER_DELTA_FLOOR), 1.0)
+    safe_dm = np.where(dm > 0.0, dm, 1.0)
+    x = safe_d - safe_dm
+    mag = np.maximum(np.abs(x), CORE_SFILTER_DELTA_FLOOR)
+    x_f = np.where(x < 0.0, -mag, mag)
+    with np.errstate(over="ignore", divide="ignore", invalid="ignore"):
+        expo = np.clip(safe_dm / safe_d + safe_dm / x_f,
+                       -CORE_SFILTER_EXPO_CAP, CORE_SFILTER_EXPO_CAP)
+        s = 1.0 / (np.exp(expo) + 1.0)
+    s = np.where(m <= m_min, 0.0, s)
+    return np.where(m >= m_min + dm, 1.0, s)
+
+
+def new_core_tally():
+    """Per-proposal bookkeeping of the core route (stored in the events metadata)."""
+    return {"n_lanes": 0, "n_peak_lanes": 0, "n_q_kept": 0, "n_q_redrawn": 0,
+            "n_excluded_m1_le_mmin": 0, "n_unresolved_after_max_iter": 0,
+            "n_excluded_chieff_outside_pm1": 0, "max_redraw_iterations": 0}
+
+
+def core_pairing_correction(rng_c, gmd, m1, q_leg, use_peak, pop, tally=None,
+                            max_iter=CORE_PAIR_MAX_ITER):
+    """Move a legacy ``q | m1`` draw onto darksirens-core's pairing, exactly.
+
+    Legacy pairs each lane with its component's floor: power-law lanes
+    ``(pop.mmin, pop.dm_min)``, Gaussian-peak lanes ``(gmd._PAIR_M_LO, gmd._PAIR_DM)
+    = (1, 0.01)``; both draw ``q ~ q**beta S_lane(q m1)`` on ``(m_lo/m1, 1]``.  Core
+    pairs EVERY lane with ``(pop.mmin, pop.dm_min)``.  Since ``S_core <= S_lane``
+    wherever legacy can draw, ``r = S_core(m2)/S_lane(m2) <= 1`` and
+
+      * keep the legacy q with probability r (one uniform per lane), else
+      * redraw q from core's pairing by rejection (``q**beta`` on ``[mmin/m1, 1]``
+        proposed by ``gmd._sample_q_hard``, accepted with ``S_core``),
+
+    which gives ``q ~ q**beta S_core(q m1) / N(m1)`` exactly, for every m1.  Power-law
+    lanes have r = 1 and are never touched.  ``m1 <= pop.mmin`` has no core support
+    (zero density); such lanes are returned with ``in_support = False`` and the caller
+    must drop them.  All draws come from ``rng_c`` (a child stream).
+
+    Returns ``(q, in_support, redrawn)``."""
+    m1 = np.asarray(m1, dtype=float)
+    q_leg = np.asarray(q_leg, dtype=float)
+    use_peak = np.asarray(use_peak, dtype=bool)
+    n = m1.size
+    m2 = q_leg * m1
+    s_core = core_sfilter_low(m2, pop.mmin, pop.dm_min)
+    s_lane = gmd._sfilter_low(m2, np.where(use_peak, gmd._PAIR_M_LO, pop.mmin),
+                              np.where(use_peak, gmd._PAIR_DM, pop.dm_min))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        r = np.where(s_lane > 0.0,
+                     np.minimum(s_core / np.where(s_lane > 0.0, s_lane, 1.0), 1.0), 0.0)
+    keep = rng_c.uniform(size=n) < r
+    support = m1 > pop.mmin
+    q = q_leg.copy()
+    todo = support & ~keep
+    it = 0
+    while todo.any() and it < max_iter:
+        idx = np.flatnonzero(todo)
+        cand = gmd._sample_q_hard(rng_c, m1[idx], pop, m_min=pop.mmin)
+        acc = rng_c.uniform(size=idx.size) < core_sfilter_low(cand * m1[idx], pop.mmin,
+                                                              pop.dm_min)
+        q[idx[acc]] = cand[acc]
+        todo[idx[acc]] = False
+        it += 1
+    redrawn = support & ~keep & ~todo
+    in_support = keep | redrawn
+    if tally is not None:
+        tally["n_lanes"] += n
+        tally["n_peak_lanes"] += int(use_peak.sum())
+        tally["n_q_kept"] += int(keep.sum())
+        tally["n_q_redrawn"] += int(redrawn.sum())
+        tally["n_excluded_m1_le_mmin"] += int((~support).sum())
+        tally["n_unresolved_after_max_iter"] += int(todo.sum())
+        tally["max_redraw_iterations"] = max(tally["max_redraw_iterations"], it)
+    return q, in_support, redrawn
+
+
+def draw_source_population(gmd, rng, n, pop, is_mark, *, dmu_chi=0.0, pop_agn=None,
+                           rng_mass_agn=None, rng_pair_core=None, tally=None):
+    """Source-frame (m1, q, chi_eff) of ``n`` proposals -- the events stage's draw.
+
+    The legacy calls and their order are the record's: primary mass and component
+    flag from ``pop`` on ``rng`` (marked lanes from ``pop_agn`` on ``rng_mass_agn``
+    when ``pop_agn`` is given), ``q`` on ``rng``, ``chi_eff`` on ``rng`` plus
+    ``dmu_chi`` on marked lanes.  With ``rng_pair_core`` (``--population_code core``)
+    the pairing is then moved onto core's by :func:`core_pairing_correction`, on that
+    child stream only, and ``in_core_support`` flags the lanes core gives non-zero
+    density (``m1 > m_min`` and ``|chi_eff| <= 1``); otherwise it is None."""
+    m1, use_peak = gmd._sample_powerlaw_peak_m1(rng, n, pop, return_component=True)
+    if pop_agn is not None:
+        # marked lanes only: redraw the primary and its component flag from pop_agn
+        # on the child stream, then splice by the mark (the main stream above is
+        # consumed identically either way)
+        m1_agn, use_peak_agn = gmd._sample_powerlaw_peak_m1(
+            rng_mass_agn, n, pop_agn, return_component=True)
+        m1 = np.where(is_mark, m1_agn, m1)
+        use_peak = np.where(is_mark, use_peak_agn, use_peak)
+    q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)
+    in_core, redrawn = None, None
+    if rng_pair_core is not None:
+        q, in_core, redrawn = core_pairing_correction(rng_pair_core, gmd, m1, q,
+                                                      use_peak, pop, tally=tally)
+    m2 = q * m1
+    chi = gmd._sample_chieff(rng, n, pop)
+    chi = chi + np.where(is_mark, dmu_chi, 0.0)
+    if in_core is not None:
+        # core's spin density is a Gaussian truncated to [-1, 1] for EVERY branch;
+        # the shifted marked draw reaches 1 + dmu_chi (a 9-sigma tail at dmu = 0.1)
+        out_chi = (chi < CHIEFF_RANGE[0]) | (chi > CHIEFF_RANGE[1])
+        if tally is not None:
+            tally["n_excluded_chieff_outside_pm1"] += int((out_chi & in_core).sum())
+        in_core = in_core & ~out_chi
+    return {"m1": m1, "q": q, "m2": m2, "chi": chi, "use_peak": use_peak,
+            "in_core_support": in_core, "q_redrawn": redrawn}
+
+
+# ================================================================================
 # STAGE 1 -- GLASS catalogs  (runs under the dedicated glass venv)
 # ================================================================================
 def stage_catalogs(args):
@@ -1333,6 +1489,28 @@ def stage_events(args):
                          "_SEED_EV, spawn_key=(0x4252,)))")
     rng_branch = (np.random.default_rng(np.random.SeedSequence(_SEED_EV, spawn_key=(0x4252,)))
                   if _BFRAC is not None else None)
+    # --- the population code (default "legacy" = the record) -------------------
+    # "core" moves q|m1 onto darksirens-core's pairing (core_pairing_correction) on
+    # its own CHILD stream; the main stream is consumed exactly as in "legacy", so
+    # hosts, primary masses, spins and every noise variate stay those of the legacy
+    # draw proposal by proposal, and the legacy path creates nothing new.
+    _POPCODE = getattr(args, "population_code", None) or POPULATION_CODE_DEFAULT
+    if _POPCODE not in ("legacy", "core"):
+        raise SystemExit(f"--population_code must be legacy or core; got {_POPCODE}")
+    _RNG_PAIR_CORE_DERIV = ("np.random.default_rng(np.random.SeedSequence("
+                            "_SEED_EV, spawn_key=(0x4350,)))")
+    rng_pair_core, core_tally, core_head = None, None, None
+    if _POPCODE == "core":
+        _core_repo = getattr(args, "core_darksirens", None) or CORE_DARKSIRENS_REPO
+        core_head = _git(_core_repo, "rev-parse", "HEAD")
+        if core_head != CORE_POP_COMMIT:
+            raise SystemExit(
+                f"--population_code core reproduces darksirens-core {CORE_POP_COMMIT[:7]}, "
+                f"but --core_darksirens {_core_repo} is at {core_head}; re-validate "
+                "the closed form (working/data/corepop) before changing CORE_POP_COMMIT")
+        rng_pair_core = np.random.default_rng(
+            np.random.SeedSequence(_SEED_EV, spawn_key=(0x4350,)))
+        core_tally = new_core_tally()
 
     pe_model = getattr(args, "pe_model", PE_MODEL_DEFAULT)
     _observe = observe_v3 if pe_model == "v3" else observe
@@ -1347,6 +1525,9 @@ def stage_events(args):
     n_gal, n_agn = cats["gal"]["z"].size, cats["agn"]["z"].size
     _log(f"events: hosts GAL {n_gal:,}  AGN {n_agn:,}  planted f_AGN={_FAGN}"
          f"  seed_events={_SEED_EV}")
+    if _POPCODE == "core":
+        _log(f"events: population code core (darksirens-core {CORE_POP_COMMIT[:7]}): "
+             f"every component pairs at (m_min, dm_min) = ({pop.mmin}, {pop.dm_min})")
 
     # gmd's rate weighting, verbatim: accept ∝ (1+z)^(gamma-1), normalised by its max
     # over the grid so the acceptance probability is <= 1.
@@ -1372,20 +1553,15 @@ def stage_events(args):
         is_mark = (is_agn if rng_branch is None
                    else rng_branch.uniform(size=ntry) < _BFRAC)
 
-        m1, use_peak = gmd._sample_powerlaw_peak_m1(rng, ntry, pop, return_component=True)
-        if _DMUG != 0.0:
-            # AGN lanes only: redraw the primary and its peak/power-law component
-            # flag from pop_agn on the child stream, then splice by host label.
-            # The main stream above is consumed identically either way, so the GAL
-            # lanes and the host draw are untouched.
-            m1_agn, use_peak_agn = gmd._sample_powerlaw_peak_m1(
-                rng_mass_agn, ntry, pop_agn, return_component=True)
-            m1 = np.where(is_mark, m1_agn, m1)
-            use_peak = np.where(is_mark, use_peak_agn, use_peak)
-        q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)
-        m2 = q * m1
-        chi = gmd._sample_chieff(rng, ntry, pop)
-        chi = chi + np.where(is_mark, _DMU, 0.0)
+        # masses and spins: draw_source_population makes the record's calls in the
+        # record's order (dmu_G_agn: AGN lanes' primary from pop_agn on the child
+        # stream, spliced by host label); --population_code core then moves q|m1
+        # onto core's pairing on its own child stream.
+        src = draw_source_population(
+            gmd, rng, ntry, pop, is_mark, dmu_chi=_DMU,
+            pop_agn=(pop_agn if _DMUG != 0.0 else None), rng_mass_agn=rng_mass_agn,
+            rng_pair_core=rng_pair_core, tally=core_tally)
+        m1, q, m2, chi = src["m1"], src["q"], src["m2"], src["chi"]
 
         m1det, m2det = m1 * (1.0 + z), m2 * (1.0 + z)
         obs = _observe(rng, m1det, m2det, chi, dl, ra, dec, need_sky=True)
@@ -1393,6 +1569,9 @@ def stage_events(args):
         rho_true = snr_amplitude(m1det, m2det, dl, SNR_REF_DETECT)
         acc = rng.uniform(size=ntry) < (1.0 + z) ** (pop.gamma - 1.0) / rate_gmax
         det = det_snr & acc
+        if src["in_core_support"] is not None:
+            # a proposal core gives zero density does not exist in core's population
+            det = det & src["in_core_support"]
 
         n_tried += ntry
         n_pass_snr += int(det_snr.sum())
@@ -1419,6 +1598,8 @@ def stage_events(args):
                "snr_obs": rho_obs[det], "snr_true": rho_true[det]}
         if rng_branch is not None:
             rec["pop_branch"] = is_mark[det].astype(np.int64)
+        if src["q_redrawn"] is not None:
+            rec["core_q_redrawn"] = src["q_redrawn"][det].astype(np.int64)
         for k, v in obs.items():
             rec[f"obs_{k}"] = v[det]
         keep.append(rec)
@@ -1642,6 +1823,43 @@ def stage_events(args):
         "darksirens_sha": _git(args.darksirens, "rev-parse", "HEAD"),
         "population": {k: getattr(pop, k) for k in pop.__dataclass_fields__},
     }
+    if _POPCODE == "core":
+        # only a core draw carries this block (and the attrs below): a file without
+        # it is a legacy draw, and the legacy path writes exactly what it always did
+        import hashlib
+        meta["population_code"] = {
+            "code": "core",
+            "core_commit": CORE_POP_COMMIT,
+            "core_worktree": str(getattr(args, "core_darksirens", None)
+                                 or CORE_DARKSIRENS_REPO),
+            "core_worktree_head": core_head,
+            "density": (
+                "darksirens-core powerlaw+peak, shared beta/spin/gamma, at the "
+                "'population' values above (gamma = 0): p(m1) = w_PL PL(m1; alpha, "
+                "m_min, m_max, dm_min, dm_max) + w_G N(m1; mu_G, sigma_G) on "
+                "[1, 200]; p(q|m1) = q^beta S_low(q m1; m_min, dm_min) / N(m1) on "
+                "(m_min/m1, 1] for BOTH components (core MixtureModel._low_mass_edge: "
+                "the peak inherits the power law's edge); chi_eff ~ N(mu_chi, "
+                "sigma_chi) truncated to [-1, 1]; rate (1+z)^(gamma-1).  With "
+                "dmu_G_agn / dmu_chi_agn the AGN branch is the same density with "
+                "mu_G + dmu_G_agn and mu_chi + dmu_chi_agn (core's mu_G,c2 / "
+                "mu_chi,c2)."),
+            "route": (
+                "the legacy draw (m1 and component flag, legacy q, chi_eff, all on "
+                "the main stream exactly as for --population_code legacy), then "
+                "core_pairing_correction on a child stream: keep the legacy q with "
+                "probability S_core(m2)/S_lane(m2) <= 1, else redraw q from core's "
+                "pairing by rejection; proposals core gives zero density (m1 <= "
+                "m_min, |chi_eff| > 1) are dropped before detection"),
+            "rng_child_derivation": _RNG_PAIR_CORE_DERIV,
+            "table": None,
+            "table_sha256": None,
+            "generator_sha256": hashlib.sha256(
+                Path(__file__).resolve().read_bytes()).hexdigest(),
+            "tally_all_proposals": dict(core_tally),
+            "n_detected_with_q_redrawn": int(truth["core_q_redrawn"].sum()),
+            "validation": "working/data/corepop/README.md",
+        }
 
     with h5py.File(ev_path, "w") as f:
         f.attrs["format_version"] = "gwcat-1.0"
@@ -1676,6 +1894,13 @@ def stage_events(args):
         f.attrs["mu_G_agn"] = float(pop.peak_mu + _DMUG)
         if _BFRAC is not None:
             f.attrs["branch_frac_independent"] = float(_BFRAC)
+        if _POPCODE == "core":
+            f.attrs["population_code"] = "core"
+            f.attrs["population_core_commit"] = CORE_POP_COMMIT
+            f.attrs["population_route"] = (
+                "legacy draw; q|m1 moved onto core's pairing (m_min, dm_min) for every "
+                "component by coupled rejection on child stream spawn_key 0x4350")
+            f.attrs["population_table_sha256"] = "none (closed form, no table)"
         f.attrs["shared_gamma"] = True
         f.attrs["detection_rule"] = "observed-data"
         f.attrs["detection_shares_noise_with_pe"] = True
@@ -1744,6 +1969,9 @@ def stage_events(args):
          f"horizon z_max={meta['realised']['horizon_z_max_detected']:.4f}, "
          f"detected fraction {det_frac:.4e}, "
          f"f_AGN realised {meta['realised']['realised_f_agn']:.3f}")
+    if _POPCODE == "core":
+        _log(f"events: core route tally {core_tally}; detected events with q redrawn "
+             f"{meta['population_code']['n_detected_with_q_redrawn']}")
 
 
 # ================================================================================
@@ -2417,6 +2645,88 @@ def stage_injections(args):
 # ================================================================================
 # STAGE 5 -- validation
 # ================================================================================
+def _validation_events_only_tail(args, ev_path, vdir, nobs, tr, results, failures,
+                                 check):
+    """V5 and V7 for ONE suffixed events file, then its own summary (no META merge).
+
+    The same checks as the full stage with adaptations to an extra draw: V5 tests the
+    host counts against the file's OWN planted f_AGN (a pure-tracer set must be
+    exactly 0 or 1000 AGN hosts; the binomial pull is undefined there), and V7 loads
+    only the events file.  A set with a branch-conditioned MASS mark (dmu_G_agn != 0)
+    detects the two host classes with different efficiencies, so its detected AGN
+    share is the planted f re-weighted by them, not f: there V5 checks the bookkeeping
+    and reports the pull against f as information only (the selection-corrected test
+    needs the population model; working/data/corepop does it)."""
+    import h5py
+    sfx = args.events_suffix
+    with h5py.File(ev_path, "r") as f:
+        p = float(f.attrs.get("planted_f_agn", F_AGN))
+        popcode = str(f.attrs.get("population_code", "legacy"))
+        dmug = float(f.attrs.get("dmu_G_agn", 0.0))
+        bfrac = f.attrs.get("branch_frac_independent", None)
+        a_agn, a_gal = int(f.attrs["n_host_agn"]), int(f.attrs["n_host_gal"])
+
+    _log("V5: planted-f bookkeeping (against the file's own planted f_AGN)")
+    n_agn = int(tr["host_type"].sum())
+    n_gal = nobs - n_agn
+    books = (a_agn == n_agn and a_gal == n_gal
+             and bool(np.all((tr["host_type"] == 0) | (tr["host_type"] == 1))))
+    selection_shifted = dmug != 0.0 and bfrac is None
+    if 0.0 < p < 1.0:
+        pull = float((n_agn - nobs * p) / np.sqrt(nobs * p * (1 - p)))
+        ok5 = books and (selection_shifted or abs(pull) < 4.0)
+        rule = ("bookkeeping only; the pull against the planted f is information "
+                "(host-dependent detection efficiency)" if selection_shifted
+                else "|binomial pull| < 4")
+    else:
+        pull = None
+        ok5 = books and n_agn == int(round(nobs * p))
+        rule = "every host of the planted tracer"
+    cnt_agn = np.bincount(tr["host_index"][tr["host_type"] == 1].astype(int))
+    cnt_gal = np.bincount(tr["host_index"][tr["host_type"] == 0].astype(int))
+    check("V5_planted_f_bookkeeping", ok5,
+          {"planted_f_agn": p, "n_host_gal": n_gal, "n_host_agn": n_agn,
+           "realised_f_agn": n_agn / nobs, "binomial_pull": pull,
+           "host_counts_match_attrs": books,
+           "dmu_G_agn": dmug, "detected_share_selection_shifted": selection_shifted,
+           "rule": rule,
+           "unique_agn_hosts": int((cnt_agn > 0).sum()),
+           "unique_gal_hosts": int((cnt_gal > 0).sum()),
+           "max_events_per_agn_host": int(cnt_agn.max()) if cnt_agn.size else 0,
+           "max_events_per_gal_host": int(cnt_gal.max()) if cnt_gal.size else 0})
+
+    _log("V7: the events file loads through darksirens' own loader")
+    try:
+        import jax
+        jax.config.update("jax_enable_x64", True)
+        import darksirens
+        from darksirens.gw.utils import load_gw_samples
+        o = load_gw_samples(str(ev_path))
+        ppe = np.asarray(o[6]).reshape(o[7], o[8])
+        fmt = {"events": {"nobs": int(o[7]), "nsamp": int(o[8]),
+                          "p_pe_per_event_sum": float(ppe.sum(axis=1).max()),
+                          "dL_min": float(np.min(o[2])), "dL_max": float(np.max(o[2]))},
+               "darksirens_importable": True, "darksirens_file": darksirens.__file__}
+        ok_fmt = (abs(fmt["events"]["p_pe_per_event_sum"] - 1.0) < 1e-9
+                  and fmt["events"]["nobs"] == N_EVENTS)
+    except Exception as exc:
+        fmt = {"darksirens_importable": False, "error": repr(exc)}
+        ok_fmt = False
+    check("V7_darksirens_format_contract", ok_fmt, fmt)
+
+    summary = {"generated_at_utc": _now(), "seed": args.seed,
+               "mode": "events-only: V1, V2, V2b, V3, V3c, V5, V7",
+               "events_file": str(ev_path), "events_suffix": sfx,
+               "population_code": popcode,
+               "n_checks": len(results), "n_failed": len(failures),
+               "failed": failures, "checks": results}
+    _write_json(vdir / f"validation_events{sfx}.json", summary)
+    if failures:
+        raise SystemExit(f"VALIDATION FAILED: {failures}  "
+                         f"(see {vdir / f'validation_events{sfx}.json'})")
+    _log(f"validation ({ev_path.name}): all {len(results)} checks PASSED")
+
+
 def stage_validation(args):
     import h5py
     import matplotlib
@@ -2438,7 +2748,13 @@ def stage_validation(args):
         if not ok:
             failures.append(name)
 
-    ev_path = sd / "events" / "events.h5"
+    # --events_suffix: validate events<SFX>.h5 ALONE -- the checks that read only the
+    # events file and its rejected sample (V1, V2, V2b, V3, V3c, V5, V7), written to
+    # validation_events<SFX>.json; no catalog, survey or injection is opened and
+    # neither validation.json nor META.json is touched.  Default: the full stage.
+    _vsfx = getattr(args, "events_suffix", "") or ""
+    _events_only = bool(_vsfx)
+    ev_path = sd / "events" / f"events{_vsfx}.h5"
     with h5py.File(ev_path, "r") as f:
         nobs, nsamp = int(f.attrs["nobs"]), int(f.attrs["nsamp"])
         pe_model = str(f.attrs.get("pe_model", "v2"))
@@ -2449,6 +2765,10 @@ def stage_validation(args):
             _pe_keys += ["mc_det", "q", "rho"]
         pe = {k: np.asarray(f[k][:]) for k in _pe_keys}
     _log(f"validation: measurement family {pe_model}")
+    if _events_only:
+        _log(f"validation: events-only mode on {ev_path}")
+        if pe_model != "v3":
+            raise SystemExit("events-only validation (--events_suffix) covers v3 only")
 
     if pe_model == "v2":
         # ---------------------------------------------------------------- V1 detection
@@ -2457,7 +2777,7 @@ def stage_validation(args):
                                SNR_REF_DETECT)
         exact = bool(np.array_equal(rho_re, tr["snr_obs"]))
         all_pass = bool(np.all(rho_re >= SNR_THRESHOLD))
-        rp = sd / "events" / "events_rejected_sample.h5"
+        rp = sd / "events" / f"events_rejected_sample{_vsfx}.h5"
         rej_ok, n_rej, rej_exact = True, 0, True
         if rp.exists():
             with h5py.File(rp, "r") as f:
@@ -2825,7 +3145,7 @@ def stage_validation(args):
         alias_ok = bool(np.array_equal(rho_obs, tr["snr_obs"]))
         all_pass = bool(np.all(rho_obs >= SNR_THRESHOLD))
         rho_true_ok = float(np.max(np.abs(rho_true_re / tr["snr_true"] - 1.0)))
-        rp = sd / "events" / "events_rejected_sample.h5"
+        rp = sd / "events" / f"events_rejected_sample{_vsfx}.h5"
         rej_ok, n_rej = True, 0
         if rp.exists():
             with h5py.File(rp, "r") as f:
@@ -3015,6 +3335,8 @@ def stage_validation(args):
                "note": "DESIGN_PE.md 2.5; the v2 convention p_pe ~ m1det is the "
                        "same rule for a prior flat in (m1det, m2det, dL, chieff)"})
 
+    # V3b and V9 read the catalogs: not part of an events-only validation
+    if pe_model == "v3" and not _events_only:
         # ------------------------------------- V3b the stored events are a fair draw
         _log("V3b: independent replication of the generative draw")
         cosmo_v = gmd._build_cosmology(H0_FID, OM0_FID, W0_FID, WA_FID)
@@ -3149,6 +3471,9 @@ def stage_validation(args):
             fig.savefig(vdir / f"fig_pe_calibration.{ext}", dpi=140)
         plt.close(fig)
 
+    if _events_only:
+        return _validation_events_only_tail(args, ev_path, vdir, nobs, tr, results,
+                                            failures, check)
 
     # ------------------------------------------------------- V4 catalog cross-checks
     # v2: the archived reference is a DIFFERENT model (v1 densities, z_max 1.565,
@@ -3860,7 +4185,25 @@ def parse_args(argv=None):
     p.add_argument("--nsamp", type=int, default=None,
                    help="PILOT ONLY: override N_SAMP.")
     p.add_argument("--events_suffix", default="",
-                   help="PILOT ONLY: write events<SUFFIX>.h5 instead of events.h5.")
+                   help="PILOT ONLY: write events<SUFFIX>.h5 instead of events.h5.  "
+                        "With --stage validation: validate events<SUFFIX>.h5 alone "
+                        "(the events-file checks V1, V2, V2b, V3, V3c, V5, V7) into "
+                        "validation/validation_events<SUFFIX>.json, without touching "
+                        "validation.json or META.json.")
+    p.add_argument("--population_code", default=POPULATION_CODE_DEFAULT,
+                   choices=("legacy", "core"),
+                   help="Which code's population the events stage draws masses and "
+                        "spins from.  'legacy' (default) = the record: the samplers "
+                        "of legacy darksirens' generate_mock_data.py, whose Gaussian-"
+                        "peak secondaries reach below m_min.  'core' = darksirens-core "
+                        f"{CORE_POP_COMMIT[:7]}'s powerlaw+peak density, in which every "
+                        "component pairs at the power law's (m_min, dm_min); see "
+                        "working/data/corepop/README.md.  The legacy path is "
+                        "bit-identical to the record.")
+    p.add_argument("--core_darksirens", default=str(CORE_DARKSIRENS_REPO),
+                   help="darksirens-core worktree whose commit --population_code core "
+                        f"must match (CORE_POP_COMMIT = {CORE_POP_COMMIT[:7]}); it is "
+                        "read for provenance only, never imported.")
     p.add_argument("--f_agn", type=float, default=None,
                    help="EXTRA DRAWS ONLY: planted AGN-hosted fraction for the "
                         f"events stage.  Unset = the module constant F_AGN "
@@ -3916,7 +4259,9 @@ def main(argv=None):
     for s in stages:
         _log(f"===== STAGE {s} (seed {args.seed}) =====")
         fns[s](args)
-    if args.stage in ("all", "meta") or args.stage == "validation":
+    # a suffixed events-only validation never touches META.json
+    if args.stage in ("all", "meta") or (args.stage == "validation"
+                                         and not args.events_suffix):
         finalise_meta(args)
     return 0
 

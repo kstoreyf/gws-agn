@@ -1,0 +1,148 @@
+{
+ "what": "export PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-2b86a2d\n    JAX_PLATFORMS=cpu python injection_check.py      (jax env; calls core_eval.py points\n                                                      in the core venv for core's density)",
+ "seed": 100,
+ "lanes": {
+  "targeted": {
+   "n_detected": 2205380,
+   "ndraw": 150000000,
+   "pdraw_population_recomputed_max_rel_err": 1.1102230246251565e-15,
+   "support": {
+    "pdraw_all_positive_finite": true,
+    "n_core_positive_where_pdraw_population_zero": 0,
+    "m1det_range": [
+     2.5936788380784916,
+     199.99959741778048
+    ],
+    "m2src_min": 0.14184704254264913
+   },
+   "by_branch": {
+    "population": {
+     "n_detected": 194715,
+     "n_m2_below_5": 242,
+     "n_m2_5_to_8": 1349,
+     "max_R": 1.066343261676416
+    },
+    "uniform": {
+     "n_detected": 191616,
+     "n_m2_below_5": 228,
+     "n_m2_5_to_8": 479,
+     "max_R": 1.066340389720272
+    },
+    "targeted_agn": {
+     "n_detected": 1819049,
+     "n_m2_below_5": 2433,
+     "n_m2_5_to_8": 13426,
+     "max_R": 1.0663432617822581
+    }
+   },
+   "R": {
+    "n_R_zero_m2_below_5": 2895,
+    "frac_R_zero": 0.0013126989453064778,
+    "n_R_nan_legacy_zero": 8,
+    "max": 1.0663432617822581,
+    "argmax": {
+     "m1src": 23.71752859853099,
+     "m2src": 14.308753107929482,
+     "branch": "targeted_agn"
+    },
+    "quantiles_of_positive": {
+     "0.001": 0.11981919807341958,
+     "0.5": 1.0303462301067994,
+     "0.99": 1.0628760998115576,
+     "0.9999": 1.0663426361997101
+    },
+    "mean_over_detected": 1.0267879888473217
+   },
+   "population_branch_weight_uniform_volume_z": {
+    "max_w_legacy": 1.5373835123661594,
+    "max_w_core": 1.6298296760027013,
+    "bound_over_core_support": 1.6305537638769076,
+    "neff_legacy": 620604.91452021,
+    "neff_core": 619879.2445348594,
+    "neff_ratio_core_over_legacy": 0.9988307053837762,
+    "mu_legacy": 0.0019980684844346872,
+    "mu_core": 0.0020567503176762334
+   }
+  },
+  "popuni": {
+   "n_detected": 1230471,
+   "ndraw": 400000000,
+   "pdraw_population_recomputed_max_rel_err": 1.1102230246251565e-15,
+   "support": {
+    "pdraw_all_positive_finite": true,
+    "n_core_positive_where_pdraw_population_zero": 0,
+    "m1det_range": [
+     2.9639590855922906,
+     199.99992797794704
+    ],
+    "m2src_min": 0.052818704909972924
+   },
+   "by_branch": {
+    "population": {
+     "n_detected": 720459,
+     "n_m2_below_5": 985,
+     "n_m2_5_to_8": 5390,
+     "max_R": 1.0663432617216901
+    },
+    "uniform": {
+     "n_detected": 510012,
+     "n_m2_below_5": 567,
+     "n_m2_5_to_8": 1198,
+     "max_R": 1.0663432568281226
+    }
+   },
+   "R": {
+    "n_R_zero_m2_below_5": 1544,
+    "frac_R_zero": 0.0012548040547075063,
+    "n_R_nan_legacy_zero": 8,
+    "max": 1.0663432617216901,
+    "argmax": {
+     "m1src": 23.71776185880603,
+     "m2src": 23.343012925986596,
+     "branch": "population"
+    },
+    "quantiles_of_positive": {
+     "0.001": 0.2217266565183171,
+     "0.5": 1.0237504069608074,
+     "0.99": 1.06036592614149,
+     "0.9999": 1.066341810526433
+    },
+    "mean_over_detected": 1.0176688513978138
+   },
+   "population_branch_weight_uniform_volume_z": {
+    "max_w_legacy": 1.1106050392692306,
+    "max_w_core": 1.1789965764177663,
+    "bound_over_core_support": 1.1793493846229128,
+    "neff_legacy": 728515.5236743122,
+    "neff_core": 725955.3995261153,
+    "neff_ratio_core_over_legacy": 0.9964858344606238,
+    "mu_legacy": 0.0020012957325971263,
+    "mu_core": 0.0020595587708648272
+   }
+  }
+ },
+ "sup_R_over_core_support_grid": {
+  "grid": "m1 in [5, 100] step 0.05, q in [0.04, 1] step 0.001",
+  "sup_R": 3007.4187279320004,
+  "at_m1": 5.05,
+  "at_q": 1.0,
+  "at_m2": 5.05,
+  "inf_R_where_core_positive": 3.495905743402365e-57,
+  "R_at_typical_35_30": 1.0349325544478873,
+  "core_positive_where_legacy_zero": 0
+ },
+ "sup_weight_bound_over_core_support_grid": {
+  "targeted": {
+   "sup_W_core": 1.6305537638769076,
+   "at_m1": 25.05,
+   "at_q": 1.0,
+   "same_bound_legacy": 1.5375859965848535
+  },
+  "popuni": {
+   "sup_W_core": 1.1793493846229128,
+   "at_m1": 24.35,
+   "at_q": 1.0,
+   "same_bound_legacy": 1.1106543519382743
+  }
+ }
+}

@@ -1,0 +1,937 @@
+{
+ "what": "core ln p_pop(m1src, q, z, chi_eff) at every event's TRUE parameters (host-dependent set: each event under its host class's population); finite for every event of every corepop file is the requirement",
+ "files": [
+  {
+   "seed": 100,
+   "kind": "mixed",
+   "population_code": "corepop",
+   "file": "events_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 7.333033550002621,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2019.7900998082373,
+    "min_lnp": -9.413178209360328,
+    "argmin": 997,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2019.7900998082373,
+    "min_lnp": -9.413178209360328,
+    "argmin": 997,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8497  median=0.9251  max=0.9998  (0 events < 0.1)\n    pe_variance_sum = 0.0400  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "mixed",
+   "population_code": "legacy",
+   "file": "events.h5",
+   "n_events": 1000,
+   "min_true_m2src": 5.350799101595442,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2045.324066240792,
+    "min_lnp": -10.290937400282353,
+    "argmin": 743,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2045.324066240792,
+    "min_lnp": -10.290937400282353,
+    "argmin": 743,
+    "all_finite": true
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "mixed",
+   "population_code": "corepop",
+   "file": "events_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.886487850651187,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2081.3394826014955,
+    "min_lnp": -12.140594465996047,
+    "argmin": 807,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2081.3394826014955,
+    "min_lnp": -12.140594465996047,
+    "argmin": 807,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8521  median=0.9223  max=0.9956  (0 events < 0.1)\n    pe_variance_sum = 0.0408  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "mixed",
+   "population_code": "legacy",
+   "file": "events.h5",
+   "n_events": 1000,
+   "min_true_m2src": 4.522495604125278,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2085.9513857565253,
+    "min_lnp": -Infinity,
+    "argmin": 711,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2085.9513857565253,
+    "min_lnp": -Infinity,
+    "argmin": 711,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "mixed",
+   "population_code": "corepop",
+   "file": "events_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.407521656927087,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2028.9560358704812,
+    "min_lnp": -10.022855241606742,
+    "argmin": 291,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2028.9560358704812,
+    "min_lnp": -10.022855241606742,
+    "argmin": 291,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8507  median=0.9252  max=0.9953  (0 events < 0.1)\n    pe_variance_sum = 0.0407  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "mixed",
+   "population_code": "legacy",
+   "file": "events.h5",
+   "n_events": 1000,
+   "min_true_m2src": 3.7499819992778285,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2052.1105903373223,
+    "min_lnp": -Infinity,
+    "argmin": 866,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2052.1105903373223,
+    "min_lnp": -Infinity,
+    "argmin": 866,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "mixed",
+   "population_code": "corepop",
+   "file": "events_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 7.157684129498475,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2077.6153726731773,
+    "min_lnp": -10.46859954951244,
+    "argmin": 476,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2077.6153726731773,
+    "min_lnp": -10.46859954951244,
+    "argmin": 476,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8394  median=0.9226  max=0.9978  (0 events < 0.1)\n    pe_variance_sum = 0.0406  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "mixed",
+   "population_code": "legacy",
+   "file": "events.h5",
+   "n_events": 1000,
+   "min_true_m2src": 4.884213703824972,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2078.4227010916493,
+    "min_lnp": -Infinity,
+    "argmin": 879,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2078.4227010916493,
+    "min_lnp": -Infinity,
+    "argmin": 879,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "mixed",
+   "population_code": "corepop",
+   "file": "events_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.75716584241925,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2054.181905538522,
+    "min_lnp": -8.790532205205826,
+    "argmin": 112,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2054.181905538522,
+    "min_lnp": -8.790532205205826,
+    "argmin": 112,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8490  median=0.9238  max=0.9969  (0 events < 0.1)\n    pe_variance_sum = 0.0407  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "mixed",
+   "population_code": "legacy",
+   "file": "events.h5",
+   "n_events": 1000,
+   "min_true_m2src": 3.7764037264534283,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2057.247374341933,
+    "min_lnp": -Infinity,
+    "argmin": 576,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2057.247374341933,
+    "min_lnp": -Infinity,
+    "argmin": 576,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "pureagn",
+   "population_code": "corepop",
+   "file": "events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 5.748232767503014,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2058.243558733534,
+    "min_lnp": -10.85317736462523,
+    "argmin": 144,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2058.243558733534,
+    "min_lnp": -10.85317736462523,
+    "argmin": 144,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8438  median=0.9224  max=0.9988  (0 events < 0.1)\n    pe_variance_sum = 0.0415  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "pureagn",
+   "population_code": "legacy",
+   "file": "events_pureagn.h5",
+   "n_events": 1000,
+   "min_true_m2src": 3.3651364509667414,
+   "historical": {
+    "n_finite": 998,
+    "sum_lnp_finite": -2065.4837079001036,
+    "min_lnp": -Infinity,
+    "argmin": 495,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 998,
+    "sum_lnp_finite": -2065.4837079001036,
+    "min_lnp": -Infinity,
+    "argmin": 495,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "pureagn",
+   "population_code": "corepop",
+   "file": "events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 5.857899881073892,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2071.446802907916,
+    "min_lnp": -8.981470818936838,
+    "argmin": 667,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2071.446802907916,
+    "min_lnp": -8.981470818936838,
+    "argmin": 667,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8498  median=0.9238  max=0.9962  (0 events < 0.1)\n    pe_variance_sum = 0.0402  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "pureagn",
+   "population_code": "legacy",
+   "file": "events_pureagn.h5",
+   "n_events": 1000,
+   "min_true_m2src": 3.257943056750067,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2075.862618754597,
+    "min_lnp": -Infinity,
+    "argmin": 570,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2075.862618754597,
+    "min_lnp": -Infinity,
+    "argmin": 570,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "pureagn",
+   "population_code": "corepop",
+   "file": "events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 5.720487567645446,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2018.2581597962635,
+    "min_lnp": -8.9054375017021,
+    "argmin": 126,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2018.2581597962635,
+    "min_lnp": -8.9054375017021,
+    "argmin": 126,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8486  median=0.9235  max=0.9984  (0 events < 0.1)\n    pe_variance_sum = 0.0404  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "pureagn",
+   "population_code": "legacy",
+   "file": "events_pureagn.h5",
+   "n_events": 1000,
+   "min_true_m2src": 4.363904915000881,
+   "historical": {
+    "n_finite": 997,
+    "sum_lnp_finite": -2025.8129202258283,
+    "min_lnp": -Infinity,
+    "argmin": 36,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 997,
+    "sum_lnp_finite": -2025.8129202258283,
+    "min_lnp": -Infinity,
+    "argmin": 36,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "pureagn",
+   "population_code": "corepop",
+   "file": "events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.925000617202284,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -1999.219334531896,
+    "min_lnp": -9.811639041365005,
+    "argmin": 336,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -1999.219334531896,
+    "min_lnp": -9.811639041365005,
+    "argmin": 336,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8460  median=0.9252  max=0.9954  (0 events < 0.1)\n    pe_variance_sum = 0.0402  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "pureagn",
+   "population_code": "legacy",
+   "file": "events_pureagn.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.222147310604992,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2008.99099268366,
+    "min_lnp": -9.811639041365005,
+    "argmin": 331,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2008.99099268366,
+    "min_lnp": -9.811639041365005,
+    "argmin": 331,
+    "all_finite": true
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "pureagn",
+   "population_code": "corepop",
+   "file": "events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.229600774559228,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2077.3868002271374,
+    "min_lnp": -9.52076352481912,
+    "argmin": 666,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2077.3868002271374,
+    "min_lnp": -9.52076352481912,
+    "argmin": 666,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8479  median=0.9211  max=0.9976  (0 events < 0.1)\n    pe_variance_sum = 0.0419  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "pureagn",
+   "population_code": "legacy",
+   "file": "events_pureagn.h5",
+   "n_events": 1000,
+   "min_true_m2src": 2.6630197462856895,
+   "historical": {
+    "n_finite": 996,
+    "sum_lnp_finite": -2093.09678484902,
+    "min_lnp": -Infinity,
+    "argmin": 137,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 996,
+    "sum_lnp_finite": -2093.09678484902,
+    "min_lnp": -Infinity,
+    "argmin": 137,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "puregal",
+   "population_code": "corepop",
+   "file": "events_puregal_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.631136977840651,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2053.7121590634997,
+    "min_lnp": -9.340343625368954,
+    "argmin": 725,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2053.7121590634997,
+    "min_lnp": -9.340343625368954,
+    "argmin": 725,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8482  median=0.9252  max=0.9997  (0 events < 0.1)\n    pe_variance_sum = 0.0408  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "puregal",
+   "population_code": "legacy",
+   "file": "events_puregal.h5",
+   "n_events": 1000,
+   "min_true_m2src": 4.873665419373269,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2056.000028654559,
+    "min_lnp": -Infinity,
+    "argmin": 958,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2056.000028654559,
+    "min_lnp": -Infinity,
+    "argmin": 958,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "puregal",
+   "population_code": "corepop",
+   "file": "events_puregal_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.347001661064141,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -1997.028974632984,
+    "min_lnp": -8.400356425212646,
+    "argmin": 13,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -1997.028974632984,
+    "min_lnp": -8.400356425212646,
+    "argmin": 13,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8286  median=0.9247  max=0.9974  (0 events < 0.1)\n    pe_variance_sum = 0.0402  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "puregal",
+   "population_code": "legacy",
+   "file": "events_puregal.h5",
+   "n_events": 1000,
+   "min_true_m2src": 1.6995632045629632,
+   "historical": {
+    "n_finite": 997,
+    "sum_lnp_finite": -1998.4112628077141,
+    "min_lnp": -Infinity,
+    "argmin": 297,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 997,
+    "sum_lnp_finite": -1998.4112628077141,
+    "min_lnp": -Infinity,
+    "argmin": 297,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "puregal",
+   "population_code": "corepop",
+   "file": "events_puregal_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.127457670893177,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2009.8471745043053,
+    "min_lnp": -9.713250238105966,
+    "argmin": 401,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2009.8471745043053,
+    "min_lnp": -9.713250238105966,
+    "argmin": 401,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8480  median=0.9246  max=0.9977  (0 events < 0.1)\n    pe_variance_sum = 0.0398  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "puregal",
+   "population_code": "legacy",
+   "file": "events_puregal.h5",
+   "n_events": 1000,
+   "min_true_m2src": 3.274995647060535,
+   "historical": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2011.977783372812,
+    "min_lnp": -Infinity,
+    "argmin": 486,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 999,
+    "sum_lnp_finite": -2011.977783372812,
+    "min_lnp": -Infinity,
+    "argmin": 486,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "puregal",
+   "population_code": "corepop",
+   "file": "events_puregal_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.829736063525234,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2064.578283698455,
+    "min_lnp": -8.21654895486953,
+    "argmin": 799,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2064.578283698455,
+    "min_lnp": -8.21654895486953,
+    "argmin": 799,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8439  median=0.9228  max=0.9982  (0 events < 0.1)\n    pe_variance_sum = 0.0414  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "puregal",
+   "population_code": "legacy",
+   "file": "events_puregal.h5",
+   "n_events": 1000,
+   "min_true_m2src": 4.39687340558991,
+   "historical": {
+    "n_finite": 998,
+    "sum_lnp_finite": -2063.810908065103,
+    "min_lnp": -Infinity,
+    "argmin": 891,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 998,
+    "sum_lnp_finite": -2063.810908065103,
+    "min_lnp": -Infinity,
+    "argmin": 891,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "puregal",
+   "population_code": "corepop",
+   "file": "events_puregal_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 5.816877125167309,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2116.704125935288,
+    "min_lnp": -10.001581041643119,
+    "argmin": 587,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2116.704125935288,
+    "min_lnp": -10.001581041643119,
+    "argmin": 587,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8536  median=0.9235  max=0.9945  (0 events < 0.1)\n    pe_variance_sum = 0.0405  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "puregal",
+   "population_code": "legacy",
+   "file": "events_puregal.h5",
+   "n_events": 1000,
+   "min_true_m2src": 2.942278078017689,
+   "historical": {
+    "n_finite": 998,
+    "sum_lnp_finite": -2126.949296375291,
+    "min_lnp": -Infinity,
+    "argmin": 125,
+    "all_finite": false
+   },
+   "default": {
+    "n_finite": 998,
+    "sum_lnp_finite": -2126.949296375291,
+    "min_lnp": -Infinity,
+    "argmin": 125,
+    "all_finite": false
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "marked",
+   "population_code": "corepop",
+   "file": "events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 7.319977468561015,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2004.3006770209304,
+    "min_lnp": -10.694847325460664,
+    "argmin": 843,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2004.3006770209304,
+    "min_lnp": -10.694847325460664,
+    "argmin": 843,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8518  median=0.9233  max=0.9998  (0 events < 0.1)\n    pe_variance_sum = 0.0407  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 100,
+   "kind": "marked",
+   "population_code": "legacy",
+   "file": "events_marked_dmu0p10_dmuG5.h5",
+   "n_events": 1000,
+   "min_true_m2src": 5.262297193310457,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2036.5296558868306,
+    "min_lnp": -13.12503677809124,
+    "argmin": 803,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2036.5296558868306,
+    "min_lnp": -13.12503677809124,
+    "argmin": 803,
+    "all_finite": true
+   }
+  },
+  {
+   "seed": 101,
+   "kind": "marked",
+   "population_code": "corepop",
+   "file": "events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.575818247423722,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2117.263340382446,
+    "min_lnp": -11.813630892305612,
+    "argmin": 320,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2117.263340382446,
+    "min_lnp": -11.813630892305612,
+    "argmin": 320,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8405  median=0.9219  max=0.9952  (0 events < 0.1)\n    pe_variance_sum = 0.0418  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 102,
+   "kind": "marked",
+   "population_code": "corepop",
+   "file": "events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 7.084495516670056,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2096.0837844320267,
+    "min_lnp": -8.426506650433664,
+    "argmin": 962,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2096.0837844320267,
+    "min_lnp": -8.426506650433664,
+    "argmin": 962,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8480  median=0.9249  max=0.9968  (0 events < 0.1)\n    pe_variance_sum = 0.0404  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 103,
+   "kind": "marked",
+   "population_code": "corepop",
+   "file": "events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 7.157684129498475,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2116.052592071646,
+    "min_lnp": -12.278857273004068,
+    "argmin": 650,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2116.052592071646,
+    "min_lnp": -12.278857273004068,
+    "argmin": 650,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8441  median=0.9210  max=0.9983  (0 events < 0.1)\n    pe_variance_sum = 0.0411  (PE-prior share of variance budget)"
+   }
+  },
+  {
+   "seed": 105,
+   "kind": "marked",
+   "population_code": "corepop",
+   "file": "events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "min_true_m2src": 6.286913028484964,
+   "historical": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2051.6381270997904,
+    "min_lnp": -9.595141969052749,
+    "argmin": 848,
+    "all_finite": true
+   },
+   "default": {
+    "n_finite": 1000,
+    "sum_lnp_finite": -2051.6381270997904,
+    "min_lnp": -9.595141969052749,
+    "argmin": 848,
+    "all_finite": true
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 3.3306690738754696e-16,
+    "stdout": "This is using mock data.\n    [gwcat PE] format=gwcat-1.0  1,000 events x 2,000 samples  H0=67.74  Om0=0.3075\n    PE reweighting ESS/nsamp: min=0.8478  median=0.9216  max=0.9965  (0 events < 0.1)\n    pe_variance_sum = 0.0415  (PE-prior share of variance budget)"
+   }
+  }
+ ]
+}

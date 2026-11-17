@@ -320,6 +320,7 @@ re-derives the posterior numerically and checks the closed form against it
 | `events/events.h5` | `gwcat-1.0`: 1000 events × 2000 PE samples, plus a `truth` group holding **both** the true parameters and the recorded observation (incl. `obs_sigma_ang`) |
 | `events/events_rejected_sample.h5` | 20 000 rejected proposals with their measurement (validation aid) |
 | `events/events_meta.json` | realised horizon, detected fraction, host bookkeeping |
+| `events/events{,_pureagn,_puregal,_marked_dmu0p10_dmuG5}_corepop.h5` | seeds 100-105: the same four kinds drawn from darksirens-core's population (`corepop/README.md`) |
 | `injections/injections_targeted.h5` | `gwcat-selection-1.0`, three-branch targeted mixture |
 | `injections/injections_popuni.h5` | `gwcat-selection-1.0`, plain population+uniform cross-check |
 | `injections/injections_*_meta.json` | branch bookkeeping and the `P_det(z)` histograms |
@@ -342,6 +343,23 @@ gal-then-agn. Any contiguous block is therefore an unbiased sub-realisation, whi
 what block-jackknife and disjoint-block noise studies need. `host_type`
 (0 = GAL, 1 = AGN), `host_index`, and `true_{z,m1src,m2src,chieff,dL}` are mirrored at
 the top level for the campaign's subsampling tools.
+
+### Core-population event sets (`--population_code core`, 2026-11-17)
+
+The default `--population_code legacy` is the record: masses and spins from legacy
+darksirens 2b86a2d's samplers, whose Gaussian-peak secondaries reach below `m_min = 5`.
+`--population_code core` draws from darksirens-core e7c3007's powerlaw+peak density
+instead. In that density every component pairs at the power law's `(m_min, dm_min) =
+(5, 3)`. The route is an exact coupled rejection on `q | m1`, drawn on its own child
+stream, so hosts, primary masses, spins and noise stay those of the legacy draw. The
+default path is bit-identical to the signed-off files.
+
+Each seed 100-105 now also carries `events_corepop.h5`, `events_pureagn_corepop.h5`,
+`events_puregal_corepop.h5` and `events_marked_dmu0p10_dmuG5_corepop.h5`. With
+`--events_suffix`, the validation stage validates that one events file alone (V1, V2,
+V2b, V3, V3c, V5, V7), writes `validation/validation_events<SFX>.json`, and does not touch
+`validation.json` or META.json. The injection sets stay valid under core. The density,
+the route, every check and the figure are in **`corepop/README.md`**.
 
 ---
 

@@ -1,0 +1,224 @@
+{
+ "what": "export PYTHONPATH=/hildafs/projects/phy230014p/magana/src/darksirens-2b86a2d\n    export NPY_DISABLE_CPU_FEATURES=\"AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL\"\n    JAX_PLATFORMS=cpu python sampler_check.py          (after core_eval.py tables)",
+ "n_per_branch": 4000000,
+ "seed_root": 20261117,
+ "ks_resolution_95pct_N": 0.000679,
+ "ks_resolution_95pct_1000_events": 0.04294373062508659,
+ "branches": {
+  "gal": {
+   "core": {
+    "n_drawn": 4000000,
+    "n_dropped_outside_core_support": 0,
+    "tally": {
+     "n_lanes": 4000000,
+     "n_peak_lanes": 3599673,
+     "n_q_kept": 3869739,
+     "n_q_redrawn": 130261,
+     "n_excluded_m1_le_mmin": 0,
+     "n_unresolved_after_max_iter": 0,
+     "n_excluded_chieff_outside_pm1": 0,
+     "max_redraw_iterations": 4
+    },
+    "ks": {
+     "m1": {
+      "D": 0.0005056998604685559,
+      "pvalue": 0.25789339773731434
+     },
+     "q": {
+      "D": 0.00029915665185453744,
+      "pvalue": 0.8663987106657904
+     },
+     "m2": {
+      "D": 0.00031261458603742964,
+      "pvalue": 0.8290997764147499
+     },
+     "chi": {
+      "D": 0.0003004824835849407,
+      "pvalue": 0.8628916962666171
+     }
+    },
+    "fraction_m2_below": {
+     "5": {
+      "drawn": 0.0,
+      "core": 4.4729679875965295e-14,
+      "binomial_sd": 2.4999999999999443e-07
+     },
+     "6": {
+      "drawn": 0.00438125,
+      "core": 0.004370826996806441,
+      "binomial_sd": 3.2983794764135416e-05
+     },
+     "8": {
+      "drawn": 0.0621945,
+      "core": 0.06231370953411164,
+      "binomial_sd": 0.00012086222645869345
+     }
+    },
+    "min_m2": 5.015261207379093,
+    "chi_mean_drawn": -1.713409506148258e-06,
+    "chi_mean_core": 5.414338681435002e-18,
+    "chi_sd_drawn": 0.10000899670555222,
+    "chi_sd_core": 0.1,
+    "m1_mean_drawn": 33.02070833217222
+   },
+   "legacy": {
+    "n_drawn": 4000000,
+    "n_dropped_outside_core_support": 0,
+    "tally": null,
+    "ks": {
+     "m1": {
+      "D": 0.0005056998604685559,
+      "pvalue": 0.25789339773731434
+     },
+     "q": {
+      "D": 0.03141543041583639,
+      "pvalue": 0.0
+     },
+     "m2": {
+      "D": 0.03204914688795702,
+      "pvalue": 0.0
+     },
+     "chi": {
+      "D": 0.0003004824835849407,
+      "pvalue": 0.8628916962666171
+     }
+    },
+    "fraction_m2_below": {
+     "5": {
+      "drawn": 0.01883475,
+      "core": 4.4729679875965295e-14,
+      "binomial_sd": 2.4999999999999443e-07
+     },
+     "6": {
+      "drawn": 0.0315235,
+      "core": 0.004370826996806441,
+      "binomial_sd": 3.2983794764135416e-05
+     },
+     "8": {
+      "drawn": 0.0940455,
+      "core": 0.06231370953411164,
+      "binomial_sd": 0.00012086222645869345
+     }
+    },
+    "min_m2": 1.0042526974732127,
+    "chi_mean_drawn": -1.713409506148258e-06,
+    "chi_mean_core": 5.414338681435002e-18,
+    "chi_sd_drawn": 0.10000899670555222,
+    "chi_sd_core": 0.1,
+    "m1_mean_drawn": 33.02070833217222
+   }
+  },
+  "agn": {
+   "core": {
+    "n_drawn": 4000000,
+    "n_dropped_outside_core_support": 0,
+    "tally": {
+     "n_lanes": 4000000,
+     "n_peak_lanes": 3599654,
+     "n_q_kept": 3901452,
+     "n_q_redrawn": 98548,
+     "n_excluded_m1_le_mmin": 0,
+     "n_unresolved_after_max_iter": 0,
+     "n_excluded_chieff_outside_pm1": 0,
+     "max_redraw_iterations": 3
+    },
+    "ks": {
+     "m1": {
+      "D": 0.00040517176739984784,
+      "pvalue": 0.5272748661879098
+     },
+     "q": {
+      "D": 0.0005606646061259157,
+      "pvalue": 0.16161897652354817
+     },
+     "m2": {
+      "D": 0.00032479010331920577,
+      "pvalue": 0.7925339522291239
+     },
+     "chi": {
+      "D": 0.0003997687024122065,
+      "pvalue": 0.5447596287884413
+     }
+    },
+    "fraction_m2_below": {
+     "5": {
+      "drawn": 0.0,
+      "core": 6.751788588149133e-17,
+      "binomial_sd": 2.5e-07
+     },
+     "6": {
+      "drawn": 0.00424975,
+      "core": 0.004277486330986124,
+      "binomial_sd": 3.263123289761801e-05
+     },
+     "8": {
+      "drawn": 0.057875,
+      "core": 0.05781195027291347,
+      "binomial_sd": 0.00011669375377302296
+     }
+    },
+    "min_m2": 5.200265440840505,
+    "chi_mean_drawn": 0.10003861826945827,
+    "chi_mean_core": 0.1,
+    "chi_sd_drawn": 0.09998495920119818,
+    "chi_sd_core": 0.1,
+    "m1_mean_drawn": 37.512062631100264
+   },
+   "legacy": {
+    "n_drawn": 4000000,
+    "n_dropped_outside_core_support": 0,
+    "tally": null,
+    "ks": {
+     "m1": {
+      "D": 0.00040517176739984784,
+      "pvalue": 0.5272748661879098
+     },
+     "q": {
+      "D": 0.023910004861131307,
+      "pvalue": 0.0
+     },
+     "m2": {
+      "D": 0.024484904831481656,
+      "pvalue": 0.0
+     },
+     "chi": {
+      "D": 0.0003997687024122065,
+      "pvalue": 0.5447596287884413
+     }
+    },
+    "fraction_m2_below": {
+     "5": {
+      "drawn": 0.01423825,
+      "core": 6.751788588149133e-17,
+      "binomial_sd": 2.5e-07
+     },
+     "6": {
+      "drawn": 0.02470925,
+      "core": 0.004277486330986124,
+      "binomial_sd": 3.263123289761801e-05
+     },
+     "8": {
+      "drawn": 0.0821185,
+      "core": 0.05781195027291347,
+      "binomial_sd": 0.00011669375377302296
+     }
+    },
+    "min_m2": 1.0025953608752436,
+    "chi_mean_drawn": 0.10003861826945827,
+    "chi_mean_core": 0.1,
+    "chi_sd_drawn": 0.09998495920119818,
+    "chi_sd_core": 0.1,
+    "m1_mean_drawn": 37.512062631100264
+   }
+  }
+ },
+ "legacy_powerlaw_fallback": {
+  "what": "probability per proposal that a power-law lane exhausts gmd._sample_q's 10,000 rejection rounds and gets a hard q**beta draw instead of the tapered one (the same in legacy and core mode: power-law lanes are never touched by the core route)",
+  "probability_per_proposal": 1.2271478034910194e-06,
+  "m1_where_it_can_happen": [
+   5.000001,
+   5.470000843333334
+  ],
+  "note": "those binaries have m2 in (5, m1) with m1 < ~5.5, so core gives them finite density; they differ from core only in the shape of q within that sliver"
+ }
+}

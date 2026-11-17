@@ -1,0 +1,364 @@
+{
+ "what": "core's powerlaw+peak density at the mock's input (gamma 0): identity with the closed form the generator's core route samples, normalisation, and the 1-D marginals the sampler and detected-set checks use",
+ "theta_order": "v1 alpha m_min m_max dm_min dm_max mu_G sigma_G beta mu_chi sigma_chi gamma",
+ "core": {
+  "historical": {
+   "darksirens_file": "/hildafs/projects/phy230014p/magana/src/darksirens-core-e7c3007/src/darksirens/__init__.py",
+   "settings": "historical",
+   "labels": [
+    "$v_1$",
+    "$\\alpha_{\\rm PL}$",
+    "$m_{\\min,\\rm PL}$",
+    "$m_{\\max,\\rm PL}$",
+    "$\\delta m_{\\min,\\rm PL}$",
+    "$\\delta m_{\\max,\\rm PL}$",
+    "$\\mu_{\\rm G}$",
+    "$\\sigma_{\\rm G}$",
+    "$\\beta$",
+    "$\\mu_\\chi$",
+    "$\\sigma_\\chi$",
+    "$\\gamma$"
+   ],
+   "pairing_norm": "per_sample",
+   "pairing_scale": "analytic",
+   "per_point_pairing_norm": false,
+   "theta_gal": [
+    0.1,
+    2.3,
+    5.0,
+    80.0,
+    3.0,
+    10.0,
+    35.0,
+    5.0,
+    1.0,
+    0.0,
+    0.1,
+    0.0
+   ],
+   "theta_agn": [
+    0.1,
+    2.3,
+    5.0,
+    80.0,
+    3.0,
+    10.0,
+    40.0,
+    5.0,
+    1.0,
+    0.1,
+    0.1,
+    0.0
+   ]
+  },
+  "default": {
+   "darksirens_file": "/hildafs/projects/phy230014p/magana/src/darksirens-core-e7c3007/src/darksirens/__init__.py",
+   "settings": "default",
+   "labels": [
+    "$v_1$",
+    "$\\alpha_{\\rm PL}$",
+    "$m_{\\min,\\rm PL}$",
+    "$m_{\\max,\\rm PL}$",
+    "$\\delta m_{\\min,\\rm PL}$",
+    "$\\delta m_{\\max,\\rm PL}$",
+    "$\\mu_{\\rm G}$",
+    "$\\sigma_{\\rm G}$",
+    "$\\beta$",
+    "$\\mu_\\chi$",
+    "$\\sigma_\\chi$",
+    "$\\gamma$"
+   ],
+   "pairing_norm": "auto",
+   "pairing_scale": "analytic",
+   "per_point_pairing_norm": true,
+   "theta_gal": [
+    0.1,
+    2.3,
+    5.0,
+    80.0,
+    3.0,
+    10.0,
+    35.0,
+    5.0,
+    1.0,
+    0.0,
+    0.1,
+    0.0
+   ],
+   "theta_agn": [
+    0.1,
+    2.3,
+    5.0,
+    80.0,
+    3.0,
+    10.0,
+    40.0,
+    5.0,
+    1.0,
+    0.1,
+    0.1,
+    0.0
+   ]
+  }
+ },
+ "identity": {
+  "historical": {
+   "gal": {
+    "n_points": 100000,
+    "n_both_finite": 100000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_all": 0.0007033204881299326,
+    "argmax_all": {
+     "m1": 5.023430907975635,
+     "m2": 5.012341875762304,
+     "in_floor_zone": true,
+     "core": -14.418713929952073,
+     "closed_form": -14.418010609463943
+    },
+    "max_abs_dlnp_outside_floor_zone": 1.1012994871606452e-07,
+    "max_abs_dlnp_m2_ge_8": 1.101281581483704e-07,
+    "max_abs_dlnp_taper_5_to_8": 1.1012994871606452e-07,
+    "median_abs_dlnp": 4.1700548791823167e-08,
+    "n_points_in_floor_zone": 770,
+    "core_lnp_below_m2_5": "-inf by construction (no point there)",
+    "edge_points": {
+     "m1": [
+      33.7173,
+      33.7173,
+      33.7173,
+      33.7173,
+      4.9,
+      35.0
+     ],
+     "m2": [
+      3.3651,
+      4.9,
+      5.1,
+      6.0,
+      4.41,
+      30.0
+     ],
+     "core": [
+      -Infinity,
+      -Infinity,
+      -31.72149364778493,
+      -4.294870754890229,
+      -Infinity,
+      -0.765124213544252
+     ],
+     "closed_form": [
+      -Infinity,
+      -Infinity,
+      -31.721493648523367,
+      -4.294870755628664,
+      -Infinity,
+      -0.7651242142004778
+     ]
+    }
+   },
+   "agn": {
+    "n_points": 100000,
+    "n_both_finite": 100000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_all": 0.0007033204881352617,
+    "argmax_all": {
+     "m1": 5.023430907975635,
+     "m2": 5.012341875762304,
+     "in_floor_zone": true,
+     "core": -21.961175311549255,
+     "closed_form": -21.96047199106112
+    },
+    "max_abs_dlnp_outside_floor_zone": 1.1013023071271277e-07,
+    "max_abs_dlnp_m2_ge_8": 1.1012846101721152e-07,
+    "max_abs_dlnp_taper_5_to_8": 1.1013023071271277e-07,
+    "median_abs_dlnp": 2.659223508061359e-08,
+    "n_points_in_floor_zone": 770,
+    "core_lnp_below_m2_5": "-inf by construction (no point there)",
+    "edge_points": {
+     "m1": [
+      33.7173,
+      33.7173,
+      33.7173,
+      33.7173,
+      4.9,
+      35.0
+     ],
+     "m2": [
+      3.3651,
+      4.9,
+      5.1,
+      6.0,
+      4.41,
+      30.0
+     ],
+     "core": [
+      -Infinity,
+      -Infinity,
+      -32.24747956336887,
+      -4.82085667047417,
+      -Infinity,
+      -1.7612662079148063
+     ],
+     "closed_form": [
+      -Infinity,
+      -Infinity,
+      -32.24747956493052,
+      -4.820856672035824,
+      -Infinity,
+      -1.7612662089925581
+     ]
+    }
+   }
+  },
+  "default": {
+   "gal": {
+    "n_points": 100000,
+    "n_both_finite": 100000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_all": 0.0002846251935082478,
+    "argmax_all": {
+     "m1": 5.0229451032295085,
+     "m2": 5.012656191998275,
+     "in_floor_zone": true,
+     "core": -17.95176707859168,
+     "closed_form": -17.95148245339817
+    },
+    "max_abs_dlnp_outside_floor_zone": 1.101284468063568e-07,
+    "max_abs_dlnp_m2_ge_8": 1.1012815770428119e-07,
+    "max_abs_dlnp_taper_5_to_8": 1.101284468063568e-07,
+    "median_abs_dlnp": 4.1655032312348794e-08,
+    "n_points_in_floor_zone": 770,
+    "core_lnp_below_m2_5": "-inf by construction (no point there)",
+    "edge_points": {
+     "m1": [
+      33.7173,
+      33.7173,
+      33.7173,
+      33.7173,
+      4.9,
+      35.0
+     ],
+     "m2": [
+      3.3651,
+      4.9,
+      5.1,
+      6.0,
+      4.41,
+      30.0
+     ],
+     "core": [
+      -Infinity,
+      -Infinity,
+      -31.72149364778493,
+      -4.294870754890229,
+      -Infinity,
+      -0.7651242135442574
+     ],
+     "closed_form": [
+      -Infinity,
+      -Infinity,
+      -31.721493648523367,
+      -4.294870755628664,
+      -Infinity,
+      -0.7651242142004778
+     ]
+    }
+   },
+   "agn": {
+    "n_points": 100000,
+    "n_both_finite": 100000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_all": 0.0002846251935118005,
+    "argmax_all": {
+     "m1": 5.0229451032295085,
+     "m2": 5.012656191998275,
+     "in_floor_zone": true,
+     "core": -27.689186801138312,
+     "closed_form": -27.6889021759448
+    },
+    "max_abs_dlnp_outside_floor_zone": 1.1012861733661339e-07,
+    "max_abs_dlnp_m2_ge_8": 1.101284601290331e-07,
+    "max_abs_dlnp_taper_5_to_8": 1.1012861733661339e-07,
+    "median_abs_dlnp": 2.652364461397383e-08,
+    "n_points_in_floor_zone": 770,
+    "core_lnp_below_m2_5": "-inf by construction (no point there)",
+    "edge_points": {
+     "m1": [
+      33.7173,
+      33.7173,
+      33.7173,
+      33.7173,
+      4.9,
+      35.0
+     ],
+     "m2": [
+      3.3651,
+      4.9,
+      5.1,
+      6.0,
+      4.41,
+      30.0
+     ],
+     "core": [
+      -Infinity,
+      -Infinity,
+      -32.24747956336887,
+      -4.8208566704741695,
+      -Infinity,
+      -1.7612662079148116
+     ],
+     "closed_form": [
+      -Infinity,
+      -Infinity,
+      -32.24747956493052,
+      -4.820856672035824,
+      -Infinity,
+      -1.7612662089925581
+     ]
+    }
+   }
+  }
+ },
+ "marginals": {
+  "historical": {
+   "gal": {
+    "integral_p_m1_q": 1.0000000388877444,
+    "integral_p_m2": 1.0000000388877444,
+    "P_m2_lt_5": 4.4729679875965295e-14,
+    "P_m2_lt_6": 0.004370826996806441,
+    "P_m2_lt_8": 0.06231370953411164,
+    "chi_mean": 5.414338681435002e-18,
+    "chi_sd": 0.1
+   },
+   "agn": {
+    "integral_p_m1_q": 1.00000003967488,
+    "integral_p_m2": 1.00000003967488,
+    "P_m2_lt_5": 6.751788588149133e-17,
+    "P_m2_lt_6": 0.004277486330986124,
+    "P_m2_lt_8": 0.05781195027291347,
+    "chi_mean": 0.1,
+    "chi_sd": 0.1
+   }
+  },
+  "default": {
+   "gal": {
+    "integral_p_m1_q": 1.0000000388877344,
+    "integral_p_m2": 1.0000000388877341,
+    "P_m2_lt_5": 4.4729679875964405e-14,
+    "P_m2_lt_6": 0.00437082699680624,
+    "P_m2_lt_8": 0.062313709534102465,
+    "chi_mean": 1.077530017342378e-18,
+    "chi_sd": 0.10000000000000002
+   },
+   "agn": {
+    "integral_p_m1_q": 1.00000003967487,
+    "integral_p_m2": 1.00000003967487,
+    "P_m2_lt_5": 6.75178858814901e-17,
+    "P_m2_lt_6": 0.004277486330985923,
+    "P_m2_lt_8": 0.05781195027290427,
+    "chi_mean": 0.1,
+    "chi_sd": 0.1
+   }
+  }
+ }
+}
