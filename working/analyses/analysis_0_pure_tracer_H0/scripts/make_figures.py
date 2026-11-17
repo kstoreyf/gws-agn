@@ -25,7 +25,7 @@ no wall-clock, no network -- rerunning overwrites byte-comparable figures.
 
 --------------------------------------------------------------------------- #
 Style.  Self-contained copy of the project figure system, adapted from
-working/paper/scripts/figstyle.py (rcParams, the posterior/CI helpers) and
+working/analyses/common/figstyle.py (rcParams, the posterior/CI helpers) and
 working/analyses/analysis_2_complete_catalog_H0_fagn/scripts/make_figures.py
 (save/tidy conventions, light surface, PDF + PNG).  Kept local rather than
 imported so this directory renders without the paper tree on the path.

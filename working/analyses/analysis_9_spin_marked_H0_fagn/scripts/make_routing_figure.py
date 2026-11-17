@@ -26,7 +26,7 @@ JSON records, so the panels can be diffed without opening either file.
          link the diagnostic tests: if the mark's H0 effect lived in the routed
          events, dI_i would grow with |dP_i|.
 
-House conventions, from ../../../paper/scripts/figstyle.py: that module is the
+House conventions, from working/analyses/common/figstyle.py: that module is the
 visual system and nothing here invents a colour.  The Analysis-8/9 arm identity
 marked = blue is kept for the one mark that is a marked-minus-spatial contrast,
 the binned mean dI_i; it is not spent on the true host label, which is not an
@@ -52,7 +52,7 @@ HERE = Path(__file__).resolve().parent
 A9 = HERE.parent
 DIAG = A9 / "diagnostics"
 FIGS = A9 / "figs"
-PAPER_SCRIPTS = A9.parent.parent / "paper" / "scripts"
+PAPER_SCRIPTS = A9.parent.parent / "analyses" / "common"
 
 sys.path.insert(0, str(PAPER_SCRIPTS))
 import figstyle as fs  # noqa: E402

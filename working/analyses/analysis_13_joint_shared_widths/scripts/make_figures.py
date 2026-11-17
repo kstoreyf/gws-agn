@@ -12,7 +12,7 @@ RUN is the guarded run (max_likelihood_variance 20, core e7c3007, rslice); UNGUA
 seed-1 run (only the 5 N_obs floor), which supplies the clump points.
 
 Every drawn median / 90% end is diffed against its JSON (``check``). All plotted intervals
-and regions are 90%. Colours from ../../paper/scripts/figstyle.py: Analysis 13 = blue,
+and regions are 90%. Colours from working/analyses/common/figstyle.py: Analysis 13 = blue,
 Analysis 11D = aqua, edge clump = orange, planted values in ink. KDE bandwidths use the Kish
 n_eff.
 """
@@ -33,7 +33,7 @@ HERE = Path(__file__).resolve().parent
 A13 = HERE.parent
 RESULTS, FIGS = A13 / "results", A13 / "figs"
 A11_RESULTS = A13.parent / "analysis_11_free_common_population" / "results"
-sys.path.insert(0, str(A13.parent.parent / "paper" / "scripts"))
+sys.path.insert(0, str(A13.parent.parent / "analyses" / "common"))
 import figstyle as fs  # noqa: E402
 
 fs.use()

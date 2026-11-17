@@ -21,7 +21,7 @@ opening either file.
         against the fully marginalised ratios 0.8879 and 0.8996 as dashed
         references.
 
-House conventions, from ../../../paper/scripts/figstyle.py, which is the visual
+House conventions, from working/analyses/common/figstyle.py, which is the visual
 system: nothing here invents a colour.  EVERY plotted interval and band is 90 %;
 the 68 % numbers go to stdout and belong in text and tables, never on an axis --
 panel (b) is the one place 68 % appears on a canvas, and it is a width RATIO, not
@@ -50,7 +50,7 @@ HERE = Path(__file__).resolve().parent
 A9 = HERE.parent
 DIAG = A9 / "diagnostics"
 FIGS = A9 / "figs"
-PAPER_SCRIPTS = A9.parent.parent / "paper" / "scripts"
+PAPER_SCRIPTS = A9.parent.parent / "analyses" / "common"
 
 sys.path.insert(0, str(PAPER_SCRIPTS))
 import figstyle as fs  # noqa: E402

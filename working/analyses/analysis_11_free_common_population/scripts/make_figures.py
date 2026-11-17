@@ -12,7 +12,7 @@
 
 Every drawn median / 90% end is diffed against its JSON (``check``).  All plotted
 intervals and regions are 90%; 68% numbers are printed only.  Colours from
-../../paper/scripts/figstyle.py: Analysis 11 = blue, Analysis 10 = aqua, planted
+working/analyses/common/figstyle.py: Analysis 11 = blue, Analysis 10 = aqua, planted
 values in ink.
 """
 import json
@@ -31,7 +31,7 @@ HERE = Path(__file__).resolve().parent
 A11 = HERE.parent
 RESULTS, FIGS = A11 / "results", A11 / "figs"
 A10_RESULTS = A11.parent / "analysis_10_mass_spin_marked_multitracer" / "results"
-sys.path.insert(0, str(A11.parent.parent / "paper" / "scripts"))
+sys.path.insert(0, str(A11.parent.parent / "analyses" / "common"))
 import figstyle as fs  # noqa: E402
 
 fs.use()

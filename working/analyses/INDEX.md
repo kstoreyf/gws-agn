@@ -1,6 +1,6 @@
 # Analyses — index and conventions
 
-Updated 2026-10-01. `EXECUTIVE_SUMMARY.md` holds the science summary. This file records where
+Updated 2026-11-16. `EXECUTIVE_SUMMARY.md` holds the science summary. This file records where
 things live and the rules the directories follow.
 
 ## The ladder
@@ -30,6 +30,7 @@ Other directories here:
 - `experiments/`: the live part of the 2026-07 pre-campaign ladder (baseline, matched mock,
   two-tracer depth and seeds, the 4-D estimator recheck, model equivalence). Its per-pixel
   incomplete-catalog experiments are in `../archive/experiments/`.
+- `common/`: code shared by the analyses' figure scripts (`figstyle.py`, the plotting style).
 - `../archive/`: superseded work (below). `../campaign_100seeds/`: the 100-seed campaign.
 
 ## Code base (owner, 2026-10-02)
@@ -91,3 +92,16 @@ Analyses 0–2 use complete catalogs, so the completeness estimator does not ent
 Scripts, sbatch files and markdown were updated to the new paths. Recorded JSON provenance
 (diagnostics and result files written before the rename) keeps the paths that were true when it
 was written, so an old name inside a JSON record refers to the directory in the left column.
+
+## Moves (2026-11-16)
+
+| old | new |
+|---|---|
+| `working/paper/` (the ApJ draft) | `../archive/paper/`, frozen |
+| `working/paper_codex/` (never tracked) | `../archive/paper_codex/`, frozen |
+| `working/report/` | `../archive/report/`, frozen |
+| `working/paper/scripts/figstyle.py`, imported by the analyses' figure scripts | `common/figstyle.py`, the live copy |
+
+The three drafts are records only (each carries a `FROZEN.md`) and their build scripts still point
+at the old paths. The paper is rewritten from the analyses in `../paper_prd/`.
+

@@ -33,7 +33,7 @@ Reductions, all of them the ones the production summariser used:
     what figstyle.quantiles_1d implements;
   * 2-D regions are highest-posterior-density, figstyle.hpd_levels_2d.
 
-House conventions, from ../../../paper/scripts/figstyle.py:
+House conventions, from working/analyses/common/figstyle.py:
 
   * that module is the visual system -- ONECOL / TWOCOL widths, rcParams,
     palette, truth ink.  Nothing here invents a colour.
@@ -80,7 +80,7 @@ A8 = HERE.parent
 RESULTS = A8 / "results"
 FIGS = A8 / "figs"
 WORKING = A8.parent.parent
-PAPER_SCRIPTS = WORKING / "paper" / "scripts"
+PAPER_SCRIPTS = WORKING / "analyses" / "common"
 
 sys.path.insert(0, str(PAPER_SCRIPTS))
 import figstyle as fs  # noqa: E402  (path has to be set first)

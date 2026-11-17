@@ -58,7 +58,7 @@ Reductions:
     reimplementation of analysis_2/scripts/scan_h0f.py::marginal_ci);
   * 2-D regions are highest-posterior-density, figstyle.hpd_levels_2d.
 
-House conventions, from ../../../paper/scripts/figstyle.py: that module is the
+House conventions, from working/analyses/common/figstyle.py: that module is the
 visual system and nothing here invents a colour.  EVERY plotted interval, band
 and contour is 90 %; 68 % numbers are printed to stdout and never plotted.
 Arm identities, fixed across every figure in this script:
@@ -101,7 +101,7 @@ A10 = HERE.parent
 RESULTS = A10 / "results"
 FIGS = A10 / "figs"
 WORKING = A10.parent.parent
-PAPER_SCRIPTS = WORKING / "paper" / "scripts"
+PAPER_SCRIPTS = WORKING / "analyses" / "common"
 
 if str(PAPER_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(PAPER_SCRIPTS))

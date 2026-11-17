@@ -24,7 +24,7 @@ value the JSON records, so the panels can be diffed without opening either file.
          are additive or not; the interaction term the JSON reports is the
          departure of log BF_joint from the sum of these two coordinates.
 
-House conventions, from ../../../paper/scripts/figstyle.py: that module is the
+House conventions, from working/analyses/common/figstyle.py: that module is the
 visual system and nothing here invents a colour.  The sequential ramp is the
 house single-hue blue, used for the one ordered magnitude on the page; the
 categorical slots are spent on the mass mark (orange) and the spin mark (aqua)
@@ -51,7 +51,7 @@ HERE = Path(__file__).resolve().parent
 A10 = HERE.parent
 DIAG = A10 / "diagnostics"
 FIGS = A10 / "figs"
-PAPER_SCRIPTS = A10.parent.parent / "paper" / "scripts"
+PAPER_SCRIPTS = A10.parent.parent / "analyses" / "common"
 
 sys.path.insert(0, str(PAPER_SCRIPTS))
 import figstyle as fs  # noqa: E402

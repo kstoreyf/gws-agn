@@ -7,7 +7,7 @@
              Row 1 12M: (sigma_G, dmu_G). Row 2 12chi: (sigma_chi, dmu_chi).
 
 Every drawn median / 90% end is diffed against its JSON (``check``). All plotted
-intervals and regions are 90%. Colours from ../../paper/scripts/figstyle.py: Analysis 12
+intervals and regions are 90%. Colours from working/analyses/common/figstyle.py: Analysis 12
 = blue, Analysis 11D = aqua, planted values in ink. KDE bandwidths use the Kish n_eff.
 """
 import json
@@ -27,7 +27,7 @@ HERE = Path(__file__).resolve().parent
 A12 = HERE.parent
 RESULTS, FIGS = A12 / "results", A12 / "figs"
 A11_RESULTS = A12.parent / "analysis_11_free_common_population" / "results"
-sys.path.insert(0, str(A12.parent.parent / "paper" / "scripts"))
+sys.path.insert(0, str(A12.parent.parent / "analyses" / "common"))
 import figstyle as fs  # noqa: E402
 
 fs.use()

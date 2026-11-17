@@ -33,7 +33,7 @@ Reductions, all of them the ones the production summariser used:
     exactly analysis_2/scripts/scan_h0f.py::marginal_ci;
   * 2-D regions are highest-posterior-density, figstyle.hpd_levels_2d.
 
-House conventions, from ../../../paper/scripts/figstyle.py: that module is the
+House conventions, from working/analyses/common/figstyle.py: that module is the
 visual system and nothing here invents a colour.  EVERY plotted interval, band
 and contour is 90 %; the 68 % numbers are printed to stdout and belong in text
 and tables, never on an axis.  Arms keep the Analysis-8 identities: joint =
@@ -64,7 +64,7 @@ FIGS = A9 / "figs"
 WORKING = A9.parent.parent
 A8_RESULTS = WORKING / "analyses" / "analysis_8_spin_marked_fagn_fixed_H0" / "results"
 A2_RESULTS = WORKING / "analyses" / "analysis_2_complete_catalog_H0_fagn" / "results"
-PAPER_SCRIPTS = WORKING / "paper" / "scripts"
+PAPER_SCRIPTS = WORKING / "analyses" / "common"
 
 sys.path.insert(0, str(PAPER_SCRIPTS))
 import figstyle as fs  # noqa: E402

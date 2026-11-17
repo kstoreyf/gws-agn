@@ -70,7 +70,7 @@ Reductions:
     over f, and hand the result to the same ``summarise()``;
   * 2-D regions are highest-posterior-density, ``figstyle.hpd_levels_2d``.
 
-House conventions, from ../../../paper/scripts/figstyle.py: colour identities
+House conventions, from working/analyses/common/figstyle.py: colour identities
 match ``make_figures.py`` exactly (same module, same slots) --
 
   * joint (C10-J)   = blue  -- the running Analysis 8/9/10 "joint" identity.
@@ -110,7 +110,7 @@ A10 = HERE.parent
 RESULTS = A10 / "results"
 FIGS = A10 / "figs"
 WORKING = A10.parent.parent
-PAPER_SCRIPTS = WORKING / "paper" / "scripts"
+PAPER_SCRIPTS = WORKING / "analyses" / "common"
 A9_RESULTS = WORKING / "analyses" / "analysis_9_spin_marked_H0_fagn" / "results"
 
 if str(PAPER_SCRIPTS) not in sys.path:
