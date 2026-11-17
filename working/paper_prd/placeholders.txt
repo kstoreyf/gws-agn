@@ -1,0 +1,27 @@
+PRD paper: ledger of numbers not yet computable (written by scripts/build_values.py).
+Columns: macro | physical meaning | run that produces it (what is missing on disk)
+
+RED placeholders (23):
+\NullfAGNUpper | 90% upper limit on f_AGN from the combined posterior of simulated catalogs with no AGN-hosted mergers (input f_AGN = 0) | complete-catalog joint (H0, f_AGN) grids on catalogs generated with --f_agn 0 (none exist; the sky-shuffle null of Analysis 2 is a different construction)
+\NullHzeroComb | combined H0 posterior from those catalogs | same runs
+\NullHzeroLevel | credible level of the input H0 in that combined posterior | same runs
+\NullLBfZero | log10 Bayes factor of the two-population model against galaxy hosts only on those catalogs (Savage-Dickey at f_AGN = 0) | same runs
+\NullNcat | number of simulated catalogs with no AGN-hosted mergers | same runs
+\FluxNcat | simulated catalogs analysed with flux limits (only catalog A exists for the anchored-density grids) | Analysis-3 joint grids (c_mode=selection, densities at input) at m<18 (and the other limits) on further catalogs
+\FluxfCombEighteen | combined f_AGN posterior at m < 18 over several catalogs, densities at input | same runs
+\FluxHzeroCombEighteen | combined H0 posterior at m < 18 over several catalogs | same runs
+\FluxfCombEighteenLevel | credible level of the input f_AGN in that combined posterior | same runs
+\FluxHzeroCombEighteenLevel | credible level of the input H0 in that combined posterior | same runs
+\FreeLognGalEighteenComb | combined posterior of log10 n_gal at m < 18 over the three catalogs, both densities free | one nested-sampling run on the summed log-likelihood of catalogs A, B, C (shared H0, f_AGN, n_gal, n_AGN); the three per-catalog chains cannot be multiplied exactly
+\FreeLognAGNEighteenComb | combined posterior of log10 n_AGN at m < 18 over the three catalogs | same run
+\FreefAGNEighteenComb | combined posterior of f_AGN at m < 18 over the three catalogs, both densities free | same run
+\FreeHzeroEighteenComb | combined posterior of H0 at m < 18 over the three catalogs, both densities free | same run
+\FreeLognGalEighteenCombLevel | credible level of the input log10 n_gal = -3 in that combined posterior | same run
+\HDNcat | simulated catalogs with host-dependent masses and spins (one exists) | host-dependent mocks (--dmu_G_agn 5 --dmu_chi_agn 0.10) on further catalogs, eight-parameter model on each
+\HDEightHzeroComb | combined H0 posterior of the eight-parameter model over several host-dependent catalogs | same runs (combination needs one sampler run on the summed likelihood)
+\HDEightHzeroCombLevel | credible level of the input H0 in that combined posterior | same runs
+\HDEightDmuGCombLevel | credible level of the input mass-peak offset (+5 Msun) in the combined posterior | same runs
+\HDEightDmuChiCombLevel | credible level of the input spin-mean offset (+0.10) in the combined posterior | same runs
+\CommonHzeroComb | combined H0 posterior of the common-population model over several host-dependent catalogs (size of the bias) | common-population (H0, f_AGN) grids on the same host-dependent catalogs
+\LBEightVsFree | log10 Bayes factor of the eight-parameter model against the six-parameter model (widths fixed) | both models with nested sampling on one code (darksirens-core pinned), one selection-variance cap and one Delta mu_chi prior box; the stored runs differ in all three
+\LBEightVsCommon | log10 Bayes factor of the eight-parameter model against the common population | common-population evidence on the same code, cap and prior box as the eight-parameter run

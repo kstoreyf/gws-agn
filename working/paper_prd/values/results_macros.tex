@@ -1,0 +1,551 @@
+%% results_macros.tex -- written by scripts/build_values.py; do not edit by hand.
+%% RED (\ph):   not computable from the stored results; see placeholders.txt for the run that produces it.
+%% TEAL (\anc): a real number from the exploratory runs under working/analyses/; the production runs replace it.
+%% Plain:       design choices and inputs of the simulated catalogs (working/data).
+%% Every macro is traced in values/values.json (source file and key, or the computation).
+\definecolor{phred}{rgb}{0.80,0.05,0.05}
+\definecolor{ancteal}{rgb}{0.00,0.45,0.45}
+\newcommand{\ph}[1]{\textcolor{phred}{#1}}
+\newcommand{\anc}[1]{\textcolor{ancteal}{#1}}
+
+%% ---- simulated catalogs: design choices and inputs (plain) ----
+%% mock
+\newcommand{\MockHzero}{67.74}  % input Hubble constant
+\newcommand{\MockOmegam}{0.3075}  % input matter density Omega_m (fixed in every analysis)
+\newcommand{\MockfAGN}{0.30}  % input fraction of mergers hosted by AGN
+\newcommand{\MockfAGNRealised}{0.295}  % realised AGN-hosted fraction of the 1000 detected events of the reference catalog
+\newcommand{\MocknGal}{10^{-3}}  % comoving number density of the galaxy catalog
+\newcommand{\MocknAGN}{10^{-5}}  % comoving number density of the AGN catalog
+\newcommand{\MockLognGal}{-3.0}  % log10 of the galaxy number density (input of the free-abundance analysis)
+\newcommand{\MockLognAGN}{-5.0}  % log10 of the AGN number density
+\newcommand{\MockbGal}{1.2}  % linear bias of the galaxies
+\newcommand{\MockbAGN}{2.0}  % linear bias of the AGN
+\newcommand{\MockLcut}{1.09}  % luminosity cut of the galaxy sample, L > x L* (B-band Schechter function)
+\newcommand{\MockMBcut}{-20.56}  % absolute B magnitude of the galaxy cut
+\newcommand{\MockLXcut}{43.7}  % AGN class: log10 L_X(2-10 keV) above this value (pinned literature density)
+\newcommand{\MockNGal}{1.5\times10^{8}}  % realised galaxies to z = 1 (151,179,870)
+\newcommand{\MockNAGN}{1.5\times10^{6}}  % realised AGN to z = 1 (1,514,567)
+\newcommand{\MockzCat}{1}  % redshift depth of the catalogs
+\newcommand{\MockDz}{0.003}  % catalog redshift error sigma_z = this value times (1+z)
+\newcommand{\MockNside}{32}  % HEALPix nside of the catalog pixelisation
+\newcommand{\MockNev}{1000}  % detected mergers per simulated catalog
+\newcommand{\MockNsamp}{2000}  % posterior samples per event
+\newcommand{\MockSNRthr}{8}  % detection threshold on the observed signal-to-noise ratio
+\newcommand{\MockzHorizon}{0.31}  % largest true redshift of a detected event, reference catalog (the horizon)
+\newcommand{\MockzMedian}{0.13}  % median redshift of the detected events, reference catalog
+\newcommand{\MockzHorizonMin}{0.31}  % smallest horizon over the 9 catalogs of the joint analysis
+\newcommand{\MockzHorizonMax}{0.39}  % largest horizon over the 9 catalogs of the joint analysis
+\newcommand{\MockSkyMin}{1.0}  % smallest one-sigma sky localisation width, reference catalog
+\newcommand{\MockSkyMax}{2.4}  % largest one-sigma sky localisation width, reference catalog
+\newcommand{\MockSigLnMc}{0.08}  % chirp-mass error: sigma(ln Mc) = this value times 8/rho_obs
+\newcommand{\MockSigLnq}{0.60}  % mass-ratio error: sigma(ln q) = this value times 8/rho_obs
+\newcommand{\MockSigChi}{0.20}  % effective-spin error: sigma(chi_eff) = this value times 8/rho_obs
+\newcommand{\MockMlimTwentyOne}{21}  % apparent-magnitude limit m < 21
+\newcommand{\MockCompTwentyOne}{100.0}  % completeness of the galaxy catalog inside the horizon at m < 21 (AGN catalog: 100.0\%)
+\newcommand{\MockMlimTwenty}{20}  % apparent-magnitude limit m < 20
+\newcommand{\MockCompTwenty}{81.4}  % completeness of the galaxy catalog inside the horizon at m < 20 (AGN catalog: 81.4\%)
+\newcommand{\MockMlimNineteen}{19}  % apparent-magnitude limit m < 19
+\newcommand{\MockCompNineteen}{31.5}  % completeness of the galaxy catalog inside the horizon at m < 19 (AGN catalog: 31.7\%)
+\newcommand{\MockMlimEighteen}{18}  % apparent-magnitude limit m < 18
+\newcommand{\MockCompEighteen}{9.5}  % completeness of the galaxy catalog inside the horizon at m < 18 (AGN catalog: 9.6\%)
+\newcommand{\MockAlpha}{2.3}  % power-law index of the primary mass
+\newcommand{\MockMmin}{5}  % minimum mass
+\newcommand{\MockMmax}{80}  % maximum mass
+\newcommand{\MockPeakFrac}{0.90}  % fraction of the primary-mass distribution in the Gaussian peak
+\newcommand{\MockMuG}{35}  % location of the Gaussian mass peak (galaxy hosts; both host classes in the common-population mocks)
+\newcommand{\MockSigmaG}{5}  % width of the Gaussian mass peak
+\newcommand{\MockBeta}{1}  % power-law index of the mass ratio
+\newcommand{\MockMuChi}{0}  % mean effective spin (galaxy hosts)
+\newcommand{\MockSigmaChi}{0.1}  % width of the effective-spin distribution
+\newcommand{\MockGammaRate}{0}  % redshift evolution index of the merger rate, (1+z)^gamma
+\newcommand{\MockDmuG}{5}  % input offset of the AGN mass-peak location (host-dependent mock)
+\newcommand{\MockMuGAGN}{40}  % AGN mass-peak location in the host-dependent mock
+\newcommand{\MockDmuChi}{0.10}  % input offset of the AGN mean effective spin
+\newcommand{\MockHDNagn}{357}  % AGN-hosted events among the 1000 detected in the host-dependent mock
+\newcommand{\MockHDfDet}{0.357}  % AGN-hosted fraction of the detected events in the host-dependent mock (heavier AGN mergers are louder; input 0.30)
+\newcommand{\MockSpinNagn}{295}  % AGN-hosted events in the spin-offset-only mock (Analyses 8, 9)
+\newcommand{\MockCtrlBranchFrac}{0.30}  % fraction of mergers drawn from the offset population in the galaxy-only control mock (all hosts galaxies)
+
+%% ---- exploratory results (teal) ----
+%% C1
+\newcommand{\JointNcat}{\anc{9}}  % simulated catalogs with a complete joint (H0, f_AGN) grid on complete catalogs
+\newcommand{\JointHzeroCatA}{\anc{69.2^{+1.6}_{-1.6}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\JointHzeroCatAMed}{\anc{69.2}}  % median of H0, complete catalogs, joint (H0, f_AGN) fit, catalog A (seed 100)
+\newcommand{\JointHzeroCatALo}{\anc{67.6}}  % lower end of the 90\% interval of H0, complete catalogs, joint (H0, f_AGN) fit, catalog A (seed 100)
+\newcommand{\JointHzeroCatAHi}{\anc{70.8}}  % upper end of the 90\% interval of H0, complete catalogs, joint (H0, f_AGN) fit, catalog A (seed 100)
+\newcommand{\JointfCatA}{\anc{0.273^{+0.078}_{-0.075}}}  % f_AGN, complete catalogs, joint fit, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatAMed}{\anc{0.273}}  % median of f_AGN, complete catalogs, joint fit, catalog A (seed 100)
+\newcommand{\JointfCatALo}{\anc{0.198}}  % lower end of the 90\% interval of f_AGN, complete catalogs, joint fit, catalog A (seed 100)
+\newcommand{\JointfCatAHi}{\anc{0.352}}  % upper end of the 90\% interval of f_AGN, complete catalogs, joint fit, catalog A (seed 100)
+\newcommand{\JointRhoCatA}{\anc{0.07}}  % correlation coefficient of H0 and f_AGN, catalog A (seed 100)
+\newcommand{\JointHzeroCatB}{\anc{67.8^{+2.2}_{-2.0}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatB}{\anc{0.307^{+0.081}_{-0.077}}}  % f_AGN, complete catalogs, joint fit, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatB}{\anc{0.23}}  % correlation coefficient of H0 and f_AGN, catalog B (seed 101)
+\newcommand{\JointHzeroCatC}{\anc{66.5^{+1.9}_{-1.8}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatC}{\anc{0.247^{+0.085}_{-0.081}}}  % f_AGN, complete catalogs, joint fit, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatC}{\anc{0.10}}  % correlation coefficient of H0 and f_AGN, catalog C (seed 102)
+\newcommand{\JointHzeroCatD}{\anc{69.6^{+1.6}_{-1.5}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog D (seed 103) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatD}{\anc{0.256^{+0.078}_{-0.074}}}  % f_AGN, complete catalogs, joint fit, catalog D (seed 103) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatD}{\anc{0.03}}  % correlation coefficient of H0 and f_AGN, catalog D (seed 103)
+\newcommand{\JointHzeroCatE}{\anc{67.6^{+1.7}_{-1.5}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog E (seed 105) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatE}{\anc{0.352^{+0.083}_{-0.081}}}  % f_AGN, complete catalogs, joint fit, catalog E (seed 105) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatE}{\anc{0.09}}  % correlation coefficient of H0 and f_AGN, catalog E (seed 105)
+\newcommand{\JointHzeroCatF}{\anc{68.2^{+2.7}_{-2.7}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog F (seed 114) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatF}{\anc{0.268^{+0.081}_{-0.077}}}  % f_AGN, complete catalogs, joint fit, catalog F (seed 114) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatF}{\anc{0.03}}  % correlation coefficient of H0 and f_AGN, catalog F (seed 114)
+\newcommand{\JointHzeroCatG}{\anc{67.7^{+1.9}_{-1.7}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog G (seed 115) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatG}{\anc{0.330^{+0.082}_{-0.081}}}  % f_AGN, complete catalogs, joint fit, catalog G (seed 115) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatG}{\anc{0.10}}  % correlation coefficient of H0 and f_AGN, catalog G (seed 115)
+\newcommand{\JointHzeroCatH}{\anc{68.3^{+1.7}_{-1.7}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog H (seed 116) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatH}{\anc{0.351^{+0.086}_{-0.085}}}  % f_AGN, complete catalogs, joint fit, catalog H (seed 116) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatH}{\anc{0.15}}  % correlation coefficient of H0 and f_AGN, catalog H (seed 116)
+\newcommand{\JointHzeroCatI}{\anc{69.3^{+2.2}_{-2.6}}}  % H0, complete catalogs, joint (H0, f_AGN) fit, catalog I (seed 117) (median and 90\% equal-tailed interval)
+\newcommand{\JointfCatI}{\anc{0.154^{+0.083}_{-0.077}}}  % f_AGN, complete catalogs, joint fit, catalog I (seed 117) (median and 90\% equal-tailed interval)
+\newcommand{\JointRhoCatI}{\anc{-0.05}}  % correlation coefficient of H0 and f_AGN, catalog I (seed 117)
+\newcommand{\JointRhoMean}{\anc{0.08}}  % mean over the 9 catalogs of the H0-f_AGN correlation coefficient
+\newcommand{\JointRhoMin}{\anc{-0.05}}  % smallest H0-f_AGN correlation coefficient over the 9 catalogs
+\newcommand{\JointRhoMax}{\anc{0.23}}  % largest H0-f_AGN correlation coefficient over the 9 catalogs
+\newcommand{\JointHzeroComb}{\anc{68.36^{+0.63}_{-0.63}}}  % H0, combined posterior of the 9 complete-catalog joint analyses (median and 90\% equal-tailed interval)
+\newcommand{\JointHzeroCombMed}{\anc{68.36}}  % median of H0, combined posterior of the 9 complete-catalog joint analyses
+\newcommand{\JointHzeroCombLo}{\anc{67.73}}  % lower end of the 90\% interval of H0, combined posterior of the 9 complete-catalog joint analyses
+\newcommand{\JointHzeroCombHi}{\anc{69.00}}  % upper end of the 90\% interval of H0, combined posterior of the 9 complete-catalog joint analyses
+\newcommand{\JointfComb}{\anc{0.283^{+0.027}_{-0.027}}}  % f_AGN, combined posterior of the 9 complete-catalog joint analyses (median and 90\% equal-tailed interval)
+\newcommand{\JointfCombMed}{\anc{0.283}}  % median of f_AGN, combined posterior of the 9 complete-catalog joint analyses
+\newcommand{\JointfCombLo}{\anc{0.256}}  % lower end of the 90\% interval of f_AGN, combined posterior of the 9 complete-catalog joint analyses
+\newcommand{\JointfCombHi}{\anc{0.310}}  % upper end of the 90\% interval of f_AGN, combined posterior of the 9 complete-catalog joint analyses
+\newcommand{\JointHzeroCombLevel}{\anc{89}}  % two-sided credible level at which the input H0 = 67.74 lies in the combined complete-catalog posterior
+\newcommand{\JointfCombLevel}{\anc{70}}  % two-sided credible level at which the input f_AGN = 0.30 lies in the combined complete-catalog posterior
+\newcommand{\JointCombLevelTwoD}{\anc{88}}  % credible level of the highest-density 2-D region of the combined (H0, f_AGN) posterior whose boundary passes through the input point
+\newcommand{\JointRhoComb}{\anc{0.11}}  % H0-f_AGN correlation coefficient of the combined posterior
+\newcommand{\JointLnLVarMax}{\anc{11.0}}  % largest over the 9 catalogs of the Monte Carlo variance of ln L (selection plus event terms) at the grid maximum
+\newcommand{\JointLnLVarMin}{\anc{8.1}}  % smallest such variance over the 9 catalogs
+%% C2
+\newcommand{\GalOnlyHzeroCatA}{\anc{69.9^{+3.0}_{-2.7}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\GalOnlyHzeroCatAMed}{\anc{69.9}}  % median of H0 from all 1000 events with the galaxy catalog alone, catalog A (seed 100)
+\newcommand{\GalOnlyHzeroCatALo}{\anc{67.2}}  % lower end of the 90\% interval of H0 from all 1000 events with the galaxy catalog alone, catalog A (seed 100)
+\newcommand{\GalOnlyHzeroCatAHi}{\anc{72.9}}  % upper end of the 90\% interval of H0 from all 1000 events with the galaxy catalog alone, catalog A (seed 100)
+\newcommand{\LBfZeroCatA}{\anc{11.1}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog A (seed 100)
+\newcommand{\LBfOneCatA}{\anc{357.6}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog A (seed 100)
+\newcommand{\GalOnlyHzeroCatB}{\anc{69.0^{+5.2}_{-3.1}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatB}{\anc{12.6}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog B (seed 101)
+\newcommand{\LBfOneCatB}{\anc{258.1}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog B (seed 101)
+\newcommand{\GalOnlyHzeroCatC}{\anc{66.0^{+4.1}_{-3.8}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatC}{\anc{5.97}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog C (seed 102)
+\newcommand{\LBfOneCatC}{\anc{101.0}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog C (seed 102)
+\newcommand{\GalOnlyHzeroCatD}{\anc{73.4^{+3.6}_{-4.4}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog D (seed 103) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatD}{\anc{11.0}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog D (seed 103)
+\newcommand{\LBfOneCatD}{\anc{269.7}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog D (seed 103)
+\newcommand{\GalOnlyHzeroCatE}{\anc{67.2^{+3.2}_{-2.9}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog E (seed 105) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatE}{\anc{14.4}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog E (seed 105)
+\newcommand{\LBfOneCatE}{\anc{184.6}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog E (seed 105)
+\newcommand{\GalOnlyHzeroCatF}{\anc{69.4^{+4.9}_{-3.6}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog F (seed 114) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatF}{\anc{9.45}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog F (seed 114)
+\newcommand{\LBfOneCatF}{\anc{223.5}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog F (seed 114)
+\newcommand{\GalOnlyHzeroCatG}{\anc{69.3^{+5.3}_{-4.3}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog G (seed 115) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatG}{\anc{12.8}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog G (seed 115)
+\newcommand{\LBfOneCatG}{\anc{241.6}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog G (seed 115)
+\newcommand{\GalOnlyHzeroCatH}{\anc{68.2^{+3.6}_{-4.1}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog H (seed 116) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatH}{\anc{15.9}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog H (seed 116)
+\newcommand{\LBfOneCatH}{\anc{173.5}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog H (seed 116)
+\newcommand{\GalOnlyHzeroCatI}{\anc{69.8^{+2.7}_{-2.8}}}  % H0 from all 1000 events with the galaxy catalog alone, catalog I (seed 117) (median and 90\% equal-tailed interval)
+\newcommand{\LBfZeroCatI}{\anc{1.82}}  % log10 Bayes factor of the two-population model against galaxy hosts only, Savage-Dickey at f_AGN = 0, catalog I (seed 117)
+\newcommand{\LBfOneCatI}{\anc{203.2}}  % log10 Bayes factor of the two-population model against AGN hosts only, Savage-Dickey at f_AGN = 1, catalog I (seed 117)
+\newcommand{\AgnOnlyNoInterior}{\anc{8}}  % number of the 9 catalogs whose AGN-catalog-only H0 posterior (all events) has no interior maximum in [50, 100] (log-likelihood largest at a grid edge)
+\newcommand{\AgnOnlyHzeroCatC}{\anc{76.21^{+1.01}_{-0.81}}}  % H0 from all 1000 events with the AGN catalog alone, catalog C (seed 102), the one catalog whose AGN-only posterior has an interior maximum (median and 90\% equal-tailed interval)
+\newcommand{\AgnOnlyArgmaxCatA}{\anc{100.0}}  % H0 at which the AGN-catalog-only log-likelihood (all events, catalog A) is largest; 100 is the top of the scanned range
+\newcommand{\LBfZeroMin}{\anc{1.8}}  % smallest per-catalog log10 B (two populations against galaxy hosts only) over the 9 catalogs
+\newcommand{\LBfZeroMax}{\anc{15.9}}  % largest per-catalog log10 B (two populations against galaxy hosts only)
+\newcommand{\GalOnlyHzeroComb}{\anc{68.9^{+1.3}_{-1.3}}}  % H0 with the galaxy catalog alone (all events), combined over the 9 catalogs (median and 90\% equal-tailed interval)
+\newcommand{\GalOnlyHzeroCombMed}{\anc{68.9}}  % median of H0 with the galaxy catalog alone (all events), combined over the 9 catalogs
+\newcommand{\GalOnlyHzeroCombLo}{\anc{67.7}}  % lower end of the 90\% interval of H0 with the galaxy catalog alone (all events), combined over the 9 catalogs
+\newcommand{\GalOnlyHzeroCombHi}{\anc{70.2}}  % upper end of the 90\% interval of H0 with the galaxy catalog alone (all events), combined over the 9 catalogs
+\newcommand{\GalOnlyHzeroCombLevel}{\anc{88}}  % two-sided credible level of the input H0 in the combined galaxy-catalog-only posterior
+\newcommand{\LBfZeroComb}{\anc{101.2}}  % log10 Bayes factor of the two-population model against galaxy hosts only, combined over the 9 catalogs (Savage-Dickey at f_AGN = 0 on the summed grid)
+\newcommand{\LBfOneComb}{\anc{2037.9}}  % log10 Bayes factor of the two-population model against AGN hosts only, combined over the 9 catalogs (Savage-Dickey at f_AGN = 1)
+%% C3
+\newcommand{\PureNcat}{\anc{93}}  % simulated catalogs with both a 1000-event all-galaxy-host set and a 1000-event all-AGN-host set analysed
+\newcommand{\PureGalHalfSixtyEight}{\anc{2.11}}  % mean over catalogs of the 68\% half-width of H0 from 1000 galaxy-hosted mergers
+\newcommand{\PureAGNHalfSixtyEight}{\anc{0.45}}  % mean over catalogs of the 68\% half-width of H0 from 1000 AGN-hosted mergers
+\newcommand{\PureGalHalfNinety}{\anc{3.53}}  % mean over catalogs of the 90\% half-width of H0, galaxy-hosted set
+\newcommand{\PureAGNHalfNinety}{\anc{0.75}}  % mean over catalogs of the 90\% half-width of H0, AGN-hosted set
+\newcommand{\PureRatioSixtyEight}{\anc{4.7}}  % ratio of the mean 68\% half-widths, galaxy-hosted over AGN-hosted
+\newcommand{\PureRatioNinety}{\anc{4.7}}  % ratio of the mean 90\% half-widths, galaxy-hosted over AGN-hosted
+\newcommand{\PureGalHzeroComb}{\anc{67.71^{+0.36}_{-0.35}}}  % H0, combined posterior of the 93 galaxy-hosted event sets (median and 90\% equal-tailed interval)
+\newcommand{\PureGalHzeroCombMed}{\anc{67.71}}  % median of H0, combined posterior of the 93 galaxy-hosted event sets
+\newcommand{\PureGalHzeroCombLo}{\anc{67.35}}  % lower end of the 90\% interval of H0, combined posterior of the 93 galaxy-hosted event sets
+\newcommand{\PureGalHzeroCombHi}{\anc{68.06}}  % upper end of the 90\% interval of H0, combined posterior of the 93 galaxy-hosted event sets
+\newcommand{\PureGalHzeroCombLevel}{\anc{12}}  % two-sided credible level of the input H0 in the combined galaxy-hosted posterior
+\newcommand{\PureAGNHzeroComb}{\anc{67.820^{+0.080}_{-0.079}}}  % H0, combined posterior of the 93 AGN-hosted event sets (median and 90\% equal-tailed interval)
+\newcommand{\PureAGNHzeroCombMed}{\anc{67.820}}  % median of H0, combined posterior of the 93 AGN-hosted event sets
+\newcommand{\PureAGNHzeroCombLo}{\anc{67.741}}  % lower end of the 90\% interval of H0, combined posterior of the 93 AGN-hosted event sets
+\newcommand{\PureAGNHzeroCombHi}{\anc{67.901}}  % upper end of the 90\% interval of H0, combined posterior of the 93 AGN-hosted event sets
+\newcommand{\PureAGNHzeroCombLevel}{\anc{91}}  % two-sided credible level of the input H0 in the combined AGN-hosted posterior
+%% C4
+\newcommand{\FluxfHalfComplete}{\anc{0.077}}  % 90\% half-width of f_AGN with complete catalogs (reference catalog, C1 grid)
+\newcommand{\FluxHzeroHalfComplete}{\anc{1.60}}  % 90\% half-width of H0 with complete catalogs (reference catalog, C1 grid)
+\newcommand{\FluxHzeroTwentyOne}{\anc{69.2^{+1.6}_{-1.6}}}  % H0, flux limit m < 21, densities of missing hosts at their input values (median and 90\% equal-tailed interval)
+\newcommand{\FluxfTwentyOne}{\anc{0.273^{+0.078}_{-0.075}}}  % f_AGN, flux limit m < 21, densities at input (median and 90\% equal-tailed interval)
+\newcommand{\FluxfHalfTwentyOne}{\anc{0.077}}  % 90\% half-width of f_AGN at m < 21
+\newcommand{\FluxHzeroHalfTwentyOne}{\anc{1.59}}  % 90\% half-width of H0 at m < 21
+\newcommand{\FluxfRatioTwentyOne}{\anc{1.00}}  % 90\% half-width of f_AGN at m < 21 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxHzeroRatioTwentyOne}{\anc{1.00}}  % 90\% half-width of H0 at m < 21 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxfShiftTwentyOne}{\anc{0.000}}  % median f_AGN at m < 21 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroShiftTwentyOne}{\anc{0.00}}  % median H0 at m < 21 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroTwenty}{\anc{69.2^{+1.6}_{-1.6}}}  % H0, flux limit m < 20, densities of missing hosts at their input values (median and 90\% equal-tailed interval)
+\newcommand{\FluxfTwenty}{\anc{0.273^{+0.078}_{-0.075}}}  % f_AGN, flux limit m < 20, densities at input (median and 90\% equal-tailed interval)
+\newcommand{\FluxfHalfTwenty}{\anc{0.077}}  % 90\% half-width of f_AGN at m < 20
+\newcommand{\FluxHzeroHalfTwenty}{\anc{1.60}}  % 90\% half-width of H0 at m < 20
+\newcommand{\FluxfRatioTwenty}{\anc{1.00}}  % 90\% half-width of f_AGN at m < 20 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxHzeroRatioTwenty}{\anc{1.00}}  % 90\% half-width of H0 at m < 20 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxfShiftTwenty}{\anc{0.000}}  % median f_AGN at m < 20 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroShiftTwenty}{\anc{0.00}}  % median H0 at m < 20 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroNineteen}{\anc{69.0^{+1.6}_{-1.6}}}  % H0, flux limit m < 19, densities of missing hosts at their input values (median and 90\% equal-tailed interval)
+\newcommand{\FluxfNineteen}{\anc{0.275^{+0.079}_{-0.076}}}  % f_AGN, flux limit m < 19, densities at input (median and 90\% equal-tailed interval)
+\newcommand{\FluxfHalfNineteen}{\anc{0.078}}  % 90\% half-width of f_AGN at m < 19
+\newcommand{\FluxHzeroHalfNineteen}{\anc{1.62}}  % 90\% half-width of H0 at m < 19
+\newcommand{\FluxfRatioNineteen}{\anc{1.01}}  % 90\% half-width of f_AGN at m < 19 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxHzeroRatioNineteen}{\anc{1.01}}  % 90\% half-width of H0 at m < 19 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxfShiftNineteen}{\anc{0.002}}  % median f_AGN at m < 19 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroShiftNineteen}{\anc{-0.26}}  % median H0 at m < 19 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroEighteen}{\anc{68.7^{+1.6}_{-1.8}}}  % H0, flux limit m < 18, densities of missing hosts at their input values (median and 90\% equal-tailed interval)
+\newcommand{\FluxfEighteen}{\anc{0.286^{+0.083}_{-0.080}}}  % f_AGN, flux limit m < 18, densities at input (median and 90\% equal-tailed interval)
+\newcommand{\FluxfHalfEighteen}{\anc{0.082}}  % 90\% half-width of f_AGN at m < 18
+\newcommand{\FluxHzeroHalfEighteen}{\anc{1.71}}  % 90\% half-width of H0 at m < 18
+\newcommand{\FluxfRatioEighteen}{\anc{1.06}}  % 90\% half-width of f_AGN at m < 18 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxHzeroRatioEighteen}{\anc{1.07}}  % 90\% half-width of H0 at m < 18 over that with complete catalogs (C1 grid, same catalog)
+\newcommand{\FluxfShiftEighteen}{\anc{0.013}}  % median f_AGN at m < 18 minus the complete-catalog median (same catalog)
+\newcommand{\FluxHzeroShiftEighteen}{\anc{-0.55}}  % median H0 at m < 18 minus the complete-catalog median (same catalog)
+%% C5
+\newcommand{\SlopefAGNTwentyOne}{\anc{0.43}}  % d f_AGN / d log10 n_AGN at m < 21 (assumed AGN density of missing hosts varied by factors 0.5 to 2)
+\newcommand{\SlopeHzeroTwentyOne}{\anc{-0.02}}  % d H0 / d log10 n_AGN at m < 21
+\newcommand{\DeltafTwoTwentyOne}{\anc{0.13}}  % change of f_AGN for a factor of two in the assumed AGN density at m < 21 (slope times log10 2)
+\newcommand{\DeltaHzeroTwoTwentyOne}{\anc{-0.01}}  % change of H0 for a factor of two in the assumed AGN density at m < 21 (slope times log10 2)
+\newcommand{\SlopefAGNTwenty}{\anc{0.44}}  % d f_AGN / d log10 n_AGN at m < 20 (assumed AGN density of missing hosts varied by factors 0.5 to 2)
+\newcommand{\SlopeHzeroTwenty}{\anc{-0.03}}  % d H0 / d log10 n_AGN at m < 20
+\newcommand{\DeltafTwoTwenty}{\anc{0.13}}  % change of f_AGN for a factor of two in the assumed AGN density at m < 20 (slope times log10 2)
+\newcommand{\DeltaHzeroTwoTwenty}{\anc{-0.01}}  % change of H0 for a factor of two in the assumed AGN density at m < 20 (slope times log10 2)
+\newcommand{\SlopefAGNNineteen}{\anc{0.47}}  % d f_AGN / d log10 n_AGN at m < 19 (assumed AGN density of missing hosts varied by factors 0.5 to 2)
+\newcommand{\SlopeHzeroNineteen}{\anc{0.71}}  % d H0 / d log10 n_AGN at m < 19
+\newcommand{\DeltafTwoNineteen}{\anc{0.14}}  % change of f_AGN for a factor of two in the assumed AGN density at m < 19 (slope times log10 2)
+\newcommand{\DeltaHzeroTwoNineteen}{\anc{0.21}}  % change of H0 for a factor of two in the assumed AGN density at m < 19 (slope times log10 2)
+\newcommand{\SlopefAGNEighteen}{\anc{0.46}}  % d f_AGN / d log10 n_AGN at m < 18 (assumed AGN density of missing hosts varied by factors 0.5 to 2)
+\newcommand{\SlopeHzeroEighteen}{\anc{3.21}}  % d H0 / d log10 n_AGN at m < 18
+\newcommand{\DeltafTwoEighteen}{\anc{0.14}}  % change of f_AGN for a factor of two in the assumed AGN density at m < 18 (slope times log10 2)
+\newcommand{\DeltaHzeroTwoEighteen}{\anc{0.97}}  % change of H0 for a factor of two in the assumed AGN density at m < 18 (slope times log10 2)
+\newcommand{\SlopefAGNMin}{\anc{0.43}}  % smallest d f_AGN / d log10 n_AGN over the four flux limits
+\newcommand{\SlopefAGNMax}{\anc{0.47}}  % largest d f_AGN / d log10 n_AGN over the four flux limits
+%% C6
+\newcommand{\FreeLognGalTwentyOne}{\anc{-3.20^{+1.09}_{-0.73}}}  % log10 galaxy number density, both densities free, m < 21, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeLognAGNTwentyOne}{\anc{-4.85^{+0.75}_{-0.94}}}  % log10 AGN number density, both densities free, m < 21, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreefAGNTwentyOne}{\anc{0.39^{+0.45}_{-0.33}}}  % f_AGN, both densities free, m < 21, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroTwentyOne}{\anc{69.2^{+1.6}_{-1.6}}}  % H0, both densities free, m < 21, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeRhofGalTwentyOne}{\anc{-0.56}}  % correlation of f_AGN with log10 n_gal, m < 21, catalog A (seed 100)
+\newcommand{\FreeRhofAGNTwentyOne}{\anc{0.47}}  % correlation of f_AGN with log10 n_AGN, m < 21, catalog A (seed 100)
+\newcommand{\FreefWidthTwentyOne}{\anc{0.79}}  % width of the f_AGN 90\% interval as a fraction of its prior range [0, 1], m < 21, catalog A (seed 100)
+\newcommand{\FreeLnZTwentyOne}{\anc{-4180.76\pm0.09}}  % natural-log evidence of the free-density model, m < 21, catalog A (seed 100) (dynesty)
+\newcommand{\FreeLognGalTwenty}{\anc{-3.26^{+0.66}_{-0.65}}}  % log10 galaxy number density, both densities free, m < 20, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeLognAGNTwenty}{\anc{-4.90^{+0.69}_{-0.90}}}  % log10 AGN number density, both densities free, m < 20, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreefAGNTwenty}{\anc{0.44^{+0.43}_{-0.36}}}  % f_AGN, both densities free, m < 20, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroTwenty}{\anc{69.1^{+1.6}_{-1.6}}}  % H0, both densities free, m < 20, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeRhofGalTwenty}{\anc{-0.54}}  % correlation of f_AGN with log10 n_gal, m < 20, catalog A (seed 100)
+\newcommand{\FreeRhofAGNTwenty}{\anc{0.70}}  % correlation of f_AGN with log10 n_AGN, m < 20, catalog A (seed 100)
+\newcommand{\FreefWidthTwenty}{\anc{0.79}}  % width of the f_AGN 90\% interval as a fraction of its prior range [0, 1], m < 20, catalog A (seed 100)
+\newcommand{\FreeLnZTwenty}{\anc{-4181.13\pm0.09}}  % natural-log evidence of the free-density model, m < 20, catalog A (seed 100) (dynesty)
+\newcommand{\FreeLognGalNineteen}{\anc{-3.04^{+0.28}_{-0.71}}}  % log10 galaxy number density, both densities free, m < 19, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeLognAGNNineteen}{\anc{-4.68^{+0.36}_{-0.83}}}  % log10 AGN number density, both densities free, m < 19, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreefAGNNineteen}{\anc{0.46^{+0.43}_{-0.39}}}  % f_AGN, both densities free, m < 19, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroNineteen}{\anc{69.2^{+1.7}_{-1.6}}}  % H0, both densities free, m < 19, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeRhofGalNineteen}{\anc{-0.92}}  % correlation of f_AGN with log10 n_gal, m < 19, catalog A (seed 100)
+\newcommand{\FreeRhofAGNNineteen}{\anc{0.89}}  % correlation of f_AGN with log10 n_AGN, m < 19, catalog A (seed 100)
+\newcommand{\FreefWidthNineteen}{\anc{0.82}}  % width of the f_AGN 90\% interval as a fraction of its prior range [0, 1], m < 19, catalog A (seed 100)
+\newcommand{\FreeLnZNineteen}{\anc{-4183.91\pm0.10}}  % natural-log evidence of the free-density model, m < 19, catalog A (seed 100) (dynesty)
+\newcommand{\FreeLognGalEighteen}{\anc{-3.12^{+0.29}_{-0.68}}}  % log10 galaxy number density, both densities free, m < 18, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeLognAGNEighteen}{\anc{-4.72^{+0.32}_{-0.82}}}  % log10 AGN number density, both densities free, m < 18, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreefAGNEighteen}{\anc{0.50^{+0.40}_{-0.42}}}  % f_AGN, both densities free, m < 18, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroEighteen}{\anc{69.1^{+1.8}_{-1.9}}}  % H0, both densities free, m < 18, catalog A (seed 100) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroEighteenMed}{\anc{69.1}}  % median of H0, both densities free, m < 18, catalog A (seed 100)
+\newcommand{\FreeHzeroEighteenLo}{\anc{67.2}}  % lower end of the 90\% interval of H0, both densities free, m < 18, catalog A (seed 100)
+\newcommand{\FreeHzeroEighteenHi}{\anc{70.9}}  % upper end of the 90\% interval of H0, both densities free, m < 18, catalog A (seed 100)
+\newcommand{\FreeRhofGalEighteen}{\anc{-0.94}}  % correlation of f_AGN with log10 n_gal, m < 18, catalog A (seed 100)
+\newcommand{\FreeRhofAGNEighteen}{\anc{0.90}}  % correlation of f_AGN with log10 n_AGN, m < 18, catalog A (seed 100)
+\newcommand{\FreefWidthEighteen}{\anc{0.82}}  % width of the f_AGN 90\% interval as a fraction of its prior range [0, 1], m < 18, catalog A (seed 100)
+\newcommand{\FreeLnZEighteen}{\anc{-4187.54\pm0.11}}  % natural-log evidence of the free-density model, m < 18, catalog A (seed 100) (dynesty)
+\newcommand{\FreeLognGalEighteenCatB}{\anc{-3.11^{+0.27}_{-0.67}}}  % log10 galaxy number density, both densities free, m < 18, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\FreeLognAGNEighteenCatB}{\anc{-4.84^{+0.31}_{-0.77}}}  % log10 AGN number density, both densities free, m < 18, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\FreefAGNEighteenCatB}{\anc{0.48^{+0.41}_{-0.40}}}  % f_AGN, both densities free, m < 18, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroEighteenCatB}{\anc{67.6^{+2.1}_{-1.9}}}  % H0, both densities free, m < 18, catalog B (seed 101) (median and 90\% equal-tailed interval)
+\newcommand{\FreeRhofGalEighteenCatB}{\anc{-0.94}}  % correlation of f_AGN with log10 n_gal, m < 18, catalog B (seed 101)
+\newcommand{\FreeRhofAGNEighteenCatB}{\anc{0.91}}  % correlation of f_AGN with log10 n_AGN, m < 18, catalog B (seed 101)
+\newcommand{\FreefWidthEighteenCatB}{\anc{0.81}}  % width of the f_AGN 90\% interval as a fraction of its prior range [0, 1], m < 18, catalog B (seed 101)
+\newcommand{\FreeLnZEighteenCatB}{\anc{-4244.45\pm0.11}}  % natural-log evidence of the free-density model, m < 18, catalog B (seed 101) (dynesty)
+\newcommand{\FreeLognGalEighteenCatC}{\anc{-3.17^{+0.27}_{-0.62}}}  % log10 galaxy number density, both densities free, m < 18, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\FreeLognAGNEighteenCatC}{\anc{-4.80^{+0.33}_{-0.79}}}  % log10 AGN number density, both densities free, m < 18, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\FreefAGNEighteenCatC}{\anc{0.46^{+0.41}_{-0.39}}}  % f_AGN, both densities free, m < 18, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\FreeHzeroEighteenCatC}{\anc{67.7^{+2.7}_{-2.3}}}  % H0, both densities free, m < 18, catalog C (seed 102) (median and 90\% equal-tailed interval)
+\newcommand{\FreeRhofGalEighteenCatC}{\anc{-0.93}}  % correlation of f_AGN with log10 n_gal, m < 18, catalog C (seed 102)
+\newcommand{\FreeRhofAGNEighteenCatC}{\anc{0.90}}  % correlation of f_AGN with log10 n_AGN, m < 18, catalog C (seed 102)
+\newcommand{\FreefWidthEighteenCatC}{\anc{0.80}}  % width of the f_AGN 90\% interval as a fraction of its prior range [0, 1], m < 18, catalog C (seed 102)
+\newcommand{\FreeLnZEighteenCatC}{\anc{-4205.51\pm0.10}}  % natural-log evidence of the free-density model, m < 18, catalog C (seed 102) (dynesty)
+\newcommand{\FreeHzeroSpread}{\anc{0.13}}  % range (max minus min) of the H0 medians over the four flux limits with both densities free (catalog A)
+%% C7
+\newcommand{\CommonHzero}{\anc{70.6^{+2.3}_{-1.7}}}  % H0, host-dependent mock analysed with one common population (both offsets zero), two catalogs (median and 90\% equal-tailed interval)
+\newcommand{\CommonHzeroMed}{\anc{70.6}}  % median of H0, host-dependent mock analysed with one common population (both offsets zero), two catalogs
+\newcommand{\CommonHzeroLo}{\anc{68.9}}  % lower end of the 90\% interval of H0, host-dependent mock analysed with one common population (both offsets zero), two catalogs
+\newcommand{\CommonHzeroHi}{\anc{72.9}}  % upper end of the 90\% interval of H0, host-dependent mock analysed with one common population (both offsets zero), two catalogs
+\newcommand{\CommonfAGN}{\anc{0.287^{+0.086}_{-0.086}}}  % f_AGN, common-population model on the host-dependent mock (median and 90\% equal-tailed interval)
+%% C8
+\newcommand{\HDFixHzero}{\anc{67.7^{+1.7}_{-2.2}}}  % H0, host-dependent model (offsets free, reference population fixed at mu_G = 35, mu_chi = 0) (median and 90\% equal-tailed interval)
+\newcommand{\HDFixHzeroMed}{\anc{67.7}}  % median of H0, host-dependent model (offsets free, reference population fixed at mu_G = 35, mu_chi = 0)
+\newcommand{\HDFixHzeroLo}{\anc{65.4}}  % lower end of the 90\% interval of H0, host-dependent model (offsets free, reference population fixed at mu_G = 35, mu_chi = 0)
+\newcommand{\HDFixHzeroHi}{\anc{69.4}}  % upper end of the 90\% interval of H0, host-dependent model (offsets free, reference population fixed at mu_G = 35, mu_chi = 0)
+\newcommand{\HDFixfAGN}{\anc{0.273^{+0.068}_{-0.061}}}  % f_AGN, host-dependent model with the reference population fixed (median and 90\% equal-tailed interval)
+\newcommand{\HDFixfAGNMed}{\anc{0.273}}  % median of f_AGN, host-dependent model with the reference population fixed
+\newcommand{\HDFixfAGNLo}{\anc{0.212}}  % lower end of the 90\% interval of f_AGN, host-dependent model with the reference population fixed
+\newcommand{\HDFixfAGNHi}{\anc{0.342}}  % upper end of the 90\% interval of f_AGN, host-dependent model with the reference population fixed
+\newcommand{\HDFixDmuG}{\anc{4.80^{+1.08}_{-0.98}}}  % AGN mass-peak offset, host-dependent model with the reference population fixed (median and 90\% equal-tailed interval)
+\newcommand{\HDFixDmuGMed}{\anc{4.80}}  % median of AGN mass-peak offset, host-dependent model with the reference population fixed
+\newcommand{\HDFixDmuGLo}{\anc{3.81}}  % lower end of the 90\% interval of AGN mass-peak offset, host-dependent model with the reference population fixed
+\newcommand{\HDFixDmuGHi}{\anc{5.87}}  % upper end of the 90\% interval of AGN mass-peak offset, host-dependent model with the reference population fixed
+\newcommand{\HDFixDmuChi}{\anc{0.118^{+0.027}_{-0.024}}}  % AGN spin-mean offset, host-dependent model with the reference population fixed (median and 90\% equal-tailed interval)
+\newcommand{\HDFixDmuChiMed}{\anc{0.118}}  % median of AGN spin-mean offset, host-dependent model with the reference population fixed
+\newcommand{\HDFixDmuChiLo}{\anc{0.094}}  % lower end of the 90\% interval of AGN spin-mean offset, host-dependent model with the reference population fixed
+\newcommand{\HDFixDmuChiHi}{\anc{0.145}}  % upper end of the 90\% interval of AGN spin-mean offset, host-dependent model with the reference population fixed
+\newcommand{\HDFixRhoHzeroDmuG}{\anc{-0.25}}  % correlation of H0 and dmuG, host-dependent model with the reference population fixed
+\newcommand{\HDFixRhoHzerof}{\anc{0.09}}  % correlation of H0 and f, host-dependent model with the reference population fixed
+\newcommand{\HDFixRhofDmuG}{\anc{-0.59}}  % correlation of f and dmuG, host-dependent model with the reference population fixed
+\newcommand{\HDFixRhofDmuChi}{\anc{-0.53}}  % correlation of f and dmuChi, host-dependent model with the reference population fixed
+\newcommand{\HDFreeHzero}{\anc{67.2^{+2.0}_{-2.3}}}  % H0, host-dependent model with the reference peak location and spin mean free (six parameters) (median and 90\% equal-tailed interval)
+\newcommand{\HDFreeHzeroMed}{\anc{67.2}}  % median of H0, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeHzeroLo}{\anc{64.8}}  % lower end of the 90\% interval of H0, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeHzeroHi}{\anc{69.1}}  % upper end of the 90\% interval of H0, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreefAGN}{\anc{0.266^{+0.079}_{-0.068}}}  % f_AGN, host-dependent model with the reference peak location and spin mean free (six parameters) (median and 90\% equal-tailed interval)
+\newcommand{\HDFreefAGNMed}{\anc{0.266}}  % median of f_AGN, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreefAGNLo}{\anc{0.198}}  % lower end of the 90\% interval of f_AGN, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreefAGNHi}{\anc{0.345}}  % upper end of the 90\% interval of f_AGN, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeMuG}{\anc{35.61^{+0.64}_{-0.65}}}  % reference mass-peak location mu_G, host-dependent model with the reference peak location and spin mean free (six parameters) (median and 90\% equal-tailed interval)
+\newcommand{\HDFreeMuGMed}{\anc{35.61}}  % median of reference mass-peak location mu_G, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeMuGLo}{\anc{34.96}}  % lower end of the 90\% interval of reference mass-peak location mu_G, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeMuGHi}{\anc{36.25}}  % upper end of the 90\% interval of reference mass-peak location mu_G, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeDmuG}{\anc{3.9^{+1.4}_{-1.4}}}  % AGN mass-peak offset Delta mu_G, host-dependent model with the reference peak location and spin mean free (six parameters) (median and 90\% equal-tailed interval)
+\newcommand{\HDFreeDmuGMed}{\anc{3.9}}  % median of AGN mass-peak offset Delta mu_G, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeDmuGLo}{\anc{2.5}}  % lower end of the 90\% interval of AGN mass-peak offset Delta mu_G, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeDmuGHi}{\anc{5.4}}  % upper end of the 90\% interval of AGN mass-peak offset Delta mu_G, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeMuChi}{\anc{-0.003^{+0.015}_{-0.015}}}  % reference mean effective spin mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters) (median and 90\% equal-tailed interval)
+\newcommand{\HDFreeMuChiMed}{\anc{-0.003}}  % median of reference mean effective spin mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeMuChiLo}{\anc{-0.019}}  % lower end of the 90\% interval of reference mean effective spin mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeMuChiHi}{\anc{0.011}}  % upper end of the 90\% interval of reference mean effective spin mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeDmuChi}{\anc{0.131^{+0.034}_{-0.034}}}  % AGN spin-mean offset Delta mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters) (median and 90\% equal-tailed interval)
+\newcommand{\HDFreeDmuChiMed}{\anc{0.131}}  % median of AGN spin-mean offset Delta mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeDmuChiLo}{\anc{0.097}}  % lower end of the 90\% interval of AGN spin-mean offset Delta mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\HDFreeDmuChiHi}{\anc{0.164}}  % upper end of the 90\% interval of AGN spin-mean offset Delta mu_chi, host-dependent model with the reference peak location and spin mean free (six parameters)
+\newcommand{\WidthMHzero}{\anc{67.4^{+1.7}_{-2.4}}}  % H0, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthMHzeroMed}{\anc{67.4}}  % median of H0, six-parameter model plus a shared mass-peak width
+\newcommand{\WidthMHzeroLo}{\anc{65.0}}  % lower end of the 90\% interval of H0, six-parameter model plus a shared mass-peak width
+\newcommand{\WidthMHzeroHi}{\anc{69.2}}  % upper end of the 90\% interval of H0, six-parameter model plus a shared mass-peak width
+\newcommand{\WidthMfAGN}{\anc{0.267^{+0.073}_{-0.069}}}  % f_AGN, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthMMuG}{\anc{35.60^{+0.60}_{-0.64}}}  % reference mass-peak location mu_G, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthMDmuG}{\anc{4.5^{+1.4}_{-1.6}}}  % AGN mass-peak offset Delta mu_G, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthMMuChi}{\anc{-0.004^{+0.015}_{-0.015}}}  % reference mean effective spin mu_chi, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthMDmuChi}{\anc{0.130^{+0.033}_{-0.032}}}  % AGN spin-mean offset Delta mu_chi, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthMSigmaG}{\anc{4.70^{+0.44}_{-0.46}}}  % shared mass-peak width sigma_G, six-parameter model plus a shared mass-peak width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiHzero}{\anc{67.2^{+1.9}_{-2.3}}}  % H0, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiHzeroMed}{\anc{67.2}}  % median of H0, six-parameter model plus a shared spin width
+\newcommand{\WidthChiHzeroLo}{\anc{64.8}}  % lower end of the 90\% interval of H0, six-parameter model plus a shared spin width
+\newcommand{\WidthChiHzeroHi}{\anc{69.0}}  % upper end of the 90\% interval of H0, six-parameter model plus a shared spin width
+\newcommand{\WidthChifAGN}{\anc{0.264^{+0.070}_{-0.066}}}  % f_AGN, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiMuG}{\anc{35.66^{+0.60}_{-0.64}}}  % reference mass-peak location mu_G, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiDmuG}{\anc{3.9^{+1.4}_{-1.4}}}  % AGN mass-peak offset Delta mu_G, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiMuChi}{\anc{-0.012^{+0.015}_{-0.015}}}  % reference mean effective spin mu_chi, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiDmuChi}{\anc{0.160^{+0.031}_{-0.037}}}  % AGN spin-mean offset Delta mu_chi, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\WidthChiSigmaChi}{\anc{0.081^{+0.014}_{-0.014}}}  % shared effective-spin width sigma_chi, six-parameter model plus a shared spin width (median and 90\% equal-tailed interval)
+\newcommand{\HDEightHzero}{\anc{67.4^{+1.7}_{-2.4}}}  % H0, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightHzeroMed}{\anc{67.4}}  % median of H0, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightHzeroLo}{\anc{65.0}}  % lower end of the 90\% interval of H0, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightHzeroHi}{\anc{69.2}}  % upper end of the 90\% interval of H0, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightfAGN}{\anc{0.263^{+0.070}_{-0.064}}}  % f_AGN, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightfAGNMed}{\anc{0.263}}  % median of f_AGN, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightfAGNLo}{\anc{0.199}}  % lower end of the 90\% interval of f_AGN, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightfAGNHi}{\anc{0.333}}  % upper end of the 90\% interval of f_AGN, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightMuG}{\anc{35.66^{+0.59}_{-0.63}}}  % reference mass-peak location mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightMuGMed}{\anc{35.66}}  % median of reference mass-peak location mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightMuGLo}{\anc{35.02}}  % lower end of the 90\% interval of reference mass-peak location mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightMuGHi}{\anc{36.25}}  % upper end of the 90\% interval of reference mass-peak location mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightDmuG}{\anc{4.2^{+1.4}_{-1.5}}}  % AGN mass-peak offset Delta mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightDmuGMed}{\anc{4.2}}  % median of AGN mass-peak offset Delta mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightDmuGLo}{\anc{2.7}}  % lower end of the 90\% interval of AGN mass-peak offset Delta mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightDmuGHi}{\anc{5.6}}  % upper end of the 90\% interval of AGN mass-peak offset Delta mu_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightMuChi}{\anc{-0.011^{+0.015}_{-0.015}}}  % reference mean effective spin mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightMuChiMed}{\anc{-0.011}}  % median of reference mean effective spin mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightMuChiLo}{\anc{-0.026}}  % lower end of the 90\% interval of reference mean effective spin mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightMuChiHi}{\anc{0.003}}  % upper end of the 90\% interval of reference mean effective spin mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightDmuChi}{\anc{0.158^{+0.033}_{-0.038}}}  % AGN spin-mean offset Delta mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightDmuChiMed}{\anc{0.158}}  % median of AGN spin-mean offset Delta mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightDmuChiLo}{\anc{0.121}}  % lower end of the 90\% interval of AGN spin-mean offset Delta mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightDmuChiHi}{\anc{0.191}}  % upper end of the 90\% interval of AGN spin-mean offset Delta mu_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightSigmaG}{\anc{4.83^{+0.44}_{-0.42}}}  % shared mass-peak width sigma_G, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightSigmaGMed}{\anc{4.83}}  % median of shared mass-peak width sigma_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightSigmaGLo}{\anc{4.41}}  % lower end of the 90\% interval of shared mass-peak width sigma_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightSigmaGHi}{\anc{5.27}}  % upper end of the 90\% interval of shared mass-peak width sigma_G, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightSigmaChi}{\anc{0.082^{+0.014}_{-0.014}}}  % shared effective-spin width sigma_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free) (median and 90\% equal-tailed interval)
+\newcommand{\HDEightSigmaChiMed}{\anc{0.082}}  % median of shared effective-spin width sigma_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightSigmaChiLo}{\anc{0.069}}  % lower end of the 90\% interval of shared effective-spin width sigma_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+\newcommand{\HDEightSigmaChiHi}{\anc{0.096}}  % upper end of the 90\% interval of shared effective-spin width sigma_chi, eight-parameter model (reference location, spin mean, both widths and both offsets free)
+%% C7
+\newcommand{\ShiftCommonMinusFix}{\anc{2.93}}  % H0 median of the common-population model minus that of the host-dependent model (reference fixed); both on H0 in [60, 76]
+\newcommand{\ShiftCommonFullMinusFix}{\anc{2.93}}  % same, common-population model on its full H0 range [50, 100]
+%% C8
+\newcommand{\ShiftFreeMinusFix}{\anc{-0.50}}  % H0 median of the free-reference model minus the fixed-reference model
+\newcommand{\ShiftEightMinusFix}{\anc{-0.25}}  % H0 median of the eight-parameter model minus the fixed-reference model
+\newcommand{\ShiftEightMinusFree}{\anc{0.25}}  % H0 median of the eight-parameter model minus the six-parameter model
+%% C7
+\newcommand{\ShiftCommonMinusEight}{\anc{3.18}}  % H0 median of the common-population model (H0 in [60, 76]) minus the eight-parameter model
+%% C8
+\newcommand{\WRatioFixOverCommon}{\anc{1.01}}  % 90\% width of H0, fixed-reference host-dependent model over the common-population model (both on [60, 76])
+\newcommand{\WRatioFreeOverFix}{\anc{1.09}}  % 90\% width of H0, free-reference model over fixed-reference model
+\newcommand{\WRatioEightOverFree}{\anc{0.97}}  % 90\% width of H0, eight-parameter over six-parameter model
+\newcommand{\WRatioEightOverFix}{\anc{1.05}}  % 90\% width of H0, eight-parameter over fixed-reference model
+\newcommand{\WRatioEightOverCommon}{\anc{1.06}}  % 90\% width of H0, eight-parameter over common-population model (on [60, 76])
+\newcommand{\WRatioWidthMOverFree}{\anc{0.98}}  % 90\% width of H0, shared-mass-width model over six-parameter model
+\newcommand{\WRatioWidthChiOverFree}{\anc{0.98}}  % 90\% width of H0, shared-spin-width model over six-parameter model
+\newcommand{\WRatioFreeDmuGOverFix}{\anc{1.39}}  % 90\% width of the mass-peak offset, free-reference over fixed-reference model
+\newcommand{\WRatioFreeDmuChiOverFix}{\anc{1.31}}  % 90\% width of the spin-mean offset, free-reference over fixed-reference model
+\newcommand{\HDFreeRhoHzeroMuG}{\anc{-0.22}}  % correlation of H0 and the reference mass-peak location, HDFree
+\newcommand{\HDFreeRhoHzeroDmuG}{\anc{-0.09}}  % correlation of H0 and the AGN mass-peak offset, HDFree
+\newcommand{\HDEightRhoHzeroMuG}{\anc{-0.23}}  % correlation of H0 and the reference mass-peak location, HDEight
+\newcommand{\HDEightRhoHzeroDmuG}{\anc{0.01}}  % correlation of H0 and the AGN mass-peak offset, HDEight
+%% C7
+\newcommand{\PinPZeroHzero}{\anc{70.6^{+2.3}_{-1.7}}}  % H0 on the host-dependent mock, two catalogs, both offsets zero, H0 window [60, 76] (median and 90\% equal-tailed interval)
+\newcommand{\PinPOneHzero}{\anc{67.6^{+1.7}_{-2.1}}}  % H0 on the host-dependent mock, two catalogs, offsets pinned at (Delta mu_G, Delta mu_chi) = (5.0, 0.115), H0 window [60, 76] (median and 90\% equal-tailed interval)
+\newcommand{\PinIZeroHzero}{\anc{75.27^{+0.67}_{-1.60}}}  % H0 on the host-dependent mock, galaxy catalog for both host classes, both offsets zero (the posterior runs into the top of the window: a lower bound), H0 window [60, 76] (median and 90\% equal-tailed interval)
+\newcommand{\PinIOneHzero}{\anc{71.0^{+3.9}_{-3.3}}}  % H0 on the host-dependent mock, galaxy catalog for both host classes, offsets pinned at (5.0, 0.115), H0 window [60, 76] (median and 90\% equal-tailed interval)
+%% C8
+\newcommand{\WRatioPinTwoOverGalOnly}{\anc{0.53}}  % 90\% width of H0 with both catalogs over that with the galaxy catalog for both host classes, offsets pinned (P1 over I1)
+\newcommand{\ShiftGalOnlyPinMinusTwo}{\anc{3.39}}  % H0 median with the galaxy catalog for both host classes minus with both catalogs, offsets pinned (I1 minus P1)
+%% C7
+\newcommand{\ShiftCommonMinusPinned}{\anc{3.01}}  % H0 median of the common-population model (on [60, 76]) minus the two-catalog model with offsets pinned (P1)
+\newcommand{\CtrlModHzero}{\anc{68.8^{+5.8}_{-3.7}}}  % H0, galaxy-only control mock with the AGN-like population offset by +5 Msun and +0.10, offsets modelled (pinned at input) (median and 90\% equal-tailed interval)
+\newcommand{\CtrlModHzeroMed}{\anc{68.8}}  % median of H0, galaxy-only control mock with the AGN-like population offset by +5 Msun and +0.10, offsets modelled (pinned at input)
+\newcommand{\CtrlModHzeroLo}{\anc{65.1}}  % lower end of the 90\% interval of H0, galaxy-only control mock with the AGN-like population offset by +5 Msun and +0.10, offsets modelled (pinned at input)
+\newcommand{\CtrlModHzeroHi}{\anc{74.6}}  % upper end of the 90\% interval of H0, galaxy-only control mock with the AGN-like population offset by +5 Msun and +0.10, offsets modelled (pinned at input)
+\newcommand{\CtrlModfBranch}{\anc{0.281^{+0.065}_{-0.064}}}  % fraction of mergers in the offset population, galaxy-only control mock with the AGN-like population offset by +5 Msun and +0.10, offsets modelled (pinned at input) (median and 90\% equal-tailed interval)
+\newcommand{\CtrlUnmodHzero}{\anc{88.9^{+4.7}_{-4.2}}}  % H0, same mock, offsets not modelled (common population); the posterior is cut by the top of the range at 100, so it is a lower bound (median and 90\% equal-tailed interval)
+\newcommand{\CtrlUnmodHzeroMed}{\anc{88.9}}  % median of H0, same mock, offsets not modelled (common population); the posterior is cut by the top of the range at 100, so it is a lower bound
+\newcommand{\CtrlUnmodHzeroLo}{\anc{84.7}}  % lower end of the 90\% interval of H0, same mock, offsets not modelled (common population); the posterior is cut by the top of the range at 100, so it is a lower bound
+\newcommand{\CtrlUnmodHzeroHi}{\anc{93.6}}  % upper end of the 90\% interval of H0, same mock, offsets not modelled (common population); the posterior is cut by the top of the range at 100, so it is a lower bound
+\newcommand{\CtrlSpinOnlyHzero}{\anc{67.4^{+2.8}_{-2.9}}}  % H0, galaxy-only control mock with spin offset only, spin offset modelled (pinned at input) (median and 90\% equal-tailed interval)
+\newcommand{\CtrlSpinOnlyfBranch}{\anc{0.221^{+0.092}_{-0.089}}}  % fraction of mergers in the offset population, galaxy-only control mock with spin offset only, spin offset modelled (pinned at input) (median and 90\% equal-tailed interval)
+\newcommand{\ShiftCtrlUnmodMinusMod}{\anc{20.1}}  % H0 median with the offsets unmodelled minus modelled, galaxy-only control mock (a lower bound: the unmodelled posterior is cut by the top of the range at 100)
+\newcommand{\CtrlUnmodHzeroEdge}{\anc{0.0046}}  % posterior density at H0 = 100 relative to its peak, galaxy-only control with offsets unmodelled
+\newcommand{\WRatioCtrlModOverSpinOnly}{\anc{1.69}}  % 90\% width of H0 with the mass offset present and modelled over that with only the spin offset (galaxy-only control mocks)
+%% C8
+\newcommand{\FixHSpatialfAGN}{\anc{0.295^{+0.082}_{-0.079}}}  % f_AGN at fixed H0, host-dependent mock, common population (offsets zero) (median and 90\% equal-tailed interval)
+\newcommand{\FixHSpinfAGN}{\anc{0.304^{+0.072}_{-0.067}}}  % f_AGN at fixed H0, host-dependent mock, spin offset only modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHSpinDmuChi}{\anc{0.121^{+0.029}_{-0.026}}}  % spin-mean offset at fixed H0, host-dependent mock, spin offset only modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHMassfAGN}{\anc{0.294^{+0.076}_{-0.071}}}  % f_AGN at fixed H0, host-dependent mock, mass offset only modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHMassDmuG}{\anc{4.52^{+1.09}_{-0.98}}}  % mass-peak offset at fixed H0, mass offset only modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHBothfAGN}{\anc{0.276^{+0.068}_{-0.061}}}  % f_AGN at fixed H0, both offsets modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHBothDmuG}{\anc{4.75^{+1.03}_{-0.95}}}  % mass-peak offset at fixed H0, both offsets modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHBothDmuChi}{\anc{0.117^{+0.026}_{-0.024}}}  % spin-mean offset at fixed H0, both offsets modelled (median and 90\% equal-tailed interval)
+\newcommand{\FixHFreefAGN}{\anc{0.274^{+0.076}_{-0.068}}}  % f_AGN, fixed H0, reference location and spin mean free (Analysis 11C) (median and 90\% equal-tailed interval)
+\newcommand{\FixHFreeMuG}{\anc{35.56^{+0.61}_{-0.66}}}  % reference mass-peak location mu_G, fixed H0, reference location and spin mean free (Analysis 11C) (median and 90\% equal-tailed interval)
+\newcommand{\FixHFreeDmuG}{\anc{3.9^{+1.4}_{-1.4}}}  % AGN mass-peak offset Delta mu_G, fixed H0, reference location and spin mean free (Analysis 11C) (median and 90\% equal-tailed interval)
+\newcommand{\FixHFreeMuChi}{\anc{-0.004^{+0.014}_{-0.015}}}  % reference mean effective spin mu_chi, fixed H0, reference location and spin mean free (Analysis 11C) (median and 90\% equal-tailed interval)
+\newcommand{\FixHFreeDmuChi}{\anc{0.128^{+0.032}_{-0.032}}}  % AGN spin-mean offset Delta mu_chi, fixed H0, reference location and spin mean free (Analysis 11C) (median and 90\% equal-tailed interval)
+\newcommand{\LBBothOffsetsFixH}{\anc{29.5}}  % log10 Bayes factor of the host-dependent model (both offsets free) against both offsets zero, fixed H0 = 67.74 (Savage-Dickey: arm S is the cube's zero-offset slice) (grid integration: numerical uncertainty below 0.005)
+\newcommand{\LBSpinOnlyFixH}{\anc{14.1}}  % log10 Bayes factor, spin offset only against no offsets, fixed H0, host-dependent mock (grid integration: numerical uncertainty below 0.005)
+\newcommand{\LBMassOnlyFixH}{\anc{12.7}}  % log10 Bayes factor, mass offset only against no offsets, fixed H0, host-dependent mock (grid integration: numerical uncertainty below 0.005)
+\newcommand{\LBBothVsSpinFixH}{\anc{15.4}}  % log10 Bayes factor, both offsets against spin offset only, fixed H0 (grid integration: numerical uncertainty below 0.005)
+\newcommand{\LBBothVsMassFixH}{\anc{16.7}}  % log10 Bayes factor, both offsets against mass offset only, fixed H0 (grid integration: numerical uncertainty below 0.005)
+\newcommand{\LBFreeRefFixH}{\anc{-1.20\pm0.08}}  % log10 Bayes factor, reference location and spin mean free against fixed at (35, 0), fixed H0 = 67.74 (11C against the A10 cube in the 11C prior box)
+%% C7
+\newcommand{\LBOffsetsVsCommon}{\anc{28.3}}  % log10 Bayes factor of the host-dependent model (offsets free, reference fixed) against the common population, H0 free (grid integration: numerical uncertainty below 0.005)
+\newcommand{\LnZCommon}{\anc{-4357.49}}  % ln evidence of the common-population model, H0 in [60,76] (grid integration; numerical uncertainty in values.json)
+%% C8
+\newcommand{\LnZFix}{\anc{-4292.30}}  % ln evidence of the fixed-reference host-dependent model in the 11D box (grid integration)
+\newcommand{\LBFreeRefVsFix}{\anc{-1.12\pm0.08}}  % log10 Bayes factor, reference location and spin mean free against fixed, H0 free (11D against C10-J)
+%% C7
+\newcommand{\LBFreeRefVsCommon}{\anc{27.2\pm0.08}}  % log10 Bayes factor, six-parameter host-dependent model against the common population, H0 free
+%% C8
+\newcommand{\LBWidthMVsFree}{\anc{-0.98\pm0.12}}  % log10 Bayes factor, shared mass-peak width free (flat on [1, 10] Msun) against fixed at 5 Msun
+\newcommand{\LBWidthChiVsFree}{\anc{-0.73\pm0.13}}  % log10 Bayes factor, shared spin width free (flat on [0.01, 1]) against fixed at 0.1
+\newcommand{\LnZFree}{\anc{-4294.89\pm0.19}}  % ln evidence (dynesty, merged runs) of LnZFree
+\newcommand{\LnZWidthM}{\anc{-4297.15\pm0.21}}  % ln evidence (dynesty, merged runs) of LnZWidthM
+\newcommand{\LnZWidthChi}{\anc{-4296.57\pm0.22}}  % ln evidence (dynesty, merged runs) of LnZWidthChi
+\newcommand{\LnZFreeFixH}{\anc{-4293.40\pm0.18}}  % ln evidence (dynesty, merged runs) of LnZFreeFixH
+\newcommand{\LnZEight}{\anc{-4302.90\pm0.33}}  % ln evidence of the eight-parameter model (one dynesty run, darksirens-core e7c3007, variance cap 20, Delta mu_chi box [-0.05, 0.30])
+%% C7
+\newcommand{\LBCtrlModVsUnmod}{\anc{13.9}}  % log10 Bayes factor, galaxy-only control mock: population offsets at their input values against no offsets, (H0, f) free, prior H0 [50,100] (grid integration: numerical uncertainty below 0.005)
+%% C9
+\newcommand{\SpinPosfAGN}{\anc{0.265^{+0.077}_{-0.074}}}  % f_AGN at fixed H0 from positions only (spin offset not modelled), spin-offset mock (median and 90\% equal-tailed interval)
+\newcommand{\SpinPosfAGNMed}{\anc{0.265}}  % median of f_AGN at fixed H0 from positions only (spin offset not modelled), spin-offset mock
+\newcommand{\SpinPosfAGNLo}{\anc{0.191}}  % lower end of the 90\% interval of f_AGN at fixed H0 from positions only (spin offset not modelled), spin-offset mock
+\newcommand{\SpinPosfAGNHi}{\anc{0.341}}  % upper end of the 90\% interval of f_AGN at fixed H0 from positions only (spin offset not modelled), spin-offset mock
+\newcommand{\SpinBothfAGN}{\anc{0.262^{+0.073}_{-0.069}}}  % f_AGN at fixed H0 with positions and the spin offset modelled (median and 90\% equal-tailed interval)
+\newcommand{\SpinBothfAGNMed}{\anc{0.262}}  % median of f_AGN at fixed H0 with positions and the spin offset modelled
+\newcommand{\SpinBothfAGNLo}{\anc{0.192}}  % lower end of the 90\% interval of f_AGN at fixed H0 with positions and the spin offset modelled
+\newcommand{\SpinBothfAGNHi}{\anc{0.335}}  % upper end of the 90\% interval of f_AGN at fixed H0 with positions and the spin offset modelled
+\newcommand{\SpinBothDmuChi}{\anc{0.107^{+0.035}_{-0.029}}}  % spin-mean offset at fixed H0 with positions (two catalogs) and spins (median and 90\% equal-tailed interval)
+\newcommand{\SpinBothDmuChiMed}{\anc{0.107}}  % median of spin-mean offset at fixed H0 with positions (two catalogs) and spins
+\newcommand{\SpinBothDmuChiLo}{\anc{0.078}}  % lower end of the 90\% interval of spin-mean offset at fixed H0 with positions (two catalogs) and spins
+\newcommand{\SpinBothDmuChiHi}{\anc{0.142}}  % upper end of the 90\% interval of spin-mean offset at fixed H0 with positions (two catalogs) and spins
+\newcommand{\SpinIntfAGN}{\anc{0.31^{+0.53}_{-0.20}}}  % f_AGN at fixed H0 from spins alone (one galaxy catalog in both slots: no positional host information) (median and 90\% equal-tailed interval)
+\newcommand{\SpinIntDmuChi}{\anc{0.082^{+0.091}_{-0.052}}}  % spin-mean offset at fixed H0 from spins alone (median and 90\% equal-tailed interval)
+\newcommand{\SpinIntDmuChiMed}{\anc{0.082}}  % median of spin-mean offset at fixed H0 from spins alone
+\newcommand{\SpinIntDmuChiLo}{\anc{0.029}}  % lower end of the 90\% interval of spin-mean offset at fixed H0 from spins alone
+\newcommand{\SpinIntDmuChiHi}{\anc{0.172}}  % upper end of the 90\% interval of spin-mean offset at fixed H0 from spins alone
+\newcommand{\SpinfWidthRatio}{\anc{0.952}}  % 90\% width of f_AGN with the spin offset modelled over without (positions only), fixed H0
+\newcommand{\SpinfWidthRatioSixtyEight}{\anc{0.952}}  % 68\% width of f_AGN with the spin offset modelled over without, fixed H0
+\newcommand{\SpinfWidthChange}{\anc{-4.8}}  % percentage change of the f_AGN 90\% width when the spin offset is added, fixed H0
+\newcommand{\SpinDmuChiWidthRatio}{\anc{2.2}}  % 90\% width of the spin-mean offset from spins alone over that with the catalogs, fixed H0
+\newcommand{\SpinDmuChiWidthRatioSixtyEight}{\anc{2.4}}  % same with 68\% widths
+\newcommand{\SpinIntfWidthRatio}{\anc{4.8}}  % 90\% width of f_AGN from spins alone over that from positions alone, fixed H0
+\newcommand{\SpinBothRho}{\anc{-0.55}}  % correlation of f_AGN and the spin-mean offset with positions and spins, fixed H0
+\newcommand{\LBSpinFixH}{\anc{8.54}}  % log10 Bayes factor of a spin-mean offset against none (Savage-Dickey at Delta mu_chi = 0, prior flat on [-0.2, 0.25]), fixed H0, with the catalogs
+\newcommand{\LBSpinIntFixH}{\anc{3.97}}  % log10 Bayes factor of a spin-mean offset against none (Savage-Dickey at Delta mu_chi = 0, prior flat on [-0.2, 0.25]), fixed H0, from spins alone
+\newcommand{\SpinHPosHzero}{\anc{69.1^{+1.6}_{-1.6}}}  % H0 from positions only (spin offset not modelled), spin-offset mock, H0 free (window [63, 76]) (median and 90\% equal-tailed interval)
+\newcommand{\SpinHPosHzeroMed}{\anc{69.1}}  % median of H0 from positions only (spin offset not modelled), spin-offset mock, H0 free (window [63, 76])
+\newcommand{\SpinHPosHzeroLo}{\anc{67.5}}  % lower end of the 90\% interval of H0 from positions only (spin offset not modelled), spin-offset mock, H0 free (window [63, 76])
+\newcommand{\SpinHPosHzeroHi}{\anc{70.7}}  % upper end of the 90\% interval of H0 from positions only (spin offset not modelled), spin-offset mock, H0 free (window [63, 76])
+\newcommand{\SpinHBothHzero}{\anc{69.1^{+1.5}_{-1.4}}}  % H0 with positions and the spin offset modelled, spin-offset mock (median and 90\% equal-tailed interval)
+\newcommand{\SpinHBothHzeroMed}{\anc{69.1}}  % median of H0 with positions and the spin offset modelled, spin-offset mock
+\newcommand{\SpinHBothHzeroLo}{\anc{67.6}}  % lower end of the 90\% interval of H0 with positions and the spin offset modelled, spin-offset mock
+\newcommand{\SpinHBothHzeroHi}{\anc{70.6}}  % upper end of the 90\% interval of H0 with positions and the spin offset modelled, spin-offset mock
+\newcommand{\SpinHPosfAGN}{\anc{0.270^{+0.078}_{-0.075}}}  % f_AGN from positions only, H0 free (median and 90\% equal-tailed interval)
+\newcommand{\SpinHBothfAGN}{\anc{0.264^{+0.074}_{-0.070}}}  % f_AGN with positions and spins, H0 free (median and 90\% equal-tailed interval)
+\newcommand{\SpinHBothDmuChi}{\anc{0.108^{+0.035}_{-0.029}}}  % spin-mean offset with positions and spins, H0 free (median and 90\% equal-tailed interval)
+\newcommand{\SpinHzeroWidthRatio}{\anc{0.902}}  % 90\% width of H0 with the spin offset modelled over without, both on H0 in [63, 76]
+\newcommand{\SpinHzeroWidthRatioSixtyEight}{\anc{0.885}}  % same with 68\% widths
+\newcommand{\LBSpinHfree}{\anc{8.62}}  % log10 Bayes factor of a spin-mean offset against none (Savage-Dickey at Delta mu_chi = 0), H0 free
+
+%% ---- placeholders (red) ----
+%% validation
+\newcommand{\NullfAGNUpper}{\ph{0.0X}}  % 90\% upper limit on f_AGN from the combined posterior of simulated catalogs with no AGN-hosted mergers (input f_AGN = 0)
+\newcommand{\NullHzeroComb}{\ph{XX.X^{+X.X}_{-X.X}}}  % combined H0 posterior from those catalogs
+\newcommand{\NullHzeroLevel}{\ph{XX}}  % credible level of the input H0 in that combined posterior
+\newcommand{\NullLBfZero}{\ph{-X.X}}  % log10 Bayes factor of the two-population model against galaxy hosts only on those catalogs (Savage-Dickey at f_AGN = 0)
+\newcommand{\NullNcat}{\ph{XX}}  % number of simulated catalogs with no AGN-hosted mergers
+%% C4
+\newcommand{\FluxNcat}{\ph{XX}}  % simulated catalogs analysed with flux limits (only catalog A exists for the anchored-density grids)
+\newcommand{\FluxfCombEighteen}{\ph{0.XX^{+0.XX}_{-0.XX}}}  % combined f_AGN posterior at m < 18 over several catalogs, densities at input
+\newcommand{\FluxHzeroCombEighteen}{\ph{XX.X^{+X.X}_{-X.X}}}  % combined H0 posterior at m < 18 over several catalogs
+\newcommand{\FluxfCombEighteenLevel}{\ph{XX}}  % credible level of the input f_AGN in that combined posterior
+\newcommand{\FluxHzeroCombEighteenLevel}{\ph{XX}}  % credible level of the input H0 in that combined posterior
+%% C6
+\newcommand{\FreeLognGalEighteenComb}{\ph{-X.XX^{+0.XX}_{-0.XX}}}  % combined posterior of log10 n_gal at m < 18 over the three catalogs, both densities free
+\newcommand{\FreeLognAGNEighteenComb}{\ph{-X.XX^{+0.XX}_{-0.XX}}}  % combined posterior of log10 n_AGN at m < 18 over the three catalogs
+\newcommand{\FreefAGNEighteenComb}{\ph{0.XX^{+0.XX}_{-0.XX}}}  % combined posterior of f_AGN at m < 18 over the three catalogs, both densities free
+\newcommand{\FreeHzeroEighteenComb}{\ph{XX.X^{+X.X}_{-X.X}}}  % combined posterior of H0 at m < 18 over the three catalogs, both densities free
+\newcommand{\FreeLognGalEighteenCombLevel}{\ph{XX}}  % credible level of the input log10 n_gal = -3 in that combined posterior
+%% C7
+\newcommand{\HDNcat}{\ph{XX}}  % simulated catalogs with host-dependent masses and spins (one exists)
+%% C8
+\newcommand{\HDEightHzeroComb}{\ph{XX.X^{+X.X}_{-X.X}}}  % combined H0 posterior of the eight-parameter model over several host-dependent catalogs
+\newcommand{\HDEightHzeroCombLevel}{\ph{XX}}  % credible level of the input H0 in that combined posterior
+\newcommand{\HDEightDmuGCombLevel}{\ph{XX}}  % credible level of the input mass-peak offset (+5 Msun) in the combined posterior
+\newcommand{\HDEightDmuChiCombLevel}{\ph{XX}}  % credible level of the input spin-mean offset (+0.10) in the combined posterior
+%% C7
+\newcommand{\CommonHzeroComb}{\ph{XX.X^{+X.X}_{-X.X}}}  % combined H0 posterior of the common-population model over several host-dependent catalogs (size of the bias)
+%% C8
+\newcommand{\LBEightVsFree}{\ph{X.X\pm X.X}}  % log10 Bayes factor of the eight-parameter model against the six-parameter model (widths fixed)
+%% C7
+\newcommand{\LBEightVsCommon}{\ph{X.X\pm X.X}}  % log10 Bayes factor of the eight-parameter model against the common population

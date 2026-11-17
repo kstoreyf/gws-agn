@@ -1,0 +1,65 @@
+Runs the paper needs (draft of 16 Nov 2026; nothing here has been launched).
+Each run fills the red and teal macros named in placeholders.txt. Reasons are in notes/GAPS.md.
+
+Common to all runs
+  Code: darksirens-core at one pinned commit, every population value and every
+    catalog-evaluation option set explicitly (owner's rule of 2 Oct 2026).
+  Data: the v3 mock family (working/data/README.md). A "catalog" is one simulated
+    catalog pair with its 1000 detected events and its injection set.
+  Priors: uniform. H0 [50, 100] (two-parameter runs) or [60, 76] (host-dependent
+    runs); f_AGN [0, 1]; log10 n_gal [-4, -1]; log10 n_AGN [-6, -4]; mass-peak
+    location [20, 50] Msun and offset [-10, 10]; spin mean and offset as in
+    Analysis 13; widths as in Analysis 13.
+  Output: posterior samples or a grid, and the evidence. Bayes factors between
+    nested models by Savage-Dickey where a grid allows, otherwise from evidences.
+  Numerics: posterior samples per event and injection count set by run R0; the
+    variance of ln L recorded in every run.
+
+R0  Monte Carlo accuracy (decides the settings of everything below)
+    One catalog. All-AGN event set, H0 only, and the mixed set, (H0, f_AGN).
+    Redraw the posterior samples 20 times at 2,000 / 8,000 / 32,000 per event;
+    redraw the injection set 5 times. Report the spread of the posterior median
+    and width over redraws against the posterior width.            ~10 GPU-h
+    Fills: the accuracy clause of Sec. V and Appendix A; closes gaps A1, A2.
+
+R1  Complete catalogs, two populations: (H0, f_AGN). 10 catalogs.   Sec. IV A, V
+R2  Complete catalogs, all events, galaxy catalog alone and AGN catalog alone:
+    H0. 10 catalogs.                                                 Sec. IV B
+R3  Event sets with all hosts galaxies and with all hosts AGN, matching catalog:
+    H0. 20 catalogs each.                                            Sec. IV B
+R4  Two-population model on event sets with no AGN-hosted mergers, and on a
+    mixed set with input f_AGN = 0.10: (H0, f_AGN). 10 catalogs each. Sec. V
+R5  Flux-limited catalogs (limits 21, 20, 19, 18), number densities at their
+    inputs: (H0, f_AGN). 10 catalogs.                                Sec. IV C
+R5b Same as R5 and R6 with the host population normalised over the catalog
+    depth (survey z_depth at the catalog edge, or z_max at the edge) instead of
+    0 < z < 5, and "complete" represented without a nominal magnitude limit.
+    Tests the identity of claim L2: the response of f_AGN to the assumed AGN
+    density should then scale with the uncatalogued share. 3 catalogs. Sec. IV C
+R6  Same, AGN number density set to 0.5, 0.7, 1, 1.4, 2 times its input:
+    (H0, f_AGN). 3 catalogs.                                         Sec. IV C
+R7  Flux-limited catalogs, number densities free:
+    (H0, f_AGN, log10 n_gal, log10 n_AGN), nested sampling. 5 catalogs, four
+    limits.                                                          Sec. IV D
+R8  Host-dependent mock (AGN mass peak +5 Msun, spin mean +0.10), two catalogs,
+    nested sampling, 10 catalogs:
+      a  common population: (H0, f_AGN)
+      b  offsets free: + (mass-peak offset, spin-mean offset)
+      c  reference population free: + (mass-peak location, spin mean)
+      d  widths free: + (mass-peak width, spin width)
+      e  common population with its own free parameters and no offsets:
+         (H0, f_AGN, mass-peak location and width, spin mean and width).
+         The fair single-population analysis; 8a fixes the population at
+         the galaxy-class values.                                Sec. IV B, V
+R9  Host-dependent mock, galaxy catalog alone, offset modelled and not modelled:
+    3 catalogs.                                                      Sec. IV E
+R10 Complete catalogs at twice the pixel resolution: (H0, f_AGN). 2 catalogs.
+                                                                     Appendix A
+Checks before production (gaps A4, A5): one flux-limited cell and one
+free-density run on core against the stored results; the complete-catalog fit at
+the input number densities against the zero-density limit.            ~5 GPU-h
+
+Cost at the settings of the exploratory runs (0.28 s per call on an 80 GB A100):
+R1-R6 and R10 about 40 GPU-h in total; R7 about 30; R8 about 200 (8d dominates
+at 18 GPU-h per catalog); R9 about 10. R0 may multiply the per-call cost by 4
+to 16.
