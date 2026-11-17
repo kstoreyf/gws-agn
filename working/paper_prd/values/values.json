@@ -30460,7 +30460,7 @@
     "median": 36.08351647747809,
     "ci68": [
      28.47935594198885,
-     45.74163570373067
+     45.74163570373069
     ],
     "ci90": [
      23.525147632581536,
@@ -31956,7 +31956,7 @@
      24.503951912326006,
      55.57292382016388
     ],
-    "ul90": 51.42048873033585,
+    "ul90": 51.42048873033586,
     "level_of_input": 0.33111997280338046
    },
    "units": "",
@@ -33437,7 +33437,7 @@
    "class": "ph",
    "render": "\\ph{40^{+19}_{-14}}",
    "value": {
-    "median": 40.07052519923585,
+    "median": 40.07052519923584,
     "ci68": [
      31.008247904259644,
      50.84103857658395
@@ -33447,7 +33447,7 @@
      59.15001024428547
     ],
     "ul90": 54.46796628073204,
-    "level_of_input": 0.19765565976611144
+    "level_of_input": 0.19765565976611166
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (median and 90% equal-tailed interval)",
@@ -33471,7 +33471,7 @@
   "FreeEighteenRateRatioMed": {
    "class": "ph",
    "render": "\\ph{40}",
-   "value": 40.07052519923585,
+   "value": 40.07052519923584,
    "units": "",
    "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A",
    "source": {
@@ -33554,15 +33554,15 @@
    "value": {
     "median": 41.87604793113916,
     "ci68": [
-     36.05551668526394,
-     47.6965804626312
+     36.05551668526393,
+     47.696580462631196
     ],
     "ci90": [
      32.24875906193783,
-     51.50333927691114
+     51.503339276911134
     ],
     "ul90": 49.37693876308184,
-    "level_of_input": 0.12257933886038375
+    "level_of_input": 0.12257933886038486
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations (median and 90% equal-tailed interval)",
@@ -33626,7 +33626,7 @@
   "FreeEighteenRateRatioCombHi": {
    "class": "ph",
    "render": "\\ph{52}",
-   "value": 51.50333927691114,
+   "value": 51.503339276911134,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations",
    "source": {
@@ -33646,7 +33646,7 @@
   "FreeEighteenRateRatioCombWid": {
    "class": "ph",
    "render": "\\ph{19}",
-   "value": 19.25458021497331,
+   "value": 19.254580214973302,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations",
    "source": {
@@ -33666,7 +33666,7 @@
   "FreeEighteenRateRatioCL": {
    "class": "ph",
    "render": "\\ph{12}",
-   "value": 0.12257933886038375,
+   "value": 0.12257933886038486,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeEighteenRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18)",
    "source": {
@@ -46953,7 +46953,7 @@
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.1, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
     "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
    },
    "claim": "classes",
@@ -46972,7 +46972,7 @@
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
     "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
    },
    "claim": "classes",
@@ -46989,7 +46989,7 @@
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
     "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
    },
    "claim": "classes",
@@ -47083,7 +47083,7 @@
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.5, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
    },
    "claim": "classes",
@@ -47102,7 +47102,7 @@
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
    },
    "claim": "classes",
@@ -47119,7 +47119,7 @@
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
    },
    "claim": "classes",
@@ -48989,7 +48989,7 @@
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs (5 Msun, 0.10) per merger with the host class known, input f_AGN = 0.1: (HWPopsTen / HWKnownPopsTen)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
     "placeholder_source": "(HWPopsTen / HWKnownPopsTen)^2 of the unrounded values (some red)"
    },
    "claim": "classes",
@@ -49009,7 +49009,7 @@
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsTen[r] / HWKnownPopsTen[r])^2 (the central CostPopsTen is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
     "placeholder_source": "the central value times CostUnknownTenMin / CostUnknownTen = 0.4755 and CostUnknownTenMax / CostUnknownTen = 2.1002 (relative spread over the realizations of the finished equal-population cost at the same f)"
    },
    "claim": "classes",
@@ -49026,7 +49026,7 @@
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsTen[r] / HWKnownPopsTen[r])^2 (the central CostPopsTen is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
     "placeholder_source": "the central value times CostUnknownTenMin / CostUnknownTen = 0.4755 and CostUnknownTenMax / CostUnknownTen = 2.1002 (relative spread over the realizations of the finished equal-population cost at the same f)"
    },
    "claim": "classes",
@@ -49142,7 +49142,7 @@
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs (5 Msun, 0.10) per merger with the host class known, input f_AGN = 0.5: (HWPopsFifty / HWKnownPopsFifty)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "(HWPopsFifty / HWKnownPopsFifty)^2 of the unrounded values (some red)"
    },
    "claim": "classes",
@@ -49162,7 +49162,7 @@
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsFifty[r] / HWKnownPopsFifty[r])^2 (the central CostPopsFifty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "the central value times CostUnknownFiftyMin / CostUnknownFifty = 0.6777 and CostUnknownFiftyMax / CostUnknownFifty = 1.2996 (relative spread over the realizations of the finished equal-population cost at the same f)"
    },
    "claim": "classes",
@@ -49179,7 +49179,7 @@
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsFifty[r] / HWKnownPopsFifty[r])^2 (the central CostPopsFifty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "the central value times CostUnknownFiftyMin / CostUnknownFifty = 0.6777 and CostUnknownFiftyMax / CostUnknownFifty = 1.2996 (relative spread over the realizations of the finished equal-population cost at the same f)"
    },
    "claim": "classes",
