@@ -1,0 +1,990 @@
+{
+ "_schema": [
+  "results_map.json: what each macro and each plotted element of the short paper is computed from.",
+  "Read by scripts/results.py (scripts/build_values.py, scripts/make_figures.py use it). Edit by hand; `results.py --prefill` fills every EMPTY 'summary' from 'select' using the run lists (--force overwrites).",
+  "",
+  "Top level:",
+  "  runs_root          directory of the runs (relative to the paper directory): analysis_16_production_runs/runs",
+  "  realizations       named lists: 'exp' (the experiment's five), 'ten' (production stages 1 and 3), 'A' (realization A, 'one catalog')",
+  "  placeholder_spread half-length of the placeholder bars of Fig. 3 (fig1_budget) as a fraction of the value",
+  "  macros             {macro name without backslash: entry}",
+  "  series             {figure: {series name: {label, points: {x: entry}} or an entry}}",
+  "",
+  "Entry fields:",
+  "  meaning       one line",
+  "  select        what run it needs: {'analysis': <experiment analysis>, 'set': <family>_f<f>_s<s>} (RUNLIST_experiment.yaml, including runs reused from stage 1) or {'production': <run name without /realization_NNN>} (RUNLIST.yaml); a list of two for log10_bayes",
+  "  summary       run summary file relative to runs_root, '{R}' standing for the three-digit realization, e.g. 'two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}/summary.json' (a list of two for log10_bayes: numerator, reference). Empty = not known yet (placeholder).",
+  "  field         dotted path into summary.json: 'posterior.H0' (a {median, ci90} block), 'posterior.f_agn', 'posterior.dmu_G', 'membership.mean_r_true_agn', 'ln_evidence.value'; or 'grid.agn' / 'grid.gal' = one class's factor of a hosts_known grid (read from the run's grid/*.h5)",
+  "  combine       mean_hw | single | combined | derived | log10_bayes | membership | joint | joint_grid (see results.py)",
+  "  stat          single: 'pm' (median^{+}_{-} of the 90% interval) or 'value'; combined: 'pm', 'median_minus_input', 'level_of_input' (percent), 'ul90', 'density'",
+  "  realizations  name of a list above or an explicit list (default 'exp'); single/log10_bayes/membership/joint use its first element",
+  "  expr          derived: Python expression in other macro names",
+  "  fmt           Python format, 'sig2' (two significant figures) or 'floor1' (one decimal, rounded down)",
+  "  macro         (series points) the point IS this macro: everything comes from the macro's entry",
+  "  placeholder   (series points without a macro) {'value': invented number, 'how': why}; Fig. 4 entries (series fig2, fig3) name the macros their placeholder shapes are built from",
+  "",
+  "Series: fig_anchor (Fig. 2, joint (H0, f_AGN) of grid runs, 'joint_grid'), fig1a/fig1b (Fig. 3), fig3 (Fig. 4a, b), fig2 (Fig. 4c); the series names keep the first draft's file names.",
+  "REAL = every summary file named exists for all realizations of the entry; otherwise the placeholder is used."
+ ],
+ "runs_root": "../analyses/analysis_16_production_runs/runs",
+ "realizations": {
+  "exp": [
+   100,
+   101,
+   102,
+   103,
+   105
+  ],
+  "ten": [
+   100,
+   101,
+   102,
+   103,
+   105,
+   106,
+   107,
+   108,
+   109,
+   110
+  ],
+  "A": [
+   100
+  ]
+ },
+ "placeholder_spread": 0.1,
+ "macros": {
+  "IndHWSpec": {
+   "select": {
+    "analysis": "mass_spectrum_alone",
+    "set": "peak_f0p00_s0"
+   },
+   "summary": "mass_spectrum_alone/no_catalog/complete/peak_f0p00_s0/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, mass spectrum alone, no catalog (f = 0 set; the f = 0.3 set's stage-1 grid is the same analysis on other events)"
+  },
+  "IndHWGal": {
+   "select": {
+    "analysis": "galaxy_catalog_alone",
+    "set": "peak_f0p00_s0"
+   },
+   "summary": "galaxy_catalog_alone/galaxy_catalog/complete/peak_f0p00_s0/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, all mergers in galaxies, galaxy catalog"
+  },
+  "IndHWAGN": {
+   "select": {
+    "analysis": "hosts_known",
+    "set": "peak_f1p00_s0"
+   },
+   "summary": "known_population/agn_catalog/complete/agn_hosted/realization_{R}_s32000_inj6/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, all mergers in AGN, AGN catalog"
+  },
+  "IndHWMix": {
+   "select": {
+    "analysis": "two_tracers_one_population",
+    "set": "peak_f0p30_s0"
+   },
+   "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, f = 0.30, labels unknown"
+  },
+  "IndHWMark": {
+   "select": {
+    "analysis": "two_tracers_two_populations",
+    "set": "peak_f0p30_s1"
+   },
+   "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, f = 0.30, a population for each tracer, (5 Msun, 0.10)"
+  },
+  "IndHWMarkTwice": {
+   "select": {
+    "analysis": "two_tracers_two_populations",
+    "set": "peak_f0p30_s2"
+   },
+   "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "the same, (10 Msun, 0.20)"
+  },
+  "IndHWKnown": {
+   "select": {
+    "analysis": "hosts_known",
+    "set": "peak_f0p30_s0"
+   },
+   "summary": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, f = 0.30, hosts known"
+  },
+  "IndHWKnownAGNPart": {
+   "select": {
+    "analysis": "hosts_known",
+    "set": "peak_f0p30_s0"
+   },
+   "summary": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1/summary.json",
+   "field": "grid.agn",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width of the AGN factor of hosts known (mergers in AGN alone), f = 0.30"
+  },
+  "IndHWMixTenth": {
+   "select": {
+    "analysis": "two_tracers_one_population",
+    "set": "peak_f0p10_s0"
+   },
+   "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, f = 0.10, labels unknown"
+  },
+  "IndHWKnownTenth": {
+   "select": {
+    "analysis": "hosts_known",
+    "set": "peak_f0p10_s0"
+   },
+   "summary": "hosts_known/both_catalogs/complete/peak_f0p10_s0/realization_{R}_agn_s32000_inj1/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "half-width, f = 0.10, hosts known"
+  },
+  "IndCostMix": {
+   "combine": "derived",
+   "expr": "(IndHWMix/IndHWKnown)**2",
+   "fmt": "{:.1f}",
+   "meaning": "mergers needed with labels unknown over hosts known"
+  },
+  "IndCostMark": {
+   "combine": "derived",
+   "expr": "(IndHWMark/IndHWKnown)**2",
+   "fmt": "{:.1f}",
+   "meaning": "the same, (5 Msun, 0.10)"
+  },
+  "IndCostMarkTwice": {
+   "combine": "derived",
+   "expr": "(IndHWMarkTwice/IndHWKnown)**2",
+   "fmt": "{:.1f}",
+   "meaning": "the same, (10 Msun, 0.20)"
+  },
+  "IndfAGNMix": {
+   "select": {
+    "production": "known_population/both_catalogs/complete/equal_populations"
+   },
+   "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+   "field": "posterior.f_agn",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "pm",
+   "meaning": "f_AGN, f = 0.30, equal populations, labels unknown, population held at its input, realization A (the run of Fig. 2 and row 1 of Table I)"
+  },
+  "IndObsHWSpec": {
+   "select": {
+    "analysis": "mass_spectrum_alone",
+    "set": "obslike_f0p00_s0"
+   },
+   "summary": "mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "observed-like: half-width, mass spectrum alone"
+  },
+  "IndObsHWMix": {
+   "select": {
+    "analysis": "two_tracers_one_population",
+    "set": "obslike_f0p30_s0"
+   },
+   "summary": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "observed-like: half-width, f = 0.30, labels unknown"
+  },
+  "IndObsHWAGN": {
+   "select": {
+    "analysis": "hosts_known",
+    "set": "obslike_f1p00_s0"
+   },
+   "summary": "hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_agn_s32000_inj1/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "observed-like: half-width, all mergers in AGN, AGN catalog"
+  },
+  "IndProbAGNPos": {
+   "select": {
+    "analysis": "two_tracers_one_population",
+    "set": "peak_f0p30_s1"
+   },
+   "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+   "field": "membership.mean_r_true_agn",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "value",
+   "meaning": "mean probability of an AGN host, mergers truly in AGN, positions alone, f = 0.30, (5 Msun, 0.10)"
+  },
+  "IndProbGalPos": {
+   "select": {
+    "analysis": "two_tracers_one_population",
+    "set": "peak_f0p30_s1"
+   },
+   "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+   "field": "membership.mean_r_true_gal",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "value",
+   "meaning": "mean probability of an AGN host, mergers truly in galaxies, positions alone, f = 0.30, (5 Msun, 0.10)"
+  },
+  "IndProbAGNMark": {
+   "select": {
+    "analysis": "two_tracers_two_populations",
+    "set": "peak_f0p30_s1"
+   },
+   "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+   "field": "membership.mean_r_true_agn",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "value",
+   "meaning": "mean probability of an AGN host, mergers truly in AGN, positions with masses and spins, f = 0.30, (5 Msun, 0.10)"
+  },
+  "IndProbGalMark": {
+   "select": {
+    "analysis": "two_tracers_two_populations",
+    "set": "peak_f0p30_s1"
+   },
+   "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+   "field": "membership.mean_r_true_gal",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "value",
+   "meaning": "mean probability of an AGN host, mergers truly in galaxies, positions with masses and spins, f = 0.30, (5 Msun, 0.10)"
+  },
+  "IndBias": {
+   "select": {
+    "production": "single_population/both_catalogs/complete/host_dependent"
+   },
+   "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "{:.1f}",
+   "stat": "median_minus_input",
+   "meaning": "one population fitted, (5 Msun, 0.10): median of the combined H0 posterior minus the input"
+  },
+  "IndBiasTwice": {
+   "select": {
+    "analysis": "single_population",
+    "set": "peak_f0p30_s2"
+   },
+   "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "exp",
+   "fmt": "{:.1f}",
+   "stat": "median_minus_input",
+   "meaning": "the same for (10 Msun, 0.20) (experiment E3)"
+  },
+  "IndHWOnePop": {
+   "select": {
+    "production": "single_population/both_catalogs/complete/host_dependent"
+   },
+   "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "ten",
+   "fmt": "sig2",
+   "meaning": "one population fitted: half-width from one catalog (mean over realizations)"
+  },
+  "IndOnePopCL": {
+   "select": {
+    "production": "single_population/both_catalogs/complete/host_dependent"
+   },
+   "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "floor1",
+   "stat": "level_of_input",
+   "meaning": "credible level (percent) of the input H0 in the combined one-population posterior"
+  },
+  "IndTwoPopHzero": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "a population for each tracer, inferred, one catalog: H0"
+  },
+  "IndTwoPopHW": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "mean_hw",
+   "realizations": "exp",
+   "fmt": "sig2",
+   "meaning": "its half-width, mean over realizations (open symbol of Fig. 3a)"
+  },
+  "IndTwoPopfAGN": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.f_agn",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "pm",
+   "meaning": "f_AGN of the same analysis, one catalog"
+  },
+  "IndTwoPopDm": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.dmu_G",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "mass-peak difference [Msun], one catalog"
+  },
+  "IndTwoPopDchi": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.dmu_chi",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "pm",
+   "meaning": "mean effective spin difference, one catalog"
+  },
+  "IndTwoPopCL": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "exp",
+   "fmt": "{:.0f}",
+   "stat": "level_of_input",
+   "meaning": "credible level (percent) of the input H0 in the combined posterior, a population for each tracer"
+  },
+  "IndLB": {
+   "select": [
+    {
+     "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+    },
+    {
+     "production": "single_population/both_catalogs/complete/host_dependent"
+    }
+   ],
+   "summary": [
+    "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+    "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json"
+   ],
+   "field": "ln_evidence.value",
+   "combine": "log10_bayes",
+   "realizations": "A",
+   "fmt": "{:.1f}",
+   "meaning": "log10 Bayes factor, a population for each tracer over one population, one catalog"
+  },
+  "IndRecHzeroComb": {
+   "select": {
+    "production": "known_population/both_catalogs/complete/equal_populations"
+   },
+   "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "H0, equal populations, f = 0.30, labels unknown, combined over ten realizations"
+  },
+  "IndRecHzeroCL": {
+   "select": {
+    "production": "known_population/both_catalogs/complete/equal_populations"
+   },
+   "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "{:.0f}",
+   "stat": "level_of_input",
+   "meaning": "credible level (percent) of the input H0 in it"
+  },
+  "IndRecfAGNComb": {
+   "select": {
+    "production": "known_population/both_catalogs/complete/equal_populations"
+   },
+   "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+   "field": "posterior.f_agn",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "{:.2f}",
+   "stat": "pm",
+   "meaning": "f_AGN of the same combination"
+  },
+  "IndRecfAGNCL": {
+   "select": {
+    "production": "known_population/both_catalogs/complete/equal_populations"
+   },
+   "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+   "field": "posterior.f_agn",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "{:.0f}",
+   "stat": "level_of_input",
+   "meaning": "credible level (percent) of the input f_AGN in it"
+  },
+  "IndZerofAGNUL": {
+   "select": {
+    "analysis": "two_tracers_one_population",
+    "set": "peak_f0p00_s0"
+   },
+   "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}/summary.json",
+   "field": "posterior.f_agn",
+   "combine": "combined",
+   "realizations": "exp",
+   "fmt": "{:.2f}",
+   "stat": "ul90",
+   "meaning": "no merger in AGN: 90% upper limit on f_AGN, combined over the experiment's five realizations"
+  },
+  "IndAnchorHzero": {
+   "select": {
+    "production": "known_population/both_catalogs/complete/equal_populations"
+   },
+   "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "H0, equal populations, f = 0.30, labels unknown, population held at its input, realization A (Sec. IV A, row 1 of Table I, Fig. 2)"
+  },
+  "IndOnePopHzero": {
+   "select": {
+    "production": "single_population/both_catalogs/complete/host_dependent"
+   },
+   "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "H0, one population inferred from mergers whose populations differ by (5 Msun, 0.10), realization A (row 2 of Table I)"
+  },
+  "IndOnePopfAGN": {
+   "select": {
+    "production": "single_population/both_catalogs/complete/host_dependent"
+   },
+   "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.f_agn",
+   "combine": "single",
+   "realizations": "A",
+   "fmt": "{:.2f}",
+   "stat": "pm",
+   "meaning": "f_AGN of the same analysis, realization A (row 2 of Table I)"
+  },
+  "IndOnePopHzeroComb": {
+   "select": {
+    "production": "single_population/both_catalogs/complete/host_dependent"
+   },
+   "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "ten",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "H0, one population inferred, combined over the ten realizations (dashed curve of Fig. 4a; Sec. V)"
+  },
+  "IndTwoPopHzeroComb": {
+   "select": {
+    "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+   },
+   "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+   "field": "posterior.H0",
+   "combine": "combined",
+   "realizations": "exp",
+   "fmt": "{:.1f}",
+   "stat": "pm",
+   "meaning": "H0, a population for each tracer, combined over the five realizations (solid curve of Fig. 4a; Sec. V)"
+  }
+ },
+ "series": {
+  "fig1a": {
+   "labels_unknown": {
+    "label": "Labels unknown",
+    "points": {
+     "0": {
+      "select": {
+       "analysis": "two_tracers_one_population",
+       "set": "peak_f0p00_s0"
+      },
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 3.59,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     },
+     "0.1": {
+      "macro": "IndHWMixTenth"
+     },
+     "0.3": {
+      "macro": "IndHWMix"
+     },
+     "0.5": {
+      "select": {
+       "analysis": "two_tracers_one_population",
+       "set": "peak_f0p50_s0"
+      },
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 1.33,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     },
+     "1": {
+      "select": {
+       "analysis": "two_tracers_one_population",
+       "set": "peak_f1p00_s0"
+      },
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_{R}_s32000_inj6/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 0.84,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     }
+    }
+   },
+   "each_tracer_s1": {
+    "label": "A population for each tracer, $\\Delta m=5\\,M_\\odot$, $\\Delta\\chi=0.10$",
+    "points": {
+     "0.1": {
+      "select": {
+       "analysis": "two_tracers_two_populations",
+       "set": "peak_f0p10_s1"
+      },
+      "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 2.21,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     },
+     "0.3": {
+      "macro": "IndHWMark"
+     },
+     "0.5": {
+      "select": {
+       "analysis": "two_tracers_two_populations",
+       "set": "peak_f0p50_s1"
+      },
+      "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 1.19,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     }
+    }
+   },
+   "each_tracer_s2": {
+    "label": "A population for each tracer, twice those values",
+    "points": {
+     "0.1": {
+      "select": {
+       "analysis": "two_tracers_two_populations",
+       "set": "peak_f0p10_s2"
+      },
+      "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 2.11,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     },
+     "0.3": {
+      "macro": "IndHWMarkTwice"
+     },
+     "0.5": {
+      "select": {
+       "analysis": "two_tracers_two_populations",
+       "set": "peak_f0p50_s2"
+      },
+      "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 1.12,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     }
+    }
+   },
+   "hosts_known": {
+    "label": "Hosts known",
+    "points": {
+     "0": {
+      "macro": "IndHWGal"
+     },
+     "0.1": {
+      "macro": "IndHWKnownTenth"
+     },
+     "0.3": {
+      "macro": "IndHWKnown"
+     },
+     "0.5": {
+      "select": {
+       "analysis": "hosts_known",
+       "set": "peak_f0p50_s0"
+      },
+      "summary": "hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_{R}_agn_s32000_inj1/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 1.05,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     },
+     "1": {
+      "macro": "IndHWAGN"
+     }
+    }
+   },
+   "inferred": {
+    "label": "A population for each tracer inferred with $H_0$",
+    "points": {
+     "0.3": {
+      "macro": "IndTwoPopHW"
+     }
+    }
+   },
+   "mass_spectrum_alone": {
+    "label": "Mass spectrum alone",
+    "points": {
+     "line": {
+      "macro": "IndHWSpec"
+     }
+    }
+   },
+   "galaxy_catalog_alone": {
+    "label": "Galaxy catalog alone, $f_{\\rm AGN}=0$",
+    "points": {
+     "line": {
+      "macro": "IndHWGal"
+     }
+    }
+   }
+  },
+  "fig1b": {
+   "labels_unknown": {
+    "label": "Labels unknown",
+    "points": {
+     "0": {
+      "select": {
+       "analysis": "two_tracers_one_population",
+       "set": "obslike_f0p00_s0"
+      },
+      "summary": "two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 8.21,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3); galaxy catalog alone 8 (invented)"
+      }
+     },
+     "0.3": {
+      "macro": "IndObsHWMix"
+     },
+     "1": {
+      "select": {
+       "analysis": "two_tracers_one_population",
+       "set": "obslike_f1p00_s0"
+      },
+      "summary": "two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_s32000_inj1/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 0.84,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     }
+    }
+   },
+   "each_tracer_s1": {
+    "label": "A population for each tracer, $\\Delta m=5\\,M_\\odot$, $\\Delta\\chi=0.10$",
+    "points": {
+     "0.3": {
+      "select": {
+       "analysis": "two_tracers_two_populations",
+       "set": "obslike_f0p30_s1"
+      },
+      "summary": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 1.62,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     }
+    }
+   },
+   "hosts_known": {
+    "label": "Hosts known",
+    "points": {
+     "0": {
+      "select": {
+       "analysis": "galaxy_catalog_alone",
+       "set": "obslike_f0p00_s0"
+      },
+      "summary": "galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 8.0,
+       "how": "invented: the brief says only that the catalogs matter more than for the sharp mass scale; 8 against 10 for the mass spectrum alone"
+      }
+     },
+     "0.3": {
+      "select": {
+       "analysis": "hosts_known",
+       "set": "obslike_f0p30_s0"
+      },
+      "summary": "hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_agn_s32000_inj1/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 1.37,
+       "how": "invented: information model of gen notes (1/hw^2 adds over mergers; hosts known = (1-f)/hw_gal^2 + f/hw_agn^2 scaled to the brief's values; labels unknown keeps a fraction of it; a population for each tracer recovers 0.40 (s = 1) or 0.67 (s = 2) of the gap, as the brief's values at f = 0.3)"
+      }
+     },
+     "1": {
+      "macro": "IndObsHWAGN"
+     }
+    }
+   },
+   "mass_spectrum_alone": {
+    "label": "Mass spectrum alone",
+    "points": {
+     "line": {
+      "macro": "IndObsHWSpec"
+     }
+    }
+   },
+   "galaxy_catalog_alone": {
+    "label": "Galaxy catalog alone, $f_{\\rm AGN}=0$",
+    "points": {
+     "line": {
+      "select": {
+       "analysis": "galaxy_catalog_alone",
+       "set": "obslike_f0p00_s0"
+      },
+      "summary": "galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}/summary.json",
+      "field": "posterior.H0",
+      "combine": "mean_hw",
+      "realizations": "exp",
+      "fmt": "sig2",
+      "placeholder": {
+       "value": 8.0,
+       "how": "invented, as the f = 0 point of hosts known"
+      }
+     }
+    }
+   }
+  },
+  "fig2": {
+   "positions": {
+    "select": {
+     "analysis": "two_tracers_one_population",
+     "set": "peak_f0p30_s1"
+    },
+    "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+    "field": "membership",
+    "combine": "membership",
+    "realizations": "A",
+    "label": "Positions alone",
+    "placeholder_macros": [
+     "IndProbAGNPos",
+     "IndProbGalPos"
+    ],
+    "f_in": 0.3,
+    "n_events": 1000
+   },
+   "masses_spins": {
+    "select": {
+     "analysis": "two_tracers_two_populations",
+     "set": "peak_f0p30_s1"
+    },
+    "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+    "field": "membership",
+    "combine": "membership",
+    "realizations": "A",
+    "label": "Positions with masses and spins",
+    "placeholder_macros": [
+     "IndProbAGNMark",
+     "IndProbGalMark"
+    ],
+    "f_in": 0.3,
+    "n_events": 1000
+   }
+  },
+  "fig3": {
+   "one_population": {
+    "select": {
+     "production": "single_population/both_catalogs/complete/host_dependent"
+    },
+    "summary": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+    "field": "posterior.H0",
+    "combine": "combined",
+    "realizations": "ten",
+    "stat": "density",
+    "label": "One population fitted to all mergers",
+    "placeholder": {
+     "bias_macro": "IndBias",
+     "hw_macro": "IndHWOnePop"
+    }
+   },
+   "each_tracer": {
+    "select": {
+     "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+    },
+    "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+    "field": "posterior.H0",
+    "combine": "combined",
+    "realizations": "exp",
+    "stat": "density",
+    "label": "A population for each tracer",
+    "placeholder": {
+     "level_macro": "IndTwoPopCL",
+     "hw_macro": "IndTwoPopHW",
+     "side_macro": "IndTwoPopHzero"
+    }
+   },
+   "joint": {
+    "select": {
+     "production": "host_dependent_populations/both_catalogs/complete/host_dependent"
+    },
+    "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+    "field": "posterior",
+    "combine": "joint",
+    "realizations": "A",
+    "params": [
+     "dmu_G",
+     "dmu_chi"
+    ],
+    "label": "A population for each tracer, one catalog",
+    "placeholder": {
+     "macros": [
+      "IndTwoPopDm",
+      "IndTwoPopDchi"
+     ],
+     "correlation_from_prd_key": "HDHost"
+    }
+   }
+  },
+  "fig_anchor": {
+   "one_realization": {
+    "select": {
+     "production": "known_population/both_catalogs/complete/equal_populations"
+    },
+    "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+    "combine": "joint_grid",
+    "realizations": "A",
+    "label": "One realization",
+    "placeholder_macros": [
+     "IndAnchorHzero",
+     "IndfAGNMix"
+    ]
+   },
+   "combined": {
+    "select": {
+     "production": "known_population/both_catalogs/complete/equal_populations"
+    },
+    "summary": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+    "combine": "joint_grid",
+    "realizations": "ten",
+    "label": "Combination of ten realizations",
+    "placeholder_macros": [
+     "IndRecHzeroComb",
+     "IndRecfAGNComb"
+    ]
+   }
+  }
+ }
+}
