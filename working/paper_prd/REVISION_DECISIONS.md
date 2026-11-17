@@ -92,3 +92,45 @@ Keep the previous version as main_v1.tex and main_v1.pdf before overwriting.
 
 12. NOT APPLIED. None of the review's items is rejected. Items that need runs are placeholders, listed in
     placeholders.txt with their run.
+
+13. OWNER'S DECISIONS OF 17 NOV, SECOND ROUND (these win over items 1, 7 and 8 where they differ).
+    The owner read the first draft and the review and said: the reviewer is right; the fixed-population result
+    is not a headline but a proof of principle that opens the paper; "think of this paper as slowly relaxing
+    assumptions"; the table that lists the models one under the other with Bayes factors against the first
+    (Table tab:hd of the first draft) "seems very lab report like. Not publication ready".
+    a. ORDER OF THE RESULTS. One assumption is removed per section, and each section opens by naming the
+       assumption it removes and what that costs or reveals:
+         (i)   proof of principle: the population is known and common to both host classes, the catalogs are
+               complete; H0 and the fraction of mergers hosted by AGN are measured together; what each catalog
+               adds, against no catalog at all;
+         (ii)  the catalogs are flux-limited: number densities known, then inferred; what the mergers measure
+               is the merger rate per host;
+         (iii) the population is not known: one population for both classes, its mass peak and spins inferred
+               with H0; how much of H0 the mass scale carries;
+         (iv)  the population depends on the host class: the result of the paper. A single population biases
+               H0; the host-dependent model does not; the offsets are measured.
+       Whether a last step combines (ii) and (iv) at one flux limit is decided with the production plan.
+    b. The proof of principle keeps its own short section with one figure. Its numbers do not lead the abstract
+       or the conclusions. Item 1's "one sentence and one table row" applied to the exploratory host-dependent
+       runs with the population held at its inputs; those stay cut down. The two-parameter study itself stays.
+    c. NO LADDER TABLE. No table lists models by letter or by rung with Bayes factors accumulated against the
+       first row. Each comparison is stated in the section that relaxes the assumption, as one sentence with its
+       prior ranges, next to the figure that shows it. If a table of posteriors is kept, its rows are named by
+       the assumption, in the reader's words, and it carries no column of stacked Bayes factors. The final form
+       follows the guidance requested from the darksirens session (notes/OWNER_STYLE_DETAILS.md when it exists).
+    d. The detailed style guidance from the darksirens session is binding once written down; where it differs
+       from notes/DESIGN.md or from this file's items 5 to 8, it wins.
+    e. OWNER'S ANSWERS, 17 NOV ~08:20 UTC. (1) Production scope: all four stages; the eight-parameter
+       host-dependent model on 5 realizations first, 5 more only if the combined posterior needs them.
+       (2) Mock masses: keep the present mocks (0.90 of the mergers in the Gaussian peak) for stages (i) to
+       (iv) and add a last step, (v) a mass spectrum like the observed one (small peak fraction): single
+       population against host-dependent populations on 5 realizations. The paper then ends its ladder with
+       the realistic spectrum; the scaling estimate of item 2 becomes a measured comparison.
+    f. STYLE NOTE. notes/OWNER_STYLE_DETAILS.md (from the darksirens session, 17 Nov) is binding. Its main
+       consequences here: one likelihood, with every simpler analysis written as a named limit of it; analyses
+       named by what they hold or free, the same words in text, tables and legends; the proof of principle is
+       the credibility anchor (one short subsection, not in the title, not in the first half of the abstract);
+       each later subsection is titled by the physics it frees and opens on what is free and what is found;
+       no Limitations paragraph (each caveat closes the claim it limits, with a size); Validation is its own
+       top-level section; the Conclusions do not restate the body. "Realization" stays the unit of the
+       simulation, because "catalog" here means the galaxy catalog and the AGN catalog.

@@ -84,3 +84,18 @@ REVISION OF 17 NOV (after REVIEW.md and REVISION_DECISIONS.md; supersedes the li
   R2, R3, R4, R9, R10 as before, with the six-parameter single population in place of the fixed one.
   Option for the owner: a second mock family with a smaller fraction of mergers in the Gaussian peak.
   Realizations: about ten for R1' and R8', five for the others. The cost comes with the plan, after Analysis 14.
+
+APPROVED BY THE OWNER, 17 NOV ~08:20 UTC ("Staged: 5, then 10"; "Add a realistic family"). Both RITA A100s are ours.
+  Settings: 8,000 posterior samples per event with the half-variance correction of ln L (Analysis 14; the
+  all-AGN result may raise the count for the all-AGN grids), core e7c3007, production convention above.
+  Stage 1  population known, catalogs complete: (H0, f_AGN) on 10 realizations; each catalog alone; no
+           catalog; all-AGN and all-galaxy event sets on 5.                                    ~3 GPU-h
+  Stage 2  flux-limited catalogs (limits 21, 20, 19, 18), 5 realizations, densities from catalog counts;
+           response to a wrong AGN density; densities free on 3 realizations.                  ~25 GPU-h
+  Stage 3  single population, six parameters, equal-population mock, 10 realizations; no catalog. ~85 GPU-h
+  Stage 4  host-dependent mock: single population on 10 realizations (55); host-dependent populations,
+           eight parameters, on 5 (150), 5 more if the combined posterior needs them (+150); no catalog (15).
+  Stage 5  mass spectrum like the observed one (small peak fraction), host-dependent mock: single population
+           against host-dependent populations and no catalog, 5 realizations.                  ~200 GPU-h
+  Before production: run scripts tested against Analyses 14 and 15; a bounded test of sampler settings for
+  the eight-parameter model (it dominates the cost).
