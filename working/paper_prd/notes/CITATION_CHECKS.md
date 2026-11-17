@@ -111,3 +111,5 @@ The `note` fields (verification notes) are not carried over, because `apsrev4-2`
 erratum note of `Thrane:2018qnx` is kept. Thirteen entries without a `journal` field have the entry
 type `misc` instead of `article`, as in the lensing drafts, so that BibTeX raises no error. The
 underscore in the DOI of `Vitale:2020aaz` is escaped. Nothing else differs.
+
+- 2026-11-17: `Gorski:2004by` (HEALPix) added for the pixelization named in Appendix A; title, authors, journal reference (Astrophys. J. 622, 759-771, 2005) and DOI 10.1086/427976 read from the arXiv record astro-ph/0409513. A software citation; no result of the paper is quoted.
