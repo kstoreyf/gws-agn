@@ -55,7 +55,7 @@ its hosts are rare.
 %% Introduction (no heading)
 %% ------------------------------------------------------------------------------------------
 
-A binary black hole merger gives its luminosity distance and not its redshift. The dark siren
+A binary black hole merger gives its luminosity distance but no redshift. The dark siren
 method takes the redshift from the galaxies in the localization
 volume~\cite{Schutz:1986gp,Gray:2019ksv,Gair:2022zsa}, and its weak point is their number: a
 volume that holds thousands of galaxies returns little more than the smooth redshift distribution
@@ -64,20 +64,43 @@ features supply a redshift without any
 catalog~\cite{Taylor:2011fs,Farr:2019twy,Ezquiaga:2022zkx,Mastrogiovanni:2021wsd}. The fifth
 gravitational-wave transient catalog gives $H_0=71.7^{+17.7}_{-11.4}\kms$ (90\% credible
 interval, with the bright siren GW170817) from 236 sources, and its galaxy catalog improves the
-constraint by 3.5\% over the mass spectrum alone~\cite{LIGOScientific:2026uyd}.
+constraint by 3.5\% over the mass spectrum alone (Ref.~\cite{LIGOScientific:2026uyd}, version 2
+of the preprint).
 
-Fewer candidate hosts would change this. Luminous active galactic nuclei (AGN) are about a
-hundred times less numerous than bright galaxies, and their accretion disks are a proposed site
-of black hole mergers~\cite{Bartos:2016dgn,Stone:2016wzz,Mckernan:2017ssq}. In the simulated
-catalogs of this paper the median localization volume holds $\PureGalHostsPerVol$ galaxies and
-$\PureAGNHostsPerVol$ AGN, so a merger in an AGN, matched to an AGN catalog, sits between a dark
-siren and a bright one. $H_0$ has been inferred together with the fraction of mergers in
+Fewer candidate hosts would change this. The accretion disks of active galactic nuclei (AGN)
+are a proposed site of black hole
+mergers~\cite{Bartos:2016dgn,Stone:2016wzz,Mckernan:2017ssq}, and luminous AGN are far rarer
+than galaxies. In the simulated catalogs of this paper, with $\MocknAGN$ AGN and $\MocknGal$
+galaxies per ${\rm Mpc^{3}}$, the median localization volume holds $\PureAGNHostsPerVol$ AGN and
+$\PureGalHostsPerVol$ galaxies (Fig.~\ref{fig:concept}a). A merger in an AGN, matched to an AGN
+catalog, therefore sits between a dark siren and a bright one. $H_0$ has been inferred together
+with the fraction of mergers in
 AGN~\cite{Bom:2023zgw,Cross-Parkin:2026pua}, and that fraction has been inferred at fixed
 cosmology~\cite{Veronesi:2023ugk,Veronesi:2024tef,Zhu:2025rdv,Pouw:2026lar}. None of these
 analyses infers a mass or spin distribution that depends on the host, although black holes that
 merge in AGN disks are expected to be heavier and to spin
 faster~\cite{Yang:2019cbr,Tagawa:2020dxe,Tagawa:2021ofj}; Refs.~\cite{Bom:2023zgw,Pouw:2026lar,Cross-Parkin:2026pua}
 leave that inference to future work.
+
+\begin{figure*}
+\showfig{fig_concept}{\textwidth}{0.34\textwidth}{fig\_concept}
+\caption{The two tracers and the two populations in one realization of the simulation. (a) A
+slice of the simulated catalogs within $\IndConceptDec^\circ$ of the equator and below
+$z=\IndConceptzMax$, in comoving distance (bar: $\IndConceptScale$~Mpc): $\IndConceptNGal$
+objects of the galaxy catalog (blue dots) and $\IndConceptNAGN$ of the AGN catalog (vermilion
+diamonds). The black outline is the 90\% localization region of one AGN-hosted merger at
+$z=\IndConceptzTrue$, seen from the side in the zoom; it holds $\IndConceptVolNGal$ galaxies and
+$\IndConceptVolNAGN$ AGN, where the median region holds $\PureGalHostsPerVol$ and
+$\PureAGNHostsPerVol$, and the ring marks the true host of the merger. (b) Source-frame
+primary mass and (c) effective spin of the $\MockNev$ detected mergers of a realization in which
+the populations differ, $\IndConceptNgalHosted$ galaxy-hosted and $\IndConceptNAGNHosted$
+AGN-hosted (true values, each class normalized to unit area); dashed lines mark the input mass
+peaks, $\MockMuG$ and $\MockMuGAGN\Msun$, and the input spin means, $\MockMuChi$ and
+$\MockDmuChi$. An AGN-hosted merger has a handful of possible hosts where a galaxy-hosted one
+has hundreds, and its mass and spin, which overlap with those of the others, say in which
+catalog to look.}
+\label{fig:concept}
+\end{figure*}
 
 We ask where the $H_0$ information of a catalog of mergers sits when some of them are in AGN,
 and what the masses and spins of the black holes add to it. The rate of mergers with source
@@ -92,12 +115,12 @@ where $\fagn$ is the fraction of mergers hosted by AGN, $f_{\rm gal}=1-\fagn$, $
 distribution of the hosts of tracer $k$, built from its catalog and normalized to unity, and
 $\Lambda_k$ are the parameters of the mass and spin distribution (the population) of the mergers
 in tracer $k$. This is the merger rate per galaxy of Ref.~\cite{Mastrogiovanni:2023emh} written
-for each tracer; that work states, and does not use, the freedom of a population that depends on
-the host. Appendix~\ref{app:like} gives the likelihood with its selection term. Every result
-below comes from simulations (Appendix~\ref{app:sim}): galaxies and AGN drawn from one density
-field, with number densities $\MocknGal$ and $\MocknAGN\,{\rm Mpc^{-3}}$ and redshift errors
-$\MockDz(1+z)$, and $\MockNev$ detected mergers per realization, with input
-$H_0=\MockHzero\kms$ in flat $\Lambda$CDM. Unless stated, the catalogs are complete and the
+for each tracer; that work notes that the population may depend on the host and sets the
+dependence aside. Appendix~\ref{app:like} gives the likelihood with its selection term. Every
+result below comes from simulations (Appendix~\ref{app:sim}): galaxies and AGN drawn from one
+density field, with redshift errors $\MockDz(1+z)$, and $\MockNev$ detected mergers per
+realization, with input $H_0=\MockHzero\kms$ in flat $\Lambda$CDM. Unless stated, the catalogs
+are complete and the
 populations are held at their inputs. Priors are uniform, intervals are 90\% credible, and the
 half-width is half the width of the 90\% interval of $H_0$ from $\MockNev$ mergers.
 
@@ -112,7 +135,8 @@ catalog ($\fagn=0$), it is $\IndHWGal$. % EXPECTED
 The galaxy catalog is worth nothing here: the mass spectrum alone, with both $p_k$ replaced by a
 uniform distribution in comoving volume, gives $\IndHWSpec$ (Fig.~\ref{fig:budget}a). % EXPECTED
 
-The number of candidate hosts decides. The $\PureGalHostsPerVol$ galaxies of a localization
+The number of candidate hosts decides (Fig.~\ref{fig:concept}a). The $\PureGalHostsPerVol$
+galaxies of a localization
 volume overlap many times within their redshift errors, and their sum is close to the volume
 element that the mass spectrum analysis already uses. The $\PureAGNHostsPerVol$ AGN are a sparse
 set of redshifts, different for each merger, and only near the true $H_0$ do a thousand
@@ -124,12 +148,10 @@ scale as informative as it can be; for a spectrum like the fit to the third tran
 catalog~\cite{KAGRA:2021duu}, with $\ObsPeakFrac$ of the mergers in the peak, the mass spectrum
 alone gives $\IndObsHWSpec$ (Fig.~\ref{fig:budget}b). % EXPECTED
 The $\IndHWAGN$ belongs to an AGN density of $\MocknAGN\,{\rm Mpc^{-3}}$ and to redshift errors
-of $\MockDz(1+z)$. It does not rest on the mass scale (the observed-like spectrum gives
-$\IndObsHWAGN$), and it is the number most exposed to the Monte Carlo sums, which move the median
-of $H_0$ by $\MCAGNHzeroSdEightK\kms$ (Appendix~\ref{app:checks}). % EXPECTED
-For extreme-mass-ratio inspirals that all occur in AGN, replacing the galaxy catalog by an AGN
-catalog was found to improve $H_0$ from about 3.7\% to about 3.2\% in one simulated
-case~\cite{Zhu:2024qpp}.
+of $\MockDz(1+z)$. It does not rest on the mass scale: the observed-like spectrum gives
+$\IndObsHWAGN$. % EXPECTED
+The Monte Carlo sums weigh on it: redrawing the posterior samples moves the median of $H_0$ by
+$\MCAGNHzeroSdEightK\kms$ (Appendix~\ref{app:checks}).
 
 \begin{figure*}
 \showfig{fig1_budget}{\textwidth}{0.34\textwidth}{fig1\_budget}
@@ -153,19 +175,20 @@ way to hosts known ($\IndHWKnown$).} % EXPECTED
 \label{sec:which}
 %% ------------------------------------------------------------------------------------------
 
-The likelihood finds them statistically, at a cost. With $\MockfAGN$ of the mergers in AGN,
-Eq.~\eqref{eq:rate} with $\fagn$ free and one population for all mergers gives a half-width of
-$\IndHWMix\kms$, against $\IndHWKnown$ when it is told which mergers are in AGN; to match the
-latter it needs $\IndCostMix$ times as many mergers (Fig.~\ref{fig:budget}a). % EXPECTED
+The likelihood finds them statistically, at a cost. With $\MockfAGN$ of the mergers in AGN and
+no label that says which (labels unknown), Eq.~\eqref{eq:rate} with $\fagn$ free and one
+population for all mergers gives a half-width of $\IndHWMix\kms$, against $\IndHWKnown$ when the
+tracer of every merger is given (hosts known); to match the latter it needs $\IndCostMix$ times
+as many mergers (Fig.~\ref{fig:budget}a). % EXPECTED
 
 The second number shows where the information sits. With hosts known, the mergers in AGN alone
 give $\IndHWKnownAGNPart\kms$, and the other seven in ten, with their catalog and their mass
 spectrum, bring it only to $\IndHWKnown$. % EXPECTED
 Three mergers in ten carry most of the measurement. % EXPECTED
 
-With labels unknown the likelihood has to find those mergers, and it does so for the catalog and
-not for any one merger. The mergers in AGN fall on AGN more often than chance allows, which
-measures $\fagn=\IndfAGNMix$ for an input of $\MockfAGN$. But the two tracers follow the same
+With labels unknown the likelihood has to find those mergers by their positions. The mergers in
+AGN fall on AGN more often than chance allows, which measures $\fagn=\IndfAGNMix$ for an input
+of $\MockfAGN$. But the two tracers follow the same
 structure: the localization volume of a merger in a galaxy holds $\PureAGNHostsPerVolGalEvents$
 AGN, against $\PureAGNHostsPerVol$ for a merger in an AGN. From positions alone the mergers
 truly in AGN receive a mean probability of $\IndProbAGNPos$ of being in an AGN and those truly
@@ -199,17 +222,19 @@ identified: the labels act on the catalog as a whole.} % EXPECTED
 
 In part. % EXPECTED
 If mergers in AGN have the peak of the mass spectrum higher by $\dm=\MockDmuG\Msun$ and the mean
-effective spin higher by $\dchi=\MockDmuChi$, a population for each tracer in
-Eq.~\eqref{eq:rate} narrows the half-width from $\IndHWMix$ to $\IndHWMark\kms$; for twice those
-differences it reaches $\IndHWMarkTwice$, against $\IndHWKnown$ with hosts known
-(Fig.~\ref{fig:budget}a). % EXPECTED
+effective spin higher by $\dchi=\MockDmuChi$ (Fig.~\ref{fig:concept}b,~c), a population for each
+tracer in
+Eq.~\eqref{eq:rate} gives a half-width of $\IndHWMark\kms$, against $\IndHWMix$ when the
+populations are equal; for twice those differences it gives $\IndHWMarkTwice$, against
+$\IndHWKnown$ with hosts known (Fig.~\ref{fig:budget}a). % EXPECTED
 
 Masses and spins act as labels. With them the mean probability of being in an AGN rises from
 $\IndProbAGNPos$ to $\IndProbAGNMark$ for the mergers truly in AGN and falls from
 $\IndProbGalPos$ to $\IndProbGalMark$ for those truly in galaxies
 (Fig.~\ref{fig:labels}). % EXPECTED
-No single merger is identified: at the detection threshold the effective spin is measured to
-$\MockSigChi$, twice the difference between the populations. % EXPECTED
+No single merger is identified: the two populations overlap (Fig.~\ref{fig:concept}b,~c), and
+at the detection threshold the effective spin is measured to $\MockSigChi$, twice the difference
+between them. % EXPECTED
 The labels act on the catalog as a whole, and the cost of unknown hosts falls from $\IndCostMix$
 times as many mergers to $\IndCostMark$, and to $\IndCostMarkTwice$ for twice the
 differences. % EXPECTED
@@ -219,8 +244,8 @@ each tracer inferred along with $H_0$ and $\fagn$, the half-width at $\fagn=\Moc
 $\IndTwoPopHW\kms$ (open symbol in Fig.~\ref{fig:budget}a), against $\IndHWMark$; we read the
 loss as the location of the peak and $H_0$ both setting the redshifted mass scale. % EXPECTED
 
-How different the two populations are is open. The analyses that use AGN catalogs name the
-difference and do not infer it: Ref.~\cite{Pouw:2026lar} gives both channels the same mass and
+How different the two populations are is open. The analyses that use AGN catalogs stop short of
+inferring the difference: Ref.~\cite{Pouw:2026lar} gives both channels the same mass and
 spin distributions, Ref.~\cite{Cross-Parkin:2026pua} expects host sub-populations to differ in
 mass and spin, and Ref.~\cite{Bom:2023zgw} simulates mergers above $35\Msun$ in AGN with a
 likelihood that contains no mass distribution.
@@ -231,13 +256,14 @@ likelihood that contains no mass distribution.
 %% ------------------------------------------------------------------------------------------
 
 Not if the populations differ. One mass and spin distribution, with its peak and spin parameters
-fitted to the data, puts $H_0$ high by $\IndBias\kms$ for $\dm=\MockDmuG\Msun$ and
+fitted along with $H_0$ and $\fagn$, puts $H_0$ high by $\IndBias\kms$ for $\dm=\MockDmuG\Msun$ and
 $\dchi=\MockDmuChi$, and by $\IndBiasTwice$ for twice those values, against a half-width of
 $\IndHWOnePop$ from one catalog of $\MockNev$ mergers (Fig.~\ref{fig:bias}a). % EXPECTED
 
 Fitting the single population does not protect $H_0$. We read the bias as an effect of
 selection: heavier mergers are heard farther away, so the mergers in AGN are $\MockfAGN$ of all
-mergers and $\MockHDfDet$ of the detected ones, and their share grows with distance. One
+mergers and $\IndConceptNAGNHosted$ of the $\MockNev$ detected ones in
+Fig.~\ref{fig:concept}, and their share grows with distance. One
 population can account for masses that rise with distance only by more redshift per unit
 distance, a higher $H_0$. % EXPECTED
 The size of the bias belongs to a mass spectrum with $\MockPeakFrac$ of the mergers in the peak,
@@ -250,8 +276,9 @@ $\MockDmuG$ and $\MockDmuChi$ (Fig.~\ref{fig:bias}b). % EXPECTED
 Combined over \NrealHD{} realizations, the input $H_0$ lies at the $\IndTwoPopCL\%$ credible
 level of this analysis; combined over \NrealHDSingle{}, it lies beyond the $\IndOnePopCL\%$
 level of the one-population analysis. % EXPECTED
-The Bayes factor is $\log_{10}B=\IndLB$ in favor of the two populations, for priors uniform on
-$\PriorDmuGLo<\dm<\PriorDmuGHi\Msun$ and $\PriorDmuChiLo<\dchi<\PriorDmuChiHi$. % EXPECTED
+One catalog favors the two populations with a Bayes factor of $\log_{10}B=\IndLB$, for priors
+uniform on $\PriorDmuGLo<\dm<\PriorDmuGHi\Msun$ and
+$\PriorDmuChiLo<\dchi<\PriorDmuChiHi$. % EXPECTED
 The tie between host and black hole is a gain when it is modeled and a bias when it is ignored,
 so an analysis that brings in an AGN catalog should let the population depend on the
 tracer. % EXPECTED
@@ -296,8 +323,8 @@ Flux-limited catalogs, and number densities inferred with the mergers, are the s
 companion paper.
 
 Two quantities decide how much of Fig.~\ref{fig:budget} applies to the real catalogs. The
-fraction of mergers in AGN is bounded below 0.21 (95\%) for AGN with bolometric luminosity above
-$10^{44.5}\,{\rm erg\,s^{-1}}$~\cite{Veronesi:2024tef}, and one analysis reports
+fraction of mergers in AGN has an upper limit of 0.21 (95\%) for AGN with bolometric luminosity
+above $10^{44.5}\,{\rm erg\,s^{-1}}$~\cite{Veronesi:2024tef}, and one analysis reports
 $0.39^{+0.41}_{-0.32}$ (90\%)~\cite{Zhu:2025rdv}; at $\MockfAGNTenth$ the half-width is already
 $\IndHWMixTenth\kms$, against $\IndHWGal$ with galaxies alone. % EXPECTED
 The AGN catalog has to be complete to the distance of the detected mergers, a requirement on
@@ -352,10 +379,12 @@ logarithm~\cite{Loredo:2004nn,Mandel:2018mve}, the likelihood of $N$ detected me
 \label{eq:sums}
 \end{equation}
 where $\hat\mu$ is the detected fraction, summed over the detected ones of $N_{\rm draw}$
-simulated signals drawn from $p_{\rm draw}$. Both sums are Monte Carlo averages, and the
-logarithm of an average is low by half its relative variance: $\sigma_i^2$ is that variance for
-$\hat Z_i$, $N_{\rm eff}$ is the effective number of simulated signals in $\hat\mu$, the last
-term of Eq.~\eqref{eq:like} is the correction of Ref.~\cite{Farr:2019rap}, and we require
+simulated signals drawn from $p_{\rm draw}$. Both sums are Monte Carlo averages. The logarithm
+of an average is low by half its relative variance, which for $\hat Z_i$ is
+$\sigma_i^2=\sum_j w_{ij}^2/(\sum_j w_{ij})^2-1/n$ with $w_{ij}$ the terms of the sum, and the
+bracket of Eq.~\eqref{eq:like} restores it. The last term marginalizes over the uncertainty of
+$\hat\mu$, whose effective number of simulated signals is
+$N_{\rm eff}$~\cite{Farr:2019rap}, and we require
 $N_{\rm eff}>\NeffFactor N$~\cite{Farr:2019rap,Essick:2022ojx,Talbot:2023pex}.
 % The sigma_i^2/2 term is written from the settings list of the experiment ("half-variance
 % correction of ln L"); confirm its exact form against the code before submission.

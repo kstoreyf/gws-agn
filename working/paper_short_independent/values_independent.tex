@@ -7,11 +7,23 @@
 
 %% ---- design values not in values/MACROS.md (black) ----
 \providecommand{\IndNreal}{five}         % realizations of the experiment (a word: use in text mode)
-\providecommand{\IndfList}{0,\ 0.1,\ 0.3,\ 0.5\ {\rm and}\ 1}  % the input fractions of Fig. 1 (math mode)
+\providecommand{\IndfList}{0,\ 0.1,\ 0.3,\ 0.5\ {\rm and}\ 1}  % the input fractions of Fig. 2 (math mode)
 \providecommand{\IndDmTwice}{10}         % mass-peak difference of the stronger case [Msun]
 \providecommand{\IndDchiTwice}{0.20}     % mean effective spin difference of the stronger case
 
-%% ---- Fig. 1(a): sharp mass scale, populations held at their inputs (red) ----
+%% ---- Fig. 1 (figures/fig_concept, drawn from the simulated catalogs; final, black) ----
+\providecommand{\IndConceptDec}{3}             % half-thickness of the slice in declination [degrees]
+\providecommand{\IndConceptzMax}{0.20}         % largest redshift of the slice
+\providecommand{\IndConceptScale}{200}         % length of the scale bar [Mpc, comoving]
+\providecommand{\IndConceptNGal}{13{,}398}     % objects of the galaxy catalog in the slice
+\providecommand{\IndConceptNAGN}{126}          % objects of the AGN catalog in the slice
+\providecommand{\IndConceptzTrue}{0.098}       % true redshift of the merger whose 90% region is outlined
+\providecommand{\IndConceptVolNGal}{225}       % galaxies inside that 90% localization region
+\providecommand{\IndConceptVolNAGN}{6}         % AGN inside that 90% localization region
+\providecommand{\IndConceptNgalHosted}{640}    % galaxy-hosted among the 1000 detected mergers, populations differ
+\providecommand{\IndConceptNAGNHosted}{360}    % AGN-hosted among the 1000 detected mergers, populations differ
+
+%% ---- Fig. 2(a) (figures/fig1_budget): sharp mass scale, populations held at their inputs (red) ----
 \providecommand{\IndHWSpec}{\ph{3.0}}          % mass spectrum alone, no catalog
 \providecommand{\IndHWGal}{\ph{3.5}}           % all mergers in galaxies, galaxy catalog
 \providecommand{\IndHWAGN}{\ph{0.8}}           % all mergers in AGN, AGN catalog
@@ -27,24 +39,24 @@
 \providecommand{\IndCostMarkTwice}{\ph{1.2}}   % (IndHWMarkTwice/IndHWKnown)^2
 \providecommand{\IndfAGNMix}{\ph{0.28^{+0.08}_{-0.08}}}  % f_AGN, f = 0.30, labels unknown, one realization
 
-%% ---- Fig. 1(b): observed-like mass spectrum (red) ----
+%% ---- Fig. 2(b) (figures/fig1_budget): observed-like mass spectrum (red) ----
 \providecommand{\IndObsHWSpec}{\ph{10}}        % mass spectrum alone
 \providecommand{\IndObsHWMix}{\ph{1.9}}        % f = 0.30, labels unknown
 \providecommand{\IndObsHWAGN}{\ph{0.8}}        % all mergers in AGN, AGN catalog
 
-%% ---- Fig. 2: probability of an AGN host, one realization, f = 0.30, (5 Msun, 0.10) (red) ----
+%% ---- Fig. 3 (figures/fig2_labels): probability of an AGN host, one realization, f = 0.30, (5 Msun, 0.10) (red) ----
 \providecommand{\IndProbAGNPos}{\ph{0.36}}     % mean over mergers truly in AGN, positions alone
 \providecommand{\IndProbGalPos}{\ph{0.27}}     % mean over mergers truly in galaxies, positions alone
 \providecommand{\IndProbAGNMark}{\ph{0.41}}    % mean over mergers truly in AGN, positions with masses and spins
 \providecommand{\IndProbGalMark}{\ph{0.25}}    % mean over mergers truly in galaxies, positions with masses and spins
 
-%% ---- Fig. 3: populations inferred, f = 0.30 (red) ----
+%% ---- Fig. 4 (figures/fig3_bias): populations inferred, f = 0.30 (red) ----
 \providecommand{\IndBias}{\ph{3}}              % one population fitted, (5 Msun, 0.10): combined H0 median minus input
 \providecommand{\IndBiasTwice}{\ph{6}}         % the same for (10 Msun, 0.20)
 \providecommand{\IndHWOnePop}{\ph{2.6}}        % one population fitted, half-width from one catalog
 \providecommand{\IndOnePopCL}{\ph{99.9}}       % credible level (percent) beyond which the input H0 lies, one population, combined
 \providecommand{\IndTwoPopHzero}{\ph{67.4^{+2.1}_{-2.1}}}   % a population for each tracer, one catalog: H0
-\providecommand{\IndTwoPopHW}{\ph{2.1}}                     % its half-width (open symbol of Fig. 1)
+\providecommand{\IndTwoPopHW}{\ph{2.1}}                     % its half-width (open symbol of Fig. 2)
 \providecommand{\IndTwoPopfAGN}{\ph{0.30^{+0.06}_{-0.06}}}  % f_AGN
 \providecommand{\IndTwoPopDm}{\ph{5.1^{+1.0}_{-1.0}}}       % mass-peak difference [Msun]
 \providecommand{\IndTwoPopDchi}{\ph{0.10^{+0.03}_{-0.03}}}  % mean effective spin difference

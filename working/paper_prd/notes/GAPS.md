@@ -225,3 +225,15 @@ approval. New work is committed locally, not pushed.
 - New watch item: in the exploratory eight-parameter run the AGN spin offset is 0.158 (+0.030, -0.037)
   against an input of 0.10 (outside the 90% interval; one realization, 2000 samples per event).
   The production runs on five realizations decide whether this is a draw or a bias.
+- Injection coverage of the AGN class (found 17 Nov while generating the experiment sets): the present
+  injection lanes give N^2/N_eff of 1.3 to 1.6 for equal populations but about 3 for the host-dependent
+  mixture at the present offsets (f = 0.3), 5.5 at f = 0.5, up to 18 at stressed points, and 280 to 355
+  for the AGN class at twice the offsets. Every exploratory host-dependent result (Analyses 8 to 13) was
+  run on these lanes; this may be the cause of the high spin offset above. A broadened lane for the
+  peak-dominated family (ten realizations) and a dedicated lane for the observed-like family (done:
+  1.3 to 1.4 for mixtures, 3.1 for the AGN class) replace them in production. `data/experiment_sets.json`
+  names the lane each set uses.
+- Monte Carlo accuracy, mixed set (Analysis 14): the H0 median moves between redraws of the posterior
+  samples by 0.43, 0.25 and 0.18 of its 68% half-width at 2000, 8000 and 32000 samples per event, and by
+  0.19 between injection sets; f_AGN by 0.15, 0.09, 0.04 and 0.09. Each realization uses its own
+  injection set so that the selection error averages down in combined posteriors.
