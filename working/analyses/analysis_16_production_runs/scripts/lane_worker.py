@@ -6,10 +6,14 @@
 
 A lane is runs/_lanes/lane<K>.txt, one task per line ("<run name>|<part>", part = grid, nested_1,
 nested_2), in the order the launcher wrote them (cheap stages first). On start the worker submits
-its own successor (the same sbatch, --dependency=afterany:<this job>) whenever unfinished tasks
-remain, so a lane keeps one job running and one waiting, and a run cut by the wall clock or by a
-crash is picked up again from its checkpoint. It then takes the first unfinished task, runs the
-driver with the job's deadline, and moves on until the deadline is near.
+its own successor whenever unfinished tasks remain, so a lane keeps one job running and one waiting,
+and a run cut by the wall clock or by a crash is picked up again from its checkpoint. One lane (the
+default, A16_LANES=1): the successor depends (afterany) on every pending or running RITA-GPU job of
+the user named agn-* (this one included), so one agn job runs at a time; two lanes: on this lane's
+own jobs only. It then takes the first unfinished task, runs the driver with the job's deadline, writes
+the run's summary (prod_summary.py -> runs/<run>/summary.json) when all its parts are finished, and
+moves on until the deadline is near. Runs are looked up in RUNLIST.yaml and RUNLIST_experiment.yaml
+(re-read when a lane line names a run the worker does not know yet).
 
 Per task (runs/<run>/<part>/attempts.json): a task whose driver exited with an error (not 0, not 75)
 three times is marked failed and skipped; a missing events file (exit 4) is skipped without counting.
@@ -35,21 +39,62 @@ def log(msg):
     P.log("lane", msg)
 
 
-def load_runlist():
+RUNLISTS = ("RUNLIST.yaml", "RUNLIST_experiment.yaml")
+
+
+def runlist_docs():
     import yaml
-    doc = yaml.safe_load((P.RUNS / "RUNLIST.yaml").read_text())
+    return [yaml.safe_load((P.RUNS / f).read_text()) for f in RUNLISTS if (P.RUNS / f).exists()]
+
+
+def load_runlist():
     by = {}
-    for st in doc["stages"]:
-        for r in st["runs"]:
-            by[r["name"]] = r
+    for doc in runlist_docs():
+        for st in doc["stages"]:
+            for r in st["runs"]:
+                by[r["name"]] = r
     return by
+
+
+def data_ready(entry):
+    """The run's events file and injection set exist (a planned set may not exist yet)."""
+    if not entry.get("args"):
+        return False
+    ev = entry.get("events_file")
+    inj = entry.get("injections_file")
+    return bool(ev and Path(ev).exists() and (inj is None or P.injections_ready(inj)))
+
+
+def agn_jobs():
+    """The user's pending/running RITA-GPU jobs named agn-* (never another project's jobs)."""
+    r = subprocess.run(["squeue", "-h", "--me", "-p", "RITA-GPU", "-o", "%i|%j|%T|%M|%l|%E|%r"],
+                       capture_output=True, text=True)
+    out = []
+    for line in r.stdout.splitlines():
+        f = line.strip().split("|")
+        if len(f) < 7 or not f[1].startswith("agn-"):
+            continue
+        if f[2] in ("PENDING", "RUNNING", "CONFIGURING", "COMPLETING", "SUSPENDED", "REQUEUED", "RESIZING"):
+            out.append({"id": f[0], "name": f[1], "state": f[2], "used": f[3], "limit": f[4], "dep": f[5],
+                        "reason": f[6], "held": f[6] in ("JobHeldUser", "JobHeldAdmin")})
+    return out
+
+
+def chain_dependency(lane=None):
+    """--dependency for a new agn job: one lane (lane None) -> afterany on every agn-* job of the user
+    on RITA-GPU; two lanes -> afterany on this lane's own jobs."""
+    jobs = [j for j in agn_jobs() if not j["held"]]   # a job on hold is released (and chained) by its owner
+    if lane is not None:
+        jobs = [j for j in jobs if j["name"] == f"agn-prod-l{lane}"]
+    ids = sorted({j["id"] for j in jobs}, key=lambda x: int(x.split("_")[0]) if x.split("_")[0].isdigit() else 0)
+    return f"--dependency=afterany:{':'.join(ids)}" if ids else None
 
 
 def part_dir(name, part):
     return P.RUNS / name / part
 
 
-def task_state(name, part):
+def task_state(name, part, entry=None):
     d = part_dir(name, part)
     rj = d / "result.json"
     if rj.exists():
@@ -65,8 +110,13 @@ def task_state(name, part):
             return "failed"
         if rows and rows[-1].get("outcome") == "missing_data":
             ev = rows[-1].get("events_file")
-            if ev and not Path(ev).exists():
+            inj = rows[-1].get("injections_file")
+            if (ev and not Path(ev).exists()) or (inj and not P.injections_ready(inj)):
                 return "missing_data"
+    if entry is not None and entry.get("hold"):
+        return "held"
+    if entry is not None and not data_ready(entry):
+        return "missing_data"
     return "todo"
 
 
@@ -93,9 +143,15 @@ def driver_args(entry, part):
 def submit_successor(lane):
     sb = HERE / "submit_prod.sbatch"
     jid = os.environ.get("SLURM_JOB_ID")
-    cmd = ["sbatch", "--parsable", f"--job-name=agn-prod-l{lane}", f"--export=ALL,LANE={lane}"]
-    if jid:
-        cmd.append(f"--dependency=afterany:{jid}")
+    n_lanes = int(os.environ.get("A16_LANES", "1"))
+    cmd = ["sbatch", "--parsable", f"--job-name=agn-prod-l{lane}", f"--export=ALL,LANE={lane},A16_LANES={n_lanes}"]
+    dep = chain_dependency(lane if n_lanes > 1 else None)
+    if dep is None and jid:
+        dep = f"--dependency=afterany:{jid}"
+    elif dep and jid and jid not in dep:
+        dep += f":{jid}"
+    if dep:
+        cmd.append(dep)
     cmd.append(str(sb))
     r = subprocess.run(cmd, capture_output=True, text=True)
     log(f"successor: {' '.join(cmd)} -> {r.stdout.strip()} {r.stderr.strip()}")
@@ -125,7 +181,8 @@ def run_task(entry, name, part, deadline):
     att = d / "attempts.json"
     rows = json.loads(att.read_text()) if att.exists() else []
     row = {"slurm_job_id": os.environ.get("SLURM_JOB_ID"), "start_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-           "events_file": entry.get("events_file"), "outcome": "running"}
+           "events_file": entry.get("events_file"), "injections_file": entry.get("injections_file"),
+           "outcome": "running"}
     rows.append(row)
     att.write_text(json.dumps(rows, indent=1))
     args = driver_args(entry, part)
@@ -142,6 +199,10 @@ def run_task(entry, name, part, deadline):
     att.write_text(json.dumps(rows, indent=1))
     (d / "LOCK").unlink(missing_ok=True)
     log(f"task {name}|{part}: exit {rc}, {row['outcome']}, {row['wall_seconds'] / 60:.1f} min")
+    if row["outcome"] == "finished" and all(task_state(name, p) == "finished" for p in entry["parts"]):
+        rs = subprocess.run([P.CORE_PY, str(HERE / "prod_summary.py"), name], capture_output=True, text=True,
+                            env=dict(os.environ, JAX_PLATFORMS="cpu"))
+        log(f"summary {name}: {(rs.stdout.strip() or rs.stderr.strip()[-500:])}")
     return row["outcome"]
 
 
@@ -173,7 +234,7 @@ def main():
         tasks = read_lane(a.lane) if a.lane else tasks
         pick = None
         for name, part in tasks:
-            if (name, part) in done_here or task_state(name, part) != "todo":
+            if (name, part) in done_here or task_state(name, part, runlist.get(name)) != "todo":
                 continue
             holder = lock_holder(name, part)
             if holder:
@@ -186,7 +247,9 @@ def main():
         name, part = pick
         done_here.add(pick)
         if name not in runlist:
-            log(f"[skip] {name} is not in RUNLIST.yaml")
+            runlist = load_runlist()
+        if name not in runlist:
+            log(f"[skip] {name} is in neither run list")
             continue
         out = run_task(runlist[name], name, part, deadline)
         if out == "deadline":

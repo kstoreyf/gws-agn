@@ -62,6 +62,10 @@ def parse_args(argv=None):
     a("--realization", type=int, required=True)
     a("--events-suffix", default=P.DEFAULT_SUFFIX, help="events file suffix (a mock family); default _corepop")
     a("--family-name", default="", help="reader-facing name of a non-default mock family (run directory)")
+    a("--set-label", default="", help="experiment runs: the event set's name in the run path (e.g. mock_f0p30_s1)")
+    a("--membership", action="store_true",
+      help="two-tracer grids: after the grid, each merger's probability of an AGN host at the posterior "
+           "median (grid/membership.npz, membership.json)")
     a("--population-family", default="corepop", choices=list(P.POPULATION_INPUTS),
       help="the population inputs held fixed (and the truth recorded)")
     a("--pop", action="append", default=[], metavar="NAME=VALUE",
@@ -86,7 +90,18 @@ def parse_args(argv=None):
     a("--pe-event-block", type=int, default=5)
     a("--sel-batch", type=int, default=5000)
     a("--events-file", default=None, help="override the events file (closure tests)")
-    a("--injections-file", default=None)
+    a("--injections-file", default=None, help="override the injection file (a full path; tests)")
+    a("--pool-injections", action="append", default=[], metavar="LANE",
+      help="another injection set of the realization (file relative to data/seedNNN/) pooled with the lane "
+           "(repeat for several; same proposal, so the pool is one set of the summed draws)")
+    a("--agn-subset-nsamp", type=int, default=None,
+      help="hosts_known: samples per merger of the AGN-hosted subset (default --nsamp)")
+    a("--agn-subset-pool", action="append", default=[], metavar="LANE",
+      help="hosts_known: injection sets pooled with the lane for the AGN-hosted subset only")
+    a("--variant", default="", help="run-name suffix of non-default Monte Carlo settings (e.g. s32000_inj6)")
+    a("--injections-lane", default=None,
+      help="the injection lane, a file relative to data/seedNNN/ (default: the population family's, "
+           "injections/injections_targeted[_obslike].h5); the run list takes it from data/experiment_sets.json")
     a("--limit-events", type=int, default=None, help="first N events only (CPU checks)")
     a("--limit-injections", type=int, default=None, help="first N detected injections only (CPU checks)")
     a("--run-name", default=None, help="run path under --out-root (default: from the options)")
@@ -138,7 +153,43 @@ def resolve(args):
         args.limit_events = args.limit_events or 20
         args.limit_injections = args.limit_injections or 20000
     tracers = P.CATALOG_SETS[args.catalogs]
-    free = args.free.split(",") if args.free else P.free_parameters(args.analysis, args.catalogs, args.flux)
+    events_file = args.events_file or str(P.events_path(args.realization, args.events_kind, args.events_suffix))
+    # the planted values the events file records (None where the file predates them)
+    ev_truth = P.read_event_truth(events_file) if Path(events_file).exists() else {}
+    pv = dict(P.POPULATION_INPUTS[args.population_family])
+    for s in args.pop:
+        k, v = s.split("=")
+        if k not in pv:
+            sys.exit(f"[fatal] --pop {k}: not a population parameter ({list(pv)})")
+        pv[k] = float(v)
+    # the galaxy class must be the population family's (refuse a family/events mismatch)
+    if ev_truth.get("mu_G_gal") is not None and not args.pop:
+        fam_spec = ev_truth.get("mass_spectrum") or "mock"
+        want_spec = "gwtc3_pp" if args.population_family == "obslike" else "mock"
+        if (abs(ev_truth["mu_G_gal"] - pv["mu_G"]) > 1e-9 or abs(ev_truth["mu_chi_gal"] - pv["mu_chi"]) > 1e-9
+                or fam_spec != want_spec):
+            sys.exit(f"[fatal] {events_file}: galaxy class mu_G {ev_truth['mu_G_gal']}, mu_chi "
+                     f"{ev_truth['mu_chi_gal']}, spectrum {fam_spec}; population family {args.population_family} "
+                     f"has {pv['mu_G']}, {pv['mu_chi']}, {want_spec}")
+    if ev_truth.get("dmu_G_agn") is not None:
+        planted_offsets = {"dmu_G": float(ev_truth["dmu_G_agn"]), "dmu_chi": float(ev_truth["dmu_chi_agn"])}
+    else:
+        planted_offsets = dict(P.AGN_OFFSET_INPUTS.get(args.population_family, {})) \
+            if args.events_kind == "host_dependent" else {k: 0.0 for k in P.OFFSETS}
+    populations_differ = any(abs(v) > 0 for v in planted_offsets.values())
+    planted_f = ev_truth.get("planted_f_agn")
+    if planted_f is None:
+        planted_f = P.EVENT_KINDS[args.events_kind][2]
+    elif P.EVENT_KINDS[args.events_kind][2] is not None and args.events_file is None \
+            and abs(planted_f - P.EVENT_KINDS[args.events_kind][2]) > 1e-12:
+        sys.exit(f"[fatal] {events_file} planted f_AGN {planted_f}, kind {args.events_kind} says "
+                 f"{P.EVENT_KINDS[args.events_kind][2]}")
+    if planted_f is None:
+        if Path(events_file).exists():
+            sys.exit(f"[fatal] no planted f_AGN for {events_file}")
+        planted_f = float("nan")         # the file does not exist yet: main() reports missing data
+    free = args.free.split(",") if args.free else P.free_parameters(args.analysis, args.catalogs, args.flux,
+                                                                    populations_differ=populations_differ)
     for p in free:
         if p not in P.PRIORS:
             sys.exit(f"[fatal] unknown parameter {p!r}")
@@ -146,21 +197,38 @@ def resolve(args):
     for s in args.prior:
         k, v = s.split("=")
         priors[k] = [float(x) for x in v.split(",")]
-    pv = dict(P.POPULATION_INPUTS[args.population_family])
-    for s in args.pop:
-        k, v = s.split("=")
-        if k not in pv:
-            sys.exit(f"[fatal] --pop {k}: not a population parameter ({list(pv)})")
-        pv[k] = float(v)
-    offsets_truth = dict(P.AGN_OFFSET_INPUTS.get(args.population_family, {}))
-    if args.events_kind != "host_dependent":
-        offsets_truth = {k: 0.0 for k in P.OFFSETS}
+    offsets_truth = dict(planted_offsets)
     if (set(P.OFFSETS) & set(free)) and args.catalogs != "both":
         sys.exit("[fatal] AGN offsets need both catalogs")
+    # each class's population: the galaxy class at the family's inputs, the AGN class shifted by the
+    # planted offsets (experiment analyses that give the AGN class its own population use it)
+    class_pops = {"gal": dict(pv), "agn": dict(pv)}
+    class_pops["agn"]["mu_G"] = pv["mu_G"] + planted_offsets["dmu_G"]
+    class_pops["agn"]["mu_chi"] = pv["mu_chi"] + planted_offsets["dmu_chi"]
+    fixed_offsets = None
+    if args.analysis == "two_tracers_two_populations":
+        fixed_offsets = dict(planted_offsets)
+    if args.analysis in ("hosts_known", "mass_spectrum_alone") and args.free:
+        sys.exit(f"[fatal] {args.analysis} has its own parameters; --free is not available")
     flux = args.flux
     comp = (args.complete_model if flux == "complete" else "selection") if tracers else None
-    events_file = args.events_file or str(P.events_path(args.realization, args.events_kind, args.events_suffix))
-    inj_file = args.injections_file or str(P.injections_path(args.realization))
+    lane = args.injections_lane or P.default_injection_lane(args.population_family)
+    inj_file = args.injections_file or str(P.injections_path(args.realization, args.population_family, lane))
+    if args.pool_injections and args.analysis == "hosts_known":
+        sys.exit("[fatal] hosts_known pools injections for its AGN-hosted subset only: --agn-subset-pool")
+    if (args.agn_subset_nsamp or args.agn_subset_pool) and args.analysis != "hosts_known":
+        sys.exit("[fatal] --agn-subset-* are options of hosts_known")
+    inj_files = [inj_file] + [str(P.injections_path(args.realization, args.population_family, x))
+                              for x in args.pool_injections]
+    agn_subset = None
+    if args.analysis == "hosts_known" and (args.agn_subset_nsamp or args.agn_subset_pool):
+        agn_subset = {"nsamp": int(args.agn_subset_nsamp or args.nsamp),
+                      "injections_files": [inj_file] + [str(P.injections_path(args.realization,
+                                                                               args.population_family, x))
+                                                        for x in args.agn_subset_pool],
+                      "injection_lanes": [lane] + list(args.agn_subset_pool)}
+        if agn_subset["nsamp"] % P.REDRAW_BLOCK or int(args.nsamp) == 0:
+            sys.exit("[fatal] --agn-subset-nsamp must be a multiple of 2000 with redrawn samples")
     surveys = {t: str(P.survey_path(args.realization, t, flux)) for t in tracers}
     fits = {}
     densities = {}
@@ -204,19 +272,28 @@ def resolve(args):
     density_mode = args.density if (tracers and flux != "complete") else None
     name = args.run_name or P.run_name(args.analysis, args.catalogs, flux, args.events_kind, args.realization,
                                        density=density_mode or "counts",
-                                       agn_density_factor=args.agn_density_factor, family=args.family_name)
+                                       agn_density_factor=args.agn_density_factor, family=args.family_name,
+                                       set_label=args.set_label, variant=args.variant)
+    if args.membership and (args.catalogs != "both" or "f_agn" not in free or args.mode != "grid"):
+        sys.exit("[fatal] --membership needs a two-tracer grid (both catalogs, f_AGN sampled)")
     cfg = {
         "run_name": name, "mode": args.mode, "analysis": args.analysis, "catalogs": args.catalogs,
         "tracers": list(tracers), "flux": flux, "events_kind": args.events_kind,
         "realization": args.realization, "events_suffix": args.events_suffix, "family_name": args.family_name,
-        "events_file": events_file, "injections_file": inj_file, "surveys": surveys,
+        "events_file": events_file, "injections_file": inj_file,
+        "injections_lane": None if args.injections_file else lane, "surveys": surveys,
+        "injections_files": inj_files, "injection_lanes_pooled": list(args.pool_injections),
+        "n_injection_sets": len(inj_files), "agn_subset": agn_subset, "variant": args.variant,
         "completeness_model": comp, "selection_fits": fits, "densities": densities,
         "density_mode": density_mode, "density_units": args.density_units if comp in ("selection", "count_ratio") else None,
         "zmax": float(args.zmax), "free": free, "priors": {k: priors[k] for k in free},
         "population_family": args.population_family, "population_values": pv,
         "population_fixed": {k: v for k, v in pv.items() if k not in free},
         "agn_offsets_truth": offsets_truth,
-        "planted_f_agn": P.EVENT_KINDS[args.events_kind][2],
+        "planted_f_agn": float(planted_f),
+        "events_truth": ev_truth, "set_label": args.set_label,
+        "class_populations": class_pops, "fixed_offsets": fixed_offsets,
+        "membership": bool(args.membership),
         "nsamp": int(args.nsamp), "redraw_key": key if args.nsamp else None,
         "redraw_block": P.REDRAW_BLOCK, "half_variance_correction": args.half_variance_correction == "on",
         "max_var": float(args.max_var), "pe_event_block": int(args.pe_event_block), "sel_batch": int(args.sel_batch),
@@ -297,7 +374,7 @@ def setup_model(cfg):
     os.environ["DARKSIRENS_ZMAX"] = repr(float(cfg["zmax"]))
     os.environ.setdefault("XLA_PYTHON_CLIENT_PREALLOCATE", "false")
     import prod_model as PM
-    m = PM.Model(cfg)
+    m = PM.make_model(cfg)
     m.import_core()
     import jax
     jax.config.update("jax_enable_x64", True)
@@ -428,12 +505,12 @@ def run_pass(m, cfg, gdir, name, axes, sess, deadline, max_cells=None):
     shape = tuple(len(axes[n]) for n in names)
     cells = [dict(zip(names, map(float, c))) for c in np.array(np.meshgrid(*[axes[n] for n in names],
                                                                           indexing="ij")).reshape(len(names), -1).T]
-    keys = ("lnL", "pe_var", "n_eff", "log_mu", "sel_corr", "seconds")
+    keys = ("lnL", "pe_var", "n_eff", "log_mu", "sel_corr", "seconds") + tuple(getattr(m, "extra_keys", ()))
     partial = gdir / f"{name}.partial.npz"
     res = {k: np.full(len(cells), np.nan) for k in keys}
     if partial.exists():
         z = np.load(partial)
-        if all(np.array_equal(z[f"axis_{n}"], axes[n]) for n in names):
+        if all(np.array_equal(z[f"axis_{n}"], axes[n]) for n in names) and all(k in z for k in keys):
             for k in keys:
                 res[k] = np.asarray(z[k])
             log(f"[{name}] resuming: {int(np.isfinite(res['seconds']).sum())}/{len(cells)} cells on record")
@@ -455,8 +532,9 @@ def run_pass(m, cfg, gdir, name, axes, sess, deadline, max_cells=None):
         tc = time.time()
         r = m.evaluate(cells[i])
         dt = time.time() - tc
-        for k in keys[:-1]:
-            res[k][i] = r[k]
+        for k in keys:
+            if k != "seconds":
+                res[k][i] = r[k]
         res["seconds"][i] = dt
         sess.row["calls"] += 1
         sess.row["seconds_in_likelihood"] += dt
@@ -496,6 +574,14 @@ def run_grid(args, cfg, run_dir):
     gdir.mkdir(parents=True, exist_ok=True)
     write_json(gdir / "config.json", cfg)
     if (gdir / "result.json").exists() and json.loads((gdir / "result.json").read_text()).get("finished"):
+        rec = json.loads((gdir / "result.json").read_text())
+        if cfg.get("membership") and not (rec.get("membership") or {}).get("ok"):
+            # the grid is on record without the membership output: compute it alone
+            log(f"{gdir} finished on record; computing the membership probabilities")
+            m = setup_model(cfg)
+            rec["membership"] = membership_safe(m, cfg, rec["summary"], gdir)
+            write_json(gdir / "result.json", rec)
+            return 0
         log(f"{gdir} finished on record; nothing to do")
         return 0
     sess = Session(gdir)
@@ -573,7 +659,8 @@ def run_grid(args, cfg, run_dir):
         "outside_mass_ok": None if out_check is None else bool(out_check["mass_outside_fraction"] < 1e-4),
         "ln_evidence_grid": ln_z,
         "variance": {"pe_var_at_peak": float(fres["pe_var"][peak]), "n_eff_at_peak": float(fres["n_eff"][peak]),
-                     "sigma2_sel_at_peak": float(m.n_events ** 2 / fres["n_eff"][peak]),
+                     "sigma2_sel_at_peak": float(fres["sigma2_sel"][peak] if "sigma2_sel" in fres
+                                                 else m.n_events ** 2 / fres["n_eff"][peak]),
                      "pe_var_range": [float(np.nanmin(fres["pe_var"])), float(np.nanmax(fres["pe_var"]))],
                      "n_eff_range": [float(np.nanmin(fres["n_eff"])), float(np.nanmax(fres["n_eff"]))],
                      "n_guarded_cells": int((~ok).sum()), "max_var": cfg["max_var"]},
@@ -582,6 +669,10 @@ def run_grid(args, cfg, run_dir):
         "model_info": cfg_info, "diag_vs_bound": checks,
         "finished_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
+    if extra := getattr(m, "extra_keys", ()):
+        res["extra_at_peak"] = {k: float(fres[k][peak]) for k in extra}
+    if cfg.get("membership"):
+        res["membership"] = membership_safe(m, cfg, summ, gdir)
     sess.close("finished" if not args.dry_run else "dry_run")
     res["gpu_hours_total"] = sess.gpu_hours_total
     res["sessions"] = sess.rows
@@ -591,6 +682,93 @@ def run_grid(args, cfg, run_dir):
                                     for p in free) + (f"  outside mass {out_check['mass_outside_fraction']:.2e}"
                                                        if out_check else ""))
     return 0
+
+
+# ============================================================================ membership
+def membership_safe(m, cfg, summ, gdir):
+    try:
+        return membership(m, cfg, summ, gdir)
+    except Exception as e:  # noqa: BLE001  (the grid is the expensive part; keep it)
+        import traceback
+        log(f"[membership] failed: {e!r}")
+        return {"ok": False, "error": repr(e), "traceback": traceback.format_exc()}
+
+
+def membership(m, cfg, summ, gdir):
+    """Each merger's probability of an AGN host at the posterior median (H0, f):
+
+        r_i = f L_i,agn / (f L_i,agn + (1 - f) L_i,gal),
+
+    L_i,c the merger's likelihood under class c alone: core's per-event evidence of the same mixture
+    model at f = 1 (AGN branch) and f = 0 (galaxy branch), each branch normalised over its catalog (and
+    carrying its class population in two_tracers_two_populations). Written with the true host class.
+    Checks (exact identities of the model, recorded): (i) the per-event evidence at the median f equals
+    ln[(1 - f) L_gal + f L_agn] and ln mu(f) = ln[(1 - f) mu_gal + f mu_agn]; (ii) at the f* that
+    maximises ln L(f | H0_median), mean_i r_i(f*) = f* mu_agn / mu(f*) (the detected AGN fraction the
+    model implies; = f* when mu_agn = mu_gal)."""
+    import prod_model as PM
+    h0 = float(summ["H0"]["median"])
+    f = float(summ["f_agn"]["median"])
+    r0 = m.evaluate_events({"H0": h0, "f_agn": 0.0})
+    r1 = m.evaluate_events({"H0": h0, "f_agn": 1.0})
+    rf = m.evaluate_events({"H0": h0, "f_agn": f})
+    lG, lA = r0["event_log_evidence"], r1["event_log_evidence"]
+    lmG, lmA = r0["log_mu"], r1["log_mu"]
+    lmix = np.logaddexp(np.log1p(-f) + lG, np.log(f) + lA)
+    r = np.exp(np.log(f) + lA - lmix)
+    id_events = float(np.max(np.abs(rf["event_log_evidence"] - lmix)))
+    id_mu = float(abs(rf["log_mu"] - np.logaddexp(np.log1p(-f) + lmG, np.log(f) + lmA)))
+    n = len(lG)
+
+    def lnl(fx):
+        return float(np.sum(np.logaddexp(np.log1p(-fx) + lG, np.log(fx) + lA))
+                     - n * np.logaddexp(np.log1p(-fx) + lmG, np.log(fx) + lmA))
+
+    def dlnl(fx):
+        mix = np.logaddexp(np.log1p(-fx) + lG, np.log(fx) + lA)
+        mu = np.logaddexp(np.log1p(-fx) + lmG, np.log(fx) + lmA)
+        return float(np.sum(np.exp(lA - mix) - np.exp(lG - mix)) - n * (np.exp(lmA - mu) - np.exp(lmG - mu)))
+
+    lo, hi = 1e-9, 1 - 1e-9
+    if dlnl(lo) <= 0:
+        fstar = 0.0
+    elif dlnl(hi) >= 0:
+        fstar = 1.0
+    else:
+        for _ in range(200):
+            mid = 0.5 * (lo + hi)
+            if dlnl(mid) > 0:
+                lo = mid
+            else:
+                hi = mid
+        fstar = 0.5 * (lo + hi)
+    ident_ml = None
+    if 0.0 < fstar < 1.0:
+        mix_s = np.logaddexp(np.log1p(-fstar) + lG, np.log(fstar) + lA)
+        r_s = np.exp(np.log(fstar) + lA - mix_s)
+        mu_s = np.logaddexp(np.log1p(-fstar) + lmG, np.log(fstar) + lmA)
+        det_frac = float(np.exp(np.log(fstar) + lmA - mu_s))
+        ident_ml = {"f_star": fstar, "mean_r_at_f_star": float(r_s.mean()),
+                    "f_star_mu_agn_over_mu": det_frac, "difference": float(r_s.mean() - det_frac)}
+    ht = PM.event_host_types(cfg["events_file"], cfg.get("limit_events"))
+    mu_f = np.logaddexp(np.log1p(-f) + lmG, np.log(f) + lmA)
+    out = {"ok": True, "H0_median": h0, "f_agn_median": f, "n_events": n,
+           "mean_r": float(r.mean()), "f_median_mu_agn_over_mu": float(np.exp(np.log(f) + lmA - mu_f)),
+           "mu_agn_over_mu_gal": float(np.exp(lmA - lmG)),
+           "true_agn_fraction": float(ht.mean()), "n_true_agn": int(ht.sum()),
+           "mean_r_true_agn": float(r[ht == 1].mean()) if (ht == 1).any() else None,
+           "mean_r_true_gal": float(r[ht == 0].mean()) if (ht == 0).any() else None,
+           "n_r_gt_0p5": int((r > 0.5).sum()), "n_true_agn_with_r_gt_0p5": int(((r > 0.5) & (ht == 1)).sum()),
+           "identity_event_evidence_max_abs": id_events, "identity_log_mu_abs": id_mu,
+           "identity_ml": ident_ml, "lnL_at_median_from_branches": lnl(f), "lnL_at_median_core": rf["lnL"],
+           "file": str(gdir / "membership.npz")}
+    np.savez(gdir / "membership.npz", event=np.arange(n), host_type=ht, r=r, ln_L_agn=lA, ln_L_gal=lG,
+             mc_var_agn=r1["event_mc_variance"], mc_var_gal=r0["event_mc_variance"],
+             ln_mu_agn=lmA, ln_mu_gal=lmG, H0=h0, f_agn=f)
+    write_json(gdir / "membership.json", out)
+    log(f"[membership] H0 {h0:.3f} f {f:.4f}: mean r {out['mean_r']:.4f} (true AGN {out['mean_r_true_agn']}, "
+        f"true galaxy {out['mean_r_true_gal']}); identities {id_events:.1e}, {id_mu:.1e}; ML {ident_ml}")
+    return out
 
 
 # ============================================================================ nested mode
@@ -840,6 +1018,10 @@ def main(argv=None):
     if not Path(cfg["events_file"]).exists():
         log(f"[missing data] {cfg['events_file']} does not exist")
         return 4
+    for f in cfg["injections_files"] + ((cfg.get("agn_subset") or {}).get("injections_files") or []):
+        if not P.injections_ready(f):
+            log(f"[missing data] {f} (or its _meta.json) does not exist")
+            return 4
     if cfg["mode"] == "grid":
         return run_grid(args, cfg, run_dir)
     return run_nested(args, cfg, run_dir)

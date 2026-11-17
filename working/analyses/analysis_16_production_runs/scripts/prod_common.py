@@ -70,18 +70,37 @@ POP_NAMES = list(POP_LABELS)
 POPULATION_INPUTS = {
     "corepop": {"v1": 0.1, "alpha": 2.3, "m_min": 5.0, "m_max": 80.0, "dm_min": 3.0, "dm_max": 10.0,
                 "mu_G": 35.0, "sigma_G": 5.0, "beta": 1.0, "mu_chi": 0.0, "sigma_chi": 0.1, "gamma": 0.0},
+    # the observed-like spectrum (GWTC-3 power law + peak mapped onto core; data/obslike/README.md,
+    # results/obslike_paper_values.json "core_theta"); spin and redshift as corepop
+    "obslike": {"v1": 0.908, "alpha": 3.5, "m_min": 5.0, "m_max": 87.0, "dm_min": 4.9, "dm_max": 0.01,
+                "mu_G": 34.0, "sigma_G": 3.6, "beta": 1.1, "mu_chi": 0.0, "sigma_chi": 0.1, "gamma": 0.0},
 }
-AGN_OFFSET_INPUTS = {"corepop": {"dmu_G": 5.0, "dmu_chi": 0.10}}
+# AGN offsets per unit of the experiment's population difference s (the host-dependent sets are s = 1)
+AGN_OFFSET_INPUTS = {"corepop": {"dmu_G": 5.0, "dmu_chi": 0.10}, "obslike": {"dmu_G": 5.0, "dmu_chi": 0.10}}
+# each family's injection set (data/seedNNN/injections/injections_targeted<suffix>.h5)
+INJECTION_SUFFIX = {"corepop": "", "obslike": "_obslike"}
 POP_FREE = ("mu_G", "sigma_G", "mu_chi", "sigma_chi")
 OFFSETS = ("dmu_G", "dmu_chi")
+# the events-file attributes that state the planted classes (generate_dataset.py writes them)
+EVENT_TRUTH_ATTRS = ("planted_f_agn", "truth_f_agn", "n_host_agn", "n_host_gal", "mu_G_gal", "mu_G_agn",
+                     "mu_chi_gal", "mu_chi_agn", "dmu_G_agn", "dmu_chi_agn", "mass_spectrum", "population_code",
+                     "seed_events")
+
+
+def family_of_suffix(suffix: str) -> str:
+    """The population family of an events suffix (`_obslike` sets are the observed-like family)."""
+    return "obslike" if suffix.endswith("_obslike") else "corepop"
 
 # ----------------------------------------------------------------------------- events
 # kind -> (file stem before the suffix, redraw set code, planted f_AGN)
+# "set" is any other event set (the short paper's experiment): file events<suffix>.h5, its planted
+# f_AGN and class populations read from the file's attributes.
 EVENT_KINDS = {
     "equal_populations": ("events", 2, 0.30),
     "agn_hosted": ("events_pureagn", 1, 1.0),
     "galaxy_hosted": ("events_puregal", 3, 0.0),
     "host_dependent": ("events_marked_dmu0p10_dmuG5", 4, 0.30),
+    "set": ("events", 5, None),
 }
 DEFAULT_SUFFIX = "_corepop"
 REDRAW_ROOT = 16_100_2026      # Analysis 16's stream root (A14's is 14_100_2026)
@@ -93,8 +112,83 @@ def events_path(realization: int, kind: str, suffix: str = DEFAULT_SUFFIX) -> Pa
     return DATA / f"seed{int(realization)}" / "events" / f"{stem}{suffix}.h5"
 
 
-def injections_path(realization: int) -> Path:
-    return DATA / f"seed{int(realization)}" / "injections" / "injections_targeted.h5"
+def default_injection_lane(family: str = "corepop") -> str:
+    """The family's default injection lane, relative to the realization's directory."""
+    return f"injections/injections_targeted{INJECTION_SUFFIX[family]}.h5"
+
+
+def present_lane(lane: str) -> bool:
+    """The record's (present) targeted lane, which serves equal populations of the peak family."""
+    return lane.strip("/") == default_injection_lane("corepop")
+
+
+def injections_path(realization: int, family: str = "corepop", lane: str | None = None) -> Path:
+    """Each realization's own injection set (every run uses its realization's; never shared): the lane
+    (a file relative to data/seedNNN/) given, else the family's default lane."""
+    lane = lane or default_injection_lane(family)
+    lane = lane.replace("seed<R>/", "").replace("seed{R}/", "").lstrip("/")
+    return DATA / f"seed{int(realization)}" / lane
+
+
+# Analysis 14's further injection sets of a realization (same proposal and draw count as the
+# record's targeted lane, independent streams S*1000+900+j): pooled with the realization's own set for
+# the analyses whose posterior is narrow (every merger AGN-hosted, matched to the AGN catalog)
+EXTRA_LANE_GLOB = "mc_accuracy/inj_set*/seed{R}/injections/injections_targeted.h5"
+NSAMP_AGN_ONLY = 32000       # Analysis 14: 32000 samples per merger for the all-AGN-hosted analyses
+
+
+def extra_injection_lanes(realization: int, family: str = "corepop") -> list:
+    """The realization's further injection sets that exist and are complete (lanes relative to the
+    realization's directory), sorted by set number; the observed-like family has none."""
+    if family != "corepop":
+        return []
+    root = DATA / f"seed{int(realization)}"
+    pat = EXTRA_LANE_GLOB.replace("{R}", str(int(realization)))
+    out = []
+    for p in sorted(root.glob(pat), key=lambda q: int(q.parts[-4].replace("inj_set", "") or 0)):
+        if injections_ready(p):
+            out.append(str(p.relative_to(root)))
+    return out
+
+
+def variant_tag(nsamp: int, n_sets: int, prefix: str = "") -> str:
+    """Run-name suffix of a run at non-default Monte Carlo settings, e.g. s32000_inj6."""
+    return f"{prefix}s{int(nsamp)}_inj{int(n_sets)}"
+
+
+def injections_ready(path) -> bool:
+    """An injection file is usable once it and its _meta.json exist (the generator writes the meta
+    after the file; a set still being written has no meta yet)."""
+    p = Path(path)
+    return p.exists() and p.with_name(p.stem + "_meta.json").exists()
+
+
+def kind_and_suffix_of_file(name: str):
+    """events file name (events<...>.h5) -> (kind, suffix) of the production vocabulary when the file
+    is one of the four production kinds of a family (so it shares their redraw), else ("set", suffix)."""
+    stem = name[:-3] if name.endswith(".h5") else name
+    for fam_sfx in ("_corepop", "_obslike"):
+        for kind, (kstem, _, _) in EVENT_KINDS.items():
+            if kind != "set" and stem == kstem + fam_sfx:
+                return kind, fam_sfx
+    if not stem.startswith("events"):
+        raise ValueError(f"not an events file name: {name}")
+    return "set", stem[len("events"):]
+
+
+def read_event_truth(path) -> dict:
+    """The planted values an events file records (attrs; None where absent)."""
+    import h5py
+    out = {}
+    with h5py.File(path, "r") as f:
+        for k in EVENT_TRUTH_ATTRS:
+            v = f.attrs.get(k)
+            if isinstance(v, bytes):
+                v = v.decode()
+            elif isinstance(v, (np.floating, np.integer)):
+                v = v.item()
+            out[k] = v
+    return out
 
 
 def family_code(suffix: str) -> int:
@@ -127,12 +221,32 @@ def fit_path(tracer: str, flux: str) -> Path:
 
 
 # ----------------------------------------------------------------------------- analyses
-ANALYSES = ("known_population", "single_population", "host_dependent_populations", "free_densities")
+ANALYSES = ("known_population", "single_population", "host_dependent_populations", "free_densities",
+            # the short paper's experiment (paper_short_independent/EXPERIMENT.md); populations at inputs
+            "mass_spectrum_alone", "galaxy_catalog_alone", "two_tracers_one_population",
+            "two_tracers_two_populations", "hosts_known")
+EXPERIMENT_ANALYSES = ANALYSES[4:]
+# the catalogs each experiment analysis uses (hosts_known: the AGN catalog for AGN-hosted mergers and the
+# galaxy catalog for galaxy-hosted ones)
+EXPERIMENT_CATALOGS = {"mass_spectrum_alone": "none", "galaxy_catalog_alone": "galaxy",
+                       "two_tracers_one_population": "both", "two_tracers_two_populations": "both",
+                       "hosts_known": "both"}
 
 
-def free_parameters(analysis: str, catalogs: str, flux: str) -> list:
-    """The sampled parameters of an analysis class, in PARAM_ORDER."""
+def free_parameters(analysis: str, catalogs: str, flux: str, populations_differ: bool = False) -> list:
+    """The sampled parameters of an analysis class, in PARAM_ORDER. populations_differ: the events'
+    AGN class has its own population (only mass_spectrum_alone depends on it: f_AGN is then free)."""
     tr = CATALOG_SETS[catalogs]
+    if analysis in EXPERIMENT_ANALYSES:
+        if catalogs != EXPERIMENT_CATALOGS[analysis]:
+            raise ValueError(f"{analysis} uses catalogs {EXPERIMENT_CATALOGS[analysis]!r}, not {catalogs!r}")
+        if flux != "complete":
+            raise ValueError(f"{analysis} is defined on complete catalogs")
+        if analysis in ("two_tracers_one_population", "two_tracers_two_populations"):
+            return ["H0", "f_agn"]
+        if analysis == "mass_spectrum_alone" and populations_differ:
+            return ["H0", "f_agn"]
+        return ["H0"]
     out = ["H0"]
     if catalogs == "both":
         out.append("f_agn")
@@ -153,9 +267,17 @@ def free_parameters(analysis: str, catalogs: str, flux: str) -> list:
     return [p for p in PARAM_ORDER if p in out]
 
 
+def set_name(family: str, f: float, s: float) -> str:
+    """The experiment's name of an event set: <family>_f<f>_s<s>, e.g. mock_f0p30_s1."""
+    ss = f"{s:g}".replace(".", "p")
+    return f"{family}_f{f:.2f}".replace(".", "p") + f"_s{ss}"
+
+
 def run_name(analysis, catalogs, flux, kind, realization, density="counts", agn_density_factor=1.0,
-             family="", extra=""):
-    """runs/<analysis>/<catalogs>/<flux>[_<density>]/<events>[_<family>]/realization_NNN[/<extra>]."""
+             family="", extra="", set_label="", variant=""):
+    """runs/<analysis>/<catalogs>/<flux>[_<density>]/<events>[_<family>]/realization_NNN[_<variant>][/<extra>];
+    set_label (experiment runs) replaces <events>[_<family>]; variant marks non-default Monte Carlo
+    settings (e.g. s32000_inj6)."""
     flux_part = "complete" if flux == "complete" else f"flux_limit_{flux}"
     if flux != "complete" and analysis != "free_densities":
         dpart = {"counts": "densities_from_counts", "given": "densities_given"}[density]
@@ -163,8 +285,9 @@ def run_name(analysis, catalogs, flux, kind, realization, density="counts", agn_
             dpart += {0.5: "_agn_density_half", 2.0: "_agn_density_double"}.get(
                 agn_density_factor, f"_agn_density_times_{agn_density_factor:g}".replace(".", "p"))
         flux_part += "_" + dpart
-    ev = kind + (f"_{family}" if family else "")
-    parts = [analysis, CATALOG_DIR_NAMES[catalogs], flux_part, ev, f"realization_{int(realization):03d}"]
+    ev = set_label or (kind + (f"_{family}" if family else ""))
+    parts = [analysis, CATALOG_DIR_NAMES[catalogs], flux_part, ev,
+             f"realization_{int(realization):03d}" + (f"_{variant}" if variant else "")]
     if extra:
         parts.append(extra)
     return "/".join(parts)

@@ -1,23 +1,38 @@
-generated_utc: '2026-11-17T09:03:41Z'
+generated_utc: '2026-11-17T10:42:57Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
-  spc_fixed: 0.39
+  spc_fixed: 0.3894472122192383
   spc_free: 0.44
   spc_none_fixed: 0.39
   spc_none_free: 0.44
+  spc_one_fixed: 0.39
+  spc_free_hostdep: 0.44
+  spc_flux_free_densities: 0.44
   grid_2d_cells: 1147
   grid_1d_cells: 132
   calls_by_ndim:
-    4: 15000
-    5: 29000
-    6: 36000
+    4: 7500
+    5: 14500
+    6: 18000
+    7: 24000
     8: 272000
   calls_measured_reference:
-    6_A11_A12_box: 29000
-    7_A11: 48000
-    8_A13_box: 228000
-  overhead_hours_per_process: 0.05
+    6_A11D_pair: 29262
+    6_A11D_per_run:
+    - 14245
+    - 15017
+    7_A12M_pair: 47705
+    7_A12M_per_run:
+    - 25007
+    - 22698
+    8_A13_box_single_run: 228000
+  overhead_hours_per_process: 0.0226
+  spc_per_sample: 2.5e-05
+  spc_per_injection_set: 0.2
+  measured:
+  - overhead_hours_per_process
+  - spc_fixed
 sampler_8: rslice
 realizations:
   '5':
@@ -47,19 +62,13 @@ stages:
   n_runs: 35
   n_tasks: 35
   est_calls: 14770
-  est_gpu_hours: 3.34
-  est_gpu_hours_existing_data: 2.47
+  est_gpu_hours: 2.69
+  est_gpu_hours_existing_data: 2.69
+  est_gpu_hours_ready: 2.69
+  n_runs_held: 0
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -73,22 +82,28 @@ stages:
     - equal_populations
     - --realization
     - '100'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/complete/equal_populations/realization_101
+    - --membership
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: -1.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_101
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -102,22 +117,27 @@ stages:
     - equal_populations
     - --realization
     - '101'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/complete/equal_populations/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_102
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -131,22 +151,27 @@ stages:
     - equal_populations
     - --realization
     - '102'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/complete/equal_populations/realization_103
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_103
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -160,22 +185,27 @@ stages:
     - equal_populations
     - --realization
     - '103'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/complete/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_105
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -189,22 +219,27 @@ stages:
     - equal_populations
     - --realization
     - '105'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/complete/equal_populations/realization_106
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_106
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -218,22 +253,27 @@ stages:
     - equal_populations
     - --realization
     - '106'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
-    data_exists: false
-  - name: known_population/both_catalogs/complete/equal_populations/realization_107
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_107
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -247,22 +287,27 @@ stages:
     - equal_populations
     - --realization
     - '107'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
-    data_exists: false
-  - name: known_population/both_catalogs/complete/equal_populations/realization_108
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_108
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -276,22 +321,27 @@ stages:
     - equal_populations
     - --realization
     - '108'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
-    data_exists: false
-  - name: known_population/both_catalogs/complete/equal_populations/realization_109
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_109
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -305,22 +355,27 @@ stages:
     - equal_populations
     - --realization
     - '109'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
-    data_exists: false
-  - name: known_population/both_catalogs/complete/equal_populations/realization_110
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_110
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -334,21 +389,27 @@ stages:
     - equal_populations
     - --realization
     - '110'
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
-    data_exists: false
-  - name: known_population/galaxy_catalog/complete/equal_populations/realization_100
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
-    n_parameters: 1
+    - f_agn
+    n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_100
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -362,21 +423,26 @@ stages:
     - equal_populations
     - --realization
     - '100'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/agn_catalog/complete/equal_populations/realization_100
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -390,21 +456,26 @@ stages:
     - equal_populations
     - --realization
     - '100'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/no_catalog/complete/equal_populations/realization_100
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -418,21 +489,26 @@ stages:
     - equal_populations
     - --realization
     - '100'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/agn_catalog/complete/agn_hosted/realization_100
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -446,21 +522,45 @@ stages:
     - agn_hosted
     - --realization
     - '100'
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_seconds_per_call: 1.99
+    est_gpu_hours: 0.096
+    est_gpu_hours_per_part: 0.096
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -474,21 +574,26 @@ stages:
     - galaxy_hosted
     - --realization
     - '100'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/equal_populations/realization_101
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -502,21 +607,26 @@ stages:
     - equal_populations
     - --realization
     - '101'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/agn_catalog/complete/equal_populations/realization_101
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -530,21 +640,26 @@ stages:
     - equal_populations
     - --realization
     - '101'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/no_catalog/complete/equal_populations/realization_101
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -558,21 +673,26 @@ stages:
     - equal_populations
     - --realization
     - '101'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/agn_catalog/complete/agn_hosted/realization_101
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -586,21 +706,45 @@ stages:
     - agn_hosted
     - --realization
     - '101'
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_seconds_per_call: 1.99
+    est_gpu_hours: 0.096
+    est_gpu_hours_per_part: 0.096
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -614,21 +758,26 @@ stages:
     - galaxy_hosted
     - --realization
     - '101'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/equal_populations/realization_102
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -642,21 +791,26 @@ stages:
     - equal_populations
     - --realization
     - '102'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/agn_catalog/complete/equal_populations/realization_102
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -670,21 +824,26 @@ stages:
     - equal_populations
     - --realization
     - '102'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/no_catalog/complete/equal_populations/realization_102
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -698,21 +857,26 @@ stages:
     - equal_populations
     - --realization
     - '102'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/agn_catalog/complete/agn_hosted/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -726,21 +890,45 @@ stages:
     - agn_hosted
     - --realization
     - '102'
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_seconds_per_call: 1.99
+    est_gpu_hours: 0.096
+    est_gpu_hours_per_part: 0.096
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -754,21 +942,26 @@ stages:
     - galaxy_hosted
     - --realization
     - '102'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/equal_populations/realization_103
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -782,21 +975,26 @@ stages:
     - equal_populations
     - --realization
     - '103'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/agn_catalog/complete/equal_populations/realization_103
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -810,21 +1008,26 @@ stages:
     - equal_populations
     - --realization
     - '103'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/no_catalog/complete/equal_populations/realization_103
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -838,21 +1041,26 @@ stages:
     - equal_populations
     - --realization
     - '103'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/agn_catalog/complete/agn_hosted/realization_103
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -866,21 +1074,45 @@ stages:
     - agn_hosted
     - --realization
     - '103'
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_seconds_per_call: 1.99
+    est_gpu_hours: 0.096
+    est_gpu_hours_per_part: 0.096
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103
-    stage: 1
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    n_parameters: 1
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -894,21 +1126,26 @@ stages:
     - galaxy_hosted
     - --realization
     - '103'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
-    data_exists: true
-  - name: known_population/galaxy_catalog/complete/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_105
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -922,21 +1159,26 @@ stages:
     - equal_populations
     - --realization
     - '105'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/agn_catalog/complete/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/equal_populations/realization_105
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -950,21 +1192,26 @@ stages:
     - equal_populations
     - --realization
     - '105'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/no_catalog/complete/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/no_catalog/complete/equal_populations/realization_105
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -978,21 +1225,26 @@ stages:
     - equal_populations
     - --realization
     - '105'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/agn_catalog/complete/agn_hosted/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1006,21 +1258,45 @@ stages:
     - agn_hosted
     - --realization
     - '105'
-    est_calls: 132
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
-    data_exists: true
-  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
     stage: 1
     mode: grid
-    analysis: known_population
     free:
     - H0
     n_parameters: 1
     parts:
     - grid
+    est_calls: 132
+    est_seconds_per_call: 1.99
+    est_gpu_hours: 0.096
+    est_gpu_hours_per_part: 0.096
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1034,30 +1310,36 @@ stages:
     - galaxy_hosted
     - --realization
     - '105'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 1
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
     est_calls: 132
     est_seconds_per_call: 0.39
-    est_gpu_hours: 0.064
-    est_gpu_hours_per_part: 0.064
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
 - stage: 2
   title: flux-limited catalogs
   n_runs: 44
   n_tasks: 56
-  est_calls: 396704
-  est_gpu_hours: 45.77
-  est_gpu_hours_existing_data: 45.77
+  est_calls: 216704
+  est_gpu_hours: 27.25
+  est_gpu_hours_existing_data: 27.25
+  est_gpu_hours_ready: 27.25
+  n_runs_held: 0
   runs:
   - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1073,22 +1355,27 @@ stages:
     - '100'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1104,22 +1391,27 @@ stages:
     - '101'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1135,22 +1427,27 @@ stages:
     - '102'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_103
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1166,22 +1463,27 @@ stages:
     - '103'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_105
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1197,22 +1499,27 @@ stages:
     - '105'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1228,22 +1535,27 @@ stages:
     - '100'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1259,22 +1571,27 @@ stages:
     - '101'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1290,22 +1607,27 @@ stages:
     - '102'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_103
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1321,22 +1643,27 @@ stages:
     - '103'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_105
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1352,22 +1679,27 @@ stages:
     - '105'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1383,22 +1715,27 @@ stages:
     - '100'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1414,22 +1751,27 @@ stages:
     - '101'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1445,22 +1787,27 @@ stages:
     - '102'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_103
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1476,22 +1823,27 @@ stages:
     - '103'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_105
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1507,22 +1859,27 @@ stages:
     - '105'
     - --density
     - counts
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1538,22 +1895,27 @@ stages:
     - '100'
     - --density
     - counts
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1569,22 +1931,27 @@ stages:
     - '101'
     - --density
     - counts
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1600,22 +1967,27 @@ stages:
     - '102'
     - --density
     - counts
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_103
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_103
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1631,22 +2003,27 @@ stages:
     - '103'
     - --density
     - counts
-    est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
-    data_exists: true
-  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: grid
-    analysis: known_population
     free:
     - H0
     - f_agn
     n_parameters: 2
     parts:
     - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_105
+    analysis: known_population
     args:
     - --mode
     - grid
@@ -1662,22 +2039,27 @@ stages:
     - '105'
     - --density
     - counts
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1695,22 +2077,27 @@ stages:
     - counts
     - --agn-density-factor
     - '0.5'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1728,22 +2115,27 @@ stages:
     - counts
     - --agn-density-factor
     - '0.5'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1761,22 +2153,27 @@ stages:
     - counts
     - --agn-density-factor
     - '0.5'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1794,22 +2191,27 @@ stages:
     - counts
     - --agn-density-factor
     - '2'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1827,22 +2229,27 @@ stages:
     - counts
     - --agn-density-factor
     - '2'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1860,22 +2267,27 @@ stages:
     - counts
     - --agn-density-factor
     - '2'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1893,22 +2305,27 @@ stages:
     - counts
     - --agn-density-factor
     - '0.5'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1926,22 +2343,27 @@ stages:
     - counts
     - --agn-density-factor
     - '0.5'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1959,22 +2381,27 @@ stages:
     - counts
     - --agn-density-factor
     - '0.5'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -1992,22 +2419,27 @@ stages:
     - counts
     - --agn-density-factor
     - '2'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -2025,22 +2457,27 @@ stages:
     - counts
     - --agn-density-factor
     - '2'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102
-    stage: 2
-    mode: grid
     analysis: known_population
-    free:
-    - H0
-    - f_agn
-    n_parameters: 2
-    parts:
-    - grid
     args:
     - --mode
     - grid
@@ -2058,25 +2495,27 @@ stages:
     - counts
     - --agn-density-factor
     - '2'
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
     est_calls: 1147
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 0.174
-    est_gpu_hours_per_part: 0.174
+    est_seconds_per_call: 0.3894
+    est_gpu_hours: 0.147
+    est_gpu_hours_per_part: 0.147
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2092,25 +2531,30 @@ stages:
     - '100'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_21/equal_populations/realization_101
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2126,25 +2570,30 @@ stages:
     - '101'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_21/equal_populations/realization_102
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2160,25 +2609,30 @@ stages:
     - '102'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2194,25 +2648,30 @@ stages:
     - '100'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_20/equal_populations/realization_101
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2228,25 +2687,30 @@ stages:
     - '101'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_20/equal_populations/realization_102
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2262,25 +2726,30 @@ stages:
     - '102'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2296,25 +2765,30 @@ stages:
     - '100'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_101
-    stage: 2
-    mode: nested
     analysis: free_densities
-    free:
-    - H0
-    - f_agn
-    - log10n_gal
-    - log10n_agn
-    n_parameters: 4
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2330,16 +2804,11 @@ stages:
     - '101'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: nested
-    analysis: free_densities
     free:
     - H0
     - f_agn
@@ -2349,6 +2818,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_102
+    analysis: free_densities
     args:
     - --mode
     - nested
@@ -2364,16 +2843,11 @@ stages:
     - '102'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
-    data_exists: true
-  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: nested
-    analysis: free_densities
     free:
     - H0
     - f_agn
@@ -2383,6 +2857,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100
+    analysis: free_densities
     args:
     - --mode
     - nested
@@ -2398,16 +2882,11 @@ stages:
     - '100'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
-    data_exists: true
-  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_101
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: nested
-    analysis: free_densities
     free:
     - H0
     - f_agn
@@ -2417,6 +2896,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_101
+    analysis: free_densities
     args:
     - --mode
     - nested
@@ -2432,16 +2921,11 @@ stages:
     - '101'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 2
     mode: nested
-    analysis: free_densities
     free:
     - H0
     - f_agn
@@ -2451,6 +2935,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_102
+    analysis: free_densities
     args:
     - --mode
     - nested
@@ -2466,35 +2960,40 @@ stages:
     - '102'
     - --density
     - free
-    est_calls: 30000
-    est_seconds_per_call: 0.39
-    est_gpu_hours: 3.35
-    est_gpu_hours_per_part: 1.675
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 2
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 15000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 1.879
+    est_gpu_hours_per_part: 0.939
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
 - stage: 3
   title: equal-population events, single population
   n_runs: 20
   n_tasks: 40
-  est_calls: 1300000
-  est_gpu_hours: 160.89
-  est_gpu_hours_existing_data: 80.44
+  est_calls: 650000
+  est_gpu_hours: 80.35
+  est_gpu_hours_existing_data: 80.35
+  est_gpu_hours_ready: 80.35
+  n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/equal_populations/realization_100
-    stage: 3
-    mode: nested
     analysis: single_population
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    n_parameters: 6
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2508,27 +3007,32 @@ stages:
     - equal_populations
     - --realization
     - '100'
-    est_calls: 72000
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 3
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
     est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
   - name: single_population/both_catalogs/complete/equal_populations/realization_101
-    stage: 3
-    mode: nested
     analysis: single_population
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    n_parameters: 6
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -2542,16 +3046,11 @@ stages:
     - equal_populations
     - --realization
     - '101'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/equal_populations/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2563,6 +3062,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_102
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2576,16 +3085,11 @@ stages:
     - equal_populations
     - --realization
     - '102'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/equal_populations/realization_103
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2597,6 +3101,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_103
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2610,16 +3124,11 @@ stages:
     - equal_populations
     - --realization
     - '103'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2631,6 +3140,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_105
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2644,16 +3163,11 @@ stages:
     - equal_populations
     - --realization
     - '105'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/equal_populations/realization_106
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2665,6 +3179,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_106
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2678,16 +3202,11 @@ stages:
     - equal_populations
     - --realization
     - '106'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/equal_populations/realization_107
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2699,6 +3218,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_107
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2712,16 +3241,11 @@ stages:
     - equal_populations
     - --realization
     - '107'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/equal_populations/realization_108
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2733,6 +3257,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_108
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2746,16 +3280,11 @@ stages:
     - equal_populations
     - --realization
     - '108'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/equal_populations/realization_109
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2767,6 +3296,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_109
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2780,16 +3319,11 @@ stages:
     - equal_populations
     - --realization
     - '109'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/equal_populations/realization_110
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -2801,6 +3335,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_110
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2814,26 +3358,32 @@ stages:
     - equal_populations
     - --realization
     - '110'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/no_catalog/complete/equal_populations/realization_100
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
+    - f_agn
     - mu_G
     - sigma_G
     - mu_chi
     - sigma_chi
-    n_parameters: 5
+    n_parameters: 6
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_100
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2847,16 +3397,11 @@ stages:
     - equal_populations
     - --realization
     - '100'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/equal_populations/realization_101
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -2867,6 +3412,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_101
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2880,16 +3435,11 @@ stages:
     - equal_populations
     - --realization
     - '101'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/equal_populations/realization_102
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -2900,6 +3450,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_102
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2913,16 +3473,11 @@ stages:
     - equal_populations
     - --realization
     - '102'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/equal_populations/realization_103
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -2933,6 +3488,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_103
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2946,16 +3511,11 @@ stages:
     - equal_populations
     - --realization
     - '103'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/equal_populations/realization_105
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -2966,6 +3526,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_105
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -2979,16 +3549,11 @@ stages:
     - equal_populations
     - --realization
     - '105'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/equal_populations/realization_106
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -2999,6 +3564,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_106
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3012,16 +3587,11 @@ stages:
     - equal_populations
     - --realization
     - '106'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/no_catalog/complete/equal_populations/realization_107
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3032,6 +3602,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_107
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3045,16 +3625,11 @@ stages:
     - equal_populations
     - --realization
     - '107'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/no_catalog/complete/equal_populations/realization_108
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3065,6 +3640,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_108
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3078,16 +3663,11 @@ stages:
     - equal_populations
     - --realization
     - '108'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/no_catalog/complete/equal_populations/realization_109
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3098,6 +3678,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_109
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3111,16 +3701,11 @@ stages:
     - equal_populations
     - --realization
     - '109'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
-    data_exists: false
-  - name: single_population/no_catalog/complete/equal_populations/realization_110
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 3
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3131,6 +3716,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_110
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3144,35 +3739,41 @@ stages:
     - equal_populations
     - --realization
     - '110'
-    est_calls: 58000
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 3
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
     est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
-    data_exists: false
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted.h5
+    data_exists: true
 - stage: 4
   title: host-dependent events
   n_runs: 20
   n_tasks: 35
-  est_calls: 2370000
-  est_gpu_hours: 291.42
-  est_gpu_hours_existing_data: 246.91
+  est_calls: 1865000
+  est_gpu_hours: 228.74
+  est_gpu_hours_existing_data: 228.74
+  est_gpu_hours_ready: 228.74
+  n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/host_dependent/realization_100
-    stage: 4
-    mode: nested
     analysis: single_population
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    n_parameters: 6
-    parts:
-    - nested_1
-    - nested_2
     args:
     - --mode
     - nested
@@ -3186,16 +3787,13 @@ stages:
     - host_dependent
     - --realization
     - '100'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/host_dependent/realization_101
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3207,6 +3805,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_101
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3220,16 +3828,13 @@ stages:
     - host_dependent
     - --realization
     - '101'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/host_dependent/realization_102
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3241,6 +3846,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_102
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3254,16 +3869,13 @@ stages:
     - host_dependent
     - --realization
     - '102'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/host_dependent/realization_103
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3275,6 +3887,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_103
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3288,16 +3910,13 @@ stages:
     - host_dependent
     - --realization
     - '103'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/host_dependent/realization_105
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3309,6 +3928,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_105
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3322,16 +3951,13 @@ stages:
     - host_dependent
     - --realization
     - '105'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/both_catalogs/complete/host_dependent/realization_106
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3343,6 +3969,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_106
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3356,16 +3992,13 @@ stages:
     - host_dependent
     - --realization
     - '106'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/host_dependent/realization_107
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3377,6 +4010,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_107
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3390,16 +4033,13 @@ stages:
     - host_dependent
     - --realization
     - '107'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/host_dependent/realization_108
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3411,6 +4051,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_108
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3424,16 +4074,13 @@ stages:
     - host_dependent
     - --realization
     - '108'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/host_dependent/realization_109
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3445,6 +4092,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_109
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3458,16 +4115,13 @@ stages:
     - host_dependent
     - --realization
     - '109'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: false
-  - name: single_population/both_catalogs/complete/host_dependent/realization_110
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - f_agn
@@ -3479,6 +4133,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_110
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3492,16 +4156,13 @@ stages:
     - host_dependent
     - --realization
     - '110'
-    est_calls: 72000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 8.9
-    est_gpu_hours_per_part: 4.45
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: false
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: host_dependent_populations
     free:
     - H0
     - f_agn
@@ -3509,11 +4170,20 @@ stages:
     - sigma_G
     - mu_chi
     - sigma_chi
-    - dmu_G
-    - dmu_chi
-    n_parameters: 8
+    n_parameters: 6
     parts:
     - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 4.445
+    est_gpu_hours_per_part: 2.223
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100
+    analysis: host_dependent_populations
     args:
     - --mode
     - nested
@@ -3527,28 +4197,35 @@ stages:
     - host_dependent
     - --realization
     - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 4
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
     est_calls: 272000
     est_seconds_per_call: 0.44
-    est_gpu_hours: 33.294
-    est_gpu_hours_per_part: 33.294
+    est_gpu_hours: 33.267
+    est_gpu_hours_per_part: 33.267
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
     data_exists: true
   - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101
-    stage: 4
-    mode: nested
     analysis: host_dependent_populations
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    - dmu_G
-    - dmu_chi
-    n_parameters: 8
-    parts:
-    - nested_1
     args:
     - --mode
     - nested
@@ -3562,16 +4239,13 @@ stages:
     - host_dependent
     - --realization
     - '101'
-    est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.294
-    est_gpu_hours_per_part: 33.294
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: host_dependent_populations
     free:
     - H0
     - f_agn
@@ -3584,6 +4258,16 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.267
+    est_gpu_hours_per_part: 33.267
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102
+    analysis: host_dependent_populations
     args:
     - --mode
     - nested
@@ -3597,16 +4281,13 @@ stages:
     - host_dependent
     - --realization
     - '102'
-    est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.294
-    est_gpu_hours_per_part: 33.294
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: host_dependent_populations
     free:
     - H0
     - f_agn
@@ -3619,6 +4300,16 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.267
+    est_gpu_hours_per_part: 33.267
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103
+    analysis: host_dependent_populations
     args:
     - --mode
     - nested
@@ -3632,16 +4323,13 @@ stages:
     - host_dependent
     - --realization
     - '103'
-    est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.294
-    est_gpu_hours_per_part: 33.294
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: host_dependent_populations
     free:
     - H0
     - f_agn
@@ -3654,6 +4342,16 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.267
+    est_gpu_hours_per_part: 33.267
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
+    analysis: host_dependent_populations
     args:
     - --mode
     - nested
@@ -3667,26 +4365,35 @@ stages:
     - host_dependent
     - --realization
     - '105'
-    est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.294
-    est_gpu_hours_per_part: 33.294
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/host_dependent/realization_100
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
+    - f_agn
     - mu_G
     - sigma_G
     - mu_chi
     - sigma_chi
-    n_parameters: 5
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
     parts:
     - nested_1
-    - nested_2
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.267
+    est_gpu_hours_per_part: 33.267
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_100
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3700,16 +4407,13 @@ stages:
     - host_dependent
     - --realization
     - '100'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/host_dependent/realization_101
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3720,6 +4424,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_101
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3733,16 +4447,13 @@ stages:
     - host_dependent
     - --realization
     - '101'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/host_dependent/realization_102
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3753,6 +4464,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_102
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3766,16 +4487,13 @@ stages:
     - host_dependent
     - --realization
     - '102'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/host_dependent/realization_103
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3786,6 +4504,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_103
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3799,16 +4527,13 @@ stages:
     - host_dependent
     - --realization
     - '103'
-    est_calls: 58000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    data_exists: true
-  - name: single_population/no_catalog/complete/host_dependent/realization_105
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
     stage: 4
     mode: nested
-    analysis: single_population
     free:
     - H0
     - mu_G
@@ -3819,6 +4544,16 @@ stages:
     parts:
     - nested_1
     - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_105
+    analysis: single_population
     args:
     - --mode
     - nested
@@ -3832,9 +4567,28 @@ stages:
     - host_dependent
     - --realization
     - '105'
-    est_calls: 58000
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 4
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
     est_seconds_per_call: 0.44
-    est_gpu_hours: 7.189
-    est_gpu_hours_per_part: 3.594
+    est_gpu_hours: 3.59
+    est_gpu_hours_per_part: 1.795
+    priority: 0.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
     data_exists: true

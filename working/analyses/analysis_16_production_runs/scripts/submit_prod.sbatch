@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=agn-prod
+#SBATCH --job-name=agn-prod-l1
 #SBATCH --account=phy220048p
 #SBATCH --partition=RITA-GPU
 #SBATCH --qos=rita
@@ -13,6 +13,9 @@
 #SBATCH --error=/hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_16_production_runs/logs/%x_%j.err
 # Analysis 16 production job: one GPU, one lane (LANE=1|2) or one task (TASK='<run>|<part>').
 # Submitted by scripts/launch.py; a lane job submits its own successor (afterany) while work remains.
+# One lane by default (A16_LANES=1): every agn job is chained behind every other pending/running agn-*
+# job of the user on RITA-GPU, so this project runs one job at a time there. Submit by hand only with
+# that dependency (launch.py does it): --dependency=afterany:<ids of squeue --me -p RITA-GPU -n agn-...>
 #   sbatch --job-name=agn-prod-l1 --export=ALL,LANE=1 scripts/submit_prod.sbatch
 #   sbatch --job-name=agn-prod-run --export=ALL,TASK='<run>|grid' scripts/submit_prod.sbatch
 # A16_WALL_MINUTES must match --time when it is changed (the deadline leaves 15 min for checkpoints).

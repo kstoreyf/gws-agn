@@ -50,10 +50,54 @@ def sessions_of(part_dir):
     return json.loads(p.read_text()) if p.exists() else []
 
 
+def selection_variance_grid(run_dir, cfg, r):
+    """N^2/N_eff of the selection term (its contribution to the variance of ln L) over the final fine
+    grid: at the posterior peak, its posterior mean, and its largest value where the posterior is above
+    1e-3 of its peak; hosts_known: the sum over the two subsets, sum_c N_c^2/N_eff,c, and each subset's."""
+    import h5py
+    g = run_dir / "grid"
+    fp = g / ("fine_widened.h5" if (r.get("outside_mass_check") or {}).get("widened") else "fine.h5")
+    if not fp.exists():
+        return None
+    n = (r.get("model_info") or {}).get("n_events")
+    with h5py.File(fp, "r") as f:
+        d = {k: np.asarray(f[k]) for k in f.keys() if not k.startswith("axis_")}
+        n = n or int(f.attrs.get("n_events"))
+    s2 = d["sigma2_sel"] if "sigma2_sel" in d else n ** 2 / d["n_eff"]
+    lnc = d["lnL"] + 0.5 * d["pe_var"] - 0.5 * n / d["n_eff"] if cfg.get("half_variance_correction") else d["lnL"]
+    ok = np.isfinite(lnc)
+    w = np.where(ok, np.exp(lnc - np.max(lnc[ok])), 0.0)
+    pk = np.unravel_index(int(np.argmax(w)), w.shape)
+    out = {"at_peak": float(s2[pk]), "posterior_mean": float(np.sum(w * s2) / np.sum(w)),
+           "max_where_posterior_gt_1e-3": float(np.max(s2[w > 1e-3])),
+           "pe_var_at_peak": float(d["pe_var"][pk]), "n_events": int(n), "max_var": cfg.get("max_var")}
+    for c in ("agn", "gal"):
+        if f"n_eff_{c}" in d and np.isfinite(d[f"n_eff_{c}"][pk]):
+            nc = (r.get("model_info") or {}).get("n_events_by_class", {}).get(c)
+            if nc:
+                out[f"{c}_subset_at_peak"] = float(nc ** 2 / d[f"n_eff_{c}"][pk])
+    return out
+
+
 def summarize_grid(run_dir, cfg):
     r = json.loads((run_dir / "grid" / "result.json").read_text())
     ses = sessions_of(run_dir / "grid")
-    return {"posterior": compact(r["summary"], cfg["free"]),
+    extra = {}
+    try:
+        extra["selection_N2_over_Neff"] = selection_variance_grid(run_dir, cfg, r)
+    except Exception as e:  # noqa: BLE001
+        extra["selection_N2_over_Neff"] = {"error": repr(e)}
+    if r.get("extra_at_peak"):
+        extra["at_peak"] = r["extra_at_peak"]
+    if r.get("membership"):
+        m = r["membership"]
+        extra["membership"] = {k: m.get(k) for k in ("ok", "H0_median", "f_agn_median", "mean_r",
+                                                      "f_median_mu_agn_over_mu", "true_agn_fraction",
+                                                      "mean_r_true_agn", "mean_r_true_gal", "identity_ml",
+                                                      "identity_event_evidence_max_abs", "file", "error")}
+    if cfg.get("analysis") == "hosts_known":
+        extra["n_events_by_class"] = (r.get("model_info") or {}).get("n_events_by_class")
+    return {**extra, "posterior": compact(r["summary"], cfg["free"]),
             "posterior_uncorrected": compact(r["summary_uncorrected"], cfg["free"]),
             "rho_H0_f": r["summary"].get("rho"),
             "ln_evidence": {"value": r.get("ln_evidence_grid"), "error": None, "how": "grid (fine + coarse outside)"},
@@ -117,7 +161,10 @@ def summarize_nested(run_dir, cfg, parts):
         post, post_raw = rec["summary"], rec["summary_uncorrected"]
         lz, lze = rec["logZ"], rec["logZerr"]
         conv = None
-    return {"posterior": compact(post, names), "posterior_uncorrected": compact(post_raw, names),
+    sel = {"posterior_mean_per_part": [v["sigma2_sel_mean"] for v in var_rows],
+           "note": "N^2/N_eff of the selection term, posterior mean over each part's dead points"}
+    return {"selection_N2_over_Neff": sel,
+            "posterior": compact(post, names), "posterior_uncorrected": compact(post_raw, names),
             "ln_evidence": {"value": lz, "error": lze, "how": "dynesty" + (" (merged)" if len(res) > 1 else "")},
             "parts": [{"part": p, "logZ": r["logZ"], "logZerr": r["logZerr"], "ncall": r["ncall_total"],
                        "niter": r["niter"], "sampler": r["sampler"]["method"]} for p, r in zip(parts, recs)],
@@ -138,6 +185,10 @@ def summarize(name, root=None):
             return None
         body = summarize_nested(run_dir, cfg, parts)
     out = {"run_name": name, "analysis": cfg["analysis"], "catalogs": cfg["catalogs"], "flux": cfg["flux"],
+           "set_label": cfg.get("set_label"), "population_family": cfg.get("population_family"),
+           "planted": {k: (cfg.get("events_truth") or {}).get(k) for k in
+                       ("planted_f_agn", "truth_f_agn", "dmu_G_agn", "dmu_chi_agn")},
+           "injections_file": cfg.get("injections_file"),
            "density_mode": cfg.get("density_mode"),
            "densities": {t: {k: d.get(k) for k in ("mode", "log10n_used", "z_complete", "n_below_z_complete",
                                                    "factor", "units")} for t, d in cfg.get("densities", {}).items()},
@@ -152,15 +203,19 @@ def summarize(name, root=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("names", nargs="*")
-    ap.add_argument("--stage", type=int)
+    ap.add_argument("--stage", help="1-4 or E1, E2, E3")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--root", default=str(P.RUNS), help="runs directory (tests use their own)")
     a = ap.parse_args()
     names = list(a.names)
     if a.stage or a.all:
         import yaml
-        doc = yaml.safe_load((P.RUNS / "RUNLIST.yaml").read_text())
-        names += [r["name"] for st in doc["stages"] for r in st["runs"] if a.all or st["stage"] == a.stage]
+        for f in ("RUNLIST.yaml", "RUNLIST_experiment.yaml"):
+            if not (P.RUNS / f).exists():
+                continue
+            doc = yaml.safe_load((P.RUNS / f).read_text())
+            names += [r["name"] for st in doc["stages"] for r in st["runs"]
+                      if a.all or str(st["stage"]).upper() == str(a.stage).upper()]
     for n in names:
         if not (Path(a.root) / n / "config.json").exists():
             continue
@@ -169,7 +224,9 @@ def main():
             continue
         post = "  ".join(f"{p} {v['median']:.4g} [{v['ci90'][0]:.4g}, {v['ci90'][1]:.4g}]" for p, v in s["posterior"].items())
         lz = s["ln_evidence"]
-        print(f"{n}: {post}  lnZ {lz['value']}  calls {s['calls']}  GPU-h {s['gpu_hours']:.2f}")
+        sel = s.get("selection_N2_over_Neff") or {}
+        sv = sel.get("at_peak", sel.get("posterior_mean_per_part"))
+        print(f"{n}: {post}  lnZ {lz['value']}  N2/Neff {sv}  calls {s['calls']}  GPU-h {s['gpu_hours']:.2f}")
 
 
 if __name__ == "__main__":
