@@ -18844,13 +18844,13 @@
    "class": "anc",
    "render": "36^{+17}_{-13}",
    "value": {
-    "median": 36.41568085290013,
+    "median": 36.41568085290014,
     "ci68": [
      28.7158146200872,
-     45.83687494537508
+     45.836874945375094
     ],
     "ci90": [
-     23.800996448507806,
+     23.80099644850781,
      53.08558400429731
     ]
    },
@@ -23678,32 +23678,25 @@
    "extra": {}
   },
   "CtrlZeroHzero": {
-   "class": "ph",
-   "render": "\\ph{67.9^{+1.7}_{-1.7}}",
+   "class": "plain",
+   "render": "67.0^{+3.4}_{-3.2}",
    "value": {
-    "median": 67.9,
+    "median": 67.02158093891894,
     "ci68": [
-     66.87219799422176,
-     68.92780200577825
+     65.08175214309897,
+     69.10753625239386
     ],
     "ci90": [
-     66.19999544361818,
-     69.60000455638185
+     63.85225682084022,
+     70.40215874328422
     ],
-    "ul90": 69.22452193448098,
-    "level_of_input": 0.12302833184863005
+    "ul90": 69.66838851353856,
+    "level_of_input": 0.257713668430404
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23713,132 +23706,90 @@
    }
   },
   "CtrlZeroHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{67.9}",
-   "value": 67.9,
+   "class": "plain",
+   "render": "67.0",
+   "value": 67.02158093891894,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "median of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{66.2}",
-   "value": 66.19999544361818,
+   "class": "plain",
+   "render": "63.9",
+   "value": 63.85225682084022,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "lower end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{69.6}",
-   "value": 69.60000455638185,
+   "class": "plain",
+   "render": "70.4",
+   "value": 70.40215874328422,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "upper end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.4}",
-   "value": 3.4000091127636693,
+   "class": "plain",
+   "render": "6.5",
+   "value": 6.5499019224440005,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "full width of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.7}",
-   "value": 1.7000045563818347,
+   "class": "plain",
+   "render": "3.3",
+   "value": 3.2749509612220002,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (CtrlZeroHzeroWid) of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (CtrlZeroHzeroWid) of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.8^{+0.8}_{-0.8}}",
+   "class": "plain",
+   "render": "67.8^{+1.7}_{-1.4}",
    "value": {
-    "median": 67.77199999999999,
+    "median": 67.82935196792587,
     "ci68": [
-     67.31235173757655,
-     68.23164826242342
+     66.97861176843531,
+     68.79097458935085
     ],
     "ci90": [
-     67.01173281229279,
-     68.53226718770716
+     66.43871202296124,
+     69.50508504754785
     ],
-    "ul90": 68.36434580425332,
-    "level_of_input": 0.05519554916157543
+    "ul90": 69.09941053736894,
+    "level_of_input": 0.07999983552517953
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23848,132 +23799,90 @@
    }
   },
   "CtrlZeroHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.8}",
-   "value": 67.77199999999999,
+   "class": "plain",
+   "render": "67.8",
+   "value": 67.82935196792587,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "median of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.0}",
-   "value": 67.01173281229279,
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.43871202296124,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "lower end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.5}",
-   "value": 68.53226718770716,
+   "class": "plain",
+   "render": "69.5",
+   "value": 69.50508504754785,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "upper end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.5}",
-   "value": 1.5205343754143712,
+   "class": "plain",
+   "render": "3.1",
+   "value": 3.0663730245866105,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "full width of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{5.5}",
-   "value": 0.05519554916157543,
+   "class": "plain",
+   "render": "8.0",
+   "value": 0.07999983552517953,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in CtrlZeroHzeroComb (H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGN": {
-   "class": "ph",
-   "render": "\\ph{0.021^{+0.039}_{-0.019}}",
+   "class": "plain",
+   "render": "0.015^{+0.043}_{-0.014}",
    "value": {
-    "median": 0.020503047008182083,
+    "median": 0.015468102523891258,
     "ci68": [
-     0.006137128660528485,
-     0.04271117820112765
+     0.0039686017628284016,
+     0.037447202937776335
     ],
     "ci90": [
-     0.001906152212134351,
-     0.05957869666225218
+     0.0015253815252805965,
+     0.05886113774149808
     ],
-    "ul90": 0.05000004113843017,
+    "ul90": 0.04591320405354695,
     "level_of_input": 1.0
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal)) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23983,152 +23892,103 @@
    }
   },
   "CtrlZerofAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.021}",
-   "value": 0.020503047008182083,
+   "class": "plain",
+   "render": "0.015",
+   "value": 0.015468102523891258,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.002}",
-   "value": 0.001906152212134351,
+   "class": "plain",
+   "render": "0.002",
+   "value": 0.0015253815252805965,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.060}",
-   "value": 0.05957869666225218,
+   "class": "plain",
+   "render": "0.059",
+   "value": 0.05886113774149808,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.058}",
-   "value": 0.057672544450117824,
+   "class": "plain",
+   "render": "0.057",
+   "value": 0.05733575621621748,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.029}",
-   "value": 0.028836272225058912,
+   "class": "plain",
+   "render": "0.029",
+   "value": 0.02866787810810874,
    "units": "",
-   "meaning": "half of the full 90% width (CtrlZerofAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal)): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (CtrlZerofAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNUL": {
-   "class": "ph",
-   "render": "\\ph{0.050}",
-   "value": 0.05000004113843017,
+   "class": "plain",
+   "render": "0.046",
+   "value": 0.04591320405354695,
    "units": "",
-   "meaning": "90% upper limit (90th percentile) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "90% upper limit (90th percentile) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.009^{+0.017}_{-0.008}}",
+   "class": "plain",
+   "render": "0.007^{+0.017}_{-0.006}",
    "value": {
-    "median": 0.00916924891539765,
+    "median": 0.00668578470576979,
     "ci68": [
-     0.0027446096324975555,
-     0.019101035287084844
+     0.0017820256448114625,
+     0.01599589944205183
     ],
     "ci90": [
-     0.0008524578857338075,
-     0.026644425071705204
+     0.0005323212654886063,
+     0.024167457981248558
     ],
-    "ul90": 0.02236071657034344,
+    "ul90": 0.019425429131514436,
     "level_of_input": 1.0
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal)) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24138,321 +23998,222 @@
    }
   },
   "CtrlZerofAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.009}",
-   "value": 0.00916924891539765,
+   "class": "plain",
+   "render": "0.007",
+   "value": 0.00668578470576979,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.001}",
-   "value": 0.0008524578857338075,
+   "class": "plain",
+   "render": "0.001",
+   "value": 0.0005323212654886063,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.027}",
-   "value": 0.026644425071705204,
+   "class": "plain",
+   "render": "0.024",
+   "value": 0.024167457981248558,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.026}",
-   "value": 0.025791967185971397,
+   "class": "plain",
+   "render": "0.024",
+   "value": 0.023635136715759952,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNCombUL": {
-   "class": "ph",
-   "render": "\\ph{0.022}",
-   "value": 0.02236071657034344,
+   "class": "plain",
+   "render": "0.019",
+   "value": 0.019425429131514436,
    "units": "",
-   "meaning": "90% upper limit (90th percentile) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
+   "meaning": "90% upper limit (90th percentile) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZerofAGNCL": {
-   "class": "ph",
-   "render": "\\ph{--}",
+   "class": "plain",
+   "render": "--",
    "value": null,
    "units": "%",
    "meaning": "credible level of the input in CtrlZerofAGNComb: not defined, the input lies at the prior edge (use CtrlZerofAGNCombUL)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroLB": {
-   "class": "ph",
-   "render": "\\ph{-1.0}",
-   "value": -1.0,
+   "class": "plain",
+   "render": "-1.6",
+   "value": -1.6367227667344326,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], realization A",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "invented",
-    "placeholder_file": null,
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlZeroLBComb": {
-   "class": "ph",
-   "render": "\\ph{-1.5}",
-   "value": -1.5,
+   "class": "plain",
+   "render": "-2.0",
+   "value": -1.9816409156202612,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], combined over 5 realizations",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlZero",
-    "placeholder_source": "invented",
-    "placeholder_file": null,
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzero": {
-   "class": "ph",
-   "render": "\\ph{67.9^{+1.7}_{-1.7}}",
+   "class": "plain",
+   "render": "66^{+4}_{-4}",
    "value": {
-    "median": 67.9,
+    "median": 65.61324629042623,
     "ci68": [
-     66.87219799422176,
-     68.92780200577825
+     63.34914324014669,
+     68.01821305314766
     ],
     "ci90": [
-     66.19999544361818,
-     69.60000455638185
+     61.853046808710594,
+     69.51525573873546
     ],
-    "ul90": 69.22452193448098,
-    "level_of_input": 0.12302833184863005
+    "ul90": 68.64974380569943,
+    "level_of_input": 0.6165049813524333
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 0,
     "input": 67.74
    }
   },
   "CtrlTenthHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{67.9}",
-   "value": 67.9,
+   "class": "plain",
+   "render": "66",
+   "value": 65.61324629042623,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "median of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{66.2}",
-   "value": 66.19999544361818,
+   "class": "plain",
+   "render": "62",
+   "value": 61.853046808710594,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "lower end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{69.6}",
-   "value": 69.60000455638185,
+   "class": "plain",
+   "render": "70",
+   "value": 69.51525573873546,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "upper end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.4}",
-   "value": 3.4000091127636693,
+   "class": "plain",
+   "render": "8",
+   "value": 7.6622089300248675,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
+   "meaning": "full width of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.7}",
-   "value": 1.7000045563818347,
+   "class": "plain",
+   "render": "4",
+   "value": 3.8311044650124337,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (CtrlTenthHzeroWid) of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (CtrlTenthHzeroWid) of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.8^{+0.8}_{-0.8}}",
+   "class": "plain",
+   "render": "67.5^{+1.4}_{-1.5}",
    "value": {
-    "median": 67.77199999999999,
+    "median": 67.48527018117132,
     "ci68": [
-     67.31235173757655,
-     68.23164826242342
+     66.60213807209645,
+     68.35717520865227
     ],
     "ci90": [
-     67.01173281229279,
-     68.53226718770716
+     66.01536820440964,
+     68.93009895181314
     ],
-    "ul90": 68.36434580425332,
-    "level_of_input": 0.05519554916157543
+    "ul90": 68.60876207706386,
+    "level_of_input": 0.22829235598509134
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24462,132 +24223,90 @@
    }
   },
   "CtrlTenthHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.8}",
-   "value": 67.77199999999999,
+   "class": "plain",
+   "render": "67.5",
+   "value": 67.48527018117132,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "median of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.0}",
-   "value": 67.01173281229279,
+   "class": "plain",
+   "render": "66.0",
+   "value": 66.01536820440964,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "lower end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.5}",
-   "value": 68.53226718770716,
+   "class": "plain",
+   "render": "68.9",
+   "value": 68.93009895181314,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "upper end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.5}",
-   "value": 1.5205343754143712,
+   "class": "plain",
+   "render": "2.9",
+   "value": 2.914730747403496,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
+   "meaning": "full width of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{5.5}",
-   "value": 0.05519554916157543,
+   "class": "plain",
+   "render": "23",
+   "value": 0.22829235598509134,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in CtrlTenthHzeroComb (H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.11^{+0.05}_{-0.05}}",
+   "class": "plain",
+   "render": "0.09^{+0.08}_{-0.07}",
    "value": {
-    "median": 0.11000564069264218,
+    "median": 0.08772284611823551,
     "ci68": [
-     0.07978610948229233,
-     0.14023237558283402
+     0.04453122551936024,
+     0.13494391428802524
     ],
     "ci90": [
-     0.060041373742950335,
-     0.1600022391945545
+     0.02022255031509869,
+     0.16859239741457674
     ],
-    "ul90": 0.14895900091367748,
-    "level_of_input": 0.2580080083941241
+    "ul90": 0.14911595935520977,
+    "level_of_input": 0.21044691310626873
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24597,132 +24316,90 @@
    }
   },
   "CtrlTenthfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.11}",
-   "value": 0.11000564069264218,
+   "class": "plain",
+   "render": "0.09",
+   "value": 0.08772284611823551,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.06}",
-   "value": 0.060041373742950335,
+   "class": "plain",
+   "render": "0.02",
+   "value": 0.02022255031509869,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.16}",
-   "value": 0.1600022391945545,
+   "class": "plain",
+   "render": "0.17",
+   "value": 0.16859239741457674,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.10}",
-   "value": 0.09996086545160417,
+   "class": "plain",
+   "render": "0.15",
+   "value": 0.14836984709947804,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.05}",
-   "value": 0.04998043272580208,
+   "class": "plain",
+   "render": "0.07",
+   "value": 0.07418492354973902,
    "units": "",
-   "meaning": "half of the full 90% width (CtrlTenthfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (CtrlTenthfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.102^{+0.022}_{-0.022}}",
+   "class": "plain",
+   "render": "0.104^{+0.033}_{-0.031}",
    "value": {
-    "median": 0.10200112814951942,
+    "median": 0.10374411469840793,
     "ci68": [
-     0.08848739711686239,
-     0.1155148550871811
+     0.08446299755169462,
+     0.123765484803374
     ],
     "ci90": [
-     0.0796491698071508,
-     0.12435312497186685
+     0.07230984133183581,
+     0.13721955419590345
     ],
-    "ul90": 0.11941617665864353,
-    "level_of_input": 0.11707349188370308
+    "ul90": 0.1296722819175147,
+    "level_of_input": 0.15073075629116706
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24732,134 +24409,91 @@
    }
   },
   "CtrlTenthfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.102}",
-   "value": 0.10200112814951942,
+   "class": "plain",
+   "render": "0.104",
+   "value": 0.10374411469840793,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.080}",
-   "value": 0.0796491698071508,
+   "class": "plain",
+   "render": "0.072",
+   "value": 0.07230984133183581,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.124}",
-   "value": 0.12435312497186685,
+   "class": "plain",
+   "render": "0.137",
+   "value": 0.13721955419590345,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.045}",
-   "value": 0.04470395516471605,
+   "class": "plain",
+   "render": "0.065",
+   "value": 0.06490971286406765,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{12}",
-   "value": 0.11707349188370308,
+   "class": "plain",
+   "render": "15",
+   "value": 0.15073075629116706,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.1 lies in CtrlTenthfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthLB": {
-   "class": "ph",
-   "render": "\\ph{2.5}",
-   "value": 2.5,
+   "class": "plain",
+   "render": "-0.16",
+   "value": -0.1642791637432402,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], realization A",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "invented",
-    "placeholder_file": null,
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "CtrlTenthLBComb": {
-   "class": "ph",
-   "render": "\\ph{12}",
-   "value": 12.5,
+   "class": "plain",
+   "render": "7.5",
+   "value": 7.53610805443587,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], combined over 5 realizations",
    "source": {
-    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
-    "key": "CtrlTenth",
-    "placeholder_source": "invented",
-    "placeholder_file": null,
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
