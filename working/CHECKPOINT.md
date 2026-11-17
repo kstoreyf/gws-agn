@@ -1,4 +1,4 @@
-# Checkpoint, 17 Nov 2026, 20:20 UTC (read this first after a context clear)
+# Checkpoint, 17 Nov 2026, 21:15 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -36,17 +36,21 @@ hold the owner's words; this file holds the working state.
 - Maintenance loop: `bash working/refresh_papers.sh` (values, audit, figures, PDF, gates, counts)
   -> a Fable consistency pass limited to sentences tagged `% EXPECTED` whose numbers turned real
   -> send the PDF to the owner (SendUserFile) only when it is consistent.
-- IN PROGRESS at 20:20 UTC (check `git status` and the files to see how far it got):
-  a. Opus agent: makes the long paper stand alone (its `production.py` imported the letter's
-     `results.py`), adds the experiment's numbers as macros, draws `fig_classes`, redraws
-     `fig1_mocks` (c, d) from the production events, maps the Obs keys to stage 5, reduces
-     `refresh_papers.sh` to one paper.
-  b. Then I move `working/paper_short_independent/` to `working/archive/paper_short_independent/`
-     (`git mv`, links `values`, `refs.bib` repointed to `../../paper_prd/...`, a `FROZEN.md` like
-     `archive/paper_short/FROZEN.md`), run the refresh, commit.
-  c. Then a Fable writer on `main.tex` per skeleton Sec. 9.3 (brief: skill governs; real numbers
-     of skeleton 9.1; `% EXPECTED` on sentences that wait for runs; edit only `main.tex`).
-  d. Then an independent Fable review against the skill's self-check and the build gates.
+- DONE by 21:15 UTC (commit 9ac3426): the long paper stands alone (`scripts/run_posteriors.py`,
+  `scripts/classes.py`; nothing reads the archived letter); the experiment's numbers are macros
+  (135, of which 87 real; block `classes` of `values/production_map.json`; audit checks K0 to K2);
+  figure `fig_classes` drawn; Fig. 1 from the production event sets; Obs keys mapped to stage 5
+  and their placeholders narrowed (skeleton Sec. 7); `refresh_papers.sh` covers one paper; the
+  letter is frozen in `working/archive/paper_short_independent/` (`FROZEN.md`).
+- IN PROGRESS at 21:15 UTC: a Fable writer on `main.tex` per skeleton Sec. 9.3 (new subsection
+  `sec:classes` with `fig_classes`, the probability of an AGN host in Sec. II A, the AGN catalog
+  alone, masses and spins as a label, the observed-like opening, abstract, units of the number
+  densities). When it reports: read the diff, check its claims against the macros, commit.
+- THEN: (i) an independent Fable review of the new text against the skill's self-check and the
+  build gates; (ii) a small Opus cleanup: `build_hosts_per_volume` and audit G4 still read the old
+  `events_puregal.h5` / `events_pureagn.h5`, `_inputs()` the old `events_meta_marked_*.json`,
+  `\MockzHorizonMin/Max` and audit G9 the old `events.h5`: move them to the `_corepop`
+  production sets; (iii) send the PDF to the owner once the text is consistent.
 
 ## 3. Runs (analysis 16: `working/analyses/analysis_16_production_runs/`, README there)
 - Machine: partition RITA-GPU, two A100-80, both ours.
@@ -103,7 +107,7 @@ hold the owner's words; this file holds the working state.
   bounds moved by up to 0.09 km/s/Mpc, means over realizations by less. The macros are the source.
 
 ## 5. Do next, in order
-1. Finish Sec. 2 a to d.
+1. Finish the items of Sec. 2 (writer, review, cleanup, PDF to the owner).
 2. When the grids are done (watcher; about 06:45 UTC 18 Nov): refresh; Fable consistency pass on
    the `% EXPECTED` sentences whose numbers turned real; PDF to the owner.
 3. When the sampler test has ended (watcher; about 09:00 UTC): read
@@ -126,4 +130,4 @@ None.
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to d6c8840 plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to 9ac3426 plus the one that adds this file; `git log --oneline | head -20`.
