@@ -1,208 +1,157 @@
-# Caption facts (figures of 16 Nov 2026)
+# Caption facts (figures of 17 Nov 2026, notes/PAPER_SKELETON.md Sec. 4)
 
-Facts a caption writer needs and cannot read off the picture. No interpretation.
-Rebuild: `python scripts/make_figures.py` (all) or `python scripts/make_figures.py fig4` (one), with the
-jax env python. Output is byte-identical between runs. Paths below are relative to `working/`.
+Facts a caption writer needs and cannot read off the picture. No interpretation. The first-draft figures
+and their facts are in `figures/v1/` (`CAPTION_FACTS_v1.md`). Rebuild: `python scripts/make_figures.py`
+(all nine) or `python scripts/make_figures.py fig6` (one), jax env python; the figure-against-values check
+at the end compares every drawn median and 90% interval end with `values/values.json` (0 mismatches).
 
 ## Conventions shared by all figures
 
-- Widths: every figure is drawn at 7.0 in (`figure*`, `\textwidth`). Heights: fig1 5.70 in, fig2 3.25,
-  fig3 2.75, fig4 2.60, fig5 4.30, fig6 4.20, fig7 4.50, fig8 2.15, figC1 7.00.
-- Colours: blue = galaxies, galaxy catalog, galaxy-hosted mergers, or an analysis with the galaxy
-  catalog alone. Vermilion = AGN, AGN catalog, AGN-hosted mergers, AGN number density. Bluish green =
-  an analysis with both catalogs. Purples (light to dark) = flux limits m < 21, 20, 19, 18, that is
-  completeness inside the horizon 100.0%, 81.4%, 31.5%, 9.5%. Black dashed lines or black "+" = input
-  values of the simulated catalogs. Grey dotted = prior density or prior-range edge.
-- Line styles in Figs. 4 and 5 (population model): solid = host-dependent model with the reference
-  population fixed at its input (mu_G = 35, mu_chi = 0) and both offsets free ("reference fixed");
-  dash-dot = reference peak location and spin mean also free, six parameters ("reference free");
-  dotted = reference peak location, spin mean and both widths free, eight parameters ("eight
-  parameters"); dashed = common population (one mass and spin distribution for both host classes,
-  both offsets set to zero; its mass and spin parameters are fixed at the galaxy-class input values).
-- Every interval, band and contour is 90%: 1-D intervals are equal-tailed (as in the text); 2-D
-  contours are 90% highest-posterior-density regions. Shaded areas under 1-D curves are the 90%
-  equal-tailed interval.
-- Every 1-D curve is a normalised probability density with units on the y axis, normalised over
-  the prior range of its analysis. Grid posteriors are normalised over the stored lattice, which is
-  the flat prior box except where stated (the reference-fixed lattice of Figs. 4a and 5 covers
-  f [0.05, 0.55], Delta mu_G [1, 9], Delta mu_chi [0.025, 0.235]; the outside carries negligible mass).
-- Grid posteriors are the spline-refined posteriors of `scripts/build_values.py` (GridPost, same
-  refinement factors and nodes). Nested-sampling posteriors are drawn from the stored equal-weight
-  samples: 1-D by a Gaussian kernel density reflected at the prior edges (bandwidth 0.3 sample
-  standard deviations; values listed per figure), 2-D by a histogram on the prior box smoothed by a
-  Gaussian kernel. In Fig. 8 the lattice curve is cubic-interpolated between lattice nodes for
-  drawing only; the shaded interval ends are the lattice values.
-- Figure-against-values check (end of `make_figures.py`): 884 numbers compared (medians and 90%
-  interval ends of every drawn posterior, per-catalog summaries, completeness labels, catalog
-  counts, input lines), 0 mismatches with `values/values.json`.
-- Code versions behind the results (from notes/GAPS.md A4; not caption material): Figs. 2, 3, 8 and the
-  "complete" point of Fig. 6 on darksirens 2b86a2d; flux-limited points of Fig. 6 and Fig. 7 on
-  0c5b3db; Fig. 4 (a, b, c), Fig. 5 solid and dash-dot curves and Fig. 5(d) on af896ca; the
-  eight-parameter curves (Figs. 4a, 5, C1) on darksirens-core e7c3007 with a selection-variance cap
-  of 20.
+- Width 7.0 in (`figure*`). Heights: fig1 5.70 in, fig2 2.90, fig3 3.60, fig4 3.00, fig5 2.90, fig6 2.60,
+  fig7 2.60, fig8 6.36, fig9 2.60.
+- **Placeholders.** Every element drawn from `values/placeholder_results.json` is a placeholder: drawn in
+  red tones (strong red, salmon, maroon, rose), told apart by line style (solid, dashed, dash-dot, dotted)
+  and by direct labels; each panel with any placeholder carries the small red word "placeholder". Its
+  source per key is `exploratory` (an earlier run of the same analysis, file named in the JSON and in
+  placeholders.txt) or `invented` (PAPER_SKELETON Sec. 7). When `values/production_map.json` names an
+  existing production summary for a key, the same code draws it in the final palette (both catalogs bluish
+  green, galaxy catalog blue, AGN catalog vermilion, no catalog dark gray, single population reddish
+  purple, flux limits the four purples) and the word goes. Black elements are final: input lines and
+  markers, the curves of the normalization identity and of constant merger rate per host, Fig. 1.
+- Every interval, band and contour is 90%: 1-D intervals equal-tailed, 2-D regions highest-density.
+  Every 1-D curve is a normalized probability density with units on its axis. Black dashed lines or a
+  black "+" are inputs: H0 = 67.74 km/s/Mpc (`\MockHzero`), f_AGN = 0.30 (`\MockfAGN`), log10 n_AGN = -5
+  (`\MockLognAGN`), mass peak 35 Msun (`\MockMuG`), offsets +5 Msun and +0.10 (`\MockDmuG`, `\MockDmuChi`).
+- Names in the panels are those of PAPER_SKELETON Sec. 2 (both catalogs, galaxy catalog alone, AGN catalog
+  alone, no catalog; population known, single population, host-dependent populations; realization A;
+  combined over realizations). Each number below names its macro; red macros are placeholders.
+- "Combined over realizations": log-likelihoods summed, parameters shared. Invented combinations are
+  narrower than realization A by sqrt(N), N = 10 (population known, single population, single population
+  on host-dependent events, no catalog), 5 (flux limits, host-dependent populations, observed-like
+  spectrum, all-AGN and all-galaxy sets), 3 (number densities inferred).
 
-## Fig. 1 `fig1_mocks` (panels a to d; DESIGN's "(c)" is split into (c) mass and (d) spin)
+## Fig. 1 `fig1_mocks` (final; unchanged from the first draft)
 
-- (a) Slice of the reference catalog pair: declination |delta| < 3 deg, right ascension 0 to 180 deg,
-  true redshift z < 0.33, plotted in comoving distance (flat LCDM, H0 = 67.74, Omega_m = 0.3075);
-  angle = right ascension. Small light-blue dots: 268,767 galaxies. Vermilion dots: 2,709 AGN. Large
-  blue circles: 26 galaxy-hosted detected mergers; large vermilion diamonds: 7 AGN-hosted detected
-  mergers (the hosts in the slab of the 1000 detected events of the reference catalog, true host
-  positions). Dashed arcs at z = 0.1, 0.2, 0.3; outer arc z = 0.33. Scale bar 500 Mpc (comoving).
-  Read: rows of `data/seed100/catalogs/catalog_{gal,agn}_complete.h5` with z < 0.33 (columns ra, dec,
-  z), `data/seed100/events/events.h5` (truth/ra, dec, z, host_type).
-- (b) Top: completeness C(z) of the galaxy catalog for m < 21, 20, 19, 18 (purples, light to dark),
-  ratio of flux-limited to complete counts in bins of dz = 0.005 (AGN carry their host galaxy's
-  apparent magnitude, so the AGN catalog has the same C(z)). Labels = completeness inside the
-  horizon (z <= 0.3105): 100.0%, 81.4%, 31.5%, 9.5% (macros `\MockCompTwentyOne` ... `\MockCompEighteen`;
-  the m < 21 curve is 1 over the whole plotted range). Bottom: true host redshifts of the 1000
-  detected events of the reference catalog, counts per dz = 0.01: 705 galaxy hosts (blue), 295 AGN
-  hosts (vermilion). Read: `catalog_gal_{complete,m21,m20,m19,m18}.h5` (z column, z < 0.34),
-  `events/events.h5`; counts inside the horizon were asserted equal to `META.json`.
-- (c) True source-frame primary mass, (d) true effective spin of the 1000 detected events of the
-  host-dependent mock (643 galaxy-hosted, 357 AGN-hosted), each class normalised to unit area. Bins
-  2.5 Msun on [5, 80] and 0.04 on [-0.5, 0.6]; no event outside. Black dashed lines: input peak
-  locations 35 (galaxies) and 40 Msun (AGN) in (c); input spin means 0 and 0.10 in (d). Read:
-  `data/seed100/events/events_marked_dmu0p10_dmuG5.h5` (truth/m1src, chieff, host_type).
+- (a) Slice of the catalog pair of realization A: |delta| < 3 deg, right ascension 0 to 180 deg, true
+  redshift z < 0.33, in comoving distance (flat LCDM, H0 = 67.74, Omega_m = 0.3075). Small blue dots:
+  268,767 galaxies; vermilion dots: 2,709 AGN; large blue circles: 26 galaxy-hosted detected mergers;
+  large vermilion diamonds: 7 AGN-hosted (true host positions). Dashed arcs z = 0.1, 0.2, 0.3; outer arc
+  z = 0.33; scale bar 500 Mpc comoving.
+- (b) Top: completeness C(z) of the galaxy catalog for m < 21, 20, 19, 18 (purples, light to dark), ratio
+  of flux-limited to complete counts in bins of 0.005; labels are the completeness inside z <= 0.3105
+  (`\MockCompTwentyOne` ... `\MockCompEighteen`: 100.0, 81.4, 31.5, 9.5%). Bottom: true host redshifts of
+  the 1000 detected mergers, counts per 0.01: 705 galaxy hosts, 295 AGN hosts.
+- (c) Source-frame primary mass and (d) effective spin of the 1000 detected mergers of the host-dependent
+  event set (643 galaxy-hosted, 357 AGN-hosted), each class normalized to unit area; dashed lines at the
+  input peak locations 35 and 40 Msun and spin means 0 and 0.10.
+- Not yet in the figure (REVIEW G1, deferred by the redesign): completeness labels at the margin, the
+  redshift of completeness (`\MockzComplete...`) and the completeness weighted by the detected mergers.
 
-## Fig. 2 `fig2_two_catalogs`
+## Fig. 2 `fig2_anchor` (all placeholder, source exploratory)
 
-- Joint (H0, f_AGN) posterior, complete catalogs, two-population model with both catalogs.
-  Panels A to I: one simulated catalog each (9 catalogs; A to I = files joint_s100, s101, s102,
-  s103, s105, s114, s115, s116, s117). Filled green region with outline: 90% HPD region.
-- Last panel ("combined"): thin green outlines = the nine 90% regions of A to I; filled region =
-  90% HPD region of the combined posterior (sum of the nine log-likelihood grids, H0 and f_AGN shared).
-- Black dashed lines: input H0 = 67.74 and f_AGN = 0.30.
-- Axes identical in all panels: H0 [62.5, 74.5], f_AGN [0, 0.56]. Prior: H0 [50, 100], f_AGN [0, 1].
-  All 90% regions lie inside the axes; at most 0.1% of any 1-D marginal falls outside (catalog I).
-- Combined marginals (macros): H0 = `\JointHzeroComb` (input at the 89% level), f_AGN = `\JointfComb`
-  (input at the 70% level); 2-D: input on the boundary of the 88% HPD region (`\JointCombLevelTwoD`).
-- Read: `analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s{100,...,117}.h5`.
+- Key `KnownBoth` etc.: equal populations, population known, complete catalogs.
+- (a) Joint posterior of H0 and f_AGN: realization A, 90% region dashed outline (`\KnownBothHzero`,
+  `\KnownBothfAGN`); combined over realizations, filled with solid outline (`\KnownBothHzeroComb`,
+  `\KnownBothfAGNComb`; input at the `\KnownBothHzeroCL`% and `\KnownBothfAGNCL`% levels; correlation r =
+  `\JointRhoCatA` for realization A, `\JointRhoComb` combined). Black "+": input. Axes H0 [65.5, 73], f_AGN [0.13, 0.43]. Placeholder data:
+  the exploratory complete-catalog grids (9 realizations combined; production combines 10).
+- (b) H0 posterior of realization A with both catalogs (solid, `\KnownBothHzero`), galaxy catalog alone
+  (dashed, `\KnownGalHzero`), AGN catalog alone (dash-dot, `\KnownAGNHzero`), no catalog (dotted,
+  `\KnownNoneHzero`, invented: 68.6 +- 3.2). The AGN-catalog-alone posterior rises to the upper end of the
+  prior at 100 (peak density 3.9 per km/s/Mpc, off the scale of the panel, marked by an arrow and text).
+  Axis H0 [56, 100] (prior [50, 100]).
 
-## Fig. 3 `fig3_host_information`
+## Fig. 3 `fig3_flux_limits`
 
-- (a) H0 posteriors, one thin curve per simulated catalog: 93 catalogs with 1000 galaxy-hosted
-  mergers analysed with the galaxy catalog (blue) and the same 93 catalogs with 1000 AGN-hosted
-  mergers analysed with the AGN catalog (vermilion). Black dashed: input H0. Axis H0 [52, 84]
-  (prior [50, 100]); every curve has less than 0.1% of its mass outside. Mean 90% half-widths:
-  `\PureGalHalfNinety` and `\PureAGNHalfNinety`.
-  Read: `analyses/analysis_0_pure_tracer_H0/results/h0_pure{gal,agn}_targeted_s<seed>.h5` for the 93
-  seeds in `h0_pure_tracer_ens93.json:seeds_requested`.
-- (b) H0 from all 1000 events of the 9 complete catalogs of Fig. 2. Thin blue: galaxy catalog alone
-  (f_AGN = 0 column of the joint grid), one per catalog. Thin green: both catalogs (H0 marginal of the
-  joint posterior), one per catalog. Thick curves with shaded 90% interval: combined over the 9
-  catalogs, galaxy catalog alone (`\GalOnlyHzeroComb`, input at the 88% level) and both catalogs
-  (`\JointHzeroComb`). Axis H0 [56, 84]; no curve loses more than 0.1% of its mass.
-  Read: the nine `joint_s*.h5` of Fig. 2.
+- (a) Medians and 90% intervals of H0 (top) and f_AGN (bottom) of realization A against the flux limit of
+  both catalogs: complete (open circle, `\KnownBothHzero`, `\KnownBothfAGN`), m < 21, 20, 19, 18
+  (`\FluxTwentyOneHzero` ... `\FluxEighteenfAGN`), number densities at their inputs. Upper axis: the
+  completeness weighted by the detected mergers, 100, 100, 99, 90, 49% (`\MockEventCompTwentyOne` ...
+  `\MockEventCompEighteen`; complete catalogs 100% by construction). Placeholder (exploratory: the stored
+  flux-limited grids, hosts normalized to z = 5; production normalizes to z = 1.10 with densities from the
+  catalog counts).
+- (b) Median and 90% interval of f_AGN against the assumed AGN number density over its input (0.5, 1, 2;
+  log axis) at m < 21 (filled circles) and m < 18 (open diamonds), points offset by 1.5% in x for
+  legibility. Placeholder (exploratory). Black curves: the prediction of the normalization identity,
+  logit f(x) = logit f(1) + ln[F_AGN + x(1 - F_AGN)], from the factor-1 median, with F_AGN =
+  `\NormFAGNTwentyOne` (solid, m < 21) and `\NormFAGNEighteen` (dashed, m < 18), hosts normalized to
+  z = 5. The exact prediction from the full posterior gives the slopes `\SlopefAGNIdentityTwentyOne` and
+  `\SlopefAGNIdentityEighteen` per decade against the measured `\SlopefAGNTwentyOne`,
+  `\SlopefAGNEighteen`; a doubled density moves f_AGN by `\NormDeltafTwoEighteenFive` (predicted
+  `\NormDeltafTwoEighteenFivePred`). Gray dotted: factor 1. Black dashed: input f_AGN.
+- When `analyses/analysis_15_host_normalisation/results/normalisation_summary.json` exists the panel adds,
+  in the final palette, Analysis 15's points (complete catalogs normalized to z = 5: black filled squares;
+  to z = 1.10: black open squares; m < 18 normalized to z = 1.10: dark purple open diamonds) with their
+  identity predictions as black dotted curves (`\NormfCompleteFive`, `\NormfCompleteFiveTwo`,
+  `\NormfCompleteProd`, `\NormfCompleteProdTwo`, `\NormfEighteenProdHalf`, `\NormfEighteenProd`,
+  `\NormfEighteenProdTwo`; F_AGN `\NormFAGNComplete`, 1, `\NormFAGNEighteenProd`).
 
-## Fig. 4 `fig4_host_dependent_h0` (panel c is an addition; switch `FIG4_CONTROL_PANEL` in the script)
+## Fig. 4 `fig4_densities` (placeholder, source exploratory; number densities inferred, realization A)
 
-- (a) Host-dependent mock (AGN mass peak +5 Msun, AGN spin mean +0.10; one simulated catalog), both
-  catalogs. Solid: reference fixed, offsets free (`\HDFixHzero`; grid, H0 range [60, 76]). Dotted:
-  eight parameters (`\HDEightHzero`; prior H0 [60, 76]; KDE bandwidth 0.38 km/s/Mpc, 4098 samples).
-  Dashed: common population (`\CommonHzero`; grid over H0 [50, 100], input outside its 90% interval,
-  at the 99% level). Black dashed: input H0. Axis [60, 78]; mass outside below 3e-4.
-  Read: `analyses/analysis_10_mass_spin_marked_multitracer/results/c10_arm_S.h5`, `c10_arm_J.h5`;
-  `analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz`.
-- (b) Same mock, galaxy catalog used for both host classes (no AGN catalog). Dashed: common
-  population (`\PinIZeroHzero`); its density is largest at the upper end of the H0 range (76), so the
-  quoted interval is bounded by the prior. Solid ("host-dependent"): offsets not free but fixed at
-  (Delta mu_G, Delta mu_chi) = (5.0, 0.115) (`\PinIOneHzero`); 0.115 is the fixed-H0 maximum of the same
-  data, not the input 0.10. Prior H0 [60, 76]; grey dotted line = its upper end.
-  Read: `c10_mech.h5` (groups I0, I1).
-- (c) A different mock: every host is a galaxy; 30% of the mergers, chosen independently of the
-  host, have the AGN-like population (+5 Msun, +0.10). Galaxy catalog only. Solid ("two
-  populations"): both offsets fixed at their input values (`\CtrlModHzero`; stored H0 range [54, 95]).
-  Dashed: common population (`\CtrlUnmodHzero`; stored range [58, 100]; density at H0 = 100 is 0.46% of
-  the peak, so the interval is bounded by the prior edge). Prior H0 [50, 100]. Axis [55, 100].
-  Read: `c10_control.h5` (groups B5M, B5U); mock `data/seed100/events/events_single_b0p30_dmu0p10_dmuG5.h5`.
-- Text in the panels: "both catalogs", "galaxy catalog alone", "galaxy hosts only, galaxy catalog".
-  Black dashed input lines stop below the text band.
+- (a) Joint posterior of f_AGN and log10 n_AGN with both number densities inferred (log10 n_gal
+  marginalized): 90% regions at m < 21 (dashed) and m < 18 (solid) (`\FreeTwentyOnefAGN`,
+  `\FreeTwentyOneLognAGN`, `\FreeEighteenfAGN`, `\FreeEighteenLognAGN`); 50 x 50 histograms on the prior box
+  f [0, 1] x [-6, -4], smoothed. Black curve: constant merger rate per host at the input value
+  `\MockRateRatio`, with n_gal and H0 at their inputs (hosts normalized to z = 5). Gray: the 90% region
+  allowed by the priors once the merger rate per host is measured (2e6 draws from the priors weighted by
+  the known-density likelihood of m < 18 mapped through the identity; `\FreeEighteenLognAGNPriorUL`).
+  Black "+": input (0.30, -5). Axes span the prior box.
+- (b) Posterior of the merger rate per AGN over that per galaxy at m < 21, 20, 19, 18 (solid, dashed,
+  dash-dot, dotted; `\FreeTwentyOneRateRatio` ... `\FreeEighteenRateRatio`), computed per posterior sample
+  as [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN with that sample's H0, n_gal, n_AGN. Black dashed: input
+  `\MockRateRatio` (42.8). With the densities at their inputs the same ratio is `\FluxEighteenRateRatio`.
 
-## Fig. 5 `fig5_offsets`
+## Fig. 5 `fig5_population` (placeholder; population known with both catalogs exploratory, the rest invented)
 
-- (a) f_AGN, (b) mass-peak offset Delta mu_G, (c) spin-mean offset Delta mu_chi, host-dependent mock
-  (one simulated catalog), both catalogs, H0 free. Solid: reference fixed (`\HDFixfAGN`, `\HDFixDmuG`,
-  `\HDFixDmuChi`; 4-D grid; lattice covers f [0.05, 0.55], Delta mu_G [1, 9], Delta mu_chi [0.025, 0.235]).
-  Dash-dot: reference free (`\HDFreefAGN`, `\HDFreeDmuG`, `\HDFreeDmuChi`; 6213 samples; priors f [0,1],
-  Delta mu_G [-4, 10], Delta mu_chi [-0.05, 0.20]). Dotted: eight parameters (`\HDEightfAGN`, `\HDEightDmuG`,
-  `\HDEightDmuChi`; 4098 samples; Delta mu_chi prior [-0.05, 0.30]). The three analyses have different
-  Delta mu_chi prior ranges. Black dashed: inputs 0.30, 5 Msun, 0.10. Axes: f [0.05, 0.55],
-  Delta mu_G [0, 10], Delta mu_chi [-0.05, 0.30]; mass outside below 2e-9. In (c) the input 0.10 lies
-  outside the 90% interval of the dotted curve (99% level) and inside for the other two.
-  Read: `c10_arm_J.h5`; `analyses/analysis_11_free_common_population/results/a11_11D.npz`; the A13 file of Fig. 4.
-- (d) A different mock: AGN spin mean +0.10, no mass offset; H0 fixed at 67.74. Green: both
-  catalogs, f_AGN and Delta mu_chi free ("with the catalogs", `\SpinBothDmuChi`). Blue: the galaxy
-  catalog used for both host classes, so positions carry no host-class information ("spins
-  alone", `\SpinIntDmuChi`). Prior Delta mu_chi [-0.2, 0.25]; the blue density at 0.25 is 1.1% of
-  its peak (the curve ends at the prior edge). Axis [-0.05, 0.30].
-  Read: `analyses/analysis_8_spin_marked_fagn_fixed_H0/results/arm_J_joint.h5`, `arm_I_intrinsic.h5`.
+- (a) H0 posteriors of realization A: population known, both catalogs (solid, `\KnownBothHzero`);
+  population known, no catalog (dotted, `\KnownNoneHzero`); single population, both catalogs (dashed,
+  `\SingleBothHzero`); single population, no catalog (dash-dot, `\SingleNoneHzero`). Axis [50, 90].
+  Width ratios no catalog over both catalogs: `\MassScaleShareKnown`, `\MassScaleShareSingle`.
+- (b) Joint posterior of H0 and the mass-peak location, single population: no catalog (dash-dot outline,
+  correlation `\CorrHzeroMuGNone`) and both catalogs (dashed outline, filled, `\CorrHzeroMuGBoth`).
+  Invented: 2-D Gaussians with the stated correlations. Black "+": input (67.74, 35).
 
-## Fig. 6 `fig6_flux_limits` (panels a to d; DESIGN's "(a)" is split into (a) f_AGN and (c) H0)
+## Fig. 6 `fig6_host_dependent` and Fig. 7 `fig7_observed_like` (placeholders)
 
-- One simulated catalog (catalog A of Fig. 2). Both catalogs flux-limited with the same limit.
-- (a) f_AGN, (c) H0: median (marker) and 90% equal-tailed interval (bar) against the flux limit, with
-  the number densities of the missing hosts at their inputs. Tick labels: limit and completeness
-  inside the horizon. "none / complete": complete catalogs, the Fig. 2 grid of catalog A (open
-  circle). Flux-limited points: `\FluxfTwentyOne` ... `\FluxfEighteen`, `\FluxHzeroTwentyOne` ...
-  `\FluxHzeroEighteen`. The m < 21 point equals the complete point to the shown precision.
-- (b) f_AGN, (d) H0: posterior medians against the assumed AGN number density of the missing hosts,
-  in units of its input, at 0.5, 0.7, 0.9, 1, 1.1, 1.3, 2 (log axis); one curve per flux limit (purples
-  and markers as in a, c; factor 1 is the point of a, c). Shaded band: 90% equal-tailed interval at
-  m < 18 (9.5%) only, labelled in the panel. Grey dotted: factor 1. Black dashed: inputs. In (b) the
-  four curves overlap; direct labels are in (d). Slopes (text): `\SlopefAGN*`, `\SlopeHzero*`.
-- y axes shared per row: f_AGN [0.05, 0.55], H0 [65.5, 72]; no interval or band is cropped.
-- Values of the band at factors other than 1 have no macro; the medians at every factor are checked
-  against `values.json` (`SlopefAGN<limit>.extra.medians_f/medians_H0`).
-- Read: `analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m{21,20,19,18}_s100.h5`,
-  `analyses/analysis_4_density_anchoring_H0_fagn/results/joint_m{21,20,19,18}_a{05,07,09,11,13,20}_s100.h5`,
-  `analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5`.
+- Host-dependent events (AGN-hosted mergers: mass peak +5 Msun, spin mean +0.10), both catalogs; Fig. 6
+  peak-dominated spectrum (keys `HD...`), Fig. 7 observed-like spectrum (keys `Obs...`). All curves
+  combined over realizations.
+- (a) H0: single population (dashed, `\HDSingleHzeroComb` / `\ObsSingleHzeroComb`; bias of the median
+  `\HDBiasHzero` / `\ObsBiasHzero`) and host-dependent populations (solid, `\HDHostHzeroComb` /
+  `\ObsHostHzeroComb`). Log10 Bayes factor of the second against the first: `\HDLB` / `\ObsLB` for
+  realization A, `\HDHostLBComb` / `\ObsHostLBComb` combined.
+- (b) Joint posterior of the AGN offsets of the mass peak and of the spin mean, host-dependent
+  populations, 90% region (`\HDHostDmuGComb`, `\HDHostDmuChiComb` / `\ObsHost...`). Black "+": input
+  (5, 0.10); black "x": no offset (0, 0); gray dotted lines at zero.
+- (c) f_AGN: the same two analyses and line styles (`\HDSinglefAGNComb`,
+  `\HDHostfAGNComb`, `\ObsSinglefAGNComb`, `\ObsHostfAGNComb`).
+- Sources. Fig. 6: single population invented (Sec. 7: H0 70.9 +- 2.6 for realization A, bias kept in the
+  combination); host-dependent populations combined invented from the exploratory eight-parameter run of
+  realization A (its offsets: `\HDHostDmuG`, `\HDHostDmuChi`; H0 prior [60, 76] in that run), the 2-D
+  region a Gaussian with that run's correlation of the two offsets. Fig. 7: all invented (Sec. 7); the
+  observed-like inputs of the mass spectrum are not on disk yet.
+- Input lines stop below the labels. In (b) of Fig. 6 the input lies outside the 90% region of the
+  placeholder (the exploratory spin offset, carried into the invented combination).
 
-## Fig. 7 `fig7_free_densities`
+## Fig. 8 `fig8_summary` (all placeholder)
 
-- m < 18 (9.5% completeness), both number densities free with H0 and f_AGN: three simulated
-  catalogs A, B, C (A = catalog A of Fig. 2; B, C = catalogs B, C of Fig. 2).
-- (a) log10 n_gal, (b) log10 n_AGN posteriors, one curve per catalog, same colour (blue, vermilion);
-  the three are not distinguished. Grey dotted: flat prior density (prior [-4, -1] and [-6, -4], so
-  1/3 and 1/2 per dex); both axes span the full prior. Black dashed: inputs -3 and -5. KDE bandwidths
-  0.08 to 0.10 dex; 11,441 to 11,941 samples per catalog. The n_gal densities at the lower prior edge
-  are 13 to 16% of their peaks; the n_AGN densities at -6 are 4 to 7%.
-- Lower row: (f_AGN, log10 n_AGN) 90% HPD region, one panel per catalog, identical axes = prior box
-  f [0, 1] x [-6, -4]; 40 x 40 histogram smoothed by 1.5 bins (0.0375 in f, 0.075 dex). Black "+":
-  input (0.30, -5). The regions reach the f_AGN = 0 edge.
-- Macros: `\FreeLognGalEighteen{,CatB,CatC}`, `\FreeLognAGNEighteen{...}`, `\FreefAGNEighteen{...}`,
-  `\FreeRhofAGNEighteen{...}`.
-- Read: `analyses/analysis_5_free_anchors_H0_fagn/results/campaign_m18_dynesty_s100.h5`,
-  `analyses/selection_redo/fu_seed101/results/campaign_m18_dynesty_s101.h5`,
-  `analyses/selection_redo/fu_seed102/results/campaign_m18_dynesty_s102.h5` (+ the .json for priors).
-- Not drawn: a combined posterior over A, B, C (needs one sampler run on the summed likelihood).
+- One row per analysis in the order of Sec. IV, grouped under bold headings: population known, complete
+  catalogs (both catalogs, galaxy catalog alone, AGN catalog alone, no catalog); flux-limited catalogs
+  (m < 21, 20, 19, 18 with densities known; m < 18 with number densities inferred); unknown population
+  (single population with both catalogs and with no catalog); host-dependent populations (single
+  population, host-dependent populations, no catalog); observed-like spectrum (the same three).
+- Left: H0, right: f_AGN; marker = median, bar = 90% interval of the combination over realizations
+  (`\<Key>HzeroComb`, `\<Key>fAGNComb`). Black dashed: inputs. "not inferred": f_AGN is not a parameter of
+  that analysis. The AGN-catalog-alone interval lies at the upper prior edge (99.9 to 100) and is marked by
+  an arrow and text. Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size.
 
-## Fig. 8 `fig8_validation`
+## Fig. 9 `fig9_validation` (placeholder)
 
-- Combined posteriors over simulated catalogs (log-likelihoods summed, parameters shared), shaded
-  90% equal-tailed interval, black dashed input.
-- (a) H0, 93 catalogs of 1000 galaxy-hosted mergers (`\PureGalHzeroComb`, input at the 12% level).
-  (b) H0, the same 93 catalogs with 1000 AGN-hosted mergers (`\PureAGNHzeroComb`; the input 67.74 lies
-  just below the interval's lower end 67.741, at the 91% level). (c) H0 and (d) f_AGN, the 9 complete
-  catalogs of Fig. 2, both host classes, both catalogs (`\JointHzeroComb`, 89%; `\JointfComb`, 70%).
-- Axes: H0 [66.6, 68.9], [67.45, 68.2], [66.6, 70.1]; f_AGN [0.22, 0.36]; mass outside below 1e-4.
-- Read: as Figs. 3(a) and 2.
-- Not drawn (no results on disk; placeholders.txt): catalogs with no AGN-hosted mergers (`\Null*`),
-  flux-limited combined posteriors (`\FluxfCombEighteen` etc.; one catalog exists), free-density
-  combined posteriors (`\Free*Comb`), host-dependent combined posteriors (`\HDEight*Comb`,
-  `\CommonHzeroComb`; one catalog exists).
-
-## Fig. C1 `figC1_corner`
-
-- Eight-parameter host-dependent model on the host-dependent mock (one simulated catalog), both
-  catalogs: H0, f_AGN, mu_G, Delta mu_G, mu_chi, Delta mu_chi, sigma_G, sigma_chi. 4098 equal-weight
-  nested-sampling samples. Diagonal: 1-D density with shaded 90% equal-tailed interval (macros
-  `\HDEight*`). Off-diagonal: 90% HPD region (36 x 36 histogram, smoothing 1.7 bins). Black dashed:
-  inputs (67.74, 0.30, 35, 5, 0, 0.10, 5, 0.10).
-- Axes are cropped to the posterior (0.05 to 99.95 percentiles plus 8% padding, always including the
-  input), not the prior: H0 [62.5, 70.9] of [60, 76]; f_AGN [0.125, 0.416] of [0, 1]; mu_G [34.2, 37.1] of
-  [31, 39]; Delta mu_G [0.34, 7.63] of [-4, 10]; mu_chi [-0.042, 0.022] of [-0.1, 0.1]; Delta mu_chi
-  [0.074, 0.235] of [-0.05, 0.30]; sigma_G [3.88, 5.78] of [1, 10]; sigma_chi [0.053, 0.113] of [0.01, 1].
-  At most 0.07% of any marginal lies outside its axis.
-- Run: darksirens-core e7c3007, selection-variance cap 20.
-- Read: `analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.{npz,json}`.
+- (a) H0 posteriors combined over realizations with both catalogs: population known (solid,
+  `\KnownBothHzeroComb`, exploratory, input at the `\KnownBothHzeroCL`% level), single population (dashed,
+  `\SingleBothHzeroComb`, invented), host-dependent populations on host-dependent events (dash-dot,
+  `\HDHostHzeroComb`, invented). Axis [65.3, 70.7].
+- (b) f_AGN posteriors combined over realizations for inputs 0 (solid, `\CtrlZerofAGNComb`, 90% upper
+  limit `\CtrlZerofAGNCombUL`), 0.10 (dashed, `\CtrlTenthfAGNComb`) and 0.30 (dash-dot,
+  `\KnownBothfAGNComb`, exploratory); black dashed lines at the three inputs. The two control sets are
+  invented.

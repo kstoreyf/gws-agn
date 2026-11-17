@@ -1,0 +1,3840 @@
+generated_utc: '2026-11-17T09:03:41Z'
+driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
+  --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
+cost_model:
+  spc_fixed: 0.39
+  spc_free: 0.44
+  spc_none_fixed: 0.39
+  spc_none_free: 0.44
+  grid_2d_cells: 1147
+  grid_1d_cells: 132
+  calls_by_ndim:
+    4: 15000
+    5: 29000
+    6: 36000
+    8: 272000
+  calls_measured_reference:
+    6_A11_A12_box: 29000
+    7_A11: 48000
+    8_A13_box: 228000
+  overhead_hours_per_process: 0.05
+sampler_8: rslice
+realizations:
+  '5':
+  - 100
+  - 101
+  - 102
+  - 103
+  - 105
+  '10':
+  - 100
+  - 101
+  - 102
+  - 103
+  - 105
+  - 106
+  - 107
+  - 108
+  - 109
+  - 110
+  '3':
+  - 100
+  - 101
+  - 102
+stages:
+- stage: 1
+  title: population known, complete catalogs
+  n_runs: 35
+  n_tasks: 35
+  est_calls: 14770
+  est_gpu_hours: 3.34
+  est_gpu_hours_existing_data: 2.47
+  runs:
+  - name: known_population/both_catalogs/complete/equal_populations/realization_100
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_101
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_102
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_103
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_105
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/complete/equal_populations/realization_106
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '106'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
+    data_exists: false
+  - name: known_population/both_catalogs/complete/equal_populations/realization_107
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '107'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
+    data_exists: false
+  - name: known_population/both_catalogs/complete/equal_populations/realization_108
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '108'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
+    data_exists: false
+  - name: known_population/both_catalogs/complete/equal_populations/realization_109
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '109'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
+    data_exists: false
+  - name: known_population/both_catalogs/complete/equal_populations/realization_110
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '110'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
+    data_exists: false
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_100
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/equal_populations/realization_100
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/no_catalog/complete/equal_populations/realization_100
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_100
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '100'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_pureagn_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '100'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_puregal_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_101
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/equal_populations/realization_101
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/no_catalog/complete/equal_populations/realization_101
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_101
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '101'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_pureagn_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '101'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_puregal_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_102
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/equal_populations/realization_102
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/no_catalog/complete/equal_populations/realization_102
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_102
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '102'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_pureagn_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '102'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_puregal_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_103
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/equal_populations/realization_103
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/no_catalog/complete/equal_populations/realization_103
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_103
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '103'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_pureagn_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '103'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_105
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/equal_populations/realization_105
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/no_catalog/complete/equal_populations/realization_105
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_105
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '105'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
+    data_exists: true
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105
+    stage: 1
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '105'
+    est_calls: 132
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.064
+    est_gpu_hours_per_part: 0.064
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_puregal_corepop.h5
+    data_exists: true
+- stage: 2
+  title: flux-limited catalogs
+  n_runs: 44
+  n_tasks: 56
+  est_calls: 396704
+  est_gpu_hours: 45.77
+  est_gpu_hours_existing_data: 45.77
+  runs:
+  - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_103
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_105
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_103
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_105
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_103
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_105
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_103
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_105
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --density
+    - counts
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '0.5'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '0.5'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '0.5'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '2'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '2'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '2'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '0.5'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '0.5'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '0.5'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '2'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '2'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102
+    stage: 2
+    mode: grid
+    analysis: known_population
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - counts
+    - --agn-density-factor
+    - '2'
+    est_calls: 1147
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 0.174
+    est_gpu_hours_per_part: 0.174
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_21/equal_populations/realization_101
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_21/equal_populations/realization_102
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '21'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_20/equal_populations/realization_101
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_20/equal_populations/realization_102
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '20'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_101
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_19/equal_populations/realization_102
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '19'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_101
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: free_densities/both_catalogs/flux_limit_18/equal_populations/realization_102
+    stage: 2
+    mode: nested
+    analysis: free_densities
+    free:
+    - H0
+    - f_agn
+    - log10n_gal
+    - log10n_agn
+    n_parameters: 4
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - free_densities
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --density
+    - free
+    est_calls: 30000
+    est_seconds_per_call: 0.39
+    est_gpu_hours: 3.35
+    est_gpu_hours_per_part: 1.675
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+- stage: 3
+  title: equal-population events, single population
+  n_runs: 20
+  n_tasks: 40
+  est_calls: 1300000
+  est_gpu_hours: 160.89
+  est_gpu_hours_existing_data: 80.44
+  runs:
+  - name: single_population/both_catalogs/complete/equal_populations/realization_100
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_101
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_102
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_103
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_105
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/equal_populations/realization_106
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '106'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/equal_populations/realization_107
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '107'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/equal_populations/realization_108
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '108'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/equal_populations/realization_109
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '109'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/equal_populations/realization_110
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '110'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/no_catalog/complete/equal_populations/realization_100
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_101
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_102
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_103
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_105
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/equal_populations/realization_106
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '106'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/no_catalog/complete/equal_populations/realization_107
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '107'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/no_catalog/complete/equal_populations/realization_108
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '108'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/no_catalog/complete/equal_populations/realization_109
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '109'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
+    data_exists: false
+  - name: single_population/no_catalog/complete/equal_populations/realization_110
+    stage: 3
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '110'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
+    data_exists: false
+- stage: 4
+  title: host-dependent events
+  n_runs: 20
+  n_tasks: 35
+  est_calls: 2370000
+  est_gpu_hours: 291.42
+  est_gpu_hours_existing_data: 246.91
+  runs:
+  - name: single_population/both_catalogs/complete/host_dependent/realization_100
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '100'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_101
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '101'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_102
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '102'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_103
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '103'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_105
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '105'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent/realization_106
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '106'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/host_dependent/realization_107
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '107'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/host_dependent/realization_108
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '108'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/host_dependent/realization_109
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '109'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: false
+  - name: single_population/both_catalogs/complete/host_dependent/realization_110
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '110'
+    est_calls: 72000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 8.9
+    est_gpu_hours_per_part: 4.45
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: false
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100
+    stage: 4
+    mode: nested
+    analysis: host_dependent_populations
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '100'
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.294
+    est_gpu_hours_per_part: 33.294
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101
+    stage: 4
+    mode: nested
+    analysis: host_dependent_populations
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '101'
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.294
+    est_gpu_hours_per_part: 33.294
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102
+    stage: 4
+    mode: nested
+    analysis: host_dependent_populations
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '102'
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.294
+    est_gpu_hours_per_part: 33.294
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103
+    stage: 4
+    mode: nested
+    analysis: host_dependent_populations
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '103'
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.294
+    est_gpu_hours_per_part: 33.294
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
+    stage: 4
+    mode: nested
+    analysis: host_dependent_populations
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '105'
+    est_calls: 272000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 33.294
+    est_gpu_hours_per_part: 33.294
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_100
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '100'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_101
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '101'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_102
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '102'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_103
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '103'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent/realization_105
+    stage: 4
+    mode: nested
+    analysis: single_population
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '105'
+    est_calls: 58000
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 7.189
+    est_gpu_hours_per_part: 3.594
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    data_exists: true

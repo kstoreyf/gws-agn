@@ -1061,18 +1061,540 @@ def figC1_corner():
 
 
 # ============================================================================================= #
-FIGS = {"fig1": fig1_mocks, "fig2": fig2_two_catalogs, "fig3": fig3_host_information, "fig4": fig4_host_dependent_h0,
-        "fig5": fig5_offsets, "fig6": fig6_flux_limits, "fig7": fig7_free_densities, "fig8": fig8_validation, "figC1": figC1_corner}
-NAMES = {"fig1": "fig1_mocks", "fig2": "fig2_two_catalogs", "fig3": "fig3_host_information", "fig4": "fig4_host_dependent_h0",
-         "fig5": "fig5_offsets", "fig6": "fig6_flux_limits", "fig7": "fig7_free_densities", "fig8": "fig8_validation", "figC1": "figC1_corner"}
+# THE NINE FIGURES OF THE SKELETON (notes/PAPER_SKELETON.md Secs. 0, 4). Placeholder data come from
+# values/placeholder_results.json and are drawn in red tones (told apart by line style and direct labels)
+# with the small red word "placeholder" in a corner of the panel; an entry that values/production_map.json
+# overrides is marked final and the same code draws it in the final palette.
+# ============================================================================================= #
+PHJ = json.loads((PRD / "values" / "placeholder_results.json").read_text())["keys"]
+RED = ["#B2182B", "#E0645A", "#6E0010", "#D9786B"]          # placeholder tones: strong, salmon, maroon, rose
+NONE_C = "#4D4D4D"                                            # final colour of "no catalog"
+SINGLE_C = "#CC79A7"                                          # final colour of "single population"
+LS4 = ["-", "--", "-.", ":"]
+IN_H0, IN_F = IN["H0"], IN["f"]
+
+
+def fin(key):
+    return bool(PHJ[key].get("final"))
+
+
+def kcol(key, final_color, i):
+    return final_color if fin(key) else RED[i % len(RED)]
+
+
+def ph_word(ax, x=0.985, y=0.975, ha="right", va="top"):
+    ax.text(x, y, "placeholder", color=RED[0], fontsize=7.0, ha=ha, va=va, transform=ax.transAxes, zorder=20,
+            bbox=dict(fc="white", ec="none", pad=0.4, alpha=0.85))
+
+
+def q1(key, q, part="A"):
+    s = PHJ[key]["quantities"][q][part]
+    return np.asarray(s["x"]), np.asarray(s["p"]), s
+
+
+def chk_key(fig, key, q, part="A"):
+    s = PHJ[key]["quantities"][q][part]
+    tag = "" if part == "A" else "Comb"
+    for kk, v in (("median", s["median"]), ("ci90.0", s["ci90"][0]), ("ci90.1", s["ci90"][1])):
+        chk(fig, ("macros", f"{key}{q}{tag}", "value", *kk.split(".")), v, "drawn placeholder posterior")
+
+
+def hpd90(J):
+    x, y, P = np.asarray(J["x"]), np.asarray(J["y"]), np.asarray(J["p"])
+    d = np.sort(P.ravel())[::-1]
+    c = np.cumsum(d) / d.sum()
+    return x, y, P, float(d[np.searchsorted(c, 0.9)])
+
+
+def smooth_joint(J, sigma):
+    """Gaussian smoothing (in grid cells) of a stored 2-D density before its 90% contour is drawn."""
+    from scipy.ndimage import gaussian_filter
+    return dict(J, p=gaussian_filter(np.asarray(J["p"], float), sigma, mode="nearest").tolist())
+
+
+def draw_joint(ax, J, color, ls="-", fill=False, alpha=0.25, lw=fs.LW_CONTOUR, zorder=3):
+    x, y, P, lev = hpd90(J)
+    if fill:
+        ax.contourf(x, y, P.T, levels=[lev, np.inf], colors=[color], alpha=alpha, zorder=zorder)
+    ax.contour(x, y, P.T, levels=[lev], colors=[color], linewidths=lw, linestyles=[ls], zorder=zorder + 0.1)
+    return x, y, P, lev
+
+
+def draw_1d(ax, key, q, part, color, ls, lw=fs.LW, shade=False, zorder=4):
+    x, p, s = q1(key, q, part)
+    ax.plot(x, p, color=color, ls=ls, lw=lw, zorder=zorder)
+    if shade:
+        shade90(ax, x, p, s, color, alpha=0.18)
+    return x, p, s
+
+
+def label_at(ax, x, p, frac_x, text, color, dx=0.0, dy=0.0, ha="left", va="center", **kw):
+    """Direct label placed at the curve point where the cumulative mass reaches frac_x, shifted by (dx, dy) in data units."""
+    c = np.concatenate([[0.0], np.cumsum(0.5 * (p[1:] + p[:-1]) * np.diff(x))])
+    c /= c[-1]
+    xx = float(np.interp(frac_x, c, x))
+    yy = float(np.interp(xx, x, p))
+    return fs.label(ax, xx + dx, yy + dy, text, color, ha=ha, va=va, **kw)
+
+
+# ---------------------------------------------------------------- Fig. 2: the anchor
+def fig2_anchor():
+    name = "fig2_anchor"
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 2.9), layout="constrained", gridspec_kw=dict(width_ratios=[1.0, 1.25]))
+    k = "KnownBoth"
+    cA, cC = kcol(k, fs.BOTH, 0), kcol(k, fs.BOTH, 0)
+    draw_joint(axa, PHJ[k]["joint"]["A"], cA, ls="--", fill=False)
+    draw_joint(axa, PHJ[k]["joint"]["Comb"], cC, ls="-", fill=True, alpha=0.35)
+    axa.plot([IN_H0], [IN_F], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
+    for part in ("A", "Comb"):
+        chk_key(name, k, "Hzero", part)
+        chk_key(name, k, "fAGN", part)
+    axa.set_xlim(65.5, 73.0)
+    axa.set_ylim(0.13, 0.43)
+    axa.set_xlabel(fs.H0_LABEL)
+    axa.set_ylabel(r"$f_{\rm AGN}$")
+    fs.label(axa, 70.55, 0.372, "realization A", cA, ha="left", va="bottom")
+    fs.label(axa, 69.35, 0.282, "combined over\nrealizations", cC, ha="left", va="center")
+    fs.panel_label(axa, "(a)")
+    if not fin(k):
+        ph_word(axa)
+    # (b) H0 with each catalog, realization A
+    specs = [("KnownBoth", fs.BOTH, "both catalogs", 0, "-"), ("KnownGal", fs.GAL, "galaxy catalog alone", 1, "--"),
+             ("KnownAGN", fs.AGN, "AGN catalog alone", 2, "-."), ("KnownNone", NONE_C, "no catalog", 3, ":")]
+    top = 0.0
+    curves = {}
+    for key, fc, lab, i, ls in specs:
+        c = kcol(key, fc, i)
+        x, p, s = draw_1d(axb, key, "Hzero", "A", c, ls)
+        chk_key(name, key, "Hzero", "A")
+        curves[key] = (x, p, c)
+        if key != "KnownAGN":
+            top = max(top, float(p.max()))
+    fs.input_vline(axb, IN_H0)
+    axb.set_xlim(56, 100)
+    ymax = 1.22 * top
+    axb.set_ylim(0, ymax)
+    xA, pA, cAg = curves["KnownAGN"]
+    axb.annotate("", xy=(99.4, 0.985 * ymax), xytext=(99.4, 0.80 * ymax), arrowprops=dict(arrowstyle="->", color=cAg, lw=1.2))
+    fs.label(axb, 98.6, 0.92 * ymax, f"AGN catalog alone:\nrises to the prior edge,\npeak {pA.max():.1f} off scale", cAg, ha="right", va="top")
+    for key, frac, lab, dx, dy, ha in (("KnownBoth", 0.80, "both catalogs", 0.6, 0.004, "left"), ("KnownGal", 0.93, "galaxy catalog\nalone", 0.7, 0.0, "left"),
+                                       ("KnownNone", 0.06, "no catalog", -0.8, 0.0, "right")):
+        x, p, c = curves[key]
+        label_at(axb, x, p, frac, lab, c, dx=dx, dy=dy, ha=ha)
+    axb.set_xlabel(fs.H0_LABEL)
+    axb.set_ylabel(fs.H0_DENS)
+    fs.panel_label(axb, "(b)")
+    if not all(fin(k_) for k_, *_ in specs):
+        ph_word(axb, x=0.015, ha="left", y=0.86)
+    note(name, f"(b) AGN catalog alone peak density {pA.max():.2f} at H0 = {xA[np.argmax(pA)]:.2f}; plotted y range [0, {ymax:.3f}]")
+    fs.save(fig, FIGDIR, name)
+
+
+# ---------------------------------------------------------------- Fig. 3: flux limits
+def fig3_flux_limits():
+    name = "fig3_flux_limits"
+    fig = plt.figure(figsize=(fs.PAGE, 3.6), layout="constrained")
+    gs = fig.add_gridspec(2, 2, width_ratios=[1.0, 1.15])
+    axH = fig.add_subplot(gs[0, 0])
+    axF = fig.add_subplot(gs[1, 0], sharex=axH)
+    axb = fig.add_subplot(gs[:, 1])
+    keys = ["KnownBoth"] + [f"Flux{w}" for _, w, _ in bv.RUNGS]
+    xs = np.arange(len(keys))
+    for ax, q, x0, yl in ((axH, "Hzero", IN_H0, fs.H0_LABEL), (axF, "fAGN", IN_F, r"$f_{\rm AGN}$")):
+        for i, k in enumerate(keys):
+            s = PHJ[k]["quantities"][q]["A"]
+            c = kcol(k, fs.BOTH if i == 0 else fs.COMP[i - 1], 0)
+            mk = "o" if i == 0 else fs.COMP_MARKERS[i - 1]
+            ax.errorbar([xs[i]], [s["median"]], yerr=[[s["median"] - s["ci90"][0]], [s["ci90"][1] - s["median"]]], fmt=mk, ms=fs.MS, color=c,
+                        mfc="white" if i == 0 else c, mew=1.3, elinewidth=1.6, capsize=2.5, zorder=4)
+            chk_key(name, k, q, "A")
+        fs.input_hline(ax, x0)
+        ax.set_ylabel(yl)
+        ax.set_xlim(-0.5, len(keys) - 0.5)
+        ax.tick_params(axis="x", which="minor", bottom=False, top=False)
+        if not all(fin(k) for k in keys):
+            ph_word(ax, y=0.95)
+    axH.set_ylim(65.5, 72.5)
+    axF.set_ylim(0.12, 0.45)
+    axF.set_xticks(xs)
+    axF.set_xticklabels(["complete"] + [f"$m<{m}$" for _, _, m in bv.RUNGS])
+    axF.set_xlabel("flux limit of both catalogs")
+    plt.setp(axH.get_xticklabels(), visible=False)
+    sec = axH.secondary_xaxis("top")
+    sec.set_xticks(xs)
+    comp = ["100"] + [VALUES["macros"][f"MockEventComp{w}"]["render"] for _, w, _ in bv.RUNGS]
+    for w in [w for _, w, _ in bv.RUNGS]:
+        chk(name, ("macros", f"MockEventComp{w}", "render"), VALUES["macros"][f"MockEventComp{w}"]["render"], "upper-axis label")
+    sec.set_xticklabels([f"{c}%" for c in comp])
+    sec.tick_params(axis="x", which="minor", top=False)
+    sec.set_xlabel("completeness weighted by the detected mergers", fontsize=fs.FS_TEXT)
+    fs.panel_label(axH, "(a)", y=0.95)
+    # (b) f_AGN against the assumed AGN density
+    at_input, arms = flux()
+    facs = [0.5, 1.0, 2.0]
+    xx = np.geomspace(0.45, 2.2, 200)
+    for i, (rk, word, mlim) in enumerate([r for r in bv.RUNGS if r[0] in ("m21", "m18")]):
+        k = f"Flux{word}"
+        c = kcol(k, fs.COMP[0 if rk == "m21" else 3], i * 2)
+        off = 0.985 if rk == "m21" else 1.015
+        med = []
+        for f_ in facs:
+            sm = arms[(rk, f_)].summary("f")
+            med.append(sm["median"])
+            axb.errorbar([f_ * off], [sm["median"]], yerr=[[sm["median"] - sm["ci90"][0]], [sm["ci90"][1] - sm["median"]]], fmt=fs.COMP_MARKERS[0 if rk == "m21" else 3],
+                         ms=fs.MS, color=c, mfc=c if rk == "m21" else "white", mew=1.3, elinewidth=1.4, capsize=2.2, zorder=5)
+            chk(name, ("macros", f"SlopefAGN{word}", "extra", "medians_f", str(f_)), sm["median"], "median against assumed AGN density")
+        FA = VALUES["macros"][f"NormFAGN{word}"]["value"]
+        f1 = med[1]
+        pred = bv.expit(bv.logit(f1) + np.log(FA + xx * (1 - FA)))
+        axb.plot(xx, pred, color="k", lw=1.1, ls="-" if rk == "m21" else (0, (4, 2)), zorder=3)
+        lo05 = arms[(rk, 0.5)].summary("f")["ci90"]
+        fs.label(axb, 0.5 * off, lo05[1] + 0.012 if rk == "m21" else lo05[0] - 0.012, f"$m<{mlim}$", c, ha="center", va="bottom" if rk == "m21" else "top")
+    # Analysis 15 (final palette) when its summary exists
+    if bv.A15_SUMMARY.exists():
+        S = bv.jload(bv.A15_SUMMARY)["scans"]
+        cfgs = [("complete, normalized to $z=5$", [("p1_complete", 1.0), ("c_complete_x2", 2.0)], "k", "s", True),
+                ("complete, normalized to $z=1.10$", [("b_complete_x1", 1.0), ("b_complete_x2", 2.0)], "k", "s", False),
+                ("$m<18$, normalized to $z=1.10$", [("d_m18_x05", 0.5), ("d_m18_x1", 1.0), ("d_m18_x2", 2.0)], fs.COMP[3], "D", False)]
+        for lab, pts, c, mk, filled in cfgs:
+            ok = [(S[n], x) for n, x in pts if n in S and S[n].get("status") == "done"]
+            if len(ok) < 2:
+                continue
+            for r, x in ok:
+                m = r["measured"]["f"]
+                axb.errorbar([x], [m["median"]], yerr=[[m["median"] - m["ci90"][0]], [m["ci90"][1] - m["median"]]], fmt=mk, ms=fs.MS, color=c,
+                             mfc=c if filled else "white", mew=1.3, elinewidth=1.4, capsize=2.2, zorder=6)
+            r1 = [r for r, x in ok if x == 1.0]
+            if r1:
+                FA = r1[0]["normaliser"]["F_at_67.74"]["AGN"]
+                f1 = r1[0]["measured"]["f"]["median"]
+                axb.plot(xx, bv.expit(bv.logit(f1) + np.log(FA + xx * (1 - FA))), color="k", lw=1.0, ls=":", zorder=3)
+            note(name, f"(b) Analysis 15 drawn: {lab}")
+    fs.input_hline(axb, IN_F)
+    axb.axvline(1.0, color=fs.PRIOR, lw=0.8, ls=":", zorder=1)
+    axb.set_xscale("log")
+    axb.set_xticks([0.5, 0.7, 1.0, 1.4, 2.0])
+    axb.set_xticklabels(["0.5", "0.7", "1", "1.4", "2"])
+    axb.xaxis.set_minor_locator(plt.NullLocator())
+    axb.set_xlim(0.45, 2.25)
+    axb.set_ylim(0.03, 0.62)
+    axb.set_xlabel("assumed AGN number density / input")
+    axb.set_ylabel(r"$f_{\rm AGN}$")
+    fs.label(axb, 0.48, 0.60, "black: prediction of the identity, hosts\nnormalized to $z=5$ (solid $m<21$, dashed $m<18$)", "k", ha="left", va="top")
+    fs.panel_label(axb, "(b)", x=0.975, y=0.04, ha="right", va="bottom")
+    ph_word(axb, x=0.975, y=0.12, va="bottom")
+    fs.save(fig, FIGDIR, name)
+
+
+# ---------------------------------------------------------------- Fig. 4: number densities inferred
+def fig4_densities():
+    name = "fig4_densities"
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 3.0), layout="constrained", gridspec_kw=dict(width_ratios=[1.0, 1.1]))
+    # (a) f_AGN against log10 n_AGN
+    J = smooth_joint(PHJ["FreeEighteen"]["joint"]["prior_induced"], 2.0)
+    draw_joint(axa, J, "0.55", ls="-", fill=True, alpha=0.30, lw=0.8, zorder=1)
+    for i, (k, mlim, ls) in enumerate((("FreeTwentyOne", 21, "--"), ("FreeEighteen", 18, "-"))):
+        c = kcol(k, fs.COMP[0 if mlim == 21 else 3], 2 * i)
+        draw_joint(axa, smooth_joint(PHJ[k]["joint"]["A"], 1.5), c, ls=ls, fill=False, zorder=4)
+        chk_key(name, k, "fAGN", "A")
+        chk_key(name, k, "LognAGN", "A")
+    # constant rate-per-host ratio through the input (n_gal and H0 at their inputs, hosts normalized to z = 5, m < 18)
+    NC = bv.norm_cfg(100)
+    la = np.linspace(-6, -4, 300)
+    Rin = VALUES["macros"]["MockRateRatio"]["value"]
+    zA = bv.Zk(NC["m18"]["agn"], 10 ** la, IN_H0)
+    zG = float(bv.Zk(NC["m18"]["gal"], 10 ** IN["lognGal"], IN_H0))
+    odds = Rin * zA / zG
+    axa.plot(odds / (1 + odds), la, color="k", lw=1.3, zorder=6)
+    chk(name, ("macros", "MockRateRatio", "value"), Rin, "constant rate-per-host curve")
+    axa.plot([IN_F], [IN["lognAGN"]], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
+    axa.set_xlim(0, 1)
+    axa.set_ylim(-6, -4)
+    axa.set_xlabel(r"$f_{\rm AGN}$")
+    axa.set_ylabel(r"$\log_{10}[n_{\rm AGN}/{\rm Mpc^{-3}}]$")
+    fs.label(axa, 0.60, -4.04, "constant merger rate per host", "k", ha="right", va="top", bbox=dict(fc="white", ec="none", pad=0.5, alpha=0.8))
+    fs.label(axa, 0.56, -5.72, "allowed by\nthe priors", "0.30", ha="left", va="center")
+    c18, c21 = kcol("FreeEighteen", fs.COMP[3], 2), kcol("FreeTwentyOne", fs.COMP[0], 0)
+    fs.label(axa, 0.43, -5.22, "$m<18$", c18, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
+    fs.label(axa, 0.67, -5.36, "$m<21$", c21, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
+    fs.panel_label(axa, "(a)", x=0.97, y=0.04, ha="right", va="bottom")
+    ph_word(axa, x=0.97, y=0.13, va="bottom")
+    # (b) rate per host at each flux limit
+    top = 0.0
+    for i, (rk, w, mlim) in enumerate(bv.RUNGS):
+        k = f"Free{w}"
+        c = kcol(k, fs.COMP[i], i)
+        x, p, s = draw_1d(axb, k, "RateRatio", "A", c, LS4[i])
+        chk_key(name, k, "RateRatio", "A")
+        top = max(top, float(p.max()))
+        j = int(np.argmax(p))
+    fs.input_vline(axb, Rin)
+    axb.set_xlim(0, 100)
+    axb.set_ylim(0, 1.25 * top)
+    axb.set_xlabel(r"merger rate per AGN / merger rate per galaxy")
+    axb.set_ylabel("probability density")
+    for i, (rk, w, mlim) in enumerate(bv.RUNGS):
+        x, p, s = q1(f"Free{w}", "RateRatio")
+        yy = [0.95, 0.83, 0.71, 0.59][i] * 1.25 * top
+        fs.label(axb, 72, yy, f"$m<{mlim}$", kcol(f"Free{w}", fs.COMP[i], i), ha="left")
+        axb.plot([64, 70.5], [yy, yy], color=kcol(f"Free{w}", fs.COMP[i], i), ls=LS4[i], lw=fs.LW)
+    fs.panel_label(axb, "(b)")
+    ph_word(axb, x=0.03, ha="left", y=0.86)
+    fs.save(fig, FIGDIR, name)
+
+
+# ---------------------------------------------------------------- Fig. 5: an unknown population
+def fig5_population():
+    name = "fig5_population"
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 2.9), layout="constrained", gridspec_kw=dict(width_ratios=[1.2, 1.0]))
+    specs = [("KnownBoth", fs.BOTH, 0, "-", "population known,\nboth catalogs"), ("KnownNone", NONE_C, 3, ":", "population known,\nno catalog"),
+             ("SingleBoth", SINGLE_C, 1, "--", "single population,\nboth catalogs"), ("SingleNone", "#7F7F7F", 2, "-.", "single population,\nno catalog")]
+    top = 0.0
+    cur = {}
+    for key, fc, i, ls, lab in specs:
+        c = kcol(key, fc, i)
+        x, p, s = draw_1d(axa, key, "Hzero", "A", c, ls)
+        chk_key(name, key, "Hzero", "A")
+        cur[key] = (x, p, c, lab)
+        top = max(top, float(p.max()))
+    fs.input_vline(axa, IN_H0)
+    axa.set_xlim(50, 90)
+    axa.set_ylim(0, 1.15 * top)
+    for key, xy, ha in (("KnownBoth", (70.3, 0.33), "left"), ("SingleBoth", (66.2, 0.235), "right"), ("KnownNone", (71.6, 0.16), "left"),
+                        ("SingleNone", (76.0, 0.06), "left")):
+        x, p, c, lab = cur[key]
+        fs.label(axa, *xy, lab, c, ha=ha)
+    axa.set_xlabel(fs.H0_LABEL)
+    axa.set_ylabel(fs.H0_DENS)
+    fs.panel_label(axa, "(a)")
+    ph_word(axa)
+    for key, i, ls, lab, pos in (("SingleNone", 2, "-.", "no catalog", (60.6, 36.95)), ("SingleBoth", 1, "--", "both\ncatalogs", (71.8, 34.3))):
+        c = kcol(key, SINGLE_C if key == "SingleBoth" else "#7F7F7F", i)
+        draw_joint(axb, PHJ[key]["joint"]["A"], c, ls=ls, fill=(key == "SingleBoth"), alpha=0.25)
+        chk_key(name, key, "MuG", "A")
+        fs.label(axb, *pos, lab, c, ha="left")
+    axb.plot([IN_H0], [IN["muG"]], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
+    axb.set_xlim(55, 82)
+    axb.set_ylim(32.4, 37.8)
+    axb.set_xlabel(fs.H0_LABEL)
+    axb.set_ylabel(r"mass-peak location $\mu_{\rm G}$ [$M_\odot$]")
+    fs.panel_label(axb, "(b)")
+    ph_word(axb)
+    fs.save(fig, FIGDIR, name)
+
+
+# ---------------------------------------------------------------- Figs. 6 and 7: host-dependent populations
+def host_labels(ax, cur, kS, kH, cS, cH, q):
+    """Labels above the two curves, the one with the lower median to the left."""
+    mS = PHJ[kS]["quantities"][q]["Comb"]["median"]
+    mH = PHJ[kH]["quantities"][q]["Comb"]["median"]
+    y = 0.74 * ax.get_ylim()[1]
+    span = ax.get_xlim()[1] - ax.get_xlim()[0]
+    separated = abs(mS - mH) > 0.25 * span
+    for k, m, c, lab in ((kS, mS, cS, "single\npopulation"), (kH, mH, cH, "host-dependent\npopulations")):
+        if separated:                                   # each label centred above its own curve
+            fs.label(ax, m, y, lab, c, ha="center", va="bottom")
+            continue
+        left = m < (mH if k == kS else mS)
+        fs.label(ax, m + (-0.02 if left else 0.02) * span, y, lab, c, ha="right" if left else "left", va="bottom")
+
+
+def fig_host(pre, name):
+    fig, axs = plt.subplots(1, 3, figsize=(fs.PAGE, 2.6), layout="constrained", gridspec_kw=dict(width_ratios=[1.1, 1.0, 1.0]))
+    kS, kH = f"{pre}Single", f"{pre}Host"
+    cS, cH = kcol(kS, SINGLE_C, 1), kcol(kH, fs.BOTH, 0)
+    # (a) H0
+    ax = axs[0]
+    top = 0.0
+    cur = {}
+    for k, c, ls in ((kS, cS, "--"), (kH, cH, "-")):
+        x, p, s = draw_1d(ax, k, "Hzero", "Comb", c, ls, shade=False)
+        chk_key(name, k, "Hzero", "Comb")
+        top = max(top, float(p.max()))
+        cur[k] = (x, p)
+    fs.input_vline(ax, IN_H0, ymax=0.68)
+    lo = min(cur[kH][0][0], cur[kS][0][0])
+    hi = max(cur[kH][0][-1], cur[kS][0][-1])
+    pad = 0.05 * (hi - lo)
+    ax.set_xlim(lo + pad, hi - pad)
+    ax.set_ylim(0, 1.55 * top)
+    host_labels(ax, cur, kS, kH, cS, cH, "Hzero")
+    ax.set_xlabel(fs.H0_LABEL)
+    ax.set_ylabel(fs.H0_DENS)
+    fs.panel_label(ax, "(a)")
+    if not (fin(kS) and fin(kH)):
+        ph_word(ax)
+    # (b) the two offsets
+    ax = axs[1]
+    J = PHJ[kH]["joint"]["Comb"]
+    x_, y_, P, lev = draw_joint(ax, J, cH, ls="-", fill=True, alpha=0.30)
+    chk_key(name, kH, "DmuG", "Comb")
+    chk_key(name, kH, "DmuChi", "Comb")
+    ax.plot([IN["dmuG"]], [IN["dmuChi"]], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
+    ax.plot([0.0], [0.0], marker="x", ms=7, mew=1.4, color=fs.INPUT, zorder=8)
+    ax.axhline(0, color=fs.PRIOR, lw=0.7, ls=":", zorder=1)
+    ax.axvline(0, color=fs.PRIOR, lw=0.7, ls=":", zorder=1)
+    xr = (min(-0.8, x_[0]), max(x_[-1], 9.5))
+    yr = (-0.03, max(0.2, y_[-1]))
+    ax.set_xlim(*xr)
+    ax.set_ylim(*yr)
+    fs.label(ax, 0.97, 0.05, "+ input    $\\times$ no offset", fs.INPUT, ha="right", va="bottom", transform=ax.transAxes)
+    ax.set_xlabel(r"AGN offset of the mass peak $\Delta\mu_{\rm G}$ [$M_\odot$]")
+    ax.set_ylabel(r"AGN offset of the spin mean $\Delta\mu_\chi$")
+    fs.panel_label(ax, "(b)")
+    if not fin(kH):
+        ph_word(ax)
+    # (c) f_AGN
+    ax = axs[2]
+    top = 0.0
+    for k, c, ls in ((kS, cS, "--"), (kH, cH, "-")):
+        x, p, s = draw_1d(ax, k, "fAGN", "Comb", c, ls)
+        chk_key(name, k, "fAGN", "Comb")
+        top = max(top, float(p.max()))
+        cur[k] = (x, p)
+    fs.input_vline(ax, IN_F, ymax=0.68)
+    ax.set_xlim(0.12, 0.45)
+    ax.set_ylim(0, 1.55 * top)
+    host_labels(ax, cur, kS, kH, cS, cH, "fAGN")
+    ax.set_xlabel(r"$f_{\rm AGN}$")
+    ax.set_ylabel(r"$p(f_{\rm AGN})$")
+    fs.panel_label(ax, "(c)")
+    if not (fin(kS) and fin(kH)):
+        ph_word(ax)
+    fs.save(fig, FIGDIR, name)
+
+
+def fig6_host_dependent():
+    fig_host("HD", "fig6_host_dependent")
+
+
+def fig7_observed_like():
+    fig_host("Obs", "fig7_observed_like")
+
+
+# ---------------------------------------------------------------- Fig. 8: the summary
+SUMMARY_ROWS = [
+    ("Population known, complete catalogs", [("KnownBoth", "both catalogs"), ("KnownGal", "galaxy catalog alone"), ("KnownAGN", "AGN catalog alone"), ("KnownNone", "no catalog")]),
+    ("Flux-limited catalogs", [("FluxTwentyOne", "$m<21$"), ("FluxTwenty", "$m<20$"), ("FluxNineteen", "$m<19$"), ("FluxEighteen", "$m<18$"),
+                               ("FreeEighteen", "$m<18$, number densities inferred")]),
+    ("Unknown population", [("SingleBoth", "single population, both catalogs"), ("SingleNone", "single population, no catalog")]),
+    ("Host-dependent populations", [("HDSingle", "single population"), ("HDHost", "host-dependent populations"), ("HDNone", "no catalog")]),
+    ("Observed-like spectrum", [("ObsSingle", "single population"), ("ObsHost", "host-dependent populations"), ("ObsNone", "no catalog")]),
+]
+
+
+def fig8_summary():
+    name = "fig8_summary"
+    rows = []
+    for head, items in SUMMARY_ROWS:
+        rows.append(("head", head))
+        rows += [("row", it) for it in items]
+    n = len(rows)
+    fs_lab = 10.0
+    fig = plt.figure(figsize=(fs.PAGE, 0.255 * n + 0.75))
+    left, right, bot, topm = 0.37, 0.985, 0.075, 0.985
+    gap = 0.03
+    wH = 0.62 * (right - left - gap)
+    axH = fig.add_axes([left, bot, wH, topm - bot])
+    axF = fig.add_axes([left + wH + gap, bot, right - left - gap - wH, topm - bot])
+    y = np.arange(n)[::-1].astype(float)
+    for ax in (axH, axF):
+        ax.set_ylim(-0.7, n - 0.3)
+        ax.set_yticks([])
+        ax.tick_params(axis="y", which="both", left=False, right=False)
+        ax.tick_params(axis="x", labelsize=fs_lab)
+    for yy, (kind, it) in zip(y, rows):
+        if kind == "head":
+            fig.text(0.012, axH.transData.transform((0, yy))[1] / fig.bbox.height, it, fontsize=fs_lab, fontweight="bold", va="center", ha="left")
+            for ax in (axH, axF):
+                ax.axhline(yy + 0.5, color="0.85", lw=0.6, zorder=0)
+            continue
+        key, lab = it
+        c = "k" if fin(key) else RED[0]
+        fig.text(0.035, axH.transData.transform((0, yy))[1] / fig.bbox.height, lab, fontsize=fs_lab, va="center", ha="left", color="k")
+        for ax, q in ((axH, "Hzero"), (axF, "fAGN")):
+            if q not in PHJ[key]["quantities"]:
+                ax.text(0.80, yy, "not inferred", transform=ax.get_yaxis_transform(), color="0.55", fontsize=fs_lab - 1.5, ha="center", va="center")
+                continue
+            s = PHJ[key]["quantities"][q]["Comb"]
+            ax.plot([s["ci90"][0], s["ci90"][1]], [yy, yy], color=c, lw=3.2, solid_capstyle="butt", zorder=4)
+            ax.plot([s["median"]], [yy], marker="o", ms=6.5, color=c, mec="white", mew=0.8, zorder=5)
+            chk_key(name, key, q, "Comb")
+    for ax, x0, xr, xl in ((axH, IN_H0, (60, 84), fs.H0_LABEL), (axF, IN_F, (0.0, 1.0), r"$f_{\rm AGN}$")):
+        ax.axvline(x0, color=fs.INPUT, lw=1.0, ls="--", zorder=1)
+        ax.set_xlim(*xr)
+        ax.set_xlabel(xl, fontsize=fs_lab + 0.5)
+        ax.text(0.98, 0.997, "placeholder", color=RED[0], fontsize=8, ha="right", va="top", transform=ax.transAxes)
+    # intervals running off the H0 axis
+    for yy, (kind, it) in zip(y, rows):
+        if kind == "row" and "Hzero" in PHJ[it[0]]["quantities"]:
+            s = PHJ[it[0]]["quantities"]["Hzero"]["Comb"]
+            if s["ci90"][1] > 84:
+                axH.annotate("", xy=(84, yy), xytext=(83.0, yy), arrowprops=dict(arrowstyle="->", color=RED[0] if not fin(it[0]) else "k", lw=1.6), annotation_clip=False)
+                axH.text(82.6, yy, f"at the prior\nedge, {s['ci90'][1]:.0f}", fontsize=fs_lab - 2.0, ha="right", va="center", color="0.3")
+    fs.save(fig, FIGDIR, name)
+
+
+# ---------------------------------------------------------------- Fig. 9: validation
+def fig9_validation():
+    name = "fig9_validation"
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 2.6), layout="constrained")
+    specs = [("KnownBoth", fs.BOTH, 0, "-", "population known"), ("SingleBoth", SINGLE_C, 1, "--", "single population"),
+             ("HDHost", "#009E73", 2, "-.", "host-dependent populations")]
+    top = 0.0
+    cur = {}
+    for key, fc, i, ls, lab in specs:
+        c = kcol(key, fc, i)
+        x, p, s = draw_1d(axa, key, "Hzero", "Comb", c, ls)
+        chk_key(name, key, "Hzero", "Comb")
+        cur[key] = (x, p, c, lab)
+        top = max(top, float(p.max()))
+    fs.input_vline(axa, IN_H0)
+    axa.set_xlim(65.3, 70.7)
+    axa.set_ylim(0, 1.18 * top)
+    for key, xy, ha in (("KnownBoth", (68.75, 0.90), "left"), ("SingleBoth", (65.45, 0.86), "left"), ("HDHost", (65.45, 0.60), "left")):
+        x, p, c, lab = cur[key]
+        fs.label(axa, xy[0], xy[1] * top, lab.replace(" ", "\n", 1) if key != "KnownBoth" else lab, c, ha=ha)
+    axa.set_xlabel(fs.H0_LABEL)
+    axa.set_ylabel(fs.H0_DENS)
+    fs.panel_label(axa, "(a)")
+    ph_word(axa)
+    top = 0.0
+    for key, x0, i, ls, lab in (("CtrlZero", 0.0, 0, "-", "input 0"), ("CtrlTenth", 0.10, 1, "--", "input 0.10"), ("KnownBoth", IN_F, 2, "-.", "input 0.30")):
+        c = kcol(key, fs.BOTH, i)
+        x, p, s = draw_1d(axb, key, "fAGN", "Comb", c, ls)
+        chk_key(name, key, "fAGN", "Comb")
+        axb.axvline(x0, ymax=0.82, color=fs.INPUT, lw=fs.LW_INPUT, ls="--", zorder=1)
+        cur[key] = (x, p, c, lab)
+        top = max(top, float(p.max()))
+    axb.set_xlim(-0.005, 0.40)
+    axb.set_ylim(0, 1.15 * top)
+    for key, xx, yy in (("CtrlZero", 0.035, 0.86), ("CtrlTenth", 0.13, 0.55), ("KnownBoth", 0.32, 0.40)):
+        x, p, c, lab = cur[key]
+        fs.label(axb, xx, yy * 1.15 * top, lab, c, ha="left")
+    axb.set_xlabel(r"$f_{\rm AGN}$")
+    axb.set_ylabel(r"$p(f_{\rm AGN})$")
+    fs.panel_label(axb, "(b)", x=0.97, ha="right")
+    ph_word(axb, y=0.87)
+    fs.save(fig, FIGDIR, name)
+
+
+# ============================================================================================= #
+FIGS = {"fig1": fig1_mocks, "fig2": fig2_anchor, "fig3": fig3_flux_limits, "fig4": fig4_densities, "fig5": fig5_population,
+        "fig6": fig6_host_dependent, "fig7": fig7_observed_like, "fig8": fig8_summary, "fig9": fig9_validation}
+NAMES = {"fig1": "fig1_mocks", "fig2": "fig2_anchor", "fig3": "fig3_flux_limits", "fig4": "fig4_densities", "fig5": "fig5_population",
+         "fig6": "fig6_host_dependent", "fig7": "fig7_observed_like", "fig8": "fig8_summary", "fig9": "fig9_validation"}
+# the first-draft figures (functions above, kept to reproduce figures/v1/; not drawn by default)
+V1_FIGS = {"fig2_two_catalogs": fig2_two_catalogs, "fig3_host_information": fig3_host_information, "fig4_host_dependent_h0": fig4_host_dependent_h0,
+           "fig5_offsets": fig5_offsets, "fig6_flux_limits": fig6_flux_limits, "fig7_free_densities": fig7_free_densities,
+           "fig8_validation": fig8_validation, "figC1_corner": figC1_corner}
 
 
 # black input lines and markers drawn in each figure, against the input macros of values.json
 INPUT_MACROS = {"H0": "MockHzero", "f": "MockfAGN", "lognGal": "MockLognGal", "lognAGN": "MockLognAGN", "muG": "MockMuG",
                 "dmuG": "MockDmuG", "muChi": "MockMuChi", "dmuChi": "MockDmuChi", "sigmaG": "MockSigmaG", "sigmaChi": "MockSigmaChi"}
-INPUTS_DRAWN = {"fig1": ["muG", "dmuG", "muChi", "dmuChi"], "fig2": ["H0", "f"], "fig3": ["H0"], "fig4": ["H0"],
-                "fig5": ["f", "dmuG", "dmuChi"], "fig6": ["H0", "f"], "fig7": ["lognGal", "lognAGN", "f"], "fig8": ["H0", "f"],
-                "figC1": ["H0", "f", "muG", "dmuG", "muChi", "dmuChi", "sigmaG", "sigmaChi"]}
+INPUTS_DRAWN = {"fig1": ["muG", "dmuG", "muChi", "dmuChi"], "fig2": ["H0", "f"], "fig3": ["H0", "f"], "fig4": ["lognAGN", "f"], "fig5": ["H0", "muG"],
+                "fig6": ["H0", "f", "dmuG", "dmuChi"], "fig7": ["H0", "f", "dmuG", "dmuChi"], "fig8": ["H0", "f"], "fig9": ["H0", "f"]}
 
 
 def main(argv):

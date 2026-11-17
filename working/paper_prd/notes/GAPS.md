@@ -211,3 +211,17 @@ approval. New work is committed locally, not pushed.
    single-catalog and all-galaxy sets, flux-limited ladder, free abundances,
    host-dependent models, on about ten catalogs. Roughly 250 GPU-h at today's settings.
 3. B1 and B2 alongside step 2.
+
+## Update, 17 Nov 2026 (after Analysis 15 and the owner's decisions)
+- A5 closed by Analysis 15 (`analyses/analysis_15_host_normalisation/REPORT.md`): the identity is exact
+  on core where missed hosts lie outside the data; the "AGN = complete" offset is the nominal depth.
+- A6 answered in part: normalizing to z = 1.10 removes the density dependence only for complete
+  catalogs. At m < 18 a factor of two in the assumed AGN density moves f_AGN by 0.13 and H0 by about
+  1 km/s/Mpc. Production convention: densities from each catalog's complete volume.
+- B (paper structure): superseded by `notes/PAPER_SKELETON.md` and `REVISION_DECISIONS.md` item 13.
+  Two drafts are maintained: `paper_prd/main.tex` and `paper_short/main.tex`.
+- Production scope approved by the owner (see `runs.txt`, last block); machinery in
+  `analyses/analysis_16_production_runs/`.
+- New watch item: in the exploratory eight-parameter run the AGN spin offset is 0.158 (+0.030, -0.037)
+  against an input of 0.10 (outside the 90% interval; one realization, 2000 samples per event).
+  The production runs on five realizations decide whether this is a draw or a bias.

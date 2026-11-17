@@ -34,6 +34,11 @@ Statistics (DESIGN.md section 5)
       smallest equal-tailed interval that contains x0.
     * Savage-Dickey ratios and grid evidences are computed on the refined lattice; the difference to the
       same quantity on the unrefined lattice is carried as the numerical uncertainty.
+    * Digits (revision 2, decisions item 4, REVIEW C2/C6): a median with its 90% interval is rounded by the
+      Particle Data Group rule applied to the smaller of its two errors (three leading digits 100-354 keep
+      two significant figures, 355-949 one, 950-999 two after rounding up); every log10 Bayes factor has at
+      most two significant figures, its numerical uncertainty printed only when it reaches half a unit of
+      the last printed digit.
 
 Nothing is read from working/archive/. For the flux-limited analyses only c_mode=selection results.
 """
@@ -72,6 +77,7 @@ SR = AN / "selection_redo"
 CORE_EQ = AN / "experiments" / "experiment_darksirens_core_equivalence" / "results"
 
 LN10 = math.log(10.0)
+R2_CACHE: dict = {}
 
 
 def rel(p) -> str:
@@ -380,6 +386,26 @@ def dec_for(err, sig=2):
     return int(max(0, min(5, sig - 1 - math.floor(math.log10(err)))))
 
 
+def pdg_dec(err):
+    """Decimals of an interval by the Particle Data Group rounding rule (revision 2, REVIEW C2/C6):
+    the three leading digits of the smaller error decide the significant figures it keeps, 100-354
+    two, 355-949 one, 950-999 two after rounding up to the next decade. 0.080 -> 0.08, 0.98 -> 1.0,
+    1.7 -> 1.7. No digit beyond what the grid and the Monte Carlo accuracy support."""
+    if err <= 0 or not np.isfinite(err):
+        return 2
+    e = math.floor(math.log10(err))
+    lead = err / 10 ** (e - 2)
+    if lead >= 999.5:       # floating point at the top of the decade
+        e, lead = e + 1, lead / 10
+    if lead < 354.5:
+        sig = 2
+    elif lead < 949.5:
+        sig = 1
+    else:
+        sig, e = 2, e + 1
+    return int(max(0, min(5, sig - 1 - e)))
+
+
 def fnum(x, d):
     s = f"{x:.{d}f}"
     if s.startswith("-") and float(s) == 0.0:
@@ -390,8 +416,22 @@ def fnum(x, d):
 def fci(med, lo, hi, d=None):
     up, dn = hi - med, med - lo
     if d is None:
-        d = dec_for(min(up, dn) if min(up, dn) > 0 else max(up, dn))
+        d = pdg_dec(min(up, dn) if min(up, dn) > 0 else max(up, dn))
     return f"{fnum(med, d)}^{{+{fnum(up, d)}}}_{{-{fnum(dn, d)}}}", d
+
+
+def fsig(x, sig=2, up=False):
+    """x to `sig` significant figures as a plain decimal (up=True rounds away from zero: a bound)."""
+    if x == 0 or not np.isfinite(x):
+        return fnum(x, 2)
+    e = math.floor(math.log10(abs(x)))
+    d = max(0, sig - 1 - e)
+    q = 10.0 ** (e - sig + 1)
+    if up:
+        x = math.copysign(math.ceil(abs(x) / q - 1e-9) * q, x)
+    elif e >= sig:                       # 1455 -> 1500: round the integer part as well
+        x = round(x / q) * q
+    return fnum(x, d)
 
 
 def fsci(x, d=1):
@@ -423,10 +463,16 @@ def fpct(frac):
 
 
 def flb(x, err=None):
-    d = 1 if abs(x) >= 10 else 2
+    """log10 Bayes factor to two significant figures at most (decisions item 4): 2037.9 -> 2.0x10^3,
+    27.2 -> 27, 5.97 -> 6.0, 0.54 -> 0.54. The numerical uncertainty is printed only when it reaches
+    half a unit of the last printed digit (it is always in values.json)."""
+    ax = abs(x)
+    if ax >= 100:
+        return "\\ensuremath{" + fsci(x, 1) + "}"
+    d = 0 if ax >= 10 else (1 if ax >= 1 else 2)
     s = fnum(x, d)
-    if err is not None:
-        s += f"\\pm{fnum(err, max(d, dec_for(err, 1)))}"
+    if err is not None and err >= 0.5 * 10.0 ** (-d):
+        s += f"\\pm{fnum(err, d)}"
     return s
 
 
@@ -755,8 +801,8 @@ def build_c1_c2():
     add("AgnOnlyArgmaxCatA", "anc", fnum(rA["argmax_H0"], 1), rA["argmax_H0"], "km/s/Mpc", "H0 at which the AGN-catalog-only log-likelihood (all events, catalog A) is largest; 100 is the top of the scanned range",
         src_grid(A2 / "joint_s100.h5", ["H0_grid", "log_likelihood[:, f=1]"], "argmax"), "C2")
     srcs = {"files": [rel(A2 / f"joint_s{s}.h5") for s in C1_SEEDS], "computation": "per-catalog Savage-Dickey ratios"}
-    add_num("LBfZeroMin", min(lbz), 1, "log10", "smallest per-catalog log10 B (two populations against galaxy hosts only) over the 9 catalogs", srcs, "C2")
-    add_num("LBfZeroMax", max(lbz), 1, "log10", "largest per-catalog log10 B (two populations against galaxy hosts only)", srcs, "C2")
+    add("LBfZeroMin", "anc", flb(min(lbz)), min(lbz), "log10", "smallest per-catalog log10 B (two populations against galaxy hosts only) over the 9 catalogs", srcs, "C2")
+    add("LBfZeroMax", "anc", flb(max(lbz)), max(lbz), "log10", "largest per-catalog log10 B (two populations against galaxy hosts only)", srcs, "C2")
     # combined
     gGc = GridPost(["H0"], [H], Lsum[:, 0], [8], extra={"H0": [IN["H0"]]}, tag="galonly_combined")
     gAc = GridPost(["H0"], [H], Lsum[:, -1], [8], extra={"H0": [IN["H0"]]}, tag="agnonly_combined")
@@ -1054,6 +1100,7 @@ def build_c7_c8():
     sJf = add_post("HDFixfAGN", gJ.summary("f"), "", "f_AGN, host-dependent model with the reference population fixed", srcJ, "C8", IN["f"], parts=True)
     sJG = add_post("HDFixDmuG", gJ.summary("dmuG"), "Msun", "AGN mass-peak offset, host-dependent model with the reference population fixed", srcJ, "C8", IN["dmuG"], parts=True)
     sJC = add_post("HDFixDmuChi", gJ.summary("dmuChi"), "", "AGN spin-mean offset, host-dependent model with the reference population fixed", srcJ, "C8", IN["dmuChi"], parts=True)
+    R2_CACHE["C10J_marg_dmuChi"] = gJ.marg1("dmuChi")
     for a, b, nm in (("H0", "dmuG", "HDFixRhoHzeroDmuG"), ("H0", "f", "HDFixRhoHzerof"), ("f", "dmuG", "HDFixRhofDmuG"), ("f", "dmuChi", "HDFixRhofDmuChi")):
         add_num(nm, gJ.corr(a, b), 2, "", f"correlation of {a} and {b}, host-dependent model with the reference population fixed", srcJ, "C8")
     DIAG["c7_C10J_rejected_cells"] = gJ.n_bad
@@ -1125,7 +1172,12 @@ def build_c7_c8():
         f_flat = float(np.max(np.ptp(Lc, axis=1))) < 1e-8
         DIAG[f"c7_ctrl_{a}_likelihood_independent_of_f"] = f_flat
         if not f_flat:
-            add_post(nm.replace("Hzero", "fBranch"), ctrl[a].summary("f"), "", "fraction of mergers in the offset population, " + cdesc[a], src, "C7", IN["f"])
+            sfb = ctrl[a].summary("f")
+            add_post(nm.replace("Hzero", "fBranch"), sfb, "", "DEPRECATED alias kept for the v1 text, use \\CtrlHeavierFrac (REVIEW C1): fraction of mergers in the offset population, " + cdesc[a], src, "C7", IN["f"])
+            if a == "B5M":
+                add_post("CtrlHeavierFrac", sfb, "", "fraction of mergers in the heavier population (mass peak +5 Msun, spin mean +0.10) of the galaxy-hosts-only control mock, "
+                         "offsets fixed at their inputs; NOT f_AGN: no merger of this mock is hosted by an AGN, the mixture weight is the share of the offset population "
+                         "(input 0.30, drawn independently of the host); print it under its own symbol in Table III (REVIEW C1, decisions item 11)", src, "C7,C1", IN["f"])
     add_num("ShiftCtrlUnmodMinusMod", cs["B5U"]["median"] - cs["B5M"]["median"], 1, "km/s/Mpc",
             "H0 median with the offsets unmodelled minus modelled, galaxy-only control mock (a lower bound: the unmodelled posterior is cut by the top of the range at 100)", srcpair(pC), "C7",)
     add_num("CtrlUnmodHzeroEdge", cs["B5U"]["edge_density_hi"], 4, "", "posterior density at H0 = 100 relative to its peak, galaxy-only control with offsets unmodelled", srcpair(pC), "C7")
@@ -1264,8 +1316,8 @@ def build_c9():
     sJc = add_post("SpinBothDmuChi", gJ.summary("dmuChi"), "", "spin-mean offset at fixed H0 with positions (two catalogs) and spins", src(pJ), "C9", IN["dmuChi"], parts=True)
     sIf = add_post("SpinIntfAGN", gI.summary("f"), "", "f_AGN at fixed H0 from spins alone (one galaxy catalog in both slots: no positional host information)", src(pI), "C9", IN["f"])
     sIc = add_post("SpinIntDmuChi", gI.summary("dmuChi"), "", "spin-mean offset at fixed H0 from spins alone", src(pI), "C9", IN["dmuChi"], parts=True)
-    add_num("SpinfWidthRatio", w90(sJf) / w90(sSf), 3, "", "90% width of f_AGN with the spin offset modelled over without (positions only), fixed H0", {"files": [rel(pJ), rel(pS)]}, "C9")
-    add_num("SpinfWidthRatioSixtyEight", (sJf["ci68"][1] - sJf["ci68"][0]) / (sSf["ci68"][1] - sSf["ci68"][0]), 3, "", "68% width of f_AGN with the spin offset modelled over without, fixed H0", {"files": [rel(pJ), rel(pS)]}, "C9")
+    add_num("SpinfWidthRatio", w90(sJf) / w90(sSf), 2, "", "90% width of f_AGN with the spin offset modelled over without (positions only), fixed H0", {"files": [rel(pJ), rel(pS)]}, "C9")
+    add_num("SpinfWidthRatioSixtyEight", (sJf["ci68"][1] - sJf["ci68"][0]) / (sSf["ci68"][1] - sSf["ci68"][0]), 2, "", "68% width of f_AGN with the spin offset modelled over without, fixed H0", {"files": [rel(pJ), rel(pS)]}, "C9")
     add_num("SpinfWidthChange", 100 * (w90(sJf) / w90(sSf) - 1), 1, "%", "percentage change of the f_AGN 90% width when the spin offset is added, fixed H0", {"files": [rel(pJ), rel(pS)]}, "C9")
     add_num("SpinDmuChiWidthRatio", w90(sIc) / w90(sJc), 1, "", "90% width of the spin-mean offset from spins alone over that with the catalogs, fixed H0", {"files": [rel(pI), rel(pJ)]}, "C9")
     add_num("SpinDmuChiWidthRatioSixtyEight", (sIc["ci68"][1] - sIc["ci68"][0]) / (sJc["ci68"][1] - sJc["ci68"][0]), 1, "", "same with 68% widths", {"files": [rel(pI), rel(pJ)]}, "C9")
@@ -1300,8 +1352,8 @@ def build_c9():
     add_post("SpinHPosfAGN", g9s.summary("f"), "", "f_AGN from positions only, H0 free", src9s, "C9", IN["f"])
     add_post("SpinHBothfAGN", g9j.summary("f"), "", "f_AGN with positions and spins, H0 free", src9j, "C9", IN["f"])
     add_post("SpinHBothDmuChi", g9j.summary("dmuChi"), "", "spin-mean offset with positions and spins, H0 free", src9j, "C9", IN["dmuChi"])
-    add_num("SpinHzeroWidthRatio", w90(s9jH) / w90(s9sH), 3, "", "90% width of H0 with the spin offset modelled over without, both on H0 in [63, 76]", {"files": [rel(p9j), rel(p9s)]}, "C9")
-    add_num("SpinHzeroWidthRatioSixtyEight", (s9jH["ci68"][1] - s9jH["ci68"][0]) / (s9sH["ci68"][1] - s9sH["ci68"][0]), 3, "", "same with 68% widths", {"files": [rel(p9j), rel(p9s)]}, "C9")
+    add_num("SpinHzeroWidthRatio", w90(s9jH) / w90(s9sH), 2, "", "90% width of H0 with the spin offset modelled over without, both on H0 in [63, 76]", {"files": [rel(p9j), rel(p9s)]}, "C9")
+    add_num("SpinHzeroWidthRatioSixtyEight", (s9jH["ci68"][1] - s9jH["ci68"][0]) / (s9sH["ci68"][1] - s9sH["ci68"][0]), 2, "", "same with 68% widths", {"files": [rel(p9j), rel(p9s)]}, "C9")
     DIAG["c9_S9_full_range_H0"] = clean(g9sfull.summary("H0"))
     DIAG["c9_J9_rejected_cells"] = g9j.n_bad
     d0 = g9j.density_at("dmuChi", 0.0)
@@ -1311,6 +1363,1110 @@ def build_c9():
     zj = g9j.log_int()[0] - math.log(0.45)
     zs = g9s.log_int()[0]
     DIAG["c9_A9_J_vs_S_evidence_ratio_log10"] = (zj - zs) / LN10
+
+
+# ============================================================================================= #
+# REVISION 2 (decisions of 17 Nov 2026, items 3, 4, 11): design values, the host normalisation and
+# the rate per host, completeness weighted by the detected mergers, hosts per localization
+# volume, and the Analysis 14 / Analysis 15 summaries (red until those files exist).
+# ============================================================================================= #
+A14R = AN / "analysis_14_monte_carlo_accuracy" / "results"
+A15R = AN / "analysis_15_host_normalisation" / "results"
+A14_SUMMARY = A14R / "mc_accuracy_summary.json"     # written by scripts/aggregate_mc_accuracy.py at the end of the job
+A15_SUMMARY = A15R / "normalisation_summary.json"   # written by scripts/aggregate_normalisation.py at the end of the job
+A15_COMMON = AN / "analysis_15_host_normalisation" / "scripts" / "a15_common.py"
+FITDIR = AN / "selection_redo" / "scripts" / "selection_fits_truez"
+C_KMS = 299792.458
+OM0 = float(jload(META100)["stages"]["events"]["cosmology"]["Om0"])
+ZMAX_GRID = 5.0     # end of darksirens' internal redshift grid in every stored run (LIKELIHOOD_MATH sec. 0)
+ZMAX_PROD = float(re.search(r"^ZMAX_R = ([0-9.]+)", A15_COMMON.read_text(), flags=re.M).group(1))   # 1.10
+RUNGS_ALL = [("complete", "Complete", None)] + RUNGS
+KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/placeholder_results.json)
+
+- `\\<Key><Quantity>`: realization A, median and 90% equal-tailed interval. `\\<Key><Quantity>Comb`: the combination over
+  realizations (log-likelihoods summed, parameters shared). `\\<Key><Quantity>CL`: two-sided credible level (percent) at which
+  the input lies in the combination. Pieces `Med`, `Lo`, `Hi`, `Wid` (full 90% width) after the quantity or after `Comb`.
+  `UL`: 90% upper limit (90th percentile), for `CtrlZerofAGN` and the number densities; `PriorUL`: the limit the priors
+  allow once the rate per host is measured (prior-induced density), beside `UL`, realization A, number densities inferred.
+- Keys: `KnownBoth`, `KnownGal`, `KnownAGN`, `KnownNone`, `AGNhosted`, `Galhosted`, `CtrlZero`, `CtrlTenth`,
+  `Flux<limit>`, `Free<limit>` (limit `TwentyOne` ... `Eighteen`), `SingleBoth`, `SingleNone`, `HDSingle`, `HDHost`, `HDNone`,
+  `ObsSingle`, `ObsHost`, `ObsNone`; each key's events, analysis and catalogs are in the meaning column below and in
+  PAPER_SKELETON Sec. 6. Quantities: `Hzero`, `fAGN`, `MuG`, `SigmaG`, `MuChi`, `SigmaChi`, `DmuG`, `DmuChi`, `LognGal`,
+  `LognAGN`, `RateRatio`, `LB`.
+- `LB` (log10 Bayes factor) references: `KnownBothLB`, `CtrlZeroLB`, `CtrlTenthLB` against galaxy hosts only (f_AGN = 0,
+  Savage-Dickey, f_AGN prior [0, 1]); `HDHostLB`, `ObsHostLB` (= `\\HDLB`, `\\ObsLB`) against the single-population
+  analysis of the same events with the priors of Table I. `...LBComb`: the same for the combination.
+- Further: `\\HDBiasHzero`, `\\ObsBiasHzero` (median of `<pre>SingleHzeroComb` minus the input); `\\WidthRatioAGNGal`;
+  `\\MassScaleShareKnown`, `\\MassScaleShareSingle` (H0 width, no catalog over both catalogs, realization A);
+  `\\CorrHzeroMuGNone`, `\\CorrHzeroMuGBoth`.
+- Colour: red (`\\ph`) while a placeholder; the source of each value (exploratory with its file, or invented) is in
+  placeholders.txt. When values/production_map.json maps a key to an existing production summary, its macros print black.
+- Inputs used for the credible levels: H0 67.74, f_AGN 0.30 (0 and 0.10 for the two control sets), mass peak 35 and width
+  5 Msun, spin mean 0 and width 0.10, offsets +5 Msun and +0.10, log10 n = -3 and -5, rate-per-host ratio `\\MockRateRatio`.
+  The single-population analysis of host-dependent events has no single input for its population parameters (no `CL`).
+"""
+R2_DEFINITIONS = """## Definitions of the revision-2 macros (17 Nov 2026)
+
+- **Rate per host, `RateRatio*`, `NormRateRatio*`, `MockRateRatio`.** R = r_AGN / r_gal = [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN (Eq. rates; LIKELIHOOD_MATH sec. 8), with Z_k the normaliser of the convention the analysis used. The f_AGN posterior is transformed, never its summary: for complete catalogs (log10 n_k = -24, Analyses 2 and 8-13) Z_k = N_k, so the quantiles of R are those of f_AGN times N_gal/N_AGN (combined posterior of the 9 catalogs: geometric mean of their 9 count ratios, which differ by 0.26%); for the flux-limited grids (Analyses 3, 4) R depends on H0 through Z_k, and its CDF is summed over the H0 nodes of the refined (H0, f) posterior; for the free-density chains (Analysis 5) R is computed per sample with that sample's H0, n_gal, n_AGN; for Analysis 15 from each scan's own Z_k per H0 row. Input: `MockRateRatio` = [0.30/0.70] N_gal/N_AGN of the reference catalogs.
+- **Normaliser, `NormF<class><config>[Prod]`.** Z_k(H0) = N_k + n_k 4 pi int_0^zmax [1 - C_k(z)] dV_c/(dz dOmega) dz; N_k = the cataloged count of the survey file (sum of ngals), C_k the Schechter selection completeness the run pinned (h-scaled), n_k the input density, H0 = 67.74; F_k = N_k/Z_k is the cataloged share of the normalisation volume. No suffix: zmax = 5 (every stored run). `Prod`: zmax = 1.10 (production convention, decisions item 3). `Complete`: the nominal-limit representation of complete catalogs used by Analysis 3 (m_lim 24 GAL, 25 AGN); `NormFComplete`: Analyses 0-2 and 8-13, where Z_k = N_k.
+- **Eq. (8), `SlopefAGNPred*`.** d f_AGN / d log10 n_AGN = ln10 (1 - F_AGN) f (1 - f). `SlopefAGNIdentity*`, `NormDelta*Pred`: the exact identity applied to the stored factor-1 grid of Analysis 3 (cubic spline of ln L in f per H0 row, logit f' = logit f + ln[F_AGN(x; H0)/F_AGN(1; H0)]), summaries of the mapped grid, least-squares slope of the medians against log10 x at the seven factors of Analysis 4.
+- **Redshift to which a flux limit is complete, `MockzComplete*`.** The redshift at which the limit reaches the faint end of the luminosity function (L = x_cut L*): DM(z; H0 = 100) = m_lim - M*_hat - Delta M_faint, from the selection fit; C(z) = 1 below it. The galaxy fit is printed (the AGN fit agrees to 0.002; the lowest true redshift of an AGN removed by the limit agrees to 0.0012, audit G2).
+- **Completeness weighted by the detected mergers, `MockEventComp*`.** Percentage of the 1000 detected mergers of the reference catalog whose host object is in the flux-limited catalog of its class (host apparent magnitude below the limit; audit G3 checks membership in the catalog files). The selection model averaged over the true event redshifts is in values.json (agrees to 0.5%). `MockEventFracComplete*`: percentage of those mergers with true redshift below `MockzComplete*`. The volume-weighted numbers inside the horizon are `MockComp*`.
+- **Hosts per 90% localization volume, `Pure<class>HostsPerVol*`.** For each detected merger: a sky disc around the mean direction of its posterior samples whose radius holds sqrt(0.9) = 94.87% of the samples, times the redshift interval (distance samples converted at H0 = 67.74) holding the central 94.87%; sky and distance errors are independent in the mock, so the region holds 90% of the posterior. Count of cataloged objects (catalog position and z_obs) of the complete catalog inside it; median over the 1000 events of the reference catalog (galaxy catalog on the galaxy-hosted set, AGN catalog on the AGN-hosted set; the crossed counts are the `...Events` macros). Mean, percentiles and the density-only expectation n V in values.json.
+- **Prior-induced densities, `FreeLogn*InducedUpper*`, `FreeLognAGNPeakOverInduced`.** 2e6 draws from the priors of the free-density runs, weighted by the stored Analysis-3 likelihood at the input densities mapped through the identity (what the mergers say through the normalisers alone); the free-density posterior adds the information of events that lie where a catalog is incomplete. `FreeLogn*Upper*`: 90th percentile of the posterior samples.
+- **Analysis 14, `MC<set><quantity><Ns>`.** set: `Mixed` (events.h5, seed 100, (H0, f_AGN)) or `AGN` (all-AGN-hosted set, seed 103, H0 at f_AGN = 1); Ns: `TwoK`, `EightK`, `ThirtyTwoK` posterior samples per event. `N`: redraws; `HzeroSd`, `fSd`: sd (ddof 1) of the posterior median over redraws; `...SdRel`: that sd over the mean 68% half-width; `...Med`: mean median; `LnLVar`: variance of the ln L estimator at the reference cell (posterior-sample term plus N^2/N_eff), mean over redraws; `SecPerCall`: median seconds per likelihood call; `Inj...`: the same over injection sets at 8000 samples. `MCShiftMedian(AGN)` and `MCWidthChange(AGN)`: sd of the medians over the 90% half-width and sd of the 90% widths over their mean, at 2000 samples, in percent (larger of H0 and f_AGN for the mixed set). Red until results/mc_accuracy_summary.json exists.
+- **Analysis 15, `Norm<Hzero|f|RateRatio><scan>`, `NormDelta<f|Hzero>Two<config>[Pred]`, `SlopefAGNDepthNorm[Pred]`.** Medians and 90% intervals as the aggregation computed them (trapezoid on the scanned cells); containment levels from the scan files; Delta = median at twice the input AGN density minus at the input; Pred = the identity's prediction from the aggregation. Red until results/normalisation_summary.json exists. `NormDelta*Two<limit>Five`: the same response normalised to z = 5, from Analyses 3 and 4 (teal now).
+- **Rounding.** Medians with intervals: PDG rule on the smaller error. log10 B: at most two significant figures.
+"""
+R2_SRC_NORM = ("Z_k(H0) = N_k + n_k 4 pi int_0^zmax [1 - C_k(z)] dV_c/(dz dOmega) dz (LIKELIHOOD_MATH sec. 4); N_k = sum of ngals of the survey "
+               "file the run read; C_k the Schechter selection completeness of the fit file the run pinned (h-scaled, independent of H0); "
+               "flat LCDM, Om0 from META; trapezoid on 40001 log-spaced nodes; F_k = N_k / Z_k")
+
+
+# ---------------------------------------------------------------- cosmology, completeness, Z_k
+_COS: dict = {}
+
+
+def _cos100():
+    """z, comoving distance [Mpc] and E(z) at H0 = 100 on a fine table to z = 6."""
+    if "t" not in _COS:
+        from scipy.integrate import cumulative_trapezoid
+        z = np.expm1(np.linspace(0.0, math.log1p(6.0), 120001))
+        E = np.sqrt(OM0 * (1 + z) ** 3 + 1 - OM0)
+        _COS["t"] = (z, C_KMS / 100.0 * cumulative_trapezoid(1.0 / E, z, initial=0.0), E)
+    return _COS["t"]
+
+
+def chi_mpc(z, H0):
+    zt, chi, _ = _cos100()
+    return np.interp(z, zt, chi) * 100.0 / H0
+
+
+def dvdz_sr(z, H0):
+    """Comoving volume per unit redshift and steradian [Mpc^3]."""
+    E = np.sqrt(OM0 * (1 + np.asarray(z)) ** 3 + 1 - OM0)
+    return chi_mpc(z, H0) ** 2 * (C_KMS / H0) / E
+
+
+def z_of_dl(dl, H0):
+    zt, chi, _ = _cos100()
+    return np.interp(dl, (1 + zt) * chi * 100.0 / H0, zt)
+
+
+def _upper_gamma(s, x):
+    from scipy.special import gamma, gammaincc
+    if s > 0:
+        return gamma(s) * gammaincc(s, x)
+    return (gamma(s + 1.0) * gammaincc(s + 1.0, x) - x ** s * np.exp(-x)) / s
+
+
+def load_fit(path):
+    s = jload(path)["strata"][0]
+    assert s["family"] == "schechter", path
+    return {k: float(s[k]) for k in ("m_lim", "Mstar_hat", "alpha", "M_faint_offset")} | {"file": rel(path)}
+
+
+def c_sel(z, fit):
+    """Selection completeness C(z) of a Schechter fit, as darksirens c_mode=selection evaluates it."""
+    z = np.atleast_1d(np.asarray(z, float))
+    dl = (1 + z) * chi_mpc(z, 100.0)
+    with np.errstate(divide="ignore", over="ignore", invalid="ignore"):
+        dm = 5 * np.log10(dl) + 25.0
+        xl = 10.0 ** (-0.4 * (fit["m_lim"] - dm - fit["Mstar_hat"]))
+        xf = 10.0 ** (-0.4 * fit["M_faint_offset"])
+        C = _upper_gamma(fit["alpha"] + 1.0, xl) / _upper_gamma(fit["alpha"] + 1.0, xf)
+    C = np.where(dl > 0, np.nan_to_num(C, nan=1.0, posinf=1.0), 1.0)
+    return np.clip(C, 0.0, 1.0)
+
+
+def z_complete(fit):
+    """Redshift to which the catalog is complete: C = 1 exactly while the limit reaches the faint end of
+    the luminosity function, i.e. until DM(z) = m_lim - M*_hat - Delta M_faint (h-scaled, H0 = 100)."""
+    from scipy.optimize import brentq
+    target = fit["m_lim"] - fit["Mstar_hat"] - fit["M_faint_offset"]
+    return float(brentq(lambda z: 5 * math.log10((1 + z) * float(chi_mpc(z, 100.0))) + 25.0 - target, 1e-5, 5.5, xtol=1e-12))
+
+
+def vmiss100(fit, zmax):
+    """4 pi int_0^zmax (1 - C) dV_c/dz dz at H0 = 100 [Mpc^3]; scales as (100/H0)^3."""
+    z = np.expm1(np.linspace(0.0, math.log1p(zmax), 40001))
+    y = (1.0 - c_sel(z, fit)) * dvdz_sr(z, 100.0)
+    return float(4 * math.pi * np.sum(0.5 * (y[1:] + y[:-1]) * np.diff(z)))
+
+
+def survey_nobs(path):
+    with h5py.File(path, "r") as h:
+        return int(np.sum(h["ngals"][()].astype(np.int64)))
+
+
+_NORM: dict = {}
+
+
+def norm_cfg(seed=100):
+    """Per rung and class: fit, cataloged count N, missing volumes to z = 5 and to the production end, z_complete."""
+    if seed not in _NORM:
+        out = {}
+        for key, word, _ in RUNGS_ALL:
+            rec = {}
+            for cls in ("gal", "agn"):
+                fit = load_fit(FITDIR / f"fit_{cls}_{key}_schechter.json")
+                sp = DATA / f"seed{seed}" / "surveys" / f"survey_{cls}_{key}_ns32.h5"
+                rec[cls] = {"fit": fit, "N": survey_nobs(sp), "survey": rel(sp), "V5": vmiss100(fit, ZMAX_GRID),
+                            "Vp": vmiss100(fit, ZMAX_PROD), "zc": z_complete(fit)}
+            out[key] = rec
+        _NORM[seed] = out
+    return _NORM[seed]
+
+
+def Zk(rec, n0, H0, zmax=ZMAX_GRID):
+    V = rec["V5"] if zmax == ZMAX_GRID else rec["Vp"]
+    return rec["N"] + n0 * V * (100.0 / np.asarray(H0, float)) ** 3
+
+
+def Fk(rec, n0, H0, zmax=ZMAX_GRID):
+    return rec["N"] / Zk(rec, n0, H0, zmax)
+
+
+def logit(f):
+    f = np.asarray(f, float)
+    with np.errstate(divide="ignore"):
+        return np.log(f) - np.log1p(-f)
+
+
+def expit(x):
+    return 1.0 / (1.0 + np.exp(-np.asarray(x, float)))
+
+
+# ---------------------------------------------------------------- the rate per host
+def rate_ratio_constant(s, ratio, x0=None, kind="grid"):
+    """R = [f/(1-f)] Z_gal/Z_AGN with an H0-independent Z ratio: the quantiles of f map one to one."""
+    odds = lambda f: f / (1.0 - f)
+    out = {"median": odds(s["median"]) * ratio, "ci68": [odds(v) * ratio for v in s["ci68"]], "ci90": [odds(v) * ratio for v in s["ci90"]],
+           "z_ratio": ratio}
+    if kind == "grid":
+        x, cdf = s["_cdf"]
+        out["_cdf"] = (odds(np.clip(x, 0, 1 - 1e-15)) * ratio, cdf)
+    else:
+        out["_samples"] = odds(s["_samples"]) * ratio
+    return out
+
+
+def rate_ratio_grid(g, zratio_of_H0):
+    """R = [f/(1-f)] Z_gal(H0)/Z_AGN(H0) on a refined (H0, f) GridPost: at each H0 node R is monotone in f, so
+    P(R <= r) = sum_H0 w(H0) P(f <= f_r(H0) | H0), with the conditional CDF of f by the trapezoid rule on the
+    refined lattice; evaluated on a fine logarithmic R lattice and inverted."""
+    kH, kf = g.idx("H0"), g.idx("f")
+    assert (kH, kf) == (0, 1) and len(g.names) == 2
+    xH, xf = g.fine[kH], g.fine[kf]
+    P = g.P
+    pH = (P @ g.w[kf]) * g.w[kH]
+    pH /= pH.sum()
+    cdf_f = np.concatenate([np.zeros((len(xH), 1)), np.cumsum(0.5 * (P[:, 1:] + P[:, :-1]) * np.diff(xf)[None, :], axis=1)], axis=1)
+    cdf_f /= cdf_f[:, -1:]
+    zr = np.asarray(zratio_of_H0(xH), float)
+    fm = (pH[:, None] * cdf_f).sum(0)
+    flo, fhi = float(np.interp(1e-7, fm, xf)), float(np.interp(1 - 1e-7, fm, xf))
+    odds = lambda f: f / (1 - f)
+    Rlo = odds(min(max(flo, 1e-6), 0.5)) * zr.min() / 1.5
+    Rhi = odds(max(min(fhi, 1 - 1e-6), 0.5)) * zr.max() * 1.5
+    r = np.geomspace(Rlo, Rhi, 20001)
+    F = np.zeros_like(r)
+    lr = np.log(r)
+    for i in np.where(pH > 0)[0]:
+        F += pH[i] * np.interp(expit(lr - math.log(zr[i])), xf, cdf_f[i])
+    q = lambda u: float(np.interp(u, F, r))
+    return {"median": q(0.5), "ci68": [q(0.16), q(0.84)], "ci90": [q(0.05), q(0.95)], "_cdf": (r, F),
+            "z_ratio_range_over_H0_nodes": [float(zr.min()), float(zr.max())]}
+
+
+def rate_ratio_samples(Rs):
+    q = np.percentile(Rs, [5, 16, 50, 84, 95])
+    return {"median": float(q[2]), "ci68": [float(q[1]), float(q[3])], "ci90": [float(q[0]), float(q[4])], "_samples": np.asarray(Rs)}
+
+
+RR_MEANING = ("merger rate per AGN relative to the merger rate per galaxy, r_AGN/r_gal = [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN (Eq. rates; LIKELIHOOD_MATH sec. 8), "
+              "the f_AGN posterior transformed with the normalisers Z_k of the convention the analysis used")
+
+
+def add_rr(name, R, what, src, claim, x0):
+    add_post(name, R, "", RR_MEANING + "; " + what, src, claim, x0, kind="grid" if "_cdf" in R else "chain")
+
+
+# ---------------------------------------------------------------- design values (plain)
+def build_design():
+    srcf = lambda p, key: {"file": rel(p), "key": key}
+    # prior ranges, read from the runs that used them
+    with h5py.File(A2 / "joint_s100.h5") as h:
+        Hg, Fg = h["H0_grid"][()], h["f_grid"][()]
+    j5 = jload(A5 / "campaign_m18_dynesty_s100.json")["priors"]
+    box13 = {b[0]: (b[1], b[2]) for b in jload(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json")["box"]}
+    box11 = {b[0]: (b[1], b[2]) for b in jload(A11 / "a11_11D.json")["box"]}
+    with h5py.File(A8 / "arm_J_joint.h5") as h:
+        M8 = h["mu_chi_c2_grid"][()]
+    P = [("PriorHzeroLo", Hg[0], 0, "lower end of the H0 prior, two-parameter and free-density analyses", srcf(A2 / "joint_s100.h5", "H0_grid[0]")),
+         ("PriorHzeroHi", Hg[-1], 0, "upper end of the H0 prior, two-parameter and free-density analyses", srcf(A2 / "joint_s100.h5", "H0_grid[-1]")),
+         ("PriorfLo", Fg[0], 0, "lower end of the f_AGN prior", srcf(A2 / "joint_s100.h5", "f_grid[0]")),
+         ("PriorfHi", Fg[-1], 0, "upper end of the f_AGN prior", srcf(A2 / "joint_s100.h5", "f_grid[-1]")),
+         ("PriorHDHzeroLo", box13["H0"][0], 0, "lower end of the H0 prior of the exploratory host-dependent models (production: PriorHzeroLo)", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box H0")),
+         ("PriorHDHzeroHi", box13["H0"][1], 0, "upper end of the H0 prior of the exploratory host-dependent models", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box H0")),
+         ("PriorLognGalLo", j5["log10n0"][0], 0, "lower end of the log10 n_gal prior [Mpc^-3]", srcf(A5 / "campaign_m18_dynesty_s100.json", "priors.log10n0")),
+         ("PriorLognGalHi", j5["log10n0"][1], 0, "upper end of the log10 n_gal prior", srcf(A5 / "campaign_m18_dynesty_s100.json", "priors.log10n0")),
+         ("PriorLognAGNLo", j5["log10n0_c2"][0], 0, "lower end of the log10 n_AGN prior", srcf(A5 / "campaign_m18_dynesty_s100.json", "priors.log10n0_c2")),
+         ("PriorLognAGNHi", j5["log10n0_c2"][1], 0, "upper end of the log10 n_AGN prior", srcf(A5 / "campaign_m18_dynesty_s100.json", "priors.log10n0_c2")),
+         ("PriorMuGLo", box13["mu_G"][0], 0, "lower end of the reference mass-peak location prior [Msun]", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box mu_G")),
+         ("PriorMuGHi", box13["mu_G"][1], 0, "upper end of the reference mass-peak location prior [Msun]", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box mu_G")),
+         ("PriorDmuGLo", box13["dmu_G"][0], 0, "lower end of the mass-peak offset prior [Msun]", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box dmu_G")),
+         ("PriorDmuGHi", box13["dmu_G"][1], 0, "upper end of the mass-peak offset prior [Msun]", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box dmu_G")),
+         ("PriorSigmaGLo", box13["sigma_G"][0], 0, "lower end of the mass-peak width prior [Msun]", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box sigma_G")),
+         ("PriorSigmaGHi", box13["sigma_G"][1], 0, "upper end of the mass-peak width prior [Msun]", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box sigma_G")),
+         ("PriorMuChiLo", box13["mu_chi"][0], 1, "lower end of the reference spin-mean prior", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box mu_chi")),
+         ("PriorMuChiHi", box13["mu_chi"][1], 1, "upper end of the reference spin-mean prior", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box mu_chi")),
+         ("PriorDmuChiLo", box13["dmu_chi"][0], 2, "lower end of the spin-mean offset prior (all host-dependent models)", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box dmu_chi")),
+         ("PriorDmuChiHi", box13["dmu_chi"][1], 2, "upper end of the spin-mean offset prior, eight-parameter model", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box dmu_chi")),
+         ("PriorDmuChiHiSix", box11["dmu_chi"][1], 2, "upper end of the spin-mean offset prior, six-parameter model and the grid evidences of LBOffsetsVsCommon; also the common prior range of Fig. 5(b)", srcf(A11 / "a11_11D.json", "box dmu_chi")),
+         ("PriorSigmaChiLo", box13["sigma_chi"][0], 2, "lower end of the spin-width prior", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box sigma_chi")),
+         ("PriorSigmaChiHi", box13["sigma_chi"][1], 0, "upper end of the spin-width prior", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box sigma_chi")),
+         ("PriorSpinDmuChiLo", M8[0], 1, "lower end of the spin-mean offset prior in the spin-offset mock (Analyses 8, 9)", srcf(A8 / "arm_J_joint.h5", "mu_chi_c2_grid[0]")),
+         ("PriorSpinDmuChiHi", M8[-1], 2, "upper end of the spin-mean offset prior in the spin-offset mock", srcf(A8 / "arm_J_joint.h5", "mu_chi_c2_grid[-1]"))]
+    for name, v, d, meaning, src in P:
+        add(name, "plain", fnum(float(v), d), float(v), "", meaning, src, "design,TableI")
+    add("NormZmax", "plain", fnum(ZMAX_GRID, 0), ZMAX_GRID, "", "upper redshift of the host normalisation in every stored run (end of darksirens' internal redshift grid; no driver sets DARKSIRENS_ZMAX)",
+        {"file": "paper_prd/notes/LIKELIHOOD_MATH.md", "key": "sections 0 and 4 (z_max = 5, confirmed numerically in sec. 8.3)", "computation": "code default"}, "design,C4")
+    add("NormZmaxProd", "plain", fnum(ZMAX_PROD, 2), ZMAX_PROD, "", "upper redshift of the host normalisation in the production convention (redshift grid ending just above the reach of the detected injections; decisions item 3, Analysis 15)",
+        {"file": rel(A15_COMMON), "key": "ZMAX_R"}, "design,C4")
+    facs = []
+    for tag in ("a05", "a20"):
+        with h5py.File(A4 / f"joint_m18_{tag}_s100.h5") as h:
+            facs.append(10 ** (float(h.attrs["arg_log10n0_c2"]) + 5.0))
+    add("DensityFactorLo", "plain", fsig(facs[0], 1), facs[0], "", "smallest factor by which the assumed AGN number density is off its input (Analysis 4)", {"file": rel(A4 / "joint_m18_a05_s100.h5"), "key": "attrs arg_log10n0_c2 (+5)"}, "design,C5")
+    add("DensityFactorHi", "plain", fsig(facs[1], 1), facs[1], "", "largest such factor", {"file": rel(A4 / "joint_m18_a20_s100.h5"), "key": "attrs arg_log10n0_c2 (+5)"}, "design,C5")
+    gm = jload(DATA / "seed100" / "catalogs" / "glass_field_meta.json")
+    dx = float(gm["glass_config"]["dx_mpc"])
+    add("MockShellWidth", "plain", fnum(dx, 0), dx, "Mpc", "thickness of the lognormal matter shells", {"file": rel(DATA / "seed100/catalogs/glass_field_meta.json"), "key": "glass_config.dx_mpc"}, "mock")
+    m = jload(META100)
+    det = m["stages"]["events"]["detection"]
+    add("MockRhoRef", "plain", fnum(det["snr_ref_detect"], 2), det["snr_ref_detect"], "", "optimal signal-to-noise ratio of a redshifted chirp mass of MockMcRef at 1 Gpc (detection scale)", {"file": rel(META100), "key": "stages.events.detection.snr_ref_detect"}, "mock,appendixB")
+    readme = (DATA / "README.md").read_text()
+    assert "(Mc_det,obs / 30)^(5/6) * (1000 Mpc / d_obs)" in readme
+    add("MockMcRef", "plain", "30", 30.0, "Msun", "reference redshifted chirp mass of the signal-to-noise scaling", {"file": "data/README.md", "key": "rho_obs = snr_ref * (Mc_det,obs / 30)^(5/6) * (1000 Mpc / d_obs)"}, "mock,appendixB")
+    ve = m["config"]["events"]
+    coeff = ve["v3_measurement_family"]["sky_a_deg"] * det["snr_ref_detect"] / det["snr_ref_sigma_ang"]
+    add("MockSkyCoeff", "plain", fnum(coeff, 1), coeff, "deg", "sky error in degrees times the observed signal-to-noise ratio: sigma_ang = clip(this / rho_obs, lo, hi) (35 deg x 6.278/11.5)",
+        {"file": rel(META100), "keys": ["config.events.v3_measurement_family.sky_a_deg", "stages.events.detection.snr_ref_detect", "snr_ref_sigma_ang"], "computation": "sky_a_deg * snr_ref_detect / snr_ref_sigma_ang"}, "mock,appendixB")
+    clip = ve["v3_measurement_family"]["sky_clip_deg"]
+    add("MockSkyClipLo", "plain", fnum(clip[0], 0), clip[0], "deg", "lower bound of the one-sigma sky error", {"file": rel(META100), "key": "config.events.v3_measurement_family.sky_clip_deg[0]"}, "mock,appendixB")
+    add("MockSkyClipHi", "plain", fnum(clip[1], 0), clip[1], "deg", "upper bound of the one-sigma sky error", {"file": rel(META100), "key": "config.events.v3_measurement_family.sky_clip_deg[1]"}, "mock,appendixB")
+    ij = DATA / "seed100" / "injections" / "injections_targeted_meta.json"
+    jj = jload(ij)
+    add("MockNinjDrawn", "plain", fsci(jj["ndraw"], 1), jj["ndraw"], "signals", "simulated signals drawn for the reference catalog", {"file": rel(ij), "key": "ndraw"}, "mock,appendixA")
+    add("MockNinjFound", "plain", fsci(jj["n_detected"], 1), jj["n_detected"], "signals", "detected simulated signals of the reference catalog (2,205,380)", {"file": rel(ij), "key": "n_detected"}, "mock,appendixA")
+    v3 = m["stages"]["validation"]["checks"]["V3_pe_calibration"]["sigma_lndL_realised_median"]
+    add("MockSigLnDL", "plain", fnum(100 * v3, 0), v3, "%", "median fractional (ln) luminosity-distance uncertainty of the detected events, reference catalog, in percent",
+        {"file": rel(META100), "key": "stages.validation.checks.V3_pe_calibration.sigma_lndL_realised_median"}, "mock")
+    with h5py.File(A0 / "h0_pureagn_targeted_s100.h5") as h:
+        floor = float(h["guard/legacy_floor_5N"][()][0])
+    nev = jload(META100)["stages"]["events"]["n_events"]
+    add("NeffFactor", "plain", fnum(floor / nev, 0), floor / nev, "", "required effective number of detected simulated signals per event (N_eff > this times N)",
+        {"file": rel(A0 / "h0_pureagn_targeted_s100.h5"), "key": "guard/legacy_floor_5N / n_events"}, "appendixA")
+    j13 = jload(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json")
+    add("VarCapEight", "plain", fnum(j13["max_likelihood_variance"], 0), j13["max_likelihood_variance"], "", "largest admitted variance of ln L in the eight-parameter run",
+        {"file": rel(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json"), "key": "max_likelihood_variance"}, "appendixA")
+    with h5py.File(A10 / "c10_mech.h5") as h:
+        pG, pC = float(h.attrs["pin_dmu_G"]), float(h.attrs["pin_dmu_chi"])
+    add("PinDmuG", "plain", fnum(pG, 1), pG, "Msun", "mass-peak offset held fixed in the pinned-offset arms (equal to the input)", {"file": rel(A10 / "c10_mech.h5"), "key": "attrs pin_dmu_G"}, "C8")
+    add("PinDmuChi", "anc", fnum(pC, 3), pC, "", "spin-mean offset held fixed in the pinned-offset arms: the fixed-H0 maximum of the same data, not a design choice (REVIEW C8)", {"file": rel(A10 / "c10_mech.h5"), "key": "attrs pin_dmu_chi"}, "C8")
+
+
+# ---------------------------------------------------------------- normalisation: F_k per configuration
+def build_normalisation():
+    NC = norm_cfg(100)
+    H = IN["H0"]
+    ng, na = 10 ** IN["lognGal"], 10 ** IN["lognAGN"]
+    src = lambda key, zmax: {"files": [NC[key]["gal"]["survey"], NC[key]["agn"]["survey"], NC[key]["gal"]["fit"]["file"], NC[key]["agn"]["fit"]["file"]],
+                             "computation": R2_SRC_NORM + f"; z_max = {zmax:g}, H0 = {H}, n_k at the inputs"}
+    table = {}
+    fmax = 0.0
+    for key, word, mlim in RUNGS_ALL:
+        rg, ra = NC[key]["gal"], NC[key]["agn"]
+        lim = "complete catalogs represented by a nominal magnitude limit (24 GAL, 25 AGN; Analysis 3)" if key == "complete" else f"m < {mlim}"
+        for zmax, suf, conv in ((ZMAX_GRID, "", "normalised to z = 5 (stored runs)"), (ZMAX_PROD, "Prod", f"normalised to z = {ZMAX_PROD:g} (production convention)")):
+            FG, FA = float(Fk(rg, ng, H, zmax)), float(Fk(ra, na, H, zmax))
+            table[f"{key}{suf}"] = {"F_gal": FG, "F_AGN": FA, "Z_gal": float(Zk(rg, ng, H, zmax)), "Z_AGN": float(Zk(ra, na, H, zmax)), "N_gal": rg["N"], "N_AGN": ra["N"]}
+            for cls, F in (("Gal", FG), ("AGN", FA)):
+                r = "1" if F >= 1 - 1e-12 else fsig(F, 2)
+                add(f"NormF{cls}{word}{suf}", "plain", r, F, "", f"cataloged share F = N/Z of the {'galaxy' if cls == 'Gal' else 'AGN'} class, {lim}, {conv}, input densities, H0 = {H}",
+                    src(key, zmax), "C4,item11", extra={"Z": table[f"{key}{suf}"][f"Z_{'gal' if cls == 'Gal' else 'AGN'}"], "N": (rg if cls == "Gal" else ra)["N"]})
+            if key != "complete" and zmax == ZMAX_GRID:
+                fmax = max(fmax, FA)
+    add("NormFAGNMax", "plain", fsig(fmax, 2, up=True), fmax, "", "upper bound (rounded up) of the cataloged AGN share F_AGN over the four flux limits, normalised to z = 5, input densities",
+        {"computation": "max over m<21..m<18 of NormFAGN<limit>"}, "C4")
+    add("NormFComplete", "plain", "1", 1.0, "", "cataloged share F_k of both classes in the complete-catalog analyses (Analyses 0-2, 8-13: log10 n_k = -24, so Z_k = N_k to 1e-12)",
+        {"file": "paper_prd/notes/LIKELIHOOD_MATH.md", "key": "sec. 2 (missing term <= 2e-12 hosts)", "computation": "Z_k = N_k"}, "C1,item11")
+    DIAG["r2_normalisation_table_H0_67.74"] = table
+    # Eq. (8) at each limit: d f / d log10 n_AGN = ln10 (1 - F_AGN) f (1 - f)
+    for key, word, mlim in RUNGS:
+        fmed = [r for r in REG if r["name"] == f"Fluxf{word}"][0]["value"]["median"]
+        for suf, fref, why in (("", fmed, "at the median of the factor-1 posterior (Fluxf<limit>)"), ("Prod", IN["f"], "at the input f_AGN = 0.30 (no production run yet)")):
+            FA = table[f"{key}{suf}"]["F_AGN"]
+            s = LN10 * (1 - FA) * fref * (1 - fref)
+            add(f"SlopefAGNPred{word}{suf}", "anc" if suf == "" else "plain", fnum(s, 2), s, "per dex",
+                f"Eq. (8) prediction of d f_AGN / d log10 n_AGN at m < {mlim}, ln10 (1 - F_AGN) f (1 - f) {why}, {'normalised to z = 5' if suf == '' else f'normalised to z = {ZMAX_PROD:g}'}",
+                {"computation": "ln(10) * (1 - NormFAGN) * f * (1 - f)", "files": [rel(A3 / f'joint_{key}_s100.h5')]}, "C5,item3")
+
+
+# ---------------------------------------------------------------- the identity applied to the stored grids
+def _filled(L, rej):
+    from scipy import ndimage
+    bad = ~np.isfinite(L)
+    if rej is not None:
+        bad |= np.asarray(rej, bool)
+    if not bad.any():
+        return L.copy()
+    ind = ndimage.distance_transform_edt(bad, return_distances=False, return_indices=True)
+    return L[tuple(ind)]
+
+
+def identity_map(H, F, L, rej, dlogit):
+    """ln L_x(H0_i, f) = ln L_1(H0_i, f'), logit f' = logit f + dlogit[i] (cubic spline of ln L_1 in f per H0 row)."""
+    Lf = _filled(L, rej)
+    out = np.empty_like(Lf)
+    lf = logit(F)
+    for i in range(len(H)):
+        sp = CubicSpline(F, Lf[i])
+        with np.errstate(invalid="ignore"):
+            fp = expit(lf + dlogit[i])
+        fp = np.where(F <= 0, 0.0, np.where(F >= 1, 1.0, fp))
+        out[i] = sp(fp)
+    return out
+
+
+IDENT: dict = {}
+
+
+def build_identity():
+    """Analysis 4 predicted from the factor-1 grid of Analysis 3 by the normalisation map alone (the identity
+    of LIKELIHOOD_MATH sec. 8.3 check 4, moved here): for an assumed AGN density x times its input,
+    logit f' = logit f + ln[F_AGN(x; H0) / F_AGN(1; H0)] row by row in H0."""
+    NC = norm_cfg(100)
+    facs = [0.5, 0.7, 0.9, 1.0, 1.1, 1.3, 2.0]
+    na = 10 ** IN["lognAGN"]
+    for key, word, mlim in RUNGS:
+        p = A3 / f"joint_{key}_s100.h5"
+        H, F, L, rej = load_hf(p)
+        with h5py.File(p) as h:
+            pin = json.loads(h.attrs["selection_theta_pinned_at"])
+        ra = NC[key]["agn"]
+        assert abs(pin["Mstar_hat_c2"] - ra["fit"]["Mstar_hat"]) < 1e-9 and abs(pin["alpha_c2"] - ra["fit"]["alpha"]) < 1e-9
+        med = {"f": {}, "H0": {}}
+        for x in facs:
+            if x == 1.0:
+                g = hf_post(p, f"a3_{key}")
+            else:
+                d = np.log(Fk(ra, x * na, H) / Fk(ra, na, H))
+                g = GridPost(["H0", "f"], [H, F], identity_map(H, F, L, rej, d), [4, 8], extra={"H0": [IN["H0"]], "f": [IN["f"]]}, tag=f"identity_{key}_x{x}")
+            med["f"][str(x)] = g.summary("f")["median"]
+            med["H0"][str(x)] = g.summary("H0")["median"]
+        xs = np.log10(facs)
+        sf = np.polyfit(xs, [med["f"][str(x)] for x in facs], 1)[0]
+        sH = np.polyfit(xs, [med["H0"][str(x)] for x in facs], 1)[0]
+        IDENT[key] = {"medians": med, "slope_f": sf, "slope_H0": sH}
+        meas = [r for r in REG if r["name"] == f"SlopefAGN{word}"][0]
+        src = {"files": [rel(p)], "computation": "identity map of the factor-1 Analysis-3 grid to the seven Analysis-4 factors (cubic spline in f per H0 row, Z_AGN(x; H0) "
+                                                 "closed form), spline-refined summaries, least-squares slope of the medians against log10 x (as SlopefAGN<limit>)"}
+        add(f"SlopefAGNIdentity{word}", "anc", fnum(sf, 2), sf, "per dex", f"d f_AGN / d log10 n_AGN at m < {mlim} predicted by Eq. (identity) from the posterior at the input density "
+            f"(normaliser part only; the measured slope is SlopefAGN{word} = {meas['value']:.3f})", src, "C5,item3",
+            extra={"predicted_medians": med, "slope_H0_predicted": sH, "measured_minus_predicted": meas["value"] - sf})
+        # factor two, measured and predicted, normalised to z = 5
+        dm = meas["extra"]["direct_f_change_factor2_vs_1"]
+        dp = med["f"]["2.0"] - med["f"]["1.0"]
+        add(f"NormDeltafTwo{word}Five", "anc", fnum(dm, 3), dm, "", f"change of the f_AGN median when the assumed AGN density is doubled, m < {mlim}, hosts normalised to z = 5 (Analysis 4 against Analysis 3, measured)",
+            {"files": [rel(p), rel(A4 / f'joint_{key}_a20_s100.h5')], "computation": "difference of spline-refined medians"}, "C5,item3")
+        add(f"NormDeltafTwo{word}FivePred", "anc", fnum(dp, 3), dp, "", f"the same change predicted by the identity from the factor-1 posterior, m < {mlim}, normalised to z = 5", src, "C5,item3")
+        dHm = meas["extra"]["direct_H0_change_factor2_vs_1"]
+        dHp = med["H0"]["2.0"] - med["H0"]["1.0"]
+        add(f"NormDeltaHzeroTwo{word}Five", "anc", fnum(dHm, 2), dHm, "km/s/Mpc", f"change of the H0 median when the assumed AGN density is doubled, m < {mlim}, normalised to z = 5 (measured)",
+            {"files": [rel(p), rel(A4 / f'joint_{key}_a20_s100.h5')], "computation": "difference of spline-refined medians"}, "C5,item3")
+        add(f"NormDeltaHzeroTwo{word}FivePred", "anc", fnum(dHp, 2), dHp, "km/s/Mpc", f"the same predicted by the identity (normaliser part), m < {mlim}", src, "C5,item3")
+
+
+# ---------------------------------------------------------------- rate per host for every analysis with f_AGN
+def survey_counts(seed, rung="complete"):
+    return {cls: survey_nobs(DATA / f"seed{seed}" / "surveys" / f"survey_{cls}_{rung}_ns32.h5") for cls in ("gal", "agn")}
+
+
+def build_rate_ratio():
+    NC = norm_cfg(100)
+    c100 = survey_counts(100)
+    ratio100 = c100["gal"] / c100["agn"]
+    Rin = IN["f"] / (1 - IN["f"]) * ratio100
+    add("MockRateRatio", "plain", fnum(Rin, 1), Rin, "", "input merger rate per AGN relative to that per galaxy: [0.30/0.70] N_gal/N_AGN of the reference catalog pair (the mock draws 30% of the hosts "
+        "from the AGN and 70% from the galaxies, each class uniformly per object); with the input densities instead of the counts, 42.86",
+        {"files": [rel(DATA / 'seed100/surveys/survey_gal_complete_ns32.h5'), rel(DATA / 'seed100/surveys/survey_agn_complete_ns32.h5')], "computation": "odds(planted f_AGN) * sum(ngals) ratio"},
+        "item11", extra={"N_gal": c100["gal"], "N_AGN": c100["agn"]})
+    # ---- complete catalogs, Z_k = N_k (Analysis 2)
+    rat = {s: survey_counts(s) for s in C1_SEEDS}
+    lr = np.array([math.log(rat[s]["gal"] / rat[s]["agn"]) for s in C1_SEEDS])
+    srcC = lambda files: {"files": files, "computation": "R quantiles = odds(f quantiles) * N_gal/N_AGN (Z_k = N_k exactly: log10 n0 = -24); N_k = sum(ngals) of the run's complete survey files"}
+    Ls = []
+    for s in C1_SEEDS:
+        H, F, L, _ = load_hf(A2 / f"joint_s{s}.h5")
+        Ls.append(L)
+    gA = GridPost(["H0", "f"], [H, F], Ls[0], [4, 10], extra={"H0": [IN["H0"]], "f": [IN["f"]]}, tag="joint_s100_rr")
+    gC = GridPost(["H0", "f"], [H, F], np.sum(Ls, axis=0), [4, 10], extra={"H0": [IN["H0"]], "f": [IN["f"]]}, tag="joint_combined_rr")
+    RA = rate_ratio_constant(gA.summary("f"), ratio100)
+    add_rr("RateRatioJointCatA", RA, "complete catalogs, joint (H0, f_AGN), catalog A; Z_k = N_k", srcC([rel(A2 / "joint_s100.h5")]), "C1,item11", Rin)
+    rc = float(np.exp(lr.mean()))
+    RC = rate_ratio_constant(gC.summary("f"), rc)
+    RC["N_ratio_per_catalog"] = {str(s): float(np.exp(x)) for s, x in zip(C1_SEEDS, lr)}
+    add_rr("RateRatioJointComb", RC, "complete catalogs, combined posterior of the 9 catalogs (f_AGN shared); Z_gal/Z_AGN = geometric mean of the 9 count ratios "
+           f"(spread {100 * (lr.max() - lr.min()):.2f}% end to end)", srcC([rel(A2 / f'joint_s{s}.h5') for s in C1_SEEDS]), "C1,item11", Rin)
+    # ---- flux-limited catalogs at the input densities and the complete-catalog representation of Analysis 3 (normalised to z = 5)
+    ng, na = 10 ** IN["lognGal"], 10 ** IN["lognAGN"]
+    for key, word, mlim in RUNGS_ALL:
+        p = A3 / f"joint_{key}_s100.h5"
+        g = hf_post(p, f"a3_{key}_rr")
+        rg, ra = NC[key]["gal"], NC[key]["agn"]
+        R = rate_ratio_grid(g, lambda h, rg=rg, ra=ra: Zk(rg, ng, h) / Zk(ra, na, h))
+        lim = "complete catalogs with the nominal-limit representation" if key == "complete" else f"m < {mlim}"
+        add_rr(f"RateRatio{word if key != 'complete' else 'CompleteDeep'}", R, f"{lim}, number densities at their inputs, hosts normalised to z = 5 (Analysis 3)",
+               {"files": [rel(p)], "computation": "R = odds(f) Z_gal(H0)/Z_AGN(H0) on the spline-refined (H0, f) posterior, CDF of R summed over H0 nodes; " + R2_SRC_NORM}, "C4,item11", Rin)
+        if key == "complete":
+            continue
+        for tag, x, nm in (("a05", 0.5, "Half"), ("a20", 2.0, "Two")):
+            pa = A4 / f"joint_{key}_{tag}_s100.h5"
+            ga = hf_post(pa, f"a4_{key}_{tag}_rr")
+            Rx = rate_ratio_grid(ga, lambda h, rg=rg, ra=ra, x=x: Zk(rg, ng, h) / Zk(ra, x * na, h))
+            add_rr(f"RateRatio{nm}{word}", Rx, f"m < {mlim}, assumed AGN density {x:g} times its input (Analysis 4), the Z_AGN of that assumption",
+                   {"files": [rel(pa)], "computation": "as RateRatio<limit> with n_AGN = x times the input"}, "C5,item11", Rin)
+    # ---- both densities free (Analysis 5 and the seeds-101/102 repeats): R per sample
+    runs = [(key, word, A5 / f"campaign_{key}_dynesty_s100.h5", A5 / f"campaign_{key}_dynesty_s100.json", "", 100) for key, word, _ in RUNGS]
+    runs += [("m18", "Eighteen", SR / "fu_seed101" / "results" / "campaign_m18_dynesty_s101.h5", SR / "fu_seed101" / "results" / "campaign_m18_dynesty_s101.json", "CatB", 101),
+             ("m18", "Eighteen", SR / "fu_seed102" / "results" / "campaign_m18_dynesty_s102.h5", SR / "fu_seed102" / "results" / "campaign_m18_dynesty_s102.json", "CatC", 102)]
+    for key, word, ph5, pj, cat, seed in runs:
+        c, _, _, _ = load_a5(ph5, pj)
+        with h5py.File(ph5) as h:
+            sp = json.loads(h.attrs["arg_survey_path"])
+            fits = str(h.attrs["arg_selection_fit"]).split(",")
+        assert all(f"seed{seed}/surveys/survey_{cls}_{key}_ns32.h5" in s_ for cls, s_ in zip(("gal", "agn"), sp))
+        assert [Path(f).name for f in fits] == [f"fit_gal_{key}_schechter.json", f"fit_agn_{key}_schechter.json"]
+        cnt = survey_counts(seed, key)
+        rg = dict(NC[key]["gal"], N=cnt["gal"])
+        ra = dict(NC[key]["agn"], N=cnt["agn"])
+        Hs = c.col("H0")
+        Rs = c.col("fcat_2") / (1 - c.col("fcat_2")) * Zk(rg, 10 ** c.col("log10n0"), Hs) / Zk(ra, 10 ** c.col("log10n0_c2"), Hs)
+        R = rate_ratio_samples(Rs)
+        add_rr(f"RateRatioFree{word}{cat}", R, f"both number densities free, m < {key[1:]}, {'catalog A' if not cat else 'catalog ' + cat[-1]}: R per posterior sample with Z_k at that sample's H0, n_gal, n_AGN (z = 5)",
+               {"file": rel(ph5), "computation": "R_i = odds(f_i) Z_gal(H0_i, n_gal,i)/Z_AGN(H0_i, n_AGN,i); numpy.percentile; " + R2_SRC_NORM}, "C6,item11", Rin)
+    # ---- host-dependent mock (complete catalogs of seed 100, Z_k = N_k)
+    srcH = lambda f: {"file": rel(f), "computation": "R quantiles = odds(f quantiles) * N_gal/N_AGN of the seed-100 complete surveys (Z_k = N_k)"}
+    with h5py.File(A10 / "c10_arm_S.h5") as h:
+        Hs_, Fs_, Ls_, rj = h["H0_grid"][()], h["f_grid"][()], h["log_likelihood"][()], h["guard/rejected"][()]
+    gS = GridPost(["H0", "f"], [Hs_, Fs_], Ls_, [4, 8], extra={"H0": [IN["H0"], 60.0, 76.0], "f": [IN["f"]]}, rejected=rj, tag="C10-S_rr")
+    add_rr("RateRatioCommon", rate_ratio_constant(gS.summary("f"), ratio100), "host-dependent mock, single population held at the galaxy-class inputs (C10-S)", srcH(A10 / "c10_arm_S.h5"), "C7,item11", Rin)
+    for nm, npz in (("HDFree", A11 / "a11_11D.npz"), ("HDEight", A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.npz")):
+        cp, _ = load_chain_npz(npz, Path(str(npz).replace(".npz", ".json")))
+        add_rr(f"RateRatio{nm}", rate_ratio_constant(cp.summary("f_agn"), ratio100, kind="chain"), f"host-dependent mock, {'six' if nm == 'HDFree' else 'eight'}-parameter host-dependent model", srcH(npz), "C8,item11", Rin)
+
+
+# ---------------------------------------------------------------- completeness weighted by the detected mergers
+def build_event_completeness():
+    NC = norm_cfg(100)
+    pev = DATA / "seed100" / "events" / "events.h5"
+    with h5py.File(pev) as h:
+        zt = h["truth/z"][()]
+        ht = h["truth/host_type"][()]
+        hi = h["truth/host_index"][()]
+    app = np.empty(len(zt))
+    for typ, cls in ((0, "gal"), (1, "agn")):
+        sel = np.where(ht == typ)[0]
+        u, inv = np.unique(hi[sel], return_inverse=True)
+        with h5py.File(DATA / "seed100" / "catalogs" / f"catalog_{cls}_complete.h5") as h:
+            app[sel] = h["app_mag"][u][inv]
+    src_ev = {"files": [rel(pev), rel(DATA / "seed100/catalogs/catalog_gal_complete.h5"), rel(DATA / "seed100/catalogs/catalog_agn_complete.h5")]}
+    rows = {}
+    for key, word, mlim in RUNGS:
+        zg, za = NC[key]["gal"]["zc"], NC[key]["agn"]["zc"]
+        add(f"MockzComplete{word}", "plain", fnum(zg, 2), zg, "", f"redshift to which the m < {mlim} catalog is complete: C(z) = 1 below it (galaxy fit; AGN fit {za:.4f}); the limit reaches the faint end "
+            "(L = x_cut L*) of the luminosity function there", {"files": [NC[key]["gal"]["fit"]["file"], NC[key]["agn"]["fit"]["file"]],
+                                                                    "computation": "solve DM(z; H0 = 100) = m_lim - Mstar_hat - M_faint_offset (h-scaled)"}, "mock,C4,item3", extra={"agn": za})
+        frac = float(np.mean(zt < zg))
+        add(f"MockEventFracComplete{word}", "plain", fnum(100 * frac, 0), frac, "%", f"percentage of the 1000 detected mergers of the reference catalog whose true redshift lies below MockzComplete{word}",
+            dict(src_ev, computation="mean(truth/z < z_complete)"), "mock,C4")
+        kept = app < mlim
+        ce = float(np.mean(kept))
+        cmod = float(np.mean(np.where(ht == 0, c_sel(zt, NC[key]["gal"]["fit"]), c_sel(zt, NC[key]["agn"]["fit"]))))
+        rows[key] = {"z_complete_gal": zg, "z_complete_agn": za, "frac_events_below": frac, "event_weighted_completeness": ce,
+                     "galaxy_hosted": float(np.mean(kept[ht == 0])), "agn_hosted": float(np.mean(kept[ht == 1])), "model_C_at_event_redshifts": cmod}
+        add(f"MockEventComp{word}", "plain", fpct(ce), ce, "%", f"completeness weighted by the detected mergers at m < {mlim}: percentage of the 1000 detected mergers of the reference catalog whose host is in the "
+            f"flux-limited catalog of its class (host apparent magnitude below {mlim}); galaxy-hosted {100 * rows[key]['galaxy_hosted']:.1f}%, AGN-hosted {100 * rows[key]['agn_hosted']:.1f}%; "
+            f"the selection model C(z) of the analysis averaged over the true event redshifts gives {100 * cmod:.1f}%",
+            dict(src_ev, computation="mean over events of [app_mag(host) < m_lim], host row = truth/host_index in the complete catalog of the host's class"), "mock,C4,item3", extra=rows[key])
+    DIAG["r2_event_weighted_completeness"] = rows
+
+
+# ---------------------------------------------------------------- hosts per 90% localization volume
+HOSTVOL_Q = math.sqrt(0.9)   # sky disc and redshift interval each hold sqrt(0.9) of the samples: 90% jointly
+
+
+def event_regions(path, H0):
+    """Per event: centre (unit vector), sky radius [rad] and redshift interval holding HOSTVOL_Q of the posterior samples each."""
+    with h5py.File(path) as h:
+        ra = h["ra"][()].reshape(1000, -1)
+        dec = h["dec"][()].reshape(1000, -1)
+        dl = h["dL"][()].reshape(1000, -1)
+    v = np.stack([np.cos(dec) * np.cos(ra), np.cos(dec) * np.sin(ra), np.sin(dec)], axis=-1)
+    c = v.mean(axis=1)
+    c /= np.linalg.norm(c, axis=1, keepdims=True)
+    ang = np.arccos(np.clip(np.einsum("ijk,ik->ij", v, c), -1, 1))
+    r = np.quantile(ang, HOSTVOL_Q, axis=1)
+    z = z_of_dl(dl, H0)
+    zlo = np.quantile(z, (1 - HOSTVOL_Q) / 2, axis=1)
+    zhi = np.quantile(z, (1 + HOSTVOL_Q) / 2, axis=1)
+    return c, r, zlo, zhi
+
+
+def read_catalog_rows(path, zmax, cols=("ra", "dec", "z_obs")):
+    """Rows with true z < zmax (the catalogs are written shell by shell in true redshift; reading stops at the
+    first block wholly above zmax)."""
+    parts = {c: [] for c in cols}
+    with h5py.File(path) as h:
+        n = h["z"].shape[0]
+        B = h["z"].chunks[0] * 64
+        i = 0
+        while i < n:
+            z = h["z"][i:i + B]
+            if z.min() > zmax:
+                break
+            m = z < zmax
+            if m.any():
+                for c in cols:
+                    parts[c].append(h[c][i:i + B][m])
+            i += B
+    return {c: np.concatenate(v) for c, v in parts.items()}
+
+
+HOSTVOL_NSIDE, HOSTVOL_DZ = 128, 0.0025
+
+
+def count_in_regions(cat, regions):
+    """Number of catalog objects (z_obs) inside each event's sky disc (pixel centres within the radius, HEALPix
+    nside 128) and redshift interval (linear within 0.0025 bins of a cumulative count per pixel)."""
+    import healpy as hp
+    c, r, zlo, zhi = regions
+    zmax = float(zhi.max()) + 0.02
+    pix = hp.ang2pix(HOSTVOL_NSIDE, np.pi / 2 - cat["dec"], cat["ra"])
+    edges = np.arange(0.0, zmax + HOSTVOL_DZ, HOSTVOL_DZ)
+    iz = np.floor(cat["z_obs"] / HOSTVOL_DZ).astype(np.int64)
+    ok = (iz >= 0) & (iz < len(edges) - 1)
+    nb = len(edges) - 1
+    cnt = np.bincount(pix[ok].astype(np.int64) * nb + iz[ok], minlength=hp.nside2npix(HOSTVOL_NSIDE) * nb).reshape(-1, nb)
+    cum = np.concatenate([np.zeros((cnt.shape[0], 1), np.int32), np.cumsum(cnt, axis=1).astype(np.int32)], axis=1)
+    del cnt
+    out = np.empty(len(r))
+    for i in range(len(r)):
+        ip = hp.query_disc(HOSTVOL_NSIDE, c[i], r[i], inclusive=False)
+        sub = cum[ip]
+        # linear interpolation of the cumulative counts in z, vectorised over pixels
+        j0 = min(int(zlo[i] / HOSTVOL_DZ), nb - 1)
+        j1 = min(int(zhi[i] / HOSTVOL_DZ), nb - 1)
+        t0 = (zlo[i] - edges[j0]) / HOSTVOL_DZ
+        t1 = (zhi[i] - edges[j1]) / HOSTVOL_DZ
+        lo = sub[:, j0] + t0 * (sub[:, j0 + 1] - sub[:, j0])
+        hi = sub[:, j1] + t1 * (sub[:, j1 + 1] - sub[:, j1])
+        out[i] = float(np.sum(hi - lo))
+    return out
+
+
+def build_hosts_per_volume():
+    H = IN["H0"]
+    res = {}
+    for sett, ev in (("gal", "events_puregal.h5"), ("agn", "events_pureagn.h5")):
+        res[sett] = event_regions(DATA / "seed100" / "events" / ev, H)
+    zcut = max(float(res[k][3].max()) for k in res) + 0.05
+    counts = {}
+    for cls, n0 in (("gal", 10 ** IN["lognGal"]), ("agn", 10 ** IN["lognAGN"])):
+        cat = read_catalog_rows(DATA / "seed100" / "catalogs" / f"catalog_{cls}_complete.h5", zcut)
+        for sett in ("gal", "agn"):
+            c, r, zlo, zhi = res[sett]
+            N = count_in_regions(cat, res[sett])
+            V = 2 * np.pi * (1 - np.cos(r)) * (chi_mpc(zhi, H) ** 3 - chi_mpc(zlo, H) ** 3) / 3.0
+            counts[(cls, sett)] = {"median": float(np.median(N)), "mean": float(np.mean(N)), "p05_p95": [float(np.percentile(N, 5)), float(np.percentile(N, 95))],
+                                   "expected_n_V_median": float(np.median(n0 * V)), "median_ratio_count_over_nV": float(np.median(N / (n0 * V))),
+                                   "median_volume_Mpc3": float(np.median(V)), "median_sky_radius_deg": float(np.degrees(np.median(r))),
+                                   "median_z_interval": float(np.median(zhi - zlo)), "_per_event": N}
+        del cat
+    DIAG["r2_hosts_per_volume"] = {f"{a}_catalog_on_{b}_hosted_events": {k: v for k, v in d.items() if not k.startswith("_")} for (a, b), d in counts.items()}
+    TABLES["r2_hosts_per_event"] = {f"{a}_catalog_on_{b}_hosted_events": d["_per_event"] for (a, b), d in counts.items()}
+    defin = (f"90% localization region of an event: a sky disc around the mean direction of its posterior samples whose radius holds {100 * HOSTVOL_Q:.2f}% of the samples, times the "
+             f"redshift interval (z of the distance samples at H0 = {H}) holding the central {100 * HOSTVOL_Q:.2f}%; sky and distance errors are independent in the mock, so the region holds 90% "
+             f"of the posterior. Objects counted by their cataloged position and z_obs (HEALPix nside {HOSTVOL_NSIDE} pixel centres, z bins {HOSTVOL_DZ}).")
+    src = lambda ev, cls: {"files": [rel(DATA / "seed100" / "events" / ev), rel(DATA / "seed100" / "catalogs" / f"catalog_{cls}_complete.h5")], "computation": defin}
+    for name, cls, sett, ev in (("PureGalHostsPerVol", "gal", "gal", "events_puregal.h5"), ("PureAGNHostsPerVol", "agn", "agn", "events_pureagn.h5"),
+                                ("PureGalHostsPerVolAGNEvents", "gal", "agn", "events_pureagn.h5"), ("PureAGNHostsPerVolGalEvents", "agn", "gal", "events_puregal.h5")):
+        d = counts[(cls, sett)]
+        add(name, "plain", fsig(d["median"], 2), d["median"], "objects",
+            f"median over the 1000 {'galaxy' if sett == 'gal' else 'AGN'}-hosted mergers of the reference catalog of the number of {'galaxies' if cls == 'gal' else 'AGN'} of the complete catalog inside "
+            f"the 90% localization volume (mean {d['mean']:.0f}; expected from the mean density alone n V, median {d['expected_n_V_median']:.0f})", src(ev, cls), "C3,item11",
+            extra={k: v for k, v in d.items() if not k.startswith("_")})
+
+
+# ---------------------------------------------------------------- smaller requests of MACRO_REQUESTS
+def kde1(x, lo, hi, n=2001, bw=None):
+    """Gaussian kernel density of chain samples on [lo, hi], reflected at both prior edges, normalised on
+    [lo, hi]; bandwidth 0.3 sample standard deviations (shared with make_figures.py)."""
+    x = np.asarray(x, float)
+    h = bw if bw is not None else 0.3 * float(np.std(x))
+    g = np.linspace(lo, hi, n)
+    p = np.zeros(n)
+    for c in np.array_split(x, max(1, len(x) // 400)):
+        for r in (c, 2 * lo - c, 2 * hi - c):
+            p += np.exp(-0.5 * ((g[:, None] - r[None, :]) / h) ** 2).sum(axis=1)
+    p /= np.trapz(p, g)
+    return g, p, h
+
+
+INDUCED: dict = {}
+
+
+def induced_density(key, n=2_000_000, seed=20261117):
+    """Prior-induced posterior of (f, log10 n_gal, log10 n_AGN) at flux limit `key` (catalog A): prior draws from
+    the boxes of the free-density runs, weighted by the stored Analysis-3 likelihood at the input densities mapped
+    through the identity, L(H0, f*) with logit f* = logit f + ln[F_A(n_A)/F_G(n_G)] - ln[F_A,in/F_G,in]. This is
+    what the mergers say through the normalisers alone; the free-density posterior adds the in-data missing hosts."""
+    if key in INDUCED:
+        return INDUCED[key]
+    from scipy.interpolate import RegularGridInterpolator
+    NC = norm_cfg(100)
+    pr = jload(A5 / f"campaign_{key}_dynesty_s100.json")["priors"]
+    rng = np.random.default_rng(seed)
+    H = rng.uniform(*pr["H0"], n)
+    f = rng.uniform(*pr["fcat_2"], n)
+    lg = rng.uniform(*pr["log10n0"], n)
+    la = rng.uniform(*pr["log10n0_c2"], n)
+    rg, ra = NC[key]["gal"], NC[key]["agn"]
+    sh = np.log(Fk(ra, 10 ** la, H) / Fk(rg, 10 ** lg, H)) - np.log(Fk(ra, 10 ** IN["lognAGN"], H) / Fk(rg, 10 ** IN["lognGal"], H))
+    fs = expit(logit(np.clip(f, 1e-12, 1 - 1e-12)) + sh)
+    g = hf_post(A3 / f"joint_{key}_s100.h5", f"a3_{key}_induced")
+    itp = RegularGridInterpolator((g.fine[0], g.fine[1]), g.Lf - g.lmax, bounds_error=False, fill_value=-np.inf)
+    w = np.exp(itp(np.stack([H, fs], axis=1)))
+    w /= w.sum()
+    INDUCED[key] = {"w": w, "H0": H, "f": f, "log10n0": lg, "log10n0_c2": la, "n_eff": float(1 / np.sum(w ** 2)), "priors": pr}
+    return INDUCED[key]
+
+
+def wquant(x, w, q):
+    o = np.argsort(x)
+    c = np.cumsum(w[o])
+    c -= 0.5 * w[o]
+    return np.interp(q, c / c[-1], x[o])
+
+
+def build_misc_requests():
+    v = {r["name"]: r for r in REG}
+    # shift of the combined H0 median, galaxy catalog alone minus both catalogs
+    d = v["GalOnlyHzeroComb"]["value"]["median"] - v["JointHzeroComb"]["value"]["median"]
+    add("ShiftGalOnlyMinusJointComb", "anc", fnum(d, 1), d, "km/s/Mpc", "median of GalOnlyHzeroComb minus median of JointHzeroComb (combined over the 9 complete catalogs)",
+        {"computation": "difference of the two spline-refined combined medians", "files": [rel(A2 / f"joint_s{s}.h5") for s in C1_SEEDS]}, "C2")
+    # variance of ln L at the input H0 over the 93 pure-tracer sets
+    ens = jload(A0 / "h0_pure_tracer_ens93.json")
+    seeds = list(ens["seeds_requested"])
+    for tr, word in (("agn", "AGN"), ("gal", "Gal")):
+        vv, pe = [], []
+        for s in seeds:
+            with h5py.File(A0 / f"h0_pure{tr}_targeted_s{s}.h5") as h:
+                Hg = h["H0_grid"][()]
+                i = int(np.argmin(np.abs(Hg - IN["H0"])))
+                vv.append(float(h["guard/sigma2_total"][()][i]))
+                pe.append(float(h["guard/pe_variance_sum"][()][i]))
+        add(f"LnLVar{word}Hosted", "anc", fnum(float(np.median(vv)), 0), float(np.median(vv)), "",
+            f"Monte Carlo variance of ln L (posterior-sample term plus selection term N^2/N_eff) at H0 = {Hg[i]:.2f}, median over the {len(seeds)} {'AGN' if tr == 'agn' else 'galaxy'}-hosted sets "
+            f"(reference catalog {vv[seeds.index(100)]:.1f}; range {min(vv):.1f} to {max(vv):.1f}; posterior-sample term alone median {np.median(pe):.1f})",
+            {"files": f"{rel(A0)}/h0_pure{tr}_targeted_s<seed>.h5 ({len(seeds)} seeds of h0_pure_tracer_ens93.json)", "keys": ["guard/sigma2_total", "guard/pe_variance_sum"], "computation": "value at the H0 node nearest the input; median over sets"},
+            "appendixA,item4", extra={"reference_catalog": vv[seeds.index(100)], "range": [min(vv), max(vv)], "pe_term_median": float(np.median(pe))})
+    # free densities: peak of the log10 n_AGN density over the flat prior and over the induced density; 90% upper limits
+    for key, word, mlim in RUNGS:
+        c, _, _, j = load_a5(A5 / f"campaign_{key}_dynesty_s100.h5", A5 / f"campaign_{key}_dynesty_s100.json")
+        I = induced_density(key)
+        srcI = {"files": [rel(A5 / f"campaign_{key}_dynesty_s100.h5"), rel(A3 / f"joint_{key}_s100.h5")], "computation": "induced: " + (induced_density.__doc__ or "").split(". This")[0].replace("\n", " ") + "; 2e6 prior draws, fixed seed"}
+        for cn, cls in (("log10n0", "Gal"), ("log10n0_c2", "AGN")):
+            up = float(np.percentile(c.col(cn), 90))
+            ui = float(wquant(I[cn], I["w"], 0.90))
+            add(f"FreeLogn{cls}Upper{word}", "anc", fnum(up, 2), up, "log10 Mpc^-3", f"90% upper limit on log10 n_{cls.lower() if cls == 'Gal' else 'AGN'}, both densities free, m < {mlim}, catalog A (90th percentile of the samples)",
+                {"file": rel(A5 / f'campaign_{key}_dynesty_s100.h5'), "computation": "numpy.percentile 90"}, "C6,item3")
+            add(f"FreeLogn{cls}InducedUpper{word}", "anc", fnum(ui, 2), ui, "log10 Mpc^-3", f"the 90% upper limit the normalisers alone induce (prior seen through the identity and the f-tilde constraint), m < {mlim}, catalog A", srcI, "C6,item3",
+                extra={"n_eff_of_the_weights": I["n_eff"]})
+        if key == "m18":
+            lo, hi = j["priors"]["log10n0_c2"]
+            x, p, bw = kde1(c.col("log10n0_c2"), lo, hi)
+            pk = float(p.max())
+            ip = np.histogram(I["log10n0_c2"], bins=np.linspace(lo, hi, 41), weights=I["w"], density=True)
+            dens_ind = float(np.interp(x[np.argmax(p)], 0.5 * (ip[1][1:] + ip[1][:-1]), ip[0]))
+            add("FreeLognAGNPeakOverPrior", "anc", fnum(pk * (hi - lo), 1), pk * (hi - lo), "", f"largest posterior density of log10 n_AGN over the flat prior density {1 / (hi - lo):.1f} per dex, m < 18, catalog A (reflected Gaussian KDE, bandwidth {bw:.3f} dex, as Fig. 7)",
+                {"file": rel(A5 / "campaign_m18_dynesty_s100.h5"), "computation": "max of kde1 * prior width"}, "C6")
+            add("FreeLognAGNPeakOverInduced", "anc", fnum(pk / dens_ind, 1), pk / dens_ind, "", "the same peak density over the prior-induced density at the same log10 n_AGN (40-bin weighted histogram of the induced draws)",
+                srcI, "C6,item3")
+
+
+def build_spin_and_offsets():
+    """Spins alone measure the product f_AGN x offset (REVIEW B11); the offsets under one prior range (G5)."""
+    p = A8 / "arm_I_intrinsic.h5"
+    with h5py.File(p) as h:
+        F, M, L = h["f_grid"][()], h["mu_chi_c2_grid"][()], h["log_likelihood"][()]
+        rej = h["guard/rejected"][()] if "guard/rejected" in h else None
+    g = GridPost(["f", "dmuChi"], [F, M], L, [8, 6], extra={"f": [IN["f"]], "dmuChi": [0.0, IN["dmuChi"]]}, rejected=rej, tag="A8-I_product")
+    x1, x2, m = g.marg2("f", "dmuChi")
+    W = np.outer(g.w[0], g.w[1]) * m
+    prod = np.multiply.outer(x1, x2).ravel()
+    w = W.ravel() / W.sum()
+    q = [float(wquant(prod, w, u)) for u in (0.05, 0.16, 0.5, 0.84, 0.95)]
+    sm = {"median": q[2], "ci68": [q[1], q[3]], "ci90": [q[0], q[4]]}
+    lo_dmu = g.summary("dmuChi")["ci90"][0]
+    add("SpinIntProduct", "anc", fci(q[2], q[0], q[4])[0], sm, "", "f_AGN times the spin-mean offset from spins alone, fixed H0 (the mean spin of the whole population above the galaxy-class mean); since f_AGN <= 1, "
+        f"the offset cannot lie below this product: the lower edge of SpinIntDmuChi (5% point {lo_dmu:.3f}) is the f_AGN = 1 edge (REVIEW B11) (median and 90% interval)",
+        src_grid(p, ["f_grid", "mu_chi_c2_grid", "log_likelihood"], "weighted quantiles of f * Delta mu_chi on the spline-refined 2-D lattice"), "C9", containment={"input": IN["f"] * IN["dmuChi"],
+        "in68": bool(q[1] <= IN["f"] * IN["dmuChi"] <= q[3]), "in90": bool(q[0] <= IN["f"] * IN["dmuChi"] <= q[4]), "level_two_sided": abs(2 * float(np.sum(w[prod < IN["f"] * IN["dmuChi"]])) - 1),
+        "cdf_at_input": float(np.sum(w[prod < IN["f"] * IN["dmuChi"]]))})
+    # the spin offset of the three host-dependent models under one prior range [-0.05, 0.20] (the six-parameter box)
+    hi = float([r for r in REG if r["name"] == "PriorDmuChiHiSix"][0]["value"])
+    p13 = A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.npz"
+    c13, _ = load_chain_npz(p13, A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json")
+    keep = c13.col("dmu_chi") <= hi
+    cr = ChainPost(c13.s[keep], c13.names, tag="A13<=0.20")
+    add_post("HDEightDmuChiPriorSix", cr.summary("dmu_chi"), "", f"spin-mean offset of the eight-parameter model under the prior [-0.05, {hi:.2f}] of the six-parameter model (the stored samples above {hi:.2f} removed; "
+             f"exact for a flat prior: {100 * (1 - keep.mean()):.1f}% of the samples lie above)", {"file": rel(p13), "computation": f"numpy.percentile of the samples with dmu_chi <= {hi}"}, "C8,G5", IN["dmuChi"], kind="chain")
+    add("HDEightDmuChiMassAboveSix", "anc", fnum(100 * (1 - keep.mean()), 0), float(1 - keep.mean()), "%", f"percentage of the eight-parameter posterior of the spin-mean offset above {hi:.2f} (the end of the six-parameter prior)",
+        {"file": rel(p13), "computation": f"mean(dmu_chi > {hi})"}, "C8,G5")
+    x, pj = R2_CACHE["C10J_marg_dmuChi"]
+    s = trunc_summary(x, pj, hi)
+    add_post("HDFixDmuChiPriorSix", s, "", f"spin-mean offset of the reference-fixed model under the prior upper end {hi:.2f} (marginal truncated and renormalised; lattice starts at {x[0]:.3f})",
+             src_grid(A10 / "c10_arm_J.h5", ["log_likelihood"], f"1-D marginal of the refined 4-D lattice truncated at {hi}"), "C8,G5", IN["dmuChi"])
+
+
+def trunc_summary(x, p, hi):
+    m = x <= hi + 1e-12
+    x, p = x[m], p[m]
+    cdf = np.concatenate([[0.0], np.cumsum(0.5 * (p[1:] + p[:-1]) * np.diff(x))])
+    cdf /= cdf[-1]
+    q = lambda u: float(np.interp(u, cdf, x))
+    return {"median": q(0.5), "ci68": [q(0.16), q(0.84)], "ci90": [q(0.05), q(0.95)], "_cdf": (x, cdf), "_x": x, "_p": p / np.trapz(p, x)}
+
+
+# ---------------------------------------------------------------- Analysis 14 (run R0) and Analysis 15 (normalisation)
+NS_WORD = {2000: "TwoK", 8000: "EightK", 32000: "ThirtyTwoK"}
+A14_RUN = "Analysis 14 (analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json, written by scripts/aggregate_mc_accuracy.py at the end of RITA-GPU jobs 1414628 (mixed set) and 1414642 (all-AGN set); run R0)"
+A15_RUN = "Analysis 15 (analyses/analysis_15_host_normalisation/results/normalisation_summary.json, written by scripts/aggregate_normalisation.py at the end of RITA-GPU job 1414681)"
+
+
+def _a14_cfg(summary, which):
+    if summary is None:
+        return None
+    cf = summary.get("configs", {})
+    if which == "mixed":
+        return cf.get("b")
+    for k in ("a_s103", "a"):
+        if k in cf:
+            return cf[k]
+    return None
+
+
+def build_a14():
+    S = jload(A14_SUMMARY) if A14_SUMMARY.exists() else None
+    srcS = {"file": rel(A14_SUMMARY), "computation": "read from the Analysis-14 summary (aggregate_mc_accuracy.py: spread = sd with ddof 1 over redraws; hw68 = mean 68% half-width)"}
+    for cfgname, cw, params in (("mixed", "Mixed", ("H0", "f")), ("agn", "AGN", ("H0",))):
+        B = _a14_cfg(S, cfgname)
+        desc = "mixed set (input f_AGN 0.30, seed 100), joint (H0, f_AGN)" if cfgname == "mixed" else "all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)"
+        for ns, nw in NS_WORD.items():
+            st = None if B is None else B["by_nsamp"].get(str(ns))
+            ok = st is not None
+            pre = f"MC{cw}"
+
+            def put(name, val, d, units, meaning, render=None):
+                if ok and val is not None and np.isfinite(val):
+                    add(name, "plain", render or fnum(val, d), val, units, meaning, srcS, "appendixA,item4")
+                else:
+                    add_ph(name, r"\ph{XX}", units, meaning, A14_RUN, "appendixA,item4")
+            put(f"{pre}N{nw}", None if not ok else float(st["n"]), 0, "redraws", f"number of redraws of the posterior samples at {ns} per event, {desc}")
+            for p in params:
+                pw = "Hzero" if p == "H0" else "f"
+                unit = "km/s/Mpc" if p == "H0" else ""
+                s = None if not ok else st.get(p)
+                dsd = 3 if p == "f" else 2
+                put(f"{pre}{pw}Sd{nw}", None if s is None else s["median_sd"], dsd, unit, f"spread (sd over redraws) of the posterior median of {p} at {ns} samples per event, {desc}")
+                put(f"{pre}{pw}SdRel{nw}", None if s is None or s["median_sd_over_hw68"] is None else s["median_sd_over_hw68"], 2, "", f"that spread over the mean 68% half-width of {p}, {ns} samples per event, {desc}")
+                put(f"{pre}{pw}Med{nw}", None if s is None else s["median_mean"], 3 if p == "f" else 2, unit, f"mean over redraws of the posterior median of {p}, {ns} samples per event, {desc}")
+            lv = None if not ok else st["lnL_variance_at_ref_cell"]
+            tot = None if lv is None else lv["pe_var_mean"] + lv["sigma2_sel_N2_over_Neff_mean"]
+            put(f"{pre}LnLVar{nw}", tot, 1, "", f"variance of the ln L estimator at the reference cell (posterior-sample term plus N^2/N_eff), mean over redraws, {ns} samples per event, {desc}")
+            put(f"{pre}SecPerCall{nw}", None if not ok else st["seconds_per_call_median"], 2, "s", f"seconds per likelihood call (median), {ns} samples per event, {desc} (one A100)")
+        inj = None if B is None else B.get("injection_redraws")
+        ok = inj is not None
+
+        def puti(name, val, d, units, meaning):
+            if ok and val is not None and np.isfinite(val):
+                add(name, "plain", fnum(val, d), val, units, meaning, srcS, "appendixA,item4")
+            else:
+                add_ph(name, r"\ph{XX}", units, meaning, A14_RUN, "appendixA,item4")
+        puti(f"MC{cw}InjN", None if not ok else float(inj["n"]), 0, "sets", f"injection sets compared (the record plus redraws; 8000 samples per event, redraw 0), {desc}")
+        for p in params:
+            pw = "Hzero" if p == "H0" else "f"
+            s = None if not ok else inj.get(p)
+            puti(f"MC{cw}Inj{pw}Sd", None if s is None else s["median_sd"], 3 if p == "f" else 2, "km/s/Mpc" if p == "H0" else "", f"spread (sd) of the posterior median of {p} over injection sets, {desc}")
+            puti(f"MC{cw}Inj{pw}SdRel", None if s is None or s["median_sd_over_hw68"] is None else s["median_sd_over_hw68"], 2, "", f"that spread over the mean 68% half-width, {desc}")
+    # the three requests of MACRO_REQUESTS (2000 samples per event: the setting of every stored analysis)
+    def summ(which, field):
+        B = _a14_cfg(S, which)
+        st = None if B is None else B["by_nsamp"].get("2000")
+        if st is None or st["n"] < 2:
+            return None
+        vals = []
+        for p in (("H0", "f") if which == "mixed" else ("H0",)):
+            s = st[p]
+            hw90 = 0.5 * s["w90_mean"]
+            vals.append(100 * (s["median_sd"] / hw90 if field == "shift" else (s["w90_sd"] or 0.0) / s["w90_mean"]))
+        return max(vals)
+    for name, which, field, meaning in (("MCShiftMedian", "mixed", "shift", "spread (sd over redraws of the posterior samples) of the posterior medians, in percent of the 90% half-width, 2000 samples per event, mixed set (larger of H0 and f_AGN)"),
+                                        ("MCShiftMedianAGN", "agn", "shift", "the same for the all-AGN-hosted set (H0)"),
+                                        ("MCWidthChange", "mixed", "width", "spread (sd over redraws) of the 90% widths in percent of their mean, 2000 samples per event, mixed set (larger of H0 and f_AGN)"),
+                                        ("MCWidthChangeAGN", "agn", "width", "the same for the all-AGN-hosted set (H0)")):
+        val = summ(which, field)
+        if val is not None:
+            add(name, "plain", fnum(val, 0), val, "%", meaning, srcS, "appendixA,item4")
+        else:
+            add_ph(name, r"\ph{XX}", "%", meaning, A14_RUN, "appendixA,item4")
+
+
+A15_SCANS = [("p1_complete", "CompleteFive", "complete catalogs (nominal-limit representation), normalised to z = 5, input densities"),
+             ("p1_m21", "TwentyOneFive", "m < 21, normalised to z = 5, input densities"),
+             ("p1_m18", "EighteenFive", "m < 18, normalised to z = 5, input densities"),
+             ("ref_complete_n0m24", "CompleteZeroDensity", "complete catalogs, zero density of uncataloged hosts (Z_k = N_k), normalised to z = 5"),
+             ("c_complete_x2", "CompleteFiveTwo", "complete catalogs, normalised to z = 5, AGN density twice its input"),
+             ("b_complete_x1", "CompleteProd", "complete catalogs, normalised to z = 1.10, input densities (Z_k = N_k)"),
+             ("b_complete_x2", "CompleteProdTwo", "complete catalogs, normalised to z = 1.10, AGN density twice its input"),
+             ("d_m18_x1", "EighteenProd", "m < 18, normalised to z = 1.10, input densities"),
+             ("d_m18_x05", "EighteenProdHalf", "m < 18, normalised to z = 1.10, AGN density half its input"),
+             ("d_m18_x2", "EighteenProdTwo", "m < 18, normalised to z = 1.10, AGN density twice its input")]
+
+
+def a15_rate_ratio(rec):
+    """R quantiles from the scan's f quantiles and its normalisers at H0 = 67.74 (the Z ratio varies by < 1% over
+    the scanned H0 64-74; exact on the complete catalogs normalised to 1.10, where Z_k = N_k)."""
+    Z = rec["normaliser"]["Z_at_67.74"]
+    ratio = Z["GAL"] / Z["AGN"]
+    s = rec["measured"]["f"]
+    odds = lambda f: f / (1 - f)
+    return {"median": odds(s["median"]) * ratio, "ci68": [odds(v) * ratio for v in s["ci68"]], "ci90": [odds(v) * ratio for v in s["ci90"]], "z_ratio_at_67.74": ratio}
+
+
+def a15_scan_post(scan, x0s, Rin):
+    """From the scan file next to the summary: two-sided levels of the inputs in the H0 and f marginals (trapezoid on
+    the scanned cells, as the aggregation), and the rate-per-host ratio with the scan's own Z_k per H0 row."""
+    p = A15_SUMMARY.parent / "scans" / f"{scan}.h5"
+    if not p.exists():
+        return None
+    with h5py.File(p, "r") as h:
+        Hg, Fg, L = h["H0_grid"][()], h["f_grid"][()], h["lnL"][()]
+        nH, Z = h["normaliser/H0"][()], h["normaliser/Z"][()]
+    assert np.allclose(nH[:-1], Hg)
+    P = np.where(np.isfinite(L), np.exp(L - np.nanmax(np.where(np.isfinite(L), L, -np.inf))), 0.0)
+    out = {"file": rel(p)}
+    for pn, x, m in (("H0", Hg, P @ trap_w(Fg)), ("f", Fg, trap_w(Hg) @ P)):
+        c = np.concatenate([[0.0], np.cumsum(0.5 * (m[1:] + m[:-1]) * np.diff(x))])
+        c /= c[-1]
+        out[pn] = level_from_cdf((x, c), x0s[pn])[0]
+    pH = (P @ trap_w(Fg)) * trap_w(Hg)
+    pH /= pH.sum()
+    cdf_f = np.concatenate([np.zeros((len(Hg), 1)), np.cumsum(0.5 * (P[:, 1:] + P[:, :-1]) * np.diff(Fg)[None, :], axis=1)], axis=1)
+    cdf_f /= np.where(cdf_f[:, -1:] > 0, cdf_f[:, -1:], 1.0)
+    zr = Z[:-1, 0] / Z[:-1, 1]
+    odds = lambda f: f / (1 - f)
+    r = np.geomspace(odds(max(Fg[0], 1e-4)) * zr.min() / 1.5, odds(min(Fg[-1], 1 - 1e-4)) * zr.max() * 1.5, 20001)
+    F = np.zeros_like(r)
+    for i in np.where(pH > 0)[0]:
+        F += pH[i] * np.interp(expit(np.log(r / zr[i])), Fg, cdf_f[i])
+    F /= F[-1]
+    q = lambda u: float(np.interp(u, F, r))
+    out["R"] = {"median": q(0.5), "ci68": [q(0.16), q(0.84)], "ci90": [q(0.05), q(0.95)], "_cdf": (r, F), "z_ratio_range": [float(zr.min()), float(zr.max())]}
+    return out
+
+
+def build_a15():
+    S = jload(A15_SUMMARY) if A15_SUMMARY.exists() else None
+    srcS = {"file": rel(A15_SUMMARY), "computation": "read from the Analysis-15 summary (aggregate_normalisation.py: trapezoid posteriors on the scanned cells, H0 step 0.25, f step 0.025)"}
+    sc = {} if S is None else S.get("scans", {})
+    done = lambda n: n in sc and sc[n].get("status") == "done"
+    Rin = [r for r in REG if r["name"] == "MockRateRatio"][0]["value"]
+
+    def cont(s, x0, lev):
+        return {"input": x0, "in68": bool(s["ci68"][0] <= x0 <= s["ci68"][1]), "in90": bool(s["ci90"][0] <= x0 <= s["ci90"][1]),
+                "level_two_sided": lev, "cdf_at_input": None}
+    for scan, word, desc in A15_SCANS:
+        gp = a15_scan_post(scan, {"H0": IN["H0"], "f": IN["f"]}, Rin) if done(scan) else None
+        for pn, pw, unit, x0, ph in (("H0", "Hzero", "km/s/Mpc", IN["H0"], r"\ph{XX.X^{+X.X}_{-X.X}}"), ("f", "f", "", IN["f"], r"\ph{0.XX^{+0.XX}_{-0.XX}}")):
+            meaning = f"{pn if pn == 'H0' else 'f_AGN'}, {desc} (Analysis 15, darksirens-core e7c3007, catalog A)"
+            if done(scan):
+                s = sc[scan]["measured"][pn]
+                r_, d = fci(s["median"], s["ci90"][0], s["ci90"][1])
+                if gp is not None:
+                    add(f"Norm{pw}{word}", "plain", r_, s, unit, meaning + " (median and 90% interval)", srcS, "C5,item3", containment=cont(s, x0, gp[pn]), extra={"decimals": d})
+                else:
+                    add(f"Norm{pw}{word}", "plain", r_, s, unit, meaning + " (median, 90% interval; scan file absent: no containment level)", srcS, "C5,item3", extra={"decimals": d})
+            else:
+                add_ph(f"Norm{pw}{word}", ph, unit, meaning + " (median and 90% interval)", A15_RUN, "C5,item3")
+        meaning = RR_MEANING + f"; {desc} (Analysis 15)"
+        if done(scan) and gp is not None:
+            add_post(f"NormRateRatio{word}", gp["R"], "", meaning + "; Z_k of the scan per H0 row", {"files": [rel(A15_SUMMARY), gp["file"]], "computation": "R CDF summed over the scanned H0 rows (trapezoid), Z_k from the scan's normaliser group"},
+                     "C5,item11", Rin, cls="plain")
+        elif done(scan):
+            R = a15_rate_ratio(sc[scan])
+            r_, d = fci(R["median"], R["ci90"][0], R["ci90"][1])
+            add(f"NormRateRatio{word}", "plain", r_, R, "", meaning + "; from the summary's f quantiles and Z_k at 67.74 (median, 90% interval)", dict(srcS, computation=a15_rate_ratio.__doc__.replace("\n", " ")), "C5,item11", extra={"decimals": d, "input": Rin})
+        else:
+            add_ph(f"NormRateRatio{word}", r"\ph{XX^{+X}_{-X}}", "", meaning + " (median and 90% interval)", A15_RUN, "C5,item11")
+    # response to a factor two in the assumed AGN density, measured and predicted, per normalisation volume
+    def fmed(n, which="measured", p="f"):
+        if not done(n):
+            return None
+        if which == "measured":
+            return sc[n]["measured"][p]["median"]
+        pr = sc[n].get("prediction") or {}
+        return pr.get("predicted", {}).get(p, {}).get("median")
+    pairs = [("CompleteFive", "c_complete_x2", "p1_complete", "pred-pred", "complete catalogs normalised to z = 5"),
+             ("CompleteProd", "b_complete_x2", "b_complete_x1", "pred-pred", "complete catalogs normalised to z = 1.10 (F_k = 1: predicted zero)"),
+             ("EighteenProd", "d_m18_x2", "d_m18_x1", "pred-meas", "m < 18 normalised to z = 1.10")]
+    for word, n2, n1, how, desc in pairs:
+        for p, pw, unit, d in (("f", "f", "", 3), ("H0", "Hzero", "km/s/Mpc", 2)):
+            m2, m1 = fmed(n2, p=p), fmed(n1, p=p)
+            meaning = f"change of the {p if p == 'H0' else 'f_AGN'} median when the assumed AGN density is doubled, {desc} (Analysis 15, measured)"
+            if m2 is not None and m1 is not None:
+                add(f"NormDelta{pw}Two{word}", "plain", fnum(m2 - m1, d), m2 - m1, unit, meaning, srcS, "C5,item3")
+            else:
+                add_ph(f"NormDelta{pw}Two{word}", r"\ph{0.XX}", unit, meaning, A15_RUN, "C5,item3")
+            p2 = fmed(n2, "pred", p)
+            p1 = fmed(n1, "pred", p) if how == "pred-pred" else m1
+            meaning = f"the same predicted by the identity (LIKELIHOOD_MATH sec. 8; Analysis 15's aggregation, {'both from the zero-density grid' if how == 'pred-pred' else 'normaliser part from the input-density scan'}), {desc}"
+            if p2 is not None and p1 is not None and np.isfinite(p2) and np.isfinite(p1):
+                add(f"NormDelta{pw}Two{word}Pred", "plain", fnum(p2 - p1, d), p2 - p1, unit, meaning, srcS, "C5,item3")
+            else:
+                add_ph(f"NormDelta{pw}Two{word}Pred", r"\ph{0.XX}", unit, meaning, A15_RUN, "C5,item3")
+    ds = None if S is None else S.get("checks", {}).get("d_slope")
+    for name, key, meaning in (("SlopefAGNDepthNorm", "measured_slope_per_dex", "d f_AGN / d log10 n_AGN at m < 18 with the hosts normalised to z = 1.10 (factors 0.5 and 2; run R5b's first number, Analysis 15)"),
+                               ("SlopefAGNDepthNormPred", "identity_predicted_slope_per_dex", "the same slope predicted by the identity from the input-density scan (normaliser part only)")):
+        val = None if ds is None else ds.get(key)
+        if val is not None and np.isfinite(val):
+            add(name, "plain", fnum(val, 2), val, "per dex", meaning, srcS, "C5,item3")
+        else:
+            add_ph(name, r"\ph{0.XX}", "per dex", meaning, A15_RUN, "C5,item3")
+
+
+def build_r2_placeholders():
+    P = [("CommonFreeHzero", r"\ph{XX.X^{+X.X}_{-X.X}}", "km/s/Mpc", "H0 of the single population with its own free mass-peak location and width and spin mean and width, host-dependent mock, both catalogs, H0 prior [50, 100]",
+          "run R8' single population (runs.txt, revision of 17 Nov; R8e of the first list)", "C7,item1"),
+         ("CommonFreefAGN", r"\ph{0.XX^{+0.XX}_{-0.XX}}", "", "f_AGN of the same model", "same run", "C7,item1"),
+         ("LBHDVsCommonFree", r"\ph{X.X\pm X.X}", "log10", "log10 Bayes factor of the host-dependent populations (eight parameters) against that single population, one code and one prior box",
+          "runs R8' (both models, evidences)", "C7,C8,item1"),
+         ("NoCatHzeroComb", r"\ph{XX.X^{+X.X}_{-X.X}}", "km/s/Mpc", "H0 from the mass distribution alone (no catalog: hosts uniform in comoving volume), combined over the realizations of R1'", "run R11", "C2,item2"),
+         ("NoCatHzeroCatA", r"\ph{XX.X^{+X.X}_{-X.X}}", "km/s/Mpc", "the same on realization A", "run R11", "C2,item2"),
+         ("NoCatHalfNinety", r"\ph{X.X}", "km/s/Mpc", "mean 90% half-width of H0 from the mass distribution alone", "run R11", "C2,item2")]
+    for name, r, units, meaning, run, claim in P:
+        add_ph(name, r, units, meaning, run, claim)
+
+
+def build_r2():
+    build_design()
+    build_normalisation()
+    build_identity()
+    build_rate_ratio()
+    build_event_completeness()
+    build_hosts_per_volume()
+    build_misc_requests()
+    build_spin_and_offsets()
+    build_a14()
+    build_a15()
+    build_r2_placeholders()
+
+
+# ============================================================================================= #
+# THE KEY SCHEME (notes/PAPER_SKELETON.md Sec. 6): \<Key><Quantity>[Comb][Med|Lo|Hi|Wid], \<Key><Quantity>CL
+# from values/placeholder_results.json (scripts/placeholder_results.py); red while placeholders, black when
+# values/production_map.json names an existing production summary for the key.
+# ============================================================================================= #
+Q_DESC = {"Hzero": "H0", "fAGN": "f_AGN (fraction of mergers hosted by AGN)", "MuG": "mass-peak location", "SigmaG": "mass-peak width",
+          "MuChi": "spin mean (effective spin)", "SigmaChi": "spin width", "DmuG": "AGN offset of the mass peak", "DmuChi": "AGN offset of the spin mean",
+          "LognGal": "log10 n_gal", "LognAGN": "log10 n_AGN", "RateRatio": "merger rate per AGN over merger rate per galaxy"}
+
+
+def build_keys():
+    import placeholder_results as PR
+    doc = PR.main()
+    K = doc["keys"]
+    pj = OUT / "values" / "placeholder_results.json"
+    for key, E in K.items():
+        final = bool(E.get("final"))
+        cls = "plain" if final else "ph"
+        wrap = (lambda r: r) if final else (lambda r: f"\\ph{{{r}}}")
+        desc = f"[key {key}] {E['events']}; {E['analysis']}; {E['catalogs']}"
+        for q, Q in E["quantities"].items():
+            srcq = {"file": E["production_file"]} if final else {"missing": E["stage"], "key": key, "placeholder_source": f"A: {Q['source']}; Comb: {Q['comb_source']}",
+                                                                  "placeholder_file": {"A": Q.get("file"), "Comb": Q.get("comb_file")}, "json": rel(pj)}
+            note = f" ({Q['note']})" if Q.get("note") else ""
+            for part, tag in (("A", ""), ("Comb", "Comb")):
+                sm = Q[part]
+                where = "realization A" if part == "A" else f"combined over {E['N_comb']} realizations"
+                r_, d = fci(sm["median"], sm["ci90"][0], sm["ci90"][1])
+                val = {k: sm[k] for k in ("median", "ci68", "ci90", "ul90", "level_of_input") if k in sm}
+                base = f"{key}{q}{tag}"
+                mean = f"{Q_DESC[q]}, {desc}, {where}{note}"
+                add(base, cls, wrap(r_), val, Q["units"], mean + " (median and 90% equal-tailed interval)", srcq, "skeleton,keys", extra={"decimals": d, "input": Q["input"]})
+                for pc, v, w in (("Med", sm["median"], "median"), ("Lo", sm["ci90"][0], "lower end of the 90% interval"), ("Hi", sm["ci90"][1], "upper end of the 90% interval"),
+                                 ("Wid", sm["ci90"][1] - sm["ci90"][0], "full width of the 90% interval")):
+                    add(base + pc, cls, wrap(fnum(v, d)), v, Q["units"], f"{w} of {mean}", srcq, "skeleton,keys")
+                if (q == "fAGN" and key == "CtrlZero") or (q in ("LognGal", "LognAGN")):
+                    add(base + "UL", cls, wrap(fnum(sm["ul90"], max(d, 2))), sm["ul90"], Q["units"], f"90% upper limit (90th percentile) of {mean}", srcq, "skeleton,keys")
+                if part == "A" and q in ("LognGal", "LognAGN") and "prior_ul90" in sm:
+                    add(base + "PriorUL", cls, wrap(fnum(sm["prior_ul90"], max(d, 2))), sm["prior_ul90"], Q["units"],
+                        f"the 90% upper limit the priors allow once the rate per host is measured (prior-induced density), beside {base}UL; {desc}", srcq, "skeleton,keys")
+            if Q["input"] is not None:
+                C = Q["Comb"]
+                lev = C.get("level_of_input")
+                edge = key == "CtrlZero" and q == "fAGN"
+                if edge or lev is None:
+                    add(f"{key}{q}CL", cls, wrap("--"), None, "%", f"credible level of the input in {key}{q}Comb: not defined, the input lies at the prior edge (use {key}{q}CombUL)",
+                        srcq, "skeleton,keys")
+                else:
+                    add(f"{key}{q}CL", cls, wrap(fpct(lev)), lev, "%", f"two-sided credible level at which the input {Q['input']:g} lies in {key}{q}Comb ({Q_DESC[q]}, {desc})",
+                        srcq, "skeleton,keys")
+        if E.get("LB"):
+            L = E["LB"]
+            srcl = {"file": E["production_file"]} if final else {"missing": E["stage"], "key": key, "placeholder_source": L["source"], "placeholder_file": L.get("file"), "json": rel(pj)}
+            ncomb = E["N_comb"]
+            for part, tag in (("A", ""), ("Comb", "Comb")):
+                if L.get(part) is None:
+                    continue
+                where = "realization A" if part == "A" else f"combined over {ncomb} realizations"
+                add(f"{key}LB{tag}", cls, wrap(flb(L[part])), L[part], "log10", f"log10 Bayes factor, {desc}, against {L['reference']}, {where}", srcl, "skeleton,keys")
+    # further macros of Sec. 6
+    q = lambda k, Q, part="Comb": K[k]["quantities"][Q][part]
+    srcf = lambda keys: {"missing": "; ".join(sorted({K[k]["stage"] for k in keys})), "key": ",".join(keys), "placeholder_source": "derived from the placeholder entries", "json": rel(pj)}
+    fin = lambda keys: all(K[k].get("final") for k in keys)
+
+    def addf(name, keys, render, value, units, meaning):
+        f_ = fin(keys)
+        add(name, "plain" if f_ else "ph", render if f_ else f"\\ph{{{render}}}", value, units, meaning,
+            {"files": [K[k]["production_file"] for k in keys]} if f_ else srcf(keys), "skeleton,keys")
+    for pre in ("HD", "Obs"):
+        b = q(f"{pre}Single", "Hzero")["median"] - IN["H0"]
+        addf(f"{pre}BiasHzero", [f"{pre}Single"], fnum(b, 1), b, "km/s/Mpc", f"median of {pre}SingleHzeroComb minus the input H0 (bias of the single-population analysis of host-dependent events, {'peak-dominated' if pre == 'HD' else 'observed-like'} spectrum, combined)")
+        L = K[f"{pre}Host"]["LB"]["A"]
+        addf(f"{pre}LB", [f"{pre}Host"], flb(L), L, "log10", f"log10 Bayes factor of the host-dependent populations against the single population, same events and priors, realization A (= {pre}HostLB; combined: {pre}HostLBComb)")
+    wr = [r for r in REG if r["name"] == "PureRatioNinety"][0]["value"]
+    addf("WidthRatioAGNGal", ["Galhosted", "AGNhosted"], fnum(wr, 1), wr, "", "90% width of H0, galaxy-hosted over AGN-hosted event sets (each with its own catalog), ratio of the mean 90% half-widths over the 93 exploratory realizations (= PureRatioNinety)")
+    for nm, kn, kb in (("MassScaleShareKnown", "KnownNone", "KnownBoth"), ("MassScaleShareSingle", "SingleNone", "SingleBoth")):
+        a, b_ = q(kn, "Hzero", "A"), q(kb, "Hzero", "A")
+        v = (a["ci90"][1] - a["ci90"][0]) / (b_["ci90"][1] - b_["ci90"][0])
+        addf(nm, [kn, kb], fnum(v, 1), v, "", f"90% width of H0 with no catalog over that with both catalogs, {'population known' if 'Known' in nm else 'single population'}, realization A")
+    for nm, k in (("CorrHzeroMuGNone", "SingleNone"), ("CorrHzeroMuGBoth", "SingleBoth")):
+        v = K[k]["joint"]["A"]["correlation"]
+        addf(nm, [k], fnum(v, 1), v, "", f"correlation coefficient r of H0 and the mass-peak location, single population, {'no catalog' if 'None' in nm else 'both catalogs'}, realization A")
 
 
 # ============================================================================================= #
@@ -1361,14 +2517,14 @@ def build_placeholders():
 def render_tex(reg):
     L = [
         "%% results_macros.tex -- written by scripts/build_values.py; do not edit by hand.",
-        "%% RED (\\ph):   not computable from the stored results; see placeholders.txt for the run that produces it.",
-        "%% TEAL (\\anc): a real number from the exploratory runs under working/analyses/; the production runs replace it.",
-        "%% Plain:       design choices and inputs of the simulated catalogs (working/data).",
+        "%% RED (\\ph):   placeholder (exploratory or invented, see placeholders.txt and values/placeholder_results.json) for a production run.",
+        "%% \\anc:        a number from the exploratory runs (old names, kept for the v1 text); prints red like \\ph (PAPER_SKELETON Sec. 0).",
+        "%% Plain:       black: design values and inputs of the simulated catalogs, Analyses 14 and 15, production results.",
         "%% Every macro is traced in values/values.json (source file and key, or the computation).",
         "\\definecolor{phred}{rgb}{0.80,0.05,0.05}",
         "\\definecolor{ancteal}{rgb}{0.00,0.45,0.45}",
         "\\newcommand{\\ph}[1]{\\textcolor{phred}{#1}}",
-        "\\newcommand{\\anc}[1]{\\textcolor{ancteal}{#1}}",
+        "\\newcommand{\\anc}[1]{\\textcolor{phred}{#1}}",  # skeleton Sec. 0: no teal any more, exploratory numbers print red
     ]
     order = [("plain", "simulated catalogs: design choices and inputs (plain)"), ("anc", "exploratory results (teal)"), ("ph", "placeholders (red)")]
     for cls, head in order:
@@ -1411,6 +2567,8 @@ def compute():
     TABLES.clear()
     BAYES.clear()
     GRIDLOG.clear()
+    R2_CACHE.clear()
+    IDENT.clear()
     build_mock()
     posts, H, F = build_c1_c2()
     build_c3()
@@ -1419,6 +2577,8 @@ def compute():
     build_c7_c8()
     build_c9()
     build_placeholders()
+    build_r2()
+    build_keys()
     DIAG["grid_log"] = list(GRIDLOG)
     return REG, DIAG, TABLES, BAYES
 
@@ -1436,6 +2596,7 @@ def write_all():
     M = ["# Macro menu (written by scripts/build_values.py; do not edit)", "",
          "Class: plain = design choice or mock input; teal = exploratory result (production replaces it); red = not yet computable (see placeholders.txt).",
          "Intervals are medians with 90% equal-tailed intervals unless stated. Full numbers, sources and containment records: values.json.", "",
+         KEY_DEFINITIONS, "", R2_DEFINITIONS, "",
          "| macro | meaning | rendered | class | claim |", "|---|---|---|---|---|"]
     for r in reg:
         rr = r["render"].replace("|", "\\|")
@@ -1443,10 +2604,20 @@ def write_all():
     (OUT / "values" / "MACROS.md").write_text("\n".join(M) + "\n")
     # placeholders.txt
     ph = [r for r in reg if r["class"] == "ph"]
-    P = ["PRD paper: ledger of numbers not yet computable (written by scripts/build_values.py).",
-         "Columns: macro | physical meaning | run that produces it (what is missing on disk)", "", f"RED placeholders ({len(ph)}):"]
+    P = ["PRD paper: ledger of placeholders (written by scripts/build_values.py). Every line prints red in the paper.",
+         "Columns: macro | physical meaning ([key ...] for the key scheme of notes/PAPER_SKELETON.md Sec. 6) | production stage or run that fills it"
+         " | source of the placeholder value (exploratory: an earlier run, file named; invented: PAPER_SKELETON Sec. 7; Analysis 14 / 15: the summary file)", "",
+         f"RED placeholders ({len(ph)}):"]
     for r in ph:
-        P.append(f"\\{r['name']} | {r['meaning']} | {r['source']['missing']}")
+        src = r["source"]
+        how = src.get("placeholder_source", "Analysis 14" if "Analysis 14" in src["missing"] else ("Analysis 15" if "Analysis 15" in src["missing"] else "no value yet"))
+        pf = src.get("placeholder_file")
+        if isinstance(pf, dict):
+            pf = "; ".join(f"{k}: {v}" for k, v in pf.items() if v)
+        P.append(f"\\{r['name']} | {r['meaning']} | {src['missing']} | {how}{' (' + pf + ')' if pf else ''}")
+    anc = [r["name"] for r in reg if r["class"] == "anc"]
+    P += ["", f"Also red: {len(anc)} macros of the exploratory runs under their old names (class 'anc' in values/MACROS.md; \\anc prints red),",
+          "kept so that the v1 text compiles; the key scheme above carries the same numbers where an exploratory run fills a key."]
     (OUT / "placeholders.txt").write_text("\n".join(P) + "\n")
     n = {c: sum(1 for r in reg if r["class"] == c) for c in ("plain", "anc", "ph")}
     print(f"{n['anc']} teal, {n['plain']} plain, {n['ph']} red; {len(reg)} macros")

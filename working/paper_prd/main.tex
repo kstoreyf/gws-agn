@@ -1,12 +1,6 @@
-%% PRD paper, first complete draft (16 Nov 2026).
-%% Numbers are macros of values/results_macros.tex (written by scripts/build_values.py):
-%%   red  (\ph)  = not yet computable (placeholders.txt, runs.txt)
-%%   teal (\anc) = real, from the exploratory runs; the production runs replace it
-%%   plain       = design choices and inputs of the simulated catalogs
-%% Numbers the text needs and the macro file lacks are declared below with
-%% \providecommand, so that a macro of the same name added to
-%% values/results_macros.tex takes over without any edit here. They are listed in
-%% notes/MACRO_REQUESTS.md.
+%% Marking: red numbers (\ph, \anc) and the red data of the figures stand for production runs that are not finished; black numbers are design values and finished results.
+%% A sentence followed by the comment "% EXPECTED" is worded for the outcome we expect of a run: grep for it and re-read each sentence when its run exists.
+%% Numbers are macros of values/results_macros.tex; values/fallback_macros.tex gives every macro used here a red default, and notes/MACRO_REQUESTS.md lists the ones still to be made.
 \documentclass[aps,prd,reprint,twocolumn,superscriptaddress,nofootinbib,floatfix]{revtex4-2}
 
 \usepackage{amsmath,amssymb}
@@ -15,6 +9,7 @@
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 
 \input{values/results_macros}
+\input{values/fallback_macros}
 
 \newcommand{\msun}{\,M_\odot}
 \newcommand{\kms}{{\rm km\,s^{-1}\,Mpc^{-1}}}
@@ -26,111 +21,64 @@
 \newcommand{\dmuG}{\Delta\mu_{\rm G}}
 \newcommand{\dmuchi}{\Delta\mu_\chi}
 \newcommand{\lB}{\log_{10}\mathcal{B}}
-\newcommand{\prelim}{Drawn from the exploratory runs.}
+\newcommand{\rr}{\mathcal{R}}
 \graphicspath{{figures/}}
-
-%% ---- requested macros, class red: results or realized numbers with no macro yet ----
-\providecommand{\PureGalHostsPerVol}{\ph{XXXX}}        % galaxies in a 90% localization volume, mean over events
-\providecommand{\PureAGNHostsPerVol}{\ph{XX}}          % AGN in the same volume
-\providecommand{\ShiftGalOnlyMinusJointComb}{\ph{0.X}} % combined H0 median, galaxy catalog alone minus both catalogs
-\providecommand{\MockSigLnDL}{\ph{XX}}                 % median fractional distance uncertainty [%], reference catalog
-\providecommand{\MockzCompleteEighteen}{\ph{0.XX}}     % redshift below which the m < 18 catalog is complete
-\providecommand{\MockEventFracCompleteEighteen}{\ph{XX}} % percent of detected events below that redshift
-\providecommand{\MockEventCompEighteen}{\ph{XX}}       % completeness at m < 18 weighted by the detected events [%]
-\providecommand{\NormFAGNMax}{\ph{0.0X}}               % largest cataloged share F_AGN over the four flux limits
-\providecommand{\SlopefAGNIdentityTwentyOne}{\ph{0.XX}} % d f_AGN / d log10 n_AGN predicted by Eq. (identity) from the posterior at the input density, m < 21
-\providecommand{\SlopefAGNIdentityTwenty}{\ph{0.XX}}   % the same at m < 20
-\providecommand{\SlopefAGNDepthNorm}{\ph{0.XX}}        % d f_AGN / d log10 n_AGN, hosts normalized over the catalog depth (run R5b)
-\providecommand{\CommonFreeHzero}{\ph{XX.X^{+X.X}_{-X.X}}} % H0, common population with free parameters (run R8e)
-\providecommand{\CommonFreefAGN}{\ph{0.XX^{+0.XX}_{-0.XX}}} % f_AGN, same model
-\providecommand{\LBHDVsCommonFree}{\ph{X.X\pm X.X}}    % log10 B, eight-parameter model against the free common population
-\providecommand{\FreeLognAGNPeakOverPrior}{\ph{X.X}}   % peak of the log10 n_AGN posterior over the prior density, m < 18
-\providecommand{\MockNinjFound}{\ph{X.X\times10^{X}}}  % detected injections of the reference catalog
-\providecommand{\MCShiftMedian}{\ph{XX}}               % shift of posterior medians under redraws, percent of the 90% half-width (run R0)
-\providecommand{\MCWidthChange}{\ph{XX}}               % change of 90% widths under redraws, percent (run R0)
-\providecommand{\MCWidthChangeAGN}{\ph{XX}}            % the same for the AGN-hosted sets (run R0)
-\providecommand{\LnLVarAGNHosted}{\ph{XX}}             % variance of ln L at the maximum, AGN-hosted sets
-
-%% ---- requested macros, class plain: design choices typed here from the named notes ----
-%% To hide them until they come from build_values.py, redefine \req as \ph{XX}.
-\newcommand{\req}[1]{#1}
-\providecommand{\PriorHzeroLo}{\req{50}}
-\providecommand{\PriorHzeroHi}{\req{100}}
-\providecommand{\PriorHDHzeroLo}{\req{60}}
-\providecommand{\PriorHDHzeroHi}{\req{76}}
-\providecommand{\PriorLognGalLo}{\req{-4}}
-\providecommand{\PriorLognGalHi}{\req{-1}}
-\providecommand{\PriorLognAGNLo}{\req{-6}}
-\providecommand{\PriorLognAGNHi}{\req{-4}}
-\providecommand{\PriorMuGLo}{\req{31}}
-\providecommand{\PriorMuGHi}{\req{39}}
-\providecommand{\PriorDmuGLo}{\req{-4}}
-\providecommand{\PriorDmuGHi}{\req{10}}
-\providecommand{\PriorSigmaGLo}{\req{1}}
-\providecommand{\PriorSigmaGHi}{\req{10}}
-\providecommand{\PriorMuChiLo}{\req{-0.1}}
-\providecommand{\PriorMuChiHi}{\req{0.1}}
-\providecommand{\PriorDmuChiLo}{\req{-0.05}}
-\providecommand{\PriorDmuChiHi}{\req{0.30}}
-\providecommand{\PriorDmuChiHiSix}{\req{0.20}}
-\providecommand{\PriorSigmaChiLo}{\req{0.01}}
-\providecommand{\PriorSigmaChiHi}{\req{1}}
-\providecommand{\PriorSpinDmuChiLo}{\req{-0.2}}
-\providecommand{\PriorSpinDmuChiHi}{\req{0.25}}
-\providecommand{\NormZmax}{\req{5}}
-\providecommand{\DensityFactorLo}{\req{0.5}}
-\providecommand{\DensityFactorHi}{\req{2}}
-\providecommand{\MockShellWidth}{\req{200}}
-\providecommand{\MockRhoRef}{\req{6.28}}
-\providecommand{\MockMcRef}{\req{30}}
-\providecommand{\MockSkyCoeff}{\req{19.1}}
-\providecommand{\MockSkyClipLo}{\req{1}}
-\providecommand{\MockSkyClipHi}{\req{12}}
-\providecommand{\MockNinjDrawn}{\req{1.5\times10^{8}}}
-\providecommand{\NeffFactor}{\req{5}}
-\providecommand{\VarCapEight}{\req{20}}
-\providecommand{\PinDmuG}{\req{5.0}}
-\providecommand{\PinDmuChi}{\req{0.115}}
+%% Floats may fill most of a page and still share it with text, so that a page with two figures is not left half empty.
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.9}
+\setcounter{topnumber}{3}
+\setcounter{dbltopnumber}{3}
+\setcounter{totalnumber}{5}
+%% A figure is included when its file exists; otherwise an empty frame of its nominal height keeps the layout.
+\newcommand{\figslot}[2]{\IfFileExists{figures/#1.pdf}{\includegraphics[width=\textwidth]{#1}}%
+{\fbox{\rule{0pt}{#2}\rule{0.97\textwidth}{0pt}}}}
 
 \begin{document}
 
-\title{Dark sirens in galaxies and active galactic nuclei: host-dependent black
-hole masses and spins, and the hosts the catalogs miss}
+\title{Dark sirens in galaxies and active galactic nuclei: the Hubble constant
+with host-dependent black hole masses and spins}
 
 \author{Ignacio Maga\~na Hernandez}
 \affiliation{McWilliams Center for Cosmology, Department of Physics, Carnegie Mellon University, Pittsburgh, Pennsylvania 15213, USA}
-\author{\textit{(author list to be completed)}}
-\noaffiliation
+%% author list to be completed by the authors
 
 \date{\today}
 
 \begin{abstract}
-Binary black hole mergers in the disks of active galactic nuclei (AGN) may be
-heavier and spin differently from mergers in other galaxies, while dark siren
-measurements of the Hubble constant $H_0$ assign every merger to one galaxy
-catalog and one population. We infer $H_0$ together with the fraction $\fagn$
-of mergers hosted by AGN and with mass and spin distributions that depend on
-the host, from a galaxy catalog and an AGN catalog that trace one density
-field, in simulated catalogs of \MockNev{} detected mergers. When
-AGN-hosted mergers have a mass peak $\MockDmuG\msun$ heavier and a mean
-effective spin \MockDmuChi{} larger, a single population returns
-$H_0=\CommonHzero\,\kms$ for an input of \MockHzero{} even with both
-catalogs. The host-dependent model returns $\HDFixHzero\,\kms$,
-$\fagn=\HDFixfAGN$ for an input of \MockfAGN, and offsets of
-$\HDFixDmuG\msun$ and $\HDFixDmuChi$, and is preferred by a Bayes factor of
-$\lB=\LBOffsetsVsCommon$ (90\% credible intervals, one simulated catalog).
-When only the spins differ, the catalogs measure the offset
-\SpinDmuChiWidthRatio{} times better than the spins do alone. With equal populations and complete catalogs, \JointNcat{}
-simulated catalogs combined give $H_0=\JointHzeroComb\,\kms$ and
-$\fagn=\JointfComb$, nearly uncorrelated and with both inputs inside the
-90\% intervals. Flux limits that leave \MockCompEighteen\% of the hosts in
-the catalogs widen the intervals of one catalog by factors of
-\FluxHzeroRatioEighteen{} and \FluxfRatioEighteen{} when the number
-densities of the uncataloged hosts are known. But the mergers measure the merger rate per cataloged host of each
-class: $\fagn$ moves by \DeltafTwoTwentyOne{} for a factor of two in the
-assumed AGN number density, and when both densities are inferred the mergers
-bound only that of the galaxies. The fraction of mergers that AGN host is known only as well as
-the number of the hosts the catalogs miss.
+We infer the Hubble constant $H_0$ from binary black hole mergers together
+with the fraction $\fagn$ of mergers hosted by active galactic nuclei (AGN),
+assigning each merger to a galaxy catalog or to an AGN catalog that trace one
+density field and letting the mass and spin distributions depend on the host.
+In simulations of \MockNev{} detected mergers in which AGN-hosted mergers have
+a mass peak $\MockDmuG\msun$ higher and a mean effective spin \MockDmuChi{}
+higher, an analysis that assumes a single population returns
+$H_0=\HDSingleHzeroComb\,\kms$ for an input of \MockHzero, and the
+host-dependent analysis returns $\HDHostHzeroComb\,\kms$,
+$\fagn=\HDHostfAGNComb$ for an input of \MockfAGN, and offsets of
+$\HDHostDmuGComb\msun$ and $\HDHostDmuChiComb$ (90\% credible intervals,
+\NrealHD{} realizations combined, \MockPeakFrac{} of the mergers in the mass
+peak). % EXPECTED
+With a mass spectrum like the observed one, in which \ObsPeakFrac{} of the
+mergers are in the peak, the bias of the single-population analysis falls
+from $\HDBiasHzero$ to $\ObsBiasHzero\,\kms$, and the host-dependent analysis
+returns $H_0=\ObsHostHzeroComb\,\kms$ and a spin offset of
+$\ObsHostDmuChiComb$. % EXPECTED
+With flux-limited catalogs the mergers measure the merger rate per AGN
+relative to that per galaxy, $\FreeEighteenRateRatio$ for an input of
+\MockRateRatio{} when the number densities of both host classes are inferred,
+and $\fagn$ follows only once the number of AGN is given: at the shallowest
+flux limit a factor of two in that number moves $\fagn$ by
+\NormDeltafTwoEighteenProd{} and $H_0$ by
+$\NormDeltaHzeroTwoEighteenProd\,\kms$. % EXPECTED
+With the population known and complete catalogs, the inputs of $H_0$ and
+$\fagn$ lie at the \KnownBothHzeroCL\% and \KnownBothfAGNCL\% credible levels
+of the combined posterior, and mergers with no AGN hosts give
+$\fagn<\CtrlZerofAGNCombUL$. A dark siren measurement from more than one kind
+of host has to infer where the mergers are and what they are together.
 \end{abstract}
 
 \maketitle
@@ -140,198 +88,153 @@ the number of the hosts the catalogs miss.
 \label{sec:intro}
 
 A gravitational-wave signal from a compact binary gives the luminosity
-distance to its source without a distance ladder
-\cite{Schutz:1986gp,Holz:2005df}, and a redshift for the same source gives
-the Hubble constant $H_0$. Binary black hole (BBH) mergers have no confirmed
-electromagnetic counterpart, so their redshifts are statistical. The dark
-siren method assigns each merger to the galaxies of a catalog that lie in its
-localization volume
-\cite{Schutz:1986gp,DelPozzo:2011vcw,LIGOScientific:2018gmd,DES:2019ccw,Gray:2019ksv,DES:2020nay,Finke:2021aom,Palmese:2021mjm,Gair:2022zsa},
+distance to its source without a distance ladder \cite{Schutz:1986gp}, and
+a redshift for the same source gives
+the Hubble constant $H_0$. Binary black hole (BBH) mergers have no generally
+accepted electromagnetic counterpart, so their redshifts are statistical. The
+dark siren method assigns each merger to the galaxies of a catalog that lie
+in its localization volume
+\cite{Schutz:1986gp,Gray:2019ksv,Gair:2022zsa},
 and the spectral siren method uses features of the source-frame mass
 distribution, which the detectors see redshifted
-\cite{Taylor:2011fs,Farr:2019twy,Ezquiaga:2022zkx,Mastrogiovanni:2021wsd}.
-The two are now combined in one likelihood
-\cite{Mastrogiovanni:2023emh,Gray:2023wgj,Borghi:2023opd}. The
-LIGO--Virgo--KAGRA analysis of the fourth Gravitational-Wave Transient
-Catalog finds $H_0=75.4^{+24.5}_{-13.3}\,\kms$ from 142 sources and the
-GLADE+ galaxy catalog \cite{LIGOScientific:2025jau,Dalya:2021ewn}, and that of
-the fifth finds $71.7^{+17.7}_{-11.4}\,\kms$ from 236 sources and the
-galaxies of the Dark Energy Survey \cite{LIGOScientific:2026uyd}; both are
-90\% intervals and include the counterpart of GW170817. In both, the hosts
-are one class, galaxies, and the features of the mass distribution remain the
-main source of the constraint \cite{LIGOScientific:2026uyd}.
+\cite{Farr:2019twy,Ezquiaga:2022zkx,Mastrogiovanni:2021wsd};
+the two are now combined in one likelihood
+\cite{Mastrogiovanni:2023emh,Gray:2023wgj}. With 236 sources
+and the galaxies of the Dark Energy Survey, the LIGO--Virgo--KAGRA analysis
+of the fifth Gravitational-Wave Transient Catalog finds
+$H_0=71.7^{+17.7}_{-11.4}\,\kms$ (90\% interval, including the counterpart of
+GW170817) \cite{LIGOScientific:2026uyd}. Its hosts are one class, galaxies,
+and the features of the mass distribution remain the main source of the
+constraint.
 
 Some BBH mergers may occur in a different environment. The gas disks of
 active galactic nuclei (AGN) can capture black holes, pair them and drive
-them to merge
-\cite{Bartos:2016dgn,Stone:2016wzz,Mckernan:2017ssq,Tagawa:2019osr}. Black
+them to merge \cite{Bartos:2016dgn}, and black
 holes that align with the disk, merge repeatedly and accrete are expected to
 be heavier than those formed elsewhere, with spins that tend to align with
-the disk
-\cite{Yang:2019okq,Yang:2019cbr,Tagawa:2020dxe,Tagawa:2021ofj,McKernan:2021nwk}.
-Three kinds of analysis look for this channel. Spatial searches correlate the
-localization volumes of the mergers with an AGN catalog and infer the
-fraction of mergers that AGN host, $\fagn$. Rare hosts can be identified
-statistically, and a fraction of 25\% is testable with about 1000 events
-\cite{Bartos:2017ggb}. The observed mergers limit the fraction hosted by
-the most luminous AGN \cite{Veronesi:2023ugk} and, with the Quaia catalog
-\cite{Storey-Fisher:2023gca}, the fraction hosted by unobscured AGN with
-bolometric luminosities above $10^{44.5}\,{\rm erg\,s^{-1}}$ to at most 0.21
-\cite{Veronesi:2024tef}. They hint at $0.39^{+0.41}_{-0.32}$ for AGN between
-that luminosity and $10^{45}\,{\rm erg\,s^{-1}}$ \cite{Zhu:2025rdv} and,
-once AGN redshift errors and gravitational-wave selection effects are
-modeled, allow fractions up to 0.41 to 0.61 depending on the luminosity
-threshold \cite{Pouw:2026lar}; the limits are at 95\% credibility and the
-measurement at 90\%. Searches for AGN flares coincident
-with mergers have found candidates and no confident association
-\cite{Graham:2020gwr,Graham:2022xxu,Palmese:2021wcv,Veronesi:2024pjq,Cabrera:2025tzc}.
-Population studies look for an AGN component in the masses and spins, without
-positions \cite{Gayathri:2023bha}: about a quarter of the events of the
-second catalog prefer an AGN-disk model \cite{Gayathri:2021xwb}, about 10\% of
-later detections form a rapidly spinning component attributed to accretion
-in disks \cite{Bartos:2026xlt}, and an aligned, rapidly spinning component
-has been read as repeated mergers in disks \cite{Li:2025iux}.
+the disk \cite{Yang:2019okq,McKernan:2021nwk}. Spatial searches correlate the localization
+volumes of the mergers with an AGN catalog and infer the fraction of mergers
+hosted by AGN, $\fagn$ \cite{Bartos:2017ggb}: with the Quaia catalog
+\cite{Storey-Fisher:2023gca} the observed mergers limit the fraction hosted
+by unobscured AGN with bolometric luminosities above $10^{44.5}\,{\rm
+erg\,s^{-1}}$ to at most 0.21 \cite{Veronesi:2024tef}, or to between 0.41 and
+0.61, depending on the luminosity threshold, once AGN redshift errors and
+gravitational-wave selection effects are modeled \cite{Pouw:2026lar} (95\%
+credibility). Searches for AGN flares coincident with mergers have found
+candidates, and several analyses find no confident association
+\cite{Graham:2020gwr,Palmese:2021wcv,Veronesi:2024pjq};
+Kumar and Torres-Orjuela \cite{Kumar:2026bqt} retain 13 of 28 proposed AGN
+counterparts and, with each AGN redshift taken as that of its merger, report
+$H_0=70.5^{+3.4}_{-2.9}\,\kms$ (68\%, statistical). Population studies look
+for an AGN component in the masses and spins, without positions
+\cite{Bartos:2026xlt}.
 
-These analyses use overlapping information, and each fixes what another
-infers. The spatial searches hold the cosmology fixed and compare the AGN
-with a background of mergers that does not cluster
-\cite{Veronesi:2024tef,Zhu:2025rdv,Pouw:2026lar}. The dark siren analyses
-place every merger in a galaxy. The population studies leave positions out.
-Yet galaxies and AGN trace the same large-scale structure, so a merger in an
-ordinary galaxy is correlated with the AGN catalog and a merger in an AGN
-with the galaxy catalog. And if AGN-hosted mergers are heavier, the mass
-scale that carries much of the present $H_0$ constraint differs between the
-two host classes. In a mixed population neither $H_0$ nor $\fagn$ can be
-inferred alone.
+Each of these analyses fixes what another infers. The spatial searches hold
+the cosmology fixed and compare the AGN with a background of mergers that
+does not cluster \cite{Veronesi:2024tef,Zhu:2025rdv,Pouw:2026lar}. The dark
+siren analyses
+place every merger in a galaxy. The population studies leave positions out,
+or bring them in only for mergers already identified as hierarchical
+\cite{Moncrieff:2025xle}. Yet galaxies and
+AGN trace the same large-scale structure, and if AGN-hosted mergers are
+heavier, the mass scale that carries much of the present $H_0$ constraint
+differs between the two host classes. A measurement of $H_0$ from a mixed population then depends on which
+mergers are assigned to which host class.
 
 Parts of the joint problem have been solved. Bom and Palmese
-\cite{Bom:2023zgw} infer $H_0$ together with the fraction of mergers that
-AGN host, from AGN flares and from an AGN catalog, and note that the method
-has ``the advantage of not requiring full galaxy catalogs, but the
-disadvantage of not providing constraining power for events that do not
-occur in AGNs''.
-Cross-Parkin \textit{et al.}~\cite{Cross-Parkin:2026pua} infer $H_0$ with the
-mixing fraction of two host weightings of one complete galaxy catalog and
-find the two only weakly correlated. Pouw \textit{et
+\cite{Bom:2023zgw} infer $H_0$ together with the fraction of mergers hosted
+by AGN, from AGN flares and from an AGN catalog, with no constraint from the
+mergers outside AGN. Cross-Parkin \textit{et
+al.}~\cite{Cross-Parkin:2026pua} infer $H_0$ with the mixing fraction of two
+host weightings of one complete galaxy catalog. Pouw \textit{et
 al.}~\cite{Pouw:2026lar} write a hierarchical likelihood for $\fagn$ with
 selection effects and an incomplete AGN catalog and apply it to the observed
-mergers, at fixed cosmology. The
-weighting of host galaxies is now inferred with the cosmology
-\cite{Gray:2026loe,Agapito:2026pbb}, and for extreme-mass-ratio inspirals a
-galaxy catalog and an AGN catalog have been used in turn \cite{Zhu:2024qpp}.
-All of these describe the mergers of every host class with one population,
-and three of them name the next step. Pouw \textit{et al.} ``defer the
-inference of intrinsic population hyperparameters to future work'',
-Cross-Parkin \textit{et al.} propose ``extending the likelihood to model host
-weights and compact-binary population parameters simultaneously'', and Bom
-and Palmese ask ``how to use AGN hosts in concert with spectral siren
-analyses''. Three capabilities are missing. No analysis leaves $H_0$ free and
-assigns the mergers outside AGN, in the same likelihood, to a galaxy catalog
-that shares the density field of the AGN. None lets the mass or spin distribution depend on the host
-class while using the catalogs. And none says how far the unknown number of
-AGN below a flux limit moves $\fagn$ and $H_0$, or whether the mergers can
-measure that number.
+mergers, at fixed cosmology. None of these infers a mass or spin
+distribution that depends on the host class, a freedom that the dark siren
+likelihood of Ref.~\cite{Mastrogiovanni:2023emh} states and does not use. Bom
+and
+Palmese simulate the case in which only mergers with primary masses above
+$35\msun$ occur in AGN: their $H_0$ precision is little changed when flares
+identify the hosts and degrades from 5--10\% to 11--27\% with an AGN catalog
+alone, and their likelihood contains no mass distribution. All three leave
+the inference to future work: Pouw \textit{et al.} assume the same mass and
+spin distributions for both channels, Cross-Parkin \textit{et al.} propose to
+model host weights and population parameters together, and Bom and Palmese
+point to the combination of AGN hosts with spectral sirens.
 
-This paper takes that step on simulated catalogs. Each merger is hosted by a
-galaxy with probability $1-\fagn$ or by an AGN with probability $\fagn$; the
-galaxy and AGN catalogs trace one density field; $H_0$ is free; and the mass
-and spin distributions of the two host classes may differ. With flux-limited
-catalogs, what limits the measurement is the number density of AGN that the
-analysis has to assume or infer. All results concern simulated mergers and
-catalogs: we make no statement about the observed BBHs and no forecast for a
-given observing run.
+This paper carries out that inference on simulated mergers and catalogs. One
+likelihood assigns each merger to a galaxy or to an AGN, gives each host
+class its own catalog on a shared density field and its own mass and spin
+distribution, and infers $H_0$, $\fagn$ and the populations together. We
+then remove one assumption at a time: a known population with complete
+catalogs, as a proof of principle; flux-limited catalogs, where the mergers
+constrain the merger rate per host of one class relative to the other; an
+inferred population, where the mass scale gives back part of its $H_0$
+information; populations that differ between the host classes, where an
+analysis with one population is biased in $H_0$ and the host-dependent
+analysis is not; and a mass spectrum like the observed one. % EXPECTED
+All results concern simulated mergers and catalogs: we make no statement
+about the observed BBHs and no forecast for a given observing run.
 
 Section~\ref{sec:method} gives the likelihood and its limits,
-Sec.~\ref{sec:mocks} the simulated catalogs, Sec.~\ref{sec:results} the
-results, Sec.~\ref{sec:validation} the validation and
-Sec.~\ref{sec:conclusions} our conclusions. The simulated catalogs have a
-flat $\Lambda$CDM cosmology with $H_0=\MockHzero\,\kms$ and
+Sec.~\ref{sec:mocks} the simulations, Sec.~\ref{sec:results} the results,
+Sec.~\ref{sec:validation} the validation and Sec.~\ref{sec:conclusions} our
+conclusions. The simulations have a flat
+$\Lambda$CDM cosmology with $H_0=\MockHzero\,\kms$ and
 $\Omega_m=\MockOmegam$, close to the Planck 2015 values
-\cite{Planck:2015fie}, and every analysis holds $\Omega_m$ at its input.
-Uncertainties are 90\% equal-tailed credible intervals unless stated
-otherwise, and two-dimensional regions are 90\% highest-density regions.
-Model comparisons are $\lB$, the base-10 logarithm of a ratio of evidences,
-positive when the first-named model is preferred and quoted with the prior
-range of every parameter the two models do not share.
+\cite{Planck:2015fie}, and every analysis holds $\Omega_m$ at its input. All
+priors are uniform (Table~\ref{tab:priors}). Uncertainties are 90\%
+equal-tailed credible intervals unless stated otherwise, and two-dimensional
+regions are 90\% highest-density regions. Model comparisons are $\lB$, the base-10 logarithm of the Bayes factor,
+positive when the first-named
+analysis is preferred and quoted with the prior range of every parameter the
+two do not share.
 
 %% ==========================================================================
 \section{Method}
 \label{sec:method}
 
 We use hierarchical Bayesian population inference
-\cite{Loredo:2004nn,Mandel:2018mve,Thrane:2018qnx,Vitale:2020aaz} in the form
-of the galaxy-catalog dark siren analyses
+\cite{Mandel:2018mve} in the form of the
+galaxy-catalog dark siren analyses
 \cite{Gray:2019ksv,Gair:2022zsa,Mastrogiovanni:2023emh,Gray:2023wgj}, with
 two host classes in place of one.
 
-\subsection{Host mixture with host-dependent populations}
+\subsection{One likelihood for two host classes}
 \label{sec:mixture}
 
 A merger is hosted by a galaxy with probability $1-\fagn$ or by an AGN with
-probability $\fagn$. Within a class every host is equally likely, and the
+probability $\fagn$; within a class every host is equally likely, and the
 merger rate per host is constant in source-frame time. Mergers in hosts of
 class $k$ have source-frame primary mass $m_1$, mass ratio $q$ and effective
 spin $\chieff$, together $\theta$, distributed as $p_{\rm
-pop}(\theta|\Lambda_k)$. The density of mergers in $\theta$, redshift $z$ and
-sky position $\Omega$ per unit observer time is then
+pop}(\theta|\Lambda_k)$, and their density in $\theta$, redshift $z$ and sky
+position $\Omega$ per unit observer time is
 \begin{equation}
 \pi(\theta,z,\Omega|\Lambda)=\frac{1}{1+z}\sum_{k}f_k\,p_k(z,\Omega)\,
 p_{\rm pop}(\theta|\Lambda_k) ,
 \label{eq:mixture}
 \end{equation}
-with $k$ running over galaxies and AGN and $f_{\rm gal}=1-\fagn$. Here $p_k(z,\Omega)$ is the probability density that a host of
-class $k$ lies at redshift $z$ in the direction $\Omega$
-(Sec.~\ref{sec:hosts}). Both $p_k$ and $p_{\rm pop}$ integrate to one, so
-$\fagn$ is the fraction of mergers per unit source-frame time whose host is
-an AGN, whether or not they are detected.
-
-For $N$ detected events with data $d_i$, and writing $x=(\theta,z,\Omega)$,
-the likelihood marginalized over the total merger rate with a log-uniform
-prior is \cite{Mandel:2018mve}
+with $f_{\rm gal}=1-\fagn$ and $p_k(z,\Omega)$ the probability density that
+a host of class $k$ lies at redshift $z$ in the direction $\Omega$. Both
+$p_k$ and $p_{\rm pop}$ integrate to one, so $\fagn$ is the fraction of
+mergers at $0<z<z_{\rm max}$ whose host is an AGN, detected or not. For $N$
+detected events with data $d_i$, and writing $x=(\theta,z,\Omega)$, the
+likelihood marginalized over the total merger rate with a log-uniform prior
+is \cite{Mandel:2018mve}
 \begin{equation}
 \Lcal(\Lambda)\propto\prod_{i=1}^{N}
 \frac{\int p(d_i|x)\,\pi(x|\Lambda)\,dx}
 {\int P_{\rm det}(x)\,\pi(x|\Lambda)\,dx} ,
 \label{eq:like}
 \end{equation}
-where $\Lambda$ collects $H_0$, $\fagn$, the population parameters
-$\Lambda_{\rm gal}$ and $\Lambda_{\rm AGN}$ and the parameters of the host
-densities. $H_0$ enters through the luminosity distance and the redshifted
-masses that the data measure. The denominator is the detected fraction of the
-same mixture, so that a host class whose mergers are louder is not mistaken
-for one that hosts more of them.
+where $\Lambda$ collects $H_0$, $\fagn$, the population parameters and the
+number densities of the hosts. The denominator is the
+detected fraction of the same mixture, so that a host class whose mergers are
+louder is not mistaken for one that hosts more of them.
 
-The analyses of this paper are limits of Eqs.~(\ref{eq:mixture}) and
-(\ref{eq:like}). With $\Lambda_{\rm AGN}=\Lambda_{\rm gal}$ the population
-factors out of the sum and only the positions carry the host class: this is
-the two-catalog analysis with a common population, with parameters $H_0$ and
-$\fagn$. Setting $\fagn=0$ recovers the galaxy-catalog dark siren analysis,
-and $\fagn=1$ the same analysis with the AGN catalog. With $p_{\rm
-AGN}=p_{\rm gal}$ the positions carry no host class, and
-Eq.~(\ref{eq:mixture}) is a mixture of two populations told apart by their
-masses and spins alone, as in the population studies
-\cite{Gayathri:2023bha,Bartos:2026xlt}.
-
-For $p_{\rm pop}$ we take a primary mass distribution with a power law and a
-Gaussian peak \cite{Talbot:2018cva}, a power law in the mass ratio and a
-Gaussian in $\chieff$ (Sec.~\ref{sec:events}). In the
-host-dependent model the AGN class differs from the galaxy class in the
-location of the mass peak and in the mean effective spin,
-\begin{equation}
-\mu_{\rm G}^{\rm AGN}=\mu_{\rm G}+\dmuG ,\qquad
-\mu_\chi^{\rm AGN}=\mu_\chi+\dmuchi ,
-\label{eq:offsets}
-\end{equation}
-and shares every other parameter, including the widths $\sigma_{\rm G}$ and
-$\sigma_\chi$. We call the population of the galaxy class the reference
-population and $\dmuG$ and $\dmuchi$ the offsets. A common population has
-both offsets equal to zero.
-
-\subsection{Catalogs and uncataloged hosts}
-\label{sec:hosts}
-
-The host density of class $k$ is built from its catalog and from a model of
-the hosts the catalog lacks,
+The host density of class $k$ is built from its catalog and from the hosts
+that the catalog misses,
 \begin{equation}
 \begin{split}
 p_k(z,\Omega)=\frac{1}{Z_k}\bigg[&\sum_{j\in k}\frac{\Pi_j(\Omega)}{\Delta\Omega}\,K_j(z)\\
@@ -339,136 +242,178 @@ p_k(z,\Omega)=\frac{1}{Z_k}\bigg[&\sum_{j\in k}\frac{\Pi_j(\Omega)}{\Delta\Omega
 \end{split}
 \label{eq:hosts}
 \end{equation}
-In the first term each cataloged object $j$ contributes a redshift kernel
-$K_j(z)$, a Gaussian centered on its cataloged redshift with the redshift
-error of the catalog as its width, multiplied by the comoving volume element
-and normalized to one; $\Pi_j(\Omega)$ is one inside the sky pixel of the
-object and zero elsewhere, and $\Delta\Omega$ is the pixel area. The second
-term holds the hosts below the flux limit: $n_k$ is the comoving number
-density of class $k$, $C_k(z)$ the completeness, that is the fraction of its
-hosts at redshift $z$ that are bright enough to be cataloged, and $V_c$ the
-comoving volume. These uncataloged hosts are uniform in comoving volume and
-the same in every direction. They do not follow the density field.
-
-The normalization counts both terms over the sky and over $0<z<z_{\rm max}$,
+In the first term each cataloged object $j$ contributes a normalized
+redshift kernel $K_j(z)$, as wide as its redshift error, in its sky pixel of
+area $\Delta\Omega$, where $\Pi_j$ is one (Appendix~\ref{app:like}). The
+second term holds the hosts below the flux limit, uniform in comoving volume
+$V_c$: $n_k$ is the comoving number density of class $k$ and $C_k(z)$ the
+completeness, the fraction of its hosts at redshift $z$ that are bright
+enough to be cataloged. The normalization counts both terms over the sky and
+$0<z<z_{\rm max}$,
 \begin{equation}
 Z_k=N_k+n_k\int_0^{z_{\rm max}}\left[1-C_k(z)\right]\frac{dV_c}{dz}\,dz ,
 \label{eq:norm}
 \end{equation}
-with $N_k$ the number of cataloged objects and $dV_c/dz$ taken over the whole
-sky. $Z_k$ is the number of hosts of class $k$ out to $z_{\rm max}$, and we
-call $F_k=N_k/Z_k$ the cataloged share. For complete catalogs the second term
-of Eq.~(\ref{eq:hosts}) is absent and $Z_k=N_k$: the catalog counts its own
-hosts. For flux-limited catalogs we take $z_{\rm max}=\NormZmax$, beyond the
-catalogs and the events. Section~\ref{sec:flux} shows what follows from that
-choice.
+with $N_k$ the number of cataloged objects. $Z_k$ is the number of hosts of
+class $k$ out to $z_{\rm max}$, and the fraction of them that the catalog
+holds, $F_k=N_k/Z_k$, is dubbed here as the cataloged share. We take $z_{\rm
+max}=\NormZmaxProd$, just beyond the most distant simulated signal that is
+detected, and $n_k$ from the counts of each catalog where it is complete.
+
+For $p_{\rm pop}$ we take a power law with a Gaussian peak in the primary
+mass \cite{Talbot:2018cva}, a power law in the mass ratio and a Gaussian in
+$\chieff$ (Sec.~\ref{sec:events}). The AGN class may differ from the galaxy
+class in the location of the mass peak, $\mu_{\rm G}^{\rm AGN}=\mu_{\rm
+G}+\dmuG$, and in the mean effective spin, $\mu_\chi^{\rm
+AGN}=\mu_\chi+\dmuchi$, and shares every other parameter, including the
+widths $\sigma_{\rm G}$ and $\sigma_\chi$.
+
+The analyses of this paper are limits of Eqs.~(\ref{eq:mixture}) to
+(\ref{eq:norm}), named by what they hold or infer. The host-dependent
+analysis infers $H_0$, $\fagn$, $\mu_{\rm G}$, $\sigma_{\rm G}$, $\mu_\chi$,
+$\sigma_\chi$ and the two offsets. Setting $\dmuG=\dmuchi=0$ gives the
+single-population analysis, in which only the positions carry the host
+class. Holding the four population parameters at their inputs as well gives
+the analysis with the population known, whose parameters are $H_0$ and
+$\fagn$. Setting $\fagn=0$ recovers the galaxy-catalog dark siren analysis
+\cite{Gray:2019ksv,Gair:2022zsa}, and $\fagn=1$ the same analysis with the AGN
+catalog. With no catalog, $N_k=0$ and $C_k=0$, the hosts are uniform in
+comoving volume and Eq.~(\ref{eq:like}) is the spectral siren analysis
+\cite{Farr:2019twy,Ezquiaga:2022zkx}, in which $H_0$ comes from the mass
+distribution alone. With $\ngal$ and $\nagn$ added to the parameters, the
+number of hosts that the catalogs miss is inferred from the mergers.
+
+\subsection{What the mergers measure}
+\label{sec:rates}
+
+The fraction $\fagn$ counts mergers, and the catalogs count hosts. What the
+positions of the mergers constrain is the ratio of the two, the merger rate
+per host, $r_k\propto f_k/Z_k$ for class $k$. Where the detected mergers, and
+the simulated signals that give the detected fraction, lie in the part of
+the catalogs that is complete, the second term of Eq.~(\ref{eq:hosts})
+vanishes and each cataloged host contributes mergers at the rate of its
+class: Eq.~(\ref{eq:mixture}) is proportional to $\sum_k r_k\,c_k\,p_{\rm
+pop}(\theta|\Lambda_k)/(1+z)$, with $c_k$ the first term in the brackets of
+Eq.~(\ref{eq:hosts}). The constant of proportionality cancels in
+Eq.~(\ref{eq:like}), so the likelihood depends on $\fagn$, $\ngal$ and
+$\nagn$ only through
+\begin{equation}
+\rr\equiv\frac{r_{\rm AGN}}{r_{\rm gal}}=\frac{\fagn}{1-\fagn}\,
+\frac{Z_{\rm gal}}{Z_{\rm AGN}} .
+\label{eq:rates}
+\end{equation}
+By this identity the catalogs show which objects are AGN and which are
+galaxies, and the mergers say how many more mergers an AGN hosts than a
+galaxy does. The merger
+rate per galaxy is already a parameter of the dark siren likelihood
+[Ref.~\cite{Mastrogiovanni:2023emh}, their Eq.~(16)];
+Eq.~(\ref{eq:rates}) has one such rate for each host class.
+
+The fraction follows from $\rr$ only once the hosts are counted, the
+cataloged ones and the ones that the catalogs miss. For the same data,
+Eqs.~(\ref{eq:norm}) and (\ref{eq:rates}) give
+\begin{equation}
+\frac{\partial}{\partial\ln\nagn}\ln\frac{\fagn}{1-\fagn}=1-F_{\rm AGN} .
+\label{eq:slope}
+\end{equation}
+A catalog that holds every host out to $z_{\rm max}$ counts them itself,
+$F_{\rm AGN}=1$, and the assumed number density drops out. Mergers that lie where a catalog is incomplete see the second term
+of Eq.~(\ref{eq:hosts}) as well, and through them the mergers constrain the
+number densities themselves (Sec.~\ref{sec:flux}).
 
 \subsection{Parameters and priors}
 \label{sec:priors}
 
-Table~\ref{tab:priors} lists the parameters. All priors are uniform. We
-evaluate posteriors on grids or with nested sampling
-\cite{Speagle:2019ivv}, and obtain the evidence from the same grid or run.
-For nested models the Bayes factor in favor of the larger model is the
-Savage--Dickey ratio of the prior to the posterior density at the nested
-value. All simulated catalogs of a set are drawn from one input, so their
-log-likelihoods add, and we quote the combined posterior of a set together
-with the credible level at which the input lies, by which we mean the level
-of the smallest equal-tailed interval that contains it. The integrals of
-Eq.~(\ref{eq:like}) are Monte Carlo sums, whose accuracy is the subject of
-Appendix~\ref{app:like}.
+Table~\ref{tab:priors} lists the parameters with their priors and the value
+at which each is held when it is not inferred. The power law, the mass ratio
+distribution and a merger rate per host that does not evolve are held at
+their inputs throughout. Posteriors and evidences come from grids or from
+nested sampling \cite{Speagle:2019ivv}, and for nested analyses the Bayes
+factor is the Savage--Dickey ratio of the prior to the posterior density at
+the nested value. The realizations of a set share one input, so their
+log-likelihoods add, and we quote the combined posterior with the credible
+level at which the input lies, the level of the smallest equal-tailed
+interval that contains it.
 
 \begin{table}
 \caption{Parameters and priors. U denotes a uniform prior. A parameter that
-is not inferred in a given analysis is held at the value in the last column,
-which for the population is the input of the galaxy class.}
+is not inferred is held at the value in the last column: the input of the
+peak-dominated spectrum (for the observed-like spectrum, the values of
+Table~\ref{tab:sims}), or the number density counted where each catalog is
+complete, which is the input.}
 \label{tab:priors}
 \begin{ruledtabular}
 \begin{tabular}{lll}
-Parameter & Prior & Fixed at\\
+Parameter & Prior & Held at\\
 \hline
-$H_0$ [$\kms$] & U$[\PriorHzeroLo,\PriorHzeroHi]$\footnote{U$[\PriorHDHzeroLo,\PriorHDHzeroHi]$ for the host-dependent models of Sec.~\ref{sec:hd}.} & \MockHzero\\
-$\fagn$ & U$[0,1]$ & \\
-$\log_{10}(\ngal/{\rm Mpc^{-3}})$ & U$[\PriorLognGalLo,\PriorLognGalHi]$ & $\MockLognGal$\\
-$\log_{10}(\nagn/{\rm Mpc^{-3}})$ & U$[\PriorLognAGNLo,\PriorLognAGNHi]$ & $\MockLognAGN$\\
+$H_0$ [$\kms$] & U$[\PriorHzeroLo,\PriorHzeroHi]$ & \\
+$\fagn$ & U$[\PriorfLo,\PriorfHi]$ & \\
 $\mu_{\rm G}$ [$M_\odot$] & U$[\PriorMuGLo,\PriorMuGHi]$ & \MockMuG\\
-$\dmuG$ [$M_\odot$] & U$[\PriorDmuGLo,\PriorDmuGHi]$ & 0\\
 $\sigma_{\rm G}$ [$M_\odot$] & U$[\PriorSigmaGLo,\PriorSigmaGHi]$ & \MockSigmaG\\
 $\mu_\chi$ & U$[\PriorMuChiLo,\PriorMuChiHi]$ & \MockMuChi\\
-$\dmuchi$ & U$[\PriorDmuChiLo,\PriorDmuChiHi]$\footnote{Upper end \PriorDmuChiHiSix{} when the widths are fixed, and U$[\PriorSpinDmuChiLo,\PriorSpinDmuChiHi]$ for the spin-offset mock of Sec.~\ref{sec:hd}.} & 0\\
 $\sigma_\chi$ & U$[\PriorSigmaChiLo,\PriorSigmaChiHi]$ & \MockSigmaChi\\
+$\dmuG$ [$M_\odot$] & U$[\PriorDmuGLo,\PriorDmuGHi]$ & 0\\
+$\dmuchi$ & U$[\PriorDmuChiLo,\PriorDmuChiHi]$ & 0\\
+$\log_{10}(\ngal/{\rm Mpc^{-3}})$ & U$[\PriorLognGalLo,\PriorLognGalHi]$ & $\MockLognGal$\\
+$\log_{10}(\nagn/{\rm Mpc^{-3}})$ & U$[\PriorLognAGNLo,\PriorLognAGNHi]$ & $\MockLognAGN$\\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
 %% ==========================================================================
-\section{Mock catalogs and gravitational-wave events}
+\section{Simulated catalogs and mergers}
 \label{sec:mocks}
 
-The simulated catalogs (mocks) contain a dense galaxy population and a
-sparse, more strongly clustered AGN population drawn from one lognormal
-density field, and BBH mergers hosted by both (Fig.~\ref{fig:mocks}).
+One realization of the simulation is a lognormal density field, a dense
+galaxy catalog and a sparse, more strongly clustered AGN catalog drawn from
+it, \MockNev{} detected BBH mergers hosted by both, and the simulated signals
+that give the detected fraction (Fig.~\ref{fig:mocks},
+Table~\ref{tab:sims}). Figures of a single realization all show the same
+one, dubbed here as realization A.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig1_mocks}
-\caption{The simulated catalogs. (a) A slab of declination
-$|\delta|<3^\circ$ through one pair of catalogs, in comoving distance:
-galaxies, AGN, and the hosts of the detected mergers that lie in it
-(galaxy-hosted merger, AGN-hosted merger); dashed arcs are lines of constant
-redshift. (b) Top: completeness of the catalogs against redshift for the
-four flux limits, labeled with the completeness inside the horizon; bottom:
-redshifts of the galaxy hosts and AGN hosts of the \MockNev{} detected
-mergers. (c) Source-frame primary mass and (d) effective spin of the detected
-mergers of the host-dependent mock, each host class normalized to unit area;
-black dashed lines are the input peak locations and spin means. \prelim}
+\begin{figure*}[t]
+\figslot{fig1_mocks}{5.7in}
+\caption{The simulation. (a) A slab of declination $|\delta|<3^\circ$ through
+the two catalogs of realization A, in comoving distance: galaxies, AGN, and
+the hosts of the detected mergers in it (galaxy-hosted merger, AGN-hosted
+merger); dashed arcs are lines of constant redshift. (b) Top: completeness of the catalogs against redshift
+for the four flux limits, each labeled with the fraction of the hosts inside
+$z=\MockzHorizon$ that the catalog holds; bottom: redshifts of the galaxy
+hosts and AGN hosts of the \MockNev{} detected mergers. (c) Source-frame
+primary mass and (d) effective spin of the detected mergers with
+host-dependent populations and the peak-dominated spectrum, each host class
+normalized to unit area; black dashed lines are the input peak locations and
+spin means. The two host classes overlap in mass and in spin.}
 \label{fig:mocks}
 \end{figure*}
 
 \subsection{Galaxies and AGN}
 \label{sec:cats}
 
-The matter density is a lognormal field on concentric shells
-$\MockShellWidth\,{\rm Mpc}$ thick out to $z=\MockzCat$, generated with
+The matter density is a lognormal field out to $z=\MockzCat$, generated with
 \textsc{glass} \cite{Tessore:2023zyk} from nonlinear matter power spectra
-computed with \textsc{camb} \cite{Lewis:1999bs} in the cosmology of
-Sec.~\ref{sec:intro}. Galaxies and AGN are Poisson samples of this one field,
-each with a linear bias and a constant comoving number density.
+computed with \textsc{camb} \cite{Lewis:1999bs}. Galaxies and AGN are Poisson
+samples of this one field, each with a linear bias and a constant comoving
+number density. The galaxies have a bias of \MockbGal{} and a number density
+$\ngal=\MocknGal\,{\rm Mpc^{-3}}$, that of galaxies brighter than
+$\MockLcut\,L_\ast$ in the $B$-band Schechter function of
+Ref.~\cite{Gehrels:2015uga}. The AGN have a bias of \MockbAGN{} and a number
+density $\nagn=\MocknAGN\,{\rm Mpc^{-3}}$, a hundred times below the
+galaxies. Both are design choices: the density is of the order of the $10^{-4.75}\,{\rm Mpc^{-3}}$
+adopted for luminous AGN in the association studies
+\cite{Veronesi:2022hql,Bom:2023zgw}, and an input $\fagn$ of \MockfAGN{} lies
+below the current upper limits for unobscured AGN \cite{Pouw:2026lar}. The
+AGN are drawn as a population of
+their own and not as a subset of the galaxies; as a subset they would be one
+galaxy in a hundred, and the galaxy catalog would hold every AGN host.
 
-The galaxies have a bias of \MockbGal{} and a number density
-$\ngal=\MocknGal\,{\rm Mpc^{-3}}$. In the $B$-band Schechter function of
-Ref.~\cite{Gehrels:2015uga}, which the GLADE catalog adopts
-\cite{Dalya:2018cnd}, this is the density of galaxies brighter than
-$\MockLcut\,L_\ast$, or $M_B<\MockMBcut$, the bright end of the galaxy
-population. There are $\MockNGal$ of them out to $z=\MockzCat$.
-
-The AGN have a bias of \MockbAGN{} and a number density
-$\nagn=\MocknAGN\,{\rm Mpc^{-3}}$, a hundred times below the galaxies, which
-gives $\MockNAGN$ objects. Both numbers are design choices, and the AGN class
-is defined by them alone. The density is of the order of the
-$10^{-4.75}\,{\rm Mpc^{-3}}$ adopted for luminous AGN in the association
-studies \cite{Veronesi:2022hql,Bom:2023zgw}. Local AGN selected in hard
-X-rays live in galaxy groups \cite{Powell:2018}; the bias of \MockbAGN,
-against \MockbGal{} for the galaxies, makes the AGN the more strongly
-clustered class, and we have not separated how much of what follows is owed
-to the number density and how much to the bias. An input $\fagn$ of \MockfAGN{} lies below the current upper
-limits on the fraction of mergers hosted by unobscured AGN, 0.41 to 0.61 at
-95\% credibility \cite{Pouw:2026lar}, and those limits do not apply to
-obscured AGN.
-
-Every object carries a luminosity drawn from the same Schechter function
-above the cut, and the apparent magnitude that follows at its redshift. An
+Every object carries a luminosity drawn from that Schechter function and
+the apparent magnitude that follows at its redshift; an
 AGN is given the apparent magnitude of a host galaxy drawn in this way, so
-that one flux limit thins both catalogs with the same completeness
-(Sec.~\ref{sec:fluxcats}). The AGN are drawn as a population of their own and
-not as a subset of the galaxies; as a subset they would be one galaxy in a
-hundred.
-
-The cataloged redshift of every object is its true redshift with a Gaussian
-error of $\sigma_z=\MockDz\,(1+z)$, and the kernel of Eq.~(\ref{eq:hosts})
-has this width. The catalogs are therefore spectroscopic in quality. AGN
-redshift errors stop limiting $\fagn$ once they fall below about 0.01
-\cite{Pouw:2026lar}, so photometric AGN catalogs would return less than what
-we find here.
+that one flux limit thins both catalogs with the same completeness. The
+cataloged redshift of every object is its true redshift with a Gaussian
+error of $\sigma_z=\MockDz\,(1+z)$, so the catalogs are spectroscopic in
+quality.
 
 \subsection{Mergers and their measurement}
 \label{sec:events}
@@ -476,649 +421,635 @@ we find here.
 Each merger takes an AGN as its host with probability $\fagn=\MockfAGN$ and a
 galaxy otherwise, chosen uniformly within the class and with a weight
 $(1+z)^{-1}$ that keeps the merger rate per host constant in source-frame
-time. The primary mass follows a power law of index $-\MockAlpha$ between
+time. An AGN then hosts $\rr=\MockRateRatio$ times as many mergers as a
+galaxy. The primary mass follows a power law of index $-\MockAlpha$ between
 \MockMmin{} and $\MockMmax\msun$ with a Gaussian peak at $\mu_{\rm
-G}=\MockMuG\msun$ of width $\sigma_{\rm G}=\MockSigmaG\msun$ that holds a
-fraction \MockPeakFrac{} of the mergers \cite{Talbot:2018cva}. The mass ratio
-follows $q^{\beta}$ with $\beta=\MockBeta$, and the effective spin a Gaussian
-of mean $\mu_\chi=\MockMuChi$ and width $\sigma_\chi=\MockSigmaChi$. None of
-these evolves with redshift.
+G}=\MockMuG\msun$ of width $\sigma_{\rm G}=\MockSigmaG\msun$
+\cite{Talbot:2018cva}, the mass ratio follows $q^{\beta}$ with
+$\beta=\MockBeta$ for secondaries above the minimum mass, and the effective
+spin a Gaussian of mean $\mu_\chi=\MockMuChi$ and width
+$\sigma_\chi=\MockSigmaChi$.
 
-The measurement is adapted from the model of Ref.~\cite{Farah:2023vsc}. The
-signal
-has an optimal signal-to-noise ratio $\rho$ that grows with the redshifted
-chirp mass and falls as the inverse of the luminosity distance, with no
-dependence on orientation. The observed value $\rho_{\rm obs}$ is $\rho$ plus
-Gaussian noise of unit variance, and a merger is detected when $\rho_{\rm
-obs}\geq\MockSNRthr$. The logarithms of the redshifted chirp mass and of the
-mass ratio and the effective spin are measured with Gaussian errors of
-\MockSigLnMc, \MockSigLnq{} and \MockSigChi{} times $\MockSNRthr/\rho_{\rm
-obs}$, and the sky position with an error inversely proportional to
-$\rho_{\rm obs}$, between $\MockSkyMin^\circ$ and $\MockSkyMax^\circ$ for the
-detected events of the reference catalog. Without an orientation, $\rho_{\rm
-obs}$ and the chirp mass together are the distance measurement, with a median
-uncertainty of \MockSigLnDL\%. The posterior of an event is the exact
-posterior of these data for a prior that is flat in the measured
-quantities (Appendix~\ref{app:pe}).
-
-Equation~(\ref{eq:like}) is the probability of the detected data, and the
-mock respects that in two ways. Detection is decided by the observed
+The measurement is adapted from the model of Ref.~\cite{Farah:2023vsc}
+(Appendix~\ref{app:pe}). A merger is detected when its observed
+signal-to-noise ratio, the optimal one plus Gaussian noise of unit variance,
+is at least \MockSNRthr. The errors on the redshifted chirp mass, the mass
+ratio and the effective spin fall as the inverse of the observed
+signal-to-noise ratio, the sky position is measured to between
+$\MockSkyMin^\circ$ and $\MockSkyMax^\circ$, and the distance with a median
+uncertainty of \MockSigLnDL\%. Detection is decided by the observed
 signal-to-noise ratio, the number on which the posterior is conditioned
 \cite{Essick:2023upv}, and every measurement error is a function of observed
-quantities, so the posterior of an event is exact for the data that selected
+quantities, so the posterior of a merger is exact for the data that selected
 it.
 
-Mergers are drawn until \MockNev{} are detected. In the reference catalog,
-catalog A, the most distant detected merger is at $z=\MockzHorizon$, which we
-call the horizon, the median redshift is \MockzMedian, and AGN host a
-fraction \MockfAGNRealised{} of the detected mergers. We use \JointNcat{}
-such catalogs, A to I, each with its own density field and with horizons from
-\MockzHorizonMin{} to \MockzHorizonMax. For \PureNcat{} catalogs we also
-draw one set of \MockNev{} mergers that are all hosted by galaxies and one
-set that are all hosted by AGN. All of these mergers are closer and better
-localized than most detections to date, and the precision reached here is
-not a forecast.
+Mergers are drawn until \MockNev{} are detected. In realization A the most
+distant detected merger is at $z=\MockzHorizon$ and the median redshift is
+\MockzMedian. These mergers are closer and better localized than
+most detections to date, so the precision reached here is not a forecast.
 
-\subsection{Host-dependent populations}
-\label{sec:hdmock}
+\subsection{Event sets and mass spectra}
+\label{sec:sets}
 
-In the host-dependent mock the AGN-hosted mergers have their mass peak at
-$\MockMuGAGN\msun$, an offset of $\dmuG=\MockDmuG\msun$, and a mean effective
-spin offset by $\dmuchi=\MockDmuChi$; everything else is as for the galaxy
-class [Fig.~\ref{fig:mocks}(c) and (d)]. The signs are those expected of
-mergers in disks, where orbital alignment and repeated mergers favor heavier
-black holes \cite{Yang:2019okq,Yang:2019cbr} and gas torques align the spins
-\cite{McKernan:2021nwk,Li:2025iux}. The sizes are design choices. Each offset
-equals the width of the distribution it shifts, so the two classes overlap
-and no single event can be assigned to a class by its mass or its spin.
+We use two event sets. With equal populations, both host classes draw masses
+and spins from the one distribution above. With host-dependent populations,
+AGN-hosted mergers have their mass peak at $\MockMuGAGN\msun$, an offset of
+$\dmuG=\MockDmuG\msun$, and a mean effective spin offset by
+$\dmuchi=\MockDmuChi$ [Fig.~\ref{fig:mocks}(c) and (d)], with the signs
+expected of mergers in disks
+\cite{Yang:2019okq,Yang:2019cbr,McKernan:2021nwk}. The sizes are design
+choices: each offset equals the width of the distribution it shifts, so no
+single merger can be assigned to a class by its mass or its spin. Heavier
+mergers are louder, so AGN host \MockHDNagn{} of the \MockNev{} detected
+mergers of realization A, a fraction \MockHDfDet{} for an input of
+\MockfAGN; the detected fraction in Eq.~(\ref{eq:like}) accounts for the
+difference.
 
-Heavier mergers are louder. AGN therefore host \MockHDNagn{} of the
-\MockNev{} detected mergers of this mock, a fraction \MockHDfDet{} for an
-input of \MockfAGN, and the detected fraction in Eq.~(\ref{eq:like}) is what
-accounts for the difference.
+Each set is drawn with two mass spectra (Table~\ref{tab:sims}). In the
+peak-dominated spectrum the Gaussian peak holds \MockPeakFrac{} of the
+mergers, a design choice that makes the mass scale a sharp ruler:
+with the peak known, the redshifted mass of almost any merger gives its
+redshift. The observed-like spectrum has the power law plus peak fitted to
+the third gravitational-wave catalog \cite{KAGRA:2021duu}, with
+\ObsPeakFrac{} of the mergers in the peak.
+Sections~\ref{sec:anchor} to \ref{sec:hd} use the peak-dominated spectrum and
+Sec.~\ref{sec:obs} the observed-like one. Further sets with equal
+populations have all mergers hosted by AGN or all by galaxies
+(Sec.~\ref{sec:anchor}), and none or one in ten hosted by an AGN
+(Sec.~\ref{sec:validation}).
 
-Two further mocks separate masses, spins and positions. In the first the
-AGN-hosted mergers differ in the spin mean only, by the same offset. In the
-second every host is a galaxy and a fraction \MockCtrlBranchFrac{} of the
-mergers, chosen without regard to the host, has the heavier and
-faster-spinning population, so that no catalog can tell the two populations
-apart. All three use the density field and the catalogs of catalog A, and
-each is one simulated catalog.
+\begin{table}
+\caption{The simulation. Top: the two catalogs. Middle: the flux limits, with
+the redshift to which each catalog is complete and the completeness weighted
+by the detected mergers, that is the percentage of the detected mergers of
+realization A whose host is in the catalog. Bottom: the two mass spectra and
+the offsets of the AGN class in the event sets with host-dependent
+populations.}
+\label{tab:sims}
+\begin{ruledtabular}
+\begin{tabular}{lcc}
+ & Galaxies & AGN\\
+\hline
+Density [${\rm Mpc^{-3}}$] & $\MocknGal$ & $\MocknAGN$\\
+Linear bias & \MockbGal & \MockbAGN\\
+Objects to $z=\MockzCat$ & $\MockNGal$ & $\MockNAGN$\\
+$\sigma_z/(1+z)$ & \MockDz & \MockDz\\
+\hline
+Flux limit & Complete to $z$ & Weighted compl.\\
+\hline
+$m<\MockMlimTwentyOne$ & \MockzCompleteTwentyOne & \MockEventCompTwentyOne\%\\
+$m<\MockMlimTwenty$ & \MockzCompleteTwenty & \MockEventCompTwenty\%\\
+$m<\MockMlimNineteen$ & \MockzCompleteNineteen & \MockEventCompNineteen\%\\
+$m<\MockMlimEighteen$ & \MockzCompleteEighteen & \MockEventCompEighteen\%\\
+\hline
+Mass spectrum & Peak-dominated & Observed-like\\
+\hline
+Fraction in the peak & \MockPeakFrac & \ObsPeakFrac\\
+$\mu_{\rm G}$ [$M_\odot$] & \MockMuG & \ObsMuG\\
+$\sigma_{\rm G}$ [$M_\odot$] & \MockSigmaG & \ObsSigmaG\\
+Power-law index & $-\MockAlpha$ & $-\ObsAlpha$\\
+Mass range [$M_\odot$] & \MockMmin--\MockMmax & \ObsMmin--\ObsMmax\\
+\hline
+AGN offset $\dmuG$ [$M_\odot$] & \multicolumn{2}{c}{\MockDmuG}\\
+AGN offset $\dmuchi$ & \multicolumn{2}{c}{\MockDmuChi}\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
 
 \subsection{Flux-limited catalogs}
 \label{sec:fluxcats}
 
 Apparent-magnitude limits of $m<\MockMlimTwentyOne$, \MockMlimTwenty,
 \MockMlimNineteen{} and \MockMlimEighteen, the same in every direction, leave
-\MockCompTwentyOne\%, \MockCompTwenty\%, \MockCompNineteen\% and
-\MockCompEighteen\% of the galaxies inside the horizon in the catalog, and
-nearly the same fractions of the AGN [Fig.~\ref{fig:mocks}(b)]. We refer to
-a limit by this completeness inside the horizon.
+catalogs that are complete to a redshift between \MockzCompleteTwentyOne{}
+and \MockzCompleteEighteen{} and lose their hosts steeply beyond
+[Fig.~\ref{fig:mocks}(b), Table~\ref{tab:sims}]. A flux limit removes the
+far hosts first, and the mergers are near. We therefore describe each limit
+by the completeness weighted by the detected mergers, the percentage of them
+whose host is in the catalog, which falls from \MockEventCompTwentyOne\% to
+\MockEventCompEighteen\%. Counted by hosts inside $z=\MockzHorizon$, where
+the volume is large and the mergers are few, the shallowest catalog holds
+\MockCompEighteen\%.
 
-A flux limit removes the far hosts first. The shallowest catalog is complete
-below $z=\MockzCompleteEighteen$ and loses its hosts steeply beyond, while
-the median detected merger is at $z=\MockzMedian$. Its completeness of
-\MockCompEighteen\% counts hosts, most of which lie near the horizon where
-the volume is large and the detected mergers few: \MockEventFracCompleteEighteen\%
-of the detected mergers lie where even this catalog is complete, and the
-completeness weighted by the detected mergers is \MockEventCompEighteen\%.
-
-In the analysis $C_k(z)$ is the fraction of the Schechter function brighter
-than the limit at redshift $z$, with its parameters held at values fitted to
-the catalogs, and the uncataloged hosts enter Eq.~(\ref{eq:hosts}) with the
-number densities $n_k$. We take these densities at their inputs, assume an
-AGN density that is off by factors between \DensityFactorLo{} and
-\DensityFactorHi, or infer both. The merger catalog is that of catalog A at every limit; catalogs
-B and C add two more at the shallowest.
+In the analysis the number density of each class is counted where its
+catalog is complete: the
+$m<\MockMlimEighteen$ AGN catalog holds \MockNAGNCompleteEighteen{} AGN below
+$z=\MockzCompleteEighteen$, which gives $\nagn$ to \MocknAGNPrecEighteen\%.
+The same mergers are used at every limit.
 
 %% ==========================================================================
 \section{Results}
 \label{sec:results}
 
-\subsection{Two catalogs, one density field}
-\label{sec:two}
+\subsection{Known population and complete catalogs}
+\label{sec:anchor}
 
-With complete catalogs and a common population, $H_0$ and $\fagn$ are
-recovered together and are nearly uncorrelated (Fig.~\ref{fig:two},
-Table~\ref{tab:two}). The combined posterior of the \JointNcat{} catalogs
-gives $H_0=\JointHzeroComb\,\kms$, which contains the input \MockHzero{} at
-the \JointHzeroCombLevel\% credible level, and $\fagn=\JointfComb$, which
-contains the input \MockfAGN{} at the \JointfCombLevel\% level; in the plane
-of the two, the input lies on the boundary of the \JointCombLevelTwoD\%
-highest-density region. The correlation coefficient of $H_0$ and $\fagn$ is
-$\JointRhoComb$ in the combined posterior and between $\JointRhoMin$ and
-$\JointRhoMax$ in single catalogs. We argue that the correlation is weak because the two
-parameters act differently on the likelihood: $\fagn$ moves probability
-between the galaxies and the AGN that share a localization volume, and $H_0$
-slides the redshift scale of both catalogs together. Cross-Parkin \textit{et al.}~\cite{Cross-Parkin:2026pua}
-found ``only a weak correlation'' between $H_0$ and the mixing fraction of
-two weightings of one galaxy catalog, and we find the same for two distinct
-catalogs whose number densities differ by a factor of a hundred. Among the
-single catalogs, the input $H_0$ lies outside the 90\% interval of catalog D
-and the input $\fagn$ outside that of catalog I.
+With the population known and complete catalogs, the likelihood measures
+$H_0$ and $\fagn$ together (Fig.~\ref{fig:anchor},
+Table~\ref{tab:results}). On realization A we find
+$H_0=\KnownBothHzero\,\kms$ and $\fagn=\KnownBothfAGN$, and the posterior
+combined over \NrealKnown{} realizations gives
+$H_0=\KnownBothHzeroComb\,\kms$ and $\fagn=\KnownBothfAGNComb$, with the
+inputs \MockHzero{} and \MockfAGN{} at the \KnownBothHzeroCL\% and
+\KnownBothfAGNCL\% credible levels. The two parameters are nearly
+uncorrelated, with a correlation coefficient of $r=\JointRhoComb$, as
+Cross-Parkin \textit{et
+al.}~\cite{Cross-Parkin:2026pua} found for two weightings of one galaxy
+catalog: $\fagn$ moves probability between the galaxies and the AGN that
+share a localization volume, and $H_0$ slides the redshift scale of both
+catalogs together. % EXPECTED
+The mergers require the second host class:
+the Bayes factor of two host classes against galaxy hosts alone is
+$\lB=\KnownBothLBComb$ for the combined realizations, for a prior uniform on
+$[\PriorfLo,\PriorfHi]$ in $\fagn$.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig2_two_catalogs}
-\caption{Joint posterior of $H_0$ and $\fagn$ from complete galaxy and AGN
-catalogs with a common population. Panels A to I show the 90\%
-highest-density region for each of \JointNcat{} simulated catalogs; the last
-panel shows those regions as outlines and the 90\% region of the combined
-posterior, filled. Black dashed lines are the input values. \prelim}
-\label{fig:two}
+\begin{figure*}[t]
+\figslot{fig2_anchor}{2.9in}
+\caption{Known population and complete catalogs. (a) Joint posterior of $H_0$
+and $\fagn$ with both catalogs: 90\% highest-density regions for realization
+A (dashed outline) and combined over realizations (filled); the black plus
+sign is the input. (b) Posterior density of $H_0$ on realization A with both
+catalogs (solid), the galaxy catalog alone (dashed), no catalog (dotted) and
+the AGN catalog alone (dash-dotted), which rises to the prior edge, off the
+scale of the panel; the black dashed line is the input. Each catalog narrows what the known mass scale
+gives.}
+\label{fig:anchor}
 \end{figure*}
 
-\begin{table*}
-\caption{Complete catalogs and a common population: posteriors of $H_0$ and
-$\fagn$ from both catalogs, their correlation coefficient $\rho$, the Bayes
-factor of two host classes against galaxy hosts only (Savage--Dickey ratio at
-$\fagn=0$, prior U$[0,1]$), and $H_0$ from the galaxy catalog alone. Medians
-and 90\% intervals; the inputs are $H_0=\MockHzero\,\kms$ and
-$\fagn=\MockfAGN$.}
-\label{tab:two}
+\begin{table*}[t]
+\caption{Results by analysis, in the order of Sec.~\ref{sec:results}:
+posteriors combined over the stated number of realizations, of \MockNev{}
+detected mergers each. $\dmuG$ and $\dmuchi$ are the offsets of the AGN class in the mass
+peak and in the spin mean. $\lB$ is the Bayes factor of the host-dependent
+analysis against the single-population analysis of the same mergers with
+both catalogs, for the priors of Table~\ref{tab:priors}. The inputs are
+$H_0=\MockHzero\,\kms$ and $\fagn=\MockfAGN$, and for host-dependent
+populations $\dmuG=\MockDmuG\msun$ and $\dmuchi=\MockDmuChi$. Medians and
+90\% intervals. With the number densities inferred $\fagn$ follows its
+prior.}
+\label{tab:results}
 \begin{ruledtabular}
-\begin{tabular}{lccccc}
-Catalog & $H_0$ [$\kms$] & $\fagn$ & $\rho$ & $\lB$ & $H_0$, galaxy catalog alone [$\kms$]\\
+\begin{tabular}{lcccccc}
+Analysis & Realizations & $H_0$ [$\kms$] & $\fagn$ & $\dmuG$ [$M_\odot$] & $\dmuchi$ & $\lB$\\
 \hline
-A & $\JointHzeroCatA$ & $\JointfCatA$ & $\JointRhoCatA$ & $\LBfZeroCatA$ & $\GalOnlyHzeroCatA$\\
-B & $\JointHzeroCatB$ & $\JointfCatB$ & $\JointRhoCatB$ & $\LBfZeroCatB$ & $\GalOnlyHzeroCatB$\\
-C & $\JointHzeroCatC$ & $\JointfCatC$ & $\JointRhoCatC$ & $\LBfZeroCatC$ & $\GalOnlyHzeroCatC$\\
-D & $\JointHzeroCatD$ & $\JointfCatD$ & $\JointRhoCatD$ & $\LBfZeroCatD$ & $\GalOnlyHzeroCatD$\\
-E & $\JointHzeroCatE$ & $\JointfCatE$ & $\JointRhoCatE$ & $\LBfZeroCatE$ & $\GalOnlyHzeroCatE$\\
-F & $\JointHzeroCatF$ & $\JointfCatF$ & $\JointRhoCatF$ & $\LBfZeroCatF$ & $\GalOnlyHzeroCatF$\\
-G & $\JointHzeroCatG$ & $\JointfCatG$ & $\JointRhoCatG$ & $\LBfZeroCatG$ & $\GalOnlyHzeroCatG$\\
-H & $\JointHzeroCatH$ & $\JointfCatH$ & $\JointRhoCatH$ & $\LBfZeroCatH$ & $\GalOnlyHzeroCatH$\\
-I & $\JointHzeroCatI$ & $\JointfCatI$ & $\JointRhoCatI$ & $\LBfZeroCatI$ & $\GalOnlyHzeroCatI$\\
+\multicolumn{7}{l}{Equal populations, peak-dominated spectrum}\\
+Population known, both catalogs & \NrealKnown & $\KnownBothHzeroComb$ & $\KnownBothfAGNComb$ & & & \\
+Population known, galaxy catalog alone & \NrealKnown & $\KnownGalHzeroComb$ & & & & \\
+Population known, no catalog & \NrealKnown & $\KnownNoneHzeroComb$ & & & & \\
+Population known, flux limit $m<\MockMlimEighteen$ & \NrealFlux & $\FluxEighteenHzeroComb$ & $\FluxEighteenfAGNComb$ & & & \\
+Number densities inferred, flux limit $m<\MockMlimEighteen$ & \NrealFree & $\FreeEighteenHzeroComb$ & $\FreeEighteenfAGNComb$ & & & \\
+Single population, both catalogs & \NrealSingle & $\SingleBothHzeroComb$ & $\SingleBothfAGNComb$ & & & \\
+Single population, no catalog & \NrealSingle & $\SingleNoneHzeroComb$ & & & & \\
 \hline
-Combined & $\JointHzeroComb$ & $\JointfComb$ & $\JointRhoComb$ & $\LBfZeroComb$ & $\GalOnlyHzeroComb$\\
+\multicolumn{7}{l}{Host-dependent populations, peak-dominated spectrum}\\
+Single population, both catalogs & \NrealHD & $\HDSingleHzeroComb$ & $\HDSinglefAGNComb$ & & & \\
+Host-dependent populations, both catalogs & \NrealHD & $\HDHostHzeroComb$ & $\HDHostfAGNComb$ & $\HDHostDmuGComb$ & $\HDHostDmuChiComb$ & $\HDHostLBComb$\\
+Single population, no catalog & \NrealHD & $\HDNoneHzeroComb$ & & & & \\
+\hline
+\multicolumn{7}{l}{Host-dependent populations, observed-like spectrum}\\
+Single population, both catalogs & \NrealObs & $\ObsSingleHzeroComb$ & $\ObsSinglefAGNComb$ & & & \\
+Host-dependent populations, both catalogs & \NrealObs & $\ObsHostHzeroComb$ & $\ObsHostfAGNComb$ & $\ObsHostDmuGComb$ & $\ObsHostDmuChiComb$ & $\ObsHostLBComb$\\
+Single population, no catalog & \NrealObs & $\ObsNoneHzeroComb$ & & & & \\
 \end{tabular}
 \end{ruledtabular}
 \end{table*}
 
-Galaxy hosts alone cannot describe the mixed population, and yet $H_0$
-hardly notices. The Bayes factor of two host classes against galaxy hosts
-only is $\lB=\LBfZeroMin$ to \LBfZeroMax{} per catalog and \LBfZeroComb{}
-for the \JointNcat{} combined, for a prior uniform on $[0,1]$ in $\fagn$.
-The same events analyzed with the galaxy catalog alone give a combined
-$H_0=\GalOnlyHzeroComb\,\kms$, with the input at the
-\GalOnlyHzeroCombLevel\% credible level and a median
-\ShiftGalOnlyMinusJointComb$\,\kms$ above that from both catalogs, a shift
-smaller than its own interval [Fig.~\ref{fig:info}(b)]. We read this as a
-consequence of the shared density field: the galaxy catalog still shows
-where the AGN-hosted mergers are, because the AGN sit in the same structure.
-This is the AGN case of the host-weighting systematic
-\cite{Hanselman:2024hqy,Perna:2024lod,Alfradique:2025tbj}, and it agrees
-with the findings that $H_0$ is stable against a wrong host weighting
-\cite{Borghi:2025pav} and that physical weights add little once the catalog
-is clustered \cite{Kalomenopoulos:2025qpt}. The evidence, and not $H_0$, is
-what reveals the second host class, as for luminosity weights
-\cite{Li:2025hrh}. The converse does not hold. With the AGN catalog alone
-the $H_0$ posterior has no interior maximum in the prior range for
-\AgnOnlyNoInterior{} of the \JointNcat{} catalogs, and the Bayes factor of
-two host classes against AGN hosts only is $\lB=\LBfOneComb$ for the
-\JointNcat{} combined: a sparse catalog cannot stand in for the galaxies
-that host most of the mergers.
+What each catalog adds is measured against the mass scale
+[Fig.~\ref{fig:anchor}(b)]. With no catalog, the known mass peak alone gives
+$H_0=\KnownNoneHzero\,\kms$ on realization A. The galaxy catalog alone gives
+$\KnownGalHzero\,\kms$ and both catalogs $\KnownBothHzero\,\kms$, a 90\%
+width \MassScaleShareKnown{} times smaller than with no catalog: most of the
+gain comes with the AGN catalog. % EXPECTED
+The AGN catalog alone cannot stand in for the galaxies that host seven
+mergers in ten, and its posterior has no interior maximum in the prior
+range. % EXPECTED
+The gain is one of the number of candidate hosts: a 90\% localization volume
+holds \PureGalHostsPerVol{} galaxies and \PureAGNHostsPerVol{} AGN (medians
+over the mergers of realization A). For \MockNev{} mergers all hosted by AGN,
+analyzed with the AGN catalog, the 90\% width of $H_0$ is
+$\AGNhostedHzeroWid\,\kms$; for \MockNev{} mergers all hosted by galaxies,
+analyzed with the galaxy catalog, it is $\GalhostedHzeroWid\,\kms$, a factor
+of \WidthRatioAGNGal{} larger and close to the $\KnownNoneHzeroWid\,\kms$ of
+no catalog. % EXPECTED
+That rare hosts are easier to associate is known
+\cite{Bartos:2017ggb,Bom:2023zgw}. Here the gain combines a
+number density a hundred times lower with a bias of \MockbAGN{} against
+\MockbGal, which we have not separated.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig3_host_information}
-\caption{Which hosts carry the information on $H_0$. (a) Posterior density
-of $H_0$ for each of \PureNcat{} simulated catalogs with \MockNev{}
-galaxy-hosted mergers, analyzed with the galaxy catalog (blue), and with
-\MockNev{} AGN-hosted mergers, analyzed with the AGN catalog (vermilion).
-(b) $H_0$ from all events of the catalogs of Fig.~\ref{fig:two} with the
-galaxy catalog alone (blue) and with both catalogs (green); thin curves are
-single catalogs and thick curves the combined posteriors, with their 90\%
-intervals shaded. The black dashed line is the input value. \prelim}
-\label{fig:info}
-\end{figure*}
-
-At equal numbers of events, AGN-hosted mergers constrain $H_0$
-\PureRatioNinety{} times more tightly than galaxy-hosted ones
-[Fig.~\ref{fig:info}(a)]. Over \PureNcat{} catalogs the mean 90\% half-width
-of $H_0$ is $\PureAGNHalfNinety\,\kms$ for \MockNev{} AGN-hosted mergers and
-the AGN catalog, against $\PureGalHalfNinety\,\kms$ for \MockNev{}
-galaxy-hosted mergers and the galaxy catalog. We read the gain as a matter
-of the number of candidate hosts. A localization volume holds
-\PureGalHostsPerVol{} galaxies and \PureAGNHostsPerVol{} AGN on average, and
-the AGN are the more clustered, so the redshift distribution of AGN along a
-line of sight is a few narrow spikes where that of the galaxies is nearly
-smooth. The direction is known:
-rare hosts are easier to associate
-\cite{Bartos:2017ggb,Alves:2020wnl,Bom:2023zgw,Pouw:2026lar}, an AGN catalog
-improves $H_0$ from 3.7\% to 3.2\% for extreme-mass-ratio inspirals
-\cite{Zhu:2024qpp}, and catalogs of galaxy clusters do the same for BBHs
-\cite{Beirnaert:2025wcx}. What we add is the size of the effect for two
-classes on one density field at equal numbers of events. The gain belongs to
-the mergers that AGN host, and an AGN catalog delivers it only for that
-fraction of the mergers. The ratio rests on the widths of the AGN-hosted
-posteriors, the quantity most exposed to the Monte Carlo error whose size
-Appendix~\ref{app:like} gives.
-
-\subsection{Host-dependent masses and spins}
-\label{sec:hd}
-
-If mergers in AGN are heavier, an analysis with one population is biased in
-$H_0$, and the host catalogs do not protect it (Fig.~\ref{fig:hdh0},
-Table~\ref{tab:hd}). On the host-dependent mock the common-population
-analysis with both catalogs gives $H_0=\CommonHzero\,\kms$, an interval that
-excludes the input \MockHzero{} and whose median lies
-$\ShiftCommonMinusFix\,\kms$ above that of the host-dependent model on the
-same events. The sign is that of a mass-scale error in a spectral siren
-measurement
-\cite{Farr:2019twy,Ezquiaga:2022zkx,Mastrogiovanni:2021wsd,Pierra:2023deu}.
-The model expects the peak at $\MockMuG\msun$; the AGN-hosted mergers arrive
-with redshifted masses that belong to a peak at $\MockMuGAGN\msun$; and the
-model accounts for them with a larger redshift at the measured distance,
-which is a larger $H_0$. A correlation between $H_0$ and the fraction of a
-heavier formation channel has been reported without catalogs
-\cite{Scarpa:2026piy}. Here the heavier population is also a different host
-class. The fraction stays at $\fagn=\CommonfAGN$, which we read as the
-positions setting it. The common population of this comparison has its mass and spin
-parameters fixed at the galaxy-class inputs. A common population with free parameters can settle between the two classes,
-and gives $H_0=\CommonFreeHzero\,\kms$; the host-dependent model with the
-same freedom is preferred to it by $\lB=\LBHDVsCommonFree$, for the offset
-priors of Table~\ref{tab:priors}.
-
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig4_host_dependent_h0}
-\caption{$H_0$ when AGN-hosted mergers are heavier and spin faster (one
-simulated catalog in each panel); the black dashed line is the input value.
-(a) Both catalogs: the host-dependent
-model with the reference fixed (solid) and with eight parameters (dotted),
-and the common population (dashed). (b) Galaxy catalog alone: the common
-population (dashed), whose density is largest at the end of the prior range
-(gray dotted line), and the host-dependent model with its offsets held fixed
-(solid). (c) A mock with galaxy hosts only, galaxy catalog: the common
-population (dashed) and two populations with the offsets held at their
-inputs (solid). \prelim}
-\label{fig:hdh0}
-\end{figure*}
-
-Less host information makes the bias larger. With the galaxy catalog alone
-the common-population posterior has no interior maximum: its density is
-largest at $\PriorHDHzeroHi\,\kms$, the upper end of the range
-[Fig.~\ref{fig:hdh0}(b)]. In the mock where every host is a galaxy and no
-catalog can separate the two populations, the common population gives
-$H_0=\CtrlUnmodHzero\,\kms$ with its upper tail cut by the end of the prior
-range, at least $\ShiftCtrlUnmodMinusMod\,\kms$ above the model with two
-populations, which gives $\CtrlModHzero\,\kms$ with the input inside the
-90\% interval and is preferred by $\lB=\LBCtrlModVsUnmod$
-[Fig.~\ref{fig:hdh0}(c)]. We read the ordering as a competition between two
-redshift scales. The catalogs tie the redshifts to the structure that the
-events trace, and the more of that structure is resolved, the less the
-misplaced mass scale can move $H_0$, in line with the correlation between
-$H_0$ and the mass scale that grows as a catalog becomes incomplete
-\cite{Borghi:2025pav}. Two catalogs leave $\ShiftCommonMinusFix\,\kms$ of
-it.
-
-Letting each host class have its own mass peak and spin mean recovers $H_0$,
-$\fagn$ and both offsets (Fig.~\ref{fig:offsets}). With the reference
-population fixed and the offsets free we find $H_0=\HDFixHzero\,\kms$,
-$\fagn=\HDFixfAGN$, $\dmuG=\HDFixDmuG\msun$ for an input of \MockDmuG, and
-$\dmuchi=\HDFixDmuChi$ for an input of \MockDmuChi; the four inputs lie
-inside their 90\% intervals. The host-dependent model is preferred to the
-common population by $\lB=\LBOffsetsVsCommon$, for priors uniform on
-$[\PriorDmuGLo,\PriorDmuGHi]\msun$ in $\dmuG$ and on
-$[\PriorDmuChiLo,\PriorDmuChiHiSix]$ in $\dmuchi$. Its $H_0$ interval is
-\WRatioFixOverCommon{} times as wide as that of the common population. The
-host-dependent model adds no precision in $H_0$. It removes the bias.
-
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig5_offsets}
-\caption{Posteriors of (a) $\fagn$, (b) the mass-peak offset $\dmuG$ and (c)
-the spin-mean offset $\dmuchi$ on the host-dependent mock with both catalogs
-and $H_0$ free: reference fixed (solid), reference free (dash-dotted) and
-eight parameters (dotted). (d) The spin-mean offset on the mock with a spin
-offset only, at fixed $H_0$: with the catalogs (green) and from spins alone
-(blue), which ends at the edge of its prior. Black dashed lines are the
-input values. \prelim}
-\label{fig:offsets}
-\end{figure*}
-
-\begin{table*}
-\caption{Analyses of the mocks with host-dependent populations (one simulated
-catalog each). $\lB$ compares each model with the common population on the
-same events and catalogs. Offsets labeled ``fixed'' are held at the stated
-values and not inferred. Medians and 90\% intervals.}
-\label{tab:hd}
-\begin{ruledtabular}
-\begin{tabular}{lccccc}
-Model & $H_0$ [$\kms$] & $\fagn$ & $\dmuG$ [$M_\odot$] & $\dmuchi$ & $\lB$\\
-\hline
-Input & \MockHzero & \MockfAGN & \MockDmuG & \MockDmuChi & \\
-\hline
-\multicolumn{6}{l}{Host-dependent mock, both catalogs}\\
-Common population & $\CommonHzero$ & $\CommonfAGN$ & 0 & 0 & 0\\
-Common population, free parameters & $\CommonFreeHzero$ & $\CommonFreefAGN$ & 0 & 0 & \\
-Offsets free, reference fixed & $\HDFixHzero$ & $\HDFixfAGN$ & $\HDFixDmuG$ & $\HDFixDmuChi$ & $\LBOffsetsVsCommon$\\
-Reference free (six parameters) & $\HDFreeHzero$ & $\HDFreefAGN$ & $\HDFreeDmuG$ & $\HDFreeDmuChi$ & $\LBFreeRefVsCommon$\\
-Widths free (eight parameters) & $\HDEightHzero$ & $\HDEightfAGN$ & $\HDEightDmuG$ & $\HDEightDmuChi$ & $\LBEightVsCommon$\\
-\hline
-\multicolumn{6}{l}{Host-dependent mock, galaxy catalog alone}\\
-Common population & \multicolumn{2}{l}{no interior maximum below $\PriorHDHzeroHi$} & 0 & 0 & \\
-Offsets fixed & $\PinIOneHzero$ & & \PinDmuG, fixed & \PinDmuChi, fixed & \\
-\hline
-\multicolumn{6}{l}{Galaxy hosts only, galaxy catalog}\\
-Common population & $\CtrlUnmodHzero$ & & 0 & 0 & 0\\
-Two populations, offsets fixed & $\CtrlModHzero$ & $\CtrlModfBranch$ & \MockDmuG, fixed & \MockDmuChi, fixed & $\LBCtrlModVsUnmod$\\
-\end{tabular}
-\end{ruledtabular}
-\end{table*}
-
-Inferring the reference population as well leaves $H_0$ in place. With the
-reference peak location and spin mean free we find $H_0=\HDFreeHzero\,\kms$,
-and with the two widths free too, eight parameters in all,
-$H_0=\HDEightHzero\,\kms$ and $\fagn=\HDEightfAGN$, with the inputs of $H_0$
-and $\fagn$ inside these 90\% intervals (Appendix~\ref{app:corner}). The offsets are measured \WRatioFreeDmuGOverFix{} and
-\WRatioFreeDmuChiOverFix{} times less tightly once the reference is free.
-Freeing the reference is not rewarded, since the fixed one sits at its
-input: the Bayes factor of the free reference against the fixed one is
-$\lB=\LBFreeRefVsFix$, and that of the free widths against the fixed ones is
-$\LBEightVsFree$, for the priors of Table~\ref{tab:priors}. $H_0$ follows the mass scale of the majority:
-its correlation coefficient with $\mu_{\rm G}$ is $\HDEightRhoHzeroMuG$ and
-with $\dmuG$ it is $\HDEightRhoHzeroDmuG$. Not every input is contained. In the
-eight-parameter model the spin-mean offset is $\dmuchi=\HDEightDmuChi$, a
-90\% interval that excludes the input \MockDmuChi, and the same holds for
-$\mu_{\rm G}=\HDEightMuG\msun$ against \MockMuG{} and for
-$\sigma_\chi=\HDEightSigmaChi$ against \MockSigmaChi. This is one simulated
-catalog. Over \HDNcat{} catalogs combined, the inputs of $\dmuG$ and
-$\dmuchi$ lie at the \HDEightDmuGCombLevel\% and \HDEightDmuChiCombLevel\%
-credible levels (Sec.~\ref{sec:validation}).
-
-Positions and intrinsic parameters both identify the host class, and they
-help each other unequally [Fig.~\ref{fig:offsets}(d)]. On the mock with a
-spin offset only, and with $H_0$ held at its input, the positions alone give
-$\fagn=\SpinPosfAGN$ and modeling the spin offset gives $\SpinBothfAGN$: the
-width of the 90\% interval changes by $\SpinfWidthChange\%$, so $\fagn$ is
-set almost entirely by where the mergers are. The spin offset gains far more. We
-find $\dmuchi=\SpinBothDmuChi$ with the catalogs and $\SpinIntDmuChi$ from
-spins alone, a 90\% interval \SpinDmuChiWidthRatio{} times wider, and the
-Bayes factor against no offset is $\lB=\LBSpinFixH$ with the catalogs and
-\LBSpinIntFixH{} without, for a prior uniform on
-$[\PriorSpinDmuChiLo,\PriorSpinDmuChiHi]$; the posterior from spins alone
-reaches the upper end of that prior, so the factor of \SpinDmuChiWidthRatio{}
-depends slightly on the range. The catalogs say which events are likely to be AGN-hosted, and the
-spin distribution of that class can then be read off, where spins alone must
-separate two overlapping Gaussians. This is the joint inference that the
-disagreement between position-based and spin-based identifications of
-candidate AGN mergers calls for \cite{Pouw:2026lar,Bartos:2026xlt}. We have
-shown it for the spin, which is not redshifted and does not affect
-detection. The mass is coupled to the position through detection, since the
-heavier AGN-hosted mergers are overrepresented among the detected events
-(Sec.~\ref{sec:hdmock}).
-
-\subsection{Flux limits and the number of missing hosts}
+\subsection{Flux-limited catalogs}
 \label{sec:flux}
 
-Flux limits cost little precision when the number densities of the
-uncataloged hosts are known [Fig.~\ref{fig:flux}(a) and (c),
-Table~\ref{tab:flux}]. At \MockCompEighteen\% completeness we find
-$H_0=\FluxHzeroEighteen\,\kms$ and $\fagn=\FluxfEighteen$ on catalog A, with
-both inputs inside the 90\% intervals. These intervals are wider than those
-from the complete catalogs by factors of \FluxHzeroRatioEighteen{} and
-\FluxfRatioEighteen, and the $H_0$ median moves by
-$\FluxHzeroShiftEighteen\,\kms$, against a 90\% half-width of
-$\FluxHzeroHalfEighteen\,\kms$. We attribute the small cost to two things. The mergers are nearer than the hosts that the flux limit removes
-(Sec.~\ref{sec:fluxcats}), and the uncataloged hosts enter
-Eq.~(\ref{eq:hosts}) with their true number density, so the model dilutes
-the cataloged structure by the right amount. For $H_0$ this is in line with
-studies of catalog completeness
-\cite{Gray:2019ksv,Borghi:2025pav,Kalomenopoulos:2025qpt,VanWyngarden:2025ogy}.
-A completion that follows the large-scale structure does better than a
-uniform one at low completeness
-\cite{Dalang:2023ehp,Leyde:2025rzk,Barbieri:2026fdy,Tagliazucchi:2026qwy},
-and ours is uniform. We are not aware of an earlier statement for $\fagn$.
+A flux limit removes hosts from both catalogs, and the measurement of
+Sec.~\ref{sec:anchor} holds as long as the number density of each host class
+is known [Fig.~\ref{fig:flux}(a), Table~\ref{tab:flux}]. % EXPECTED
+At $m<\MockMlimEighteen$, where \MockEventCompEighteen\% of the detected
+mergers have their host in the catalog, we find
+$H_0=\FluxEighteenHzero\,\kms$ and $\fagn=\FluxEighteenfAGN$ on realization
+A, with 90\% widths of $\FluxEighteenHzeroWid\,\kms$ and
+\FluxEighteenfAGNWid{} against $\KnownBothHzeroWid\,\kms$ and
+\KnownBothfAGNWid{} for complete catalogs. We attribute the small cost to two
+things. % EXPECTED
+The mergers are nearer than most of the hosts that the limit removes, and
+the hosts that the catalog misses enter Eq.~(\ref{eq:hosts}) with their true
+number density, so the model dilutes the cataloged structure by the right
+amount; a completion that follows the large-scale structure would cost
+less than our uniform one \cite{Dalang:2023ehp,Barbieri:2026fdy}. In the
+association searches the completeness of the AGN catalog limits $\fagn$
+\cite{Pouw:2026lar}, since the two enter the likelihood as a product
+\cite{Veronesi:2023ugk,Veronesi:2024tef,Zhu:2025rdv}; the cost
+is small here because the model is given the number of hosts that the
+catalog misses.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig6_flux_limits}
-\caption{Flux limits and the assumed AGN number density (one simulated
-catalog). (a) $\fagn$ and (c) $H_0$, medians and 90\% intervals, against the
-flux limit and completeness inside the horizon, with the number densities of
-the uncataloged hosts at their inputs; the open circle is the complete
-catalog. (b) and (d) Medians against the assumed AGN number density in units
-of its input, one curve per flux limit with the symbols of (a); the band is
-the 90\% interval at \MockCompEighteen\% completeness. Black dashed lines
-are the input values. \prelim}
+\begin{figure*}[t]
+\figslot{fig3_flux_limits}{3.6in}
+\caption{Flux-limited catalogs (realization A). (a) Medians and 90\%
+intervals of $H_0$ (top) and of $\fagn$ (bottom) against the flux limit of
+both catalogs, with the number densities known; the upper axis gives the
+completeness weighted by the detected mergers. (b) Median and 90\% interval
+of $\fagn$ against the assumed AGN number density in units of its input.
+With the hosts normalized to $z=\NormZmax$: $m<\MockMlimTwentyOne$ (filled
+circles), $m<\MockMlimEighteen$ (red open diamonds) and complete catalogs
+(filled squares). With the hosts normalized to $z=\NormZmaxProd$: complete
+catalogs (open squares) and $m<\MockMlimEighteen$ (purple open diamonds).
+Black curves are the prediction of the identity of Eq.~(\ref{eq:rates}):
+solid $m<\MockMlimTwentyOne$ and dashed $m<\MockMlimEighteen$ for $z=\NormZmax$,
+dotted for the other three sets. Black dashed lines are the inputs. The flux
+limit hardly moves either parameter, and the assumed number density moves
+$\fagn$ unless the catalog is complete over the volume.}
 \label{fig:flux}
 \end{figure*}
 
-\begin{table*}
-\caption{Flux-limited catalogs (catalog A). Completeness inside the horizon;
-$H_0$ and $\fagn$ with the number densities of the uncataloged hosts at
-their inputs; the change of the posterior medians per decade of the assumed
-AGN number density; and the posteriors when both number densities are
-inferred. The inputs are $\log_{10}(\ngal/{\rm Mpc^{-3}})=\MockLognGal$ and
-$\log_{10}(\nagn/{\rm Mpc^{-3}})=\MockLognAGN$. Medians and 90\% intervals,
-$H_0$ in $\kms$.}
+What the mergers measure at every flux limit is the merger rate per host
+(Sec.~\ref{sec:rates}): $\rr=\FluxEighteenRateRatio$ at
+$m<\MockMlimEighteen$ and $\KnownBothRateRatio$ for complete catalogs, for
+an input of \MockRateRatio. The fraction $\fagn$ inherits whatever is
+assumed for the number of AGN [Fig.~\ref{fig:flux}(b)]. With complete
+catalogs no number density enters: doubling the assumed AGN number density
+moves the median of $\fagn$ by \NormDeltafTwoCompleteProd, because the
+catalog counts its own hosts. That holds for the volume the catalog covers.
+If the hosts are normalized to $z=\NormZmax$, far beyond catalogs that end
+at $z=\MockzCat$, the complete AGN catalog holds a share $F_{\rm
+AGN}=\NormFAGNComplete$ of them and the doubling moves $\fagn$ by
+\NormDeltafTwoCompleteFive, the \NormDeltafTwoCompleteFivePred{} that
+Eq.~(\ref{eq:rates}) predicts, although no host is missing where the mergers
+are. A flux-limited catalog holds a small share of the hosts whichever
+volume is used, $F_{\rm AGN}=\NormFAGNEighteenProd$ at $m<\MockMlimEighteen$,
+and there the doubling moves $\fagn$ by \NormDeltafTwoEighteenProd, against a
+predicted \NormDeltafTwoEighteenProdPred{} and a 90\% width of
+\FluxEighteenfAGNWid. It also moves $H_0$, by
+$\NormDeltaHzeroTwoEighteenProd\,\kms$ against a 90\% width of
+$\FluxEighteenHzeroWid\,\kms$, which Eq.~(\ref{eq:rates}) does not describe:
+half of the detected mergers lie where this catalog is incomplete, and the
+assumed density sets how much of each is given to the uniform hosts. At
+$m<\MockMlimTwentyOne$, where every merger has its host in the catalog,
+$H_0$ moves by $\NormDeltaHzeroTwoTwentyOneFive\,\kms$. The fraction of
+mergers hosted by AGN thus refers to a volume and needs the number of AGN in
+it, as Pouw \textit{et al.}~\cite{Pouw:2026lar} note for the maximum
+redshift of their merger populations. This is why each number density is
+counted where its catalog is complete (Sec.~\ref{sec:fluxcats}); a factor of
+two remains the size of the question for hosts that a catalog holds at no
+redshift, such as obscured AGN.
+
+\begin{table*}[t]
+\caption{Flux-limited catalogs (realization A): the completeness weighted
+by the detected mergers; $H_0$, $\fagn$ and the merger rate per AGN relative
+to that per galaxy, $\rr$, with the number densities known; and, with both
+number densities inferred, $H_0$, $\rr$ and the 90\% upper limit on
+$\log_{10}(\nagn/{\rm Mpc^{-3}})$ beside the limit that the priors allow
+once $\rr$ is measured.
+The inputs are $H_0=\MockHzero\,\kms$, $\fagn=\MockfAGN$,
+$\rr=\MockRateRatio$ and $\log_{10}(\nagn/{\rm Mpc^{-3}})=\MockLognAGN$.
+Medians and 90\% intervals, $H_0$ in $\kms$.}
 \label{tab:flux}
 \begin{ruledtabular}
-\begin{tabular}{lccccccccc}
- & & \multicolumn{2}{c}{Densities at inputs} & \multicolumn{2}{c}{Per decade of $\nagn$} & \multicolumn{4}{c}{Densities inferred}\\
-Limit & Compl. & $H_0$ & $\fagn$ & $d\fagn$ & $dH_0$ & $\log_{10}\ngal$ & $\log_{10}\nagn$ & $\fagn$ & $H_0$\\
+\begin{tabular}{lcccccccc}
+ & & \multicolumn{3}{c}{Number densities known} & \multicolumn{4}{c}{Number densities inferred}\\
+Flux limit & Weighted compl. & $H_0$ & $\fagn$ & $\rr$ & $H_0$ & $\rr$ & $\log_{10}\nagn$ & Priors allow\\
 \hline
-none & complete & $\JointHzeroCatA$ & $\JointfCatA$ & & & & & & \\
-$m<\MockMlimTwentyOne$ & \MockCompTwentyOne\% & $\FluxHzeroTwentyOne$ & $\FluxfTwentyOne$ & $\SlopefAGNTwentyOne$ & $\SlopeHzeroTwentyOne$ & $\FreeLognGalTwentyOne$ & $\FreeLognAGNTwentyOne$ & $\FreefAGNTwentyOne$ & $\FreeHzeroTwentyOne$\\
-$m<\MockMlimTwenty$ & \MockCompTwenty\% & $\FluxHzeroTwenty$ & $\FluxfTwenty$ & $\SlopefAGNTwenty$ & $\SlopeHzeroTwenty$ & $\FreeLognGalTwenty$ & $\FreeLognAGNTwenty$ & $\FreefAGNTwenty$ & $\FreeHzeroTwenty$\\
-$m<\MockMlimNineteen$ & \MockCompNineteen\% & $\FluxHzeroNineteen$ & $\FluxfNineteen$ & $\SlopefAGNNineteen$ & $\SlopeHzeroNineteen$ & $\FreeLognGalNineteen$ & $\FreeLognAGNNineteen$ & $\FreefAGNNineteen$ & $\FreeHzeroNineteen$\\
-$m<\MockMlimEighteen$ & \MockCompEighteen\% & $\FluxHzeroEighteen$ & $\FluxfEighteen$ & $\SlopefAGNEighteen$ & $\SlopeHzeroEighteen$ & $\FreeLognGalEighteen$ & $\FreeLognAGNEighteen$ & $\FreefAGNEighteen$ & $\FreeHzeroEighteen$\\
+none & & $\KnownBothHzero$ & $\KnownBothfAGN$ & $\KnownBothRateRatio$ & & & & \\
+$m<\MockMlimTwentyOne$ & \MockEventCompTwentyOne\% & $\FluxTwentyOneHzero$ & $\FluxTwentyOnefAGN$ & $\FluxTwentyOneRateRatio$ & $\FreeTwentyOneHzero$ & $\FreeTwentyOneRateRatio$ & $<\FreeTwentyOneLognAGNUL$ & $<\FreeTwentyOneLognAGNPriorUL$\\
+$m<\MockMlimTwenty$ & \MockEventCompTwenty\% & $\FluxTwentyHzero$ & $\FluxTwentyfAGN$ & $\FluxTwentyRateRatio$ & $\FreeTwentyHzero$ & $\FreeTwentyRateRatio$ & $<\FreeTwentyLognAGNUL$ & $<\FreeTwentyLognAGNPriorUL$\\
+$m<\MockMlimNineteen$ & \MockEventCompNineteen\% & $\FluxNineteenHzero$ & $\FluxNineteenfAGN$ & $\FluxNineteenRateRatio$ & $\FreeNineteenHzero$ & $\FreeNineteenRateRatio$ & $<\FreeNineteenLognAGNUL$ & $<\FreeNineteenLognAGNPriorUL$\\
+$m<\MockMlimEighteen$ & \MockEventCompEighteen\% & $\FluxEighteenHzero$ & $\FluxEighteenfAGN$ & $\FluxEighteenRateRatio$ & $\FreeEighteenHzero$ & $\FreeEighteenRateRatio$ & $<\FreeEighteenLognAGNUL$ & $<\FreeEighteenLognAGNPriorUL$\\
 \end{tabular}
 \end{ruledtabular}
 \end{table*}
 
-What the mergers measure is the merger rate per host, and $\fagn$ follows
-only after the uncataloged hosts are counted. Wherever no event has weight
-in the incomplete part of a catalog, the events and the detected fraction
-see only the first term of Eq.~(\ref{eq:hosts}), which we write $c_k/Z_k$.
-The mixture of Eq.~(\ref{eq:mixture}) is then proportional to
-$(1-\tilde f)\,c_{\rm gal}/N_{\rm gal}+\tilde f\,c_{\rm AGN}/N_{\rm AGN}$,
-with
-\begin{equation}
-\ln\frac{\tilde f}{1-\tilde f}=\ln\frac{\fagn}{1-\fagn}
-+\ln\frac{F_{\rm AGN}}{F_{\rm gal}} .
-\label{eq:identity}
-\end{equation}
-The factor of proportionality is the same in every event and in the
-detected fraction and cancels in Eq.~(\ref{eq:like}). The likelihood
-therefore depends on $\fagn$, $\ngal$ and $\nagn$ only through $\tilde f$.
+With both number densities inferred, the mergers still measure the rate per
+host and leave $\fagn$ to its prior (Fig.~\ref{fig:free},
+Table~\ref{tab:flux}). % EXPECTED
+At $m<\MockMlimEighteen$ we find $\rr=\FreeEighteenRateRatio$, against
+$\FluxEighteenRateRatio$ with the densities known, while
+$\fagn=\FreeEighteenfAGN$ spans most of its prior range and follows
+$\log_{10}\nagn$ along the curve of constant $\rr$
+[Fig.~\ref{fig:free}(a)]. % EXPECTED
+What Eq.~(\ref{eq:rates}) leaves free is the ratio $\nagn/\ngal$, and the
+priors of Table~\ref{tab:priors} decide where $\fagn$ falls. The mergers
+that lie where the catalogs are incomplete add an upper limit on each
+density, which we read as too many uniform hosts erasing the clustering that
+the mergers follow. We find $\log_{10}(\nagn/{\rm
+Mpc^{-3}})<\FreeEighteenLognAGNUL$ and $\log_{10}(\ngal/{\rm
+Mpc^{-3}})<\FreeEighteenLognGalUL$ at 90\% credibility, where the priors
+allow \FreeEighteenLognAGNPriorUL{} and \FreeEighteenLognGalPriorUL{} once
+$\rr$ is measured; at $m<\MockMlimTwentyOne$, where every detected merger
+has its host in the catalog, the limit on the AGN density is that of the
+priors. % EXPECTED
+$H_0$ is spared: we find $\FreeEighteenHzero\,\kms$, against
+$\FluxEighteenHzero\,\kms$ with the densities known. % EXPECTED
+Bom and Palmese \cite{Bom:2023zgw} suggested leaving the AGN number density
+free. Doing so keeps $H_0$ and the rate per host, and gives up $\fagn$.
 
-In physical terms $\tilde f$ is the fraction of mergers hosted by AGN among
-the mergers in cataloged hosts, and the mergers measure the merger rate per
-cataloged AGN, $r_{\rm AGN}$, relative to the merger rate per cataloged
-galaxy, $r_{\rm gal}$. The catalogs show which objects are AGN and which are
-galaxies, and the mergers answer with how many more mergers one hosts than
-the other. The odds that a merger is hosted by an AGN are that ratio times the
-ratio of the numbers of hosts,
-\begin{equation}
-\frac{\fagn}{1-\fagn}=\frac{r_{\rm AGN}}{r_{\rm gal}}\,
-\frac{Z_{\rm AGN}}{Z_{\rm gal}} ,
-\label{eq:rates}
-\end{equation}
-and the numbers $Z_k$ of Eq.~(\ref{eq:norm}) count the hosts a catalog lacks
-as well as those it holds. With the number densities at their inputs,
-$F_{\rm AGN}=F_{\rm gal}$ and $\tilde f=\fagn$, which is why the posteriors
-of Fig.~\ref{fig:flux}(a) do not move with the flux limit. For the same data,
-Eqs.~(\ref{eq:norm}) and (\ref{eq:identity}) give
-\begin{equation}
-\frac{\partial}{\partial\ln\nagn}\ln\frac{\fagn}{1-\fagn}=1-F_{\rm AGN} .
-\label{eq:slope}
-\end{equation}
-
-In the analyses here the host populations are normalized out to $z_{\rm
-max}=\NormZmax$, far beyond the catalogs, which end at $z=\MockzCat$, and
-the events, which end at $z=\MockzHorizon$. The cataloged share is then
-$F_{\rm AGN}<\NormFAGNMax$ at every flux limit: almost all of $Z_{\rm AGN}$
-is uncataloged hosts that no event can reach, and Eq.~(\ref{eq:slope}) is at
-its limit of one. We find that $\fagn$ changes by \SlopefAGNMin{} to
-\SlopefAGNMax{} per decade of the assumed AGN number density
-[Fig.~\ref{fig:flux}(b)]. A factor of two in the density moves $\fagn$ by
-\DeltafTwoTwentyOne, against a 90\% half-width of \FluxfHalfTwentyOne. At
-the two deepest limits Eq.~(\ref{eq:identity}), applied to the posterior at
-the input density, reproduces the change, \SlopefAGNIdentityTwentyOne{} and
-\SlopefAGNIdentityTwenty{} per decade against \SlopefAGNTwentyOne{} and
-\SlopefAGNTwenty; at the two shallowest the events that lie in the
-incomplete part of the catalogs add to it. The change is the same at
-every depth because the normalization volume is the same, not because
-completeness is of no help. If the host populations are normalized over the
-volume in which a catalog is complete, $F_{\rm AGN}=1$ and the assumed
-density drops out of Eq.~(\ref{eq:slope}); for the normalization over the
-depth of the catalogs we find \SlopefAGNDepthNorm{} per decade. The general
-statement is Eq.~(\ref{eq:rates}): $\fagn$ refers to a volume, and it needs
-the number of AGN in that volume.
-
-$H_0$ is nearly untouched. The normalizations $Z_k$ change the relative
-weight of the two host classes and not the redshift scale, so $H_0$ depends
-on the assumed AGN density only through the events in the incomplete part of
-the catalogs: by $\SlopeHzeroEighteen\,\kms$ per decade at
-\MockCompEighteen\% completeness, which is $\DeltaHzeroTwoEighteen\,\kms$
-for a factor of two, and by $\SlopeHzeroTwenty\,\kms$ per decade at
-\MockCompTwenty\% [Fig.~\ref{fig:flux}(d)].
-
-The degeneracy itself is known. In the likelihood of the association
-searches $\fagn$ multiplies the completeness of the AGN catalog
-\cite{Zhu:2025rdv}; Zhu \textit{et al.}~\cite{Zhu:2024qpp} name the
-degeneracy between the two and the dependence on the AGN density;
-Cross-Parkin \textit{et al.}~\cite{Cross-Parkin:2026pua} note that
-incompleteness is ``potentially degenerate with the astrophysical weighting
-of the host population''; Pouw \textit{et al.}~\cite{Pouw:2026lar} note that
-their $\fagn$ depends on the maximum redshift of the merger populations,
-which changes the two normalizations differently; and Bom and Palmese
-\cite{Bom:2023zgw} find that a fixed AGN number density carries cosmological
-information of its own. Equations~(\ref{eq:identity}) to
-(\ref{eq:slope}) give its size and say which quantity survives it.
-
-With both number densities free, the mergers bound the galaxy density and
-leave the AGN density, and with it $\fagn$, to the prior
-(Fig.~\ref{fig:free}). At \MockCompEighteen\% completeness we find
-$\log_{10}(\ngal/{\rm Mpc^{-3}})=\FreeLognGalEighteen$ for an input of
-$\MockLognGal$ on catalog A, and $\FreeLognGalEighteenCatB$ and
-$\FreeLognGalEighteenCatC$ on catalogs B and C, with the input inside all
-three 90\% intervals. The posterior has a sharp upper edge and a tail to the
-lower end of the prior. We argue that the edge is set by the events beyond the
-complete part of the catalog. There the uncataloged galaxies are spread
-uniformly, and too large a density erases the clustering of the cataloged
-galaxies, which the events follow; too small a density costs little. The AGN density
-has the same term, but AGN host a minority of the mergers and
-Eq.~(\ref{eq:rates}) lets $\fagn$ absorb their number. Its posterior,
-$\log_{10}(\nagn/{\rm Mpc^{-3}})=\FreeLognAGNEighteen$ for an input of
-$\MockLognAGN$, rises to \FreeLognAGNPeakOverPrior{} times the prior density
-and no more, its correlation coefficient with $\fagn$ is
-\FreeRhofAGNEighteen, and the 90\% interval of $\fagn$ covers
-\FreefWidthEighteen{} of the prior range, against 0.90 for the prior itself.
-The difference between the two classes is one of degree. $H_0$ is spared: we
-find $\FreeHzeroEighteen\,\kms$, with medians that differ by
-$\FreeHzeroSpread\,\kms$ across the four flux limits. Bom and Palmese
-\cite{Bom:2023zgw} suggested that ``one would leave the AGN number density
-free to vary''. Doing so costs $H_0$ little, and it costs $\fagn$ its
-measurement.
-
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig7_free_densities}
-\caption{Number densities inferred from the mergers at \MockCompEighteen\%
-completeness, together with $H_0$ and $\fagn$. (a) Posterior of the galaxy
-number density and (b) of the AGN number density for three simulated
-catalogs, over the full prior range; gray dotted lines are the prior
-densities. Lower panels: 90\% highest-density region of $\fagn$ and the AGN
-number density for catalogs A, B and C, over the full prior. Black dashed
-lines and crosses are the input values. \prelim}
+\begin{figure*}[t]
+\figslot{fig4_densities}{3.0in}
+\caption{Number densities inferred from the mergers (realization A). (a)
+Joint posterior of $\fagn$ and the AGN number density: 90\% highest-density
+regions at $m<\MockMlimTwentyOne$ (dashed) and $m<\MockMlimEighteen$ (solid);
+the black curve is the line of constant merger rate per host through the
+input (black plus sign), and the gray area is the 90\% region allowed by the
+priors once that rate is measured.
+(b) Posterior density of the merger rate per AGN relative to that per galaxy
+at the four flux limits; the black dashed line is the input. Along the line
+of constant rate, $\fagn$ and the AGN number density follow their priors.}
 \label{fig:free}
+\end{figure*}
+
+\subsection{An unknown population}
+\label{sec:single}
+
+When the mass and spin distribution is inferred with $H_0$, the mass scale
+returns part of the information it gave, and the catalogs supply what
+remains (Fig.~\ref{fig:population}). % EXPECTED
+The single-population analysis with both catalogs gives
+$H_0=\SingleBothHzero\,\kms$ on realization A, a 90\% width of
+$\SingleBothHzeroWid\,\kms$ against $\KnownBothHzeroWid\,\kms$ with the
+population known, and $\fagn=\SingleBothfAGN$ against $\KnownBothfAGN$,
+since the positions set it. The population is inferred with them: $\mu_{\rm
+G}=\SingleBothMuG\msun$, $\sigma_{\rm G}=\SingleBothSigmaG\msun$,
+$\mu_\chi=\SingleBothMuChi$ and $\sigma_\chi=\SingleBothSigmaChi$, for
+inputs of \MockMuG, \MockSigmaG, \MockMuChi{} and \MockSigmaChi.
+
+How much of $H_0$ the mass scale carried shows without the catalogs
+[Fig.~\ref{fig:population}(a)]. With the population known, the mass peak
+alone gives $H_0=\KnownNoneHzero\,\kms$, and both catalogs narrow the 90\%
+width by a factor of \MassScaleShareKnown. With the population inferred, the
+mass distribution alone gives $\SingleNoneHzero\,\kms$, and the catalogs
+narrow it by a factor of \MassScaleShareSingle. The catalogs break a
+degeneracy [Fig.~\ref{fig:population}(b)]. The detectors measure redshifted
+masses, so a lower peak with larger redshifts fits the same data as a higher
+peak with smaller ones, and larger redshifts at the measured distances mean
+a larger $H_0$. With no catalog the correlation coefficient of $H_0$ and
+$\mu_{\rm G}$ is $r=\CorrHzeroMuGNone$ and the peak is located to
+$\SingleNoneMuG\msun$; the catalogs tie the redshifts to the structure that
+the mergers trace, the correlation falls to $\CorrHzeroMuGBoth$, and the
+peak is located to $\SingleBothMuG\msun$. % EXPECTED
+We read what remains of $H_0$ without a catalog as owed to the parts of the
+spectrum that stay fixed, the power law and its mass limits; the same
+correlation grows as a catalog becomes incomplete
+\cite{Borghi:2025pav}. % EXPECTED
+
+\begin{figure*}[t]
+\figslot{fig5_population}{2.9in}
+\caption{An unknown population (realization A, equal populations). (a)
+Posterior density of $H_0$ with the population known and both catalogs
+(solid), with a single population inferred and both catalogs (dashed), with
+the population known and no catalog (dotted), and with a single population
+inferred and no catalog (dash-dotted); the black dashed line is the input.
+(b) Joint posterior of $H_0$ and the mass-peak location $\mu_{\rm G}$ in the
+single-population analysis: 90\% highest-density regions with no catalog
+(dash-dotted) and with both catalogs (filled); the black plus sign is the
+input.
+The catalogs break the degeneracy between $H_0$ and the mass scale.}
+\label{fig:population}
+\end{figure*}
+
+\subsection{Populations that depend on the host}
+\label{sec:hd}
+
+If AGN-hosted mergers are heavier and spin faster, an analysis that assumes
+a single population is biased in $H_0$, and the host-dependent analysis is
+not [Fig.~\ref{fig:hd}(a), Table~\ref{tab:results}]. % EXPECTED
+For mergers with host-dependent populations and both catalogs, the
+single-population analysis combined over \NrealHD{} realizations gives
+$H_0=\HDSingleHzeroComb\,\kms$, a median $\HDBiasHzero\,\kms$ above the
+input \MockHzero, which lies at the \HDSingleHzeroCL\% credible level. The
+host-dependent analysis of the same mergers gives
+$H_0=\HDHostHzeroComb\,\kms$, with the input at the \HDHostHzeroCL\% level.
+
+A single population cannot place its mass peak for both host classes. It
+settles at $\mu_{\rm G}=\HDSingleMuG\msun$, between the $\MockMuG\msun$ of
+the galaxy class and the $\MockMuGAGN\msun$ of the AGN class, and at a spin
+mean of $\HDSingleMuChi$. We read the bias as the mass-scale error of a
+spectral siren measurement \cite{Mastrogiovanni:2021wsd,Pierra:2023deu}
+acting on one host class: the AGN-hosted mergers arrive heavier than the
+fitted peak, the model accounts for them with larger redshifts at their
+measured distances, and they are the mergers whose few candidate hosts weigh
+most on $H_0$ (Sec.~\ref{sec:anchor}). % EXPECTED
+The fraction is pulled as well, to $\fagn=\HDSinglefAGNComb$ against
+$\HDHostfAGNComb$ for the host-dependent analysis
+[Fig.~\ref{fig:hd}(c)]. % EXPECTED
+A correlation between $H_0$ and the fraction of a heavier formation channel
+has been reported without catalogs \cite{Scarpa:2026piy}; here the heavier
+population is also a different host class, and the catalogs see it. The
+catalogs reduce the bias and do not remove it: with no catalog the
+single-population analysis gives $H_0=\HDNoneHzeroComb\,\kms$ over the same
+realizations, against $\HDSingleHzeroComb\,\kms$ with both. % EXPECTED
+
+\begin{figure*}[t]
+\figslot{fig6_host_dependent}{2.6in}
+\caption{Mergers with host-dependent populations and the peak-dominated
+spectrum, both catalogs, posteriors combined over realizations. (a)
+Posterior density of $H_0$ with a single population (dashed) and with
+host-dependent populations (solid); the black dashed line is the input. (b)
+Joint posterior of the AGN offsets of the mass peak and of the spin mean
+with host-dependent populations (90\% highest-density region), with the
+input (black plus sign) and no offset (black cross). (c) Posterior density
+of $\fagn$ for the two analyses. A single population is biased in $H_0$ and
+in $\fagn$.}
+\label{fig:hd}
+\end{figure*}
+
+The host-dependent analysis measures how the two classes differ
+[Fig.~\ref{fig:hd}(b)]. We find $\dmuG=\HDHostDmuGComb\msun$ for an input of
+\MockDmuG{} and $\dmuchi=\HDHostDmuChiComb$ for an input of \MockDmuChi, with
+the inputs at the \HDHostDmuGCL\% and \HDHostDmuChiCL\% credible levels;
+realization A alone gives $\HDHostDmuG\msun$ and $\HDHostDmuChi$. The Bayes
+factor of the host-dependent analysis against the single-population analysis
+of the same mergers is $\lB=\HDHostLBComb$ for the combined realizations and
+\HDLB{} on realization A, for priors uniform on
+$[\PriorDmuGLo,\PriorDmuGHi]\msun$ in $\dmuG$ and on
+$[\PriorDmuChiLo,\PriorDmuChiHi]$ in $\dmuchi$. The offsets are not paid for
+in $H_0$: on realization A its 90\% width is $\HDHostHzeroWid\,\kms$, against
+$\HDSingleHzeroWid\,\kms$ for the single population. % EXPECTED
+
+\subsection{A mass spectrum like the observed one}
+\label{sec:obs}
+
+With few mergers in the mass peak, the same holds with smaller numbers
+(Fig.~\ref{fig:obs}). % EXPECTED
+In the observed-like spectrum \ObsPeakFrac{} of the mergers are in the peak,
+against \MockPeakFrac, and the mass scale is a blunt ruler: with no catalog
+the single-population analysis gives $H_0=\ObsNoneHzero\,\kms$ on
+realization A, against $\HDNoneHzero\,\kms$ for the peak-dominated spectrum.
+With both catalogs the single-population analysis combined over \NrealObs{}
+realizations gives $H_0=\ObsSingleHzeroComb\,\kms$, a median
+$\ObsBiasHzero\,\kms$ above the input, where the peak-dominated spectrum
+gave $\HDBiasHzero\,\kms$. The input lies at the \ObsSingleHzeroCL\%
+credible level, so with this many mergers the bias is in the median and
+inside the interval. % EXPECTED
+The host-dependent analysis gives $H_0=\ObsHostHzeroComb\,\kms$, with the
+input at the \ObsHostHzeroCL\% level, and $\fagn=\ObsHostfAGNComb$ against
+$\ObsSinglefAGNComb$ for the single population.
+
+\begin{figure*}[t]
+\figslot{fig7_observed_like}{2.6in}
+\caption{As Fig.~\ref{fig:hd}, for the observed-like mass spectrum:
+(a) $H_0$, (b) the two AGN offsets and (c) $\fagn$, with a single population
+(dashed) and with host-dependent populations (solid), combined over
+realizations. With few mergers in the peak the bias of the single population
+is smaller and the mass offset is less well measured, while the spin offset
+is measured as before.}
+\label{fig:obs}
+\end{figure*}
+
+The two offsets fare differently [Fig.~\ref{fig:obs}(b)]. The mass offset
+rests on the few mergers in the peak, and we find
+$\dmuG=\ObsHostDmuGComb\msun$ against $\HDHostDmuGComb\msun$ with the
+peak-dominated spectrum. Every merger carries a spin, and the spin offset is
+measured as before, $\dmuchi=\ObsHostDmuChiComb$ against
+$\HDHostDmuChiComb$. % EXPECTED
+The Bayes factor of the host-dependent analysis against the
+single-population analysis is $\lB=\ObsHostLBComb$ for the combined
+realizations, against \HDHostLBComb{} for the peak-dominated spectrum and
+the same priors; we read what remains of the preference as owed mostly to
+the spins. % EXPECTED
+An analysis of this kind therefore learns of a second host class from the
+positions and the spins first, and its $H_0$ is exposed to the masses in
+proportion to how sharp a feature the two classes do not share.
+
+\subsection{One assumption at a time}
+\label{sec:summary}
+
+Figure~\ref{fig:summary} and Table~\ref{tab:results} collect $H_0$ and
+$\fagn$ under each set of assumptions. The median of $H_0$ leaves the input
+in one case only, a single population for mergers whose masses depend on
+the host. % EXPECTED
+The fraction $\fagn$ keeps its interval from the first row to the last, with
+two exceptions: it is biased with $H_0$ under a single population, and it
+follows its prior when the number densities are inferred. % EXPECTED
+
+\begin{figure*}[t]
+\figslot{fig8_summary}{6.4in}
+\caption{$H_0$ (left) and $\fagn$ (right) under each set of assumptions, in
+the order of Sec.~\ref{sec:results}: medians and 90\% intervals of the
+posteriors combined over realizations; black dashed lines are the inputs.
+The rows under ``Host-dependent populations'' and ``Observed-like spectrum''
+use mergers with host-dependent populations, the other rows mergers with
+equal populations. ``Not inferred'' marks analyses without $\fagn$, and the
+arrow a posterior that rises to the prior edge. Only a single
+population for mergers with host-dependent populations moves $H_0$ away from
+the input.}
+\label{fig:summary}
 \end{figure*}
 
 %% ==========================================================================
 \section{Validation}
 \label{sec:validation}
 
-The simulated catalogs of a set share one input, and their combined
-posterior can be held against that input more tightly than any single
-catalog (Fig.~\ref{fig:validation}). For \PureNcat{} catalogs of \MockNev{}
-galaxy-hosted mergers each we find $H_0=\PureGalHzeroComb\,\kms$, with the
-input at the \PureGalHzeroCombLevel\% credible level. For the same number of
-catalogs of AGN-hosted mergers we find $H_0=\PureAGNHzeroComb\,\kms$: the
-input \MockHzero{} lies just below the lower end of the 90\% interval,
-\PureAGNHzeroCombLo, at the \PureAGNHzeroCombLevel\% level. For the
-\JointNcat{} catalogs with both host classes, $H_0=\JointHzeroComb\,\kms$
-and $\fagn=\JointfComb$, with the inputs at the \JointHzeroCombLevel\% and
-\JointfCombLevel\% levels (Sec.~\ref{sec:two}).
+We test the analysis on sets of realizations that share one input, whose
+combined posterior can be held against that input more tightly than any
+single realization (Fig.~\ref{fig:validation}). First, $H_0$ is recovered
+at each level of freedom [Fig.~\ref{fig:validation}(a)]. % EXPECTED
+With the population known and both catalogs,
+\NrealKnown{} realizations combined give $H_0=\KnownBothHzeroComb\,\kms$,
+with the input at the \KnownBothHzeroCL\% credible level. The
+single-population analysis of mergers with equal populations gives
+$\SingleBothHzeroComb\,\kms$, with the input at the \SingleBothHzeroCL\%
+level. The host-dependent analysis of mergers with host-dependent
+populations gives $\HDHostHzeroComb\,\kms$, with the input at the
+\HDHostHzeroCL\% level and those of $\mu_{\rm G}$, $\sigma_{\rm G}$,
+$\mu_\chi$ and $\sigma_\chi$ at the \HDHostMuGCL\%, \HDHostSigmaGCL\%,
+\HDHostMuChiCL\% and \HDHostSigmaChiCL\% levels.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{fig8_validation}
-\caption{Combined posteriors over simulated catalogs, with their 90\%
-intervals shaded. (a) $H_0$ from \PureNcat{} catalogs of mergers with galaxy
-hosts and (b) with AGN hosts; (c) $H_0$ and (d) $\fagn$ from \JointNcat{}
-catalogs with both host classes. Black dashed lines are the input values.
-\prelim}
+Second, the analysis does not find AGN-hosted mergers where there are none,
+and it finds few where there are few [Fig.~\ref{fig:validation}(b)]. For
+mergers that are all hosted by galaxies, \NrealCtrl{} realizations combined
+give $\fagn<\CtrlZerofAGNCombUL$ at 90\% credibility and
+$H_0=\CtrlZeroHzeroComb\,\kms$, with the input at the \CtrlZeroHzeroCL\%
+level, and the Bayes factor of two host classes against galaxy hosts alone
+is $\lB=\CtrlZeroLBComb$, for a prior uniform on $[\PriorfLo,\PriorfHi]$ in
+$\fagn$. % EXPECTED
+With one merger in ten hosted by an AGN we find $\fagn=\CtrlTenthfAGNComb$,
+with the input at the \CtrlTenthfAGNCL\% level.
+
+\begin{figure*}[t]
+\figslot{fig9_validation}{2.6in}
+\caption{Posteriors combined over realizations. (a) Posterior density of
+$H_0$ with both catalogs: population known (solid) and single population
+(dashed) on mergers with equal populations, host-dependent populations
+(dash-dotted) on mergers with host-dependent populations; the black dashed
+line is the input. (b) Posterior density of $\fagn$ with the population known for
+mergers with input $\fagn$ of 0 (solid), \MockfAGNTenth{} (dashed) and
+\MockfAGN{} (dash-dotted); black dashed lines are the inputs.}
 \label{fig:validation}
 \end{figure*}
 
-A model with two host classes must not find AGN-hosted mergers where there
-are none. For \NullNcat{} catalogs in which every merger is hosted by a
-galaxy, the combined posterior gives $\fagn<\NullfAGNUpper$ and
-$H_0=\NullHzeroComb\,\kms$, with the input at the \NullHzeroLevel\% level,
-and the Bayes factor of two host classes against galaxy hosts only is
-$\lB=\NullLBfZero$.
+Third, the Monte Carlo sums of the likelihood are accurate at the level of
+the intervals quoted (Appendix~\ref{app:like}). With \ProdNsamp{} posterior
+samples per merger, drawing the samples anew moves the median of $H_0$ by
+$\MCMixedHzeroSdEightK\,\kms$ and that of $\fagn$ by \MCMixedfSdEightK{}
+(standard deviations over redraws, population known and complete catalogs,
+realization A), against 90\% widths of $\KnownBothHzeroWid\,\kms$ and
+\KnownBothfAGNWid. Drawing the simulated signals of the detected fraction
+anew moves them by $\MCMixedInjHzeroSd\,\kms$ and \MCMixedInjfSd. For mergers
+all hosted by AGN, whose sparse catalog is the hardest case, the median of
+$H_0$ moves by $\MCAGNHzeroSdEightK\,\kms$ against a width of
+$\AGNhostedHzeroWid\,\kms$.
 
-The results of Secs.~\ref{sec:hd} and \ref{sec:flux} that rest on one
-simulated catalog are repeated on several. At \MockCompEighteen\%
-completeness and with the number densities at their inputs, \FluxNcat{}
-catalogs combined give $H_0=\FluxHzeroCombEighteen\,\kms$ and
-$\fagn=\FluxfCombEighteen$, with the inputs at the
-\FluxHzeroCombEighteenLevel\% and \FluxfCombEighteenLevel\% levels. With
-both number densities free, catalogs A, B and C combined give
-$\log_{10}(\ngal/{\rm Mpc^{-3}})=\FreeLognGalEighteenComb$, with the input
-at the \FreeLognGalEighteenCombLevel\% level,
-$\log_{10}(\nagn/{\rm Mpc^{-3}})=\FreeLognAGNEighteenComb$,
-$\fagn=\FreefAGNEighteenComb$ and $H_0=\FreeHzeroEighteenComb\,\kms$. With
-host-dependent populations, \HDNcat{} catalogs combined give
-$H_0=\HDEightHzeroComb\,\kms$ for the eight-parameter model, with the input
-at the \HDEightHzeroCombLevel\% level, and $\CommonHzeroComb\,\kms$ for the
-common population.
-
-Every likelihood here is a Monte Carlo sum, and drawing its samples anew
-moves the posterior medians by \MCShiftMedian\% of a 90\% half-width
-(Appendix~\ref{app:like}).
+Finally, the sky resolution of the catalog term is sufficient: with pixels
+half as wide the medians of $H_0$ and $\fagn$ move by
+$\SkyResShiftHzero\,\kms$ and \SkyResShiftfAGN{} on realization A.
 
 %% ==========================================================================
 \section{Conclusions}
 \label{sec:conclusions}
 
-BBH mergers in two classes of host can be told apart by where they are and
-by what they are, and a measurement of $H_0$ from them has to model both. In
-simulated catalogs of \MockNev{} mergers, a likelihood that assigns each
-merger to a galaxy catalog or to an AGN catalog on the same density field
-returns $H_0$ and $\fagn$ nearly uncorrelated, with both inputs inside the
-90\% intervals of \JointNcat{} catalogs combined. If the AGN-hosted
-mergers are heavier by $\MockDmuG\msun$ and one population is assumed, $H_0$
-comes out $\ShiftCommonMinusFix\,\kms$ high with both catalogs and higher
-with less host information. A mass peak and a spin mean for each host class
-remove the bias, measure both offsets and are preferred by
-$\lB=\LBOffsetsVsCommon$; the catalogs sharpen the measurement of the spin
-offset by a factor of \SpinDmuChiWidthRatio, while the spins add little to
-$\fagn$. This is the step that the analyses of Refs.~\cite{Bom:2023zgw,
-Cross-Parkin:2026pua,Pouw:2026lar} named as their next.
+BBH mergers hosted by two classes of object can be told apart by where they
+are and by what they are, and a dark siren measurement of $H_0$ from them
+holds when both are inferred together. On simulated mergers, one likelihood
+with a galaxy catalog, an AGN catalog and a mass and spin distribution for
+each host class returns $H_0$, the fraction of mergers hosted by AGN and the
+differences in mass and spin between the classes, where a single population
+returns a biased $H_0$. % EXPECTED
+This is the inference that the analyses of
+Refs.~\cite{Bom:2023zgw,Cross-Parkin:2026pua,Pouw:2026lar} leave to future
+work.
 
-What limits the measurement is not the depth of the catalogs. A flux limit
-that leaves \MockCompEighteen\% of the hosts costs a factor of
-\FluxHzeroRatioEighteen{} in the $H_0$ interval when the number densities
-are known. The limit is that mergers measure rates per host. The fraction of
-mergers in AGN needs the number of AGN in the volume to which it refers, and
-a factor of two in that number moves $\fagn$ by \DeltafTwoTwentyOne, more
-than its statistical uncertainty from \MockNev{} events. The mergers bound
-the number density of the galaxies and not that of the AGN. $H_0$ moves by
-$\DeltaHzeroTwoEighteen\,\kms$ or less for the same factor of two.
+These statements depend on named inputs. The first is the number of AGN:
+the fraction of mergers hosted by AGN follows from the rate per host only
+with the number density of AGN in the volume it refers to, where the
+association
+studies adopt $10^{-4.75}\,{\rm Mpc^{-3}}$ for luminous AGN
+\cite{Veronesi:2022hql,Bom:2023zgw} and the current limits on $\fagn$ do not
+cover obscured AGN \cite{Pouw:2026lar}. The second is the form of the mass
+spectrum: the bias of a single population and the precision of the mass
+offset scale with how many mergers sit in a feature that the two classes do
+not share, a few percent for the peak fitted to the third catalog
+\cite{KAGRA:2021duu}, and each further feature of the spectrum is a ruler
+that a second host class can displace. The third is the redshift precision of the catalogs,
+spectroscopic here, where errors above about 0.01 limit $\fagn$
+\cite{Pouw:2026lar}.
 
-Real applications need more than our mocks contain. Our AGN are a
-population of their own and not a subset of the galaxies; one luminosity
-function and one isotropic flux limit serve both catalogs; every redshift is
-spectroscopic; the uncataloged hosts are uniform where real ones cluster;
-and hosts are weighted by number alone. The mergers are detected on a single
-signal-to-noise ratio, localized to between $\MockSkyMin^\circ$ and
-$\MockSkyMax^\circ$ and all lie within $z=\MockzHorizonMax$, with a mass
-ratio distribution, a power-law component and a merger rate history that are
-held fixed. Mergers near a supermassive black hole may also have distances
-biased by their environment \cite{Li:2025eig,Liodis:2026xvs}, which we have
-left out. None of this changes what Eq.~(\ref{eq:rates}) asks for. The
-mergers will say how many more of them an AGN hosts than a galaxy does. How
-many AGN there are, and how many of them a catalog holds, is for the surveys
-to measure, and the fraction of mergers in AGN will be known as well as the
-hosts the catalogs miss.
+The likelihood applies as it stands to the observed mergers, with the Quaia
+catalog \cite{Storey-Fisher:2023gca} beside a galaxy catalog. The step
+change is the fifth observing run, planned with a larger reach
+\cite{KAGRA:2013rdx}, together with AGN samples that are complete to fainter
+limits.
+%% The date of the fifth observing run belongs in the sentence above; add it from a schedule that can be cited.
+Two effects stay open at that level: hosts that the catalogs miss and that
+cluster as the cataloged ones do, and distances biased by the environment of
+a supermassive black hole \cite{Li:2025eig}. The mergers will say how many
+more of them an AGN hosts than a galaxy does, and whether those are heavier
+and spin faster. How many AGN there are is for the surveys to measure.
 
 %\begin{acknowledgments}
 % Funding, computing and further acknowledgments to be completed by the authors.
@@ -1126,7 +1057,7 @@ hosts the catalogs miss.
 
 \appendix
 
-\section{Likelihood evaluation}
+\section{Evaluation of the likelihood and its Monte Carlo accuracy}
 \label{app:like}
 
 \textit{Catalog term.} The sky is divided into equal-area pixels of HEALPix
@@ -1138,115 +1069,88 @@ K_j(z)=\frac{\mathcal{N}(z;z_j,\sigma_j)\,dV_c/dz}
 \label{eq:kernel}
 \end{equation}
 with $z_j$ the cataloged redshift and $\sigma_j=\MockDz\,(1+z_j)$. Every
-object has the same weight, and a pixel with more objects carries
-proportionally more probability. The completeness of a flux-limited catalog
-is
-\begin{equation}
-C_k(z)=\frac{\Gamma\left(\alpha+1,x_{\rm lim}(z)\right)}
-{\Gamma\left(\alpha+1,x_{\rm cut}\right)} ,
-\label{eq:completeness}
-\end{equation}
-bounded to $[0,1]$, where $\Gamma$ is the incomplete gamma function,
-$\alpha$ the faint-end slope of the Schechter function, $x_{\rm cut}$ the
-luminosity cut of the sample in units of $L_\ast$ and $x_{\rm lim}(z)$ the
-luminosity, in the same units, of an object at the flux limit at redshift
-$z$. The characteristic magnitude scales with $H_0$ in such a way that $C_k$
-does not depend on it.
+object has the same weight. The completeness $C_k(z)$ of a flux-limited
+catalog is the fraction of the Schechter function above the luminosity cut
+of the sample that is brighter than the flux limit at redshift $z$, with its
+parameters held at values fitted to the catalogs; it does not depend on
+$H_0$.
 
-\textit{Monte Carlo sums.} Each event has \MockNsamp{} posterior samples
+\textit{Monte Carlo sums.} Each merger has $S=\ProdNsamp$ posterior samples
 $x_{ij}$, drawn under a prior $p_{\rm PE}$, and the detected fraction is
 estimated from simulated signals drawn from a density $p_{\rm draw}$ and
-passed through the detection rule of the events. With
-$w_{ij}=\pi(x_{ij}|\Lambda)/p_{\rm PE}(x_{ij})$, the estimate of
-Eq.~(\ref{eq:like}) is
+passed through the detection rule of the mergers. With
+$w_{ij}=\pi(x_{ij}|\Lambda)/p_{\rm PE}(x_{ij})$ and $\pi$ expressed in the
+variables of the samples, that is divided by $(1+z)\,dd_L/dz$, the estimate
+of Eq.~(\ref{eq:like}) is
 \begin{equation}
-\ln\hat\Lcal=\sum_{i=1}^{N}\ln\bigg[\frac{1}{n}\sum_{j=1}^{n}w_{ij}\bigg]
--N\ln\hat\mu+\frac{N(N+3)}{2N_{\rm eff}} ,
+\ln\hat\Lcal=\sum_{i=1}^{N}\bigg[\ln\bigg(\frac{1}{S}\sum_{j=1}^{S}w_{ij}\bigg)
++\frac{\sigma_i^2}{2}\bigg]-N\ln\hat\mu+\frac{N(N+3)}{2N_{\rm eff}} ,
 \label{eq:estimator}
 \end{equation}
-where $\hat\mu$ is the mean of $\pi/p_{\rm draw}$ over all drawn signals,
-counted as zero for those not detected, $N_{\rm eff}$ is the effective
-number of detected signals, and the last term corrects for the uncertainty
-of $\hat\mu$ \cite{Farr:2019rap}. For the reference catalog $\MockNinjDrawn$
-signals are drawn and $\MockNinjFound$ are detected. They come from a
-mixture of the input population, a broad distribution and a component
-concentrated on the cataloged AGN, so that the sparse AGN term of the
-detected fraction is sampled at every $H_0$ of the prior. A point of
-parameter space is admitted only if $N_{\rm eff}>\NeffFactor N$.
+where $\sigma_i^2$ is the variance of the logarithm of the sample mean of
+event $i$, $\hat\mu$ is the mean of $\pi/p_{\rm draw}$ over all drawn
+signals, counted as zero for those not detected, $N_{\rm eff}$ is the
+effective number of detected signals, and the last term corrects for the
+uncertainty of $\hat\mu$ \cite{Farr:2019rap}. The term $\sigma_i^2/2$ removes
+to first order the bias of the logarithm of a Monte Carlo mean. For
+realization A $\MockNinjDrawn$ signals are drawn and $\MockNinjFound$ are
+detected, part of them concentrated on the cataloged AGN so that the sparse
+AGN term of the detected fraction is sampled at every $H_0$ of the prior. A
+point of parameter space is admitted only if $N_{\rm eff}>\NeffFactor N$.
 
 \textit{Accuracy.} The variance of $\ln\hat\Lcal$ is the sum of the
-variances of the event terms and $N^2/N_{\rm eff}$. At the maximum of the
-posterior it is between \JointLnLVarMin{} and \JointLnLVarMax{} for the
-\JointNcat{} catalogs of Sec.~\ref{sec:two} and \LnLVarAGNHosted{} for the
-AGN-hosted sets, where few posterior samples of an event fall on the narrow
-kernels of the sparse catalog; the eight-parameter model admits only points
-with a variance below \VarCapEight. Analyses of the observed catalogs limit this variance to one
-\cite{LIGOScientific:2025pvj}, following
-Refs.~\cite{Essick:2022ojx,Talbot:2023pex}. We measure its
-effect directly, by drawing the posterior samples and the simulated signals
-anew and repeating the analysis: the posterior medians move by
-\MCShiftMedian\% of a 90\% half-width and the widths change by
-\MCWidthChange\%, and by \MCWidthChangeAGN\% for the AGN-hosted sets.
+$\sigma_i^2$ and $N^2/N_{\rm eff}$. Analyses of the observed mergers limit
+it to one \cite{LIGOScientific:2025pvj,Talbot:2023pex}. With
+sparse hosts few posterior samples of a merger fall on the narrow kernels of
+its candidate AGN and that limit is costly, so we measure the effect of the
+variance instead, by drawing the posterior samples and the simulated signals
+anew (population known, complete catalogs). With \MCNsampLo, \MCNsampMid{} and
+\MCNsampHi{} samples per merger the variance at the posterior maximum is
+\MCMixedLnLVarTwoK, \MCMixedLnLVarEightK{} and \MCMixedLnLVarThirtyTwoK{} for
+realization A. The median of $H_0$ then varies between redraws with a
+standard deviation of \MCMixedHzeroSdTwoK, \MCMixedHzeroSdEightK{} and
+$\MCMixedHzeroSdThirtyTwoK\,\kms$, and that of $\fagn$ with
+\MCMixedfSdTwoK, \MCMixedfSdEightK{} and \MCMixedfSdThirtyTwoK. Without the
+term $\sigma_i^2/2$ the median of $\fagn$ is \MCMixedfMedTwoK{} at
+\MCNsampLo{} samples and \MCMixedfMedThirtyTwoK{} at \MCNsampHi, because the
+variance grows with the weight of the AGN term. For mergers all hosted by
+AGN the variance is \MCAGNLnLVarEightK{} at \MCNsampMid{} samples and the
+median of $H_0$ varies by $\MCAGNHzeroSdEightK\,\kms$. Between sets of
+simulated signals the medians vary by $\MCMixedInjHzeroSd\,\kms$ and
+\MCMixedInjfSd.
 
-\section{Measurement model of the mock events}
+\section{Measurement model of the simulated mergers}
 \label{app:pe}
 
 The optimal signal-to-noise ratio of a merger with redshifted chirp mass
 $\mathcal{M}_z$ at luminosity distance $d_L$ is
-\begin{equation}
-\rho=\MockRhoRef\left(\frac{\mathcal{M}_z}{\MockMcRef\msun}\right)^{5/6}
-\frac{1\,{\rm Gpc}}{d_L} ,
-\label{eq:snr}
-\end{equation}
-and the data of an event are
-\begin{equation}
-\begin{split}
-\rho_{\rm obs}&=\rho+\epsilon_\rho ,\\
-\ln\mathcal{M}_{z,{\rm obs}}&=\ln\mathcal{M}_z+\sigma_{\mathcal{M}}\,\epsilon_{\mathcal{M}} ,\\
-\ln q_{\rm obs}&=\ln q+\sigma_q\,\epsilon_q ,\\
-\chi_{\rm eff,obs}&=\chieff+\sigma_\chi^{\rm obs}\,\epsilon_\chi ,
-\end{split}
-\label{eq:data}
-\end{equation}
-with independent unit Gaussian variables $\epsilon$ and widths
-$(\sigma_{\mathcal{M}},\sigma_q,\sigma_\chi^{\rm obs})=
-(\MockSigLnMc,\MockSigLnq,\MockSigChi)\times\MockSNRthr/\rho_{\rm obs}$. The
-declination is observed with a Gaussian error $\sigma_{\rm
+$\rho=\MockRhoRef\,(\mathcal{M}_z/\MockMcRef\msun)^{5/6}\,(1\,{\rm
+Gpc}/d_L)$, with no dependence on orientation, and the data of a merger are
+the observed values of $\rho$,
+$\ln\mathcal{M}_z$, $\ln q$ and $\chieff$: the true values plus independent
+Gaussian errors of unit width for $\rho$ and of widths
+$(\MockSigLnMc,\MockSigLnq,\MockSigChi)\times\MockSNRthr/\rho_{\rm obs}$ for
+the other three. The declination is observed with a Gaussian error $\sigma_{\rm
 sky}=\MockSkyCoeff^\circ/\rho_{\rm obs}$, bounded between
 $\MockSkyClipLo^\circ$ and $\MockSkyClipHi^\circ$, and the right ascension
-with that error divided by the cosine of the observed declination. An event is detected when
-$\rho_{\rm obs}\geq\MockSNRthr$. No observed value is truncated.
+with that error divided by the cosine of the observed declination. A merger
+is detected when $\rho_{\rm obs}\geq\MockSNRthr$.
 
 Every width depends on $\rho_{\rm obs}$ alone, so for a prior that is flat
-in $(\ln\mathcal{M}_z,\ln q,\rho,\chieff)$ and in the sky position the
-posterior is a product of Gaussians centered on the observed values, with
-the same widths and restricted to $q\leq1$, $\rho>0$ and $|\chieff|\leq1$.
-The \MockNsamp{} samples of an event are drawn from it and mapped to the
-redshifted primary mass $m_{1z}$, $q$, $d_L$ and $\chieff$ through
-Eq.~(\ref{eq:snr}). In these variables the prior density is
+in $(\ln\mathcal{M}_z,\ln q,\rho,\chieff)$ and in right ascension and
+declination the posterior is a product of Gaussians centered on the observed
+values, with the same widths and restricted to $q\leq1$, $\rho>0$ and
+$|\chieff|\leq1$. The posterior samples are drawn from it and mapped to the
+redshifted primary mass $m_{1z}$, $q$, $d_L$ and $\chieff$. In these
+variables the prior density is
 \begin{equation}
 p_{\rm PE}(m_{1z},q,d_L,\chieff)\propto\frac{\rho}{d_L\,m_{1z}\,q} ,
 \label{eq:ppe}
 \end{equation}
-which is the density that the weights of Eq.~(\ref{eq:estimator}) divide
-out.
-
-\section{Posterior of the eight-parameter model}
-\label{app:corner}
-
-Figure~\ref{fig:corner} shows the posterior of the host-dependent model with
-the reference peak location, the reference spin mean, both widths and both
-offsets free together with $H_0$ and $\fagn$ (Sec.~\ref{sec:hd}).
-
-\begin{figure*}
-\includegraphics[width=\textwidth]{figC1_corner}
-\caption{Posterior of the eight-parameter host-dependent model on the
-host-dependent mock with both catalogs (one simulated catalog). Diagonal
-panels show posterior densities with their 90\% intervals shaded, and the
-other panels 90\% highest-density regions; the axes are cropped to the
-posterior. Black dashed lines are the input values. \prelim}
-\label{fig:corner}
-\end{figure*}
+which the weights of Eq.~(\ref{eq:estimator}) divide out. The prior is flat
+in declination and not per unit solid angle; the factor this leaves in the
+weights is the same for both host classes and varies only across the
+$\MockSkyMin^\circ$ to $\MockSkyMax^\circ$ of one localization.
 
 \bibliography{refs}
 

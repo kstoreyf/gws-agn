@@ -6,6 +6,11 @@
 %       have the entry type misc instead of article, as in the lensing drafts, so that BibTeX raises no error;
 %   (3) the underscore in the DOI of Vitale:2020aaz is escaped, because the style prints the DOI of an entry
 %       without a journal as text.
+% Changes of 17 Nov 2026 (review item F11; sources in notes/PRIOR_WORK_VERIFIED.md):
+%   Powell:2018, Tessore:2023zyk and Kalomenopoulos:2025qpt are published and are now article entries with the
+%   journal fields of the publisher record (Crossref; for Tessore also the journal page, which gives no page number);
+%   the collaboration fields of LIGOScientific:2025pvj and LIGOScientific:2026uyd read "LIGO Scientific, Virgo, KAGRA";
+%   Kumar:2026bqt and Moncrieff:2025xle are added (not yet cited in main.tex).
 
 @misc{Agapito:2026pbb,
     author = "Agapito, Alessandro and Mancarella, Michele",
@@ -505,15 +510,28 @@
     year = "2005"
 }
 
-@misc{Kalomenopoulos:2025qpt,
+@article{Kalomenopoulos:2025qpt,
     author = "Kalomenopoulos, Marios and Barbieri, Riccardo and Khochfar, Sadegh and Gair, Jonathan and McGibbon, Robert J.",
     title = "{Clustering effects on the Dark Siren determination of $H_0$: A simulation study}",
     eprint = "2511.12334",
     archivePrefix = "arXiv",
     primaryClass = "astro-ph.CO",
     doi = "10.1093/mnras/stag1662",
-    month = "11",
-    year = "2025"
+    journal = "Mon. Not. Roy. Astron. Soc.",
+    volume = "552",
+    number = "1",
+    pages = "stag1662",
+    year = "2026"
+}
+
+@misc{Kumar:2026bqt,
+    author = "Kumar, Dhruv and Torres-Orjuela, Alejandro",
+    title = "{Hubble constant measurement with 13 bright standard sirens from binary black hole mergers inside active galactic nuclei}",
+    eprint = "2607.03672",
+    archivePrefix = "arXiv",
+    primaryClass = "astro-ph.CO",
+    month = "7",
+    year = "2026"
 }
 
 @article{Lewis:1999bs,
@@ -617,7 +635,7 @@
 
 @article{LIGOScientific:2025pvj,
     author = "Abac, A. G. and others",
-    collaboration = "LIGO Scientific, VIRGO, Virgo,, KAGRA",
+    collaboration = "LIGO Scientific, Virgo, KAGRA",
     title = "{GWTC-4.0: Population Properties of Merging Compact Binaries}",
     eprint = "2508.18083",
     archivePrefix = "arXiv",
@@ -633,7 +651,7 @@
 
 @misc{LIGOScientific:2026uyd,
     author = "Abac, A. G. and others",
-    collaboration = "LIGO Scientific, VIRGO, KAGRA",
+    collaboration = "LIGO Scientific, Virgo, KAGRA",
     title = "{GWTC-5.0: Constraints on the Cosmic Expansion Rate and Modified Gravitational-wave Propagation}",
     eprint = "2605.27227",
     archivePrefix = "arXiv",
@@ -741,6 +759,20 @@
     year = "2022"
 }
 
+@article{Moncrieff:2025xle,
+    author = "Moncrieff, Jordan W. N. and Panther, Fiona H.",
+    title = "{Connecting the hierarchically merging binary black hole population to their host galaxies}",
+    eprint = "2508.18704",
+    archivePrefix = "arXiv",
+    primaryClass = "astro-ph.CO",
+    doi = "10.1093/mnras/staf1582",
+    journal = "Mon. Not. Roy. Astron. Soc.",
+    volume = "543",
+    number = "2",
+    pages = "1833--1841",
+    year = "2025"
+}
+
 @article{Palmese:2021mjm,
     author = "Palmese, Antonella and Bom, Clecio R. and Mucesh, Sunil and Hartley, William G.",
     title = "{A Standard Siren Measurement of the Hubble Constant Using Gravitational-wave Events from the First Three LIGO/Virgo Observing Runs and the DESI Legacy Survey}",
@@ -822,13 +854,17 @@
     year = "2026"
 }
 
-@misc{Powell:2018,
+@article{Powell:2018,
     author = "Powell, M. C. and Cappelluti, N. and Urry, C. M. and Koss, M. and Finoguenov, A. and Ricci, C. and Trakhtenbrot, B. and Allevato, V. and Ajello, M. and Oh, K. and Schawinski, K. and Secrest, N.",
-    title = "{The Swift/BAT AGN Spectroscopic Survey -- IX. The Clustering Environments of an Unbiased Sample of Local AGN}",
+    title = "{The Swift/BAT AGN Spectroscopic Survey. IX. The Clustering Environments of an Unbiased Sample of Local AGNs}",
     eprint = "1803.07589",
     archivePrefix = "arXiv",
     primaryClass = "astro-ph.GA",
     doi = "10.3847/1538-4357/aabd7f",
+    journal = "Astrophys. J.",
+    volume = "858",
+    number = "2",
+    pages = "110",
     year = "2018"
 }
 
@@ -999,14 +1035,15 @@
     year = "2012"
 }
 
-@misc{Tessore:2023zyk,
+@article{Tessore:2023zyk,
     author = "Tessore, Nicolas and Loureiro, Arthur and Joachimi, Benjamin and von Wietersheim-Kramsta, Maximilian and Jeffrey, Niall",
     title = "{GLASS: Generator for Large Scale Structure}",
     eprint = "2302.01942",
     archivePrefix = "arXiv",
     primaryClass = "astro-ph.CO",
     doi = "10.21105/astro.2302.01942",
-    month = "2",
+    journal = "Open J. Astrophys.",
+    volume = "6",
     year = "2023"
 }
 
@@ -1163,4 +1200,41 @@
     number = "1",
     pages = "L15",
     year = "2025"
+}
+
+% ============================================================================
+% Added 17 Nov 2026 for the complete draft (main.tex of that date)
+%   KAGRA:2021duu: from refs_candidates.bib, without its verification note (record only: the abstract was not
+%     read; the sentence it supports is "the power law plus peak fitted to the third gravitational-wave catalog").
+%   KAGRA:2013rdx: copied from the refs.bib of the lensing drafts (paper1), where it supports the same sentence
+%     on the reach of the fifth observing run.
+% ============================================================================
+
+@article{KAGRA:2021duu,
+    author = "Abbott, R. and others",
+    collaboration = "KAGRA, Virgo, LIGO Scientific",
+    title = "{Population of Merging Compact Binaries Inferred Using Gravitational Waves through GWTC-3}",
+    eprint = "2111.03634",
+    archivePrefix = "arXiv",
+    primaryClass = "astro-ph.HE",
+    doi = "10.1103/PhysRevX.13.011048",
+    journal = "Phys. Rev. X",
+    volume = "13",
+    number = "1",
+    pages = "011048",
+    year = "2023"
+}
+
+@article{KAGRA:2013rdx,
+    author = "Abbott, B. P. and others",
+    collaboration = "KAGRA, LIGO Scientific, Virgo",
+    title = "{Prospects for observing and localizing gravitational-wave transients with Advanced LIGO, Advanced Virgo and KAGRA}",
+    eprint = "1304.0670",
+    archivePrefix = "arXiv",
+    primaryClass = "gr-qc",
+    doi = "10.1007/s41114-020-00026-9",
+    journal = "Living Rev. Rel.",
+    volume = "19",
+    pages = "1",
+    year = "2016"
 }
