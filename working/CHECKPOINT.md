@@ -1,4 +1,4 @@
-# Checkpoint, 17 Nov 2026, 19:50 UTC (read this first after a context clear)
+# Checkpoint, 17 Nov 2026, 20:20 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -7,12 +7,12 @@ you orchestrate and check). Everything below is the state at the time of writing
 hold the owner's words; this file holds the working state.
 
 ## 1. What the owner wants (standing)
-- Two papers, maintained together as results arrive (owner, 17 Nov): the long paper
-  `working/paper_prd/` (the form the owner prefers) and the letter
-  `working/paper_short_independent/`. `paper_short` is frozen in `working/archive/paper_short/`.
+- ONE paper (owner, 17 Nov ~20:05 UTC: "Lets stick to the long paper. You did a better job there.
+  So i would archive the short paper."): `working/paper_prd/`. The letter
+  `paper_short_independent` is archived (Sec. 2). Do not propose a short version again unless asked.
 - What is new, in the owner's words: "proper multi-tracer darksirens, and correlated gw
-  properties with galaxies". The papers are titled and argued for that.
-- Drafts are written for the expected results at once; anything that waits for a run is red (red
+  properties with galaxies". The paper is titled and argued for that.
+- The draft is written for the expected results at once; anything that waits for a run is red (red
   macros `\ph{}`, red figure data); no note to the author is printed in a figure.
 - Form is governed by the owner's style skill `astro-paper-style`. LOAD IT YOURSELF before
   briefing any writer; a brief adds content and never overrides the skill (the owner rejected a
@@ -24,65 +24,74 @@ hold the owner's words; this file holds the working state.
 - Agents: no idle waiting; code watchers or Slurm dependencies instead; fresh agents with short
   briefs beat resuming cold ones; keep the number proportionate.
 
-## 2. The two papers
-| | Long paper | Letter |
-|---|---|---|
-| Path | `working/paper_prd/main.tex` (16 pp) | `working/paper_short_independent/main.tex` (10 pp) |
-| Design | `notes/PAPER_SKELETON.md`, `REVISION_DECISIONS.md` (item 13), `notes/OWNER_STYLE_DETAILS.md` | `BRIEF_v2.md` (binding), `EXPERIMENT.md` |
-| Numbers | `scripts/build_values.py`, `production.py`, `values/production_map.json`, `audit_values.py` | `scripts/results.py`, `results_map.json`, `build_values.py`, `notes/STATUS.md` |
-| Figures | `scripts/make_figures.py`, nine figures, `figures/CAPTION_FACTS.md` | `scripts/make_figures.py`: `fig_concept`, `fig_anchor`, `fig1_budget`, `fig_populations` |
-| Real now | 28 of 122 result macros | 23 of 42 result macros |
-
-Maintenance loop: `bash working/refresh_papers.sh` (rebuilds values, figures and both PDFs, prints
-gates and real/waiting counts) -> a Fable consistency pass limited to sentences tagged
-`% EXPECTED` whose numbers turned real (brief: skill governs; give the real numbers; each paper
-in its own words) -> send the PDF to the owner (SendUserFile) only when it is consistent.
-Shared: `paper_prd/refs.bib`, `paper_prd/notes/PRIOR_WORK_VERIFIED.md` (the only source for
-statements about other papers), `paper_prd/notes/LIKELIHOOD_MATH.md`, `paper_prd/notes/GAPS.md`.
+## 2. The paper
+- `working/paper_prd/main.tex` (16 pp). Design: `notes/PAPER_SKELETON.md` (Sec. 9 of 17 Nov evening:
+  the long paper takes in the letter's experiment; new subsection IV B "The constraint from each
+  host class", new figure `fig_classes`, names "host class unknown / known", "probability of an AGN
+  host"), `REVISION_DECISIONS.md` (item 13), `notes/OWNER_STYLE_DETAILS.md`.
+- Numbers: `scripts/build_values.py`, `production.py`, `values/production_map.json`,
+  `audit_values.py`, `values/MACROS.md`. Figures: `scripts/make_figures.py`,
+  `figures/CAPTION_FACTS.md`. Shared notes: `refs.bib`, `notes/PRIOR_WORK_VERIFIED.md` (the only
+  source for statements about other papers), `notes/LIKELIHOOD_MATH.md`, `notes/GAPS.md`.
+- Maintenance loop: `bash working/refresh_papers.sh` (values, audit, figures, PDF, gates, counts)
+  -> a Fable consistency pass limited to sentences tagged `% EXPECTED` whose numbers turned real
+  -> send the PDF to the owner (SendUserFile) only when it is consistent.
+- IN PROGRESS at 20:20 UTC (check `git status` and the files to see how far it got):
+  a. Opus agent: makes the long paper stand alone (its `production.py` imported the letter's
+     `results.py`), adds the experiment's numbers as macros, draws `fig_classes`, redraws
+     `fig1_mocks` (c, d) from the production events, maps the Obs keys to stage 5, reduces
+     `refresh_papers.sh` to one paper.
+  b. Then I move `working/paper_short_independent/` to `working/archive/paper_short_independent/`
+     (`git mv`, links `values`, `refs.bib` repointed to `../../paper_prd/...`, a `FROZEN.md` like
+     `archive/paper_short/FROZEN.md`), run the refresh, commit.
+  c. Then a Fable writer on `main.tex` per skeleton Sec. 9.3 (brief: skill governs; real numbers
+     of skeleton 9.1; `% EXPECTED` on sentences that wait for runs; edit only `main.tex`).
+  d. Then an independent Fable review against the skill's self-check and the build gates.
 
 ## 3. Runs (analysis 16: `working/analyses/analysis_16_production_runs/`, README there)
-- Machine: partition RITA-GPU, two A100-80, both ours (the gaia session left for good).
+- Machine: partition RITA-GPU, two A100-80, both ours.
 - Launcher: `PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python`;
-  `$PY scripts/launch.py --lanes 2 status`; `... --lanes 2 stage <S ...>`; lanes are
-  `runs/_lanes/lane1.txt`, `lane2.txt`, jobs `agn-prod-l1`, `agn-prod-l2` (each job runs its lane
-  file to the end and chains a successor). Summaries: `runs/<run>/summary.json`.
-- State at 19:40 UTC: stage 1 finished (35 runs). The letter's grids: E1 105 of 235, E2 53 of 75;
-  about 21 GPU-h left, so both lanes end around 06:00 UTC on 18 Nov. Jobs: 1414946 (lane 1),
+  `$PY scripts/launch.py --lanes 2 status`; `... --lanes 2 stage <S ...> [--match REGEX]
+  [--only-lane K] [--dry-run]`; lanes `runs/_lanes/lane1.txt`, `lane2.txt`, jobs `agn-prod-l1`,
+  `agn-prod-l2` (each job runs its lane file to the end and chains a successor). Lane order is
+  the `lane_rank` of each run (table `LANE_RANKS` at the top of `scripts/make_runlist.py`):
+  stage-2 grids, stage 4 on realizations 100-105, E3, stage 4 on 106-110, stage-2 nested,
+  stage 3 on 100-105, stage 5, stage 3 on 106-110. Summaries: `runs/<run>/summary.json` (block
+  `posterior`, computed on a refined lattice since 20:00 UTC; `grid/result.json` holds older
+  node-based bounds, do not use them).
+- State at 20:15 UTC: E1 108 of 235, E2 57 of 75; lane 1 ends about 06:45 UTC on 18 Nov, lane 2
+  continues by itself into the 32 stage-2 grids (4.7 GPU-h) and the stage-4 single-population
+  runs on realizations 100-105 (20.5 GPU-h), queued at 20:10 UTC. Jobs: 1414946 (lane 1),
   1415005 (lane 2), successors 1414969 and 1415023.
-- Tests: closure passed (exact against Analyses 14 and 15); the resume test passed. The
-  sampler-settings test for the eight-parameter model, job 1414839 (2 h 15), is released with
-  `afterany:1414946`, so it starts by itself when lane 1 ends; result in
-  `tests/results/sampler_test.json`.
-- Not yet launched (nested sampling): E3 (five six-parameter runs at twice the population
-  difference, 22 GPU-h), stage 4 (host-dependent events: single population on ten realizations 62,
-  eight parameters on five 166), stage 3 (80), stage 2 (27). After the sampler test:
-  `$PY scripts/make_runlist.py --timing tests/results/timing.json [--sampler-8 X --calls-8 N]`
-  then `$PY scripts/launch.py --lanes 2 stage E3 4 3 2` (check that the lane order puts stage 4
-  before 3 and 2; the headline of both papers waits for it). Stage 5 (observed-like spectrum,
-  about 200 GPU-h) is approved by the owner and not in the run list yet.
+- Sampler test for the eight-parameter model, job 1414839 (2 h 15), starts by itself when lane 1
+  ends (`afterany:1414946`); result in `tests/results/sampler_test.json`.
+- Two background watchers of the session: one ends when all E1/E2 grids are finished, one when
+  job 1414839 has ended. If the session was restarted they are gone: check by hand.
+- After the sampler test: `$PY scripts/make_runlist.py --timing tests/results/timing.json
+  [--sampler-8 X --calls-8 N]`, then `$PY scripts/launch.py --lanes 2 stage E3 2 3 4 5` (dry run
+  first). Estimates with the present setting: E3 20.5, stage 2 10, stage 3 60, stage 4 215,
+  stage 5 225 GPU-h (stage 4 and E3 about 1.14 times more on their injection set); the
+  eight-parameter runs are 165 + 190 of it.
 - Settings: core e7c3007; hosts normalized over the grid to z = 1.10; mixed sets 8000 posterior
   samples per merger with the half-variance correction; all-AGN sets 32000 samples and six pooled
-  injection sets; each realization its own injections; host-dependent analyses use the lane
-  `injections/injections_targeted_peak.h5` (the old lane is too thin for them);
-  `working/data/experiment_sets.json` maps event sets to files and injection lanes.
+  injection sets; each realization its own injections; host-dependent analyses use
+  `injections/injections_targeted_peak.h5`; observed-like `injections_targeted_obslike.h5`;
+  `working/data/experiment_sets.json` maps event sets to files and injection sets.
 - Owner-approved scope: stages 1 to 4 with the eight-parameter model on 5 realizations first
-  ("Staged: 5, then 10"), plus the observed-like family, plus the letter's experiment
-  ("more can happen"). About 340 + 200 + 60 GPU-h.
+  ("Staged: 5, then 10"), plus the observed-like family (stage 5), plus the experiment.
 
 ## 4. Results so far (population known unless said; 1000 detected mergers per realization;
 90%; inputs H0 = 67.74, f_AGN = 0.30)
 - One realization: both catalogs H0 68.4 (+1.9, -2.0), f_AGN 0.27 +- 0.08. Ten combined: H0 68.2
   +- 0.6 (input at the 80% level), f_AGN 0.306 +- 0.026 (30%). No merger in AGN: f_AGN < 0.02.
 - 90% half-width of H0, mean over five realizations, against the fraction of mergers in AGN:
-  labels unknown 3.58 (0), 3.55 (0.1), 2.04 (0.3), 1.37 (0.5), 0.83 (1); hosts known 3.56, 1.90,
-  1.34, 1.10, 0.81; mass spectrum alone 5.6. With one merger in ten in an AGN and equal
-  populations the likelihood gains nothing from the AGN catalog (3.55 against 3.58) although known
-  hosts would give 1.90: positions alone barely identify the hosts. This is new and belongs in
-  both papers.
+  host class unknown 3.58 (0), 3.55 (0.1), 2.04 (0.3), 1.37 (0.5), 0.83 (1); host class known
+  3.56, 1.90, 1.34, 1.10, 0.81; no catalog 5.6. With one merger in ten in an AGN the analysis
+  gains nothing from the AGN catalog (3.55 against 3.58) although known hosts would give 1.90.
 - Probability of an AGN host (f = 0.3, AGN-hosted mergers heavier by 5 Msun and spin +0.10):
   positions alone 0.37 for mergers truly in AGN against 0.30 for those truly in galaxies; with
   masses and spins 0.51 against 0.28.
-- Observed-like spectrum: mass spectrum alone 8.5, both catalogs at f = 0.3 2.0, all in AGN 0.84.
+- Observed-like spectrum: no catalog 8.5, both catalogs at f = 0.3 2.0, all in AGN 0.84.
 - AGN catalog alone on mixed mergers: at the prior edge H0 = 100 in four of five realizations;
   realization 102 peaks at 76.8 [75.5, 78.1] and excludes the input.
 - Analysis 14 (`analyses/analysis_14_monte_carlo_accuracy/REPORT.md`): 2000 samples per merger
@@ -90,36 +99,31 @@ statements about other papers), `paper_prd/notes/LIKELIHOOD_MATH.md`, `paper_prd
 - Analysis 15 (`analyses/analysis_15_host_normalisation/REPORT.md`): the mergers constrain the
   merger rate per host; with complete catalogs no number density enters; at m < 18 an AGN
   density wrong by a factor of two moves f_AGN by 0.13 and H0 by about 1.
-- My wrong expectation, corrected in both texts: the galaxy catalog does not "add little"; it
-  halves the half-width of the mass spectrum alone.
+- These numbers were made before the summaries moved to the refined lattice; single-realization
+  bounds moved by up to 0.09 km/s/Mpc, means over realizations by less. The macros are the source.
 
 ## 5. Do next, in order
-1. Two failures in the last refresh (19:45 UTC), both small, for an Opus agent: the long paper's
-   audit check J1 (second-code-path recomputation, largest deviation 0.086 on the f = 0.1 control
-   key `CtrlTenth`) and the letter's figure check (it compares a rounded printed mean with the
-   unrounded value in `fig_populations(c)` and calls it a mismatch).
-2. When the grids are done (about 06:00 UTC 18 Nov): refresh; then a Fable pass on BOTH papers
-   with the real experiment results (Sec. 4 above). The long paper must take in the letter's
-   experiment (half-width against the fraction in AGN, hosts known, per-merger probabilities).
-   Carry these open points: the f = 0.1 result; the AGN-catalog-alone exception (realization
-   102); "most of the constraint comes from the AGN-hosted mergers" is true as a share of the
-   information (about 63%), not of the width; number-density units (runs sample log10 n in
-   h^3 Mpc^-3, Table I of the long paper says Mpc^-3); the long paper's flux-limited numbers are
-   still exploratory and narrower than the new complete-catalog width; Fig. 1 (c, d) of the long
-   paper uses the old event files.
-3. Read `tests/results/sampler_test.json`, then launch the nested stages (Sec. 3).
-4. Add stage 5 (observed-like, host-dependent) to the run list; its event sets and injections
-   exist (`working/data/obslike/README.md`).
-5. Before either paper is called ready: an independent Fable review against the skill's
-   self-check, and the build gates of the skill.
+1. Finish Sec. 2 a to d.
+2. When the grids are done (watcher; about 06:45 UTC 18 Nov): refresh; Fable consistency pass on
+   the `% EXPECTED` sentences whose numbers turned real; PDF to the owner.
+3. When the sampler test has ended (watcher; about 09:00 UTC): read
+   `tests/results/sampler_test.json`, regenerate the run list, launch `E3 2 3 4 5`.
+4. Stage-2 grids real (about 11:00 UTC): refresh; the flux-limited subsection's numbers turn
+   real (they are exploratory and narrower than the complete-catalog width until then).
+5. Open points for the text: number densities in h^3 Mpc^-3 in Table I and wherever a prior is
+   quoted; the AGN-catalog-alone exception (realization 102); the date of the fifth observing
+   run in the conclusions needs a citable schedule; acknowledgments and author list are the
+   owner's.
+6. Known numerical flags (from the audit fix of 17 Nov): two catalog-free observed-like grids
+   (all mergers in AGN, realizations 101 and 103) have ln L jumps of about 100 nats between
+   neighbouring H0 nodes; one all-AGN observed-like grid (realization 102) is under-resolved in
+   f_AGN. The numbers agent of Sec. 2a reports whether anything printed uses them.
 
-## 6. Decisions waiting for the owner (not urgent)
-- Are the two papers a letter with a companion (then the style skill requires disjoint figures:
-  the letter's Figs. 2 and 4 overlap the long paper's recovery and host-dependent figures), or
-  alternatives of which one is submitted?
+## 6. Decisions waiting for the owner
+None.
 
 ## 7. Other sessions
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to the one that adds this file; `git log --oneline | head -20` for the day's work.
+Local commits up to d6c8840 plus the one that adds this file; `git log --oneline | head -20`.
