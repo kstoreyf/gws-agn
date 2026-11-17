@@ -1347,46 +1347,158 @@ def panel_density_response(axb, name):
 def fig4_densities():
     name = "fig4_densities"
     fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 3.0), layout="constrained", gridspec_kw=dict(width_ratios=[1.0, 1.1]))
-    panel_free_joint(axa, name)
+    ya = panel_free_joint(axa, name)
     panel_rate_ratio(axb, name)
     fs.save(fig, FIGDIR, name)
+    write_fig4_facts(ya)
+
+
+# ---------------------------------------------------------------- generated blocks of figures/CAPTION_FACTS.md
+def mfmt(m, unit=""):
+    """`\\Macro` = text[unit] (real | red), from values.json."""
+    V = VALUES["macros"][m]
+    return f"`\\{m}` = {unwrap_ph(V['render'])}{unit} ({'real' if V['class'] != 'ph' else 'red'})"
+
+
+def key_state(key, q, part):
+    """Whether the drawn curve of a key is a production result or a placeholder, and its source (placeholder_results.json)."""
+    E = PHJ[key]
+    if E.get("final"):
+        which = "realization A (100)" if part == "A" else f"{E['N_comb']} realizations {E['realizations']}"
+        return f"real (production: {which} of `{E['production_run']}`)"
+    Q = E["quantities"][q]
+    src = Q["source"] if part == "A" else Q["comb_source"]
+    f = Q.get("file") if part == "A" else Q.get("comb_file")
+    return f"red placeholder, {src}" + (f" (`{f}`)" if f and src.startswith("exploratory") else "")
+
+
+def write_facts_block(name, heading, lines):
+    """Replace the block of figure `name` in figures/CAPTION_FACTS.md (between its two markers; the first time, the hand-written
+    section that starts with `heading`, up to the next section)."""
+    beg, end = f"<!-- {name}: written by scripts/make_figures.py; do not edit -->", f"<!-- end {name} -->"
+    block = "\n".join([beg] + lines + [end])
+    cf = FIGDIR / "CAPTION_FACTS.md"
+    t = cf.read_text()
+    if beg in t:
+        t = t.split(beg)[0] + block + t.split(end, 1)[1]
+    else:
+        i = t.index(heading)
+        rest = t[i + len(heading):]
+        nxt = [j for j in (rest.find("\n## "), rest.find("\n<!-- ")) if j >= 0]
+        tail = rest[min(nxt) + 1:] if nxt else ""
+        t = t[:i] + block + ("\n\n" + tail if tail else "\n")
+    cf.write_text(t)
+
+
+def write_fig4_facts(ya):
+    ylo, yhi = ya
+    keys = [f"Free{w}" for _, w, _ in bv.RUNGS]
+    prod = fin("FreeEighteen") and fin("FreeTwentyOne")
+    q18 = PHJ["FreeEighteen"]["quantities"]["LognAGN"]["A"]
+    hnote = q18.get("h_note", "")
+    L = ["## Fig. 4 `fig4_densities` (number densities inferred, realization A; written by the figure script from values.json and "
+         "placeholder_results.json)", "",
+         "- Keys: " + "; ".join(f"`{k}` {key_state(k, 'fAGN', 'A')}" for k in keys) + ".",
+         "- Unit of the number densities: log10 of n in h^3 Mpc^-3 (h = H0/100), the unit the production analyses sample (Table I, "
+         f"`\\PriorLognAGNLo`, `\\PriorLognAGNHi`) and the text quotes (Table IV, Sec. IV C); y-axis label log10[n_AGN/(h^3 Mpc^-3)]. "
+         f"The drawn densities are {hnote}.",
+         "- (a) Joint posterior of f_AGN and log10 n_AGN with both number densities inferred (log10 n_gal marginalized): 90% regions at "
+         "m < 21 (dashed) and m < 18 (solid) (`\\FreeTwentyOnefAGN`, `\\FreeEighteenfAGN`; 90% upper limits on log10 n_AGN "
+         f"{mfmt('FreeTwentyOneLognAGNULh')} and {mfmt('FreeEighteenLognAGNULh')}). "
+         + ("Gaussian kernel density of the run's samples (0.3 sd per axis, reflected at the prior edges) on a lattice, smoothed by 1.5 cells. " if prod else
+            "50 x 50 histograms of the exploratory samples on the exploratory prior box seen in h^3 Mpc^-3 (f [0, 1] x "
+            f"[{PHJ['FreeEighteen']['joint']['A']['y'][0]:.2f}, {PHJ['FreeEighteen']['joint']['A']['y'][-1]:.2f}] at the bin centres), smoothed. ")
+         + f"Black curve: constant merger rate per host at the input value {mfmt('MockRateRatio')}, with n_gal at its input "
+         f"{mfmt('MockLognGalh')}: logit f_AGN = ln R + ln Z_AGN(n_AGN) - ln Z_gal, Z_k = N_k + n_k V_miss,k with n_k in h^3 Mpc^-3 and "
+         f"the missing volume at H0 = 100 (so the curve does not depend on H0), m < 18 catalog counts of realization A, hosts normalized to "
+         f"z = {bv.ZMAX_PROD if prod else bv.ZMAX_GRID:g}{' (the production convention)' if prod else ' (as the exploratory runs; z = 1.10 once the production runs are drawn)'}. "
+         "Gray: the 90% region allowed by the priors once the merger rate per host is measured (2e6 draws from the priors weighted by the "
+         f"known-density likelihood of m < 18 mapped through the identity; {mfmt('FreeEighteenLognAGNPriorULh')}). Black \"+\": input "
+         f"({mfmt('MockfAGN')}, {mfmt('MockLognAGNh')}); the curve passes through it. Axes: f_AGN [0, 1]; log10 n_AGN [{ylo:.2f}, {yhi:.2f}] "
+         + ("(the production prior box)." if prod else "(the extent of the placeholder data; the production prior box is [-6, -4]).")
+         + " The same limits in Mpc^-3 (each sample converted with its own H0) are the macros without the final h, not drawn.",
+         "- (b) Posterior of the merger rate per AGN over that per galaxy at m < 21, 20, 19, 18 (solid, dashed, dash-dot, dotted; "
+         + ", ".join(mfmt(f"{k}RateRatio") for k in keys) + "), computed per posterior sample as [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN with "
+         "that sample's densities. The ratio has no unit and does not depend on the unit of the densities: in production Z_k = N_k + n_k "
+         "V_miss,k(H0 = 100) with the sampled n_k in h^3 Mpc^-3, in the exploratory placeholder the same Z_k from n_k in Mpc^-3 with the volume "
+         f"at the sample's H0. Black dashed: input {mfmt('MockRateRatio')}. With the densities at their inputs the same ratio is "
+         f"{mfmt('FluxEighteenRateRatio')}."]
+    write_facts_block("fig4_densities", "## Fig. 4 `fig4_densities`", L)
 
 
 def panel_free_joint(axa, name, label="(a)"):
-    """Fig. 4(a): f_AGN against log10 n_AGN with the number densities inferred (realization A)."""
-    J = smooth_joint(PHJ["FreeEighteen"]["joint"]["prior_induced"], 2.0)
+    """Fig. 4(a): f_AGN against log10 n_AGN in h^3 Mpc^-3 (the unit the analysis samples and the text quotes) with the number
+    densities inferred (realization A). The joint posteriors and the prior-allowed region are those of placeholder_results.json,
+    stored in h^3 Mpc^-3: the production runs' own samples and prior draws of log10 n_AGN; while a key is a placeholder, the
+    exploratory run's samples converted with each sample's own H0. The curve of constant rate per host is H0-independent in this
+    unit: Z_k = N_k + n_k V_miss,k(H0 = 100) with n_k in h^3 Mpc^-3."""
+    PI = PHJ["FreeEighteen"]["joint"]["prior_induced"]
+    J = smooth_joint(PI, 2.0)
     draw_joint(axa, J, "0.55", ls="-", fill=True, alpha=0.30, lw=0.8, zorder=1)
+    joints = {}
     for i, (k, mlim, ls) in enumerate((("FreeTwentyOne", 21, "--"), ("FreeEighteen", 18, "-"))):
         c = kcol(k, fs.COMP[0 if mlim == 21 else 3], 2 * i)
-        draw_joint(axa, smooth_joint(PHJ[k]["joint"]["A"], 1.5), c, ls=ls, fill=False, zorder=4)
+        JA = PHJ[k]["joint"]["A"]
+        assert JA["params"] == ["fAGN", "LognAGNh"] and JA.get("units_y") == "log10 h^3 Mpc^-3", (k, JA.get("params"), JA.get("units_y"))
+        joints[k] = draw_joint(axa, smooth_joint(JA, 1.5), c, ls=ls, fill=False, zorder=4)
         chk_key(name, k, "fAGN", "A")
-        chk_key(name, k, "LognAGN", "A")
-    # constant rate-per-host ratio through the input (n_gal and H0 at their inputs, m < 18; hosts normalized to z = 5 as the
-    # exploratory runs, or to the end of the production redshift grid, z = 1.10, once the production runs are drawn)
+        chk(name, ("macros", f"{k}LognAGNULh", "value"), PHJ[k]["quantities"]["LognAGN"]["A"]["ul90_h"], "90% upper limit of the drawn log10 n_AGN [h^3 Mpc^-3]")
+    assert PI["params"] == ["fAGN", "LognAGNh"] and PI.get("units_y") == "log10 h^3 Mpc^-3", (PI.get("params"), PI.get("units_y"))
+    chk(name, ("macros", "FreeEighteenLognAGNPriorULh", "value"), PHJ["FreeEighteen"]["quantities"]["LognAGN"]["A"]["prior_ul90_h"],
+        "90% upper limit of the prior-allowed region [h^3 Mpc^-3]")
+    # vertical range: the production prior box (Table I, PriorLognAGNLo/Hi, h^3 Mpc^-3) once the production runs are drawn; while
+    # placeholders, the box of the exploratory priors seen in h^3 Mpc^-3 (their Mpc^-3 box shifted by -3 log10 h over the H0 prior)
     prod = fin("FreeEighteen") and fin("FreeTwentyOne")
+    if prod:
+        ylo, yhi = VALUES["macros"]["PriorLognAGNLo"]["value"], VALUES["macros"]["PriorLognAGNHi"]["value"]
+        chk(name, ("macros", "PriorLognAGNLo", "value"), ylo, "vertical axis: prior box")
+        chk(name, ("macros", "PriorLognAGNHi", "value"), yhi, "vertical axis: prior box")
+    else:
+        ylo, yhi = float(min(PI["y"][0], *(PHJ[k]["joint"]["A"]["y"][0] for k in joints))), float(max(PI["y"][-1], *(PHJ[k]["joint"]["A"]["y"][-1] for k in joints)))
+    # constant rate-per-host ratio through the input (n_gal at its input, m < 18; hosts normalized to z = 5 as the exploratory runs, or to
+    # the end of the production redshift grid, z = 1.10, once the production runs are drawn); h^3 Mpc^-3 densities with the volume at H0 = 100
     zm = bv.ZMAX_PROD if prod else bv.ZMAX_GRID
-    ylo = min(-6.0, float(np.min(PHJ["FreeEighteen"]["joint"]["prior_induced"]["y"]))) if prod else -6.0
     NC = bv.norm_cfg(100)
-    la = np.linspace(ylo, -4, 300)
+    la = np.linspace(ylo, yhi, 300)
     Rin = VALUES["macros"]["MockRateRatio"]["value"]
-    zA = bv.Zk(NC["m18"]["agn"], 10 ** la, IN_H0, zmax=zm)
-    zG = float(bv.Zk(NC["m18"]["gal"], 10 ** IN["lognGal"], IN_H0, zmax=zm))
+    lgal_h, lagn_h = VALUES["macros"]["MockLognGalh"]["value"], VALUES["macros"]["MockLognAGNh"]["value"]
+    zA = bv.Zk(NC["m18"]["agn"], 10 ** la, 100.0, zmax=zm)
+    zG = float(bv.Zk(NC["m18"]["gal"], 10 ** lgal_h, 100.0, zmax=zm))
     odds = Rin * zA / zG
     axa.plot(odds / (1 + odds), la, color="k", lw=1.3, zorder=6)
     chk(name, ("macros", "MockRateRatio", "value"), Rin, "constant rate-per-host curve")
-    axa.plot([IN_F], [IN["lognAGN"]], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
+    chk(name, ("macros", "MockLognGalh", "value"), lgal_h, "constant rate-per-host curve: input galaxy density [h^3 Mpc^-3]")
+    # the curve passes through the input point (f_AGN, log10 n_AGN) = (MockfAGN, MockLognAGNh) up to the counts of realization A
+    f_at_in = float(np.interp(lagn_h, la, odds / (1 + odds)))
+    note(name, f"(a) constant-rate curve at the input density {lagn_h:.3f}: f_AGN = {f_at_in:.4f} (input {IN_F}); y range [{ylo:.3f}, {yhi:.3f}] h^3 Mpc^-3; "
+               f"hosts normalized to z = {zm:g}")
+    axa.plot([IN_F], [lagn_h], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
     axa.set_xlim(0, 1)
-    axa.set_ylim(ylo, -4)
+    axa.set_ylim(ylo, yhi)
     axa.set_xlabel(r"$f_{\rm AGN}$")
-    axa.set_ylabel(r"$\log_{10}[n_{\rm AGN}/{\rm Mpc^{-3}}]$")
-    fs.label(axa, 0.60, -4.04, "constant merger rate per host", "k", ha="right", va="top", bbox=dict(fc="white", ec="none", pad=0.5, alpha=0.8))
-    fs.label(axa, 0.56, -5.72, "allowed by\nthe priors", "0.30", ha="left", va="center")
+    axa.set_ylabel(r"$\log_{10}[n_{\rm AGN}/(h^3\,{\rm Mpc^{-3}})]$")
+    # labels in axes coordinates (the vertical range differs between the placeholder and the production prior box)
+    ta = axa.transAxes
+    fs.label(axa, 0.60, 0.98, "constant merger rate per host", "k", ha="right", va="top", transform=ta, bbox=dict(fc="white", ec="none", pad=0.5, alpha=0.8))
+    fs.label(axa, 0.56, 0.14, "allowed by\nthe priors", "0.30", ha="left", va="center", transform=ta)
     c18, c21 = kcol("FreeEighteen", fs.COMP[3], 2), kcol("FreeTwentyOne", fs.COMP[0], 0)
-    fs.label(axa, 0.43, -5.22, "$m<18$", c18, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
-    fs.label(axa, 0.67, -5.36, "$m<21$", c21, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
+    for k, c, txt, x0 in (("FreeEighteen", c18, "$m<18$", 0.45), ("FreeTwentyOne", c21, "$m<21$", 0.70)):
+        x_, y_, P_, lev_ = joints[k]
+        # just below the lower edge of the 90% contour at f_AGN = x0 (above its upper edge when the lower edge is the axis)
+        cs = axa.contour(x_, y_, np.asarray(P_).T, levels=[lev_], alpha=0.0)
+        seg = np.concatenate([s for s in cs.allsegs[0] if len(s)]) if any(len(s) for s in cs.allsegs[0]) else np.array([[x0, 0.5 * (ylo + yhi)]])
+        cs.remove()
+        near = seg[np.abs(seg[:, 0] - x0) < 0.03]
+        near = near if len(near) else seg
+        dy = 0.04 * (yhi - ylo)
+        y_lo, y_hi = float(near[:, 1].min()), float(near[:, 1].max())
+        above = y_lo - 3 * dy < ylo
+        fs.label(axa, x0, y_hi + dy if above else y_lo - dy, txt, c, ha="center", va="bottom" if above else "top",
+                 bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
     fs.panel_label(axa, label, x=0.97, y=0.04, ha="right", va="bottom")
     if not prod:
         ph_word(axa, x=0.97, y=0.13, va="bottom")
+    return ylo, yhi
 
 
 def panel_rate_ratio(axb, name, label="(b)"):
@@ -1691,6 +1803,33 @@ def fig9_validation(outdir=None, stem=None):
     if not all(fin(k) for k in ("CtrlZero", "CtrlTenth", "KnownBoth")):
         ph_word(axb, y=0.87)
     fs.save(fig, outdir or FIGDIR, name)
+    if stem is None and outdir is None:
+        write_fig9_facts()
+
+
+def write_fig9_facts():
+    """The Fig. 9 block of figures/CAPTION_FACTS.md: which curves are production results, from placeholder_results.json (until 17 Nov a
+    hand-written block, which still called the control sets invented after their runs had finished)."""
+    allk = ("KnownBoth", "SingleBoth", "HDHost", "CtrlZero", "CtrlTenth")
+    nreal = sum(fin(k) for k in allk)
+    st = "all real" if nreal == len(allk) else ("all placeholder" if nreal == 0 else f"{nreal} of {len(allk)} keys real")
+    L = [f"## Fig. 9 `fig9_validation` ({st}; written by the figure script from values.json and placeholder_results.json)", "",
+         "- Every curve is combined over realizations (log-likelihoods summed for grids, product of kernel densities for nested runs); "
+         "real curves in the final palette, placeholders in red tones (same line styles).",
+         f"- (a) H0 posteriors with both catalogs: population known (solid, {mfmt('KnownBothHzeroComb')}, input at the "
+         f"{mfmt('KnownBothHzeroCL', '%')} level; {key_state('KnownBoth', 'Hzero', 'Comb')}), single population (dashed, "
+         f"{mfmt('SingleBothHzeroComb')}; {key_state('SingleBoth', 'Hzero', 'Comb')}), host-dependent populations on host-dependent events "
+         f"(dash-dot, {mfmt('HDHostHzeroComb')}; {key_state('HDHost', 'Hzero', 'Comb')}). Axis [65.3, 70.7]. Black dashed: input "
+         f"{mfmt('MockHzero')}.",
+         f"- (b) f_AGN posteriors for inputs 0 (solid, {mfmt('CtrlZerofAGNComb')}, 90% upper limit {mfmt('CtrlZerofAGNCombUL')}; "
+         f"{key_state('CtrlZero', 'fAGN', 'Comb')}), {unwrap_ph(VALUES['macros']['MockfAGNTenth']['render'])} (dashed, "
+         f"{mfmt('CtrlTenthfAGNComb')}, input at the {mfmt('CtrlTenthfAGNCL', '%')} level, input `\\MockfAGNTenth`; "
+         f"{key_state('CtrlTenth', 'fAGN', 'Comb')}) and {unwrap_ph(VALUES['macros']['MockfAGN']['render'])} (dash-dot, "
+         f"{mfmt('KnownBothfAGNComb')}; {key_state('KnownBoth', 'fAGN', 'Comb')}); black dashed lines at the three inputs. "
+         "Axis f_AGN [-0.005, 0.40].",
+         "- The two control sets. Input 0: " + (PHJ["CtrlZero"].get("production_settings") or "placeholder") + ". Input 0.10: "
+         + (PHJ["CtrlTenth"].get("production_settings") or "placeholder") + "."]
+    write_facts_block("fig9_validation", "## Fig. 9 `fig9_validation`", L)
 
 
 # ---------------------------------------------------------------- fig_classes: the constraint from each host class
@@ -1919,8 +2058,11 @@ V1_FIGS = {"fig2_two_catalogs": fig2_two_catalogs, "fig3_host_information": fig3
 
 # black input lines and markers drawn in each figure, against the input macros of values.json
 INPUT_MACROS = {"H0": "MockHzero", "f": "MockfAGN", "lognGal": "MockLognGal", "lognAGN": "MockLognAGN", "muG": "MockMuG",
-                "dmuG": "MockDmuG", "muChi": "MockMuChi", "dmuChi": "MockDmuChi", "sigmaG": "MockSigmaG", "sigmaChi": "MockSigmaChi"}
-INPUTS_DRAWN = {"fig1": ["muG", "dmuG", "muChi", "dmuChi"], "fig2": ["H0", "f"], "fig3": ["H0", "f"], "fig4": ["lognAGN", "f"], "fig5": ["H0", "muG"],
+                "dmuG": "MockDmuG", "muChi": "MockMuChi", "dmuChi": "MockDmuChi", "sigmaG": "MockSigmaG", "sigmaChi": "MockSigmaChi",
+                "lognGalh": "MockLognGalh", "lognAGNh": "MockLognAGNh"}
+# the inputs as drawn: IN, with the number densities also in h^3 Mpc^-3 (log10 n - 3 log10 h, h = H0/100), the unit of Fig. 4(a)
+INPUT_VALUES = dict(IN, lognGalh=IN["lognGal"] - 3 * np.log10(IN["H0"] / 100.0), lognAGNh=IN["lognAGN"] - 3 * np.log10(IN["H0"] / 100.0))
+INPUTS_DRAWN = {"fig1": ["muG", "dmuG", "muChi", "dmuChi"], "fig2": ["H0", "f"], "fig3": ["H0", "f"], "fig4": ["lognAGNh", "lognGalh", "f"], "fig5": ["H0", "muG"],
                 "fig6": ["H0", "f", "dmuG", "dmuChi"], "fig7": ["H0", "f", "dmuG", "dmuChi"], "fig8": ["H0", "f"], "fig9": ["H0", "f"], "classes": ["f"]}
 
 
@@ -1934,7 +2076,7 @@ def main(argv):
         print(f"--- {w}")
         FIGS[w]()
         for k in INPUTS_DRAWN[w]:
-            chk(NAMES[w], ("macros", INPUT_MACROS[k], "value"), IN[k], "input line")
+            chk(NAMES[w], ("macros", INPUT_MACROS[k], "value"), INPUT_VALUES[k], "input line")
     bad = run_checks([NAMES[w] for w in which])
     return 1 if bad else 0
 

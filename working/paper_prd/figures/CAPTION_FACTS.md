@@ -20,8 +20,9 @@ at the end compares every drawn median and 90% interval end with `values/values.
   markers, the curves of the normalization identity and of constant merger rate per host, Fig. 1.
 - Every interval, band and contour is 90%: 1-D intervals equal-tailed, 2-D regions highest-density.
   Every 1-D curve is a normalized probability density with units on its axis. Black dashed lines or a
-  black "+" are inputs: H0 = 67.74 km/s/Mpc (`\MockHzero`), f_AGN = 0.30 (`\MockfAGN`), log10 n_AGN = -5
-  (`\MockLognAGN`), mass peak 35 Msun (`\MockMuG`), offsets +5 Msun and +0.10 (`\MockDmuG`, `\MockDmuChi`).
+  black "+" are inputs: H0 = 67.74 km/s/Mpc (`\MockHzero`), f_AGN = 0.30 (`\MockfAGN`), log10 n_AGN = -4.49
+  in h^3 Mpc^-3 (`\MockLognAGNh`, Fig. 4; -5 in Mpc^-3), mass peak 35 Msun (`\MockMuG`), offsets +5 Msun and +0.10
+  (`\MockDmuG`, `\MockDmuChi`).
 - Names in the panels are those of PAPER_SKELETON Sec. 2 (both catalogs, galaxy catalog alone, AGN catalog
   alone, no catalog; population known, single population, host-dependent populations; realization A;
   combined over realizations). Each number below names its macro; red macros are placeholders.
@@ -126,20 +127,14 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
   `\NormfCompleteProd`, `\NormfCompleteProdTwo`, `\NormfEighteenProdHalf`, `\NormfEighteenProd`,
   `\NormfEighteenProdTwo`; F_AGN `\NormFAGNComplete`, 1, `\NormFAGNEighteenProd`).
 
-## Fig. 4 `fig4_densities` (placeholder, source exploratory; number densities inferred, realization A)
+<!-- fig4_densities: written by scripts/make_figures.py; do not edit -->
+## Fig. 4 `fig4_densities` (number densities inferred, realization A; written by the figure script from values.json and placeholder_results.json)
 
-- (a) Joint posterior of f_AGN and log10 n_AGN with both number densities inferred (log10 n_gal
-  marginalized): 90% regions at m < 21 (dashed) and m < 18 (solid) (`\FreeTwentyOnefAGN`,
-  `\FreeTwentyOneLognAGN`, `\FreeEighteenfAGN`, `\FreeEighteenLognAGN`); 50 x 50 histograms on the prior box
-  f [0, 1] x [-6, -4], smoothed. Black curve: constant merger rate per host at the input value
-  `\MockRateRatio`, with n_gal and H0 at their inputs (hosts normalized to z = 5). Gray: the 90% region
-  allowed by the priors once the merger rate per host is measured (2e6 draws from the priors weighted by
-  the known-density likelihood of m < 18 mapped through the identity; `\FreeEighteenLognAGNPriorUL`).
-  Black "+": input (0.30, -5). Axes span the prior box.
-- (b) Posterior of the merger rate per AGN over that per galaxy at m < 21, 20, 19, 18 (solid, dashed,
-  dash-dot, dotted; `\FreeTwentyOneRateRatio` ... `\FreeEighteenRateRatio`), computed per posterior sample
-  as [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN with that sample's H0, n_gal, n_AGN. Black dashed: input
-  `\MockRateRatio` (42.8). With the densities at their inputs the same ratio is `\FluxEighteenRateRatio`.
+- Keys: `FreeTwentyOne` red placeholder, exploratory (`analyses/analysis_5_free_anchors_H0_fagn/results/campaign_m21_dynesty_s100.h5`); `FreeTwenty` red placeholder, exploratory (`analyses/analysis_5_free_anchors_H0_fagn/results/campaign_m20_dynesty_s100.h5`); `FreeNineteen` red placeholder, exploratory (`analyses/analysis_5_free_anchors_H0_fagn/results/campaign_m19_dynesty_s100.h5`); `FreeEighteen` red placeholder, exploratory (`analyses/analysis_5_free_anchors_H0_fagn/results/campaign_m18_dynesty_s100.h5`).
+- Unit of the number densities: log10 of n in h^3 Mpc^-3 (h = H0/100), the unit the production analyses sample (Table I, `\PriorLognAGNLo`, `\PriorLognAGNHi`) and the text quotes (Table IV, Sec. IV C); y-axis label log10[n_AGN/(h^3 Mpc^-3)]. The drawn densities are in h^3 Mpc^-3: the exploratory run sampled log10 n in Mpc^-3, so each posterior sample and each prior draw is converted with its own H0, log10 n - 3 log10(H0/100).
+- (a) Joint posterior of f_AGN and log10 n_AGN with both number densities inferred (log10 n_gal marginalized): 90% regions at m < 21 (dashed) and m < 18 (solid) (`\FreeTwentyOnefAGN`, `\FreeEighteenfAGN`; 90% upper limits on log10 n_AGN `\FreeTwentyOneLognAGNULh` = -3.71 (red) and `\FreeEighteenLognAGNULh` = -3.98 (red)). 50 x 50 histograms of the exploratory samples on the exploratory prior box seen in h^3 Mpc^-3 (f [0, 1] x [-5.97, -3.13] at the bin centres), smoothed. Black curve: constant merger rate per host at the input value `\MockRateRatio` = 42.8 (real), with n_gal at its input `\MockLognGalh` = -2.49 (real): logit f_AGN = ln R + ln Z_AGN(n_AGN) - ln Z_gal, Z_k = N_k + n_k V_miss,k with n_k in h^3 Mpc^-3 and the missing volume at H0 = 100 (so the curve does not depend on H0), m < 18 catalog counts of realization A, hosts normalized to z = 5 (as the exploratory runs; z = 1.10 once the production runs are drawn). Gray: the 90% region allowed by the priors once the merger rate per host is measured (2e6 draws from the priors weighted by the known-density likelihood of m < 18 mapped through the identity; `\FreeEighteenLognAGNPriorULh` = -3.66 (red)). Black "+": input (`\MockfAGN` = 0.30 (real), `\MockLognAGNh` = -4.49 (real)); the curve passes through it. Axes: f_AGN [0, 1]; log10 n_AGN [-5.97, -3.13] (the extent of the placeholder data; the production prior box is [-6, -4]). The same limits in Mpc^-3 (each sample converted with its own H0) are the macros without the final h, not drawn.
+- (b) Posterior of the merger rate per AGN over that per galaxy at m < 21, 20, 19, 18 (solid, dashed, dash-dot, dotted; `\FreeTwentyOneRateRatio` = 37^{+16}_{-13} (red), `\FreeTwentyRateRatio` = 36^{+17}_{-13} (red), `\FreeNineteenRateRatio` = 37^{+18}_{-13} (red), `\FreeEighteenRateRatio` = 39^{+19}_{-14} (red)), computed per posterior sample as [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN with that sample's densities. The ratio has no unit and does not depend on the unit of the densities: in production Z_k = N_k + n_k V_miss,k(H0 = 100) with the sampled n_k in h^3 Mpc^-3, in the exploratory placeholder the same Z_k from n_k in Mpc^-3 with the volume at the sample's H0. Black dashed: input `\MockRateRatio` = 42.8 (real). With the densities at their inputs the same ratio is `\FluxEighteenRateRatio` = 40^{+19}_{-14} (red).
+<!-- end fig4_densities -->
 
 ## Fig. 5 `fig5_population` (placeholder; population known with both catalogs exploratory, the rest invented)
 
@@ -200,13 +195,11 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
   AGN-catalog-alone interval lies at the upper prior edge (99.9 to 100) and is marked by an arrow and text.
   Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size.
 
-## Fig. 9 `fig9_validation` (placeholder)
+<!-- fig9_validation: written by scripts/make_figures.py; do not edit -->
+## Fig. 9 `fig9_validation` (3 of 5 keys real; written by the figure script from values.json and placeholder_results.json)
 
-- (a) H0 posteriors combined over realizations with both catalogs: population known (solid,
-  `\KnownBothHzeroComb`, exploratory, input at the `\KnownBothHzeroCL`% level), single population (dashed,
-  `\SingleBothHzeroComb`, invented), host-dependent populations on host-dependent events (dash-dot,
-  `\HDHostHzeroComb`, invented). Axis [65.3, 70.7].
-- (b) f_AGN posteriors combined over realizations for inputs 0 (solid, `\CtrlZerofAGNComb`, 90% upper
-  limit `\CtrlZerofAGNCombUL`), 0.10 (dashed, `\CtrlTenthfAGNComb`) and 0.30 (dash-dot,
-  `\KnownBothfAGNComb`, exploratory); black dashed lines at the three inputs. The two control sets are
-  invented.
+- Every curve is combined over realizations (log-likelihoods summed for grids, product of kernel densities for nested runs); real curves in the final palette, placeholders in red tones (same line styles).
+- (a) H0 posteriors with both catalogs: population known (solid, `\KnownBothHzeroComb` = 68.2^{+0.6}_{-0.6} (real), input at the `\KnownBothHzeroCL` = 80% (real) level; real (production: 10 realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110] of `known_population/both_catalogs/complete/equal_populations/realization_{R}`)), single population (dashed, `\SingleBothHzeroComb` = 67.8^{+0.8}_{-0.8} (red); red placeholder, invented), host-dependent populations on host-dependent events (dash-dot, `\HDHostHzeroComb` = 67.7^{+0.9}_{-0.9} (red); red placeholder, invented). Axis [65.3, 70.7]. Black dashed: input `\MockHzero` = 67.74 (real).
+- (b) f_AGN posteriors for inputs 0 (solid, `\CtrlZerofAGNComb` = 0.007^{+0.017}_{-0.006} (real), 90% upper limit `\CtrlZerofAGNCombUL` = 0.019 (real); real (production: 5 realizations [100, 101, 102, 103, 105] of `two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}`)), 0.10 (dashed, `\CtrlTenthfAGNComb` = 0.104^{+0.033}_{-0.031} (real), input at the `\CtrlTenthfAGNCL` = 15% (real) level, input `\MockfAGNTenth`; real (production: 5 realizations [100, 101, 102, 103, 105] of `two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}`)) and 0.30 (dash-dot, `\KnownBothfAGNComb` = 0.306^{+0.026}_{-0.026} (real); real (production: 10 realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110] of `known_population/both_catalogs/complete/equal_populations/realization_{R}`)); black dashed lines at the three inputs. Axis f_AGN [-0.005, 0.40].
+- The two control sets. Input 0: the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations. Input 0.10: the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations.
+<!-- end fig9_validation -->

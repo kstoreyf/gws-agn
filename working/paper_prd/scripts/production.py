@@ -110,8 +110,9 @@ SET_NOTES = {
                  "free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); "
                  "the experiment's five realizations",
 }
-FREE_UNITS_NOTE = ("the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in "
-                   "Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)")
+FREE_UNITS_NOTE = ("the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] "
+                   "are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the "
+                   "joint posterior of Fig. 4(a) are in h^3 Mpc^-3, the sampled parameter itself")
 
 
 # ============================================================================================= #
@@ -506,6 +507,8 @@ def build_entry(key, spec, ph, inputs):
             lo = min(c.min() for c in conv.values()) - 0.1
             hi = max(c.max() for c in conv.values()) + 0.1
             A = _phr().summarize_samples(conv[rA], lo, hi, x0=inp)
+            A["ul90_h"] = float(np.percentile(S[rA][:, 0], 90))           # the sampled parameter itself, h^3 Mpc^-3
+            A["h_note"] = _phr().H_NOTE_PRODUCTION
             xc, pc = kde_product(list(conv.values()), lo, hi)
             C = _phr().summarize_xp(xc, pc, inp)
             cache[q] = (S, conv)
@@ -561,13 +564,16 @@ def build_entry(key, spec, ph, inputs):
                     "shape": f"run_posteriors.grid_joint: corrected ln L of {len(ds)} grid run(s) summed, cubic spline of the fine pass"}
             E["joint"]["A"]["correlation_summary"] = sA.get("rho_H0_f")
         elif free:
+            # Fig. 4(a): f_AGN against log10 n_AGN in h^3 Mpc^-3, the sampled parameter itself (reflected at its prior edges)
             S, conv = cache["LognAGN"]
             fa = samples_of(dA, ["f_agn"])[:, 0]
-            la = conv[rA]
-            xs, ys = np.linspace(0.0, 1.0, 141), _lattice(la, (la.min() - 0.3, la.max() + 0.3), 141)
-            P = kde2(fa, la, xs, ys, (0.0, 1.0), (ys[0] - 10, ys[-1] + 10))
-            E["joint"]["A"] = phr.joint_grid(xs, ys, P, 120) | {"params": ["fAGN", "LognAGN"], "correlation": float(np.corrcoef(fa, la)[0, 1]),
-                                                                 "shape": "Gaussian kernel density (0.3 sd), f_AGN reflected at 0 and 1; log10 n_AGN in Mpc^-3"}
+            la = S[rA][:, 0]
+            rb = tuple(_priors()["log10n_agn"])
+            xs, ys = np.linspace(0.0, 1.0, 141), _lattice(la, rb, 141)
+            P = kde2(fa, la, xs, ys, (0.0, 1.0), rb)
+            E["joint"]["A"] = phr.joint_grid(xs, ys, P, 120) | {"params": ["fAGN", "LognAGNh"], "correlation": float(np.corrcoef(fa, la)[0, 1]),
+                                                                 "shape": "Gaussian kernel density (0.3 sd), f_AGN reflected at 0 and 1, log10 n_AGN at its prior edges",
+                                                                 "units_y": "log10 h^3 Mpc^-3", "note": phr.H_NOTE_PRODUCTION}
             E["joint"]["prior_induced"] = prior_induced(key, spec, E)
         else:
             pri = _priors()
@@ -607,11 +613,12 @@ def _priors():
 
 
 def prior_induced(key, spec, E, n=2_000_000, seed=20261117):
-    """Region of (f_AGN, log10 n_AGN [Mpc^-3]) the priors allow once the rate per host is measured (the production
+    """Region of (f_AGN, log10 n_AGN [h^3 Mpc^-3]) the priors allow once the rate per host is measured (the production
     analogue of build_values.induced_density): prior draws of the free-density run, weighted by the likelihood of the
     known-density run of realization A at the same flux limit (densities from the counts), mapped through the
     normalisation identity logit f* = logit f + ln[F_A(n_A)/F_G(n_G)] - ln[F_A(n_A,used)/F_G(n_G,used)],
-    F_k = N_k / (N_k + n_k V_miss,k) (h-scaled densities: Z_k does not depend on H0). Sets the A entries' prior_ul90."""
+    F_k = N_k / (N_k + n_k V_miss,k) (h-scaled densities: Z_k does not depend on H0). Sets the A entries' prior_ul90 (Mpc^-3, each
+    draw converted with its own H0) and prior_ul90_h (h^3 Mpc^-3, the drawn parameter)."""
     LR = rp()
     pri = _priors()
     w = key[4:]
@@ -637,13 +644,16 @@ def prior_induced(key, spec, E, n=2_000_000, seed=20261117):
     lap, lgp = phys_logn(la, H), phys_logn(lg, H)
     E["quantities"]["LognAGN"]["A"]["prior_ul90"] = float(bv.wquant(lap, wt, 0.90))
     E["quantities"]["LognGal"]["A"]["prior_ul90"] = float(bv.wquant(lgp, wt, 0.90))
+    E["quantities"]["LognAGN"]["A"]["prior_ul90_h"] = float(bv.wquant(la, wt, 0.90))     # the sampled parameter, h^3 Mpc^-3
+    E["quantities"]["LognGal"]["A"]["prior_ul90_h"] = float(bv.wquant(lg, wt, 0.90))
     from scipy.ndimage import gaussian_filter
-    ry = (float(lap.min()), float(lap.max()))
-    Hh, xe, ye = np.histogram2d(f, lap, bins=50, range=[(0.0, 1.0), ry], weights=wt)
+    ry = tuple(pri["log10n_agn"])
+    Hh, xe, ye = np.histogram2d(f, la, bins=50, range=[(0.0, 1.0), ry], weights=wt)
     Hh = gaussian_filter(Hh, 1.0, mode="reflect")
     return _phr().joint_grid(0.5 * (xe[1:] + xe[:-1]), 0.5 * (ye[1:] + ye[:-1]), Hh, 50) | {
-        "params": ["fAGN", "LognAGN"], "n_eff": float(1 / np.sum(wt ** 2)), "file": bv.rel(fdir / "summary.json"),
-        "shape": f"{n:.0e} prior draws weighted by the known-density likelihood of {spec['prior_induced_from']} mapped through the identity; log10 n_AGN in Mpc^-3"}
+        "params": ["fAGN", "LognAGNh"], "n_eff": float(1 / np.sum(wt ** 2)), "file": bv.rel(fdir / "summary.json"), "units_y": "log10 h^3 Mpc^-3",
+        "note": _phr().H_NOTE_PRODUCTION,
+        "shape": f"{n:.0e} prior draws weighted by the known-density likelihood of {spec['prior_induced_from']} mapped through the identity; log10 n_AGN in h^3 Mpc^-3 (the drawn parameter)"}
 
 
 # ============================================================================================= #

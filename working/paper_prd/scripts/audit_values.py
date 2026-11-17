@@ -137,6 +137,18 @@ def main():
     mtxt = (OUT / "values" / "MACROS.md").read_text()
     inmenu = re.findall(r"^\| `\\([A-Za-z]+)` \|", mtxt, flags=re.M)
     check(sorted(inmenu) == sorted(pd), f"D1 MACROS.md lists every macro ({len(inmenu)})")
+    # D2: values/fallback_macros.tex gives a default to exactly the macros main.tex uses and results_macros.tex does not define
+    tex = (OUT / "main.tex").read_text()
+    t_nc = re.sub(r"(?<!\\)%.*", "", tex)
+    used = set(re.findall(r"\\([A-Za-z]+)", t_nc))
+    own = set(re.findall(r"\\(?:newcommand|renewcommand|providecommand|DeclareMathOperator)\*?\s*\{?\\([A-Za-z]+)", t_nc))
+    want = sorted(n for n in used if n[0].isupper() and n not in pd and n not in own and n not in B.LATEX_NAMES)
+    fbt = B.FALLBACK.read_text()
+    have_fb = sorted(re.findall(r"^\\providecommand\{\\([A-Za-z]+)\}", fbt, flags=re.M))
+    in_tex = [n for n in own if n in pd]
+    check(have_fb == want, f"D2 values/fallback_macros.tex defaults exactly the {len(want)} macros main.tex uses and the chain does not define"
+                                          f"{': ' + ', '.join(want) if want else ''}{'; note: main.tex also provides chain macros itself (harmless, stale): ' + ', '.join(sorted(in_tex)) if in_tex else ''}"
+                                          f"{'; file has ' + ', '.join(have_fb) if have_fb != want else ''}")
     # ---------------- E ---------------- #
     bad = []
     nrec = 0
@@ -332,7 +344,10 @@ def audit_r2(mac, reg, diag, tables):
             z = z_of(dl[k])
             out.append((x, float(np.quantile(ang, q)), float(np.quantile(z, (1 - q) / 2)), float(np.quantile(z, (1 + q) / 2))))
         return out
-    reg_a = regions(B.DATA / "seed100" / "events" / "events_pureagn.h5", np.arange(1000))
+    # the production all-AGN-hosted and all-galaxy-hosted event sets of realization A (events_pure<cls>_corepop.h5), which build_values
+    # reads through HOSTVOL_EVENTS: named here by file, so that a change of set on either side fails this check
+    assert B.HOSTVOL_EVENTS == {"gal": B.DATA / "seed100" / "events" / "events_puregal_corepop.h5", "agn": B.DATA / "seed100" / "events" / "events_pureagn_corepop.h5"}
+    reg_a = regions(B.DATA / "seed100" / "events" / "events_pureagn_corepop.h5", np.arange(1000))
     cnt = []
     for x, r, zl, zh in reg_a:
         m = (A["z_obs"] >= zl) & (A["z_obs"] <= zh)
@@ -342,10 +357,11 @@ def audit_r2(mac, reg, diag, tables):
     per = np.asarray(tables["r2_hosts_per_event"]["agn_catalog_on_agn_hosted_events"], float)
     rel_tot = abs(per.sum() / np.sum(cnt) - 1)
     check(abs(got - med_bf) <= max(1.0, 0.05 * med_bf) and rel_tot < 0.03,
-          f"G4 AGN per 90% localization volume: brute-force exact count median {med_bf:.0f} vs {got:.1f} (pixelised); totals over 1000 events differ by {100 * rel_tot:.2f}%")
+          f"G4 AGN per 90% localization volume (production all-AGN-hosted set of realization A): brute-force exact count median {med_bf:.0f} vs {got:.1f} (pixelised); "
+          f"totals over 1000 events differ by {100 * rel_tot:.2f}%")
     rng = np.random.default_rng(7)
     idx = np.sort(rng.choice(1000, 12, replace=False))
-    reg_g = regions(B.DATA / "seed100" / "events" / "events_puregal.h5", idx)
+    reg_g = regions(B.DATA / "seed100" / "events" / "events_puregal_corepop.h5", idx)
     zcut = max(r[3] for r in reg_g) + 0.03
     G = B.read_catalog_rows(B.DATA / "seed100" / "catalogs" / "catalog_gal_complete.h5", zcut)
     cg = []
@@ -356,7 +372,7 @@ def audit_r2(mac, reg, diag, tables):
     del G
     pg = np.asarray(tables["r2_hosts_per_event"]["gal_catalog_on_gal_hosted_events"], float)[idx]
     rg = abs(pg.sum() / sum(cg) - 1)
-    check(rg < 0.03, f"G4b galaxies per 90% localization volume, 12 random galaxy-hosted events: brute-force total {sum(cg)} vs pixelised {pg.sum():.0f} ({100 * rg:.2f}%)")
+    check(rg < 0.03, f"G4b galaxies per 90% localization volume, 12 random events of the production all-galaxy-hosted set: brute-force total {sum(cg)} vs pixelised {pg.sum():.0f} ({100 * rg:.2f}%)")
     # ---- G5: rate per host. Catalog counts from the catalog files; Monte Carlo draws from the stored grids ----
     cnts = {}
     for cls in ("gal", "agn"):
@@ -485,14 +501,41 @@ def audit_r2(mac, reg, diag, tables):
         c = np.cumsum(w[oo])
         out.append(abs(float(np.interp(0.9, c / c[-1], arr[oo])) - mac[f"FreeLogn{nm}InducedUpper{word}"]["value"]))
     check(max(out) < 0.03, f"G8 prior-induced 90% upper limits on log10 n_gal and log10 n_AGN (m < 18) by an independent draw: max diff {max(out):.3f} dex")
-    # ---- G9: realised mock numbers from the raw files ----
+    # the same limits in h^3 Mpc^-3 (FreeEighteenLogn<cls>PriorULh) while the key is a placeholder: each draw converted with its own H0
+    doc8 = json.loads((OUT / "values" / "placeholder_results.json").read_text())["keys"]
+    if not doc8["FreeEighteen"].get("final"):
+        out_h = []
+        for arr, nm in ((lg, "Gal"), (la, "AGN")):
+            ah = arr - 3 * np.log10(Hs / 100.0)
+            oo = np.argsort(ah)
+            c = np.cumsum(w[oo])
+            out_h.append(abs(float(np.interp(0.9, c / c[-1], ah[oo])) - mac[f"FreeEighteenLogn{nm}PriorULh"]["value"]))
+        check(max(out_h) < 0.03, f"G8b the same prior-induced limits in h^3 Mpc^-3 (FreeEighteenLogn<Gal|AGN>PriorULh, placeholder: exploratory draws "
+                                 f"converted with their own H0) by the independent draw: max diff {max(out_h):.3f} dex")
+    # ---- G9: realised mock numbers from the raw files: the production injection set and event sets (until 17 Nov the older events.h5
+    # and the events_meta.json of the nine exploratory catalogs) ----
     with h5py.File(B.DATA / "seed100" / "injections" / "injections_targeted.h5") as h:
         k0 = [k for k in h.keys() if isinstance(h[k], h5py.Dataset)][0]
         nfound = int(h[k0].shape[0])
-    with h5py.File(B.DATA / "seed100" / "events" / "events.h5") as h:
-        sdl = np.std(np.log(h["dL"][()].reshape(1000, -1)), axis=1)
-    check(nfound == mac["MockNinjFound"]["value"] and abs(np.median(sdl) - mac["MockSigLnDL"]["value"]) < 0.005,
-          f"G9 detected injections counted in the file ({nfound}); median sd of ln dL over the events' samples {np.median(sdl):.4f} vs META {mac['MockSigLnDL']['value']:.4f}")
+    with h5py.File(B.DATA / "seed100" / "events" / "events_corepop.h5") as h:
+        dl_ = h["dL"][()]
+        sdl = np.array([np.std(np.log(dl_[i * (len(dl_) // 1000):(i + 1) * (len(dl_) // 1000)])) for i in range(1000)])
+        sky = np.degrees(h["truth/obs_sigma_ang"][()])
+    import yaml
+    rl9 = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml").read_text())
+    kb = sorted({int(r["args"][r["args"].index("--realization") + 1]) for st in rl9["stages"] for r in st["runs"]
+                 if r["name"].startswith("known_population/both_catalogs/complete/equal_populations/realization_")})
+    zmax9 = {}
+    for s_ in kb:
+        with h5py.File(B.DATA / f"seed{s_}" / "events" / "events_corepop.h5") as h:
+            zmax9[s_] = float(h["truth/z"][()].max())
+    ok9 = (nfound == mac["MockNinjFound"]["value"] and abs(np.median(sdl) - mac["MockSigLnDL"]["value"]) < 1e-12
+           and abs(sky.min() - mac["MockSkyMin"]["value"]) < 1e-12 and abs(sky.max() - mac["MockSkyMax"]["value"]) < 1e-12
+           and abs(min(zmax9.values()) - mac["MockzHorizonMin"]["value"]) < 1e-12 and abs(max(zmax9.values()) - mac["MockzHorizonMax"]["value"]) < 1e-12
+           and abs(zmax9[100] - mac["MockzHorizon"]["value"]) < 1e-12)
+    check(ok9, f"G9 detected injections counted in the file ({nfound}); from the production event sets: median sd of ln dL over the events' samples "
+               f"{np.median(sdl):.4f} vs {mac['MockSigLnDL']['value']:.4f}, sky widths {sky.min():.2f} to {sky.max():.2f} deg, largest true z of the "
+               f"{len(kb)} KnownBoth realizations {min(zmax9.values()):.4f} to {max(zmax9.values()):.4f} (MockzHorizonMin/Max), realization A {zmax9[100]:.4f} (MockzHorizon)")
     # ---- G10: digits ----
     bad = []
     for r in reg:
@@ -573,6 +616,26 @@ def audit_keys(mac):
             dev.append(abs(mac[a]["value"] - mac[b]["value"]))
     check(max(dev, default=0.0) < 2e-3, f"H2 {len(dev)} exploratory key values equal the exploratory macros computed separately (largest difference {max(dev, default=0.0):.1e}, "
                                          f"in 90% half-widths or log10 units; keys that are production results are audited in J)")
+    # H2b: the limits in h^3 Mpc^-3 of the placeholder keys, from the exploratory chain files read here (h5py; each sample converted with
+    # its own H0), and the order of the two limits of each key (the mergers can only tighten what the priors allow, to the Monte Carlo noise)
+    devh, order = [], []
+    for rk, w, _ in B.RUNGS:
+        k = f"Free{w}"
+        for cls, cn in (("Gal", "log10n0"), ("AGN", "log10n0_c2")):
+            if not all(n in mac for n in (f"{k}Logn{cls}ULh", f"{k}Logn{cls}PriorULh")):
+                devh.append(np.inf)
+                continue
+            if k in final:
+                continue
+            with h5py.File(B.A5 / f"campaign_{rk}_dynesty_s100.h5") as h:
+                lab = [x.decode() for x in h["sampled_labels"][()]]
+                s_ = h["samples"][()]
+            own = float(np.percentile(s_[:, lab.index(cn)] - 3 * np.log10(s_[:, lab.index("H0")] / 100.0), 90))
+            devh.append(abs(own - mac[f"{k}Logn{cls}ULh"]["value"]))
+            order.append(mac[f"{k}Logn{cls}ULh"]["value"] - mac[f"{k}Logn{cls}PriorULh"]["value"])
+    check(max(devh, default=0.0) < 1e-9 and max(order, default=-1.0) < 0.05,
+          f"H2b {len(devh)} limits in h^3 Mpc^-3 (Free<limit>Logn<cls>ULh) of the placeholder keys equal the 90th percentile of the exploratory chains "
+          f"converted per sample (largest difference {max(devh, default=0.0):.1e}); each lies at or below its PriorULh (largest excess {max(order, default=0.0):+.3f} dex)")
     # invented combinations: width A / sqrt(N)
     rat = []
     for k, E in doc.items():
@@ -968,6 +1031,11 @@ def audit_production(mac, doc, owner):
                 cmp(f"{k}{q}Comb", a, b, max(tolC, 5e-4 if q != "Hzero" else 0.005), f"Comb {nm} vs own {'summed splines' if grid else 'Scott-KDE product'}")
             if f"{k}{q}CombUL" in mac:
                 cmp(f"{k}{q}CombUL", val(f"{k}{q}CombUL"), own["ul90"], max(tolC, 2e-3), "Comb 90% upper limit")
+            if conv and f"{k}{q}ULh" in mac:
+                # the limit in h^3 Mpc^-3: the run's own weighted samples of its parameter, no conversion
+                sh, wh = _nested_w(rA, [par])
+                qh = _wq(sh[:, 0], wh, [0.05, 0.90, 0.95])
+                cmp(f"{k}{q}ULh", val(f"{k}{q}ULh"), float(qh[1]), max(0.05 * 0.5 * (qh[2] - qh[0]), 5e-4), "A 90% upper limit in h^3 Mpc^-3 vs own weighted samples")
             if x0 is not None and isinstance(val(f"{k}{q}CL"), (int, float)):
                 cmp(f"{k}{q}CL", val(f"{k}{q}CL"), own["level"], 0.01 if grid else 0.04, "credible level of the input in Comb")
         # rate per host
@@ -1237,6 +1305,22 @@ def audit_classes(mac, doc):
         f = (lambda x, y: 100.0 * (x / y) ** 2) if rec["fn"] == "share" else (lambda x, y: (x / y) ** 2)
         cmp(name, val(name), f(val(a_), val(b_)), 1e-12, "from the unrounded values of its two macros")
         cmp(name, val(name), f(own_mean[a_], own_mean[b_]), 0.04 * val(name), "from the own half-widths")
+    # ShareSumThirty (build_values.build_classes, not in the map): black exactly when ShareAGNThirty is; then ShareAGNThirty plus the galaxy
+    # share of values.json, and the sum of the two shares from the own PCHIP half-widths of the AGN and galaxy factors of the same grids
+    if "ShareSumThirty" not in mac:
+        bad.append("ShareSumThirty missing")
+    else:
+        real_s = bool(have.get("ShareAGNThirty")) and mac["ShareAGNThirty"]["extra"].get("galaxy_share_percent") is not None
+        if (mac["ShareSumThirty"]["class"] == "plain") != real_s:
+            bad.append(f"ShareSumThirty prints {'black' if mac['ShareSumThirty']['class'] == 'plain' else 'red'} but ShareAGNThirty is {'real' if real_s else 'red'}")
+        if real_s:
+            recA = blk["HWKnownAGNThirty"]
+            cmp("ShareSumThirty", val("ShareSumThirty"), val("ShareAGNThirty") + mac["ShareAGNThirty"]["extra"]["galaxy_share_percent"], 1e-9,
+                "ShareAGNThirty + galaxy_share_percent (values.json)")
+            hw_g = float(np.mean([_own_hw(RUNS16 / recA["run"].format(R=f"{r:03d}"), "gal")[0] for r in recA["realizations"]]))
+            k_ = own_mean["HWKnownThirty"]
+            own_s = 100.0 * ((k_ / own_mean["HWKnownAGNThirty"]) ** 2 + (k_ / hw_g) ** 2)
+            cmp("ShareSumThirty", val("ShareSumThirty"), own_s, 0.04 * val("ShareSumThirty"), "sum of the two shares from the own PCHIP half-widths (AGN and galaxy factors)")
     # the host class known on the host-dependent mergers themselves (HW[Obs]KnownPops[Twice]<f>) and the cost ratios: every cost
     # ratio divides by the host class known on the mergers of its numerator, and every same-merger macro is on the mergers of its
     # host-class-unknown partner (events files of the run lists, realization by realization, red or black); a finished
@@ -1319,9 +1403,9 @@ def audit_classes(mac, doc):
         cmp("KnownAGNNoPeak", float(val("KnownAGNNoPeak")), float(n_no), 0.0, "realizations whose largest ln L lies at a prior edge (own read of both passes)")
     # units and counts
     meta = _jr(B.META100)
-    h = meta["stages"]["events"]["cosmology"]["H0"] / 100.0
+    h = _jr(B.EV_REF_META)["cosmology"]["H0"] / 100.0
     for nm, key in (("MockLognGalh", "n_comoving_gal"), ("MockLognAGNh", "n_comoving_agn")):
-        cmp(nm, val(nm), math.log10(meta["config"]["glass"][key] / h ** 3), 1e-12, "log10(n / h^3) from META.json")
+        cmp(nm, val(nm), math.log10(meta["config"]["glass"][key] / h ** 3), 1e-12, "log10(n / h^3): n from META.json config.glass, H0 from the production events' metadata")
     sets = {rec["run"] for n, rec in blk.items() if rec.get("how") in ("mean_hw", "factor_hw") and rec.get("stage", "").startswith("E")}
     nset = {len(exp_idx[s_]) for s_ in sets}
     if len(nset) == 1:

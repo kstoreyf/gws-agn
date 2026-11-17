@@ -150,6 +150,10 @@ PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "Sigma
          "DmuG": (-10.0, 10.0), "DmuChi": (-0.05, 0.30), "LognGal": (-4.0, -1.0), "LognAGN": (-6.0, -4.0), "RateRatio": (0.0, 400.0)}
 UNIT = {"Hzero": "km/s/Mpc", "fAGN": "", "MuG": "Msun", "SigmaG": "Msun", "MuChi": "", "SigmaChi": "", "DmuG": "Msun", "DmuChi": "",
         "LognGal": "log10 Mpc^-3", "LognAGN": "log10 Mpc^-3", "RateRatio": ""}
+# number densities in h^3 Mpc^-3 (the unit the production runs sample and the text quotes): how each source gets there
+H_NOTE_EXPLORATORY = ("in h^3 Mpc^-3: the exploratory run sampled log10 n in Mpc^-3, so each posterior sample and each prior draw is converted "
+                      "with its own H0, log10 n - 3 log10(H0/100)")
+H_NOTE_PRODUCTION = "in h^3 Mpc^-3: the run's own samples and prior draws of its parameter, no conversion"
 CHAIN_Q = {"H0": "Hzero", "f_agn": "fAGN", "mu_G": "MuG", "sigma_G": "SigmaG", "mu_chi": "MuChi", "sigma_chi": "SigmaChi", "dmu_G": "DmuG", "dmu_chi": "DmuChi"}
 
 
@@ -466,6 +470,10 @@ def build():
         cols = {"Hzero": (c.col("H0"), pri["H0"]), "fAGN": (c.col("fcat_2"), pri["fcat_2"]), "LognGal": (c.col("log10n0"), pri["log10n0"]),
                 "LognAGN": (c.col("log10n0_c2"), pri["log10n0_c2"]), "RateRatio": (Rs, (0.0, float(np.percentile(Rs, 99.9)) * 1.3))}
         I = bv.induced_density(rk)
+        # the exploratory runs sampled log10 n in Mpc^-3 (their inputs -3 and -5); the production runs sample it in h^3 Mpc^-3, the unit
+        # of the text: each sample (and each prior draw) converted with its own H0, log10 n_h = log10 n - 3 log10(H0/100)
+        lh_c = 3 * np.log10(c.col("H0") / 100.0)
+        lh_I = 3 * np.log10(I["H0"] / 100.0)
         for q, (s, rng) in cols.items():
             A = summarize_samples(s, *rng, x0=INPUT[q])
             if q in ("Hzero", "RateRatio"):
@@ -476,15 +484,23 @@ def build():
                 note = "follows its prior along the curve of constant rate per host"
             q_put(E, q, A, C, "exploratory", cs, rel(ph5), note=note)
             if q in ("LognGal", "LognAGN"):
-                E["quantities"][q]["A"]["prior_ul90"] = float(bv.wquant(I["log10n0" if q == "LognGal" else "log10n0_c2"], I["w"], 0.90))
-        E["joint"]["A"] = joint_samples(c.col("fcat_2"), c.col("log10n0_c2"), tuple(pri["fcat_2"]), tuple(pri["log10n0_c2"]), "fAGN", "LognAGN", nb=50)
-        # the region the priors allow once the rate per host is measured (prior-induced density, Task 1)
-        Hh, xe, ye = np.histogram2d(I["f"], I["log10n0_c2"], bins=50, range=[tuple(pri["fcat_2"]), tuple(pri["log10n0_c2"])], weights=I["w"])
+                cn = "log10n0" if q == "LognGal" else "log10n0_c2"
+                E["quantities"][q]["A"]["prior_ul90"] = float(bv.wquant(I[cn], I["w"], 0.90))
+                E["quantities"][q]["A"]["ul90_h"] = float(np.percentile(c.col(cn) - lh_c, 90))
+                E["quantities"][q]["A"]["prior_ul90_h"] = float(bv.wquant(I[cn] - lh_I, I["w"], 0.90))
+                E["quantities"][q]["A"]["h_note"] = H_NOTE_EXPLORATORY
+        # joint posterior of f_AGN and log10 n_AGN in h^3 Mpc^-3 (Fig. 4a), and the region the priors allow once the rate per host is
+        # measured (prior-induced density), both on the box of the exploratory priors seen in h^3 Mpc^-3
+        la_h, laI_h = c.col("log10n0_c2") - lh_c, I["log10n0_c2"] - lh_I
+        box_h = (pri["log10n0_c2"][0] - 3 * np.log10(pri["H0"][1] / 100.0), pri["log10n0_c2"][1] - 3 * np.log10(pri["H0"][0] / 100.0))
+        E["joint"]["A"] = joint_samples(c.col("fcat_2"), la_h, tuple(pri["fcat_2"]), box_h, "fAGN", "LognAGNh", nb=50) | {
+            "units_y": "log10 h^3 Mpc^-3", "note": H_NOTE_EXPLORATORY}
+        Hh, xe, ye = np.histogram2d(I["f"], laI_h, bins=50, range=[tuple(pri["fcat_2"]), box_h], weights=I["w"])
         from scipy.ndimage import gaussian_filter
         Hh = gaussian_filter(Hh, 1.0, mode="reflect")
         E["joint"]["prior_induced"] = joint_grid(0.5 * (xe[1:] + xe[:-1]), 0.5 * (ye[1:] + ye[:-1]), Hh, 50) | {
-            "params": ["fAGN", "LognAGN"], "shape": "2e6 prior draws weighted by the stored known-density likelihood mapped through the identity (build_values.induced_density)",
-            "file": rel(bv.A3 / f"joint_{rk}_s100.h5")}
+            "params": ["fAGN", "LognAGNh"], "shape": "2e6 prior draws weighted by the stored known-density likelihood mapped through the identity (build_values.induced_density)",
+            "file": rel(bv.A3 / f"joint_{rk}_s100.h5"), "units_y": "log10 h^3 Mpc^-3", "note": H_NOTE_EXPLORATORY}
         K[f"Free{word}"] = E
     # ======== single population, equal populations (invented) ========
     E = entry("equal populations", "single population", "both catalogs, complete", "H0, f_AGN, mass-peak location and width, spin mean and width", "single", "SingleBoth")
