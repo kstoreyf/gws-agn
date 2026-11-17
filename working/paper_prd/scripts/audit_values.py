@@ -286,8 +286,9 @@ def audit_r2(mac, reg, diag, tables):
         with h5py.File(B.DATA / "seed100" / "catalogs" / f"catalog_agn_{key}.h5") as h:
             nrow.append(int(h["z"].shape[0]) == int(np.sum(ma < mlim)))
     check(all(nrow), "G2b each flux-limited AGN catalog holds exactly the complete-catalog AGN with app_mag below its limit (rows counted)")
-    # ---- G3: completeness weighted by the detected mergers, by host membership in the flux-limited files ----
-    with h5py.File(B.DATA / "seed100" / "events" / "events.h5") as h:
+    # ---- G3: completeness weighted by the detected mergers (the production event set of realization A, B.EV_REF), by host
+    # membership in the flux-limited files ----
+    with h5py.File(B.EV_REF) as h:
         tra, tdec, ht = h["truth/ra"][()], h["truth/dec"][()], h["truth/host_type"][()]
     kept = {}
     for key, word, mlim in B.RUNGS:
@@ -583,6 +584,7 @@ def audit_keys(mac):
     check(max(rat) < 0.05, f"H3 every invented combination is narrower than realization A by sqrt(N) to {100 * max(rat):.1f}% ({len(rat)} key-quantities; truncation at prior edges allowed for)")
     audit_requests(mac, doc)
     audit_production(mac, doc, owner)
+    audit_classes(mac, doc)
 
 
 # the further macros of PAPER_SKELETON.md Sec. 6 and the keys they are built from
@@ -624,7 +626,8 @@ def audit_requests(mac, doc):
             d = {a[i][2:]: a[i + 1] for i in range(0, len(a) - 1, 2)}
             if "agn-density-factor" in d:
                 continue
-            cnt.setdefault((d["analysis"], d["catalogs"], d["flux"], d["events-kind"], d.get("density")), set()).add(d["realization"])
+            ek = d["events-kind"] + (d["events-suffix"] if d.get("events-suffix") else "")      # Stage 5: host_dependent + _obslike
+            cnt.setdefault((d["analysis"], d["catalogs"], d["flux"], ek, d.get("density")), set()).add(d["realization"])
     n = lambda *k: len(cnt.get(k, ()))
     want = {"NrealKnown": n("known_population", "both", "complete", "equal_populations", None),
             "NrealKnownAlone": {n("known_population", c, "complete", "equal_populations", None) for c in ("galaxy", "agn", "none")},
@@ -636,7 +639,8 @@ def audit_requests(mac, doc):
             "NrealHDSingle": n("single_population", "both", "complete", "host_dependent", None),
             "NrealHDNone": n("single_population", "none", "complete", "host_dependent", None)}
     runs_txt = (OUT / "runs.txt").read_text()
-    want["NrealObs"] = 5 if re.search(r"Stage 5 .*\n.*5 realizations", runs_txt) else -1
+    want["NrealObs"] = {n("single_population", c, "complete", "host_dependent_obslike", None) for c in ("both", "none")} | {
+        n("host_dependent_populations", "both", "complete", "host_dependent_obslike", None)}
     rx = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST_experiment.yaml").read_text())
     ctrl = {lab: {r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
                   if r["analysis"] == "two_tracers_one_population" and r["set"]["label"] == lab} for lab in ("peak_f0p00_s0", "peak_f0p10_s0")}
@@ -651,7 +655,7 @@ def audit_requests(mac, doc):
             for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
                           ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
                           ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"])) if k in ks and E["N_comb"] != val(m)]
-    check(not bad, f"I0 the eleven numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets) / runs.txt, "
+    check(not bad, f"I0 the eleven numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs), "
                    f"print as words, and equal N_comb of their keys{': ' + '; '.join(bad) if bad else ''}")
     # ---- I1: observed-like design values from the events files' own metadata ----
     E = B.DATA / "seed100" / "events"
@@ -953,13 +957,12 @@ def audit_production(mac, doc, owner):
                 xc, pc = _kde_prod(sets, lo, hi)
                 own = _quant(xc, pc, x0)
                 comb_cache[(k, q)] = (xc, pc)
-            # the run's own summary of a 2-D grid integrates f_AGN by the trapezoid rule on its 0.025 lattice (about 0.5 sd):
-            # its 90% interval is wider than the spline-refined one by up to 6% of the half-width on each side
-            coarse_f = grid and par == "f_agn" and len(nA) == 2
-            tolA = (0.06 if coarse_f else 0.015) * hwA if not conv else 0.05 * hwA
+            # a grid run's summary.json interpolates the stored ln L (Akima) onto a lattice 16 times denser than the nodes
+            # (prod_summary.refined_grid_summary), H0 and f_AGN alike; against the cubic spline here the two agree to 0.03%
+            # of the half-width on the paper's grids, so both are held to the same 1.5% of the half-width
+            tolA = 0.015 * hwA if not conv else 0.05 * hwA
             for nm, a, b in (("median", vA["median"], ownA["median"]), ("lo", vA["ci90"][0], ownA["ci90"][0]), ("hi", vA["ci90"][1], ownA["ci90"][1])):
-                cmp(f"{k}{q}", a, b, max(tolA, 5e-4), f"A {nm} (summary.json) vs own {'spline of the grid' if grid else 'weighted samples'}"
-                                                     + (" (trapezoid on the 0.025 f lattice)" if coarse_f else ""))
+                cmp(f"{k}{q}", a, b, max(tolA, 5e-4), f"A {nm} (summary.json) vs own {'spline of the grid' if grid else 'weighted samples'}")
             tolC = (0.01 if grid else 0.08) * hwC
             for nm, a, b in (("median", vC["median"], own["median"]), ("lo", vC["ci90"][0], own["ci90"][0]), ("hi", vC["ci90"][1], own["ci90"][1])):
                 cmp(f"{k}{q}Comb", a, b, max(tolC, 5e-4 if q != "Hzero" else 0.005), f"Comb {nm} vs own {'summed splines' if grid else 'Scott-KDE product'}")
@@ -1067,6 +1070,307 @@ def audit_production(mac, doc, owner):
     check(not bad, f"J1 {len(rows)} numbers of the production keys recomputed by a second code path (summary.json read directly; own splines of the grids; "
                    f"own weighted samples and kernel densities; own survey counts; Analysis 15's missing volumes); largest deviation {worst[2]:.2g} "
                    f"({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
+
+
+# ============================================================================================= #
+# K: the experiment's macros (scripts/classes.py) recomputed by code that classes.py and run_posteriors.py do not use:
+# the run summaries read directly; each grid's ln L read with h5py, corrected by Analysis 14's formula written out here
+# (the class counts of a host-class-known grid from its summary.json, not from grid/result.json), interpolated by PCHIP
+# (not the Akima of the summaries, not the cubic splines of the combinations), quantiles from an own CDF; the probability of
+# an AGN host recomputed from the per-merger likelihoods and the true host classes of the events file; the run lists parsed
+# here. K2: no grid the paper uses has a jump of ln L between neighbouring nodes where its posterior has mass.
+# ============================================================================================= #
+def _pass_file(run):
+    """The fine pass the run's summary.json was computed from (its own record), and the coarse pass."""
+    sm = _jr(run / "summary.json")
+    fine = ((sm.get("grid") or {}).get("posterior_lattice") or {}).get("file") or "fine.h5"
+    return fine, "coarse.h5"
+
+
+def _corrected(run, nm, cls=None):
+    """(names, axes, corrected ln L) of pass `nm` of a grid run; cls: one host class's factor (lnL_<cls>)."""
+    cfg = _jr(run / "config.json")
+    suf = f"_{cls}" if cls else ""
+    with h5py.File(run / "grid" / nm, "r") as h:
+        names = json.loads(h.attrs["axes"])
+        ax = [np.asarray(h[f"axis_{n}"][()], float) for n in names]
+        l = np.asarray(h["lnL" + suf][()], float)
+        n = int(h.attrs["n_events"]) if not cls else int(_jr(run / "summary.json")["n_events_by_class"][cls])
+        if cfg["half_variance_correction"]:
+            l = l + 0.5 * np.asarray(h["pe_var" + suf][()], float) - 0.5 * n / np.asarray(h["n_eff" + suf][()], float)
+    return names, ax, l
+
+
+def _pchip_H0(names, ax, l, refine=8):
+    """H0 marginal of a 1-D or 2-D grid by PCHIP of ln L along each axis onto a lattice `refine` times denser: (x, p)."""
+    from scipy.interpolate import PchipInterpolator
+    ok = np.isfinite(l)
+    l = np.where(ok, l, np.min(l[ok]) - 300.0)
+    lat = [np.linspace(a[0], a[-1], (len(a) - 1) * refine + 1) for a in ax]
+    for i, (a, an) in enumerate(zip(ax, lat)):
+        l = PchipInterpolator(a, l, axis=i)(an)
+    pp = np.exp(l - l.max())
+    i = names.index("H0")
+    for j in sorted((j for j in range(len(names)) if j != i), reverse=True):
+        pp = _simpson(pp, lat[j], axis=j)
+    return lat[i], pp
+
+
+def _own_hw(run, cls=None):
+    names, ax, l = _corrected(run, _pass_file(run)[0], cls)
+    q = _quant(*_pchip_H0(names, ax, l))
+    return 0.5 * (q["ci90"][1] - q["ci90"][0]), q
+
+
+def _steps(l, ax, names, T=20.0, iso=5.0):
+    """Isolated jumps of ln L between neighbouring interior nodes along each axis: |d| > T nats and > iso times the
+    larger of the two neighbouring steps. -> [(axis, x_i, x_i+1, d, nats of the upper node below the array's maximum)]."""
+    out = []
+    mx = np.nanmax(np.where(np.isfinite(l), l, np.nan))
+    for a in range(l.ndim):
+        arr = np.moveaxis(l, a, 0)
+        d = np.diff(arr, axis=0)
+        for i in range(1, arr.shape[0] - 2):
+            di, nb = d[i], np.fmax(np.abs(d[i - 1]), np.abs(d[i + 1]))
+            hit = np.isfinite(di) & np.isfinite(nb) & (np.abs(di) > T) & (np.abs(di) > iso * nb)
+            for k in zip(*np.nonzero(np.atleast_1d(hit))):
+                k = tuple(k) if di.ndim else ()
+                up = max(arr[(i,) + k], arr[(i + 1,) + k])
+                out.append((names[a], float(ax[a][i]), float(ax[a][i + 1]), float(di[k] if di.ndim else di), float(mx - up)))
+    return out
+
+
+def audit_classes(mac, doc):
+    import yaml
+    from scipy.interpolate import CubicSpline
+    pm = _jr(OUT / "values" / "production_map.json")
+    blk = (pm.get("classes") or {}).get("macros") or {}
+    cl = {k: v for k, v in mac.items() if v["claim"].startswith("classes")}
+    if not cl:
+        check(False, "K0 values.json has the experiment's macros (claim 'classes')")
+        return
+    val = lambda n: mac[n]["value"]
+    rows, bad = [], []
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+
+    # ---- K0: black exactly when every summary the map names exists; the map's runs are the run lists' (own parser)
+    exp_idx = {}
+    ev_idx = {}                      # run pattern -> {realization: events file of the run list}
+    rx = yaml.safe_load((RUNS16 / "RUNLIST_experiment.yaml").read_text())
+    for st in rx["stages"]:
+        for r in st["runs"]:
+            pat_, rr_ = re.sub(r"realization_\d{3}", "realization_{R}", r["name"]), int(r["args"][r["args"].index("--realization") + 1])
+            exp_idx.setdefault(pat_, set()).add(rr_)
+            ev_idx.setdefault(pat_, {})[rr_] = r.get("events_file")
+    for r in rx.get("reused_from_stage_1") or []:
+        exp_idx.setdefault(re.sub(r"realization_\d{3}", "realization_{R}", r["run"]), set()).add(int(r["realization"]))
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    for st in rl["stages"]:
+        for r in st["runs"]:
+            pat_, rr_ = re.sub(r"realization_\d{3}", "realization_{R}", r["name"]), int(r["args"][r["args"].index("--realization") + 1])
+            exp_idx.setdefault(pat_, set()).add(rr_)
+            ev_idx.setdefault(pat_, {})[rr_] = r.get("events_file")
+    wrong, notlisted = [], []
+    have = {}
+    for name, rec in blk.items():
+        if rec.get("how") == "derived":
+            continue
+        if sorted(exp_idx.get(rec["run"], ())) != sorted(rec["realizations"]):
+            notlisted.append(name)
+        reals = [rec["realization_A"]] if rec["how"] == "membership" else rec["realizations"]
+        have[name] = all((RUNS16 / rec["run"].format(R=f"{r:03d}") / "summary.json").exists() for r in reals)
+    for name, rec in blk.items():
+        if rec.get("how") == "derived":
+            have[name] = all(have[d] for d in rec["from"])
+    for name, ok in have.items():
+        names = [name] if name in mac else []
+        names += [n for n in cl if n.startswith(name) and n[len(name):] in ("Min", "Max")]
+        if name == "KnownAGNNoPeak":
+            names += [n for n in cl if n.startswith("KnownAGNPeak")]
+        for n in names:
+            if (mac[n]["class"] == "plain") != ok:
+                wrong.append(n)
+    nblack = sum(1 for v in cl.values() if v["class"] == "plain")
+    check(not wrong and not notlisted, f"K0 the experiment's macros ({len(cl)}; {nblack} black) print black exactly when every summary of their runs exists, and "
+                                       f"every run pattern of the map's 'classes' block has the realizations of the run lists (own parser)"
+                                       f"{': ' + ', '.join((wrong + notlisted)[:6]) if wrong or notlisted else ''}")
+    # ---- K1: the numbers, by a second code path
+    own_mean = {}
+    for name, rec in blk.items():
+        if rec.get("how") not in ("mean_hw", "factor_hw") or not have.get(name):
+            continue
+        per_s, per_o = [], []
+        for r in rec["realizations"]:
+            run = RUNS16 / rec["run"].format(R=f"{r:03d}")
+            if rec["how"] == "mean_hw":
+                b = _jr(run / "summary.json")["posterior"]["H0"]
+                per_s.append(0.5 * (b["ci90"][1] - b["ci90"][0]))
+                if _jr(run / "config.json")["mode"] == "grid":
+                    hw_o, _ = _own_hw(run)
+                    cmp(f"{name}[{r}]", per_s[-1], hw_o, 0.02 * hw_o, "half-width: summary.json vs own PCHIP of the grid")
+                    per_o.append(hw_o)
+                else:
+                    s_, w_ = _nested_w(run, ["H0"])
+                    q_ = _wq(s_[:, 0], w_, [0.05, 0.95])
+                    per_o.append(0.5 * (q_[1] - q_[0]))
+                    cmp(f"{name}[{r}]", per_s[-1], per_o[-1], 0.03 * per_o[-1], "half-width: summary.json vs own weighted samples")
+            else:
+                hw_o, _ = _own_hw(run, rec["factor"])
+                per_o.append(hw_o)
+        if rec["how"] == "mean_hw":
+            cmp(name, val(name), float(np.mean(per_s)), 1e-12, "mean of the summaries' half-widths")
+            cmp(name + "Min", val(name + "Min"), min(per_s), 1e-12, "smallest of the summaries' half-widths")
+            cmp(name + "Max", val(name + "Max"), max(per_s), 1e-12, "largest of the summaries' half-widths")
+        cmp(name, val(name), float(np.mean(per_o)), 0.02 * float(np.mean(per_o)), "mean half-width vs own PCHIP grids")
+        cmp(name + "Min", val(name + "Min"), min(per_o), 0.02 * min(per_o), "smallest half-width vs own")
+        cmp(name + "Max", val(name + "Max"), max(per_o), 0.02 * max(per_o), "largest half-width vs own")
+        own_mean[name] = float(np.mean(per_o))
+    for name, rec in blk.items():
+        if rec.get("how") != "derived" or not have.get(name):
+            continue
+        a_, b_ = rec["from"]
+        f = (lambda x, y: 100.0 * (x / y) ** 2) if rec["fn"] == "share" else (lambda x, y: (x / y) ** 2)
+        cmp(name, val(name), f(val(a_), val(b_)), 1e-12, "from the unrounded values of its two macros")
+        cmp(name, val(name), f(own_mean[a_], own_mean[b_]), 0.04 * val(name), "from the own half-widths")
+    # the host class known on the host-dependent mergers themselves (HW[Obs]KnownPops[Twice]<f>) and the cost ratios: every cost
+    # ratio divides by the host class known on the mergers of its numerator, and every same-merger macro is on the mergers of its
+    # host-class-unknown partner (events files of the run lists, realization by realization, red or black); a finished
+    # same-merger run gives each class its own population, offset as in its events file, and counts the classes of that file
+    pairs = [(n, rec["from"][0], rec["from"][1]) for n, rec in blk.items() if rec.get("how") == "derived" and rec.get("fn") == "cost"]
+    same_m = [n for n in blk if re.fullmatch(r"HW(Obs)?KnownPops(Twice)?(Ten|Thirty|Fifty)", n)]
+    pairs += [(n, n.replace("Known", "", 1), n) for n in same_m]
+    for n, a_, b_ in pairs:
+        ea, eb = ev_idx.get(blk[a_]["run"], {}), ev_idx.get(blk[b_]["run"], {})
+        ok_ = bool(ea) and sorted(ea) == sorted(eb) and all(ea[r] and ea[r] == eb[r] for r in ea)
+        cmp(f"{n} mergers", float(not ok_), 0.0, 0.0, f"{a_} and {b_} on the same events files in every realization (run lists)")
+    for n in same_m:
+        if not have.get(n):
+            continue
+        for r in blk[n]["realizations"]:
+            run = RUNS16 / blk[n]["run"].format(R=f"{r:03d}")
+            cfg, sm = _jr(run / "config.json"), _jr(run / "summary.json")
+            with h5py.File(cfg["events_file"], "r") as h:
+                ht = np.asarray(h["truth/host_type"][()], int)
+                dG, dX = float(h.attrs["dmu_G_agn"]), float(h.attrs["dmu_chi_agn"])
+            nc = sm["n_events_by_class"]
+            cmp(f"{n}[{r}] classes", float(abs(nc["agn"] - int(np.sum(ht == 1))) + abs(nc["gal"] - int(np.sum(ht == 0)))), 0.0, 0.0,
+                "class counts of summary.json = truth/host_type of the events file")
+            pg, pa = cfg["class_populations"]["gal"], cfg["class_populations"]["agn"]
+            cmp(f"{n}[{r}] offsets", abs(pa["mu_G"] - pg["mu_G"] - dG) + abs(pa["mu_chi"] - pg["mu_chi"] - dX) + (0.0 if dG > 0 else 1.0), 0.0, 1e-9,
+                "AGN population of the run = galaxy population + the events file's offsets (nonzero)")
+    # membership: r from the per-merger likelihoods at the stored f, the true classes from the events file
+    for name, rec in blk.items():
+        if rec.get("how") != "membership" or not have.get(name):
+            continue
+        run = RUNS16 / rec["run"].format(R=f"{rec['realization_A']:03d}")
+        mj = _jr(run / "grid" / "membership.json")
+        z = np.load(run / "grid" / "membership.npz")
+        f = float(mj["f_agn_median"])
+        la, lg = np.asarray(z["ln_L_agn"], float), np.asarray(z["ln_L_gal"], float)
+        m_ = np.maximum(la, lg)
+        r_own = f * np.exp(la - m_) / (f * np.exp(la - m_) + (1 - f) * np.exp(lg - m_))
+        with h5py.File(_jr(run / "config.json")["events_file"], "r") as h:
+            ht = np.asarray(h["truth/host_type"][()], int)
+        cmp(f"{name} r", float(np.max(np.abs(r_own - np.asarray(z["r"], float)))), 0.0, 1e-6, "per-merger r recomputed from ln L_AGN, ln L_gal and f")
+        cmp(f"{name} host", float(np.sum(ht != np.asarray(z["host_type"], int))), 0.0, 0.0, "true host classes = the events file's truth/host_type")
+        cls = 1 if name.startswith("ProbAGN") else 0
+        cmp(name, val(name), float(r_own[ht == cls].mean()), 1e-6, "mean of the own r over the true class")
+        if mac[name]["render"].lstrip("\\ph{").rstrip("}") != f"{val(name):.2f}":
+            bad.append(f"{name} render {mac[name]['render']}")
+    # the AGN catalog alone: interior maxima from the passes read here
+    if have.get("KnownAGNNoPeak"):
+        rec = blk["KnownAGNNoPeak"]
+        n_no, k = 0, 0
+        for r in rec["realizations"]:
+            run = RUNS16 / rec["run"].format(R=f"{r:03d}")
+            best = (-np.inf, None)
+            xs, ls = [], []
+            fine = _pass_file(run)[0]
+            for nm in (fine, "coarse.h5"):
+                names, ax, l = _corrected(run, nm)
+                ok = np.isfinite(l)
+                i = int(np.argmax(np.where(ok, l, -np.inf)))
+                best = max(best, (float(l[i]), float(ax[0][i])))
+                xs.append(ax[0][ok])
+                ls.append(l[ok])
+            edge = best[1] in (50.0, 100.0)
+            n_no += edge
+            if not edge:
+                k += 1
+                base = f"KnownAGNPeak{['One', 'Two', 'Three', 'Four', 'Five'][k - 1]}Hzero"
+                ps = _jr(run / "summary.json")["posterior"]["H0"]
+                for nm_, a_, b_ in (("median", val(base)["median"], ps["median"]), ("lo", val(base)["ci90"][0], ps["ci90"][0]), ("hi", val(base)["ci90"][1], ps["ci90"][1])):
+                    cmp(base, a_, b_, 1e-12, f"{nm_} = summary.json")
+                # level of the input: the fine pass inside its box, the coarse nodes outside it, PCHIP of ln L
+                from scipy.interpolate import PchipInterpolator
+                inb = (xs[1] < xs[0][0]) | (xs[1] > xs[0][-1])
+                xx = np.concatenate([xs[0], xs[1][inb]])
+                ll = np.concatenate([ls[0], ls[1][inb]])
+                o = np.argsort(xx)
+                lat = np.linspace(xx[o][0], xx[o][-1], 50001)
+                lv = PchipInterpolator(xx[o], ll[o])(lat)
+                q = _quant(lat, np.exp(lv - lv.max()), 67.74)
+                cmp(base + "CL", min(val(base + "CL"), 0.9999), min(q["level"], 0.9999), 0.005, "credible level of the input, own PCHIP over both passes")
+        cmp("KnownAGNNoPeak", float(val("KnownAGNNoPeak")), float(n_no), 0.0, "realizations whose largest ln L lies at a prior edge (own read of both passes)")
+    # units and counts
+    meta = _jr(B.META100)
+    h = meta["stages"]["events"]["cosmology"]["H0"] / 100.0
+    for nm, key in (("MockLognGalh", "n_comoving_gal"), ("MockLognAGNh", "n_comoving_agn")):
+        cmp(nm, val(nm), math.log10(meta["config"]["glass"][key] / h ** 3), 1e-12, "log10(n / h^3) from META.json")
+    sets = {rec["run"] for n, rec in blk.items() if rec.get("how") in ("mean_hw", "factor_hw") and rec.get("stage", "").startswith("E")}
+    nset = {len(exp_idx[s_]) for s_ in sets}
+    if len(nset) == 1:
+        cmp("NrealClasses", float(val("NrealClasses")), float(nset.pop()), 0.0, f"realizations of the {len(sets)} experiment sets (own parser of RUNLIST_experiment.yaml)")
+    else:
+        bad.append(f"NrealClasses: the experiment sets have different realization counts {nset}")
+    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf))
+    check(not bad, f"K1 {len(rows)} numbers of the experiment's macros recomputed by a second code path (summary.json read directly; own PCHIP of each grid "
+                   f"and of the AGN factor; r from the per-merger likelihoods and the events file's true classes; interior maxima from both passes; "
+                   f"numerator and denominator of every cost ratio, and each host-class-known macro on host-dependent mergers and its "
+                   f"host-class-unknown partner, on the same events files; class counts and AGN offsets of the finished same-merger runs); "
+                   f"largest deviation {worst[2]:.2g} ({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
+    # ---- K2: jumps of ln L between neighbouring nodes in the grids the paper uses
+    used = {}
+    for k_, sp in pm.get("keys", {}).items():
+        if doc.get(k_, {}).get("final") and sp["mode"] == "grid":
+            for r in sp["realizations"]:
+                used[RUNS16 / sp["run"].format(R=f"{r:03d}")] = (f"key {k_}", None)
+    for name, rec in blk.items():
+        if rec.get("how") in (None, "derived") or not have.get(name):
+            continue
+        reals = [rec["realization_A"]] if rec["how"] == "membership" else rec["realizations"]
+        for r in reals:
+            run = RUNS16 / rec["run"].format(R=f"{r:03d}")
+            if _jr(run / "config.json")["mode"] == "grid":
+                prev = used.get(run, (name, None))
+                used[run] = (prev[0] if prev[0] != name else name, rec.get("factor") or prev[1])
+    fails, seen, over = [], [], []
+    for run, (who, fac) in sorted(used.items(), key=lambda kv: str(kv[0])):
+        for nm in _pass_file(run):
+            for cls in [None] + ([fac] if fac else []):
+                names, ax, l = _corrected(run, nm, cls)
+                for st_ in _steps(l, ax, names):
+                    tag = f"{run.relative_to(RUNS16)} {nm}{'/' + cls if cls else ''}: {st_[0]} {st_[1]:g}->{st_[2]:g} jump {st_[3]:+.1f} nats, upper node {st_[4]:.1f} below the maximum"
+                    seen.append(tag)
+                    if st_[4] < max(15.0, 0.3 * abs(st_[3])):
+                        fails.append(tag + f" ({who})")
+                if nm != "coarse.h5" and l.ndim == 1 and np.all(np.isfinite(l)):
+                    xf = np.linspace(ax[0][0], ax[0][-1], 20001)
+                    ov = float(CubicSpline(ax[0], l)(xf).max() - l.max())
+                    over.append(ov)
+                    if ov > 1.0:
+                        fails.append(f"{run.relative_to(RUNS16)} {nm}{'/' + cls if cls else ''}: cubic spline rises {ov:.1f} nats above the largest node ({who})")
+    check(not fails, f"K2 no jump of ln L between neighbouring nodes inside the region that carries posterior mass, in the {len(used)} grid runs the paper uses "
+                     f"(fine and coarse passes, every ln L array read; a jump: > 20 nats and > 5x both neighbouring steps; inside: its upper node within "
+                     f"max(15 nats, 0.3 x the jump) of the maximum, where a cubic spline overshoots; 1-D fine passes: cubic-spline overshoot < 1 nat, largest "
+                     f"{max(over, default=0.0):.2f}); jumps found outside that region: {len(seen) - len(fails)}"
+                     + (f" ({'; '.join([s_ for s_ in seen if s_ not in [f_.rsplit(' (', 1)[0] for f_ in fails]][:3])})" if len(seen) > len(fails) else "")
+                     + (f"; FAIL: {'; '.join(fails[:4])}" if fails else ""))
 
 
 def _trap_median(x, L):

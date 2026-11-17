@@ -222,7 +222,7 @@ def fit_path(tracer: str, flux: str) -> Path:
 
 # ----------------------------------------------------------------------------- analyses
 ANALYSES = ("known_population", "single_population", "host_dependent_populations", "free_densities",
-            # the short paper's experiment (paper_short_independent/EXPERIMENT.md); populations at inputs
+            # the short paper's experiment (archive/paper_short_independent/EXPERIMENT.md); populations at inputs
             "mass_spectrum_alone", "galaxy_catalog_alone", "two_tracers_one_population",
             "two_tracers_two_populations", "hosts_known")
 EXPERIMENT_ANALYSES = ANALYSES[4:]

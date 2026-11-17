@@ -11,12 +11,12 @@ at the end compares every drawn median and 90% interval end with `values/values.
   fig7 2.60, fig8 6.36, fig9 2.60.
 - **Placeholders.** Every element drawn from `values/placeholder_results.json` is a placeholder: drawn in
   red tones (strong red, salmon, maroon, rose), told apart by line style (solid, dashed, dash-dot, dotted)
-  and by direct labels; each panel with any placeholder carries the small red word "placeholder". Its
+  and by direct labels; no word in a panel marks a placeholder (the red colour alone carries it). Its
   source per key is `exploratory` (an earlier run of the same analysis, file named in the JSON and in
   placeholders.txt) or `invented` (PAPER_SKELETON Sec. 7). When `values/production_map.json` names an
   existing production summary for a key, the same code draws it in the final palette (both catalogs bluish
   green, galaxy catalog blue, AGN catalog vermilion, no catalog dark gray, single population reddish
-  purple, flux limits the four purples) and the word goes. Black elements are final: input lines and
+  purple, flux limits the four purples). Black elements are final: input lines and
   markers, the curves of the normalization identity and of constant merger rate per host, Fig. 1.
 - Every interval, band and contour is 90%: 1-D intervals equal-tailed, 2-D regions highest-density.
   Every 1-D curve is a normalized probability density with units on its axis. Black dashed lines or a
@@ -30,7 +30,7 @@ at the end compares every drawn median and 90% interval end with `values/values.
   both catalogs, single population (both catalogs and no catalog) and the single-population analysis of
   host-dependent mergers; 5 for each catalog alone and no catalog with the population known, the all-AGN and
   all-galaxy sets, the flux limits, host-dependent populations, no catalog on host-dependent mergers, the
-  observed-like spectrum and the two control sets (the last two from runs.txt, not yet in the run list); 3 with
+  observed-like spectrum (Stage 5 of the run list) and the two control sets (the experiment's run list); 3 with
   the number densities inferred. Invented combinations (placeholders) are realization A combined with N - 1
   realizations of A's width centred at the expected value: narrower by sqrt(N), median input + bias +
   (median_A - input - bias)/N (since 17 Nov; before, the shift was divided by sqrt(N) and the input stayed
@@ -38,20 +38,26 @@ at the end compares every drawn median and 90% interval end with `values/values.
   production realizations (each catalog alone, all-AGN and all-galaxy sets: realizations 100, 101, 102, 103,
   105) and all nine exploratory realizations for population known with both catalogs.
 
-## Fig. 1 `fig1_mocks` (final; unchanged from the first draft)
+## Fig. 1 `fig1_mocks` (final; every panel drawn from the production event sets of realization A since 17 Nov)
 
 - (a) Slice of the catalog pair of realization A: |delta| < 3 deg, right ascension 0 to 180 deg, true
   redshift z < 0.33, in comoving distance (flat LCDM, H0 = 67.74, Omega_m = 0.3075). Small blue dots:
-  268,767 galaxies; vermilion dots: 2,709 AGN; large blue circles: 26 galaxy-hosted detected mergers;
-  large vermilion diamonds: 7 AGN-hosted (true host positions). Dashed arcs z = 0.1, 0.2, 0.3; outer arc
-  z = 0.33; scale bar 500 Mpc comoving.
+  268,767 galaxies; vermilion dots: 2,709 AGN; large blue circles: 25 galaxy-hosted detected mergers;
+  large vermilion diamonds: 9 AGN-hosted (true host positions) of the equal-population event set that the
+  production runs analyse (`data/seed100/events/events_corepop.h5`). Dashed arcs z = 0.1, 0.2, 0.3; outer
+  arc z = 0.33; scale bar 500 Mpc comoving.
 - (b) Top: completeness C(z) of the galaxy catalog for m < 21, 20, 19, 18 (purples, light to dark), ratio
   of flux-limited to complete counts in bins of 0.005; labels are the completeness inside z <= 0.3105
   (`\MockCompTwentyOne` ... `\MockCompEighteen`: 100.0, 81.4, 31.5, 9.5%). Bottom: true host redshifts of
-  the 1000 detected mergers, counts per 0.01: 705 galaxy hosts, 295 AGN hosts.
+  the 1000 detected mergers of the same set (`events_corepop.h5`), counts per 0.01: 702 galaxy hosts, 298 AGN
+  hosts (fraction `\MockfAGNRealised` = 0.298).
 - (c) Source-frame primary mass and (d) effective spin of the 1000 detected mergers of the host-dependent
-  event set (643 galaxy-hosted, 357 AGN-hosted), each class normalized to unit area; dashed lines at the
-  input peak locations 35 and 40 Msun and spin means 0 and 0.10.
+  event set of realization A that the production runs analyse (`data/seed100/events/
+  events_marked_dmu0p10_dmuG5_corepop.h5`; 640 galaxy-hosted, 360 AGN-hosted = `\MockHDNagn`, fraction
+  `\MockHDfDet` = 0.360), each class normalized to unit area; dashed lines at the input peak locations 35 and
+  40 Msun and spin means 0 and 0.10.
+- Until 17 Nov panels (c, d) drew the older `events_marked_dmu0p10_dmuG5.h5` (643 and 357) and panels (a, b)
+  the older equal-population `events.h5` (26 and 7 mergers in the slice; 705 and 295 hosts).
 - Not yet in the figure (REVIEW G1, deferred by the redesign): completeness labels at the margin, the
   redshift of completeness (`\MockzComplete...`) and the completeness weighted by the detected mergers.
 
@@ -68,6 +74,32 @@ at the end compares every drawn median and 90% interval end with `values/values.
   `\KnownNoneHzero`, invented: 68.6 +- 3.2). The AGN-catalog-alone posterior rises to the upper end of the
   prior at 100 (peak density 3.9 per km/s/Mpc, off the scale of the panel, marked by an arrow and text).
   Axis H0 [56, 100] (prior [50, 100]).
+
+<!-- fig_classes: written by scripts/make_figures.py; do not edit -->
+## Fig. `fig_classes` (Sec. IV B, after `fig2_anchor`; written by the figure script from values.json)
+
+- Width 7.0 in, height 3.45 in. (a), (b): the mean over the 5 realizations of the experiment (`\NrealClasses`; realizations [100, 101, 102, 103, 105]) of the 90% half-width of H0 of each realization (its run summary), against the input f_AGN; bars from the smallest to the largest half-width over those realizations; population known, complete catalogs, 1000 detected mergers. Points of one f are spread by up to +-0.05 in f so that they do not overlap. Horizontal lines: the mean half-width (no bar). Final colours: host class unknown bluish green (circles, solid), host class known black (triangles, dotted), host-dependent populations orange (squares, dashed; twice the offsets: brown diamonds, dashed; inferred with H0: open orange square), no catalog dark gray (long dashes, labelled below the line), galaxy catalog alone blue (short dashes, labelled below the line). An element whose macro is red is drawn in red tones (same marker and line style); a connecting line is red when any of its points is. No word in a panel marks a placeholder.
+- (a) peak-dominated spectrum, equal populations except the host-dependent series (AGN-hosted mergers heavier by \MockDmuG Msun, spin mean higher by \MockDmuChi). (b) observed-like spectrum, the same analyses at the fractions that were run. The open square is the host-dependent populations analysis with the populations and H0 inferred (keys HDHost, ObsHost: \NrealHD and \NrealObs realizations).
+- (c) realization A, host-dependent populations, input f_AGN = 0.3: histograms (40 bins on [0, 1], each class normalized to unit area) of the probability of an AGN host of each of the 1000 mergers at the posterior median of its grid, f L_AGN / (f L_AGN + (1 - f) L_gal); galaxy-hosted filled blue, AGN-hosted dark vermilion line; top: positions alone (one population held at its input), bottom: positions with masses and spins (the two populations at their inputs); triangles at the means with their values printed; black dashed line at the input f_AGN = 0.3 (`\MockfAGN`). The key of (c) sits above it in the top margin; the key of (a, b) above them.
+
+Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...Max`):
+- (a) Host class unknown: 5 points (5 real, 0 red): f=0 `\HWUnknownZero` = 3.53 (real) [2.85, 4.75]; f=0.1 `\HWUnknownTen` = 3.49 (real) [2.38, 5.35]; f=0.3 `\HWUnknownThirty` = 2.01 (real) [1.82, 2.40]; f=0.5 `\HWUnknownFifty` = 1.36 (real) [1.03, 1.62]; f=1 `\HWUnknownHundred` = 0.82 (real) [0.80, 0.85]
+- (a) Host-dependent populations, $\Delta\mu_{\rm G}=5\,M_\odot$, $\Delta\mu_\chi=0.10$: 3 points (1 real, 2 red): f=0.1 `\HWPopsTen` = 2.21 (red) [1.99, 2.43]; f=0.3 `\HWPopsThirty` = 1.64 (real) [1.44, 1.86]; f=0.5 `\HWPopsFifty` = 1.19 (red) [1.07, 1.31]
+- (a) Host-dependent populations, twice those offsets: 3 points (0 real, 3 red): f=0.1 `\HWPopsTwiceTen` = 2.11 (red) [1.90, 2.32]; f=0.3 `\HWPopsTwiceThirty` = 1.40 (red) [1.26, 1.54]; f=0.5 `\HWPopsTwiceFifty` = 1.12 (red) [1.01, 1.23]
+- (a) Host class known: 5 points (5 real, 0 red): f=0 `\HWKnownZero` = 3.55 (real) [2.96, 4.57]; f=0.1 `\HWKnownTen` = 1.89 (real) [1.43, 2.13]; f=0.3 `\HWKnownThirty` = 1.34 (real) [1.28, 1.40]; f=0.5 `\HWKnownFifty` = 1.10 (real) [0.98, 1.25]; f=1 `\HWKnownHundred` = 0.81 (real) [0.80, 0.83]
+- (a) Host-dependent populations inferred with $H_0$: 1 point (0 real, 1 red): f=0.3 `\HWHost` = 2.10 (red) [1.89, 2.31]
+- (a) No catalog (horizontal line): 1 point (1 real, 0 red): `\HWNone` = 5.57 (real) (range over the realizations 3.97 to 6.06, not drawn)
+- (a) Galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (1 real, 0 red): `\HWKnownZero` = 3.55 (real) (range over the realizations 2.96 to 4.57, not drawn)
+- (b) Host class unknown: 3 points (3 real, 0 red): f=0 `\HWObsUnknownZero` = 3.49 (real) [2.64, 4.66]; f=0.3 `\HWObsUnknownThirty` = 1.98 (real) [1.82, 2.33]; f=1 `\HWObsUnknownHundred` = 0.84 (real) [0.70, 1.06]
+- (b) Host-dependent populations, $\Delta\mu_{\rm G}=5\,M_\odot$, $\Delta\mu_\chi=0.10$: 1 point (0 real, 1 red): f=0.3 `\HWObsPopsThirty` = 1.62 (red) [1.46, 1.78]
+- (b) Host class known: 3 points (3 real, 0 red): f=0 `\HWObsKnownZero` = 3.49 (real) [2.57, 4.35]; f=0.3 `\HWObsKnownThirty` = 1.34 (real) [1.17, 1.47]; f=1 `\HWObsKnownHundred` = 0.83 (real) [0.68, 1.06]
+- (b) Host-dependent populations inferred with $H_0$: 1 point (0 real, 1 red): f=0.3 `\HWObsHost` = 2.30 (red) [2.07, 2.53]
+- (b) No catalog (horizontal line): 1 point (1 real, 0 red): `\HWObsNone` = 8.44 (real) (range over the realizations 7.15 to 9.33, not drawn)
+- (b) Galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (1 real, 0 red): `\HWObsKnownZero` = 3.49 (real) (range over the realizations 2.57 to 4.35, not drawn)
+- (c) Positions alone: real; 360 AGN-hosted and 640 galaxy-hosted mergers; printed means: 0.30 = `\ProbGalPos` = 0.30 (real), 0.37 = `\ProbAGNPos` = 0.37 (real)
+- (c) Positions with masses and spins: real; 360 AGN-hosted and 640 galaxy-hosted mergers; printed means: 0.28 = `\ProbGalPops` = 0.28 (real), 0.51 = `\ProbAGNPops` = 0.51 (real)
+- Numbers printed in the panels: the four means of (c) above; the legend's offsets 5 (`\MockDmuG`) and 0.10 (`\MockDmuChi`). The figure check compares every drawn point, bar end and line with its macro (value and printed text) and the printed text with the macro's text.
+<!-- end fig_classes -->
 
 ## Fig. 3 `fig3_flux_limits`
 
@@ -141,7 +173,9 @@ at the end compares every drawn median and 90% interval end with `values/values.
 - Sources. Fig. 6: single population invented (Sec. 7: H0 70.9 +- 2.6 for realization A, bias kept in the
   combination, N = 10); host-dependent populations combined (N = 5) invented from the exploratory
   eight-parameter run of realization A (its offsets: `\HDHostDmuG`, `\HDHostDmuChi`; H0 prior [60, 76] in that
-  run) by the rule of the conventions above. Fig. 7: all invented (Sec. 7, N = 5); population quantities of
+  run) by the rule of the conventions above. Fig. 7: all invented (Sec. 7 as revised on 17 Nov evening, N = 5:
+  realization A H0 68.4 +- 2.4 single population, bias 0.7 kept in the combination, 67.9 +- 2.3 host-dependent
+  populations; f_AGN 0.27 +- 0.09 and 0.30 +- 0.08; offsets 4.5 +- 3.5 Msun and 0.10 +- 0.04); population quantities of
   the `Obs...` keys are now centred on the observed-like inputs (mass peak `\ObsMuG` = 34, width
   `\ObsSigmaG` = 3.6 Msun; not drawn in this figure).
 - Input lines stop below the labels. The observed-like spectrum has `\ObsPeakFrac` = 0.092 of the mergers in
@@ -176,41 +210,3 @@ at the end compares every drawn median and 90% interval end with `values/values.
   limit `\CtrlZerofAGNCombUL`), 0.10 (dashed, `\CtrlTenthfAGNComb`) and 0.30 (dash-dot,
   `\KnownBothfAGNComb`, exploratory); black dashed lines at the three inputs. The two control sets are
   invented.
-
-## Figures of the short draft (`paper_short/figures/`, drawn by `paper_short/scripts/make_figures.py`)
-
-Drawn with the machinery of `scripts/make_figures.py` (imported, not copied); the same placeholder marking
-and figure-against-values check (179 numbers, 0 mismatches). Width 7.0 in (`figure*`).
-
-- `fig1_concept` (final; height 3.05 in). Realization A (seed 100). (a) Slice |delta| < 3 deg, right ascension
-  within 20 deg of the shown merger's region centre (296.2 deg), true z < 0.20, comoving distance at H0 =
-  67.74 (scale bar 200 Mpc, dashed arcs z = 0.05, 0.10, 0.15): 13,398 galaxies (small blue dots) and 126 AGN
-  (vermilion diamonds) of the complete catalogs. Black outline: the footprint in the slice of the 90%
-  localization region of one AGN-hosted merger of the host-dependent set (true z 0.098, m1 44.7 Msun,
-  chi_eff 0.24): a sky disc of radius 3.38 deg holding sqrt(0.9) of its sky samples times the redshift
-  interval [0.081, 0.110] holding sqrt(0.9) of its distance samples at H0 = 67.74 (the construction of
-  `\PureGalHostsPerVol`). Zoom (gray lines): the whole region seen from the side (transverse against radial
-  comoving distance, cataloged positions and redshifts): 225 galaxies and 6 AGN inside it (bold), the same sky
-  disc over a wider redshift range faint; black ring: the merger's true host AGN. (b) Source-frame primary mass
-  and (c) effective spin of the 1000 detected mergers with host-dependent populations
-  (`events_marked_dmu0p10_dmuG5_corepop.h5`; 640 galaxy-hosted, 360 AGN-hosted), true values, each class
-  normalized to unit area (bins 2.5 Msun and 0.05); black dashed lines at the input peaks 35 and 40 Msun and
-  spin means 0 and 0.10. Mean m1 36.7 / 41.3 Msun, mean chi_eff -0.004 / 0.093 (galaxy- / AGN-hosted).
-- `fig2_headline` = Fig. 6 above (same code and facts).
-- `fig3_assumptions` (placeholder; height 4.65 in). Ten rows in three groups by what the mergers are: "Mergers with
-  equal populations" (population known, both catalogs; population known, no catalog; single population, both
-  catalogs; single population, no catalog), "Mergers with host-dependent populations" and "The same,
-  observed-like mass spectrum" (each: single population, both catalogs; host-dependent populations, both
-  catalogs; single population, no catalog). Median and 90% interval of the combination over realizations for
-  every row and both panels (keys `KnownBoth`, `KnownNone`, `SingleBoth`, `SingleNone`, `HD...`, `Obs...`).
-  Axes H0 [60, 80], f_AGN [0.1, 0.6]. Text 11 pt at print size.
-- `fig4_rate_per_host` (height 3.0 in). (a) = Fig. 4(a) above (placeholder). (b) Final (black), Analysis 15,
-  realization A, equal populations, population known, 2000 posterior samples per merger, hosts normalized to
-  z = 1.10 (`\NormZmaxProd`): median and 90% interval of f_AGN against the assumed AGN number density over its
-  input, complete catalogs (filled squares at 1 and 2, `\NormfCompleteProd`, `\NormfCompleteProdTwo`) and
-  m < 18 (open diamonds at 0.5, 1, 2, `\NormfEighteenProdHalf`, `\NormfEighteenProd`, `\NormfEighteenProdTwo`),
-  points offset by 2.5% in x. Black curves: the identity at constant rate per host through the factor-1
-  median, logit f(x) = logit f(1) + ln[F_AGN + x (1 - F_AGN)], F_AGN = 1 (complete, solid: flat) and 0.0041
-  (`\NormFAGNEighteenProd`, dashed). Black dashed: input 0.30.
-- `figA1_mocks` = Fig. 1 above; `figA2_flux_limits`: (a) = Fig. 3(a) above, (b) = Fig. 4(b) above;
-  `figA3_validation` = Fig. 9 above.

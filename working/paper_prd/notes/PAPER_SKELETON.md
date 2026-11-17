@@ -185,9 +185,13 @@ eight-parameter run of Analysis 13); record which.
 - `HDSingle`: H0 70.9 +- 2.6 (biased high by about 3), f_AGN 0.24 +- 0.09, mass peak 36.4 +- 0.6,
   spin mean 0.030 +- 0.010. `HDHost`: H0 67.4 +- 2.1, f_AGN 0.30 +- 0.06, offsets 5.1 +- 1.0 Msun
   and 0.10 +- 0.03. `HDNone`: H0 73 +- 9. `\HDLB` about 9.
-- `ObsSingle`: H0 69.0 +- 5.0 (biased high by about 1), f_AGN 0.27 +- 0.10. `ObsHost`: H0 67.9 +-
-  5.2, f_AGN 0.30 +- 0.08, offsets 4.5 +- 3.5 Msun and 0.10 +- 0.04. `ObsNone`: H0 70 +- 14.
-  `\ObsLB` about 3.
+- `ObsSingle`: H0 68.4 +- 2.4 (biased high by about 0.7), f_AGN 0.27 +- 0.09. `ObsHost`: H0 67.9
+  +- 2.3, f_AGN 0.30 +- 0.08, offsets 4.5 +- 3.5 Msun and 0.10 +- 0.04. `ObsNone`: H0 70 +- 13.
+  `\ObsLB` about 3. (Revised 17 Nov evening: with the population known the observed-like
+  half-width is 1.98 with both catalogs, as for the peak-dominated spectrum, and 8.44 with no
+  catalog, so with both catalogs H0 rests on the hosts and the earlier expectation of +- 5 was
+  far too wide; the bias of a single population, which acts through the mass scale, is
+  correspondingly small.)
 - Rate-per-host ratio (AGN over galaxies): input (0.30/0.70)(n_gal/n_AGN) = 43; with densities
   inferred the ratio is measured to about 30% while f_AGN and log10 n_AGN each follow their priors
   along the curve of constant ratio.
@@ -210,24 +214,34 @@ and wins over Secs. 3 to 6 where they differ.
 realizations of the 90% half-width of H0 in km/s/Mpc; the numbers in the text come from macros)
 | fraction of mergers hosted by AGN | 0 | 0.1 | 0.3 | 0.5 | 1 |
 |---|---|---|---|---|---|
-| host class unknown (both catalogs, f_AGN inferred) | 3.58 | 3.55 | 2.04 | 1.37 | 0.83 |
-| host class known | 3.56 | 1.90 | 1.34 | 1.10 | 0.81 |
-No catalog (the mass scale alone): 5.6. Observed-like spectrum: no catalog 8.5; host class unknown
-3.55 (0), 2.01 (0.3), 0.86 (1); host class known 3.51, 1.34, 0.84.
-- With one merger in ten hosted by an AGN the analysis gains nothing from the AGN catalog (3.55
-  against 3.58), although the same mergers with their host class known would give 1.90. Positions
-  alone barely say which mergers are AGN-hosted: at a fraction of 0.3 the mean probability of an AGN
-  host is 0.37 for mergers truly hosted by AGN and 0.30 for mergers truly hosted by galaxies.
+| host class unknown (both catalogs, f_AGN inferred) | 3.53 | 3.49 | 2.01 | 1.36 | 0.82 |
+| host class known | 3.55 | 1.89 | 1.34 | 1.10 | 0.81 |
+No catalog (the mass scale alone): 5.57. Observed-like spectrum: no catalog 8.44; host class
+unknown 3.49 (0), 1.98 (0.3), 0.84 (1); host class known 3.49, 1.34, 0.83. (Values of 17 Nov,
+21:00 UTC, from the run summaries on the refined lattice; `values/MACROS.md` is the source.)
+- With one merger in ten hosted by an AGN the analysis gains nothing from the AGN catalog (3.49
+  against 3.53), although the same mergers with their host class known would give 1.89. Positions
+  alone barely say which mergers are AGN-hosted: at a fraction of 0.3 and equal populations the
+  mean probability of an AGN host is 0.33 for mergers truly hosted by AGN and 0.24 for mergers
+  truly hosted by galaxies (0.37 and 0.30 on the mergers with host-dependent populations, of
+  which more are AGN-hosted).
 - With host-dependent populations (AGN-hosted mergers heavier by 5 Msun, spin mean higher by 0.10)
-  and the populations known, the masses and spins raise that probability to 0.51 and lower it to
-  0.28, and the half-width at 0.3 falls from 2.04 toward the 1.34 of known host classes (1.64 from
-  the three realizations finished so far).
-- With the host class known at a fraction of 0.3, the AGN-hosted mergers alone give 1.4 where all
-  mergers give 1.34: they carry about nine tenths of the information on H0 (inverse variance).
-  Quote this decomposition, which is exact because the two posteriors multiply. Do not quote a
-  share for the analysis with the host class unknown; no unique one exists.
+  and the populations known, the masses and spins move those probabilities from 0.37 and 0.30 to
+  0.51 and 0.28, and the half-width at 0.3 is 1.64, between the 2.01 of the unknown and the 1.34
+  of the known host class. The comparison is not between the same mergers (360 against 298 of the
+  1000 detected are AGN-hosted); on the same mergers the known host class gives 1.30.
+- With the host class known at a fraction of 0.3, the AGN-hosted mergers alone give 1.41 where
+  all mergers give 1.34: by the ratio of the squared half-widths they carry about 90% of the
+  information on H0 (72% at a fraction of 0.1). The posteriors multiply exactly, but a share read
+  off half-widths is exact only for Gaussian posteriors (the two shares add to 107% at 0.3), so
+  the text says "about nine tenths" and never "exactly". Do not quote a share for the analysis
+  with the host class unknown; no unique one exists.
+- The half-width at 0.3 with the host class unknown in this experiment (2.01, realization A 2.09)
+  and the one of Sec. IV A (realization A 1.94) are the same mergers and the same analysis with
+  two injection sets; the difference is the Monte Carlo error that the Validation section
+  quotes. The text does not equate them and does not set them against each other.
 - The AGN catalog alone, applied to mergers of which seven in ten are hosted by galaxies, has no
-  interior maximum in four of five realizations; in the fifth it peaks at 76.8 [75.5, 78.1] and
+  interior maximum in four of five realizations; in the fifth it peaks at 76.8 [75.5, 78.0] and
   excludes the input. It is a biased analysis, not only an uninformative one, and the text says so.
 
 ### 9.2 Names (added to Sec. 2)

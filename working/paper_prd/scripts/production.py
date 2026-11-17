@@ -4,7 +4,7 @@ scripts/placeholder_results.py).
 
     PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python
     $PY working/paper_prd/scripts/production.py --write-map   # (re)write values/production_map.json from the run lists
-    $PY working/paper_prd/scripts/production.py --status      # which keys are real, partial, waiting (no computation)
+    $PY working/paper_prd/scripts/production.py --status      # which keys and experiment macros are real, partial, waiting
     $PY working/paper_prd/scripts/production.py --report      # one line per paper-level count, from values.json
 
 values/production_map.json (written by --write-map, data afterwards) maps each key of notes/PAPER_SKELETON.md
@@ -18,15 +18,16 @@ exists (all realizations, and the runs it depends on: the reference of its Bayes
 of its prior-induced region). A key with some but not all is PARTIAL: it stays exactly as its placeholder
 (red), and the status lists it. A key whose real entry fails to compute stays red and is listed as ERROR.
 
-How each part is computed (one way for both papers: the functions of
-paper_short_independent/scripts/results.py, which the letter uses for its macros)
+How each part is computed (the functions of scripts/run_posteriors.py; until 17 Nov they lived in the letter's
+scripts, which the paper no longer reads)
   realization A   median and 90% interval = summary.json "posterior" block of realization A (the run's own
-                  summary); the plotted shape, 68% interval, 90% upper limit and level of the input from the
-                  run's marginal (results.marginal: grid ln L, or the kernel density of the nested samples)
-  Comb            results.evaluate(..., combine="combined"): grids: the corrected ln L of the realizations
-                  summed on a common mesh (results.grid_marginal); nested runs: the product of the kernel
-                  densities of the marginals (results.chain_marginal_product); then median, 90% interval,
-                  upper limit and the credible level of the input (placeholder_results.summarize_xp)
+                  summary, Akima-refined lattice); never the node-based summary of grid/result.json; the plotted
+                  shape, 68% interval, 90% upper limit and level of the input from the run's marginal
+                  (run_posteriors.marginal: grid ln L, or the kernel density of the nested samples)
+  Comb            run_posteriors.combined: grids: the corrected ln L of the realizations summed on a common
+                  mesh (run_posteriors.grid_marginal); nested runs: the product of the kernel densities of the
+                  marginals (run_posteriors.chain_marginal_product); then median, 90% interval, upper limit and
+                  the credible level of the input (placeholder_results.summarize_xp)
   CL              level_of_input of Comb: |2 F(input) - 1|, the input = the summaries' "truth" (or the
                   paper's input where the map says so)
   RateRatio       R = [f/(1-f)] Z_gal/Z_AGN: complete catalogs Z_k = N_k (counts of the realization's survey
@@ -38,7 +39,7 @@ paper_short_independent/scripts/results.py, which the letter uses for its macros
   LB              grids: Savage-Dickey at f_AGN = 0 on ln L summed over the realizations (the f = 0 column
                   spline-interpolated in H0); nested: (ln Z - ln Z_ref)/ln 10 of realization A, and Comb = the
                   sum over the realizations (each realization analysed on its own)
-  joint           grids: results.grid_joint (A: realization A; Comb: ln L summed); nested: a Gaussian kernel
+  joint           grids: run_posteriors.grid_joint (A: realization A; Comb: ln L summed); nested: a Gaussian kernel
                   density (0.3 sd, reflected at the prior edges) on a lattice, Comb the product over realizations
 """
 from __future__ import annotations
@@ -61,7 +62,6 @@ PMAP = PRD / "values" / "production_map.json"
 A16 = bv.AN / "analysis_16_production_runs"
 RUNS = A16 / "runs"
 RUNLISTS = ("RUNLIST.yaml", "RUNLIST_experiment.yaml")
-LETTER_SCRIPTS = bv.W / "paper_short_independent" / "scripts"
 LN10 = math.log(10.0)
 H_IN = 0.6774
 
@@ -87,6 +87,9 @@ def _key_table():
         "HDSingle": ("single_population/both_catalogs/complete/host_dependent/realization_{R}", SIX),
         "HDHost": ("host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}", SIX + ["DmuG", "DmuChi"]),
         "HDNone": ("single_population/no_catalog/complete/host_dependent/realization_{R}", FIVE),
+        "ObsSingle": ("single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}", SIX),
+        "ObsHost": ("host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}", SIX + ["DmuG", "DmuChi"]),
+        "ObsNone": ("single_population/no_catalog/complete/host_dependent_obslike/realization_{R}", FIVE),
     }
     for rk, w, m in bv.RUNGS:
         T[f"Flux{w}"] = (f"known_population/both_catalogs/flux_limit_{m}_densities_from_counts/equal_populations/realization_{{R}}", ["Hzero", "fAGN", "RateRatio"])
@@ -95,11 +98,8 @@ def _key_table():
 
 
 KEY_RUNS = _key_table()
-# keys of the paper that have no run in either list (Stage 5 of runs.txt is not in RUNLIST.yaml)
-PAPER_KEYS_WITHOUT_RUNS = {
-    "ObsSingle": "observed-like spectrum, host-dependent events, single population, both catalogs (runs.txt Stage 5)",
-    "ObsHost": "observed-like spectrum, host-dependent events, host-dependent populations, both catalogs (runs.txt Stage 5)",
-    "ObsNone": "observed-like spectrum, host-dependent events, single population, no catalog (runs.txt Stage 5)"}
+# keys of the paper that have no run in either list (none since Stage 5 entered RUNLIST.yaml on 17 Nov)
+PAPER_KEYS_WITHOUT_RUNS = {}
 # where the run differs from the key as the paper defines it (notes/PAPER_SKELETON.md Sec. 6, runs.txt)
 SET_NOTES = {
     "CtrlZero": "the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with "
@@ -151,7 +151,7 @@ def _settings(key, recs):
         diff.append(f"the realization's injection set pooled with {max(pools)} more drawn from the same proposal (Analysis 14's sets; one set of {max(pools) + 1})")
     if lanes != ["injections/injections_targeted.h5"] and key not in SET_NOTES:
         if lanes == ["injections/injections_targeted_peak.h5"]:
-            diff.append("the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of "
+            diff.append("the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of "
                         "the realization's record lane")
         else:
             diff.append(f"injection lane {', '.join(lanes)}")
@@ -163,7 +163,7 @@ def _settings(key, recs):
 
 
 def build_map():
-    """The map from the run lists (the analogue of the letter's results.py --prefill)."""
+    """The map from the run lists."""
     runs = runlist_runs()
     keys, missing = {}, {}
     for key, (pat, quants) in KEY_RUNS.items():
@@ -187,11 +187,11 @@ def build_map():
                         "CL": {"of": "Comb", "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"}}
                 continue
             par = PARAM[q]
-            no_input = key in ("HDSingle", "HDNone") and q in ("MuG", "SigmaG", "MuChi", "SigmaChi")
+            no_input = key in ("HDSingle", "HDNone", "ObsSingle", "ObsNone") and q in ("MuG", "SigmaG", "MuChi", "SigmaChi")
             conv = key.startswith("Free") and q in ("LognGal", "LognAGN")
             Q[q] = {"param": par, "A": {"summary": A, "field": f"posterior.{par}"},
                     "Comb": {"summaries": sumpat, "realizations": reals,
-                             "combine": "grid ln L summed (results.grid_marginal)" if mode == "grid" else "product of the kernel densities (results.chain_marginal_product)"},
+                             "combine": "grid ln L summed (run_posteriors.grid_marginal)" if mode == "grid" else "product of the kernel densities (run_posteriors.chain_marginal_product)"},
                     "CL": {"of": "Comb", "input": None if no_input else f"truth.{par} of the summaries"}}
             if no_input:
                 Q[q]["CL"]["why"] = "one population for a mixture: no single input (as the placeholder)"
@@ -201,14 +201,15 @@ def build_map():
         E = {"run": pat, "runlist": sorted({r["runlist"] for r in recs.values()})[0], "stage": "/".join(sorted({r["stage"] for r in recs.values()})),
              "mode": mode, "realizations": reals, "realization_A": rA, "settings": _settings(key, list(recs.values())), "quantities": Q}
         if key in ("KnownBoth", "CtrlZero", "CtrlTenth"):
-            E["joint"] = {"params": ["H0", "f_agn"], "parts": ["A", "Comb"], "how": "results.grid_joint"}
+            E["joint"] = {"params": ["H0", "f_agn"], "parts": ["A", "Comb"], "how": "run_posteriors.grid_joint"}
             E["LB"] = {"kind": "savage_dickey_f0", "reference": "galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grids (Comb: ln L summed), f_AGN prior [0, 1]"}
         elif key in ("SingleBoth", "SingleNone"):
             E["joint"] = {"params": ["H0", "mu_G"], "parts": ["A", "Comb"], "how": "kernel density on a lattice; Comb the product"}
-        elif key == "HDHost":
+        elif key in ("HDHost", "ObsHost"):
             E["joint"] = {"params": ["dmu_G", "dmu_chi"], "parts": ["A", "Comb"], "how": "kernel density on a lattice; Comb the product"}
-            ref = KEY_RUNS["HDSingle"][0]
-            E["LB"] = {"kind": "evidence_ratio", "reference_run": ref, "reference_key": "HDSingle",
+            rk_ = key.replace("Host", "Single")
+            ref = KEY_RUNS[rk_][0]
+            E["LB"] = {"kind": "evidence_ratio", "reference_run": ref, "reference_key": rk_,
                        "reference": "the single-population analysis of the same events, same priors (Table I)",
                        "A": "(ln Z - ln Z_ref)/ln 10 of realization A (summary ln_evidence)",
                        "Comb": "sum over the realizations of (ln Z - ln Z_ref)/ln 10 (each realization analysed on its own)"}
@@ -220,7 +221,8 @@ def build_map():
         keys[key] = E
     for k, why in PAPER_KEYS_WITHOUT_RUNS.items():
         missing.setdefault(k, why)
-    return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing}
+    import classes
+    return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs)}
 
 
 SCHEMA = [
@@ -233,6 +235,9 @@ SCHEMA = [
     "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
     "A key is real when every summary named exists (all realizations and the runs it depends on); otherwise it stays the placeholder of",
     "  placeholder_results.py (partial when some exist). Keys of the paper with no run in the lists: not_in_run_lists.",
+    "classes: the macros of Sec. IV B and of the experiment's numbers elsewhere (scripts/classes.py, notes/PAPER_SKELETON.md Sec. 9):",
+    "  classes.<macro>: run (pattern, '{R}' = three-digit realization), runlist, stage, realizations, how (mean_hw | factor_hw | membership |",
+    "  interior); derived macros (cost, share) name the macros they are computed from. A macro is real when every summary it names exists.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
 ]
 
@@ -276,13 +281,11 @@ def key_status(key, spec):
 
 
 # ============================================================================================= #
-# computation (the letter's functions)
+# computation (scripts/run_posteriors.py)
 # ============================================================================================= #
-def letter():
-    if str(LETTER_SCRIPTS) not in sys.path:
-        sys.path.append(str(LETTER_SCRIPTS))
-    import results as LR  # noqa: E402  (imports placeholder_results and prod_common)
-    return LR
+def rp():
+    import run_posteriors as RP  # noqa: E402  (imports placeholder_results lazily and prod_common)
+    return RP
 
 
 def _phr():
@@ -314,27 +317,19 @@ def _is_grid(d):
 
 
 def marg_A(dA, par):
-    LR = letter()
-    return LR.marginal([dA], par)
+    return rp().marginal([dA], par)
 
 
 def comb(key, q, spec, par, x0="truth"):
-    """The letter's 'combined' evaluation (results.evaluate) of one parameter over the key's realizations."""
-    LR = letter()
-    rel_root = LR.runs_root()
-    pat = str((RUNS / spec["run"]).relative_to(rel_root)) + "/summary.json"
-    r = LR.evaluate(f"prd:{key}{q}Comb", {"summary": pat, "field": f"posterior.{par}", "combine": "combined",
-                                         "realizations": spec["realizations"], "stat": "pm"})
-    assert r.real, (key, q, r.missing)
-    x, p = np.asarray(r.extra["x"]), np.asarray(r.extra["p"])
-    if x0 == "truth":
-        return r.extra["summary"], x, p, r.extra["input"]
-    return _phr().summarize_xp(x, p, x0), x, p, x0
+    """One parameter combined over the key's realizations (run_posteriors.combined)."""
+    dirs = [run_dir(spec["run"], r) for r in spec["realizations"]]
+    missing = [d for d in dirs if not (d / "summary.json").exists()]
+    assert not missing, (key, q, missing)
+    return rp().combined(dirs, par, x0="truth" if x0 == "truth" else x0)
 
 
 def kde1(s, lo, hi, n=4001):
-    import make_figures as mf          # the kernel of results.chain_marginal_product
-    return mf.kde1(np.asarray(s, float), lo, hi, n=n)
+    return rp().kde1(np.asarray(s, float), lo, hi, n=n)          # the kernel of run_posteriors.chain_marginal_product
 
 
 def kde_product(sample_sets, lo, hi, n=4001):
@@ -377,7 +372,7 @@ def corr_lattice(x, y, P):
 
 
 def samples_of(d, params):
-    return letter().chain_samples(d, params)
+    return rp().chain_samples(d, params)
 
 
 def phys_logn(s_logn_h, s_H0):
@@ -435,7 +430,7 @@ def ln_int_grid_f0(dirs):
     """ln of int exp(sum ln L(H0, f = 0)) dH0 over the prior range: each run's f = 0 column (the fine pass where it
     contains f = 0, the coarse pass elsewhere) as a cubic spline of ln L in H0, summed on a dense H0 mesh."""
     from scipy.interpolate import CubicSpline
-    LR = letter()
+    LR = rp()
     H = np.linspace(50.0, 100.0, 20001)
     tot = np.zeros_like(H)
     for d in dirs:
@@ -461,8 +456,8 @@ def ln_int_grid_f0(dirs):
 
 
 def ln_int_grid_total(dirs):
-    """ln of int int exp(sum ln L) dH0 df on the mesh of results.grid_marginal (fine passes, coarse outside)."""
-    LR = letter()
+    """ln of int int exp(sum ln L) dH0 df on the mesh of run_posteriors.grid_marginal (fine passes, coarse outside)."""
+    LR = rp()
     all_parts = [LR._grid_parts(Path(d)) for d in dirs]
     names, axes = LR._common_axes(all_parts)
     mesh = np.stack(np.meshgrid(*axes, indexing="ij"), -1).reshape(-1, len(names))
@@ -483,7 +478,7 @@ def lb_savage_dickey(dirs):
 # ============================================================================================= #
 def build_entry(key, spec, ph, inputs):
     """The production entry of `key` (same schema as its placeholder entry `ph`)."""
-    LR = letter()
+    LR = rp()
     reals, rA = spec["realizations"], spec["realization_A"]
     dirs = [run_dir(spec["run"], r) for r in reals]
     dA = run_dir(spec["run"], rA)
@@ -563,7 +558,7 @@ def build_entry(key, spec, ph, inputs):
                 G = LR.grid_joint(ds)
                 E["joint"][part] = phr.joint_grid(G["x"], G["y"], G["P"], 120) | {
                     "params": [sx, sy], "correlation": corr_lattice(G["x"], G["y"], G["P"]),
-                    "shape": f"results.grid_joint: corrected ln L of {len(ds)} grid run(s) summed, cubic spline of the fine pass"}
+                    "shape": f"run_posteriors.grid_joint: corrected ln L of {len(ds)} grid run(s) summed, cubic spline of the fine pass"}
             E["joint"]["A"]["correlation_summary"] = sA.get("rho_H0_f")
         elif free:
             S, conv = cache["LognAGN"]
@@ -608,8 +603,7 @@ def build_entry(key, spec, ph, inputs):
 
 
 def _priors():
-    LR = letter()
-    return LR.P.PRIORS
+    return rp().P.PRIORS
 
 
 def prior_induced(key, spec, E, n=2_000_000, seed=20261117):
@@ -618,7 +612,7 @@ def prior_induced(key, spec, E, n=2_000_000, seed=20261117):
     known-density run of realization A at the same flux limit (densities from the counts), mapped through the
     normalisation identity logit f* = logit f + ln[F_A(n_A)/F_G(n_G)] - ln[F_A(n_A,used)/F_G(n_G,used)],
     F_k = N_k / (N_k + n_k V_miss,k) (h-scaled densities: Z_k does not depend on H0). Sets the A entries' prior_ul90."""
-    LR = letter()
+    LR = rp()
     pri = _priors()
     w = key[4:]
     rk = {ww: k for k, ww, _ in bv.RUNGS}[w]
@@ -659,12 +653,12 @@ CACHE = PRD / "values" / ".production_cache"      # one entry per real key, reus
 
 
 def signature(spec):
-    """Hash of the key's map entry, of the code that computes it (this file, the letter's results.py,
+    """Hash of the key's map entry, of the code that computes it (this file, run_posteriors.py,
     placeholder_results.py, build_values.py) and of every summary.json it needs (path, mtime, size: the lane
     worker rewrites a run's summary whenever the run changes)."""
     import hashlib
     h = hashlib.sha1(json.dumps(spec, sort_keys=True).encode())
-    for f in (Path(__file__), LETTER_SCRIPTS / "results.py", HERE / "placeholder_results.py", HERE / "build_values.py"):
+    for f in (Path(__file__), HERE / "run_posteriors.py", HERE / "placeholder_results.py", HERE / "build_values.py"):
         h.update(Path(f).read_bytes())
     for d in sorted(needed(spec), key=str):
         s = (d / "summary.json").stat()
@@ -740,16 +734,39 @@ def status_lines(status):
     return out
 
 
+def classes_status_lines():
+    """The experiment's macros (scripts/classes.py, map block 'classes'): real, and the runs the others wait for."""
+    import classes
+    st = classes.status()
+    real = [k for k, (r, _) in st.items() if r]
+    out = [f"  experiment macros (Sec. IV B; values/production_map.json 'classes'): {len(real)} of {len(st)} real"]
+    wait = {}
+    for k, (r, miss) in st.items():
+        if not r:
+            pats = {}
+            for m in miss:
+                mm = re.match(r"^.*/runs/(.*)/realization_(\d{3})(.*)$", m)
+                pats.setdefault(mm.group(1) + "/realization_{R}" + mm.group(3), []).append(mm.group(2)) if mm else pats.setdefault(m, [])
+            txt = "; ".join(f"{pp} (missing {','.join(rr)})" for pp, rr in pats.items())
+            wait.setdefault(txt or "derived from red macros", []).append(k)
+    for runs, ks in wait.items():
+        out.append(f"    waiting {', '.join(ks)}: {runs}")
+    return out
+
+
 def macro_counts(values_json=PRD / "values" / "values.json", tex=PRD / "main.tex"):
-    """Result macros of the long paper: the key-scheme macros (claim 'skeleton,keys'); real = printed black."""
+    """Result macros of the long paper: the key-scheme macros (claim 'skeleton,keys') and the experiment's (claim
+    'classes'); real = printed black."""
     mac = json.loads(Path(values_json).read_text())["macros"]
     used = set(re.findall(r"\\([A-Za-z]+)", Path(tex).read_text()))
-    keys = {k: v for k, v in mac.items() if v["claim"].startswith("skeleton")}
+    keys = {k: v for k, v in mac.items() if v["claim"].startswith("skeleton") or v["claim"].startswith("classes")}
     real = [k for k, v in keys.items() if v["class"] != "ph"]
     ureal = [k for k in real if k in used]
     uall = [k for k in keys if k in used]
     other_red = sorted(k for k, v in mac.items() if v["class"] in ("ph", "anc") and k in used and k not in keys)
-    return {"n_all": len(keys), "n_real": len(real), "n_used": len(uall), "n_used_real": len(ureal), "other_red_in_text": other_red}
+    cl = {k: v for k, v in keys.items() if v["claim"].startswith("classes")}
+    return {"n_all": len(keys), "n_real": len(real), "n_used": len(uall), "n_used_real": len(ureal), "other_red_in_text": other_red,
+            "n_classes": len(cl), "n_classes_real": sum(1 for v in cl.values() if v["class"] != "ph")}
 
 
 def main(argv=None):
@@ -766,6 +783,7 @@ def main(argv=None):
         st = {k: key_status(k, s) for k, s in pm.get("keys", {}).items()}
         st.update({k: {"state": "no run", "why": w} for k, w in (pm.get("not_in_run_lists") or {}).items()})
         print("\n".join(status_lines(st)))
+        print("\n".join(classes_status_lines()))
     if a.report:
         c = macro_counts()
         doc = json.loads((PRD / "values" / "placeholder_results.json").read_text())
@@ -774,7 +792,8 @@ def main(argv=None):
         if c["other_red_in_text"]:
             print(f"long paper, other red macros in main.tex (exploratory or not in a run list, not counted below): {', '.join(c['other_red_in_text'])}")
         print(f"long paper: {c['n_used_real']} of {c['n_used']} result macros in main.tex real, {c['n_used'] - c['n_used_real']} waiting for runs "
-              f"(all key macros: {c['n_real']} of {c['n_all']} real; keys real {len(n['real'])}, partial {len(n['partial'])}, waiting {len(n['waiting'])}, "
+              f"(all result macros: {c['n_real']} of {c['n_all']} real, of which the experiment's {c['n_classes_real']} of {c['n_classes']}; "
+              f"keys real {len(n['real'])}, partial {len(n['partial'])}, waiting {len(n['waiting'])}, "
               f"no run {len(n['no run'])}" + (f", ERROR {len(n['error'])}" if n["error"] else "") + ")")
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Write the run lists: runs/RUNLIST.yaml (the approved production stages 1-5) and
-runs/RUNLIST_experiment.yaml (the short paper's experiment, paper_short_independent/EXPERIMENT.md:
+runs/RUNLIST_experiment.yaml (the short paper's experiment, archive/paper_short_independent/EXPERIMENT.md:
 stages E1 grids of the present mass spectrum, E2 grids of the observed-like spectrum, E3 its
 six-parameter nested runs), with every run's driver arguments, parts (schedulable tasks), estimated
 likelihood calls and GPU hours, and its rank on the GPU lanes (`lane_rank`, from LANE_RANKS below).
@@ -745,7 +745,7 @@ def main():
     doc = dict(head, realizations={"5": r5, "10": r10, "3": r3},
                stages=[stage_block(k, st[k]) for k in sorted(st)])
     write_atomic(a.out, yaml.safe_dump(doc, sort_keys=False, width=140))
-    xdoc = dict(head, what="the short paper's experiment (paper_short_independent/EXPERIMENT.md); runs that "
+    xdoc = dict(head, what="the short paper's experiment (archive/paper_short_independent/EXPERIMENT.md); runs that "
                            "production stage 1 already contains are listed under reused_from_stage_1, not run again",
                 realizations=rx, event_sets=info, awaiting_sets=awaiting, reused_from_stage_1=reused,
                 stages=[stage_block(k, xs[k]) for k in ("E1", "E2", "E3")])

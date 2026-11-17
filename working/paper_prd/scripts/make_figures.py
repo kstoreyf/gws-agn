@@ -13,7 +13,10 @@ Every posterior is computed with the machinery of scripts/build_values.py (splin
 posteriors GridPost, equal-weight nested-sampling chains ChainPost), with the same refinement
 factors and nodes, so that a curve and the number quoted in the text are one computation. At the
 end the script compares every number a figure displays or encodes (medians, 90% interval ends,
-combined-posterior summaries, printed labels) with values/values.json and prints any mismatch.
+combined-posterior summaries, printed labels) with values/values.json and prints any mismatch; a number
+drawn as a point or printed in a panel is also compared with the macro the text prints, at the printed
+precision (the drawn value rounded as the macro rounds it must give the macro's text). Any mismatch makes
+the script exit 1.
 
 Statistics drawn: 90% credible intervals (equal-tailed, as in the text), 90% highest-density
 regions for 2-D contours. Densities are normalised over the prior range of each analysis.
@@ -36,6 +39,7 @@ sys.path.insert(0, str(HERE))
 import figstyle as fs  # noqa: E402  (selects the Agg backend)
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
+from matplotlib.patches import Patch  # noqa: E402
 from scipy.integrate import cumulative_trapezoid  # noqa: E402
 from scipy.ndimage import gaussian_filter  # noqa: E402
 
@@ -59,6 +63,32 @@ NOTES: dict[str, list[str]] = {}
 def chk(fig, path, shown, what=""):
     """Record a number (or rendered string) the figure displays or encodes, with its values.json path."""
     CHECKS.append((fig, tuple(path), shown, what))
+
+
+def chk_macro(fig, macro, shown, what=""):
+    """A number drawn in a panel (or printed in it) against the macro the text prints: the same source value
+    (values.json 'value', to 1e-9) and the same text at the printed precision (the drawn value rounded to the
+    macro's decimals equals the macro's rendering, \\ph{} stripped)."""
+    chk(fig, ("macros", macro, "value"), shown, what)
+    CHECKS.append((fig, ("macros", macro, "render"), ("PRINTED", float(shown)), what + " (at the printed precision)"))
+
+
+def chk_text(fig, macro, text, what=""):
+    """A number printed in a panel as text against the macro's rendering (\\ph{} stripped)."""
+    CHECKS.append((fig, ("macros", macro, "render"), ("TEXT", text), what + " (text printed in the panel)"))
+
+
+def unwrap_ph(r):
+    import re as _re
+    m = _re.fullmatch(r"\\ph\{(.*)\}", r)
+    return m.group(1) if m else r
+
+
+def printed_as(v, render):
+    """v rounded as `render` (a plain decimal, possibly in \\ph{}) is rounded: the same number of decimals."""
+    t = unwrap_ph(render)
+    d = len(t.split(".")[1]) if "." in t else 0
+    return bv.fnum(float(v), d), t
 
 
 def chk_post(fig, macro, s, what="median and 90% interval"):
@@ -87,7 +117,14 @@ def run_checks(figs):
         except (KeyError, IndexError, TypeError) as e:
             bad.append((fig, path, shown, f"missing in values.json ({e!r})"))
             continue
-        if isinstance(shown, str):
+        if isinstance(shown, tuple) and shown[0] == "PRINTED":
+            got, ref = printed_as(shown[1], ref)
+            ok = got == ref
+            shown = got
+        elif isinstance(shown, tuple) and shown[0] == "TEXT":
+            shown, ref = shown[1], unwrap_ph(ref)
+            ok = shown == ref
+        elif isinstance(shown, str):
             ok = shown == ref
         else:
             ref = float(ref)
@@ -363,6 +400,8 @@ def comoving_distance(z, H0, Om):
 # ============================================================================================= #
 # Fig. 1: the simulated catalogs
 # ============================================================================================= #
+HD_EVENTS_FILE = "events_marked_dmu0p10_dmuG5_corepop.h5"   # fig1 (c, d): the production host-dependent events of realization A
+EQ_EVENTS_FILE = bv.EV_REF.name                              # fig1 (a, b): the production equal-population events of realization A
 SLAB_DEC_DEG = 3.0       # half-thickness of the declination slab of panel (a)
 WEDGE_RA = (0.0, np.pi)  # right-ascension range of panel (a)
 WEDGE_ZMAX = 0.33
@@ -379,8 +418,12 @@ def fig1_mocks(outdir=None, stem=None):
     dmax = np.radians(SLAB_DEC_DEG)
     g = read_rows(cat / "catalog_gal_complete.h5", WEDGE_ZMAX, dmax, ("ra", "dec", "z"))
     a = read_rows(cat / "catalog_agn_complete.h5", WEDGE_ZMAX, dmax, ("ra", "dec", "z"))
-    with h5py.File(SEED_REF / "events" / "events.h5") as h:
+    # (a, b): the equal-population event set of realization A that the production runs analyse (events_corepop.h5, 298 AGN-hosted);
+    # until 17 Nov these panels drew the older events.h5 (295 AGN-hosted)
+    with h5py.File(SEED_REF / "events" / EQ_EVENTS_FILE) as h:
         ev = {k: h["truth/" + k][()] for k in ("ra", "dec", "z", "host_type")}
+    n_ev_agn = int((ev["host_type"] == 1).sum())
+    chk(name, ("macros", "MockfAGNRealised", "value"), n_ev_agn / len(ev["host_type"]), "(b) AGN-hosted fraction of the drawn mergers")
     # completeness C(z) of the galaxy catalog for the four flux limits (AGN carry their host galaxy's
     # apparent magnitude, so the AGN catalog has the same C(z))
     zc = read_rows(cat / "catalog_gal_complete.h5", 0.34)["z"]
@@ -395,7 +438,9 @@ def fig1_mocks(outdir=None, stem=None):
         assert nk == sur["completeness"][key]["gal"]["n_within_horizon_kept"], (key, nk)
         Cz[key] = np.histogram(zm, edges)[0] / np.maximum(Nc, 1)
     zmid = 0.5 * (edges[1:] + edges[:-1])
-    with h5py.File(SEED_REF / "events" / "events_marked_dmu0p10_dmuG5.h5") as h:
+    # (c, d): the host-dependent event set of realization A that the production runs analyse (Analysis 16, stage 4 and the
+    # experiment's s1 sets); until 17 Nov these panels drew the older events_marked_dmu0p10_dmuG5.h5 (357 AGN-hosted, not 360)
+    with h5py.File(SEED_REF / "events" / HD_EVENTS_FILE) as h:
         hd = {k: h["truth/" + k][()] for k in ("m1src", "chieff", "host_type")}
         dmuG_attr, dmuchi_attr = float(h.attrs["dmu_G_agn"]), float(h.attrs["dmu_chi_agn"])
     assert abs(dmuG_attr - IN["dmuG"]) < 1e-12 and abs(dmuchi_attr - IN["dmuChi"]) < 1e-12
@@ -458,7 +503,7 @@ def fig1_mocks(outdir=None, stem=None):
     axa.text(-0.985 * R, 0.86 * R - 2.2 * dy, rf"slab $|\delta|<{SLAB_DEC_DEG:.0f}^\circ$", va="center", ha="left", fontsize=fs.FS_TEXT)
     fs.panel_label(axa, "(a)", x=0.0, y=1.0)
     note(name, f"(a) slab |dec| < {SLAB_DEC_DEG} deg, RA in [0, 180) deg, z < {WEDGE_ZMAX}: {int(selg.sum())} galaxies, {int(sela.sum())} AGN, "
-               f"{int(eg.sum())} galaxy-hosted and {int(ea.sum())} AGN-hosted detected mergers (of 1000) of the reference catalog")
+               f"{int(eg.sum())} galaxy-hosted and {int(ea.sum())} AGN-hosted detected mergers (of 1000) of the reference catalog ({EQ_EVENTS_FILE})")
 
     # ---- (b) completeness (top) and host redshifts (bottom) ----
     for i, (key, word, mlim) in enumerate(bv.RUNGS):
@@ -493,7 +538,7 @@ def fig1_mocks(outdir=None, stem=None):
     fs.label(axb, 0.205, 0.50 * hg.max(), "galaxy\nhosts", fs.GAL, ha="left")
     fs.label(axb, 0.215, 0.27 * hg.max(), "AGN hosts", fs.AGN, ha="left")
     fs.panel_label(axb, "(b)")
-    note(name, f"(b) 1000 hosts of the reference catalog: {int((ev['host_type'] == 0).sum())} galaxies, {int((ev['host_type'] == 1).sum())} AGN; "
+    note(name, f"(b) 1000 hosts of the reference catalog ({EQ_EVENTS_FILE}): {int((ev['host_type'] == 0).sum())} galaxies, {n_ev_agn} AGN; "
                f"C(z) from the galaxy catalogs in bins of 0.005; horizon z = {zh:.4f}")
 
     # ---- (c) primary masses, (d) effective spins of the host-dependent mock ----
@@ -533,7 +578,8 @@ def fig1_mocks(outdir=None, stem=None):
     fs.panel_label(axd, "(d)")
     n_agn = int((hd["host_type"] == 1).sum())
     chk(name, ("macros", "MockHDNagn", "value"), float(n_agn), "AGN-hosted events of the host-dependent mock")
-    note(name, f"(c,d) host-dependent mock, 1000 detected events: {1000 - n_agn} galaxy-hosted, {n_agn} AGN-hosted; true values; histograms normalised per class")
+    note(name, f"(c,d) host-dependent events of realization A ({HD_EVENTS_FILE}), 1000 detected: {1000 - n_agn} galaxy-hosted, {n_agn} AGN-hosted; true values; "
+               f"histograms normalised per class")
     fs.save(fig, outdir or FIGDIR, name)
 
 
@@ -1524,17 +1570,20 @@ def results_subsections(tex=PRD / "main.tex"):
 
 
 _SEC = results_subsections()
-# group headings: the subsection titles of Sec. IV in the paper (first five); rows: the analyses in words
-SUMMARY_ROWS = [
-    (_SEC[0], [("KnownBoth", "both catalogs"), ("KnownGal", "galaxy catalog alone"), ("KnownAGN", "AGN catalog alone"), ("KnownNone", "no catalog")]),
-    (_SEC[1], [("FluxTwentyOne", "$m<21$, number densities known"), ("FluxTwenty", "$m<20$, number densities known"), ("FluxNineteen", "$m<19$, number densities known"),
-               ("FluxEighteen", "$m<18$, number densities known"), ("FreeEighteen", "$m<18$, number densities inferred")]),
-    (_SEC[2], [("SingleBoth", "single population, both catalogs"), ("SingleNone", "single population, no catalog")]),
-    (_SEC[3], [("HDSingle", "single population, both catalogs"), ("HDHost", "host-dependent populations, both catalogs"), ("HDNone", "single population, no catalog")]),
-    (_SEC[4], [("ObsSingle", "single population, both catalogs"), ("ObsHost", "host-dependent populations, both catalogs"), ("ObsNone", "single population, no catalog")]),
-]
-assert [h for h, _ in SUMMARY_ROWS] == ["Known population and complete catalogs", "Flux-limited catalogs", "An unknown population",
-                                       "Populations that depend on the host", "A mass spectrum like the observed one"], _SEC
+# group headings: subsection titles of Sec. IV in the paper, looked up by name (the subsection of the constraint from each host
+# class, PAPER_SKELETON Sec. 9.3, has no row of its own); rows: the analyses in words
+_HEADS = ["Known population and complete catalogs", "Flux-limited catalogs", "An unknown population", "Populations that depend on the host",
+          "A mass spectrum like the observed one"]
+assert all(h in _SEC for h in _HEADS), (_HEADS, _SEC)
+_HEADS = sorted(_HEADS, key=_SEC.index)
+SUMMARY_ROWS = [(h, {
+    "Known population and complete catalogs": [("KnownBoth", "both catalogs"), ("KnownGal", "galaxy catalog alone"), ("KnownAGN", "AGN catalog alone"), ("KnownNone", "no catalog")],
+    "Flux-limited catalogs": [("FluxTwentyOne", "$m<21$, number densities known"), ("FluxTwenty", "$m<20$, number densities known"), ("FluxNineteen", "$m<19$, number densities known"),
+                              ("FluxEighteen", "$m<18$, number densities known"), ("FreeEighteen", "$m<18$, number densities inferred")],
+    "An unknown population": [("SingleBoth", "single population, both catalogs"), ("SingleNone", "single population, no catalog")],
+    "Populations that depend on the host": [("HDSingle", "single population, both catalogs"), ("HDHost", "host-dependent populations, both catalogs"), ("HDNone", "single population, no catalog")],
+    "A mass spectrum like the observed one": [("ObsSingle", "single population, both catalogs"), ("ObsHost", "host-dependent populations, both catalogs"), ("ObsNone", "single population, no catalog")],
+}[h]) for h in _HEADS]
 assert all(lab.lower() != head.lower() for head, items in SUMMARY_ROWS for _, lab in items)
 
 
@@ -1644,11 +1693,224 @@ def fig9_validation(outdir=None, stem=None):
     fs.save(fig, outdir or FIGDIR, name)
 
 
+# ---------------------------------------------------------------- fig_classes: the constraint from each host class
+# (notes/PAPER_SKELETON.md Sec. 9.4; numbers from scripts/classes.py through values/values.json). The archived letter's
+# fig1_budget (a, b) and fig_populations (c) are the model for the layout; words and symbols are this paper's.
+# host-dependent populations in orange (stated offsets) and brown (twice): reddish purple means "single population" elsewhere in the
+# paper, and orange stays apart from the red tones of the placeholders
+CL_FINAL = {"unknown": fs.BOTH, "known": "#000000", "pops": "#E69F00", "pops2": "#8C510A", "host": "#E69F00", "none": NONE_C, "galaxy": fs.GAL}
+CL_RED = {"unknown": RED[0], "known": RED[2], "pops": RED[1], "pops2": RED[3], "host": RED[1], "none": RED[2], "galaxy": RED[0]}
+CL_STYLE = {"unknown": ("-", "o"), "known": (":", "^"), "pops": ("--", "s"), "pops2": ("--", "D"), "host": ("none", "s")}
+CL_DODGE = {"unknown": -0.03, "pops": -0.01, "pops2": 0.01, "known": 0.03, "host": 0.05}
+CL_LINES = {"none": (0, (7, 2.5)), "galaxy": (0, (2.2, 1.6))}
+AGN_DARK = "#A63F00"                     # the truly AGN-hosted mergers of (c): a darker shade of the AGN vermilion
+
+
+def cl_labels():
+    dG, dX = VALUES["macros"]["MockDmuG"]["render"], VALUES["macros"]["MockDmuChi"]["render"]
+    return {"unknown": "Host class unknown", "known": "Host class known",
+            "pops": rf"Host-dependent populations, $\Delta\mu_{{\rm G}}={dG}\,M_\odot$, $\Delta\mu_\chi={dX}$",
+            "pops2": "Host-dependent populations, twice those offsets", "host": r"Host-dependent populations inferred with $H_0$",
+            "none": "No catalog", "galaxy": r"Galaxy catalog alone, $f_{\rm AGN}=0$"}
+
+
+def cl_color(series, real):
+    return CL_FINAL[series] if real else CL_RED[series]
+
+
+def panel_classes(ax, spec, name, tag, facts):
+    """(a) or (b): mean 90% half-width of H0 over the realizations against f_AGN; bars from the smallest to the largest."""
+    import classes as CLS
+    P = CLS.points(spec)
+    lab = cl_labels()
+    handles = {}
+    top = 0.0
+    for key in ("unknown", "pops", "pops2", "known", "host"):
+        pts = P.get(key) or []
+        if not pts:
+            continue
+        ls, mk = CL_STYLE[key]
+        allreal = all(p_["real"] for p_ in pts)
+        cline = cl_color(key, allreal)
+        x = np.array([p_["x"] for p_ in pts]) + CL_DODGE[key]
+        ms = fs.MS if mk != "D" else fs.MS - 0.6
+        if key != "host" and len(pts) > 1:
+            ax.plot(x, [p_["y"] for p_ in pts], ls=ls, color=cline, lw=1.2, zorder=3)
+        for xi, p_ in zip(x, pts):
+            c = cl_color(key, p_["real"])
+            ax.plot([xi, xi], [p_["lo"], p_["hi"]], color=c, lw=0.9, zorder=4, solid_capstyle="butt")
+            if key == "host":
+                ax.plot(xi, p_["y"], marker=mk, ms=fs.MS + 1.6, mfc="white", mec=c, mew=1.4, ls="none", zorder=6)
+            else:
+                ax.plot(xi, p_["y"], marker=mk, ms=ms, mfc=c, mec="white", mew=0.5, ls="none", zorder=5)
+            chk_macro(name, p_["macro"], p_["y"], f"{tag} {key} f={p_['x']:g} point")
+            chk_macro(name, p_["macro"] + "Min", p_["lo"], f"{tag} {key} f={p_['x']:g} bar bottom")
+            chk_macro(name, p_["macro"] + "Max", p_["hi"], f"{tag} {key} f={p_['x']:g} bar top")
+            top = max(top, p_["hi"])
+        handles[key] = (Line2D([], [], ls="none", marker=mk, ms=fs.MS + 1.6, mfc="white", mec=cline, mew=1.4) if key == "host" else
+                        Line2D([], [], ls=ls, lw=1.2, color=cline, marker=mk, ms=ms, mfc=cline, mec="white", mew=0.5))
+        facts.append((tag, lab[key], [(p_["x"], p_["macro"], p_["real"]) for p_ in pts]))
+    hl = sorted(((k, P[k][0]) for k in ("none", "galaxy") if P.get(k)), key=lambda kp: -kp[1]["y"])
+    for i, (k, p_) in enumerate(hl):
+        c = cl_color(k, p_["real"])
+        ax.axhline(p_["y"], color=c, lw=1.0, ls=CL_LINES[k], zorder=2)
+        chk_macro(name, p_["macro"], p_["y"], f"{tag} {k} line")
+        fs.label(ax, 1.045, p_["y"] / 1.03, lab[k], c, ha="right", va="top", fontsize=7.4)       # below its line, at the right
+        top = max(top, p_["y"])
+        facts.append((tag, lab[k] + " (horizontal line)", [(None, p_["macro"], p_["real"])]))
+    ax.set_ylim(0, 1.17 * top)
+    ax.yaxis.set_major_locator(plt.MaxNLocator(6, steps=[1, 2, 5, 10]))
+    ax.set_xlim(-0.06, 1.08)
+    ax.set_xticks([0, 0.1, 0.3, 0.5, 1.0])
+    ax.set_xticklabels(["0", "0.1", "0.3", "0.5", "1"])
+    ax.xaxis.set_minor_locator(plt.NullLocator())
+    ax.set_xlabel(r"Fraction of mergers hosted by AGN, $f_{\rm AGN}$")
+    return handles
+
+
+def panel_membership(axs, name, facts):
+    """(c): the probability of an AGN host of each merger of realization A (host-dependent populations, f_AGN = 0.3), by
+    true host class: positions alone (top), positions with masses and spins (bottom); means as triangles with their
+    values; the input fraction as a dashed line."""
+    import classes as CLS
+    bins = np.linspace(0, 1, 41)
+    data = {w: CLS.membership_draw(w) for w in ("Pos", "Pops")}
+    ymax = max(np.histogram(r, bins, density=True)[0].max() for d in data.values() for r in (d["r_agn"], d["r_gal"]))
+    top = 1.75 * ymax
+    words = {"Pos": "Positions alone", "Pops": "Positions with\nmasses and spins"}
+    for ax, w in zip(axs, ("Pos", "Pops")):
+        d = data[w]
+        cg, ca = (fs.GAL, AGN_DARK) if d["real"] else (RED[1], RED[2])
+        hg, _ = np.histogram(d["r_gal"], bins, density=True)
+        ha, _ = np.histogram(d["r_agn"], bins, density=True)
+        ax.stairs(hg, bins, fill=True, color=cg, alpha=0.35 if d["real"] else 0.40, lw=0, zorder=2)
+        ax.stairs(ha, bins, color=ca, lw=1.5, zorder=4)
+        ax.axvline(d["f_in"], color=fs.INPUT, lw=fs.LW_INPUT, ls=(0, (4, 2.5)), zorder=5)
+        chk(name, ("macros", "MockfAGN", "value"), d["f_in"], "(c) input fraction line")
+        ax.set_ylim(0, top)
+        printed = []
+        for mval, c, ha_, dx, mac in ((d["mean_gal"], cg, "right", -0.025, f"ProbGal{w}"), (d["mean_agn"], ca, "left", 0.025, f"ProbAGN{w}")):
+            ax.plot(mval, 0.89 * top, marker="v", ms=5.0, color=c, mec="white", mew=0.4, zorder=6, ls="none")
+            txt = f"{mval:.2f}"
+            ax.text(mval + dx, 0.89 * top, txt, color=c, ha=ha_, va="center", fontsize=7.0)
+            chk_macro(name, mac, mval, f"(c) {w} mean triangle")
+            chk_text(name, mac, txt, f"(c) {w} mean")
+            printed.append((txt, mac))
+        fs.panel_label(ax, words[w], x=0.97, y=0.76, ha="right", va="top", fontsize=7.2, linespacing=1.0)
+        ax.set_xlim(0, 1)
+        ax.yaxis.set_major_locator(plt.MaxNLocator(3, integer=True))
+        ax.xaxis.set_major_locator(plt.MultipleLocator(0.25))
+        ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}"))
+        ax.tick_params(axis="y", labelsize=fs.FS_TICK - 0.5)
+        facts.append(("(c)", words[w].replace("\n", " "), d, printed))
+    axs[0].text(data["Pos"]["f_in"], 1.02, r"$f_{\rm AGN}$", transform=axs[0].get_xaxis_transform(), ha="center", va="bottom", fontsize=7.4, color=fs.INPUT)
+    axs[0].tick_params(labelbottom=False)
+    axs[1].set_xlabel("Probability of an AGN host")
+    fs.panel_label(axs[0], "(c)", x=0.03, y=0.97)
+    return data
+
+
+def fig_classes(outdir=None):
+    name = "fig_classes"
+    W, H = fs.PAGE, 3.45
+    Tm, Bm = 0.62, 0.42                                  # top (legend) and bottom margins [in]
+    fig = plt.figure(figsize=(W, H))
+    bot, hgt = Bm / H, (H - Tm - Bm) / H
+    xa, wa, xb, wb = 0.47, 2.02, 2.74, 2.02
+    xc = xb + wb + 0.52
+    wc = W - xc - 0.06
+    axa = fig.add_axes([xa / W, bot, wa / W, hgt])
+    axb = fig.add_axes([xb / W, bot, wb / W, hgt])
+    gap = 0.07 / H
+    hc = (hgt - gap) / 2
+    axc1 = fig.add_axes([xc / W, bot + hc + gap, wc / W, hc])
+    axc2 = fig.add_axes([xc / W, bot, wc / W, hc], sharex=axc1)
+    facts = []
+    ha_ = panel_classes(axa, "peak", name, "(a)", facts)
+    hb_ = panel_classes(axb, "obslike", name, "(b)", facts)
+    axa.set_ylabel(r"90% half-width of $H_0$ [km s$^{-1}$ Mpc$^{-1}$]")
+    fs.panel_label(axa, "(a) peak-dominated spectrum", x=0.03, y=0.97, fontsize=8.5)
+    fs.panel_label(axb, "(b) observed-like spectrum", x=0.03, y=0.97, fontsize=8.5)
+    data = panel_membership((axc1, axc2), name, facts)
+    fig.text((xc - 0.34) / W, bot + hgt / 2, "Probability density", rotation=90, ha="center", va="center", fontsize=fs.FS_LABEL)
+    lab = cl_labels()
+    hs = {**hb_, **ha_}
+    order = [k for k in ("unknown", "known", "pops", "pops2", "host") if k in hs]
+    fig.legend([hs[k] for k in order], [lab[k] for k in order], loc="upper center", ncol=2, fontsize=7.4,
+               bbox_to_anchor=((xa + (xb + wb - xa) / 2) / W, 1.0), handlelength=2.6, columnspacing=1.6, labelspacing=0.32,
+               handletextpad=0.5, borderaxespad=0.25)
+    for mac in ("MockDmuG", "MockDmuChi"):
+        chk_text(name, mac, VALUES["macros"][mac]["render"], "legend offset")
+    # the key of (c), above it in the top margin
+    real = data["Pos"]["real"]
+    cg, ca = (fs.GAL, AGN_DARK) if real else (RED[1], RED[2])
+    fig.legend([Patch(facecolor=cg, alpha=0.35 if real else 0.40, lw=0), Line2D([], [], color=ca, lw=1.5)],
+               ["Truly hosted by galaxies", "Truly hosted by AGN"], loc="upper center", bbox_to_anchor=((xc + wc / 2) / W, 1.0),
+               fontsize=7.4, handlelength=1.5, labelspacing=0.32, borderaxespad=0.25, handletextpad=0.5)
+    fs.save(fig, outdir or FIGDIR, name)
+    write_classes_facts(facts, data)
+
+
+CF_BEGIN, CF_END = "<!-- fig_classes: written by scripts/make_figures.py; do not edit -->", "<!-- end fig_classes -->"
+
+
+def write_classes_facts(facts, data):
+    """The fig_classes section of figures/CAPTION_FACTS.md (between the two markers; inserted before Fig. 3 the first time)."""
+    import classes as CLS
+    V = VALUES["macros"]
+    fmt = lambda m: f"`\\{m}` = {unwrap_ph(V[m]['render'])} ({'real' if V[m]['class'] != 'ph' else 'red'})"
+    nreal = V["NrealClasses"]["value"]
+    L = [CF_BEGIN, "## Fig. `fig_classes` (Sec. IV B, after `fig2_anchor`; written by the figure script from values.json)", "",
+         f"- Width 7.0 in, height 3.45 in. (a), (b): the mean over the {nreal} realizations of the experiment (`\\NrealClasses`; realizations "
+         f"{V['NrealClasses']['extra']['realizations']}) of the 90% half-width of H0 of each realization (its run summary), against the input "
+         "f_AGN; bars from the smallest to the largest half-width over those realizations; population known, complete catalogs, 1000 detected "
+         "mergers. Points of one f are spread by up to +-0.05 in f so that they do not overlap. Horizontal lines: the mean half-width (no bar). "
+         "Final colours: host class unknown bluish green (circles, solid), host class known black (triangles, dotted), host-dependent populations "
+         "orange (squares, dashed; twice the offsets: brown diamonds, dashed; inferred with H0: open orange square), no catalog dark gray "
+         "(long dashes, labelled below the line), galaxy catalog alone blue (short dashes, labelled below the line). An element whose macro is red is drawn in red tones (same marker and line style); "
+         "a connecting line is red when any of its points is. No word in a panel marks a placeholder.",
+         "- (a) peak-dominated spectrum, equal populations except the host-dependent series (AGN-hosted mergers heavier by \\MockDmuG Msun, spin mean "
+         "higher by \\MockDmuChi). (b) observed-like spectrum, the same analyses at the fractions that were run. The open square is the "
+         "host-dependent populations analysis with the populations and H0 inferred (keys HDHost, ObsHost: \\NrealHD and \\NrealObs realizations).",
+         "- (c) realization A, host-dependent populations, input f_AGN = 0.3: histograms (40 bins on [0, 1], each class normalized to unit area) of "
+         "the probability of an AGN host of each of the 1000 mergers at the posterior median of its grid, f L_AGN / (f L_AGN + (1 - f) L_gal); "
+         "galaxy-hosted filled blue, AGN-hosted dark vermilion line; top: positions alone (one population held at its input), bottom: positions "
+         "with masses and spins (the two populations at their inputs); triangles at the means with their values printed; black dashed line at "
+         "the input f_AGN = 0.3 (`\\MockfAGN`). The key of (c) sits above it in the top margin; the key of (a, b) above them.", "",
+         "Series, points and their macros (each point: mean `\\HW...`, bar `...Min` to `...Max`):"]
+    for row in facts:
+        if row[0] in ("(a)", "(b)"):
+            tag, lab_, pts = row
+            nr = sum(1 for _, _, r in pts if r)
+            L.append(f"- {tag} {lab_}: {len(pts)} point{'s' if len(pts) != 1 else ''} ({nr} real, {len(pts) - nr} red): "
+                     + "; ".join(f"{'f=' + format(x, 'g') + ' ' if x is not None else ''}{fmt(m)} "
+                                 + (f"[{unwrap_ph(V[m + 'Min']['render'])}, {unwrap_ph(V[m + 'Max']['render'])}]" if x is not None else
+                                    f"(range over the realizations {unwrap_ph(V[m + 'Min']['render'])} to {unwrap_ph(V[m + 'Max']['render'])}, not drawn)")
+                                 for x, m, _ in pts))
+    for row in facts:
+        if row[0] == "(c)":
+            tag, lab_, d, printed = row
+            L.append(f"- (c) {lab_}: {'real' if d['real'] else 'red (placeholder shape: ' + d['how'] + ')'}; {len(d['r_agn'])} AGN-hosted and "
+                     f"{len(d['r_gal'])} galaxy-hosted mergers; printed means: " + ", ".join(f"{t} = {fmt(m)}" for t, m in printed))
+    L += ["- Numbers printed in the panels: the four means of (c) above; the legend's offsets 5 (`\\MockDmuG`) and 0.10 (`\\MockDmuChi`). "
+          "The figure check compares every drawn point, bar end and line with its macro (value and printed text) and the printed text with "
+          "the macro's text.", CF_END]
+    cf = FIGDIR / "CAPTION_FACTS.md"
+    t = cf.read_text()
+    block = "\n".join(L)
+    if CF_BEGIN in t:
+        t = t.split(CF_BEGIN)[0] + block + t.split(CF_END, 1)[1]
+    else:
+        i = t.index("## Fig. 3 ")
+        t = t[:i] + block + "\n\n" + t[i:]
+    cf.write_text(t)
+
+
 # ============================================================================================= #
 FIGS = {"fig1": fig1_mocks, "fig2": fig2_anchor, "fig3": fig3_flux_limits, "fig4": fig4_densities, "fig5": fig5_population,
-        "fig6": fig6_host_dependent, "fig7": fig7_observed_like, "fig8": fig8_summary, "fig9": fig9_validation}
+        "fig6": fig6_host_dependent, "fig7": fig7_observed_like, "fig8": fig8_summary, "fig9": fig9_validation, "classes": fig_classes}
 NAMES = {"fig1": "fig1_mocks", "fig2": "fig2_anchor", "fig3": "fig3_flux_limits", "fig4": "fig4_densities", "fig5": "fig5_population",
-         "fig6": "fig6_host_dependent", "fig7": "fig7_observed_like", "fig8": "fig8_summary", "fig9": "fig9_validation"}
+         "fig6": "fig6_host_dependent", "fig7": "fig7_observed_like", "fig8": "fig8_summary", "fig9": "fig9_validation", "classes": "fig_classes"}
 # the first-draft figures (functions above, kept to reproduce figures/v1/; not drawn by default)
 V1_FIGS = {"fig2_two_catalogs": fig2_two_catalogs, "fig3_host_information": fig3_host_information, "fig4_host_dependent_h0": fig4_host_dependent_h0,
            "fig5_offsets": fig5_offsets, "fig6_flux_limits": fig6_flux_limits, "fig7_free_densities": fig7_free_densities,
@@ -1659,7 +1921,7 @@ V1_FIGS = {"fig2_two_catalogs": fig2_two_catalogs, "fig3_host_information": fig3
 INPUT_MACROS = {"H0": "MockHzero", "f": "MockfAGN", "lognGal": "MockLognGal", "lognAGN": "MockLognAGN", "muG": "MockMuG",
                 "dmuG": "MockDmuG", "muChi": "MockMuChi", "dmuChi": "MockDmuChi", "sigmaG": "MockSigmaG", "sigmaChi": "MockSigmaChi"}
 INPUTS_DRAWN = {"fig1": ["muG", "dmuG", "muChi", "dmuChi"], "fig2": ["H0", "f"], "fig3": ["H0", "f"], "fig4": ["lognAGN", "f"], "fig5": ["H0", "muG"],
-                "fig6": ["H0", "f", "dmuG", "dmuChi"], "fig7": ["H0", "f", "dmuG", "dmuChi"], "fig8": ["H0", "f"], "fig9": ["H0", "f"]}
+                "fig6": ["H0", "f", "dmuG", "dmuChi"], "fig7": ["H0", "f", "dmuG", "dmuChi"], "fig8": ["H0", "f"], "fig9": ["H0", "f"], "classes": ["f"]}
 
 
 def main(argv):

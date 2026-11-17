@@ -1,7 +1,7 @@
 # Analysis 16 — production runs (driver, run list, submission, tests)
 
 **Status (2026-11-17, 10:45 UTC):** extended for the short paper's experiment
-(`paper_short_independent/EXPERIMENT.md`): five new analysis types, the experiment's run list
+(`archive/paper_short_independent/EXPERIMENT.md`): five new analysis types, the experiment's run list
 (`runs/RUNLIST_experiment.yaml`), explicit and pooled injection lanes, Analysis 14's settings for the
 all-AGN-hosted analyses, one GPU lane. Test (a) passed every criterion (`tests/results/closure.json`).
 Production stage 1 and all experiment grids (E1, E2) are queued on one chained lane job

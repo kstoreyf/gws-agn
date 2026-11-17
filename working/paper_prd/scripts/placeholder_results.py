@@ -34,8 +34,8 @@ Analysis 16's run lists) names, for each key whose runs are in analyses/analysis
 RUNLIST.yaml or RUNLIST_experiment.yaml, its runs: realization A (100), the realizations combined, and per
 quantity the summary.json field, the combination and the input of the credible level. When EVERY summary.json
 the key needs exists, scripts/production.py builds the entry from them (realization A: the summary's median and
-90% interval, the shape from the run's grid or samples; Comb and CL: the letter's results.py combination, ln L
-of the grids summed or the product of the kernel densities of nested runs) and marks it final (black). A key
+90% interval, the shape from the run's grid or samples; Comb and CL: scripts/run_posteriors.py, ln L of the grids
+summed or the product of the kernel densities of nested runs) and marks it final (black). A key
 with only part of its runs finished keeps its placeholder entry unchanged (red) and is listed as partial in
 "_production_status"; keys without a run in the lists are listed there as well. Keys the map does not name are
 built exactly as before. (The old form of the map, key -> a JSON file with the schema of one entry, still works.)
@@ -77,11 +77,14 @@ KEY_SELECTOR = {   # key -> the run-list arguments of its runs (realization excl
     "HDSingle": dict(analysis="single_population", catalogs="both", flux="complete", events="host_dependent"),
     "HDHost": dict(analysis="host_dependent_populations", catalogs="both", flux="complete", events="host_dependent"),
     "HDNone": dict(analysis="single_population", catalogs="none", flux="complete", events="host_dependent"),
+    "ObsSingle": dict(analysis="single_population", catalogs="both", flux="complete", events="host_dependent", suffix="_obslike"),
+    "ObsHost": dict(analysis="host_dependent_populations", catalogs="both", flux="complete", events="host_dependent", suffix="_obslike"),
+    "ObsNone": dict(analysis="single_population", catalogs="none", flux="complete", events="host_dependent", suffix="_obslike"),
 }
 for _k, _w, _m in bv.RUNGS:
     KEY_SELECTOR[f"Flux{_w}"] = dict(analysis="known_population", catalogs="both", flux=str(_m), events="equal_populations", density="counts")
     KEY_SELECTOR[f"Free{_w}"] = dict(analysis="free_densities", catalogs="both", flux=str(_m), events="equal_populations", density="free")
-# the two control keys are runs of the letter's experiment (RUNLIST_experiment.yaml): its f = 0 and f = 0.1 sets of the
+# the two control keys are runs of the experiment (RUNLIST_experiment.yaml, Sec. IV B): its f = 0 and f = 0.1 sets of the
 # peak-dominated family, both catalogs, f_AGN free (two_tracers_one_population = population known, both catalogs)
 RUNLIST_EXP = RUNLIST.parent / "RUNLIST_experiment.yaml"
 EXP_SELECTOR = {"CtrlZero": ("two_tracers_one_population", "peak_f0p00_s0"), "CtrlTenth": ("two_tracers_one_population", "peak_f0p10_s0")}
@@ -106,9 +109,6 @@ RUNREAL_EXP = _experiment_realizations()
 NOT_IN_RUNLIST = {
     "CtrlZero": (5, "run R4 of runs.txt (no AGN-hosted mergers), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"),
     "CtrlTenth": (5, "run R4 of runs.txt (one merger in ten AGN-hosted), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"),
-    "ObsSingle": (5, "Stage 5 of runs.txt (observed-like spectrum, 5 realizations), not yet in the run list"),
-    "ObsHost": (5, "Stage 5 of runs.txt (observed-like spectrum, 5 realizations), not yet in the run list"),
-    "ObsNone": (5, "Stage 5 of runs.txt (observed-like spectrum, 5 realizations), not yet in the run list"),
 }
 
 
@@ -126,6 +126,8 @@ def _runlist_realizations():
             sel = dict(analysis=kv["analysis"], catalogs=kv["catalogs"], flux=kv["flux"], events=kv["events-kind"])
             if "density" in kv:
                 sel["density"] = kv["density"]
+            if kv.get("events-suffix"):                       # Stage 5: the observed-like family (--events-suffix _obslike)
+                sel["suffix"] = kv["events-suffix"]
             for key, want in KEY_SELECTOR.items():
                 if want == sel:
                     out.setdefault(key, set()).add(int(kv["realization"]))
@@ -143,7 +145,7 @@ STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": 
                         "run R4 of runs.txt (not yet in the run list)"), "flux": "Stage 2: flux-limited catalogs, densities from catalog counts",
                "free": "Stage 2: number densities inferred", "single": "Stage 3: single population, equal populations",
                "hdsingle": "Stage 4: host-dependent events, single population", "hdhost": "Stage 4: host-dependent events, host-dependent populations",
-               "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events (not yet in the run list)"}
+               "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events"}
 PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "SigmaG": (1.0, 10.0), "MuChi": (-0.2, 0.3), "SigmaChi": (0.01, 1.0),
          "DmuG": (-10.0, 10.0), "DmuChi": (-0.05, 0.30), "LognGal": (-4.0, -1.0), "LognAGN": (-6.0, -4.0), "RateRatio": (0.0, 400.0)}
 UNIT = {"Hzero": "km/s/Mpc", "fAGN": "", "MuG": "Msun", "SigmaG": "Msun", "MuChi": "", "SigmaChi": "", "DmuG": "Msun", "DmuChi": "",
@@ -166,6 +168,58 @@ _obs_un = bv.jload(OBSJ)["design"]["unchanged_from_present_family"]
 assert abs(_obs_un["host_dependent_offsets"]["dmu_G"] - IN["dmuG"]) < 1e-12 and abs(_obs_un["host_dependent_offsets"]["dmu_chi"] - IN["dmuChi"]) < 1e-12
 assert abs(_obs["mu_chi"] - IN["muChi"]) < 1e-12 and abs(_obs["sigma_chi"] - IN["sigmaChi"]) < 1e-12 and abs(_obs_un["f_agn"] - IN["f"]) < 1e-12
 INPUT_OBS = dict(INPUT, MuG=float(_obs["mu_G"]), SigmaG=float(_obs["sigma_G"]))
+
+
+# ---------------------------------------------------------------- the experiment's numbers (Sec. IV B; scripts/classes.py)
+# Expected values of the macros of scripts/classes.py, used (red) while a run is missing. Copied on 17 Nov from the
+# archived letter: its values_independent.tex (the \ph{...} expected values; 'letter macro <name>') and its
+# scripts/results_map.json (the invented points of its Fig. 3; 'letter Fig. 3 point'). Where the letter had none:
+# 'invented', with the rule. The smallest and largest value over realizations of a placeholder half-width are the
+# value times 0.9 and 1.1 (the letter's placeholder bars).
+LETTER_FIG3_RULE = ("information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; "
+                    "host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) "
+                    "of the gap at f = 0.3)")
+CLASS_SPREAD = 0.10
+CLASS_EXPECTED = {
+    "HWUnknownZero": (3.59, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWUnknownTen": (2.4, "letter macro IndHWMixTenth"),
+    "HWUnknownThirty": (2.0, "letter macro IndHWMix"), "HWUnknownFifty": (1.33, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
+    "HWUnknownHundred": (0.84, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
+    "HWKnownZero": (3.4, "letter macro IndHWGal"), "HWKnownTen": (2.0, "letter macro IndHWKnownTenth"), "HWKnownThirty": (1.3, "letter macro IndHWKnown"),
+    "HWKnownFifty": (1.05, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWKnownHundred": (0.8, "letter macro IndHWAGN"),
+    "HWNone": (6.0, "letter macro IndHWSpec"),
+    "HWKnownAGNThirty": (1.5, "letter macro IndHWKnownAGNPart"),
+    "HWKnownAGNTen": (2.6, "invented: the AGN-hosted mergers at f = 0.1 are a third of those at 0.3, so their half-width is sqrt(3) times IndHWKnownAGNPart"),
+    "HWPopsTen": (2.21, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWPopsThirty": (1.5, "letter macro IndHWMark"),
+    "HWPopsFifty": (1.19, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
+    "HWPopsTwiceTen": (2.11, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWPopsTwiceThirty": (1.4, "letter macro IndHWMarkTwice"),
+    "HWPopsTwiceFifty": (1.12, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
+    **{f"HW{pre}Known{tag}{w}": ("same_mergers", "invented: HW" + pre + "Known" + w + " (host class known, equal-population mergers, same f) "
+                                 "rescaled by the letter's information model, 1/hw^2 = (1 - x)/HW" + pre + "KnownZero^2 + x/HW" + pre +
+                                 "KnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the "
+                                 "host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)")
+       for pre, tag, w in (("", "Pops", "Ten"), ("", "Pops", "Thirty"), ("", "Pops", "Fifty"), ("", "PopsTwice", "Ten"),
+                           ("", "PopsTwice", "Thirty"), ("", "PopsTwice", "Fifty"), ("Obs", "Pops", "Thirty"))},
+    "HWHost": (2.1, "letter macro IndTwoPopHW"),
+    "HWObsNone": (10.0, "letter macro IndObsHWSpec"),
+    "HWObsUnknownZero": (8.21, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWObsUnknownThirty": (2.1, "letter macro IndObsHWMix"),
+    "HWObsUnknownHundred": (0.84, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
+    "HWObsKnownZero": (8.0, "letter Fig. 3 point (invented: the catalogs matter more than for the sharp mass scale)"),
+    "HWObsKnownThirty": (1.37, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWObsKnownHundred": (0.8, "letter macro IndObsHWAGN"),
+    "HWObsPopsThirty": (1.62, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
+    "HWObsHost": (None, "the paper's placeholder of key ObsHost: half the 90% width of H0 of realization A (placeholder_results.json keys.ObsHost)"),
+    "ProbAGNEqual": (0.33, "invented: positions alone, equal populations, as the letter's IndProbAGNPos less the effect of the heavier AGN-hosted mergers"),
+    "ProbGalEqual": (0.25, "invented: as ProbAGNEqual"),
+    "ProbAGNPos": (0.36, "letter macro IndProbAGNPos"), "ProbGalPos": (0.27, "letter macro IndProbGalPos"),
+    "ProbAGNPops": (0.41, "letter macro IndProbAGNMark"), "ProbGalPops": (0.25, "letter macro IndProbGalMark"),
+    "ProbAGNPosTwice": ("ProbAGNPos", "invented: positions alone carry the same information as with the smaller offsets (= ProbAGNPos)"),
+    "ProbGalPosTwice": ("ProbGalPos", "invented: = ProbGalPos"),
+    "ProbAGNPopsTwice": ("double", "invented: a calibrated classifier (log-likelihood ratios Gaussian, mean +-s^2/2, variance s^2) matched to "
+                                   "ProbAGNPops, its separation s doubled with the offsets; the mean over the truly AGN-hosted mergers"),
+    "ProbGalPopsTwice": ("double", "invented: as ProbAGNPopsTwice, the mean over the truly galaxy-hosted mergers"),
+    "KnownAGNNoPeak": (4, "the skeleton's Sec. 9.1 (four of five realizations)"),
+    "KnownAGNPeakOneHzero": ((76.8, 75.5, 78.1), "the skeleton's Sec. 9.1 (76.8 [75.5, 78.1])"),
+    "KnownAGNPeakOneHzeroCL": (0.9999, "the skeleton's Sec. 9.1 (the interval excludes the input)"),
+}
 
 
 # ---------------------------------------------------------------- shapes and summaries
@@ -460,19 +514,24 @@ def build():
         INP = INPUT if pre == "HD" else INPUT_OBS
         inv_note = None if pre == "HD" else (f"observed-like inputs (data/obslike): mass peak {INP['MuG']:g} Msun, width {INP['SigmaG']:g} Msun; "
                                              "the invented medians keep their offsets from the inputs of the earlier placeholder")
+        # H0, f_AGN and the offsets of the observed-like keys: PAPER_SKELETON Sec. 7 as revised on 17 Nov evening (H0 of ObsSingle 68.4 +- 2.4,
+        # bias about 0.7; ObsHost 67.9 +- 2.3; ObsNone 70 +- 13); what Sec. 7 does not state (population parameters, the f_AGN shift and
+        # the H0 shift of ObsNone kept in the combination, the correlation of the offsets) is kept from the earlier placeholder
+        sec7_note = "PAPER_SKELETON Sec. 7, revised 17 Nov evening"
+        qnote = lambda q: (sec7_note if q in ("Hzero", "fAGN", "DmuG", "DmuChi") else inv_note) if pre == "Obs" else None
         # single population (biased); the observed-like medians sit at the same offsets from the observed-like inputs
         E = entry(ev, "single population", "both catalogs, complete", "six", stage_s, f"{pre}Single")
         if pre == "HD":
             spec = {"Hzero": (70.9, 2.6, 3.0), "fAGN": (0.24, 0.09, -0.05), "MuG": (36.4, 0.6, 1.4), "SigmaG": (5.6, 0.4, 0.6), "MuChi": (0.030, 0.010, 0.03), "SigmaChi": (0.110, 0.008, 0.01)}
         else:
-            spec = {"Hzero": (69.0, 5.0, 1.0), "fAGN": (0.27, 0.10, -0.03), "MuG": (INP["MuG"] + 0.4, 1.2, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 0.8, 0.3),
+            spec = {"Hzero": (68.4, 2.4, 0.7), "fAGN": (0.27, 0.09, -0.03), "MuG": (INP["MuG"] + 0.4, 1.2, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 0.8, 0.3),
                     "MuChi": (0.030, 0.014, 0.03), "SigmaChi": (0.110, 0.012, 0.01)}
         for q, (m, hw, b) in spec.items():
             x0 = INP[q] if q in ("Hzero", "fAGN") else None
             A = gauss_xp(m, hw, PRIOR[q], x0)
             ref = INP[q]
             q_put(E, q, A, invented_comb(A, E["N_comb"], ref, bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
-                  note=("one population for a mixture: no single input" if x0 is None else None) if inv_note is None else inv_note)
+                  note=("one population for a mixture: no single input" if x0 is None else None) if inv_note is None else qnote(q))
         K[f"{pre}Single"] = E
         # host-dependent populations
         E = entry(ev, "host-dependent populations", "both catalogs, complete", "eight", "hdhost" if pre == "HD" else "obs", f"{pre}Host")
@@ -483,12 +542,12 @@ def build():
                       note="H0 prior [60, 76] in the exploratory run" if q == "Hzero" else None)
             E["joint"]["A"] = joint_samples(c13.col("dmu_G"), c13.col("dmu_chi"), box13["dmu_G"], box13["dmu_chi"], "DmuG", "DmuChi", nb=50) | {"file": rel(p13)}
         else:
-            spec = {"Hzero": (67.9, 5.2), "fAGN": (0.30, 0.08), "MuG": (INP["MuG"], 1.2), "SigmaG": (INP["SigmaG"], 0.8), "MuChi": (0.000, 0.014), "SigmaChi": (0.100, 0.012),
+            spec = {"Hzero": (67.9, 2.3), "fAGN": (0.30, 0.08), "MuG": (INP["MuG"], 1.2), "SigmaG": (INP["SigmaG"], 0.8), "MuChi": (0.000, 0.014), "SigmaChi": (0.100, 0.012),
                     "DmuG": (4.5, 3.5), "DmuChi": (0.10, 0.04)}
             for q, (m, hw) in spec.items():
                 A = gauss_xp(m, hw, PRIOR[q], INP[q])
                 q_put(E, q, A, invented_comb(A, E["N_comb"], INP[q], rng=PRIOR[q]), "invented", "invented", x0=INP[q],
-                      note=inv_note if q in ("MuG", "SigmaG") else None)
+                      note=inv_note if q in ("MuG", "SigmaG") else (sec7_note if q in ("Hzero", "fAGN", "DmuG", "DmuChi") else None))
             E["joint"]["A"] = joint_gauss(E["quantities"]["DmuG"]["A"], E["quantities"]["DmuChi"]["A"], "DmuG", "DmuChi", rho13)
         E["joint"]["Comb"] = joint_gauss(E["quantities"]["DmuG"]["Comb"], E["quantities"]["DmuChi"]["Comb"], "DmuG", "DmuChi", rho13) | {
             "correlation_from": rel(p13)}
@@ -501,13 +560,13 @@ def build():
         if pre == "HD":
             spec = {"Hzero": (73.0, 9.0, 5.0), "MuG": (36.4, 1.6, 1.4), "SigmaG": (5.6, 0.5, 0.6), "MuChi": (0.030, 0.012, 0.03), "SigmaChi": (0.110, 0.010, 0.01)}
         else:
-            spec = {"Hzero": (70.0, 14.0, 2.0), "MuG": (INP["MuG"] + 0.4, 2.4, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 1.0, 0.3), "MuChi": (0.030, 0.016, 0.03),
+            spec = {"Hzero": (70.0, 13.0, 2.0), "MuG": (INP["MuG"] + 0.4, 2.4, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 1.0, 0.3), "MuChi": (0.030, 0.016, 0.03),
                     "SigmaChi": (0.110, 0.014, 0.01)}
         for q, (m, hw, b) in spec.items():
             x0 = INP[q] if q == "Hzero" else None
             A = gauss_xp(m, hw, PRIOR[q], x0)
             q_put(E, q, A, invented_comb(A, E["N_comb"], INP[q], bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
-                  note=inv_note)
+                  note=qnote(q))
         K[f"{pre}None"] = E
     # Bayes factors of the anchor from the stored grids (exploratory)
     vals = {}
@@ -535,7 +594,10 @@ def main():
            "_conventions": __doc__, "_inputs": {**INPUT, "RateRatio_note": "[0.30/0.70] N_gal/N_AGN of the reference catalog pair"},
            "_inputs_observed_like": {**INPUT_OBS, "file": bv.rel(OBSJ)},
            "_realizations_combined": {k: {"N": v[0], "source": v[1], "realizations": RUNREAL.get(k, RUNREAL_EXP.get(k))} for k, v in NREAL.items()},
-           "_production_map": bv.rel(PMAP), "_production_status": status, "keys": bv.jsonable(K)}
+           "_production_map": bv.rel(PMAP), "_production_status": status, "keys": bv.jsonable(K),
+           "classes_expected": {"_what": "expected values of the macros of scripts/classes.py (red while a run is missing); "
+                                         f"placeholder bars of a half-width: the value times {1 - CLASS_SPREAD:g} and {1 + CLASS_SPREAD:g}",
+                                "values": {k: {"value": v, "source": src} for k, (v, src) in CLASS_EXPECTED.items()}}}
     OUTJ.write_text(json.dumps(doc, indent=0))
     n = sum(len(E["quantities"]) for E in K.values())
     print(f"wrote {OUTJ.relative_to(PRD)}: {len(K)} keys, {n} key-quantities")

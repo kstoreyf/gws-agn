@@ -9,6 +9,9 @@
   "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
   "A key is real when every summary named exists (all realizations and the runs it depends on); otherwise it stays the placeholder of",
   "  placeholder_results.py (partial when some exist). Keys of the paper with no run in the lists: not_in_run_lists.",
+  "classes: the macros of Sec. IV B and of the experiment's numbers elsewhere (scripts/classes.py, notes/PAPER_SKELETON.md Sec. 9):",
+  "  classes.<macro>: run (pattern, '{R}' = three-digit realization), runlist, stage, realizations, how (mean_hw | factor_hw | membership |",
+  "  interior); derived macros (cost, share) name the macros they are computed from. A macro is real when every summary it names exists.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
  ],
  "runs_root": "analyses/analysis_16_production_runs/runs",
@@ -53,7 +56,7 @@
        109,
        110
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -80,7 +83,7 @@
        109,
        110
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -125,7 +128,7 @@
      "A",
      "Comb"
     ],
-    "how": "results.grid_joint"
+    "how": "run_posteriors.grid_joint"
    },
    "LB": {
     "kind": "savage_dickey_f0",
@@ -162,7 +165,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -201,7 +204,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -240,7 +243,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -279,7 +282,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -318,7 +321,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -357,7 +360,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -379,7 +382,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -396,7 +399,7 @@
      "A",
      "Comb"
     ],
-    "how": "results.grid_joint"
+    "how": "run_posteriors.grid_joint"
    },
    "LB": {
     "kind": "savage_dickey_f0",
@@ -433,7 +436,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -455,7 +458,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -472,7 +475,7 @@
      "A",
      "Comb"
     ],
-    "how": "results.grid_joint"
+    "how": "run_posteriors.grid_joint"
    },
    "LB": {
     "kind": "savage_dickey_f0",
@@ -519,7 +522,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -546,7 +549,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -573,7 +576,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -600,7 +603,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -627,7 +630,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -654,7 +657,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -714,7 +717,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -741,7 +744,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -768,7 +771,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -795,7 +798,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -822,7 +825,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -860,7 +863,7 @@
     110
    ],
    "realization_A": 100,
-   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of the realization's record lane",
+   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -882,7 +885,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -909,7 +912,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -936,7 +939,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -964,7 +967,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -992,7 +995,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1020,7 +1023,7 @@
        109,
        110
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1043,7 +1046,7 @@
     105
    ],
    "realization_A": 100,
-   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of the realization's record lane",
+   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -1060,7 +1063,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1082,7 +1085,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1104,7 +1107,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1126,7 +1129,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1148,7 +1151,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1170,7 +1173,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1192,7 +1195,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1214,7 +1217,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1255,7 +1258,7 @@
     105
    ],
    "realization_A": 100,
-   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of the realization's record lane",
+   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -1272,7 +1275,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1294,7 +1297,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1317,7 +1320,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1340,7 +1343,7 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1363,7 +1366,503 @@
        103,
        105
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    }
+   }
+  },
+  "ObsSingle": {
+   "run": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "5",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "injection lane injections/injections_targeted_obslike.h5",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    }
+   }
+  },
+  "ObsHost": {
+   "run": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "5",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "injection lane injections/injections_targeted_obslike.h5",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_G of the summaries"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_G of the summaries"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_chi of the summaries"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_chi of the summaries"
+     }
+    },
+    "DmuG": {
+     "param": "dmu_G",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.dmu_G"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.dmu_G of the summaries"
+     }
+    },
+    "DmuChi": {
+     "param": "dmu_chi",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.dmu_chi"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.dmu_chi of the summaries"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "dmu_G",
+     "dmu_chi"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "kernel density on a lattice; Comb the product"
+   },
+   "LB": {
+    "kind": "evidence_ratio",
+    "reference_run": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+    "reference_key": "ObsSingle",
+    "reference": "the single-population analysis of the same events, same priors (Table I)",
+    "A": "(ln Z - ln Z_ref)/ln 10 of realization A (summary ln_evidence)",
+    "Comb": "sum over the realizations of (ln Z - ln Z_ref)/ln 10 (each realization analysed on its own)"
+   }
+  },
+  "ObsNone": {
+   "run": "single_population/no_catalog/complete/host_dependent_obslike/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "5",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "injection lane injections/injections_targeted_obslike.h5",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent_obslike/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1403,7 +1902,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -1425,7 +1924,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -1483,7 +1982,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1503,7 +2002,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1617,7 +2116,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -1639,7 +2138,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -1697,7 +2196,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1717,7 +2216,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1831,7 +2330,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -1853,7 +2352,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -1911,7 +2410,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -1931,7 +2430,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -2045,7 +2544,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -2067,7 +2566,7 @@
        103,
        105
       ],
-      "combine": "grid ln L summed (results.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
      "CL": {
       "of": "Comb",
@@ -2125,7 +2624,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -2145,7 +2644,7 @@
        101,
        102
       ],
-      "combine": "product of the kernel densities (results.chain_marginal_product)"
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
      "CL": {
       "of": "Comb",
@@ -2230,9 +2729,724 @@
    "prior_induced_from": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100"
   }
  },
- "not_in_run_lists": {
-  "ObsSingle": "observed-like spectrum, host-dependent events, single population, both catalogs (runs.txt Stage 5)",
-  "ObsHost": "observed-like spectrum, host-dependent events, host-dependent populations, both catalogs (runs.txt Stage 5)",
-  "ObsNone": "observed-like spectrum, host-dependent events, single population, no catalog (runs.txt Stage 5)"
+ "not_in_run_lists": {},
+ "classes": {
+  "macros": {
+   "HWUnknownZero": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWUnknownTen": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWUnknownThirty": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWUnknownFifty": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWUnknownHundred": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_{R}_s32000_inj6",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownZero": {
+    "run": "galaxy_catalog_alone/galaxy_catalog/complete/peak_f0p00_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownTen": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p10_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownThirty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownFifty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownHundred": {
+    "run": "known_population/agn_catalog/complete/agn_hosted/realization_{R}_s32000_inj6",
+    "runlist": "RUNLIST.yaml",
+    "stage": "1 (reused by the experiment)",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWNone": {
+    "run": "mass_spectrum_alone/no_catalog/complete/peak_f0p00_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWPopsTen": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWPopsThirty": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWPopsFifty": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWPopsTwiceTen": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWPopsTwiceThirty": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWPopsTwiceFifty": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownPopsTen": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownPopsThirty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s1/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownPopsFifty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownPopsTwiceTen": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownPopsTwiceThirty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWKnownPopsTwiceFifty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWHost": {
+    "run": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}",
+    "runlist": "RUNLIST.yaml",
+    "stage": "4",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "key": "HDHost",
+    "how": "mean_hw"
+   },
+   "HWObsUnknownZero": {
+    "run": "two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsUnknownThirty": {
+    "run": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsUnknownHundred": {
+    "run": "two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsKnownZero": {
+    "run": "galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsKnownThirty": {
+    "run": "hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsKnownHundred": {
+    "run": "hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsNone": {
+    "run": "mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsPopsThirty": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsKnownPopsThirty": {
+    "run": "hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E2",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "mean_hw"
+   },
+   "HWObsHost": {
+    "run": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+    "runlist": "RUNLIST.yaml",
+    "stage": "5",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "key": "ObsHost",
+    "how": "mean_hw"
+   },
+   "HWKnownAGNTen": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p10_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "factor_hw",
+    "factor": "agn"
+   },
+   "HWKnownAGNThirty": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "factor_hw",
+    "factor": "agn"
+   },
+   "ShareAGNTen": {
+    "how": "derived",
+    "fn": "share",
+    "from": [
+     "HWKnownTen",
+     "HWKnownAGNTen"
+    ]
+   },
+   "ShareAGNThirty": {
+    "how": "derived",
+    "fn": "share",
+    "from": [
+     "HWKnownThirty",
+     "HWKnownAGNThirty"
+    ]
+   },
+   "CostUnknownTen": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWUnknownTen",
+     "HWKnownTen"
+    ]
+   },
+   "CostUnknownThirty": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWUnknownThirty",
+     "HWKnownThirty"
+    ]
+   },
+   "CostUnknownFifty": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWUnknownFifty",
+     "HWKnownFifty"
+    ]
+   },
+   "CostPopsTen": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWPopsTen",
+     "HWKnownPopsTen"
+    ]
+   },
+   "CostPopsThirty": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWPopsThirty",
+     "HWKnownPopsThirty"
+    ]
+   },
+   "CostPopsFifty": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWPopsFifty",
+     "HWKnownPopsFifty"
+    ]
+   },
+   "CostPopsTwiceTen": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWPopsTwiceTen",
+     "HWKnownPopsTwiceTen"
+    ]
+   },
+   "CostPopsTwiceThirty": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWPopsTwiceThirty",
+     "HWKnownPopsTwiceThirty"
+    ]
+   },
+   "CostPopsTwiceFifty": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWPopsTwiceFifty",
+     "HWKnownPopsTwiceFifty"
+    ]
+   },
+   "ProbAGNEqual": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbGalEqual": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAGNPos": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbGalPos": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAGNPops": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbGalPops": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAGNPosTwice": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbGalPosTwice": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAGNPopsTwice": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbGalPopsTwice": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "KnownAGNNoPeak": {
+    "run": "known_population/agn_catalog/complete/equal_populations/realization_{R}",
+    "runlist": "RUNLIST.yaml",
+    "stage": "1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "key": "KnownAGN",
+    "how": "interior"
+   }
+  },
+  "not_in_run_lists": {}
  }
 }

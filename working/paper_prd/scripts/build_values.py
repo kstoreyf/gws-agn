@@ -97,6 +97,9 @@ def jload(p):
 # inputs of the simulated catalogs (read from the data files, see mock section)
 # --------------------------------------------------------------------------------------------- #
 META100 = DATA / "seed100" / "META.json"
+# the detected mergers of the reference catalog (realization A, equal populations): the production event set of Analysis 16
+EV_REF = DATA / "seed100" / "events" / "events_corepop.h5"
+EV_REF_META = DATA / "seed100" / "events" / "events_meta_corepop.json"
 
 
 def _inputs():
@@ -586,13 +589,24 @@ def build_mock():
     add("MockHzero", "plain", fnum(IN["H0"], 2), IN["H0"], "km/s/Mpc", "input Hubble constant", src("stages.events.cosmology.H0"), "mock")
     add("MockOmegam", "plain", fnum(ev["cosmology"]["Om0"], 4), ev["cosmology"]["Om0"], "", "input matter density Omega_m (fixed in every analysis)", src("stages.events.cosmology.Om0"), "mock")
     add("MockfAGN", "plain", fnum(IN["f"], 2), IN["f"], "", "input fraction of mergers hosted by AGN", src("stages.events.planted_f_agn"), "mock")
-    rf = ev["realised"]["realised_f_agn"]
-    add("MockfAGNRealised", "plain", fnum(rf, 3), rf, "", "realised AGN-hosted fraction of the 1000 detected events of the reference catalog", src("stages.events.realised.realised_f_agn"), "mock")
+    # the detected mergers of the reference catalog: the production event set of realization A (events_corepop.h5, the equal-population
+    # set every production analysis of Analysis 16 reads; until 17 Nov the older events.h5 of META.json, 295 AGN-hosted instead of 298)
+    evr = jload(EV_REF_META)["realised"]
+    srce = lambda key: {"file": rel(EV_REF_META), "key": key}
+    rf = evr["realised_f_agn"]
+    add("MockfAGNRealised", "plain", fnum(rf, 3), rf, "", "realised AGN-hosted fraction of the 1000 detected events of the reference catalog", srce("realised.realised_f_agn"), "mock")
     ng, na = m["config"]["glass"]["n_comoving_gal"], m["config"]["glass"]["n_comoving_agn"]
     add("MocknGal", "plain", f"10^{{{int(round(math.log10(ng)))}}}", ng, "Mpc^-3", "comoving number density of the galaxy catalog", src("config.glass.n_comoving_gal"), "mock")
     add("MocknAGN", "plain", f"10^{{{int(round(math.log10(na)))}}}", na, "Mpc^-3", "comoving number density of the AGN catalog", src("config.glass.n_comoving_agn"), "mock")
     add("MockLognGal", "plain", fnum(IN["lognGal"], 1), IN["lognGal"], "log10 Mpc^-3", "log10 of the galaxy number density (input of the free-abundance analysis)", src("config.glass.n_comoving_gal"), "mock")
     add("MockLognAGN", "plain", fnum(IN["lognAGN"], 1), IN["lognAGN"], "log10 Mpc^-3", "log10 of the AGN number density", src("config.glass.n_comoving_agn"), "mock")
+    # the same in the units the production analyses sample, h^3 Mpc^-3 (Table I gives priors and inputs in one unit): log10 n - 3 log10 h
+    lh = 3 * math.log10(IN["H0"] / 100.0)
+    for nm, k, what in (("MockLognGalh", "lognGal", "galaxy"), ("MockLognAGNh", "lognAGN", "AGN")):
+        v = IN[k] - lh
+        add(nm, "plain", fnum(v, 2), v, "log10 h^3 Mpc^-3", f"log10 of the {what} number density in h^3 Mpc^-3, the units in which the production analyses sample it "
+            f"(= Mock{k[0].upper() + k[1:]} - 3 log10 h, h = MockHzero/100; the priors PriorLogn...Lo/Hi are in these units)",
+            {"file": rel(META100), "key": f"config.glass.n_comoving_{k[4:].lower()}", "computation": "log10 n - 3 log10(H0/100), H0 = stages.events.cosmology.H0"}, "mock")
     add("MockbGal", "plain", fnum(m["config"]["glass"]["bias_gal"], 1), m["config"]["glass"]["bias_gal"], "", "linear bias of the galaxies", src("config.glass.bias_gal"), "mock")
     add("MockbAGN", "plain", fnum(m["config"]["glass"]["bias_agn"], 1), m["config"]["glass"]["bias_agn"], "", "linear bias of the AGN", src("config.glass.bias_agn"), "mock")
     xc = cat["magnitude_model"]["x_cut_L_over_Lstar"]
@@ -613,10 +627,10 @@ def build_mock():
     add("MockNsamp", "plain", str(ev["nsamp"]), ev["nsamp"], "samples", "posterior samples per event", src("stages.events.nsamp"), "mock")
     thr = ev["detection"]["snr_threshold"]
     add("MockSNRthr", "plain", fnum(thr, 0), thr, "", "detection threshold on the observed signal-to-noise ratio", src("stages.events.detection.snr_threshold"), "mock")
-    hz = ev["realised"]["horizon_z_max_detected"]
-    add("MockzHorizon", "plain", fnum(hz, 2), hz, "", "largest true redshift of a detected event, reference catalog (the horizon)", src("stages.events.realised.horizon_z_max_detected"), "mock")
-    zmed = ev["realised"]["z_median_detected"]
-    add("MockzMedian", "plain", fnum(zmed, 2), zmed, "", "median redshift of the detected events, reference catalog", src("stages.events.realised.z_median_detected"), "mock")
+    hz = evr["horizon_z_max_detected"]
+    add("MockzHorizon", "plain", fnum(hz, 2), hz, "", "largest true redshift of a detected event, reference catalog (the horizon)", srce("realised.horizon_z_max_detected"), "mock")
+    zmed = evr["z_median_detected"]
+    add("MockzMedian", "plain", fnum(zmed, 2), zmed, "", "median redshift of the detected events, reference catalog", srce("realised.z_median_detected"), "mock")
     # horizon range over the catalogs of the complete-catalog joint analysis
     hz9 = {s: jload(DATA / f"seed{s}" / "events" / "events_meta.json")["realised"]["horizon_z_max_detected"] for s in C1_SEEDS}
     add("MockzHorizonMin", "plain", fnum(min(hz9.values()), 2), min(hz9.values()), "", "smallest horizon over the 9 catalogs of the joint analysis", {"files": [rel(DATA / f"seed{s}/events/events_meta.json") for s in C1_SEEDS], "key": "realised.horizon_z_max_detected", "computation": "min"}, "mock")
@@ -649,7 +663,9 @@ def build_mock():
     add("MockMuChi", "plain", fnum(p["chi_mu"], 0), p["chi_mu"], "", "mean effective spin (galaxy hosts)", src("stages.events.population.chi_mu"), "mock")
     add("MockSigmaChi", "plain", fnum(p["chi_sigma"], 1), p["chi_sigma"], "", "width of the effective-spin distribution", src("stages.events.population.chi_sigma"), "mock")
     add("MockGammaRate", "plain", fnum(ev["gamma"], 0), ev["gamma"], "", "redshift evolution index of the merger rate, (1+z)^gamma", src("stages.events.gamma"), "mock")
-    hdp = DATA / "seed100" / "events" / "events_meta_marked_dmu0p10_dmuG5.json"
+    # the host-dependent event set of realization A that the production runs analyse (Analysis 16, stage 4 and the
+    # experiment's s1 sets: events_marked_dmu0p10_dmuG5_corepop.h5); until 17 Nov the older events_marked_dmu0p10_dmuG5 set
+    hdp = DATA / "seed100" / "events" / "events_meta_marked_dmu0p10_dmuG5_corepop.json"
     hd = jload(hdp)
     add("MockDmuG", "plain", fnum(IN["dmuG"], 0), IN["dmuG"], "Msun", "input offset of the AGN mass-peak location (host-dependent mock)", {"file": rel(hdp), "key": "branch_mass.dmu_G_agn"}, "mock,C7,C8")
     add("MockMuGAGN", "plain", fnum(hd["branch_mass"]["mu_G_agn"], 0), hd["branch_mass"]["mu_G_agn"], "Msun", "AGN mass-peak location in the host-dependent mock", {"file": rel(hdp), "key": "branch_mass.mu_G_agn"}, "mock,C7,C8")
@@ -1902,7 +1918,7 @@ def build_rate_ratio():
 # ---------------------------------------------------------------- completeness weighted by the detected mergers
 def build_event_completeness():
     NC = norm_cfg(100)
-    pev = DATA / "seed100" / "events" / "events.h5"
+    pev = EV_REF
     with h5py.File(pev) as h:
         zt = h["truth/z"][()]
         ht = h["truth/host_type"][()]
@@ -2513,7 +2529,90 @@ def build_keys():
 
 
 # ============================================================================================= #
-# REQUESTS OF 17 NOV (paper_prd/notes/MACRO_REQUESTS.md A1-A3, paper_short/notes/MACRO_REQUESTS.md) and the
+# THE EXPERIMENT (notes/PAPER_SKELETON.md Sec. 9): the constraint from each host class, the cost of an unknown host
+# class, the probability of an AGN host, the AGN catalog alone (scripts/classes.py)
+# ============================================================================================= #
+CLASS_DEFINITIONS = """## The constraint from each host class (Sec. IV B; notes/PAPER_SKELETON.md Sec. 9; scripts/classes.py)
+
+All with the population known and complete catalogs, 1000 detected mergers per realization; half-widths are of H0 in
+km/s/Mpc. The runs are those of `values/production_map.json`, block `classes` (Analysis 16's experiment,
+`RUNLIST_experiment.yaml`, stages E1 and E2, and the production keys named), and each macro's meaning below names them.
+A macro prints black when every run summary it needs exists, red with the expected value (the archived letter's,
+`placeholder_results.json` `classes_expected`) otherwise; a derived macro is black when all its inputs are.
+
+- **`\\HW<spectrum><analysis><f>`**: the mean over the \\NrealClasses{} realizations of half the 90% equal-tailed width of
+  the H0 posterior of each realization (its `summary.json`, `posterior.H0`); **`...Min`, `...Max`**: the smallest and the
+  largest of those half-widths (the bars of fig_classes). Spectrum: none = peak-dominated, `Obs` = observed-like.
+  f: `Zero`, `Ten`, `Thirty`, `Fifty`, `Hundred` = input f_AGN 0, 0.1, 0.3, 0.5, 1. Analysis:
+  `Unknown` host class unknown (both catalogs, f_AGN inferred); `Known` host class known (each merger with the catalog and
+  population of its true class, the two posteriors multiplied; at f = 0 this is the galaxy catalog alone, the horizontal
+  line "Galaxy catalog alone, f_AGN = 0" of fig_classes; at f = 1 the AGN catalog alone on all-AGN-hosted mergers);
+  `None` no catalog (the mass spectrum alone, on the f = 0 set); `Pops` host-dependent populations (AGN offsets
+  `\\MockDmuG` Msun and `\\MockDmuChi`) held at their inputs, host class unknown, on host-dependent mergers; `PopsTwice`
+  the same with twice the offsets; `KnownPops`, `KnownPopsTwice` the host class known on those same host-dependent mergers
+  (each merger with the catalog and the population of its true host class, each population at its input, the two posteriors
+  multiplied: `\\HWKnownPops<f>`, `\\HWKnownPopsTwice<f>` at f = 0.1, 0.3, 0.5 and `\\HWObsKnownPopsThirty`; not drawn in
+  fig_classes; red values while their runs are missing: `\\HWKnown<f>` rescaled by 1/hw^2 = (1 - x)/hw_gal^2 + x/hw_AGN^2 from
+  the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events);
+  `Host` host-dependent populations inferred with H0 (keys `HDHost`, `ObsHost`; f = 0.3;
+  \\NrealHD{} and \\NrealObs{} realizations); `KnownAGN` the AGN-hosted mergers alone with the host class known (the AGN
+  factor of the host-class-known grid, which no summary holds: Akima-refined lnL_agn of the fine pass, the summaries'
+  own method).
+- **`\\CostUnknown<f>`, `\\CostPops<f>`, `\\CostPopsTwice<f>`**: (HW of the analysis / HW of the host class known on the same
+  mergers)^2 from the unrounded means: the number of mergers the unknown host class costs per merger with it known.
+  Denominators: `\\CostUnknown<f>` uses `\\HWKnown<f>` (the equal-population mergers); `\\CostPops<f>` uses
+  `\\HWKnownPops<f>` and `\\CostPopsTwice<f>` uses `\\HWKnownPopsTwice<f>` (the host-dependent mergers themselves; until
+  17 Nov evening both used `\\HWKnown<f>`, which mixed the cost of the unknown host class with the larger share of AGN-hosted
+  mergers among the detected host-dependent ones). Each macro's line in the table below names its denominator.
+- **`\\ShareAGNTen`, `\\ShareAGNThirty`** (percent): 100 (`\\HWKnown<f>` / `\\HWKnownAGN<f>`)^2 from the unrounded means:
+  the share of the information on H0 (inverse variance) carried by the AGN-hosted mergers with the host class known. The
+  two posteriors multiply, so for Gaussian posteriors 1/hw^2 = 1/hw_AGN^2 + 1/hw_gal^2 in each realization; values.json
+  records the galaxy share computed the same way, and the two add to 100% within the non-Gaussianity. No share is defined
+  for the host class unknown.
+- **`\\Prob<AGN|Gal><info>`**: realization A, input f_AGN = 0.3: the mean over the mergers truly hosted by AGN (galaxies) of
+  the probability of an AGN host, f L_AGN / (f L_AGN + (1 - f) L_gal), at the posterior median of the grid (the run's
+  `grid/membership.npz`; = `summary.json` `membership.mean_r_true_agn` / `_gal`). info: `Equal` equal populations,
+  positions alone; `Pos` host-dependent populations, positions alone (one population for both classes, held at its
+  input); `Pops` host-dependent populations, positions with masses and spins (the two populations at their inputs);
+  `PosTwice`, `PopsTwice` the same with twice the offsets.
+- **`\\KnownAGNNoPeak`** (a word): realizations of key `KnownAGN` (the AGN catalog alone on equal-population mergers, three in
+  ten AGN-hosted) whose H0 posterior has no interior maximum in the prior range [50, 100]: the largest corrected ln L
+  over the nodes of the fine and coarse passes lies at a prior edge. **`\\KnownAGNPeak<n>Hzero[Med|Lo|Hi]`** (n = `One`,
+  `Two`, ... in the order of the run list): median and 90% interval (its `summary.json`) of each realization that has an
+  interior maximum; **`...CL`**: the credible level at which the input H0 lies in that posterior.
+- **`\\NrealClasses`** (a word): the realizations of every experiment set above (each set has the same ones).
+- **`\\MockLognGalh`, `\\MockLognAGNh`**: the input number densities as log10 in h^3 Mpc^-3, the units in which the production
+  analyses sample them (`\\MockLognGal` - 3 log10 h), beside the Mpc^-3 macros, for Table I.
+"""
+
+
+def build_classes():
+    import classes as CL
+    CL.build(add, fnum, fci, fpct, NUM_WORD)
+    N, reals, sets = CL.nreal_classes()
+    add("NrealClasses", "plain", NUM_WORD.get(N, str(N)), N, "realizations",
+        f"realizations of every experiment set of Sec. IV B (the HW..., Cost..., Share... macros), realizations {reals}",
+        {"file": rel(CL.RUNLIST_EXP), "computation": f"realizations of the {len(sets)} experiment sets named in values/production_map.json 'classes'"},
+        "design,realizations", extra={"realizations": reals, "sets": sets})
+    # the galaxy share with the host class known, for the record (the two shares add to 100% for Gaussian posteriors)
+    for f in ("Ten", "Thirty"):
+        r = next(x for x in REG if x["name"] == f"ShareAGN{f}")
+        r["extra"]["galaxy_share_percent"] = _gal_share(CL, f)
+
+
+def _gal_share(CL, f):
+    """100 (HWKnown<f> / mean half-width of the galaxy factor)^2, the galaxy counterpart of ShareAGN<f> (values.json only)."""
+    rec = CL.mapped()["macros"].get(f"HWKnownAGN{f}")
+    known = CL.evaluate(f"HWKnown{f}")
+    if rec is None or not known.real or not CL.evaluate(f"HWKnownAGN{f}").real:
+        return None
+    import run_posteriors as RP
+    hw = [0.5 * (lambda s: s["ci90"][1] - s["ci90"][0])(RP.factor_summary(CL.run_dir(rec["run"], r), "gal")[0]) for r in rec["realizations"]]
+    return 100.0 * (known.value / float(np.mean(hw))) ** 2
+
+
+# ============================================================================================= #
+# REQUESTS OF 17 NOV (paper_prd/notes/MACRO_REQUESTS.md A1-A3 and the requests of the archived first short draft) and the
 # observed-like mock family (data/obslike)
 # ============================================================================================= #
 NUM_WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
@@ -2578,7 +2677,7 @@ def build_requests():
     nreal("NrealHD", ["HDHost"], "realizations combined, host-dependent populations analysis of host-dependent mergers, peak-dominated spectrum (key HDHost)")
     nreal("NrealHDSingle", ["HDSingle"], "realizations combined, single-population analysis of host-dependent mergers, both catalogs (key HDSingle)")
     nreal("NrealHDNone", ["HDNone"], "realizations combined, single-population analysis of host-dependent mergers, no catalog (key HDNone)")
-    nreal("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"], "realizations combined, observed-like spectrum, all three analyses (keys Obs...; runs.txt Stage 5, not yet in the run list)")
+    nreal("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"], "realizations combined, observed-like spectrum, all three analyses (keys ObsSingle, ObsHost, ObsNone; Stage 5 of RUNLIST.yaml)")
     nreal("NrealCtrl", ["CtrlZero", "CtrlTenth"], "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; the experiment's f = 0 and f = 0.1 "
           "sets with both catalogs, RUNLIST_experiment.yaml" + ("" if all(k in PR.RUNREAL_EXP for k in ("CtrlZero", "CtrlTenth")) else "; run R4 of runs.txt, not yet in a run list") + ")")
     # ---- A2: the observed-like spectrum (design, GWTC-3 medians mapped onto core's power law + peak)
@@ -2761,6 +2860,7 @@ def compute():
     build_placeholders()
     build_r2()
     build_keys()
+    build_classes()
     build_requests()
     DIAG["grid_log"] = list(GRIDLOG)
     return REG, DIAG, TABLES, BAYES
@@ -2779,7 +2879,7 @@ def write_all():
     M = ["# Macro menu (written by scripts/build_values.py; do not edit)", "",
          "Class: plain = design choice or mock input; teal = exploratory result (production replaces it); red = not yet computable (see placeholders.txt).",
          "Intervals are medians with 90% equal-tailed intervals unless stated. Full numbers, sources and containment records: values.json.", "",
-         KEY_DEFINITIONS, "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
+         KEY_DEFINITIONS, "", CLASS_DEFINITIONS, "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
          "| macro | meaning | rendered | class | claim |", "|---|---|---|---|---|"]
     for r in reg:
         rr = r["render"].replace("|", "\\|")
