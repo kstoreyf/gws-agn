@@ -1314,18 +1314,22 @@ def panel_free_joint(axa, name, label="(a)"):
         draw_joint(axa, smooth_joint(PHJ[k]["joint"]["A"], 1.5), c, ls=ls, fill=False, zorder=4)
         chk_key(name, k, "fAGN", "A")
         chk_key(name, k, "LognAGN", "A")
-    # constant rate-per-host ratio through the input (n_gal and H0 at their inputs, hosts normalized to z = 5, m < 18)
+    # constant rate-per-host ratio through the input (n_gal and H0 at their inputs, m < 18; hosts normalized to z = 5 as the
+    # exploratory runs, or to the end of the production redshift grid, z = 1.10, once the production runs are drawn)
+    prod = fin("FreeEighteen") and fin("FreeTwentyOne")
+    zm = bv.ZMAX_PROD if prod else bv.ZMAX_GRID
+    ylo = min(-6.0, float(np.min(PHJ["FreeEighteen"]["joint"]["prior_induced"]["y"]))) if prod else -6.0
     NC = bv.norm_cfg(100)
-    la = np.linspace(-6, -4, 300)
+    la = np.linspace(ylo, -4, 300)
     Rin = VALUES["macros"]["MockRateRatio"]["value"]
-    zA = bv.Zk(NC["m18"]["agn"], 10 ** la, IN_H0)
-    zG = float(bv.Zk(NC["m18"]["gal"], 10 ** IN["lognGal"], IN_H0))
+    zA = bv.Zk(NC["m18"]["agn"], 10 ** la, IN_H0, zmax=zm)
+    zG = float(bv.Zk(NC["m18"]["gal"], 10 ** IN["lognGal"], IN_H0, zmax=zm))
     odds = Rin * zA / zG
     axa.plot(odds / (1 + odds), la, color="k", lw=1.3, zorder=6)
     chk(name, ("macros", "MockRateRatio", "value"), Rin, "constant rate-per-host curve")
     axa.plot([IN_F], [IN["lognAGN"]], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
     axa.set_xlim(0, 1)
-    axa.set_ylim(-6, -4)
+    axa.set_ylim(ylo, -4)
     axa.set_xlabel(r"$f_{\rm AGN}$")
     axa.set_ylabel(r"$\log_{10}[n_{\rm AGN}/{\rm Mpc^{-3}}]$")
     fs.label(axa, 0.60, -4.04, "constant merger rate per host", "k", ha="right", va="top", bbox=dict(fc="white", ec="none", pad=0.5, alpha=0.8))
@@ -1334,7 +1338,8 @@ def panel_free_joint(axa, name, label="(a)"):
     fs.label(axa, 0.43, -5.22, "$m<18$", c18, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
     fs.label(axa, 0.67, -5.36, "$m<21$", c21, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
     fs.panel_label(axa, label, x=0.97, y=0.04, ha="right", va="bottom")
-    ph_word(axa, x=0.97, y=0.13, va="bottom")
+    if not prod:
+        ph_word(axa, x=0.97, y=0.13, va="bottom")
 
 
 def panel_rate_ratio(axb, name, label="(b)"):
@@ -1359,7 +1364,8 @@ def panel_rate_ratio(axb, name, label="(b)"):
         fs.label(axb, 72, yy, f"$m<{mlim}$", kcol(f"Free{w}", fs.COMP[i], i), ha="left")
         axb.plot([64, 70.5], [yy, yy], color=kcol(f"Free{w}", fs.COMP[i], i), ls=LS4[i], lw=fs.LW)
     fs.panel_label(axb, label)
-    ph_word(axb, x=0.03, ha="left", y=0.86)
+    if not all(fin(f"Free{w}") for _, w, _ in bv.RUNGS):
+        ph_word(axb, x=0.03, ha="left", y=0.86)
 
 
 # ---------------------------------------------------------------- Fig. 5: an unknown population
@@ -1386,7 +1392,8 @@ def fig5_population():
     axa.set_xlabel(fs.H0_LABEL)
     axa.set_ylabel(fs.H0_DENS)
     fs.panel_label(axa, "(a)")
-    ph_word(axa)
+    if not all(fin(k) for k, *_ in specs):
+        ph_word(axa)
     box = []
     for key, i, ls in (("SingleNone", 2, "-."), ("SingleBoth", 1, "--")):
         c = kcol(key, SINGLE_C if key == "SingleBoth" else "#7F7F7F", i)
@@ -1412,7 +1419,8 @@ def fig5_population():
     axb.set_xlabel(fs.H0_LABEL)
     axb.set_ylabel(r"mass-peak location $\mu_{\rm G}$ [$M_\odot$]")
     fs.panel_label(axb, "(b)")
-    ph_word(axb)
+    if not (fin("SingleBoth") and fin("SingleNone")):
+        ph_word(axb)
     fs.save(fig, FIGDIR, name)
 
 
@@ -1613,7 +1621,8 @@ def fig9_validation(outdir=None, stem=None):
     axa.set_xlabel(fs.H0_LABEL)
     axa.set_ylabel(fs.H0_DENS)
     fs.panel_label(axa, "(a)")
-    ph_word(axa)
+    if not all(fin(k) for k, *_ in specs):
+        ph_word(axa)
     top = 0.0
     for key, x0, i, ls, lab in (("CtrlZero", 0.0, 0, "-", "input 0"), ("CtrlTenth", 0.10, 1, "--", "input 0.10"), ("KnownBoth", IN_F, 2, "-.", "input 0.30")):
         c = kcol(key, fs.BOTH, i)
@@ -1630,7 +1639,8 @@ def fig9_validation(outdir=None, stem=None):
     axb.set_xlabel(r"$f_{\rm AGN}$")
     axb.set_ylabel(r"$p(f_{\rm AGN})$")
     fs.panel_label(axb, "(b)", x=0.97, ha="right")
-    ph_word(axb, y=0.87)
+    if not all(fin(k) for k in ("CtrlZero", "CtrlTenth", "KnownBoth")):
+        ph_word(axb, y=0.87)
     fs.save(fig, outdir or FIGDIR, name)
 
 

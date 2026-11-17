@@ -2563,10 +2563,12 @@ def build_requests():
         assert len(Ns) == 1, (name, {k: PR.NREAL[k][0] for k in keys})
         N = Ns.pop()
         inlist = all(k in PR.RUNREAL for k in keys)
+        inexp = all(k in PR.RUNREAL_EXP for k in keys)
         src = ({"file": rel(PR.RUNLIST), "computation": "realizations of the runs of " + "; ".join(f"{k} {PR.KEY_SELECTOR[k]}" for k in keys)} if inlist else
+               {"file": rel(PR.RUNLIST_EXP), "computation": "; ".join(f"{k}: {PR.NREAL[k][1]}" for k in keys)} if inexp else
                {"file": "paper_prd/runs.txt", "computation": "; ".join(f"{k}: {PR.NREAL[k][1]}" for k in keys)})
         add(name, "plain", NUM_WORD.get(N, str(N)), N, "realizations", meaning, src, "design,realizations",
-            extra={"keys": keys, "realizations": {k: PR.RUNREAL.get(k) for k in keys}})
+            extra={"keys": keys, "realizations": {k: PR.RUNREAL.get(k, PR.RUNREAL_EXP.get(k)) for k in keys}})
     nreal("NrealKnown", ["KnownBoth"], "realizations combined, population known, both catalogs, complete (key KnownBoth)")
     nreal("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"], "realizations combined, population known, galaxy catalog alone, AGN catalog alone, no catalog (keys KnownGal, KnownAGN, KnownNone)")
     nreal("NrealPure", ["AGNhosted", "Galhosted"], "realizations combined, all-AGN-hosted and all-galaxy-hosted sets (keys AGNhosted, Galhosted)")
@@ -2577,7 +2579,8 @@ def build_requests():
     nreal("NrealHDSingle", ["HDSingle"], "realizations combined, single-population analysis of host-dependent mergers, both catalogs (key HDSingle)")
     nreal("NrealHDNone", ["HDNone"], "realizations combined, single-population analysis of host-dependent mergers, no catalog (key HDNone)")
     nreal("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"], "realizations combined, observed-like spectrum, all three analyses (keys Obs...; runs.txt Stage 5, not yet in the run list)")
-    nreal("NrealCtrl", ["CtrlZero", "CtrlTenth"], "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; run R4, not yet in the run list)")
+    nreal("NrealCtrl", ["CtrlZero", "CtrlTenth"], "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; the experiment's f = 0 and f = 0.1 "
+          "sets with both catalogs, RUNLIST_experiment.yaml" + ("" if all(k in PR.RUNREAL_EXP for k in ("CtrlZero", "CtrlTenth")) else "; run R4 of runs.txt, not yet in a run list") + ")")
     # ---- A2: the observed-like spectrum (design, GWTC-3 medians mapped onto core's power law + peak)
     O = jload(OBSJ)
     th, gw = O["design"]["core_theta"], O["design"]["design_gwtc3_parameters"]

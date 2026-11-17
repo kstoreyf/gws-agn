@@ -189,3 +189,6 @@ cython_debug/
 # sampler checkpoints and pickled Results (bulk, regenerable; local merge inputs)
 *.ckpt
 *.results.pkl
+
+# caches of the papers
+working/paper_prd/values/.production_cache/

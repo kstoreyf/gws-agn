@@ -239,7 +239,7 @@ def _eval_parts(parts, pts):
     return np.where(np.isnan(val), -np.inf, val)
 
 
-def _common_axes(all_parts, n2=(301, 151), n1=2001):
+def _common_axes(all_parts, n2=(401, 801), n1=4001):
     """A grid spanning the union of the fine passes, widened by 30% on each side (cut at the coarse range)."""
     names = all_parts[0][0][0]
     axes = []
@@ -298,12 +298,31 @@ def grid_joint(run_dirs, n=(401, 321), pad=0.0):
     return {"names": names, "x": x, "y": y, "P": P, "level90": lev, "edge": edge, "runs": [str(r) for r in run_dirs]}
 
 
+def _eval_parts_spline(parts, pts):
+    """As _eval_parts, but the fine pass evaluated with cubic splines of ln L (as grid_joint): linear
+    interpolation leaves dips of up to (step^2/8) |d^2 lnL/dx^2| between nodes, which add up over realizations
+    (0.3 nats at the 0.025 f_AGN step of the 2-D grids summed over ten realizations)."""
+    from scipy.interpolate import CubicSpline
+    val = _eval_parts(parts, pts)
+    names, axes, lnc = parts[0]
+    if not np.all(np.isfinite(lnc)):
+        return val
+    inside = np.all([(pts[:, i] >= a[0]) & (pts[:, i] <= a[-1]) for i, a in enumerate(axes)], axis=0)
+    if len(axes) == 1:
+        val[inside] = CubicSpline(axes[0], lnc)(pts[inside, 0])
+    else:
+        spl, _ = _spline_parts(parts)
+        val[inside] = spl.ev(pts[inside, 0], pts[inside, 1])
+    return val
+
+
 def grid_marginal(run_dirs, param, factor=None):
-    """Posterior of `param` from one or more grid runs with their log-likelihoods summed: (x, p)."""
+    """Posterior of `param` from one or more grid runs with their log-likelihoods summed: (x, p). ln L is a
+    cubic spline of each run's fine pass and linear in its coarse pass (as grid_joint)."""
     all_parts = [_grid_parts(d, factor) for d in run_dirs]
     names, axes = _common_axes(all_parts)
     mesh = np.stack(np.meshgrid(*axes, indexing="ij"), -1).reshape(-1, len(names))
-    tot = sum(_eval_parts(p, mesh) for p in all_parts).reshape([len(a) for a in axes])
+    tot = sum(_eval_parts_spline(p, mesh) for p in all_parts).reshape([len(a) for a in axes])
     w = np.exp(tot - np.max(tot[np.isfinite(tot)]))
     i = names.index(param)
     x = axes[i]

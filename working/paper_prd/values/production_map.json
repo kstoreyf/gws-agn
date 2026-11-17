@@ -1,1 +1,2238 @@
-{}
+{
+ "_schema": [
+  "production_map.json: which production runs (analysis_16_production_runs) fill each key of notes/PAPER_SKELETON.md Sec. 6.",
+  "Written by `scripts/production.py --write-map` from runs/RUNLIST.yaml and runs/RUNLIST_experiment.yaml; read by scripts/placeholder_results.py.",
+  "keys.<Key>: run (pattern under runs_root, '{R}' = three-digit realization), runlist, stage, mode (grid | nested), realizations (all of them",
+  "  are combined), realization_A, settings (how the runs differ from the key as the paper defines it, or 'as the key'), quantities, joint, LB.",
+  "quantities.<Q>: param (the run's parameter) or derived; A = the summary field of realization A (median and 90% interval printed as is);",
+  "  Comb = the summaries of every realization, combined (grids: corrected ln L summed; nested: product of kernel densities);",
+  "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
+  "A key is real when every summary named exists (all realizations and the runs it depends on); otherwise it stays the placeholder of",
+  "  placeholder_results.py (partial when some exist). Keys of the paper with no run in the lists: not_in_run_lists.",
+  "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
+ ],
+ "runs_root": "analyses/analysis_16_production_runs/runs",
+ "keys": {
+  "KnownBoth": {
+   "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "known_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "catalog_counts",
+     "A": {
+      "summary": "known_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "f_AGN combination mapped with the geometric-mean Z ratio"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "H0",
+     "f_agn"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "results.grid_joint"
+   },
+   "LB": {
+    "kind": "savage_dickey_f0",
+    "reference": "galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grids (Comb: ln L summed), f_AGN prior [0, 1]"
+   }
+  },
+  "KnownGal": {
+   "run": "known_population/galaxy_catalog/complete/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/galaxy_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    }
+   }
+  },
+  "KnownAGN": {
+   "run": "known_population/agn_catalog/complete/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/agn_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/agn_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    }
+   }
+  },
+  "KnownNone": {
+   "run": "known_population/no_catalog/complete/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/no_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    }
+   }
+  },
+  "AGNhosted": {
+   "run": "known_population/agn_catalog/complete/agn_hosted/realization_{R}_s32000_inj6",
+   "runlist": "RUNLIST.yaml",
+   "stage": "1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/agn_catalog/complete/agn_hosted/realization_{R}_s32000_inj6/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    }
+   }
+  },
+  "Galhosted": {
+   "run": "known_population/galaxy_catalog/complete/galaxy_hosted/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/galaxy_catalog/complete/galaxy_hosted/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    }
+   }
+  },
+  "CtrlZero": {
+   "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "H0",
+     "f_agn"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "results.grid_joint"
+   },
+   "LB": {
+    "kind": "savage_dickey_f0",
+    "reference": "galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grids (Comb: ln L summed), f_AGN prior [0, 1]"
+   }
+  },
+  "CtrlTenth": {
+   "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "H0",
+     "f_agn"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "results.grid_joint"
+   },
+   "LB": {
+    "kind": "savage_dickey_f0",
+    "reference": "galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grids (Comb: ln L summed), f_AGN prior [0, 1]"
+   }
+  },
+  "SingleBoth": {
+   "run": "single_population/both_catalogs/complete/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "3",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_G of the summaries"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_G of the summaries"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_chi of the summaries"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_chi of the summaries"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "H0",
+     "mu_G"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "kernel density on a lattice; Comb the product"
+   }
+  },
+  "SingleNone": {
+   "run": "single_population/no_catalog/complete/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "3",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_G of the summaries"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_G of the summaries"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_chi of the summaries"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_chi of the summaries"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "H0",
+     "mu_G"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "kernel density on a lattice; Comb the product"
+   }
+  },
+  "HDSingle": {
+   "run": "single_population/both_catalogs/complete/host_dependent/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "4",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+   ],
+   "realization_A": 100,
+   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of the realization's record lane",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    }
+   }
+  },
+  "HDHost": {
+   "run": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "4",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of the realization's record lane",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_G of the summaries"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_G of the summaries"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.mu_chi of the summaries"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.sigma_chi of the summaries"
+     }
+    },
+    "DmuG": {
+     "param": "dmu_G",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.dmu_G"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.dmu_G of the summaries"
+     }
+    },
+    "DmuChi": {
+     "param": "dmu_chi",
+     "A": {
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.dmu_chi"
+     },
+     "Comb": {
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.dmu_chi of the summaries"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "dmu_G",
+     "dmu_chi"
+    ],
+    "parts": [
+     "A",
+     "Comb"
+    ],
+    "how": "kernel density on a lattice; Comb the product"
+   },
+   "LB": {
+    "kind": "evidence_ratio",
+    "reference_run": "single_population/both_catalogs/complete/host_dependent/realization_{R}",
+    "reference_key": "HDSingle",
+    "reference": "the single-population analysis of the same events, same priors (Table I)",
+    "A": "(ln Z - ln Z_ref)/ln 10 of realization A (summary ln_evidence)",
+    "Comb": "sum over the realizations of (ln Z - ln Z_ref)/ln 10 (each realization analysed on its own)"
+   }
+  },
+  "HDNone": {
+   "run": "single_population/no_catalog/complete/host_dependent/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "4",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the letter's experiment) instead of the realization's record lane",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/no_catalog/complete/host_dependent/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/no_catalog/complete/host_dependent/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    }
+   }
+  },
+  "FluxTwentyOne": {
+   "run": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "counts_and_missing_volume",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "f_AGN combination mapped with the geometric-mean Z ratio"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   }
+  },
+  "FreeTwentyOne": {
+   "run": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102
+   ],
+   "realization_A": 100,
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "LognGal": {
+     "param": "log10n_gal",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_gal"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_gal of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "LognAGN": {
+     "param": "log10n_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_agn of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "free_densities",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn and the samples"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_21/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of R"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "f_agn",
+     "log10n_agn"
+    ],
+    "parts": [
+     "A",
+     "prior_induced"
+    ],
+    "how": "kernel density on a lattice (A); prior draws weighted by the known-density likelihood of realization A at the same flux limit (prior_induced)"
+   },
+   "prior_induced_from": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100"
+  },
+  "FluxTwenty": {
+   "run": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "counts_and_missing_volume",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "f_AGN combination mapped with the geometric-mean Z ratio"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   }
+  },
+  "FreeTwenty": {
+   "run": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102
+   ],
+   "realization_A": 100,
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "LognGal": {
+     "param": "log10n_gal",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_gal"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_gal of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "LognAGN": {
+     "param": "log10n_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_agn of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "free_densities",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn and the samples"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_20/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of R"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "f_agn",
+     "log10n_agn"
+    ],
+    "parts": [
+     "A",
+     "prior_induced"
+    ],
+    "how": "kernel density on a lattice (A); prior draws weighted by the known-density likelihood of realization A at the same flux limit (prior_induced)"
+   },
+   "prior_induced_from": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100"
+  },
+  "FluxNineteen": {
+   "run": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "counts_and_missing_volume",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "f_AGN combination mapped with the geometric-mean Z ratio"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   }
+  },
+  "FreeNineteen": {
+   "run": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102
+   ],
+   "realization_A": 100,
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "LognGal": {
+     "param": "log10n_gal",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_gal"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_gal of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "LognAGN": {
+     "param": "log10n_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_agn of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "free_densities",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn and the samples"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_19/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of R"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "f_agn",
+     "log10n_agn"
+    ],
+    "parts": [
+     "A",
+     "prior_induced"
+    ],
+    "how": "kernel density on a lattice (A); prior draws weighted by the known-density likelihood of realization A at the same flux limit (prior_induced)"
+   },
+   "prior_induced_from": "known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100"
+  },
+  "FluxEighteen": {
+   "run": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (results.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "counts_and_missing_volume",
+     "A": {
+      "summary": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "f_AGN combination mapped with the geometric-mean Z ratio"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   }
+  },
+  "FreeEighteen": {
+   "run": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_{R}",
+   "runlist": "RUNLIST.yaml",
+   "stage": "2",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102
+   ],
+   "realization_A": 100,
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities (results.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "LognGal": {
+     "param": "log10n_gal",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_gal"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_gal of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "LognAGN": {
+     "param": "log10n_agn",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100/summary.json",
+      "field": "posterior.log10n_agn"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of the converted samples"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.log10n_agn of the summaries"
+     },
+     "units": "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
+    },
+    "RateRatio": {
+     "derived": "rate_ratio",
+     "z_ratio": "free_densities",
+     "A": {
+      "summary": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_100/summary.json",
+      "from": "posterior.f_agn and the samples"
+     },
+     "Comb": {
+      "summaries": "free_densities/both_catalogs/flux_limit_18/equal_populations/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102
+      ],
+      "combine": "product of the kernel densities of R"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"
+     }
+    }
+   },
+   "joint": {
+    "params": [
+     "f_agn",
+     "log10n_agn"
+    ],
+    "parts": [
+     "A",
+     "prior_induced"
+    ],
+    "how": "kernel density on a lattice (A); prior draws weighted by the known-density likelihood of realization A at the same flux limit (prior_induced)"
+   },
+   "prior_induced_from": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100"
+  }
+ },
+ "not_in_run_lists": {
+  "ObsSingle": "observed-like spectrum, host-dependent events, single population, both catalogs (runs.txt Stage 5)",
+  "ObsHost": "observed-like spectrum, host-dependent events, host-dependent populations, both catalogs (runs.txt Stage 5)",
+  "ObsNone": "observed-like spectrum, host-dependent events, single population, no catalog (runs.txt Stage 5)"
+ }
+}

@@ -1,8 +1,8 @@
-# Status of the short paper's numbers and figures (2026-11-17 11:51 UTC)
+# Status of the short paper's numbers and figures (2026-11-17 12:47 UTC)
 
 Written by `scripts/build_values.py` from `scripts/results_map.json`; do not edit. **real** = black `\newcommand` in `values_independent_results.tex` (from the run summaries); **placeholder** = the red expected value of `values_independent.tex`. Run paths are under `analyses/analysis_16_production_runs/runs/`; a run's stage is that of `RUNLIST.yaml` (1-4) or `RUNLIST_experiment.yaml` (E1-E3).
 
-**3 of 42 result macros real.**
+**7 of 42 result macros real.**
 
 ## Macros
 
@@ -11,7 +11,7 @@ Written by `scripts/build_values.py` from `scripts/results_map.json`; do not edi
 | `\IndHWSpec` | placeholder | `3.0` | half-width, mass spectrum alone, no catalog (f = 0 set; the f = 0.3 set's stage-1 grid is the same analysis on other events) | `mass_spectrum_alone/no_catalog/complete/peak_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | `\IndHWGal` | placeholder | `3.5` | half-width, all mergers in galaxies, galaxy catalog | `galaxy_catalog_alone/galaxy_catalog/complete/peak_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | `\IndHWAGN` | **real** | `0.81` | half-width, all mergers in AGN, AGN catalog |  |
-| `\IndHWMix` | placeholder | `1.7` | half-width, f = 0.30, labels unknown | `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
+| `\IndHWMix` | placeholder | `1.7` | half-width, f = 0.30, labels unknown | `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0` (2/5 summaries; missing 100,102,105), stage E1 |
 | `\IndHWMark` | placeholder | `1.5` | half-width, f = 0.30, a population for each tracer, (5 Msun, 0.10) | `two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | `\IndHWMarkTwice` | placeholder | `1.4` | the same, (10 Msun, 0.20) | `two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | `\IndHWKnown` | placeholder | `1.3` | half-width, f = 0.30, hosts known | `hosts_known/both_catalogs/complete/peak_f0p30_s0` (3/5 summaries; missing 101,103), stage E1 |
@@ -23,7 +23,7 @@ Written by `scripts/build_values.py` from `scripts/results_map.json`; do not edi
 | `\IndCostMarkTwice` | placeholder | `1.2` | the same, (10 Msun, 0.20) | derived: (IndHWMarkTwice/IndHWKnown)**2 |
 | `\IndfAGNMix` | **real** | `0.27^{+0.08}_{-0.08}` | f_AGN, f = 0.30, equal populations, labels unknown, population held at its input, realization A (the run of Fig. 2 and row 1 of Table I) |  |
 | `\IndObsHWSpec` | placeholder | `10` | observed-like: half-width, mass spectrum alone | `mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
-| `\IndObsHWMix` | placeholder | `1.9` | observed-like: half-width, f = 0.30, labels unknown | `two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
+| `\IndObsHWMix` | placeholder | `1.9` | observed-like: half-width, f = 0.30, labels unknown | `two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0` (2/5 summaries; missing 100,102,105), stage E2 |
 | `\IndObsHWAGN` | placeholder | `0.8` | observed-like: half-width, all mergers in AGN, AGN catalog | `hosts_known/both_catalogs/complete/obslike_f1p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
 | `\IndProbAGNPos` | placeholder | `0.36` | mean probability of an AGN host, mergers truly in AGN, positions alone, f = 0.30, (5 Msun, 0.10) | `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1` (0/1 summaries; missing 100), stage E1 |
 | `\IndProbGalPos` | placeholder | `0.27` | mean probability of an AGN host, mergers truly in galaxies, positions alone, f = 0.30, (5 Msun, 0.10) | `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1` (0/1 summaries; missing 100), stage E1 |
@@ -40,10 +40,10 @@ Written by `scripts/build_values.py` from `scripts/results_map.json`; do not edi
 | `\IndTwoPopDchi` | placeholder | `0.10^{+0.03}_{-0.03}` | mean effective spin difference, one catalog | `host_dependent_populations/both_catalogs/complete/host_dependent` (0/1 summaries; missing 100), stage 4 |
 | `\IndTwoPopCL` | placeholder | `30` | credible level (percent) of the input H0 in the combined posterior, a population for each tracer | `host_dependent_populations/both_catalogs/complete/host_dependent` (0/5 summaries; missing 100,101,102,103,105), stage 4 |
 | `\IndLB` | placeholder | `9` | log10 Bayes factor, a population for each tracer over one population, one catalog | `host_dependent_populations/both_catalogs/complete/host_dependent` (0/1 summaries; missing 100), stage 4 / `single_population/both_catalogs/complete/host_dependent` (0/1 summaries; missing 100), stage 4 |
-| `\IndRecHzeroComb` | placeholder | `67.9^{+0.6}_{-0.6}` | H0, equal populations, f = 0.30, labels unknown, combined over ten realizations | `known_population/both_catalogs/complete/equal_populations` (4/10 summaries; missing 105,106,107,108,109,110), stage 1 |
-| `\IndRecHzeroCL` | placeholder | `40` | credible level (percent) of the input H0 in it | `known_population/both_catalogs/complete/equal_populations` (4/10 summaries; missing 105,106,107,108,109,110), stage 1 |
-| `\IndRecfAGNComb` | placeholder | `0.30^{+0.03}_{-0.03}` | f_AGN of the same combination | `known_population/both_catalogs/complete/equal_populations` (4/10 summaries; missing 105,106,107,108,109,110), stage 1 |
-| `\IndRecfAGNCL` | placeholder | `35` | credible level (percent) of the input f_AGN in it | `known_population/both_catalogs/complete/equal_populations` (4/10 summaries; missing 105,106,107,108,109,110), stage 1 |
+| `\IndRecHzeroComb` | **real** | `68.2^{+0.6}_{-0.6}` | H0, equal populations, f = 0.30, labels unknown, combined over ten realizations |  |
+| `\IndRecHzeroCL` | **real** | `80` | credible level (percent) of the input H0 in it |  |
+| `\IndRecfAGNComb` | **real** | `0.31^{+0.03}_{-0.03}` | f_AGN of the same combination |  |
+| `\IndRecfAGNCL` | **real** | `30` | credible level (percent) of the input f_AGN in it |  |
 | `\IndZerofAGNUL` | placeholder | `0.05` | no merger in AGN: 90% upper limit on f_AGN, combined over the experiment's five realizations | `two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | `\IndAnchorHzero` | **real** | `68.4^{+1.9}_{-2.0}` | H0, equal populations, f = 0.30, labels unknown, population held at its input, realization A (Sec. IV A, row 1 of Table I, Fig. 2) |  |
 | `\IndOnePopHzero` | placeholder | `70.9^{+2.6}_{-2.6}` | H0, one population inferred from mergers whose populations differ by (5 Msun, 0.10), realization A (row 2 of Table I) | `single_population/both_catalogs/complete/host_dependent` (0/1 summaries; missing 100), stage 4 |
@@ -58,10 +58,10 @@ Fig. 2 `figures/fig_anchor`, Fig. 3 `figures/fig1_budget`, Fig. 4 `figures/fig_p
 | figure element | status | value drawn | waits for |
 |---|---|---|---|
 | Fig. 2 One realization | **real** | 90% region of (H0, f_AGN); 1 of 1 realizations (100): ln L summed, 90% region; largest density on the mesh border 2.3e-05 of the peak |  |
-| Fig. 2 Combination of ten realizations | partial 4/10 | 90% region of (H0, f_AGN); 4 of 10 realizations (100,101,102,103): ln L summed, 90% region; largest density on the mesh border 1.8e-11 of the peak | `known_population/both_catalogs/complete/equal_populations` (4/10 summaries; missing 105,106,107,108,109,110), stage 1 |
+| Fig. 2 Combination of ten realizations | **real** | 90% region of (H0, f_AGN); 10 of 10 realizations (100,101,102,103,105,106,107,108,109,110): ln L summed, 90% region; largest density on the mesh border 1.2e-16 of the peak |  |
 | Fig. 3(a) Labels unknown, f = 0 | placeholder | 3.59 [3.23, 3.95] | `two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | Fig. 3(a) Labels unknown, f = 0.1 | placeholder | 2.40 [2.16, 2.64] | = `\IndHWMixTenth`: `two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
-| Fig. 3(a) Labels unknown, f = 0.3 | placeholder | 1.70 [1.53, 1.87] | = `\IndHWMix`: `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
+| Fig. 3(a) Labels unknown, f = 0.3 | partial 2/5 | 1.89 [1.89, 1.90] | = `\IndHWMix`: `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0` (2/5 summaries; missing 100,102,105), stage E1 |
 | Fig. 3(a) Labels unknown, f = 0.5 | placeholder | 1.33 [1.20, 1.46] | `two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | Fig. 3(a) Labels unknown, f = 1 | placeholder | 0.84 [0.76, 0.92] | `two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | Fig. 3(a) A population for each tracer, $\Delta m=5\,M_\odot$, $\Delta\chi=0.10$, f = 0.1 | placeholder | 2.21 [1.99, 2.43] | `two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
@@ -79,11 +79,11 @@ Fig. 2 `figures/fig_anchor`, Fig. 3 `figures/fig1_budget`, Fig. 4 `figures/fig_p
 | Fig. 3(a) Mass spectrum alone, line | placeholder | 3.00 [2.70, 3.30] | = `\IndHWSpec`: `mass_spectrum_alone/no_catalog/complete/peak_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | Fig. 3(a) Galaxy catalog alone, $f_{\rm AGN}=0$, line | placeholder | 3.50 [3.15, 3.85] | = `\IndHWGal`: `galaxy_catalog_alone/galaxy_catalog/complete/peak_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E1 |
 | Fig. 3(b) Labels unknown, f = 0 | placeholder | 8.21 [7.39, 9.03] | `two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
-| Fig. 3(b) Labels unknown, f = 0.3 | placeholder | 1.90 [1.71, 2.09] | = `\IndObsHWMix`: `two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
+| Fig. 3(b) Labels unknown, f = 0.3 | partial 2/5 | 1.96 [1.85, 2.07] | = `\IndObsHWMix`: `two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0` (2/5 summaries; missing 100,102,105), stage E2 |
 | Fig. 3(b) Labels unknown, f = 1 | placeholder | 0.84 [0.76, 0.92] | `two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
 | Fig. 3(b) A population for each tracer, $\Delta m=5\,M_\odot$, $\Delta\chi=0.10$, f = 0.3 | placeholder | 1.62 [1.46, 1.78] | `two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
 | Fig. 3(b) Hosts known, f = 0 | placeholder | 8.00 [7.20, 8.80] | `galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
-| Fig. 3(b) Hosts known, f = 0.3 | placeholder | 1.37 [1.23, 1.51] | `hosts_known/both_catalogs/complete/obslike_f0p30_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
+| Fig. 3(b) Hosts known, f = 0.3 | partial 3/5 | 1.35 [1.26, 1.48] | `hosts_known/both_catalogs/complete/obslike_f0p30_s0` (3/5 summaries; missing 101,103), stage E2 |
 | Fig. 3(b) Hosts known, f = 1 | placeholder | 0.80 [0.72, 0.88] | = `\IndObsHWAGN`: `hosts_known/both_catalogs/complete/obslike_f1p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
 | Fig. 3(b) Mass spectrum alone, line | placeholder | 10.00 [9.00, 11.00] | = `\IndObsHWSpec`: `mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |
 | Fig. 3(b) Galaxy catalog alone, $f_{\rm AGN}=0$, line | placeholder | 8.00 [7.20, 8.80] | `galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0` (0/5 summaries; missing 100,101,102,103,105), stage E2 |

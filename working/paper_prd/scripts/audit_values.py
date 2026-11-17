@@ -544,12 +544,16 @@ def audit_keys(mac):
     extra = ["HDBiasHzero", "ObsBiasHzero", "HDLB", "ObsLB", "WidthRatioAGNGal", "MassScaleShareKnown", "MassScaleShareSingle", "CorrHzeroMuGNone", "CorrHzeroMuGBoth"]
     missing += [n for n in extra if n not in mac]
     check(not missing, f"H0 every key and quantity of the skeleton has its macro, Comb and pieces, and the further macros exist ({len(missing)} missing{': ' + ', '.join(missing[:6]) if missing else ''})")
-    pm = json.loads((OUT / "values" / "production_map.json").read_text())
-    red = [n for n in mac if mac[n]["claim"].startswith("skeleton") and mac[n]["class"] != "ph" and not any(n.startswith(k) for k in pm)]
-    check(not red, f"H1 with production_map.json {'empty' if not pm else 'partial'}, every key-scheme macro without a production summary prints red ({len(red)} exceptions)")
+    doc = json.loads((OUT / "values" / "placeholder_results.json").read_text())["keys"]
+    final = {k for k, E in doc.items() if E.get("final")}
+    owner = macro_keys(mac, doc)
+    wrong = [n for n, ks in owner.items() if (mac[n]["class"] == "ph") == all(k in final for k in ks)]
+    check(not wrong, f"H1 every key-scheme macro prints black exactly when all its keys are production results ({len(final)} keys real: "
+                     f"{', '.join(sorted(final)) or 'none'}; {len(wrong)} exceptions{': ' + ', '.join(wrong[:6]) if wrong else ''})")
     # exploratory keys equal the exploratory macros built by the separate code of build_c1..build_r2
     # (the combinations of the all-AGN, all-galaxy and galaxy-catalog-alone keys use the production realizations only since
-    #  17 Nov; they are checked against an independent sum in I9 below, not against the 93- and 9-realization macros)
+    #  17 Nov; they are checked against an independent sum in I9 below, not against the 93- and 9-realization macros).
+    # Keys that are production results are audited in J instead.
     pairs = [("KnownBothHzero", "JointHzeroCatA"), ("KnownBothHzeroComb", "JointHzeroComb"), ("KnownBothfAGNComb", "JointfComb"), ("KnownGalHzero", "GalOnlyHzeroCatA"),
              ("FluxEighteenfAGN", "FluxfEighteen"), ("FluxTwentyOneHzero", "FluxHzeroTwentyOne"),
              ("FreeEighteenLognAGN", "FreeLognAGNEighteen"), ("FreeEighteenfAGN", "FreefAGNEighteen"), ("HDHostDmuChi", "HDEightDmuChi"), ("HDHostHzero", "HDEightHzero"),
@@ -557,16 +561,18 @@ def audit_keys(mac):
              ("FreeEighteenRateRatio", "RateRatioFreeEighteen")]
     dev = []
     for a, b in pairs:
+        if any(k in final for k in owner[a]):
+            continue
         va, vb = mac[a]["value"], mac[b]["value"]
         hw = 0.5 * (vb["ci90"][1] - vb["ci90"][0])
         dev.append(max(abs(va["median"] - vb["median"]), abs(va["ci90"][0] - vb["ci90"][0]), abs(va["ci90"][1] - vb["ci90"][1])) / hw)
-    dev.append(abs(mac["KnownBothLB"]["value"] - mac["LBfZeroCatA"]["value"]))
-    dev.append(abs(mac["KnownBothLBComb"]["value"] - mac["LBfZeroComb"]["value"]))
-    dev.append(abs(mac["FreeEighteenLognAGNPriorUL"]["value"] - mac["FreeLognAGNInducedUpperEighteen"]["value"]))
-    dev.append(abs(mac["FreeEighteenLognAGNUL"]["value"] - mac["FreeLognAGNUpperEighteen"]["value"]))
-    check(max(dev) < 2e-3, f"H2 {len(dev)} exploratory key values equal the exploratory macros computed separately (largest difference {max(dev):.1e}, in 90% half-widths or log10 units)")
+    for a, b in (("KnownBothLB", "LBfZeroCatA"), ("KnownBothLBComb", "LBfZeroComb"), ("FreeEighteenLognAGNPriorUL", "FreeLognAGNInducedUpperEighteen"),
+                 ("FreeEighteenLognAGNUL", "FreeLognAGNUpperEighteen")):
+        if not any(k in final for k in owner[a]):
+            dev.append(abs(mac[a]["value"] - mac[b]["value"]))
+    check(max(dev, default=0.0) < 2e-3, f"H2 {len(dev)} exploratory key values equal the exploratory macros computed separately (largest difference {max(dev, default=0.0):.1e}, "
+                                         f"in 90% half-widths or log10 units; keys that are production results are audited in J)")
     # invented combinations: width A / sqrt(N)
-    doc = json.loads((OUT / "values" / "placeholder_results.json").read_text())["keys"]
     rat = []
     for k, E in doc.items():
         for q, Q in E["quantities"].items():
@@ -576,6 +582,29 @@ def audit_keys(mac):
                 rat.append(abs(wc / wa * math.sqrt(E["N_comb"]) - 1))
     check(max(rat) < 0.05, f"H3 every invented combination is narrower than realization A by sqrt(N) to {100 * max(rat):.1f}% ({len(rat)} key-quantities; truncation at prior edges allowed for)")
     audit_requests(mac, doc)
+    audit_production(mac, doc, owner)
+
+
+# the further macros of PAPER_SKELETON.md Sec. 6 and the keys they are built from
+FURTHER = {"HDBiasHzero": ["HDSingle"], "ObsBiasHzero": ["ObsSingle"], "HDLB": ["HDHost"], "ObsLB": ["ObsHost"], "WidthRatioAGNGal": ["Galhosted", "AGNhosted"],
+           "MassScaleShareKnown": ["KnownNone", "KnownBoth"], "MassScaleShareSingle": ["SingleNone", "SingleBoth"], "CorrHzeroMuGNone": ["SingleNone"],
+           "CorrHzeroMuGBoth": ["SingleBoth"]}
+
+
+def macro_keys(mac, doc):
+    """key-scheme macro -> the keys it is built from (longest key prefix, or FURTHER)."""
+    keys = sorted(doc, key=len, reverse=True)
+    out = {}
+    for n, v in mac.items():
+        if not v["claim"].startswith("skeleton"):
+            continue
+        if n in FURTHER:
+            out[n] = FURTHER[n]
+            continue
+        k = next((k for k in keys if n.startswith(k)), None)
+        assert k is not None, n
+        out[n] = [k]
+    return out
 
 
 # ============================================================================================= #
@@ -608,7 +637,10 @@ def audit_requests(mac, doc):
             "NrealHDNone": n("single_population", "none", "complete", "host_dependent", None)}
     runs_txt = (OUT / "runs.txt").read_text()
     want["NrealObs"] = 5 if re.search(r"Stage 5 .*\n.*5 realizations", runs_txt) else -1
-    want["NrealCtrl"] = 5 if "five for the others" in runs_txt else -1
+    rx = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST_experiment.yaml").read_text())
+    ctrl = {lab: {r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
+                  if r["analysis"] == "two_tracers_one_population" and r["set"]["label"] == lab} for lab in ("peak_f0p00_s0", "peak_f0p10_s0")}
+    want["NrealCtrl"] = {len(v) for v in ctrl.values()} if all(ctrl.values()) else (5 if "five for the others" in runs_txt else -1)
     words = {3: "three", 5: "five", 10: "ten"}
     bad = []
     for k, w in want.items():
@@ -619,7 +651,8 @@ def audit_requests(mac, doc):
             for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
                           ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
                           ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"])) if k in ks and E["N_comb"] != val(m)]
-    check(not bad, f"I0 the eleven numbers of realizations equal the run list (own parser) / runs.txt, print as words, and equal N_comb of their keys{': ' + '; '.join(bad) if bad else ''}")
+    check(not bad, f"I0 the eleven numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets) / runs.txt, "
+                   f"print as words, and equal N_comb of their keys{': ' + '; '.join(bad) if bad else ''}")
     # ---- I1: observed-like design values from the events files' own metadata ----
     E = B.DATA / "seed100" / "events"
     with h5py.File(E / "events_obslike.h5") as h:
@@ -685,6 +718,8 @@ def audit_requests(mac, doc):
     # ---- I9: exploratory combinations over the production realizations, by plain trapezoid sums of the stored grids ----
     dev = []
     for k, tr in (("AGNhosted", "agn"), ("Galhosted", "gal")):
+        if doc[k].get("final"):
+            continue
         use = doc[k]["comb_realizations_used"]
         L = None
         for s in use:
@@ -693,6 +728,8 @@ def audit_requests(mac, doc):
             L = l_ if L is None else L + l_
         dev.append((k, len(use), _trap_median(Hg, L), val(f"{k}HzeroComb")))
     for k, col in (("KnownGal", 0), ("KnownAGN", -1)):
+        if doc[k].get("final"):
+            continue
         use = doc[k]["comb_realizations_used"]
         L = None
         for s in use:
@@ -703,9 +740,333 @@ def audit_requests(mac, doc):
     # the AGN-catalog-alone posterior piles up in the last stored cell (99.75-100): there the stored-cell trapezoid and the
     # spline-refined lattice differ by a fraction of that cell, so it is held to a quarter of the 0.25 km/s/Mpc grid step
     rel_ = [abs(m - v["median"]) / (0.5 * (v["ci90"][1] - v["ci90"][0])) for k, _, m, v in dev if k != "KnownAGN"]
-    edge = [abs(m - v["median"]) for k, _, m, v in dev if k == "KnownAGN"][0]
-    check(max(rel_) < 0.06 and edge < 0.25 * 0.5 + 1e-9 and all(nn == doc[k]["N_comb"] for k, nn, _, _ in dev),
-          f"I9 exploratory combinations (all-AGN, all-galaxy, each catalog alone) use N_comb production realizations; medians by a plain trapezoid sum agree to {max(rel_):.3f} of the 90% half-width (AGN catalog alone, at the prior edge: {edge:.3f} km/s/Mpc)")
+    edge = [abs(m - v["median"]) for k, _, m, v in dev if k == "KnownAGN"]
+    check(max(rel_, default=0.0) < 0.06 and max(edge, default=0.0) < 0.25 * 0.5 + 1e-9 and all(nn == doc[k]["N_comb"] for k, nn, _, _ in dev),
+          f"I9 exploratory combinations (all-AGN, all-galaxy, each catalog alone) use N_comb production realizations; medians by a plain trapezoid sum agree to "
+          f"{max(rel_, default=0.0):.3f} of the 90% half-width (AGN catalog alone, at the prior edge: {max(edge, default=0.0):.3f} km/s/Mpc; "
+          f"{len(dev)} still exploratory, the others are production results audited in J)")
+
+
+# ============================================================================================= #
+# J: production results (scripts/production.py from values/production_map.json and Analysis 16's runs). Every macro
+# that turned real is recomputed here from the run summaries by code that production.py and the letter's results.py
+# do not use: summary.json read directly; grid runs' ln L read with h5py and corrected by Analysis 14's formula
+# written out here, cubic splines (the fine pass inside its box, the coarse pass outside), Simpson sums on a lattice;
+# nested runs: each part's weighted samples, weighted quantiles, Scott-rule Gaussian kernel densities multiplied;
+# survey counts with h5py from the files the run's config names; missing volumes from Analysis 15's closed form.
+# ============================================================================================= #
+RUNS16 = B.AN / "analysis_16_production_runs" / "runs"
+QPAR = {"Hzero": "H0", "fAGN": "f_agn", "MuG": "mu_G", "SigmaG": "sigma_G", "MuChi": "mu_chi", "SigmaChi": "sigma_chi", "DmuG": "dmu_G",
+        "DmuChi": "dmu_chi", "LognGal": "log10n_gal", "LognAGN": "log10n_agn"}
+
+
+def _jr(p):
+    return json.loads(Path(p).read_text())
+
+
+def _grid_spl(run):
+    """[(names, axes, spline, box)] of a grid run, fine pass first: ln L + sigma^2/2 - N/(2 N_eff) (when the run applied it)."""
+    from scipy.interpolate import CubicSpline, RectBivariateSpline
+    res, cfg = _jr(run / "grid" / "result.json"), _jr(run / "config.json")
+    out = []
+    for nm in (("fine_widened.h5" if (res.get("outside_mass_check") or {}).get("widened") else "fine.h5"), "coarse.h5"):
+        with h5py.File(run / "grid" / nm, "r") as h:
+            names = json.loads(h.attrs["axes"])
+            ax = [np.asarray(h[f"axis_{n}"][()], float) for n in names]
+            n = int(h.attrs["n_events"])
+            l = np.asarray(h["lnL"][()], float)
+            if cfg["half_variance_correction"]:
+                l = l + 0.5 * np.asarray(h["pe_var"][()], float) - 0.5 * n / np.asarray(h["n_eff"][()], float)
+        l = np.where(np.isfinite(l), l, np.nanmin(l[np.isfinite(l)]) - 300.0)
+        sp = CubicSpline(ax[0], l) if len(names) == 1 else RectBivariateSpline(ax[0], ax[1], l, kx=3, ky=3, s=0)
+        out.append((names, ax, sp, [(a[0], a[-1]) for a in ax]))
+    return out
+
+
+def _grid_eval(parts, pts):
+    val = np.full(len(pts), np.nan)
+    for names, ax, sp, box in parts:
+        ins = np.all([(pts[:, i] >= lo) & (pts[:, i] <= hi) for i, (lo, hi) in enumerate(box)], axis=0) & np.isnan(val)
+        if ins.any():
+            val[ins] = sp(pts[ins, 0]) if len(names) == 1 else sp.ev(pts[ins, 0], pts[ins, 1])
+    return val
+
+
+def _lattice16(all_parts, n1=6001, n2=(321, 241)):
+    """Each axis: the union of the fine passes (cut to the coarse range), widened by 20%."""
+    names = all_parts[0][0][0]
+    axes = []
+    for i in range(len(names)):
+        lo, hi = min(p[0][3][i][0] for p in all_parts), max(p[0][3][i][1] for p in all_parts)
+        clo, chi = min(p[1][3][i][0] for p in all_parts), max(p[1][3][i][1] for p in all_parts)
+        w = hi - lo
+        axes.append(np.linspace(max(clo, lo - 0.2 * w), min(chi, hi + 0.2 * w), n1 if len(names) == 1 else n2[i]))
+    return names, axes
+
+
+def _simpson(y, x, axis=-1):
+    from scipy.integrate import simpson
+    return simpson(y, x=x, axis=axis)
+
+
+def _grid_comb(runs):
+    """Summed corrected ln L of grid runs on a lattice -> (names, axes, lnP total)."""
+    all_parts = [_grid_spl(r) for r in runs]
+    names, axes = _lattice16(all_parts)
+    mesh = np.stack(np.meshgrid(*axes, indexing="ij"), -1).reshape(-1, len(names))
+    tot = sum(_grid_eval(p, mesh) for p in all_parts).reshape([len(a) for a in axes])
+    return names, axes, tot
+
+
+def _marg(names, axes, tot, par):
+    P = np.exp(tot - tot.max())
+    i = names.index(par)
+    for j in sorted((j for j in range(len(names)) if j != i), reverse=True):
+        P = _simpson(P, axes[j], axis=j)
+    return axes[i], P / _simpson(P, axes[i])
+
+
+def _quant(x, p, x0=None):
+    from scipy.integrate import cumulative_trapezoid
+    xf = np.linspace(x[0], x[-1], 40001)
+    pf = np.interp(xf, x, p)
+    c = cumulative_trapezoid(pf, xf, initial=0.0)
+    c /= c[-1]
+    q = lambda u: float(np.interp(u, c, xf))
+    out = {"median": q(0.5), "ci90": [q(0.05), q(0.95)], "ul90": q(0.90)}
+    if x0 is not None:
+        out["level"] = abs(2 * float(np.interp(x0, xf, c)) - 1)
+    return out
+
+
+def _nested_w(run, params):
+    """Weighted samples of a nested run: each finished part's normalised weights, the parts averaged."""
+    S, W = [], []
+    for part in sorted(run.glob("nested_[0-9]")):
+        if not (part / "result.json").exists() or not _jr(part / "result.json").get("finished"):
+            continue
+        z = np.load(part / "samples.npz", allow_pickle=False)
+        nm = [str(x) for x in z["names"]]
+        S.append(np.asarray(z["samples"], float)[:, [nm.index(p) for p in params]])
+        w = np.asarray(z["weights"], float)
+        W.append(w / w.sum())
+    return np.concatenate(S), np.concatenate(W) / len(W)
+
+
+def _wq(x, w, qs):
+    o = np.argsort(x)
+    c = np.cumsum(w[o]) - 0.5 * w[o]
+    return np.interp(qs, c / c[-1], x[o])
+
+
+def _kde_prod(sets, lo, hi, n=6001):
+    """Product over realizations of Scott-rule Gaussian kernel densities of weighted samples (reflected at lo, hi)."""
+    from scipy.stats import gaussian_kde
+    x = np.linspace(lo, hi, n)
+    lp = np.zeros(n)
+    for s, w in sets:
+        keep = w > 1e-9 * w.max()
+        k = gaussian_kde(s[keep], weights=w[keep])
+        p = k(x) + k(2 * lo - x) + k(2 * hi - x)
+        lp += np.log(np.maximum(p, 1e-300))
+    p = np.exp(lp - lp.max())
+    return x, p / np.trapz(p, x)
+
+
+def _counts(run):
+    cfg = _jr(run / "config.json")
+    out = {}
+    for cls in ("gal", "agn"):
+        with h5py.File(cfg["surveys"][cls], "r") as h:
+            out[cls] = int(np.sum(h["ngals"][()].astype(np.int64)))
+    return out
+
+
+def audit_production(mac, doc, owner):
+    pmap = _jr(OUT / "values" / "production_map.json")
+    specs = pmap.get("keys", {})
+    final = [k for k, E in doc.items() if E.get("final")]
+    if not final:
+        check(True, "J0 no key is a production result yet (nothing to recompute)")
+        return
+    odds = lambda f: f / (1.0 - f)
+    val = lambda n: mac[n]["value"]
+    rows, bad = [], []
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+
+    # ---- J0: every final key has its spec, every summary it names exists, its macros print black and cite the summaries
+    miss = [k for k in final if k not in specs]
+    nosum = [k for k in final for r in specs.get(k, {}).get("realizations", []) if not (RUNS16 / specs[k]["run"].format(R=f"{r:03d}") / "summary.json").exists()]
+    notblack = [n for n, ks in owner.items() if all(k in final for k in ks) and (mac[n]["class"] != "plain" or not ("file" in mac[n]["source"] or "files" in mac[n]["source"]))]
+    check(not miss and not nosum and not notblack, f"J0 {len(final)} production keys ({', '.join(sorted(final))}): each has its runs in production_map.json, every summary.json exists, "
+                                                   f"every macro prints black and cites its summary ({len(miss) + len(nosum) + len(notblack)} exceptions{': ' + ', '.join((miss + nosum + notblack)[:6]) if miss or nosum or notblack else ''})")
+    comb_cache = {}
+    for k in sorted(final):
+        sp = specs[k]
+        runs = [RUNS16 / sp["run"].format(R=f"{r:03d}") for r in sp["realizations"]]
+        rA = RUNS16 / sp["run"].format(R=f"{sp['realization_A']:03d}")
+        sA = _jr(rA / "summary.json")
+        grid = sp["mode"] == "grid"
+        if grid:
+            names, axes, tot = _grid_comb(runs)
+            nA, aA, tA = _grid_comb([rA])
+        for q in sp["quantities"]:
+            if q == "RateRatio":
+                continue
+            par = QPAR[q]
+            vA, vC = val(f"{k}{q}"), val(f"{k}{q}Comb")
+            hwA, hwC = 0.5 * (vA["ci90"][1] - vA["ci90"][0]), 0.5 * (vC["ci90"][1] - vC["ci90"][0])
+            x0 = doc[k]["quantities"][q]["input"]
+            conv = k.startswith("Free") and q in ("LognGal", "LognAGN")
+            # realization A: the macro is the summary's median and 90% interval
+            if not conv:
+                ps = sA["posterior"][par]
+                for nm, a, b in (("median", vA["median"], ps["median"]), ("lo", vA["ci90"][0], ps["ci90"][0]), ("hi", vA["ci90"][1], ps["ci90"][1])):
+                    cmp(f"{k}{q}", a, b, 1e-12, f"A {nm} = summary.json")
+                cmp(f"{k}{q}Wid", val(f"{k}{q}Wid"), ps["ci90"][1] - ps["ci90"][0], 1e-12, "A width = summary.json")
+            # realization A and the combination from the grids / samples
+            if grid:
+                ownA = _quant(*_marg(nA, aA, tA, par))
+                own = _quant(*_marg(names, axes, tot, par), x0)
+                comb_cache[(k, q)] = _marg(names, axes, tot, par)
+            else:
+                if conv:
+                    sets = []
+                    for r in runs:
+                        s, w = _nested_w(r, [par, "H0"])
+                        sets.append((s[:, 0] + 3 * np.log10(s[:, 1] / 100.0), w))
+                else:
+                    sets = [(lambda sw: (sw[0][:, 0], sw[1]))(_nested_w(r, [par])) for r in runs]
+                sa, wa = sets[sp["realizations"].index(sp["realization_A"])]
+                qa = _wq(sa, wa, [0.05, 0.5, 0.95])
+                ownA = {"median": float(qa[1]), "ci90": [float(qa[0]), float(qa[2])]}
+                lo = min(s.min() for s, _ in sets)
+                hi = max(s.max() for s, _ in sets)
+                pr = {"H0": (50.0, 100.0), "f_agn": (0.0, 1.0)}.get(par)
+                if pr and not conv:
+                    lo, hi = pr
+                xc, pc = _kde_prod(sets, lo, hi)
+                own = _quant(xc, pc, x0)
+                comb_cache[(k, q)] = (xc, pc)
+            # the run's own summary of a 2-D grid integrates f_AGN by the trapezoid rule on its 0.025 lattice (about 0.5 sd):
+            # its 90% interval is wider than the spline-refined one by up to 6% of the half-width on each side
+            coarse_f = grid and par == "f_agn" and len(nA) == 2
+            tolA = (0.06 if coarse_f else 0.015) * hwA if not conv else 0.05 * hwA
+            for nm, a, b in (("median", vA["median"], ownA["median"]), ("lo", vA["ci90"][0], ownA["ci90"][0]), ("hi", vA["ci90"][1], ownA["ci90"][1])):
+                cmp(f"{k}{q}", a, b, max(tolA, 5e-4), f"A {nm} (summary.json) vs own {'spline of the grid' if grid else 'weighted samples'}"
+                                                     + (" (trapezoid on the 0.025 f lattice)" if coarse_f else ""))
+            tolC = (0.01 if grid else 0.08) * hwC
+            for nm, a, b in (("median", vC["median"], own["median"]), ("lo", vC["ci90"][0], own["ci90"][0]), ("hi", vC["ci90"][1], own["ci90"][1])):
+                cmp(f"{k}{q}Comb", a, b, max(tolC, 5e-4 if q != "Hzero" else 0.005), f"Comb {nm} vs own {'summed splines' if grid else 'Scott-KDE product'}")
+            if f"{k}{q}CombUL" in mac:
+                cmp(f"{k}{q}CombUL", val(f"{k}{q}CombUL"), own["ul90"], max(tolC, 2e-3), "Comb 90% upper limit")
+            if x0 is not None and isinstance(val(f"{k}{q}CL"), (int, float)):
+                cmp(f"{k}{q}CL", val(f"{k}{q}CL"), own["level"], 0.01 if grid else 0.04, "credible level of the input in Comb")
+        # rate per host
+        if "RateRatio" in sp["quantities"]:
+            Rin = val("MockRateRatio")
+            zr = sp["quantities"]["RateRatio"]["z_ratio"]
+            vA, vC = val(f"{k}RateRatio"), val(f"{k}RateRatioComb")
+            if zr in ("catalog_counts", "counts_and_missing_volume"):
+                def zratio(run):
+                    c = _counts(run)
+                    if zr == "catalog_counts":
+                        return c["gal"] / c["agn"]
+                    C = _a15()
+                    sm = _jr(run / "summary.json")
+                    rk = f"m{sm['flux']}" if not str(sm["flux"]).startswith("m") else sm["flux"]
+                    Z = {}
+                    for cls in ("gal", "agn"):
+                        d = sm["densities"][cls]
+                        fit = C.schechter_fit(C.FITS / f"fit_{cls}_{rk}_schechter.json")
+                        Z[cls] = C.z_closed(c[cls], d["log10n_used"] + 3 * math.log10(0.6774), fit, 67.74, C.ZMAX_R)
+                    return Z["gal"] / Z["agn"]
+                ratios = [zratio(r) for r in runs]
+                ra = ratios[sp["realizations"].index(sp["realization_A"])]
+                pf = sA["posterior"]["f_agn"]
+                for nm, a, b in (("median", vA["median"], odds(pf["median"]) * ra), ("lo", vA["ci90"][0], odds(pf["ci90"][0]) * ra), ("hi", vA["ci90"][1], odds(pf["ci90"][1]) * ra)):
+                    cmp(f"{k}RateRatio", a, b, 1e-6 * abs(b) + (0 if zr == "catalog_counts" else 2e-4 * abs(b)), f"A {nm} = odds(summary f) x own Z ratio")
+                gm = math.exp(float(np.mean(np.log(ratios))))
+                xf, pff = comb_cache[(k, "fAGN")]
+                of = _quant(xf, pff, Rin / (Rin + gm))
+                hw = 0.5 * (vC["ci90"][1] - vC["ci90"][0])
+                for nm, a, b in (("median", vC["median"], odds(of["median"]) * gm), ("lo", vC["ci90"][0], odds(of["ci90"][0]) * gm), ("hi", vC["ci90"][1], odds(of["ci90"][1]) * gm)):
+                    cmp(f"{k}RateRatioComb", a, b, 0.01 * hw, f"Comb {nm}: own f combination x geometric-mean Z ratio")
+                cmp(f"{k}RateRatioCL", val(f"{k}RateRatioCL"), of["level"], 0.01, "credible level of the input rate ratio")
+        # Bayes factors
+        L = sp.get("LB")
+        if L and L["kind"] == "savage_dickey_f0":
+            from scipy.interpolate import Akima1DInterpolator
+            for part, rs, nmm in (("A", [rA], f"{k}LB"), ("Comb", runs, f"{k}LBComb")):
+                Hd = np.linspace(50, 100, 25001)
+                col = np.zeros_like(Hd)
+                for r in rs:
+                    c_ = _grid_spl(r)[1]                                     # the coarse pass holds f = 0 on its nodes
+                    names_c, ax_c = c_[0], c_[1]
+                    with h5py.File(r / "grid" / "coarse.h5", "r") as h:
+                        l = np.asarray(h["lnL"][()], float)
+                        if _jr(r / "config.json")["half_variance_correction"]:
+                            l = l + 0.5 * np.asarray(h["pe_var"][()], float) - 0.5 * int(h.attrs["n_events"]) / np.asarray(h["n_eff"][()], float)
+                    j = int(np.argmin(np.abs(ax_c[1])))
+                    assert abs(ax_c[1][j]) < 1e-12
+                    col += Akima1DInterpolator(ax_c[0], l[:, j])(Hd)
+                lz0 = col.max() + math.log(np.trapz(np.exp(col - col.max()), Hd))
+                if part == "A":
+                    # the run's own grid evidence: ln[(1/vol) int int L]; the f = 0 evidence with the same H0 prior: ln[(1/50) int L(H0, 0)]
+                    lzt = sA["ln_evidence"]["value"] + math.log(50.0 * 1.0)
+                else:
+                    nm_, ax_, tt = names, axes, tot
+                    m = tt.max()
+                    I = _simpson(_simpson(np.exp(tt - m), ax_[1], axis=1), ax_[0])
+                    lzt = m + math.log(I)
+                cmp(nmm, val(nmm), (lzt - lz0) / math.log(10), max(0.02, 0.002 * abs(val(nmm))), f"{part}: Savage-Dickey at f = 0 (Akima f = 0 column; "
+                                                                                             f"{'summary ln_evidence' if part == 'A' else 'own lattice'})")
+        elif L:
+            per = []
+            for r in sp["realizations"]:
+                za = _jr(RUNS16 / sp["run"].format(R=f"{r:03d}") / "summary.json")["ln_evidence"]["value"]
+                zb = _jr(RUNS16 / L["reference_run"].format(R=f"{r:03d}") / "summary.json")["ln_evidence"]["value"]
+                per.append((za - zb) / math.log(10))
+            cmp(f"{k}LB", val(f"{k}LB"), per[sp["realizations"].index(sp["realization_A"])], 1e-9, "A: ln Z difference of the summaries")
+            cmp(f"{k}LBComb", val(f"{k}LBComb"), float(sum(per)), 1e-9, "Comb: sum over the realizations")
+        # correlations of the joint posteriors
+        if k == "KnownBoth":
+            cmp("KnownBothCorrHzerofAGN", val("KnownBothCorrHzerofAGN"), sA["rho_H0_f"], 0.03, "A correlation vs the run's own (fine grid)")
+            P = np.exp(tot - tot.max())
+            X, Y = np.meshgrid(*axes, indexing="ij")
+            w = P / P.sum()
+            mx, my = (w * X).sum(), (w * Y).sum()
+            rc = (w * (X - mx) * (Y - my)).sum() / math.sqrt((w * (X - mx) ** 2).sum() * (w * (Y - my) ** 2).sum())
+            cmp("KnownBothCorrHzerofAGNComb", val("KnownBothCorrHzerofAGNComb"), rc, 0.03, "Comb correlation on the own lattice")
+        if k in ("SingleBoth", "SingleNone"):
+            s, w = _nested_w(rA, ["H0", "mu_G"])
+            mx, my = np.sum(w * s[:, 0]), np.sum(w * s[:, 1])
+            rc = np.sum(w * (s[:, 0] - mx) * (s[:, 1] - my)) / math.sqrt(np.sum(w * (s[:, 0] - mx) ** 2) * np.sum(w * (s[:, 1] - my) ** 2))
+            cmp(f"CorrHzeroMuG{'Both' if k == 'SingleBoth' else 'None'}", val(f"CorrHzeroMuG{'Both' if k == 'SingleBoth' else 'None'}"), rc, 0.05 + 1e-9,
+                "A correlation of the weighted samples (printed to one decimal)")
+    # ---- further macros from the summaries
+    fin = set(final)
+    widA = lambda k: (lambda p: p["ci90"][1] - p["ci90"][0])(_jr(RUNS16 / specs[k]["run"].format(R=f"{specs[k]['realization_A']:03d}") / "summary.json")["posterior"]["H0"])
+    if {"Galhosted", "AGNhosted"} <= fin:
+        cmp("WidthRatioAGNGal", val("WidthRatioAGNGal"), widA("Galhosted") / widA("AGNhosted"), 1e-12, "ratio of the summaries' 90% widths")
+    for nm, kn, kb in (("MassScaleShareKnown", "KnownNone", "KnownBoth"), ("MassScaleShareSingle", "SingleNone", "SingleBoth")):
+        if {kn, kb} <= fin:
+            cmp(nm, val(nm), widA(kn) / widA(kb), 1e-12, "ratio of the summaries' 90% widths")
+    for pre in ("HD", "Obs"):
+        if f"{pre}Single" in fin and (f"{pre}Single", "Hzero") in comb_cache:
+            o = _quant(*comb_cache[(f"{pre}Single", "Hzero")])
+            cmp(f"{pre}BiasHzero", val(f"{pre}BiasHzero"), o["median"] - B.IN["H0"], 0.08 * 0.5 * (o["ci90"][1] - o["ci90"][0]), "own Comb median minus the input")
+        if f"{pre}Host" in fin:
+            cmp(f"{pre}LB", val(f"{pre}LB"), val(f"{pre}HostLB"), 1e-12, "= HostLB")
+    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf))
+    check(not bad, f"J1 {len(rows)} numbers of the production keys recomputed by a second code path (summary.json read directly; own splines of the grids; "
+                   f"own weighted samples and kernel densities; own survey counts; Analysis 15's missing volumes); largest deviation {worst[2]:.2g} "
+                   f"({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
 
 
 def _trap_median(x, L):

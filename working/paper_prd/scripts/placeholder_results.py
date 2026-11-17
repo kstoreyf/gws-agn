@@ -29,9 +29,16 @@ outside A's.) Exploratory combinations use the exploratory realizations that are
 realizations of the key where those exist (all-AGN and all-galaxy sets, each catalog alone: 100, 101, 102,
 103, 105), and all nine exploratory realizations for both catalogs.
 
-Production summaries (contract): values/production_map.json maps a key to a JSON file with the same schema
-as one entry here ({"quantities": {Q: {"A": summary, "Comb": summary, ...}}, "joint": ..., "LB": ...}); when
-the file exists it replaces the entry and the entry is marked final.
+Production summaries (contract): values/production_map.json (written by scripts/production.py --write-map from
+Analysis 16's run lists) names, for each key whose runs are in analyses/analysis_16_production_runs/runs/
+RUNLIST.yaml or RUNLIST_experiment.yaml, its runs: realization A (100), the realizations combined, and per
+quantity the summary.json field, the combination and the input of the credible level. When EVERY summary.json
+the key needs exists, scripts/production.py builds the entry from them (realization A: the summary's median and
+90% interval, the shape from the run's grid or samples; Comb and CL: the letter's results.py combination, ln L
+of the grids summed or the product of the kernel densities of nested runs) and marks it final (black). A key
+with only part of its runs finished keeps its placeholder entry unchanged (red) and is listed as partial in
+"_production_status"; keys without a run in the lists are listed there as well. Keys the map does not name are
+built exactly as before. (The old form of the map, key -> a JSON file with the schema of one entry, still works.)
 """
 from __future__ import annotations
 
@@ -39,6 +46,8 @@ import json
 import math
 import sys
 from pathlib import Path
+
+sys.modules.setdefault("placeholder_results", sys.modules[__name__])   # one module when run as a script
 
 import h5py
 import numpy as np
@@ -72,7 +81,28 @@ KEY_SELECTOR = {   # key -> the run-list arguments of its runs (realization excl
 for _k, _w, _m in bv.RUNGS:
     KEY_SELECTOR[f"Flux{_w}"] = dict(analysis="known_population", catalogs="both", flux=str(_m), events="equal_populations", density="counts")
     KEY_SELECTOR[f"Free{_w}"] = dict(analysis="free_densities", catalogs="both", flux=str(_m), events="equal_populations", density="free")
-# keys whose runs are not in the run list yet: runs.txt, block "REVISION OF 17 NOV" and "APPROVED BY THE OWNER"
+# the two control keys are runs of the letter's experiment (RUNLIST_experiment.yaml): its f = 0 and f = 0.1 sets of the
+# peak-dominated family, both catalogs, f_AGN free (two_tracers_one_population = population known, both catalogs)
+RUNLIST_EXP = RUNLIST.parent / "RUNLIST_experiment.yaml"
+EXP_SELECTOR = {"CtrlZero": ("two_tracers_one_population", "peak_f0p00_s0"), "CtrlTenth": ("two_tracers_one_population", "peak_f0p10_s0")}
+
+
+def _experiment_realizations():
+    import yaml
+    out = {}
+    if not RUNLIST_EXP.exists():
+        return out
+    for st in yaml.safe_load(RUNLIST_EXP.read_text())["stages"]:
+        for r in st["runs"]:
+            for key, (an, lab) in EXP_SELECTOR.items():
+                if r["analysis"] == an and r["set"]["label"] == lab:
+                    a = r["args"]
+                    out.setdefault(key, set()).add(int(a[a.index("--realization") + 1]))
+    return {k: sorted(v) for k, v in out.items()}
+
+
+RUNREAL_EXP = _experiment_realizations()
+# keys whose runs are not in the run lists yet: runs.txt, block "REVISION OF 17 NOV" and "APPROVED BY THE OWNER"
 NOT_IN_RUNLIST = {
     "CtrlZero": (5, "run R4 of runs.txt (no AGN-hosted mergers), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"),
     "CtrlTenth": (5, "run R4 of runs.txt (one merger in ten AGN-hosted), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"),
@@ -104,10 +134,13 @@ def _runlist_realizations():
 
 RUNREAL = _runlist_realizations()
 NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizations {v}") for k, v in RUNREAL.items()}
-NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items()})
+NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items() if k not in RUNREAL_EXP})
+NREAL.update({k: (len(v), f"RUNLIST_experiment.yaml: {len(v)} runs of {EXP_SELECTOR[k][0]} on the experiment's set {EXP_SELECTOR[k][1]}, realizations {v}")
+              for k, v in RUNREAL_EXP.items()})
 assert set(NREAL) == set(KEY_SELECTOR) | set(NOT_IN_RUNLIST), sorted(set(KEY_SELECTOR) - set(NREAL))
 STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": "Stage 1: all-AGN and all-galaxy event sets",
-               "ctrl": "run R4 of runs.txt (not yet in the run list)", "flux": "Stage 2: flux-limited catalogs, densities from catalog counts",
+               "ctrl": ("experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs" if RUNREAL_EXP else
+                        "run R4 of runs.txt (not yet in the run list)"), "flux": "Stage 2: flux-limited catalogs, densities from catalog counts",
                "free": "Stage 2: number densities inferred", "single": "Stage 3: single population, equal populations",
                "hdsingle": "Stage 4: host-dependent events, single population", "hdhost": "Stage 4: host-dependent events, host-dependent populations",
                "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events (not yet in the run list)"}
@@ -242,7 +275,7 @@ def invented_comb(sA, N, x0, bias=0.0, rng=None, kind="normal"):
 def entry(events, analysis, catalogs, free, stage, key):
     N, why = NREAL[key]
     return {"events": events, "analysis": analysis, "catalogs": catalogs, "free": free, "stage": f"{STAGE_TITLE[stage]}, {N} realizations",
-            "N_comb": N, "N_comb_source": why, "realizations": RUNREAL.get(key),
+            "N_comb": N, "N_comb_source": why, "realizations": RUNREAL.get(key, RUNREAL_EXP.get(key)),
             "final": False, "quantities": {}, "joint": {}, "LB": None}
 
 
@@ -487,31 +520,29 @@ def build():
 
 
 def production_override(K):
-    pm = json.loads(PMAP.read_text()) if PMAP.exists() else {}
-    for key, path in pm.items():
-        p = Path(path) if Path(path).is_absolute() else bv.W / path
-        if key in K and p.exists():
-            E = json.loads(p.read_text())
-            E.update({"final": True, "production_file": str(path)})
-            for q in E.get("quantities", {}).values():
-                q["source"] = q["comb_source"] = "production"
-            K[key] = E
-    return pm
+    """Entries from Analysis 16's run summaries wherever every run of a key exists (scripts/production.py)."""
+    import production
+    pm, status = production.apply(K, INPUT)
+    return pm, status
 
 
 def main():
     K = build()
     if not PMAP.exists():
         PMAP.write_text(json.dumps({}, indent=1) + "\n")
-    pm = production_override(K)
+    pm, status = production_override(K)
     doc = {"_what": "placeholder results of the PRD paper (notes/PAPER_SKELETON.md Secs. 6 and 7), one entry per key; written by scripts/placeholder_results.py",
            "_conventions": __doc__, "_inputs": {**INPUT, "RateRatio_note": "[0.30/0.70] N_gal/N_AGN of the reference catalog pair"},
            "_inputs_observed_like": {**INPUT_OBS, "file": bv.rel(OBSJ)},
-           "_realizations_combined": {k: {"N": v[0], "source": v[1], "realizations": RUNREAL.get(k)} for k, v in NREAL.items()},
-           "_production_map": pm, "keys": bv.jsonable(K)}
+           "_realizations_combined": {k: {"N": v[0], "source": v[1], "realizations": RUNREAL.get(k, RUNREAL_EXP.get(k))} for k, v in NREAL.items()},
+           "_production_map": bv.rel(PMAP), "_production_status": status, "keys": bv.jsonable(K)}
     OUTJ.write_text(json.dumps(doc, indent=0))
     n = sum(len(E["quantities"]) for E in K.values())
     print(f"wrote {OUTJ.relative_to(PRD)}: {len(K)} keys, {n} key-quantities")
+    if status:
+        import production
+        print("production keys (values/production_map.json):")
+        print("\n".join(production.status_lines(status)))
     return doc
 
 

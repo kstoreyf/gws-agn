@@ -18974,8 +18974,8 @@
    "value": {
     "median": 36.5085125159711,
     "ci68": [
-     27.13123877698667,
-     47.75564117764638
+     27.131238776986667,
+     47.755641177646375
     ],
     "ci90": [
      21.513313964785002,
@@ -20572,8 +20572,8 @@
   },
   "MCAGNNThirtyTwoK": {
    "class": "plain",
-   "render": "1",
-   "value": 1.0,
+   "render": "20",
+   "value": 20.0,
    "units": "redraws",
    "meaning": "number of redraws of the posterior samples at 32000 per event, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
@@ -20585,26 +20585,28 @@
    "extra": {}
   },
   "MCAGNHzeroSdThirtyTwoK": {
-   "class": "ph",
-   "render": "\\ph{XX}",
-   "value": null,
+   "class": "plain",
+   "render": "0.13",
+   "value": 0.1337413890394771,
    "units": "km/s/Mpc",
    "meaning": "spread (sd over redraws) of the posterior median of H0 at 32000 samples per event, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
-    "missing": "Analysis 14 (analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json, written by scripts/aggregate_mc_accuracy.py at the end of RITA-GPU jobs 1414628 (mixed set) and 1414642 (all-AGN set); run R0)"
+    "file": "analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json",
+    "computation": "read from the Analysis-14 summary (aggregate_mc_accuracy.py: spread = sd with ddof 1 over redraws; hw68 = mean 68% half-width)"
    },
    "claim": "appendixA,item4",
    "containment": null,
    "extra": {}
   },
   "MCAGNHzeroSdRelThirtyTwoK": {
-   "class": "ph",
-   "render": "\\ph{XX}",
-   "value": null,
+   "class": "plain",
+   "render": "0.28",
+   "value": 0.28496826277685205,
    "units": "",
    "meaning": "that spread over the mean 68% half-width of H0, 32000 samples per event, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
-    "missing": "Analysis 14 (analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json, written by scripts/aggregate_mc_accuracy.py at the end of RITA-GPU jobs 1414628 (mixed set) and 1414642 (all-AGN set); run R0)"
+    "file": "analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json",
+    "computation": "read from the Analysis-14 summary (aggregate_mc_accuracy.py: spread = sd with ddof 1 over redraws; hw68 = mean 68% half-width)"
    },
    "claim": "appendixA,item4",
    "containment": null,
@@ -20612,8 +20614,8 @@
   },
   "MCAGNHzeroMedThirtyTwoK": {
    "class": "plain",
-   "render": "68.00",
-   "value": 68.00324948792944,
+   "render": "67.94",
+   "value": 67.94232982394594,
    "units": "km/s/Mpc",
    "meaning": "mean over redraws of the posterior median of H0, 32000 samples per event, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
@@ -20626,8 +20628,8 @@
   },
   "MCAGNLnLVarThirtyTwoK": {
    "class": "plain",
-   "render": "5.0",
-   "value": 5.046974033368759,
+   "render": "4.9",
+   "value": 4.889358058223923,
    "units": "",
    "meaning": "variance of the ln L estimator at the reference cell (posterior-sample term plus N^2/N_eff), mean over redraws, 32000 samples per event, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
@@ -20640,8 +20642,8 @@
   },
   "MCAGNSecPerCallThirtyTwoK": {
    "class": "plain",
-   "render": "1.02",
-   "value": 1.0244693756103516,
+   "render": "1.03",
+   "value": 1.0273720026016235,
    "units": "s",
    "meaning": "seconds per likelihood call (median), 32000 samples per event, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103) (one A100)",
    "source": {
@@ -20653,39 +20655,42 @@
    "extra": {}
   },
   "MCAGNInjN": {
-   "class": "ph",
-   "render": "\\ph{XX}",
-   "value": null,
+   "class": "plain",
+   "render": "6",
+   "value": 6.0,
    "units": "sets",
    "meaning": "injection sets compared (the record plus redraws; 8000 samples per event, redraw 0), all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
-    "missing": "Analysis 14 (analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json, written by scripts/aggregate_mc_accuracy.py at the end of RITA-GPU jobs 1414628 (mixed set) and 1414642 (all-AGN set); run R0)"
+    "file": "analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json",
+    "computation": "read from the Analysis-14 summary (aggregate_mc_accuracy.py: spread = sd with ddof 1 over redraws; hw68 = mean 68% half-width)"
    },
    "claim": "appendixA,item4",
    "containment": null,
    "extra": {}
   },
   "MCAGNInjHzeroSd": {
-   "class": "ph",
-   "render": "\\ph{XX}",
-   "value": null,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.26524526658657893,
    "units": "km/s/Mpc",
    "meaning": "spread (sd) of the posterior median of H0 over injection sets, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
-    "missing": "Analysis 14 (analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json, written by scripts/aggregate_mc_accuracy.py at the end of RITA-GPU jobs 1414628 (mixed set) and 1414642 (all-AGN set); run R0)"
+    "file": "analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json",
+    "computation": "read from the Analysis-14 summary (aggregate_mc_accuracy.py: spread = sd with ddof 1 over redraws; hw68 = mean 68% half-width)"
    },
    "claim": "appendixA,item4",
    "containment": null,
    "extra": {}
   },
   "MCAGNInjHzeroSdRel": {
-   "class": "ph",
-   "render": "\\ph{XX}",
-   "value": null,
+   "class": "plain",
+   "render": "0.50",
+   "value": 0.49884770831994496,
    "units": "",
    "meaning": "that spread over the mean 68% half-width, all-AGN-hosted set (f_AGN = 1, AGN catalog alone; seed 103)",
    "source": {
-    "missing": "Analysis 14 (analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json, written by scripts/aggregate_mc_accuracy.py at the end of RITA-GPU jobs 1414628 (mixed set) and 1414642 (all-AGN set); run R0)"
+    "file": "analyses/analysis_14_monte_carlo_accuracy/results/mc_accuracy_summary.json",
+    "computation": "read from the Analysis-14 summary (aggregate_mc_accuracy.py: spread = sd with ddof 1 over redraws; hw68 = mean 68% half-width)"
    },
    "claim": "appendixA,item4",
    "containment": null,
@@ -22172,32 +22177,25 @@
    "extra": {}
   },
   "KnownBothHzero": {
-   "class": "ph",
-   "render": "\\ph{69.2^{+1.6}_{-1.6}}",
+   "class": "plain",
+   "render": "68.4^{+1.9}_{-2.0}",
    "value": {
-    "median": 69.21726681997767,
+    "median": 68.39855900640404,
     "ci68": [
-     68.25420073058984,
-     70.18081037353154
+     67.23991499513339,
+     69.52813537296169
     ],
     "ci90": [
-     67.62071625380895,
-     70.8167582081927
+     66.38162720352626,
+     70.31162504572232
     ],
-    "ul90": 70.46057938083554,
-    "level_of_input": 0.8722624795712075
+    "ul90": 69.85996801183676,
+    "level_of_input": 0.43511023512880376
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -22207,132 +22205,90 @@
    }
   },
   "KnownBothHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{69.2}",
-   "value": 69.21726681997767,
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.39855900640404,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{67.6}",
-   "value": 67.62071625380895,
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.38162720352626,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{70.8}",
-   "value": 70.8167582081927,
+   "class": "plain",
+   "render": "70.3",
+   "value": 70.31162504572232,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.2}",
-   "value": 3.1960419543837446,
+   "class": "plain",
+   "render": "3.9",
+   "value": 3.929997842196059,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.5980209771918723,
+   "class": "plain",
+   "render": "2.0",
+   "value": 1.9649989210980294,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (KnownBothHzeroWid) of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{68.4^{+0.6}_{-0.6}}",
+   "class": "plain",
+   "render": "68.2^{+0.6}_{-0.6}",
    "value": {
-    "median": 68.3617242888959,
+    "median": 68.1971133361007,
     "ci68": [
-     67.9803318377475,
-     68.74306079849963
+     67.84006660019116,
+     68.54871893026733
     ],
     "ci90": [
-     67.72947993121802,
-     68.99503197996829
+     67.60315310925715,
+     68.77691044858076
     ],
-    "ul90": 68.85479871066696,
-    "level_of_input": 0.8948017867439253
+    "ul90": 68.64766630874311,
+    "level_of_input": 0.7962484952073037
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -22342,132 +22298,90 @@
    }
   },
   "KnownBothHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{68.4}",
-   "value": 68.3617242888959,
+   "class": "plain",
+   "render": "68.2",
+   "value": 68.1971133361007,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.7}",
-   "value": 67.72947993121802,
+   "class": "plain",
+   "render": "67.6",
+   "value": 67.60315310925715,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{69.0}",
-   "value": 68.99503197996829,
+   "class": "plain",
+   "render": "68.8",
+   "value": 68.77691044858076,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.2655520487502656,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.1737573393236147,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{89}",
-   "value": 0.8948017867439253,
+   "class": "plain",
+   "render": "80",
+   "value": 0.7962484952073037,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in KnownBothHzeroComb (H0, [key KnownBoth] equal populations; population known; both catalogs, complete)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.27^{+0.08}_{-0.08}}",
+   "class": "plain",
+   "render": "0.27^{+0.08}_{-0.08}",
    "value": {
-    "median": 0.27337782810374855,
+    "median": 0.2697441428037549,
     "ci68": [
-     0.22731225209870531,
-     0.3205155480727777
+     0.22291876489685208,
+     0.3179051691819008
     ],
     "ci90": [
-     0.19796121939573585,
-     0.3517339573019738
+     0.1887344602431153,
+     0.3522844233822816
     ],
-    "ul90": 0.33426842727368555,
-    "level_of_input": 0.42723316515345466
+    "ul90": 0.3319619738091452,
+    "level_of_input": 0.46917585133538386
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -22477,132 +22391,90 @@
    }
   },
   "KnownBothfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.27}",
-   "value": 0.27337782810374855,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.2697441428037549,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.20}",
-   "value": 0.19796121939573585,
+   "class": "plain",
+   "render": "0.19",
+   "value": 0.1887344602431153,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.35}",
-   "value": 0.3517339573019738,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.3522844233822816,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.15}",
-   "value": 0.15377273790623797,
+   "class": "plain",
+   "render": "0.16",
+   "value": 0.1635499631391663,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.08}",
-   "value": 0.07688636895311898,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.08177498156958316,
    "units": "",
    "meaning": "half of the full 90% width (KnownBothfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.283^{+0.027}_{-0.027}}",
+   "class": "plain",
+   "render": "0.306^{+0.026}_{-0.026}",
    "value": {
-    "median": 0.2828710866478401,
+    "median": 0.3062589805767827,
     "ci68": [
-     0.2665313967621991,
-     0.29932786960020663
+     0.29038002276944125,
+     0.32224285587528695
     ],
     "ci90": [
-     0.25592298283591053,
-     0.3101030266512138
+     0.2800718804677494,
+     0.3327467010456157
     ],
-    "ul90": 0.3041088114459255,
-    "level_of_input": 0.7003812183095912
+    "ul90": 0.3268805739852372,
+    "level_of_input": 0.30448748659074876
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -22612,132 +22484,90 @@
    }
   },
   "KnownBothfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.283}",
-   "value": 0.2828710866478401,
+   "class": "plain",
+   "render": "0.306",
+   "value": 0.3062589805767827,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.256}",
-   "value": 0.25592298283591053,
+   "class": "plain",
+   "render": "0.280",
+   "value": 0.2800718804677494,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.310}",
-   "value": 0.3101030266512138,
+   "class": "plain",
+   "render": "0.333",
+   "value": 0.3327467010456157,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.054}",
-   "value": 0.05418004381530328,
+   "class": "plain",
+   "render": "0.053",
+   "value": 0.05267482057786632,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{70}",
-   "value": 0.7003812183095912,
+   "class": "plain",
+   "render": "30",
+   "value": 0.30448748659074876,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in KnownBothfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key KnownBoth] equal populations; population known; both catalogs, complete)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatio": {
-   "class": "ph",
-   "render": "\\ph{38^{+17}_{-13}}",
+   "class": "plain",
+   "render": "37^{+17}_{-14}",
    "value": {
-    "median": 37.55433886794833,
+    "median": 36.87079074531492,
     "ci68": [
-     29.364614000562703,
-     47.08418481926988
+     28.63424152961593,
+     46.52199271157393
     ],
     "ci90": [
-     24.637136507439976,
-     54.15848444723591
+     23.221680861554407,
+     54.28934188911089
     ],
-    "ul90": 50.11935440321263,
-    "level_of_input": 0.42723316515345466
+    "ul90": 49.6012511751161,
+    "level_of_input": 0.46917585133538386
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k)) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -22747,112 +22577,77 @@
    }
   },
   "KnownBothRateRatioMed": {
-   "class": "ph",
-   "render": "\\ph{38}",
-   "value": 37.55433886794833,
+   "class": "plain",
+   "render": "37",
+   "value": 36.87079074531492,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioLo": {
-   "class": "ph",
-   "render": "\\ph{25}",
-   "value": 24.637136507439976,
+   "class": "plain",
+   "render": "23",
+   "value": 23.221680861554407,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioHi": {
-   "class": "ph",
-   "render": "\\ph{54}",
-   "value": 54.15848444723591,
+   "class": "plain",
+   "render": "54",
+   "value": 54.28934188911089,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioWid": {
-   "class": "ph",
-   "render": "\\ph{30}",
-   "value": 29.52134793979593,
+   "class": "plain",
+   "render": "31",
+   "value": 31.06766102755648,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, realization A (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioComb": {
-   "class": "ph",
-   "render": "\\ph{39^{+6}_{-5}}",
+   "class": "plain",
+   "render": "44^{+6}_{-5}",
    "value": {
-    "median": 39.43318423997724,
+    "median": 44.13362040221453,
     "ci68": [
-     36.32765537264995,
-     42.70737053884485
+     40.90901272098489,
+     47.53213156894033
     ],
     "ci90": [
-     34.38443721329378,
-     44.93578027646907
+     38.89183793054161,
+     49.85412814288088
     ],
-    "ul90": 43.68802500294906,
-    "level_of_input": 0.6906025883377296
+    "ul90": 48.54841820843676,
+    "level_of_input": 0.3192951535424161
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k)) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -22862,166 +22657,116 @@
    }
   },
   "KnownBothRateRatioCombMed": {
-   "class": "ph",
-   "render": "\\ph{39}",
-   "value": 39.43318423997724,
+   "class": "plain",
+   "render": "44",
+   "value": 44.13362040221453,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioCombLo": {
-   "class": "ph",
-   "render": "\\ph{34}",
-   "value": 34.38443721329378,
+   "class": "plain",
+   "render": "39",
+   "value": 38.89183793054161,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioCombHi": {
-   "class": "ph",
-   "render": "\\ph{45}",
-   "value": 44.93578027646907,
+   "class": "plain",
+   "render": "50",
+   "value": 49.85412814288088,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioCombWid": {
-   "class": "ph",
-   "render": "\\ph{11}",
-   "value": 10.551343063175288,
+   "class": "plain",
+   "render": "11",
+   "value": 10.96229021233927,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (Z_k = N_k))",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete, combined over 10 realizations (R = [f/(1-f)] N_gal/N_AGN (complete catalogs, Z_k = N_k); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.97))",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothRateRatioCL": {
-   "class": "ph",
-   "render": "\\ph{69}",
-   "value": 0.6906025883377296,
+   "class": "plain",
+   "render": "32",
+   "value": 0.3192951535424161,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in KnownBothRateRatioComb (merger rate per AGN over merger rate per galaxy, [key KnownBoth] equal populations; population known; both catalogs, complete)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 9 realizations [100, 101, 102, 103, 105, 114, 115, 116, 117] (log-likelihoods summed)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothLB": {
-   "class": "ph",
-   "render": "\\ph{11}",
-   "value": 11.139050814901163,
+   "class": "plain",
+   "render": "11",
+   "value": 10.712545599012271,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key KnownBoth] equal populations; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grid, f_AGN prior [0, 1], realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "exploratory",
-    "placeholder_file": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothLBComb": {
-   "class": "ph",
-   "render": "\\ph{\\ensuremath{1.0\\times10^{2}}}",
-   "value": 101.23801798262048,
+   "class": "plain",
+   "render": "\\ensuremath{1.3\\times10^{2}}",
+   "value": 127.40081040242349,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key KnownBoth] equal populations; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grid, f_AGN prior [0, 1], combined over 10 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "exploratory",
-    "placeholder_file": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5",
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzero": {
-   "class": "ph",
-   "render": "\\ph{69.9^{+3.0}_{-2.7}}",
+   "class": "plain",
+   "render": "69.5^{+3.4}_{-3.1}",
    "value": {
-    "median": 69.90956404308895,
+    "median": 69.47350164568165,
     "ci68": [
-     68.34640383839384,
-     71.62630789333127
+     67.63428871313666,
+     71.46689996281192
     ],
     "ci90": [
-     67.24249723795573,
-     72.89698457853093
+     66.3998394482496,
+     72.8821225981318
     ],
-    "ul90": 72.18031284528902,
-    "level_of_input": 0.8253634871610149
+    "ul90": 72.0864902461713,
+    "level_of_input": 0.6514293724762106
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key KnownGal] equal populations; population known; galaxy catalog alone, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23031,132 +22776,90 @@
    }
   },
   "KnownGalHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{69.9}",
-   "value": 69.90956404308895,
+   "class": "plain",
+   "render": "69.5",
+   "value": 69.47350164568165,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{67.2}",
-   "value": 67.24249723795573,
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.3998394482496,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{72.9}",
-   "value": 72.89698457853093,
+   "class": "plain",
+   "render": "72.9",
+   "value": 72.8821225981318,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{5.7}",
-   "value": 5.654487340575201,
+   "class": "plain",
+   "render": "6.5",
+   "value": 6.482283149882207,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{2.8}",
-   "value": 2.8272436702876007,
+   "class": "plain",
+   "render": "3.2",
+   "value": 3.2411415749411034,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (KnownGalHzeroWid) of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{68.7^{+1.8}_{-1.7}}",
+   "class": "plain",
+   "render": "68.6^{+1.7}_{-2.0}",
    "value": {
-    "median": 68.7484127521627,
+    "median": 68.6029259295144,
     "ci68": [
-     67.69687973773192,
-     69.84008077108618
+     67.42267684547267,
+     69.65120774620092
     ],
     "ci90": [
-     67.05783797319525,
-     70.55970232661711
+     66.59679129904578,
+     70.27629529847937
     ],
-    "ul90": 70.15699240136081,
-    "level_of_input": 0.6590123315372092
+    "ul90": 69.9313557140259,
+    "level_of_input": 0.5384798391933329
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key KnownGal] equal populations; population known; galaxy catalog alone, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23166,132 +22869,90 @@
    }
   },
   "KnownGalHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{68.7}",
-   "value": 68.7484127521627,
+   "class": "plain",
+   "render": "68.6",
+   "value": 68.6029259295144,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.1}",
-   "value": 67.05783797319525,
+   "class": "plain",
+   "render": "66.6",
+   "value": 66.59679129904578,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{70.6}",
-   "value": 70.55970232661711,
+   "class": "plain",
+   "render": "70.3",
+   "value": 70.27629529847937,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{3.5}",
-   "value": 3.5018643534218654,
+   "class": "plain",
+   "render": "3.7",
+   "value": 3.6795039994335923,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key KnownGal] equal populations; population known; galaxy catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownGalHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{66}",
-   "value": 0.6590123315372092,
+   "class": "plain",
+   "render": "54",
+   "value": 0.5384798391933329,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in KnownGalHzeroComb (H0, [key KnownGal] equal populations; population known; galaxy catalog alone)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownGal",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 0 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 0 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzero": {
-   "class": "ph",
-   "render": "\\ph{99.82^{+0.17}_{-0.69}}",
+   "class": "plain",
+   "render": "99.69^{+0.29}_{-1.30}",
    "value": {
-    "median": 99.81837232957444,
+    "median": 99.68821994327679,
     "ci68": [
-     99.49455318961759,
-     99.95492586961666
+     99.09147316318834,
+     99.9250860846822
     ],
     "ci90": [
-     99.1311162915669,
-     99.98645050012047
+     98.39070370638764,
+     99.97585265594068
     ],
-    "ul90": 99.97290100024094,
+    "ul90": 99.95497870564773,
     "level_of_input": 1.0
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (the posterior rises to the upper end of the prior) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23301,132 +22962,90 @@
    }
   },
   "KnownAGNHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{99.82}",
-   "value": 99.81837232957444,
+   "class": "plain",
+   "render": "99.69",
+   "value": 99.68821994327679,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (the posterior rises to the upper end of the prior)",
+   "meaning": "median of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{99.13}",
-   "value": 99.1311162915669,
+   "class": "plain",
+   "render": "98.39",
+   "value": 98.39070370638764,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (the posterior rises to the upper end of the prior)",
+   "meaning": "lower end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{99.99}",
-   "value": 99.98645050012047,
+   "class": "plain",
+   "render": "99.98",
+   "value": 99.97585265594068,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (the posterior rises to the upper end of the prior)",
+   "meaning": "upper end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{0.86}",
-   "value": 0.8553342085535718,
+   "class": "plain",
+   "render": "1.59",
+   "value": 1.5851489495530444,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (the posterior rises to the upper end of the prior)",
+   "meaning": "full width of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.43}",
-   "value": 0.4276671042767859,
+   "class": "plain",
+   "render": "0.79",
+   "value": 0.7925744747765222,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (KnownAGNHzeroWid) of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A (the posterior rises to the upper end of the prior): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (KnownAGNHzeroWid) of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{99.971^{+0.026}_{-0.094}}",
+   "class": "plain",
+   "render": "99.964^{+0.033}_{-0.119}",
    "value": {
-    "median": 99.97075493969139,
+    "median": 99.9641158208102,
     "ci68": [
-     99.92215201632038,
-     99.99064158070125
+     99.90540486709563,
+     99.99097360071157
     ],
     "ci90": [
-     99.87670151066897,
-     99.99707549396913
+     99.84503296426823,
+     99.99717925022236
     ],
-    "ul90": 99.99415098793828,
+    "ul90": 99.99435850044473,
     "level_of_input": 1.0
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations (the posterior rises to the upper end of the prior) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23436,267 +23055,183 @@
    }
   },
   "KnownAGNHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{99.971}",
-   "value": 99.97075493969139,
+   "class": "plain",
+   "render": "99.964",
+   "value": 99.9641158208102,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations (the posterior rises to the upper end of the prior)",
+   "meaning": "median of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{99.877}",
-   "value": 99.87670151066897,
+   "class": "plain",
+   "render": "99.845",
+   "value": 99.84503296426823,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations (the posterior rises to the upper end of the prior)",
+   "meaning": "lower end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{99.997}",
-   "value": 99.99707549396913,
+   "class": "plain",
+   "render": "99.997",
+   "value": 99.99717925022236,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations (the posterior rises to the upper end of the prior)",
+   "meaning": "upper end of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.120}",
-   "value": 0.12037398330016913,
+   "class": "plain",
+   "render": "0.152",
+   "value": 0.1521462859541316,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations (the posterior rises to the upper end of the prior)",
+   "meaning": "full width of the 90% interval of H0, [key KnownAGN] equal populations; population known; AGN catalog alone, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownAGNHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{100}",
+   "class": "plain",
+   "render": "100",
    "value": 1.0,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in KnownAGNHzeroComb (H0, [key KnownAGN] equal populations; population known; AGN catalog alone)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownAGN",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s100.h5 (f_AGN = 1 column)",
-     "Comb": "analyses/analysis_2_complete_catalog_H0_fagn/results/joint_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] (log-likelihoods summed; f_AGN = 1 column)"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzero": {
-   "class": "ph",
-   "render": "\\ph{68.6^{+3.2}_{-3.2}}",
+   "class": "plain",
+   "render": "72^{+6}_{-6}",
    "value": {
-    "median": 68.6,
+    "median": 72.06784666212486,
     "ci68": [
-     66.66531387147626,
-     70.53468612852373
+     68.44141617312368,
+     75.75282932604118
     ],
     "ci90": [
-     65.39999142328125,
-     71.80000857671872
+     66.0888901925088,
+     78.21652843477985
     ],
-    "ul90": 71.09321775902298,
-    "level_of_input": 0.3415491022612658
+    "ul90": 76.82658348725107,
+    "level_of_input": 0.7655865667404109
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key KnownNone] equal populations; population known; no catalog, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 0,
     "input": 67.74
    }
   },
   "KnownNoneHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{68.6}",
-   "value": 68.6,
+   "class": "plain",
+   "render": "72",
+   "value": 72.06784666212486,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key KnownNone] equal populations; population known; no catalog, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{65.4}",
-   "value": 65.39999142328125,
+   "class": "plain",
+   "render": "66",
+   "value": 66.0888901925088,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key KnownNone] equal populations; population known; no catalog, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{71.8}",
-   "value": 71.80000857671872,
+   "class": "plain",
+   "render": "78",
+   "value": 78.21652843477985,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key KnownNone] equal populations; population known; no catalog, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{6.4}",
-   "value": 6.400017153437474,
+   "class": "plain",
+   "render": "12",
+   "value": 12.127638242271047,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key KnownNone] equal populations; population known; no catalog, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{3.2}",
-   "value": 3.200008576718737,
+   "class": "plain",
+   "render": "6",
+   "value": 6.0638191211355235,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (KnownNoneHzeroWid) of H0, [key KnownNone] equal populations; population known; no catalog, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.9^{+1.4}_{-1.4}}",
+   "class": "plain",
+   "render": "68.3^{+2.7}_{-2.7}",
    "value": {
-    "median": 67.91199999999999,
+    "median": 68.32452181630948,
     "ci68": [
-     67.04677974132059,
-     68.77722025867939
+     66.70890180424279,
+     69.95431514319122
     ],
     "ci90": [
-     66.4809088231394,
-     69.34309117686058
+     65.65834308992669,
+     71.02750418469313
     ],
-    "ul90": 69.02700386682979,
-    "level_of_input": 0.15671360900533093
+    "ul90": 70.4273566177091,
+    "level_of_input": 0.2802619046830538
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key KnownNone] equal populations; population known; no catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23706,132 +23241,90 @@
    }
   },
   "KnownNoneHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.9}",
-   "value": 67.91199999999999,
+   "class": "plain",
+   "render": "68.3",
+   "value": 68.32452181630948,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key KnownNone] equal populations; population known; no catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{66.5}",
-   "value": 66.4809088231394,
+   "class": "plain",
+   "render": "65.7",
+   "value": 65.65834308992669,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key KnownNone] equal populations; population known; no catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{69.3}",
-   "value": 69.34309117686058,
+   "class": "plain",
+   "render": "71.0",
+   "value": 71.02750418469313,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key KnownNone] equal populations; population known; no catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{2.9}",
-   "value": 2.862182353721181,
+   "class": "plain",
+   "render": "5.4",
+   "value": 5.36916109476644,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key KnownNone] equal populations; population known; no catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownNoneHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{16}",
-   "value": 0.15671360900533093,
+   "class": "plain",
+   "render": "28",
+   "value": 0.2802619046830538,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in KnownNoneHzeroComb (H0, [key KnownNone] equal populations; population known; no catalog)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone",
-    "placeholder_source": "A: invented; Comb: invented",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzero": {
-   "class": "ph",
-   "render": "\\ph{68.4^{+0.8}_{-0.8}}",
+   "class": "plain",
+   "render": "67.9^{+0.8}_{-0.8}",
    "value": {
-    "median": 68.35754277412681,
+    "median": 67.91138061677565,
     "ci68": [
-     67.87710888485894,
-     68.83061576637076
+     67.42697142198483,
+     68.3879128996505
     ],
     "ci90": [
-     67.55221269411558,
-     69.13983200419327
+     67.10498597421831,
+     68.69733368829118
     ],
-    "ul90": 68.96677447677315,
-    "level_of_input": 0.7966418900463434
+    "ul90": 68.52432483576406,
+    "level_of_input": 0.2765013971761091
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -23841,267 +23334,183 @@
    }
   },
   "AGNhostedHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{68.4}",
-   "value": 68.35754277412681,
+   "class": "plain",
+   "render": "67.9",
+   "value": 67.91138061677565,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A",
+   "meaning": "median of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{67.6}",
-   "value": 67.55221269411558,
+   "class": "plain",
+   "render": "67.1",
+   "value": 67.10498597421831,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A",
+   "meaning": "lower end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{69.1}",
-   "value": 69.13983200419327,
+   "class": "plain",
+   "render": "68.7",
+   "value": 68.69733368829118,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A",
+   "meaning": "upper end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.5876193100776845,
+   "class": "plain",
+   "render": "1.6",
+   "value": 1.5923477140728721,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A",
+   "meaning": "full width of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.8}",
-   "value": 0.7938096550388423,
+   "class": "plain",
+   "render": "0.8",
+   "value": 0.7961738570364361,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (AGNhostedHzeroWid) of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (AGNhostedHzeroWid) of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, realization A (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6)): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.69^{+0.34}_{-0.33}}",
+   "class": "plain",
+   "render": "67.7^{+0.4}_{-0.4}",
    "value": {
-    "median": 67.6859453475194,
+    "median": 67.68990760656614,
     "ci68": [
-     67.48500955462616,
-     67.88810944189191
+     67.47362790151847,
+     67.90650780802929
     ],
     "ci90": [
-     67.35376497550442,
-     68.02137498046875
+     67.3322055117058,
+     68.04847489218042
     ],
-    "ul90": 67.9468694919762,
-    "level_of_input": 0.21030777865848482
+    "ul90": 67.96914507350111,
+    "level_of_input": 0.18203261420718575
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 2,
+    "decimals": 1,
     "input": 67.74
    }
   },
   "AGNhostedHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.69}",
-   "value": 67.6859453475194,
+   "class": "plain",
+   "render": "67.7",
+   "value": 67.68990760656614,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations",
+   "meaning": "median of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.35}",
-   "value": 67.35376497550442,
+   "class": "plain",
+   "render": "67.3",
+   "value": 67.3322055117058,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.02}",
-   "value": 68.02137498046875,
+   "class": "plain",
+   "render": "68.0",
+   "value": 68.04847489218042,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.67}",
-   "value": 0.667610004964331,
+   "class": "plain",
+   "render": "0.7",
+   "value": 0.7162693804746283,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog, combined over 5 realizations (32000 posterior samples per merger (Analysis 14's setting for mergers all hosted by AGN; the convention is 8000); the realization's injection set pooled with 5 more drawn from the same proposal (Analysis 14's sets; one set of 6))",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "AGNhostedHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{21}",
-   "value": 0.21030777865848482,
+   "class": "plain",
+   "render": "18",
+   "value": 0.18203261420718575,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in AGNhostedHzeroComb (H0, [key AGNhosted] all AGN-hosted; population known; AGN catalog)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "AGNhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_pureagn_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzero": {
-   "class": "ph",
-   "render": "\\ph{67.1^{+3.7}_{-2.8}}",
+   "class": "plain",
+   "render": "66.6^{+3.5}_{-2.9}",
    "value": {
-    "median": 67.13163437135577,
+    "median": 66.58182214228098,
     "ci68": [
-     65.28341060412465,
-     69.19243464243488
+     64.74369939776244,
+     68.77507389646229
     ],
     "ci90": [
-     64.29785636242043,
-     70.83679162742361
+     63.69198220077444,
+     70.12184617564768
     ],
-    "ul90": 69.86003815718277,
-    "level_of_input": 0.23337452836926786
+    "ul90": 69.36886384818158,
+    "level_of_input": 0.3964717396837676
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24111,132 +23520,90 @@
    }
   },
   "GalhostedHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{67.1}",
-   "value": 67.13163437135577,
+   "class": "plain",
+   "render": "66.6",
+   "value": 66.58182214228098,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, realization A",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{64.3}",
-   "value": 64.29785636242043,
+   "class": "plain",
+   "render": "63.7",
+   "value": 63.69198220077444,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, realization A",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{70.8}",
-   "value": 70.83679162742361,
+   "class": "plain",
+   "render": "70.1",
+   "value": 70.12184617564768,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, realization A",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{6.5}",
-   "value": 6.538935265003175,
+   "class": "plain",
+   "render": "6.4",
+   "value": 6.429863974873236,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, realization A",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{3.3}",
-   "value": 3.2694676325015877,
+   "class": "plain",
+   "render": "3.2",
+   "value": 3.214931987436618,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (GalhostedHzeroWid) of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{68.9^{+1.4}_{-1.4}}",
+   "class": "plain",
+   "render": "68.0^{+1.6}_{-1.4}",
    "value": {
-    "median": 68.85098425201514,
+    "median": 68.00451866052344,
     "ci68": [
-     68.01231939561214,
-     69.69609838318547
+     67.15398731755937,
+     68.9274331196808
     ],
     "ci90": [
-     67.48055501654524,
-     70.25813817976778
+     66.60388149789485,
+     69.57520674488475
     ],
-    "ul90": 69.94250889826104,
-    "level_of_input": 0.8146328849218605
+    "ul90": 69.21049078904142,
+    "level_of_input": 0.23869967172734052
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24246,100 +23613,65 @@
    }
   },
   "GalhostedHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{68.9}",
-   "value": 68.85098425201514,
+   "class": "plain",
+   "render": "68.0",
+   "value": 68.00451866052344,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.5}",
-   "value": 67.48055501654524,
+   "class": "plain",
+   "render": "66.6",
+   "value": 66.60388149789485,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{70.3}",
-   "value": 70.25813817976778,
+   "class": "plain",
+   "render": "69.6",
+   "value": 69.57520674488475,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{2.8}",
-   "value": 2.7775831632225447,
+   "class": "plain",
+   "render": "3.0",
+   "value": 2.971325246989906,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog, combined over 5 realizations",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "GalhostedHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{81}",
-   "value": 0.8146328849218605,
+   "class": "plain",
+   "render": "24",
+   "value": 0.23869967172734052,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in GalhostedHzeroComb (H0, [key Galhosted] all galaxy-hosted; population known; galaxy catalog)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted",
-    "placeholder_source": "A: exploratory; Comb: exploratory",
-    "placeholder_file": {
-     "A": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s100.h5",
-     "Comb": "analyses/analysis_0_pure_tracer_H0/results/h0_puregal_targeted_s<seed>.h5, the 5 realizations [100, 101, 102, 103, 105] summed"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24364,7 +23696,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24387,7 +23719,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24407,7 +23739,7 @@
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24427,7 +23759,7 @@
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24447,7 +23779,7 @@
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24467,7 +23799,7 @@
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (CtrlZeroHzeroWid) of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24499,7 +23831,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24522,7 +23854,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24542,7 +23874,7 @@
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24562,7 +23894,7 @@
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24582,7 +23914,7 @@
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24602,7 +23934,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in CtrlZeroHzeroComb (H0, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24634,7 +23966,7 @@
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24657,7 +23989,7 @@
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24677,7 +24009,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24697,7 +24029,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24717,7 +24049,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24737,7 +24069,7 @@
    "units": "",
    "meaning": "half of the full 90% width (CtrlZerofAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal)): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24757,7 +24089,7 @@
    "units": "",
    "meaning": "90% upper limit (90th percentile) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, realization A (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24789,7 +24121,7 @@
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24812,7 +24144,7 @@
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24832,7 +24164,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24852,7 +24184,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24872,7 +24204,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24892,7 +24224,7 @@
    "units": "",
    "meaning": "90% upper limit (90th percentile) of f_AGN (fraction of mergers hosted by AGN), [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, combined over 5 realizations (upper limit: 90% upper limit 0.05 (half-normal))",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24912,7 +24244,7 @@
    "units": "%",
    "meaning": "credible level of the input in CtrlZerofAGNComb: not defined, the input lies at the prior edge (use CtrlZerofAGNCombUL)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -24932,7 +24264,7 @@
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], realization A",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "invented",
     "placeholder_file": null,
@@ -24949,7 +24281,7 @@
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlZero] mergers with no AGN hosts; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], combined over 5 realizations",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlZero",
     "placeholder_source": "invented",
     "placeholder_file": null,
@@ -24978,7 +24310,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25001,7 +24333,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25021,7 +24353,7 @@
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25041,7 +24373,7 @@
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25061,7 +24393,7 @@
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25081,7 +24413,7 @@
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (CtrlTenthHzeroWid) of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (H0 width as for population known with both catalogs): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25113,7 +24445,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25136,7 +24468,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25156,7 +24488,7 @@
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25176,7 +24508,7 @@
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25196,7 +24528,7 @@
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (H0 width as for population known with both catalogs)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25216,7 +24548,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in CtrlTenthHzeroComb (H0, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25248,7 +24580,7 @@
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25271,7 +24603,7 @@
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25291,7 +24623,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25311,7 +24643,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25331,7 +24663,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25351,7 +24683,7 @@
    "units": "",
    "meaning": "half of the full 90% width (CtrlTenthfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25383,7 +24715,7 @@
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25406,7 +24738,7 @@
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25426,7 +24758,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25446,7 +24778,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25466,7 +24798,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, combined over 5 realizations",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25486,7 +24818,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.1 lies in CtrlTenthfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete)",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "A: invented; Comb: invented",
     "placeholder_file": {
@@ -25506,7 +24838,7 @@
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], realization A",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "invented",
     "placeholder_file": null,
@@ -25523,7 +24855,7 @@
    "units": "log10",
    "meaning": "log10 Bayes factor, [key CtrlTenth] mergers with one in ten hosted by AGN; population known; both catalogs, complete, against galaxy hosts only (f_AGN = 0), Savage-Dickey, f_AGN prior [0, 1], combined over 5 realizations",
    "source": {
-    "missing": "run R4 of runs.txt (not yet in the run list), 5 realizations",
+    "missing": "experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs, 5 realizations",
     "key": "CtrlTenth",
     "placeholder_source": "invented",
     "placeholder_file": null,
@@ -46640,64 +45972,62 @@
    "extra": {}
   },
   "WidthRatioAGNGal": {
-   "class": "ph",
-   "render": "\\ph{4.1}",
-   "value": 4.1187047949695295,
+   "class": "plain",
+   "render": "4.0",
+   "value": 4.037977332492958,
    "units": "",
    "meaning": "full 90% width of H0 of the all-galaxy-hosted set with the galaxy catalog over that of the all-AGN-hosted set with the AGN catalog, realization A (= GalhostedHzeroWid / AGNhostedHzeroWid, unrounded widths)",
    "source": {
-    "missing": "Stage 1: all-AGN and all-galaxy event sets, 5 realizations",
-    "key": "Galhosted,AGNhosted",
-    "placeholder_source": "derived from the placeholder entries",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/galaxy_catalog/complete/galaxy_hosted/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6/summary.json"
+    ]
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothCorrHzerofAGN": {
-   "class": "ph",
-   "render": "\\ph{0.07}",
-   "value": 0.0678038078952019,
+   "class": "plain",
+   "render": "0.07",
+   "value": 0.06865128542134855,
    "units": "",
    "meaning": "correlation coefficient r of H0 and f_AGN, population known, both catalogs, realization A (= JointRhoCatA)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "derived from the placeholder entries",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
+    ]
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "KnownBothCorrHzerofAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.11}",
-   "value": 0.11319680194350229,
+   "class": "plain",
+   "render": "0.11",
+   "value": 0.10803306577933836,
    "units": "",
    "meaning": "correlation coefficient r of H0 and f_AGN, population known, both catalogs, combined over realizations (= JointRhoComb)",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations",
-    "key": "KnownBoth",
-    "placeholder_source": "derived from the placeholder entries",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
+    ]
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "MassScaleShareKnown": {
-   "class": "ph",
-   "render": "\\ph{2.0}",
-   "value": 2.0024822091772307,
+   "class": "plain",
+   "render": "3.1",
+   "value": 3.0859147330966974,
    "units": "",
    "meaning": "90% width of H0 with no catalog over that with both catalogs, population known, realization A",
    "source": {
-    "missing": "Stage 1: population known, complete catalogs, 10 realizations; Stage 1: population known, complete catalogs, 5 realizations",
-    "key": "KnownNone,KnownBoth",
-    "placeholder_source": "derived from the placeholder entries",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/no_catalog/complete/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100/summary.json"
+    ]
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -47116,10 +46446,10 @@
    "render": "five",
    "value": 5,
    "units": "realizations",
-   "meaning": "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; run R4, not yet in the run list)",
+   "meaning": "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; the experiment's f = 0 and f = 0.1 sets with both catalogs, RUNLIST_experiment.yaml)",
    "source": {
-    "file": "paper_prd/runs.txt",
-    "computation": "CtrlZero: run R4 of runs.txt (no AGN-hosted mergers), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov); CtrlTenth: run R4 of runs.txt (one merger in ten AGN-hosted), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
+    "computation": "CtrlZero: RUNLIST_experiment.yaml: 5 runs of two_tracers_one_population on the experiment's set peak_f0p00_s0, realizations [100, 101, 102, 103, 105]; CtrlTenth: RUNLIST_experiment.yaml: 5 runs of two_tracers_one_population on the experiment's set peak_f0p10_s0, realizations [100, 101, 102, 103, 105]"
    },
    "claim": "design,realizations",
    "containment": null,
@@ -47129,8 +46459,20 @@
      "CtrlTenth"
     ],
     "realizations": {
-     "CtrlZero": null,
-     "CtrlTenth": null
+     "CtrlZero": [
+      100,
+      101,
+      102,
+      103,
+      105
+     ],
+     "CtrlTenth": [
+      100,
+      101,
+      102,
+      103,
+      105
+     ]
     }
    }
   },

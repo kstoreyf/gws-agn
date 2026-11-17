@@ -1,10 +1,14 @@
 #!/usr/bin/env python
-"""Figures 2-4 of the letter (main.tex): figures/fig_anchor (Fig. 2), fig1_budget (Fig. 3) and
-fig_populations (Fig. 4); PDF and PNG. Fig. 1 (fig_concept) is final and is not drawn here.
+"""Figures of the letter (main.tex): figures/fig_concept (Fig. 1), fig_anchor (Fig. 2), fig1_budget (Fig. 3)
+and fig_populations (Fig. 4); PDF and PNG.
 
     PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python
-    $PY scripts/make_figures.py                 # all three
-    $PY scripts/make_figures.py anchor          # one: anchor | budget | populations
+    $PY scripts/make_figures.py                 # all four
+    $PY scripts/make_figures.py anchor          # one: concept | anchor | budget | populations
+
+Fig. 1 (fig_concept) is final data (the simulated catalogs and mergers of realization A, no run result); its
+function is the first draft's fig1_concept (archive/paper_short/scripts/make_figures.py), drawn here at the
+letter's text width, and its numbers are checked against the caption macros of values_independent.tex.
 
 Every number comes from scripts/results.py (real run summaries and grids where they exist, the expected
 values of values_independent.tex otherwise). Style from ../paper_prd/scripts/figstyle.py. Marking: an
@@ -19,9 +23,11 @@ Widths: each figure is drawn at the width at which main.tex includes it, the REV
 """
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
+import h5py
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
@@ -29,9 +35,10 @@ sys.path.insert(0, str(HERE))
 import results as R  # noqa: E402  (puts ../paper_prd/scripts on the path)
 import figstyle as fs  # noqa: E402
 import make_figures as prd  # noqa: E402  (RED, shade90)
+import build_values as bv  # noqa: E402  (distances, catalogs, localization regions of the long draft)
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
-from matplotlib.patches import Patch  # noqa: E402
+from matplotlib.patches import ConnectionPatch, Patch, Polygon  # noqa: E402
 from matplotlib.ticker import NullLocator  # noqa: E402
 
 FIGDIR = R.PAPER / "figures"
@@ -72,6 +79,212 @@ def hpd_extent(x, y, P, lev):
     m = P >= lev
     xin, yin = x[m.any(axis=1)], y[m.any(axis=0)]
     return xin.min(), xin.max(), yin.min(), yin.max()
+
+
+# ============================================================================================ #
+# Fig. 1: two tracers of one density field and the mergers they host (final data)
+# ============================================================================================ #
+D100 = bv.DATA / "seed100"
+HD_EVENTS = D100 / "events" / "events_marked_dmu0p10_dmuG5_corepop.h5"
+SLAB_DEG = 3.0          # half-thickness in declination of the slice of panel (a), as Fig. 1 of the long draft
+FAN_HALF_DEG = 20.0     # half-opening of the slice in right ascension, centred on the merger shown
+FAN_ZMAX = 0.20         # depth of the slice
+EVENT = 339             # the merger shown: AGN-hosted, |dec| < 0.01 deg, one of the best-localized AGN-hosted mergers in the slab
+SCALE_MPC = 200.0       # length of the scale bar of panel (a)
+
+
+def _rot(ra, ra0):
+    """Right-ascension offset from ra0 in (-pi, pi]."""
+    return (ra - ra0 + np.pi) % (2 * np.pi) - np.pi
+
+
+def _caption_number(name):
+    """A plain caption macro of values_independent.tex as a number ('13{,}398' -> 13398)."""
+    return float(R.expected()[name][2].replace("{,}", ""))
+
+
+def fig_concept():
+    """The first draft's fig1_concept (archive/paper_short/scripts/make_figures.py), same design, drawn at the text
+    width at which main.tex includes it (510 pt); its numbers against the caption macros of values_independent.tex."""
+    name = "fig_concept"
+    W, Hh = TW, 3.05
+    H0 = bv.IN["H0"]
+    chi = lambda z: bv.chi_mpc(np.asarray(z, float), H0)
+    with h5py.File(HD_EVENTS) as h:
+        t = {k: h["truth/" + k][()] for k in ("ra", "dec", "z", "host_type", "host_index", "m1src", "chieff")}
+        att = {k: float(h.attrs[k]) for k in ("mu_G_gal", "mu_G_agn", "mu_chi_gal", "mu_chi_agn")}
+    IN = bv.IN
+    assert abs(att["mu_G_gal"] - IN["muG"]) < 1e-12 and abs(att["mu_G_agn"] - IN["muG"] - IN["dmuG"]) < 1e-12
+    assert abs(att["mu_chi_gal"] - IN["muChi"]) < 1e-12 and abs(att["mu_chi_agn"] - IN["muChi"] - IN["dmuChi"]) < 1e-12
+    i = EVENT
+    assert t["host_type"][i] == 1 and abs(np.degrees(t["dec"][i])) < 1.0
+    # the 90% localization region, as for the hosts-per-volume macros (build_values.event_regions)
+    c, r, zlo, zhi = bv.event_regions(HD_EVENTS, H0)
+    c, r, zlo, zhi = c[i], float(r[i]), float(zlo[i]), float(zhi[i])
+    ra0 = math.atan2(c[1], c[0])
+    dec0 = math.asin(c[2])
+    # catalogs: the slab (|dec| < 3 deg) of the slice, and everything inside the region
+    zread = max(FAN_ZMAX, zhi) + 0.01
+    G = bv.read_catalog_rows(D100 / "catalogs" / "catalog_gal_complete.h5", zread, cols=("ra", "dec", "z", "z_obs"))
+    A = bv.read_catalog_rows(D100 / "catalogs" / "catalog_agn_complete.h5", zread, cols=("ra", "dec", "z", "z_obs"))
+    with h5py.File(D100 / "catalogs" / "catalog_agn_complete.h5") as h:
+        hra, hdec, hz, hzo = (float(h[k][int(t["host_index"][i])]) for k in ("ra", "dec", "z", "z_obs"))
+    assert abs(hra - t["ra"][i]) < 1e-9 and abs(hz - t["z"][i]) < 1e-9
+
+    def in_slice(C):
+        return (np.abs(C["dec"]) < np.radians(SLAB_DEG)) & (np.abs(_rot(C["ra"], ra0)) < np.radians(FAN_HALF_DEG)) & (C["z"] < FAN_ZMAX)
+
+    def in_region(C):
+        v = np.stack([np.cos(C["dec"]) * np.cos(C["ra"]), np.cos(C["dec"]) * np.sin(C["ra"]), np.sin(C["dec"])], 1)
+        return (v @ c >= math.cos(r)) & (C["z_obs"] >= zlo) & (C["z_obs"] <= zhi)
+
+    sg, sa = in_slice(G), in_slice(A)
+    rg, ra_ = in_region(G), in_region(A)
+    ng, na = int(rg.sum()), int(ra_.sum())
+    host_in = bool(in_region({"ra": np.array([hra]), "dec": np.array([hdec]), "z_obs": np.array([hzo])})[0])
+
+    def xy(C, m, use="z"):
+        d = _rot(C["ra"][m], ra0)
+        rr = chi(C[use][m])
+        return rr * np.sin(d), rr * np.cos(d)
+
+    fig = plt.figure(figsize=(W, Hh))
+    # panel geometry in figure fractions: (a) the slice and the zoom on the left, (b) and (c) stacked on the right
+    axa = fig.add_axes([0.000, 0.000, 0.330, 1.000])
+    axi = fig.add_axes([0.345, 0.300, 0.255, 0.640])
+    axk = fig.add_axes([0.345, 0.000, 0.255, 0.250])
+    axb = fig.add_axes([0.700, 0.635, 0.290, 0.350])
+    axc = fig.add_axes([0.700, 0.140, 0.290, 0.350])
+
+    # ---- (a) the slice: galaxies, AGN, the merger's region ----
+    Rz = float(chi(FAN_ZMAX))
+    x, y = xy(G, sg)
+    axa.scatter(x, y, s=0.30, c=fs.GAL, alpha=0.55, lw=0, rasterized=True, zorder=1)
+    x, y = xy(A, sa)
+    axa.scatter(x, y, s=5.0, marker="D", c=fs.AGN, lw=0, rasterized=True, zorder=2)
+    th = np.radians(np.linspace(-FAN_HALF_DEG, FAN_HALF_DEG, 300))
+    axa.plot(Rz * np.sin(th), Rz * np.cos(th), color="0.35", lw=0.6, zorder=3)
+    for s_ in (-1, 1):
+        axa.plot([0, Rz * np.sin(s_ * th[-1])], [0, Rz * np.cos(th[-1])], color="0.35", lw=0.6, zorder=3)
+    for zz in (0.05, 0.10, 0.15, FAN_ZMAX):
+        rz = float(chi(zz))
+        if zz < FAN_ZMAX:
+            axa.plot(rz * np.sin(th), rz * np.cos(th), color="0.45", lw=0.45, ls=(0, (2, 2)), zorder=3)
+        axa.text(-rz * np.sin(th[-1]) - 0.015 * Rz, rz * np.cos(th[-1]), f"$z={zz:.2f}$", ha="right", va="center", fontsize=fs.FS_TEXT - 0.5, color="0.25")
+    # the region's footprint in the slice plane: right ascension within the sky disc, distance within the redshift interval
+    half = r / math.cos(dec0)
+    dl, dh = float(chi(zlo)), float(chi(zhi))
+    aa = np.linspace(-half, half, 60)
+    fx = np.concatenate([dl * np.sin(aa), dh * np.sin(aa[::-1])])
+    fy = np.concatenate([dl * np.cos(aa), dh * np.cos(aa[::-1])])
+    axa.add_patch(Polygon(np.c_[fx, fy], closed=True, fill=False, ec="k", lw=1.1, zorder=6))
+    axa.set_aspect("equal")
+    axa.set_xlim(-0.66 * Rz, 0.37 * Rz)
+    axa.set_ylim(-0.10 * Rz, 1.10 * Rz)
+    axa.axis("off")
+    axa.plot([-0.62 * Rz, -0.62 * Rz + SCALE_MPC], [0.06 * Rz, 0.06 * Rz], color="k", lw=1.2)
+    axa.text(-0.62 * Rz + SCALE_MPC / 2, 0.075 * Rz, f"{SCALE_MPC:.0f} Mpc", ha="center", va="bottom", fontsize=fs.FS_TEXT - 0.5)
+    axa.text(0.0, -0.025 * Rz, "observer", ha="center", va="top", fontsize=fs.FS_TEXT - 0.5, color="0.25")
+    fs.panel_label(axa, "(a)", x=0.02, y=0.995)
+
+    # zoom: the whole 3-D region seen from the side, with every catalog object inside it
+    def side(C, m):
+        d = _rot(C["ra"][m], ra0)
+        rr = chi(C["z_obs"][m])
+        return rr * np.sin(d) * math.cos(dec0), rr * np.cos(d)
+
+    def disc(C, zl, zh):
+        v = np.stack([np.cos(C["dec"]) * np.cos(C["ra"]), np.cos(C["dec"]) * np.sin(C["ra"]), np.sin(C["dec"])], 1)
+        return (v @ c >= math.cos(r)) & (C["z_obs"] >= zl) & (C["z_obs"] <= zh)
+    pad = 0.30 * (zhi - zlo)
+    mgw, maw = disc(G, zlo - pad, zhi + pad) & ~rg, disc(A, zlo - pad, zhi + pad) & ~ra_
+    x, y = side(G, mgw)
+    axi.scatter(x, y, s=1.4, c=fs.GAL, alpha=0.25, lw=0, rasterized=True, zorder=1)
+    x, y = side(A, maw)
+    axi.scatter(x, y, s=14, marker="D", c=fs.AGN, alpha=0.35, lw=0, zorder=2)
+    x, y = side(G, rg)
+    axi.scatter(x, y, s=3.0, c=fs.GAL, alpha=0.95, lw=0, rasterized=True, zorder=3)
+    x, y = side(A, ra_)
+    axi.scatter(x, y, s=28, marker="D", c=fs.AGN, edgecolor="k", lw=0.5, zorder=5)
+    hx = float(chi(hz)) * math.sin(_rot(hra, ra0)) * math.cos(dec0)
+    hy = float(chi(hz)) * math.cos(_rot(hra, ra0))
+    axi.scatter([hx], [hy], s=150, facecolor="none", edgecolor="k", lw=1.2, zorder=6)
+    ix = np.concatenate([dl * np.sin(aa) * math.cos(dec0), dh * np.sin(aa[::-1]) * math.cos(dec0)])
+    axi.add_patch(Polygon(np.c_[ix, fy], closed=True, fill=False, ec="k", lw=1.1, zorder=4))
+    ym0, ym1 = float(chi(zlo - pad)), float(chi(zhi + pad))
+    xw = 0.5 * (ym1 - ym0) * (0.255 * W) / (0.640 * Hh)
+    axi.set_xlim(-xw, xw)
+    axi.set_ylim(ym0 - 0.02 * (ym1 - ym0), ym1 + 0.16 * (ym1 - ym0))
+    axi.set_aspect("equal", adjustable="datalim")
+    axi.set_xticks([])
+    axi.set_yticks([])
+    for sp in axi.spines.values():
+        sp.set_linewidth(0.8)
+    axi.text(0.5, 0.985, "90% localization region\nof one AGN-hosted merger", transform=axi.transAxes, ha="center", va="top", fontsize=fs.FS_TEXT - 0.5,
+             bbox=dict(fc="white", ec="none", pad=0.6, alpha=0.9), zorder=10)
+    axi.text(0.04, 0.02, f"{ng} galaxies", transform=axi.transAxes, ha="left", va="bottom", fontsize=fs.FS_TEXT, color=fs.GAL,
+             bbox=dict(fc="white", ec="none", pad=0.4, alpha=0.9), zorder=10)
+    axi.text(0.96, 0.02, f"{na} AGN", transform=axi.transAxes, ha="right", va="bottom", fontsize=fs.FS_TEXT, color=fs.AGN,
+             bbox=dict(fc="white", ec="none", pad=0.4, alpha=0.9), zorder=10)
+    # lines from the footprint in the slice to the zoom
+    j_r = int(np.argmax(fx))
+    for (xa, ya), (xb, yb) in (((fx.max(), fy[j_r]), (0.0, 0.0)), ((dh * np.sin(aa[-1]), dh * np.cos(aa[-1])), (0.0, 1.0))):
+        fig.add_artist(ConnectionPatch(xyA=(xa, ya), coordsA=axa.transData, xyB=(xb, yb), coordsB=axi.transAxes, color="0.45", lw=0.6, zorder=0))
+    # key, under the zoom
+    axk.axis("off")
+    axk.set_xlim(0, 1)
+    axk.set_ylim(0, 1)
+    keys = [("galaxy catalog", dict(marker="o", ms=2.6, color=fs.GAL, ls="none")), ("AGN catalog", dict(marker="D", ms=4.2, color=fs.AGN, mec="k", mew=0.4, ls="none")),
+            ("true host of the merger", dict(marker="o", ms=9, mfc="none", mec="k", mew=1.1, ls="none"))]
+    for k_, (lab, st) in enumerate(keys):
+        yk = 0.80 - k_ * 0.25
+        axk.plot([0.06], [yk], **st)
+        axk.text(0.13, yk, lab, ha="left", va="center", fontsize=fs.FS_TEXT)
+    axk.text(0.02, 0.06, rf"slice: $|\delta|<{SLAB_DEG:.0f}^\circ$, comoving distance", ha="left", va="center", fontsize=fs.FS_TEXT - 0.5, color="0.25")
+    CHECKS.append(f"fig_concept (a): realization A (seed 100); slice |dec| < {SLAB_DEG} deg, RA within {FAN_HALF_DEG} deg of the region centre "
+                  f"({np.degrees(ra0) % 360:.1f} deg), true z < {FAN_ZMAX}: {int(sg.sum())} galaxies, {int(sa.sum())} AGN; merger {EVENT} of {HD_EVENTS.name}: "
+                  f"AGN-hosted, true z {t['z'][i]:.3f}; 90% region: sky disc {np.degrees(r):.2f} deg x z_obs [{zlo:.3f}, {zhi:.3f}]: {ng} galaxies, {na} AGN; "
+                  f"true host inside: {host_in}")
+
+    # ---- (b) masses and (c) spins of the detected mergers, host-dependent populations ----
+    hg, ha = t["host_type"] == 0, t["host_type"] == 1
+    for ax, key, bins, xl, ins, xlim in ((axb, "m1src", np.arange(5.0, 75.01, 2.5), r"source-frame primary mass $m_1$ [$M_\odot$]", (att["mu_G_gal"], att["mu_G_agn"]), (5, 75)),
+                                         (axc, "chieff", np.arange(-0.45, 0.5501, 0.05), r"effective spin $\chi_{\rm eff}$", (att["mu_chi_gal"], att["mu_chi_agn"]), (-0.45, 0.55))):
+        top = 0.0
+        for m, colr in ((hg, fs.GAL), (ha, fs.AGN)):
+            v = t[key][m]
+            hh, _ = np.histogram(v, bins, density=True)
+            ax.stairs(hh, bins, color=colr, lw=fs.LW, zorder=3)
+            ax.stairs(hh, bins, color=colr, alpha=0.13, fill=True, lw=0, zorder=2)
+            top = max(top, hh.max())
+            out = int(np.sum((v < bins[0]) | (v > bins[-1])))
+            if out:
+                CHECKS.append(f"fig_concept: {key}: {out} values outside the histogram range")
+        for x0 in ins:
+            fs.input_vline(ax, x0, ymax=0.80)
+        ax.set_xlim(*xlim)
+        ax.set_ylim(0, 1.32 * top)
+        ax.set_xlabel(xl)
+        ax.set_ylabel(r"$p(m_1)$ [$M_\odot^{-1}$]" if key == "m1src" else r"$p(\chi_{\rm eff})$")
+        ax.tick_params(axis="y", labelsize=fs.FS_TICK - 0.5)
+    yb, yc = axb.get_ylim()[1], axc.get_ylim()[1]
+    fs.label(axb, 29.0, 0.55 * yb, "galaxy-\nhosted", fs.GAL, ha="right", va="center")
+    fs.label(axb, 48.5, 0.55 * yb, "AGN-\nhosted", fs.AGN, ha="left", va="center")
+    fs.label(axc, -0.17, 0.62 * yc, "galaxy-\nhosted", fs.GAL, ha="right", va="center")
+    fs.label(axc, 0.27, 0.62 * yc, "AGN-\nhosted", fs.AGN, ha="left", va="center")
+    fs.panel_label(axb, "(b)")
+    fs.panel_label(axc, "(c)")
+    # what is drawn against the macros of the caption and the inputs
+    sh = R.shared()
+    for mac, x0 in (("MockMuG", att["mu_G_gal"]), ("MockMuGAGN", att["mu_G_agn"]), ("MockMuChi", att["mu_chi_gal"]),
+                    ("MockDmuChi", att["mu_chi_agn"] - att["mu_chi_gal"]), ("MockNev", float(len(t["z"])))):
+        check(f"fig_concept: {mac}", x0, float(sh[mac]), 1e-9)
+    for mac, x0, tol in (("IndConceptDec", SLAB_DEG, 0), ("IndConceptzMax", FAN_ZMAX, 0), ("IndConceptScale", SCALE_MPC, 0),
+                         ("IndConceptNGal", int(sg.sum()), 0), ("IndConceptNAGN", int(sa.sum()), 0), ("IndConceptzTrue", float(t["z"][i]), 5e-4),
+                         ("IndConceptVolNGal", ng, 0), ("IndConceptVolNAGN", na, 0), ("IndConceptNgalHosted", int(hg.sum()), 0),
+                         ("IndConceptNAGNHosted", int(ha.sum()), 0)):
+        check(f"fig_concept: caption \\{mac}", x0, _caption_number(mac), tol)
+    fs.save(fig, FIGDIR, name)
 
 
 # ============================================================================================ #
@@ -356,7 +569,7 @@ def fig_populations():
     fs.save(fig, FIGDIR, name)
 
 
-FIGS = {"anchor": fig_anchor, "budget": fig1_budget, "populations": fig_populations}
+FIGS = {"concept": fig_concept, "anchor": fig_anchor, "budget": fig1_budget, "populations": fig_populations}
 
 
 def main(argv):
