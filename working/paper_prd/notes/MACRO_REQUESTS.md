@@ -4,10 +4,9 @@ This file replaces the request list of the first draft (kept in git history, com
 macro it asked for is now in `values/results_macros.tex`). It lists what the new `main.tex` uses
 beyond the key scheme of `notes/PAPER_SKELETON.md` Sec. 6.
 
-How the paper builds meanwhile: `main.tex` inputs `values/results_macros.tex` and then
-`values/fallback_macros.tex`, which holds `\providecommand{\Name}{\ph{..}}` for every macro the text
-uses (247 names). A macro defined in `values/results_macros.tex` wins; the 22 below print two red
-dots until they exist. Nothing in `values/results_macros.tex`, `scripts/` or `figures/` was touched.
+How the paper builds: `main.tex` inputs `values/results_macros.tex` and then `values/fallback_macros.tex`.
+Both are written by `scripts/build_values.py` on every run; the fallback file gives a red default of two dots only to
+a macro that `main.tex` uses and the chain does not define (none at the last run: every macro requested below exists).
 
 ## A. Requested: 22 macros that are not in `values/results_macros.tex`
 
@@ -122,8 +121,11 @@ If the text is to say what the fifth realization does, it also needs that realiz
 
 ### F1. Requested: 11 macros that are not in `values/results_macros.tex`
 
-`main.tex` gives each a red default of two dots in its own preamble (after the two `\input` lines), because this
-pass did not touch `values/`; a definition in `values/results_macros.tex` wins.
+All eleven now exist in `values/results_macros.tex` (written by `scripts/build_values.py`; the ten limits in h^3 Mpc^-3 are
+red placeholders until the free-density runs finish, `\ShareSumThirty` is black). `main.tex` has no `\providecommand`
+block of its own: after `values/results_macros.tex` it inputs `values/fallback_macros.tex`, which `scripts/build_values.py`
+writes on every run from `main.tex` and which gives a red default only to a macro the text uses and the chain does not
+define (none at the last run).
 
 | macro | what it is | used in |
 |---|---|---|
@@ -135,7 +137,7 @@ pass did not touch `values/`; a definition in `values/results_macros.tex` wins.
 The text now quotes the inputs of the number densities in the same unit, `\MockLognGalh` and `\MockLognAGNh`
 (Table I, Sec. III A, Sec. IV C, caption of Table IV). `\MockLognGal` and `\MockLognAGN` are no longer used in the
 text; the design densities `\MocknGal` and `\MocknAGN` stay in Mpc^-3 (Sec. III A, Table II).
-Panel (a) of `fig4_densities` still has its axis, its prior box and its input marker in Mpc^-3.
+Panel (a) of `fig4_densities` has its axis, its prior box (Table I) and its input marker in h^3 Mpc^-3, like the text.
 
 ### F2. Superseded
 

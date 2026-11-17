@@ -14,6 +14,27 @@ Sources
                  prior range; half-normal for an upper limit) with the stated median and 90% half-width
     production   a production summary named in values/production_map.json exists and overrides the entry
 
+Rules of 17 Nov evening (REVIEW_2 1.7 and 1.11)
+    prior box    number densities inferred (Free<limit>): the exploratory runs sampled log10 n in Mpc^-3 on a box
+                 whose image in h^3 Mpc^-3 reaches above the production prior (Table I). Each posterior sample and
+                 each prior draw is converted with its own H0 and the set is reweighted to the production prior:
+                 only what has both densities inside the Table I box in h^3 Mpc^-3 is kept (both priors are flat
+                 in (H0, log10 n_h) where nonzero, so this is the exact reweighting), and every quantity of the key
+                 (its limits in Mpc^-3 and h^3 Mpc^-3, the region allowed by the priors, the joint posterior of
+                 Fig. 4a) is computed from what is kept. The bottom of the box (log10 n_AGN below about -5.5,
+                 log10 n_gal below about -3.5) holds no sample: the exploratory box did not reach it.
+    re-anchoring flux-limited keys (Flux<limit>, densities known) and number densities inferred (Free<limit>),
+                 for H0, f_AGN and the rate ratio of realization A, once the complete-catalog key KnownBoth is a
+                 production result: median = KnownBoth median + (exploratory median - exploratory complete
+                 median), every quantile moved by x -> new median + s (x - exploratory median) with s = KnownBoth
+                 90% half-width / exploratory complete 90% half-width, so the 90% half-width is the KnownBoth
+                 half-width times the exploratory ratio of this key's half-width to the complete one (exploratory
+                 complete: Analysis 2, joint_s100.h5; for Free keys the exploratory values are those after the prior
+                 box above). The combination over realizations follows from the re-anchored realization A by the
+                 rule below (f_AGN of the Free keys: equal to realization A). The joint (f_AGN, log10 n_AGN) of a
+                 Free key moves each sample's f_AGN by the same map as its fAGN. The number densities themselves
+                 have no complete counterpart and are not re-anchored. Each quantity records the map ("reanchor").
+
 Realization A ("A") and the combination over realizations ("Comb"). N, the number of realizations the
 production combines for each key, is read from analyses/analysis_16_production_runs/runs/RUNLIST.yaml (the
 runs of the key's analysis, catalogs, flux limit and event set); the keys the run list does not hold yet take
@@ -152,7 +173,8 @@ UNIT = {"Hzero": "km/s/Mpc", "fAGN": "", "MuG": "Msun", "SigmaG": "Msun", "MuChi
         "LognGal": "log10 Mpc^-3", "LognAGN": "log10 Mpc^-3", "RateRatio": ""}
 # number densities in h^3 Mpc^-3 (the unit the production runs sample and the text quotes): how each source gets there
 H_NOTE_EXPLORATORY = ("in h^3 Mpc^-3: the exploratory run sampled log10 n in Mpc^-3, so each posterior sample and each prior draw is converted "
-                      "with its own H0, log10 n - 3 log10(H0/100)")
+                      "with its own H0, log10 n - 3 log10(H0/100); reweighted to the production prior: only the samples and prior draws whose two "
+                      "densities lie inside the Table I box in h^3 Mpc^-3 are kept")
 H_NOTE_PRODUCTION = "in h^3 Mpc^-3: the run's own samples and prior draws of its parameter, no conversion"
 CHAIN_Q = {"H0": "Hzero", "f_agn": "fAGN", "mu_G": "MuG", "sigma_G": "SigmaG", "mu_chi": "MuChi", "sigma_chi": "SigmaChi", "dmu_G": "DmuG", "dmu_chi": "DmuChi"}
 
@@ -220,6 +242,13 @@ CLASS_EXPECTED = {
     "ProbAGNPopsTwice": ("double", "invented: a calibrated classifier (log-likelihood ratios Gaussian, mean +-s^2/2, variance s^2) matched to "
                                    "ProbAGNPops, its separation s doubled with the offsets; the mean over the truly AGN-hosted mergers"),
     "ProbGalPopsTwice": ("double", "invented: as ProbAGNPopsTwice, the mean over the truly galaxy-hosted mergers"),
+    # where the probability is evaluated (the posterior median of f_AGN) and its mean over every merger (REVIEW_2 1.1)
+    **{f"ProbEvalfAGN{i}": (0.3, "invented: the input f_AGN, at which a posterior median is expected") for i in ("Equal", "Pos", "Pops")},
+    "ProbEvalfAGNPosTwice": ("ProbEvalfAGNPos", "invented: as with the smaller offsets (= ProbEvalfAGNPos)"),
+    "ProbEvalfAGNPopsTwice": ("ProbEvalfAGNPops", "invented: as with the smaller offsets (= ProbEvalfAGNPops)"),
+    **{f"ProbAll{i}": ("all_weighted", f"invented: x ProbAGN{i} + (1 - x) ProbGal{i}, x the AGN-hosted fraction of the 1000 detected mergers of "
+                                       "realization A of that event set (events_meta realised_f_agn)")
+       for i in ("Equal", "Pos", "Pops", "PosTwice", "PopsTwice")},
     "KnownAGNNoPeak": (4, "the skeleton's Sec. 9.1 (four of five realizations)"),
     "KnownAGNPeakOneHzero": ((76.8, 75.5, 78.1), "the skeleton's Sec. 9.1 (76.8 [75.5, 78.1])"),
     "KnownAGNPeakOneHzeroCL": (0.9999, "the skeleton's Sec. 9.1 (the interval excludes the input)"),
@@ -315,6 +344,81 @@ def joint_samples(a, b, ra, rb, sx, sy, nb=60, smooth=1.4):
     xs, ys = 0.5 * (xe[1:] + xe[:-1]), 0.5 * (ye[1:] + ye[:-1])
     return joint_grid(xs, ys, H, nb) | {"params": [sx, sy], "correlation": float(np.corrcoef(a, b)[0, 1]),
                                         "shape": f"{nb}x{nb} histogram on the prior box, Gaussian smoothing {smooth} bins"}
+
+
+FREE_JOINT: dict = {}     # Free<limit> -> (f_AGN samples, log10 n_AGN samples in h^3 Mpc^-3, f box, n_AGN box): realization A, inside the Table I box
+
+
+def free_joint(key, fmap=None):
+    """Joint posterior of f_AGN and log10 n_AGN [h^3 Mpc^-3] of a placeholder Free key (Fig. 4a) from the kept exploratory samples, with
+    f_AGN moved by `fmap` (the re-anchoring map of the key's fAGN; None: as sampled)."""
+    f, la, fb, ab = FREE_JOINT[key]
+    ff = f if fmap is None else fmap(f)
+    return joint_samples(ff, la, fb, ab, "fAGN", "LognAGNh", nb=50) | {
+        "units_y": "log10 h^3 Mpc^-3", "note": H_NOTE_EXPLORATORY + ("" if fmap is None else "; f_AGN of each sample moved by the re-anchoring map of fAGN")}
+
+
+# ---------------------------------------------------------------- re-anchoring of the flux-limited placeholders (REVIEW_2 1.11)
+REANCHOR_Q = ("Hzero", "fAGN", "RateRatio")
+REANCHOR_RULE = ("re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A): median = "
+                 "KnownBoth median + (exploratory median - exploratory complete median), every quantile moved by the same map, "
+                 "x -> new median + s (x - exploratory median) with s = KnownBoth 90% half-width / exploratory complete 90% half-width, "
+                 "so that the 90% half-width is the KnownBoth half-width times the exploratory ratio of this key's half-width to the "
+                 "complete one (exploratory complete: Analysis 2, joint_s100.h5)")
+
+
+def hw90(s):
+    return 0.5 * (s["ci90"][1] - s["ci90"][0])
+
+
+def affine_summary(ex, m_new, s, rng, x0):
+    """The summary `ex` (median, intervals, plotting shape) under x -> m_new + s (x - median_ex); the shape is cut at the prior range
+    `rng` (the quantiles are mapped exactly; the mass cut is recorded)."""
+    T = lambda v: m_new + s * (v - ex["median"])
+    x, p = T(np.asarray(ex["x"], float)), np.asarray(ex["p"], float) / s
+    ok = (x >= rng[0]) & (x <= rng[1])
+    tot = np.trapz(p, x)
+    out = summarize_xp(x[ok], p[ok], x0)
+    out.update({"median": T(ex["median"]), "ci68": [T(ex["ci68"][0]), T(ex["ci68"][1])], "ci90": [T(ex["ci90"][0]), T(ex["ci90"][1])],
+                "ul90": T(ex["ul90"]), "mass_cut_at_prior_edge": float(1 - np.trapz(p[ok], x[ok]) / tot) if ok.sum() > 1 else 1.0})
+    for k, v in ex.items():
+        if k not in out and k not in ("x", "p", "level_of_input", "input"):
+            out[k] = v
+    return out
+
+
+def reanchor(K, expl_complete):
+    """Flux<limit> and Free<limit> placeholders (H0, f_AGN, rate ratio; realization A) re-anchored to the finished complete-catalog
+    result (REANCHOR_RULE); their combination follows from the new realization A by the rule of the header (or equals it where the
+    prior dominates). The identity while KnownBoth is itself a placeholder. Free keys: the joint (f_AGN, log10 n_AGN) of Fig. 4(a) is
+    drawn again with f_AGN moved by the map of fAGN."""
+    anchor = K["KnownBoth"]
+    if not anchor.get("final"):
+        return
+    for _, word, _ in bv.RUNGS:
+        for key in (f"Flux{word}", f"Free{word}"):
+            E = K[key]
+            if E.get("final"):
+                continue
+            for q in REANCHOR_Q:
+                Q = E["quantities"][q]
+                ex, ec, fc = Q["A"], expl_complete[q], anchor["quantities"][q]["A"]
+                s = hw90(fc) / hw90(ec)
+                m_new = fc["median"] + (ex["median"] - ec["median"])
+                A = affine_summary(ex, m_new, s, PRIOR[q], INPUT[q])
+                Q["reanchor"] = {"rule": REANCHOR_RULE, "exploratory": {k: ex[k] for k in ("median", "ci68", "ci90", "ul90")},
+                                 "exploratory_complete": {k: ec[k] for k in ("median", "ci90")}, "complete": {k: fc[k] for k in ("median", "ci90")},
+                                 "complete_key": "KnownBoth", "scale": s, "new_median": m_new}
+                Q["A"] = A
+                Q["source"] = "exploratory, " + REANCHOR_RULE.split(":")[0]
+                if Q["comb_source"].startswith("invented (the prior dominates"):
+                    Q["Comb"] = A
+                else:
+                    Q["Comb"] = invented_comb(A, E["N_comb"], INPUT[q], rng=PRIOR[q])
+                    Q["comb_source"] = "invented (from the re-anchored realization A)"
+                if q == "fAGN" and key in FREE_JOINT:
+                    m0 = ex["median"]
+                    E["joint"]["A"] = free_joint(key, lambda f, m0=m0, s=s, m_new=m_new: m_new + s * (f - m0))
 
 
 def invented_comb(sA, N, x0, bias=0.0, rng=None, kind="normal"):
@@ -459,19 +563,39 @@ def build():
               note="hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10")
         K[f"Flux{word}"] = E
     # ======== number densities inferred (Analysis 5) ========
+    # the production prior box of the two densities (Table I, h^3 Mpc^-3): the exploratory samples and prior draws are reweighted to it
+    PB = bv.prod_common().PRIORS
+    box_g, box_a = tuple(map(float, PB["log10n_gal"])), tuple(map(float, PB["log10n_agn"]))
     for rk, word, mlim in bv.RUNGS:
         E = entry("equal populations", "number densities inferred", f"both catalogs, m < {mlim}", "H0, f_AGN, log10 n_gal, log10 n_AGN", "free", f"Free{word}")
         ph5, pj = bv.A5 / f"campaign_{rk}_dynesty_s100.h5", bv.A5 / f"campaign_{rk}_dynesty_s100.json"
-        c, _, _, j = bv.load_a5(ph5, pj)
+        c0, _, _, j = bv.load_a5(ph5, pj)
         pri = j["priors"]
+        # the exploratory runs sampled log10 n in Mpc^-3 (their inputs -3 and -5; box [-4, -1] and [-6, -4] in Mpc^-3); the production runs
+        # sample it in h^3 Mpc^-3, the unit of the text, on the same numbers as a box in h^3 Mpc^-3 (Table I). Each sample (and each prior
+        # draw) is converted with its own H0, log10 n_h = log10 n - 3 log10(H0/100), and reweighted to the production prior: in (H0, log10 n_h)
+        # the exploratory prior is flat wherever it is nonzero, as is the production prior, so the reweighting keeps the samples whose two
+        # densities lie inside the Table I box and drops the rest (REVIEW_2 1.7). The part of the box below about -5.5 (AGN) and -3.5
+        # (galaxies), which the exploratory box did not reach at H0 near its posterior, holds no sample.
+        lh0 = 3 * np.log10(c0.col("H0") / 100.0)
+        keep = ((c0.col("log10n0") - lh0 >= box_g[0]) & (c0.col("log10n0") - lh0 <= box_g[1])
+                & (c0.col("log10n0_c2") - lh0 >= box_a[0]) & (c0.col("log10n0_c2") - lh0 <= box_a[1]))
+        c = bv.ChainPost(c0.s[keep], c0.names, tag=c0.tag + "_prodbox")
         cnt = bv.survey_counts(100, rk)
         rg, ra = dict(NC[rk]["gal"], N=cnt["gal"]), dict(NC[rk]["agn"], N=cnt["agn"])
         Rs = c.col("fcat_2") / (1 - c.col("fcat_2")) * bv.Zk(rg, 10 ** c.col("log10n0"), c.col("H0")) / bv.Zk(ra, 10 ** c.col("log10n0_c2"), c.col("H0"))
         cols = {"Hzero": (c.col("H0"), pri["H0"]), "fAGN": (c.col("fcat_2"), pri["fcat_2"]), "LognGal": (c.col("log10n0"), pri["log10n0"]),
                 "LognAGN": (c.col("log10n0_c2"), pri["log10n0_c2"]), "RateRatio": (Rs, (0.0, float(np.percentile(Rs, 99.9)) * 1.3))}
-        I = bv.induced_density(rk)
-        # the exploratory runs sampled log10 n in Mpc^-3 (their inputs -3 and -5); the production runs sample it in h^3 Mpc^-3, the unit
-        # of the text: each sample (and each prior draw) converted with its own H0, log10 n_h = log10 n - 3 log10(H0/100)
+        I0 = bv.induced_density(rk)
+        lh0I = 3 * np.log10(I0["H0"] / 100.0)
+        keepI = ((I0["log10n0"] - lh0I >= box_g[0]) & (I0["log10n0"] - lh0I <= box_g[1])
+                 & (I0["log10n0_c2"] - lh0I >= box_a[0]) & (I0["log10n0_c2"] - lh0I <= box_a[1]))
+        I = {k: (v[keepI] if isinstance(v, np.ndarray) and v.shape == keepI.shape else v) for k, v in I0.items()}
+        E["prior_reweighting"] = {
+            "rule": "exploratory samples and prior draws reweighted to the production prior: kept where log10 n_gal and log10 n_AGN, each converted "
+                    "with its own H0 to h^3 Mpc^-3, lie inside the Table I box (prod_common.PRIORS log10n_gal, log10n_agn)",
+            "box_gal_h": list(box_g), "box_agn_h": list(box_a), "posterior_samples_kept": int(keep.sum()), "posterior_samples": int(len(keep)),
+            "prior_weight_kept": float(I0["w"][keepI].sum() / I0["w"].sum()), "prior_draws_kept": int(keepI.sum())}
         lh_c = 3 * np.log10(c.col("H0") / 100.0)
         lh_I = 3 * np.log10(I["H0"] / 100.0)
         for q, (s, rng) in cols.items():
@@ -490,16 +614,17 @@ def build():
                 E["quantities"][q]["A"]["prior_ul90_h"] = float(bv.wquant(I[cn] - lh_I, I["w"], 0.90))
                 E["quantities"][q]["A"]["h_note"] = H_NOTE_EXPLORATORY
         # joint posterior of f_AGN and log10 n_AGN in h^3 Mpc^-3 (Fig. 4a), and the region the priors allow once the rate per host is
-        # measured (prior-induced density), both on the box of the exploratory priors seen in h^3 Mpc^-3
+        # measured (prior-induced density), both on the production prior box (Table I) in h^3 Mpc^-3. The joint posterior is drawn again
+        # by reanchor() with f_AGN moved by the re-anchoring map of the key's fAGN (FREE_JOINT keeps the samples)
         la_h, laI_h = c.col("log10n0_c2") - lh_c, I["log10n0_c2"] - lh_I
-        box_h = (pri["log10n0_c2"][0] - 3 * np.log10(pri["H0"][1] / 100.0), pri["log10n0_c2"][1] - 3 * np.log10(pri["H0"][0] / 100.0))
-        E["joint"]["A"] = joint_samples(c.col("fcat_2"), la_h, tuple(pri["fcat_2"]), box_h, "fAGN", "LognAGNh", nb=50) | {
-            "units_y": "log10 h^3 Mpc^-3", "note": H_NOTE_EXPLORATORY}
-        Hh, xe, ye = np.histogram2d(I["f"], laI_h, bins=50, range=[tuple(pri["fcat_2"]), box_h], weights=I["w"])
+        FREE_JOINT[f"Free{word}"] = (c.col("fcat_2").copy(), la_h.copy(), tuple(pri["fcat_2"]), box_a)
+        E["joint"]["A"] = free_joint(f"Free{word}")
+        Hh, xe, ye = np.histogram2d(I["f"], laI_h, bins=50, range=[tuple(pri["fcat_2"]), box_a], weights=I["w"])
         from scipy.ndimage import gaussian_filter
         Hh = gaussian_filter(Hh, 1.0, mode="reflect")
         E["joint"]["prior_induced"] = joint_grid(0.5 * (xe[1:] + xe[:-1]), 0.5 * (ye[1:] + ye[:-1]), Hh, 50) | {
-            "params": ["fAGN", "LognAGNh"], "shape": "2e6 prior draws weighted by the stored known-density likelihood mapped through the identity (build_values.induced_density)",
+            "params": ["fAGN", "LognAGNh"], "shape": "2e6 prior draws weighted by the stored known-density likelihood mapped through the identity (build_values.induced_density), "
+                                                     "those inside the Table I box in h^3 Mpc^-3 kept",
             "file": rel(bv.A3 / f"joint_{rk}_s100.h5"), "units_y": "log10 h^3 Mpc^-3", "note": H_NOTE_EXPLORATORY}
         K[f"Free{word}"] = E
     # ======== single population, equal populations (invented) ========
@@ -602,10 +727,13 @@ def production_override(K):
 
 
 def main():
+    import copy
     K = build()
+    expl_complete = copy.deepcopy({q: K["KnownBoth"]["quantities"][q]["A"] for q in REANCHOR_Q})   # before the production override
     if not PMAP.exists():
         PMAP.write_text(json.dumps({}, indent=1) + "\n")
     pm, status = production_override(K)
+    reanchor(K, expl_complete)
     doc = {"_what": "placeholder results of the PRD paper (notes/PAPER_SKELETON.md Secs. 6 and 7), one entry per key; written by scripts/placeholder_results.py",
            "_conventions": __doc__, "_inputs": {**INPUT, "RateRatio_note": "[0.30/0.70] N_gal/N_AGN of the reference catalog pair"},
            "_inputs_observed_like": {**INPUT_OBS, "file": bv.rel(OBSJ)},

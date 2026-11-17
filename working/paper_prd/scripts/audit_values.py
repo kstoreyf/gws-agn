@@ -504,14 +504,34 @@ def audit_r2(mac, reg, diag, tables):
     # the same limits in h^3 Mpc^-3 (FreeEighteenLogn<cls>PriorULh) while the key is a placeholder: each draw converted with its own H0
     doc8 = json.loads((OUT / "values" / "placeholder_results.json").read_text())["keys"]
     if not doc8["FreeEighteen"].get("final"):
+        # the Table I box keeps about two thirds of the prior weight and the galaxy limit lies on a flat stretch of its distribution, so
+        # its Monte Carlo error at 1e6 draws is about 0.03 dex: three further independent draws (4e6 in all) are added for this check
+        nh, ws = {"Gal": [], "AGN": []}, []
+        for sd_ in (99, 199, 299, 399):
+            if sd_ == 99:
+                Hs_, lg_, la_, w_ = Hs, lg, la, w
+            else:
+                r_ = np.random.default_rng(sd_)
+                Hs_, f_, lg_, la_ = (r_.uniform(*pr[k], n) for k in ("H0", "fcat_2", "log10n0", "log10n0_c2"))
+                Vg_, Va_ = C.missing_volume(fg_, H0, 5.0) * (H0 / Hs_) ** 3, C.missing_volume(fa_, H0, 5.0) * (H0 / Hs_) ** 3
+                lnr_ = lambda g_, a_: np.log(Na / (Na + a_ * Va_)) - np.log(Ng / (Ng + g_ * Vg_))
+                fst_ = C.expit(C.logit(f_) + lnr_(10 ** lg_, 10 ** la_) - lnr_(ng, na))
+                w_ = np.exp(RegularGridInterpolator((Hg, Fg), L - L.max())(np.stack([Hs_, fst_], 1)))
+            g_h, a_h = lg_ - 3 * np.log10(Hs_ / 100.0), la_ - 3 * np.log10(Hs_ / 100.0)
+            inb = ((g_h >= mac["PriorLognGalLo"]["value"]) & (g_h <= mac["PriorLognGalHi"]["value"])
+                   & (a_h >= mac["PriorLognAGNLo"]["value"]) & (a_h <= mac["PriorLognAGNHi"]["value"]))
+            nh["Gal"].append(g_h[inb])
+            nh["AGN"].append(a_h[inb])
+            ws.append(w_[inb])
+        wh = np.concatenate(ws)
         out_h = []
-        for arr, nm in ((lg, "Gal"), (la, "AGN")):
-            ah = arr - 3 * np.log10(Hs / 100.0)
+        for nm in ("Gal", "AGN"):
+            ah = np.concatenate(nh[nm])
             oo = np.argsort(ah)
-            c = np.cumsum(w[oo])
+            c = np.cumsum(wh[oo])
             out_h.append(abs(float(np.interp(0.9, c / c[-1], ah[oo])) - mac[f"FreeEighteenLogn{nm}PriorULh"]["value"]))
         check(max(out_h) < 0.03, f"G8b the same prior-induced limits in h^3 Mpc^-3 (FreeEighteenLogn<Gal|AGN>PriorULh, placeholder: exploratory draws "
-                                 f"converted with their own H0) by the independent draw: max diff {max(out_h):.3f} dex")
+                                 f"converted with their own H0 and kept inside the Table I box) by four independent draws of 1e6: max diff {max(out_h):.3f} dex")
     # ---- G9: realised mock numbers from the raw files: the production injection set and event sets (until 17 Nov the older events.h5
     # and the events_meta.json of the nine exploratory catalogs) ----
     with h5py.File(B.DATA / "seed100" / "injections" / "injections_targeted.h5") as h:
@@ -598,11 +618,10 @@ def audit_keys(mac):
     # (the combinations of the all-AGN, all-galaxy and galaxy-catalog-alone keys use the production realizations only since
     #  17 Nov; they are checked against an independent sum in I9 below, not against the 93- and 9-realization macros).
     # Keys that are production results are audited in J instead.
+    # (the flux-limited keys and the keys with the number densities inferred are re-anchored and reweighted while placeholders: H2c, H2b)
     pairs = [("KnownBothHzero", "JointHzeroCatA"), ("KnownBothHzeroComb", "JointHzeroComb"), ("KnownBothfAGNComb", "JointfComb"), ("KnownGalHzero", "GalOnlyHzeroCatA"),
-             ("FluxEighteenfAGN", "FluxfEighteen"), ("FluxTwentyOneHzero", "FluxHzeroTwentyOne"),
-             ("FreeEighteenLognAGN", "FreeLognAGNEighteen"), ("FreeEighteenfAGN", "FreefAGNEighteen"), ("HDHostDmuChi", "HDEightDmuChi"), ("HDHostHzero", "HDEightHzero"),
-             ("KnownBothRateRatio", "RateRatioJointCatA"), ("KnownBothRateRatioComb", "RateRatioJointComb"), ("FluxEighteenRateRatio", "RateRatioEighteen"),
-             ("FreeEighteenRateRatio", "RateRatioFreeEighteen")]
+             ("HDHostDmuChi", "HDEightDmuChi"), ("HDHostHzero", "HDEightHzero"),
+             ("KnownBothRateRatio", "RateRatioJointCatA"), ("KnownBothRateRatioComb", "RateRatioJointComb")]
     dev = []
     for a, b in pairs:
         if any(k in final for k in owner[a]):
@@ -610,32 +629,74 @@ def audit_keys(mac):
         va, vb = mac[a]["value"], mac[b]["value"]
         hw = 0.5 * (vb["ci90"][1] - vb["ci90"][0])
         dev.append(max(abs(va["median"] - vb["median"]), abs(va["ci90"][0] - vb["ci90"][0]), abs(va["ci90"][1] - vb["ci90"][1])) / hw)
-    for a, b in (("KnownBothLB", "LBfZeroCatA"), ("KnownBothLBComb", "LBfZeroComb"), ("FreeEighteenLognAGNPriorUL", "FreeLognAGNInducedUpperEighteen"),
-                 ("FreeEighteenLognAGNUL", "FreeLognAGNUpperEighteen")):
+    for a, b in (("KnownBothLB", "LBfZeroCatA"), ("KnownBothLBComb", "LBfZeroComb")):
         if not any(k in final for k in owner[a]):
             dev.append(abs(mac[a]["value"] - mac[b]["value"]))
     check(max(dev, default=0.0) < 2e-3, f"H2 {len(dev)} exploratory key values equal the exploratory macros computed separately (largest difference {max(dev, default=0.0):.1e}, "
                                          f"in 90% half-widths or log10 units; keys that are production results are audited in J)")
-    # H2b: the limits in h^3 Mpc^-3 of the placeholder keys, from the exploratory chain files read here (h5py; each sample converted with
-    # its own H0), and the order of the two limits of each key (the mergers can only tighten what the priors allow, to the Monte Carlo noise)
-    devh, order = [], []
+    # H2b: the exploratory chains of the keys with the number densities inferred, read here (h5py), each sample converted with its own H0 to
+    # h^3 Mpc^-3 and kept when both densities lie inside the Table I box (the production prior; placeholder_results header, 'prior box');
+    # the limits ULh equal the 90th percentile of what is kept, and every ULh and PriorULh lies inside the box. The order of the two limits
+    # of a key is reported, not required: the box pins both within about 0.1 dex of its upper edge.
+    lo_hi = {cls: (mac[f"PriorLogn{cls}Lo"]["value"], mac[f"PriorLogn{cls}Hi"]["value"]) for cls in ("Gal", "AGN")}
+    devh, order, outside, kept_chain = [], [], [], {}
     for rk, w, _ in B.RUNGS:
         k = f"Free{w}"
-        for cls, cn in (("Gal", "log10n0"), ("AGN", "log10n0_c2")):
+        if k in final:
+            continue
+        with h5py.File(B.A5 / f"campaign_{rk}_dynesty_s100.h5") as h:
+            lab = [x.decode() for x in h["sampled_labels"][()]]
+            s_ = h["samples"][()]
+        lh_ = 3 * np.log10(s_[:, lab.index("H0")] / 100.0)
+        nh = {"Gal": s_[:, lab.index("log10n0")] - lh_, "AGN": s_[:, lab.index("log10n0_c2")] - lh_}
+        keep_ = np.all([(nh[c_] >= lo_hi[c_][0]) & (nh[c_] <= lo_hi[c_][1]) for c_ in ("Gal", "AGN")], axis=0)
+        kept_chain[k] = {"H0": s_[keep_, lab.index("H0")], "f": s_[keep_, lab.index("fcat_2")]}
+        for cls in ("Gal", "AGN"):
             if not all(n in mac for n in (f"{k}Logn{cls}ULh", f"{k}Logn{cls}PriorULh")):
                 devh.append(np.inf)
                 continue
-            if k in final:
-                continue
-            with h5py.File(B.A5 / f"campaign_{rk}_dynesty_s100.h5") as h:
-                lab = [x.decode() for x in h["sampled_labels"][()]]
-                s_ = h["samples"][()]
-            own = float(np.percentile(s_[:, lab.index(cn)] - 3 * np.log10(s_[:, lab.index("H0")] / 100.0), 90))
+            own = float(np.percentile(nh[cls][keep_], 90))
             devh.append(abs(own - mac[f"{k}Logn{cls}ULh"]["value"]))
             order.append(mac[f"{k}Logn{cls}ULh"]["value"] - mac[f"{k}Logn{cls}PriorULh"]["value"])
-    check(max(devh, default=0.0) < 1e-9 and max(order, default=-1.0) < 0.05,
+            outside += [n for n in (f"{k}Logn{cls}ULh", f"{k}Logn{cls}PriorULh") if not lo_hi[cls][0] <= mac[n]["value"] <= lo_hi[cls][1]]
+    check(max(devh, default=0.0) < 1e-9 and not outside,
           f"H2b {len(devh)} limits in h^3 Mpc^-3 (Free<limit>Logn<cls>ULh) of the placeholder keys equal the 90th percentile of the exploratory chains "
-          f"converted per sample (largest difference {max(devh, default=0.0):.1e}); each lies at or below its PriorULh (largest excess {max(order, default=0.0):+.3f} dex)")
+          f"converted per sample and cut to the Table I box (largest difference {max(devh, default=0.0):.1e}); every ULh and PriorULh lies inside the box "
+          f"(PriorLogn<cls>Lo/Hi){': OUTSIDE ' + ', '.join(outside) if outside else ''}; largest ULh - PriorULh {max(order, default=0.0):+.3f} dex (reported)")
+    # H2c: the re-anchored placeholders (REVIEW_2 1.11; placeholder_results header, 're-anchoring'): realization A of the flux-limited keys from the
+    # exploratory macros computed separately (FluxHzero<limit>, Fluxf<limit>, RateRatio<limit>; complete: JointHzeroCatA, JointfCatA,
+    # RateRatioJointCatA) and the finished KnownBoth; of the keys with the densities inferred, H0 and f_AGN from the chains cut to the box above
+    if "KnownBoth" in final:
+        hwf = lambda s: 0.5 * (s["ci90"][1] - s["ci90"][0])
+        kb = {q: mac[f"KnownBoth{q}"]["value"] for q in ("Hzero", "fAGN", "RateRatio")}
+        ec = {"Hzero": mac["JointHzeroCatA"]["value"], "fAGN": mac["JointfCatA"]["value"], "RateRatio": mac["RateRatioJointCatA"]["value"]}
+        devr, n_r, wider = [], 0, []
+        for rk, w, _ in B.RUNGS:
+            for k in (f"Flux{w}", f"Free{w}"):
+                if k in final:
+                    continue
+                for q in ("Hzero", "fAGN", "RateRatio"):
+                    if k.startswith("Flux"):
+                        ex = mac[{"Hzero": f"FluxHzero{w}", "fAGN": f"Fluxf{w}", "RateRatio": f"RateRatio{w}"}[q]]["value"]
+                    elif q == "RateRatio":
+                        continue
+                    else:
+                        x_ = kept_chain[k]["H0" if q == "Hzero" else "f"]
+                        pq = np.percentile(x_, [5, 50, 95])
+                        ex = {"median": float(pq[1]), "ci90": [float(pq[0]), float(pq[2])]}
+                    sc = hwf(kb[q]) / hwf(ec[q])
+                    m = kb[q]["median"] + ex["median"] - ec[q]["median"]
+                    want = (m, m + sc * (ex["ci90"][0] - ex["median"]), m + sc * (ex["ci90"][1] - ex["median"]))
+                    got = mac[f"{k}{q}"]["value"]
+                    devr.append(max(abs(got["median"] - want[0]), abs(got["ci90"][0] - want[1]), abs(got["ci90"][1] - want[2])) / hwf(got))
+                    n_r += 1
+                    if q == "Hzero" and hwf(got) < hwf(kb[q]) * (1 - 1e-2):
+                        wider.append(f"{k}{q}")
+        check(max(devr, default=0.0) < 2e-3 and not wider,
+              f"H2c {n_r} re-anchored placeholder quantities (realization A of the flux-limited keys and the keys with the densities inferred: H0, f_AGN, "
+              f"rate ratio) follow the rule from the finished KnownBoth and the exploratory values computed separately (largest difference "
+              f"{max(devr, default=0.0):.1e} of a 90% half-width); no H0 half-width narrower than the complete catalogs' by more than 1%"
+              f"{': NARROWER ' + ', '.join(wider) if wider else ''}")
     # invented combinations: width A / sqrt(N)
     rat = []
     for k, E in doc.items():
@@ -1212,11 +1273,21 @@ def audit_classes(mac, doc):
     import yaml
     from scipy.interpolate import CubicSpline
     pm = _jr(OUT / "values" / "production_map.json")
-    blk = (pm.get("classes") or {}).get("macros") or {}
+    blk = dict((pm.get("classes") or {}).get("macros") or {})
     cl = {k: v for k, v in mac.items() if v["claim"].startswith("classes")}
     if not cl:
         check(False, "K0 values.json has the experiment's macros (claim 'classes')")
         return
+    # where the probability of an AGN host is evaluated and its mean over every merger (ProbEvalfAGN<info>, ProbAll<info>) read the run
+    # and membership file of ProbAGN<info>; a map written before they existed has no record of its own for them
+    for n in cl:
+        m_ = re.fullmatch(r"Prob(?:EvalfAGN|All)([A-Za-z]+)", n)
+        if m_ and n not in blk and f"ProbAGN{m_.group(1)}" in blk:
+            blk[n] = dict(blk[f"ProbAGN{m_.group(1)}"])
+    missing_new = [n for n in [f"Prob{s}{i}" for s in ("EvalfAGN", "All") for i in ("Equal", "Pos", "Pops", "PosTwice", "PopsTwice")]
+                   + [f"Cost{t}{f}{e}" for t in ("Unknown", "Pops", "PopsTwice") for f in ("Ten", "Thirty", "Fifty") for e in ("Min", "Max")] if n not in cl]
+    if missing_new:
+        check(False, f"K0 the macros of REVIEW_2 1.1 and 1.2 exist: missing {', '.join(missing_new[:6])}")
     val = lambda n: mac[n]["value"]
     rows, bad = [], []
 
@@ -1268,7 +1339,7 @@ def audit_classes(mac, doc):
                                        f"every run pattern of the map's 'classes' block has the realizations of the run lists (own parser)"
                                        f"{': ' + ', '.join((wrong + notlisted)[:6]) if wrong or notlisted else ''}")
     # ---- K1: the numbers, by a second code path
-    own_mean = {}
+    own_mean, own_per_s, own_per_o = {}, {}, {}
     for name, rec in blk.items():
         if rec.get("how") not in ("mean_hw", "factor_hw") or not have.get(name):
             continue
@@ -1298,6 +1369,9 @@ def audit_classes(mac, doc):
         cmp(name + "Min", val(name + "Min"), min(per_o), 0.02 * min(per_o), "smallest half-width vs own")
         cmp(name + "Max", val(name + "Max"), max(per_o), 0.02 * max(per_o), "largest half-width vs own")
         own_mean[name] = float(np.mean(per_o))
+        own_per_o[name] = dict(zip(rec["realizations"], per_o))
+        if per_s:
+            own_per_s[name] = dict(zip(rec["realizations"], per_s))
     for name, rec in blk.items():
         if rec.get("how") != "derived" or not have.get(name):
             continue
@@ -1305,6 +1379,21 @@ def audit_classes(mac, doc):
         f = (lambda x, y: 100.0 * (x / y) ** 2) if rec["fn"] == "share" else (lambda x, y: (x / y) ** 2)
         cmp(name, val(name), f(val(a_), val(b_)), 1e-12, "from the unrounded values of its two macros")
         cmp(name, val(name), f(own_mean[a_], own_mean[b_]), 0.04 * val(name), "from the own half-widths")
+        if rec["fn"] == "cost":
+            # Min, Max: the same ratio per realization (the summaries' half-widths read here; and the own PCHIP half-widths)
+            for src_, rtol, how_ in ((own_per_s, 1e-12, "summaries' half-widths"), (own_per_o, 0.04, "own PCHIP half-widths")):
+                if a_ not in src_ or b_ not in src_ or sorted(src_[a_]) != sorted(src_[b_]):
+                    bad.append(f"{name}Min/Max: no per-realization half-widths of {a_} and {b_} on the same realizations ({how_})")
+                    continue
+                per = [(src_[a_][r] / src_[b_][r]) ** 2 for r in src_[a_]]
+                for suf, want in (("Min", min(per)), ("Max", max(per))):
+                    cmp(name + suf, val(name + suf), want, rtol * want, f"{suf.lower()} over the realizations of the per-realization ratio ({how_})")
+    # red cost ranges: the central value times the relative spread of the finished CostUnknown<f> at the same f (classes.cost_range)
+    for name in [n for n in cl if re.fullmatch(r"Cost(Pops|PopsTwice)(Ten|Thirty|Fifty)", n)]:
+        ref = "CostUnknown" + re.fullmatch(r"Cost(?:Pops|PopsTwice)(Ten|Thirty|Fifty)", name).group(1)
+        if mac[name]["class"] == "ph" and mac[ref]["class"] == "plain":
+            for suf in ("Min", "Max"):
+                cmp(name + suf, val(name + suf), val(name) * val(ref + suf) / val(ref), 1e-12, f"red range: {name} times {ref}{suf} / {ref}")
     # ShareSumThirty (build_values.build_classes, not in the map): black exactly when ShareAGNThirty is; then ShareAGNThirty plus the galaxy
     # share of values.json, and the sum of the two shares from the own PCHIP half-widths of the AGN and galaxy factors of the same grids
     if "ShareSumThirty" not in mac:
@@ -1362,8 +1451,14 @@ def audit_classes(mac, doc):
             ht = np.asarray(h["truth/host_type"][()], int)
         cmp(f"{name} r", float(np.max(np.abs(r_own - np.asarray(z["r"], float)))), 0.0, 1e-6, "per-merger r recomputed from ln L_AGN, ln L_gal and f")
         cmp(f"{name} host", float(np.sum(ht != np.asarray(z["host_type"], int))), 0.0, 0.0, "true host classes = the events file's truth/host_type")
-        cls = 1 if name.startswith("ProbAGN") else 0
-        cmp(name, val(name), float(r_own[ht == cls].mean()), 1e-6, "mean of the own r over the true class")
+        if name.startswith("ProbEvalfAGN"):
+            cmp(name, val(name), f, 1e-12, "the f at which r is evaluated (grid/membership.json f_agn_median)")
+            cmp(f"{name} median", val(name), float(_jr(run / "summary.json")["posterior"]["f_agn"]["median"]), 1e-3, "the posterior median of f_AGN (summary.json)")
+        elif name.startswith("ProbAll"):
+            cmp(name, val(name), float(r_own.mean()), 1e-6, "mean of the own r over all the mergers")
+        else:
+            cls = 1 if name.startswith("ProbAGN") else 0
+            cmp(name, val(name), float(r_own[ht == cls].mean()), 1e-6, "mean of the own r over the true class")
         if mac[name]["render"].lstrip("\\ph{").rstrip("}") != f"{val(name):.2f}":
             bad.append(f"{name} render {mac[name]['render']}")
     # the AGN catalog alone: interior maxima from the passes read here
@@ -1414,7 +1509,8 @@ def audit_classes(mac, doc):
         bad.append(f"NrealClasses: the experiment sets have different realization counts {nset}")
     worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf))
     check(not bad, f"K1 {len(rows)} numbers of the experiment's macros recomputed by a second code path (summary.json read directly; own PCHIP of each grid "
-                   f"and of the AGN factor; r from the per-merger likelihoods and the events file's true classes; interior maxima from both passes; "
+                   f"and of the AGN factor; r from the per-merger likelihoods and the events file's true classes, its f of evaluation against the "
+                   f"posterior median and its mean over all mergers; the cost ranges per realization; interior maxima from both passes; "
                    f"numerator and denominator of every cost ratio, and each host-class-known macro on host-dependent mergers and its "
                    f"host-class-unknown partner, on the same events files; class counts and AGN offsets of the finished same-merger runs); "
                    f"largest deviation {worst[2]:.2g} ({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")

@@ -1224,7 +1224,7 @@ def fig2_anchor():
     axb.set_ylim(0, ymax)
     xA, pA, cAg = curves["KnownAGN"]
     axb.annotate("", xy=(99.4, 0.985 * ymax), xytext=(99.4, 0.80 * ymax), arrowprops=dict(arrowstyle="->", color=cAg, lw=1.2))
-    fs.label(axb, 98.6, 0.92 * ymax, f"AGN catalog alone:\nrises to the prior edge,\npeak {pA.max():.1f} off scale", cAg, ha="right", va="top")
+    fs.label(axb, 98.6, 0.92 * ymax, "AGN catalog alone:\nrises to the prior edge,\npeak off scale", cAg, ha="right", va="top")
     for key, frac, lab, dx, dy, ha in (("KnownBoth", 0.80, "both catalogs", 0.6, 0.004, "left"), ("KnownGal", 0.93, "galaxy catalog\nalone", 0.7, 0.0, "left"),
                                        ("KnownNone", 0.06, "no catalog", -0.8, 0.0, "right")):
         x, p, c = curves[key]
@@ -1406,16 +1406,20 @@ def write_fig4_facts(ya):
          "m < 21 (dashed) and m < 18 (solid) (`\\FreeTwentyOnefAGN`, `\\FreeEighteenfAGN`; 90% upper limits on log10 n_AGN "
          f"{mfmt('FreeTwentyOneLognAGNULh')} and {mfmt('FreeEighteenLognAGNULh')}). "
          + ("Gaussian kernel density of the run's samples (0.3 sd per axis, reflected at the prior edges) on a lattice, smoothed by 1.5 cells. " if prod else
-            "50 x 50 histograms of the exploratory samples on the exploratory prior box seen in h^3 Mpc^-3 (f [0, 1] x "
-            f"[{PHJ['FreeEighteen']['joint']['A']['y'][0]:.2f}, {PHJ['FreeEighteen']['joint']['A']['y'][-1]:.2f}] at the bin centres), smoothed. ")
+            f"50 x 50 histograms, on the production prior box (f [0, 1] x [{ylo:g}, {yhi:g}] in h^3 Mpc^-3; bin centres "
+            f"[{PHJ['FreeEighteen']['joint']['A']['y'][0]:.2f}, {PHJ['FreeEighteen']['joint']['A']['y'][-1]:.2f}]), of the exploratory samples whose two "
+            "densities, converted with each sample's H0, lie inside that box (the exploratory runs drew in a box in Mpc^-3 that reaches above it; "
+            "the part below about -5.5 holds no sample), smoothed; each sample's f_AGN is moved by the re-anchoring map of the key's f_AGN "
+            "(placeholder_results header). ")
          + f"Black curve: constant merger rate per host at the input value {mfmt('MockRateRatio')}, with n_gal at its input "
          f"{mfmt('MockLognGalh')}: logit f_AGN = ln R + ln Z_AGN(n_AGN) - ln Z_gal, Z_k = N_k + n_k V_miss,k with n_k in h^3 Mpc^-3 and "
          f"the missing volume at H0 = 100 (so the curve does not depend on H0), m < 18 catalog counts of realization A, hosts normalized to "
          f"z = {bv.ZMAX_PROD if prod else bv.ZMAX_GRID:g}{' (the production convention)' if prod else ' (as the exploratory runs; z = 1.10 once the production runs are drawn)'}. "
          "Gray: the 90% region allowed by the priors once the merger rate per host is measured (2e6 draws from the priors weighted by the "
-         f"known-density likelihood of m < 18 mapped through the identity; {mfmt('FreeEighteenLognAGNPriorULh')}). Black \"+\": input "
+         f"known-density likelihood of m < 18 mapped through the identity{'' if prod else ', those inside the Table I box kept'}; "
+         f"{mfmt('FreeEighteenLognAGNPriorULh')}). Black \"+\": input "
          f"({mfmt('MockfAGN')}, {mfmt('MockLognAGNh')}); the curve passes through it. Axes: f_AGN [0, 1]; log10 n_AGN [{ylo:.2f}, {yhi:.2f}] "
-         + ("(the production prior box)." if prod else "(the extent of the placeholder data; the production prior box is [-6, -4]).")
+         "(the production prior box, `\\PriorLognAGNLo`, `\\PriorLognAGNHi`; every drawn region and limit lies inside it)."
          + " The same limits in Mpc^-3 (each sample converted with its own H0) are the macros without the final h, not drawn.",
          "- (b) Posterior of the merger rate per AGN over that per galaxy at m < 21, 20, 19, 18 (solid, dashed, dash-dot, dotted; "
          + ", ".join(mfmt(f"{k}RateRatio") for k in keys) + "), computed per posterior sample as [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN with "
@@ -1446,15 +1450,14 @@ def panel_free_joint(axa, name, label="(a)"):
     assert PI["params"] == ["fAGN", "LognAGNh"] and PI.get("units_y") == "log10 h^3 Mpc^-3", (PI.get("params"), PI.get("units_y"))
     chk(name, ("macros", "FreeEighteenLognAGNPriorULh", "value"), PHJ["FreeEighteen"]["quantities"]["LognAGN"]["A"]["prior_ul90_h"],
         "90% upper limit of the prior-allowed region [h^3 Mpc^-3]")
-    # vertical range: the production prior box (Table I, PriorLognAGNLo/Hi, h^3 Mpc^-3) once the production runs are drawn; while
-    # placeholders, the box of the exploratory priors seen in h^3 Mpc^-3 (their Mpc^-3 box shifted by -3 log10 h over the H0 prior)
+    # vertical range: the production prior box (Table I, PriorLognAGNLo/Hi, h^3 Mpc^-3); the placeholders are reweighted to it (only the
+    # exploratory samples and prior draws inside it are kept: placeholder_results header, 'prior box'), so every drawn region lies inside
     prod = fin("FreeEighteen") and fin("FreeTwentyOne")
-    if prod:
-        ylo, yhi = VALUES["macros"]["PriorLognAGNLo"]["value"], VALUES["macros"]["PriorLognAGNHi"]["value"]
-        chk(name, ("macros", "PriorLognAGNLo", "value"), ylo, "vertical axis: prior box")
-        chk(name, ("macros", "PriorLognAGNHi", "value"), yhi, "vertical axis: prior box")
-    else:
-        ylo, yhi = float(min(PI["y"][0], *(PHJ[k]["joint"]["A"]["y"][0] for k in joints))), float(max(PI["y"][-1], *(PHJ[k]["joint"]["A"]["y"][-1] for k in joints)))
+    ylo, yhi = VALUES["macros"]["PriorLognAGNLo"]["value"], VALUES["macros"]["PriorLognAGNHi"]["value"]
+    chk(name, ("macros", "PriorLognAGNLo", "value"), ylo, "vertical axis: prior box")
+    chk(name, ("macros", "PriorLognAGNHi", "value"), yhi, "vertical axis: prior box")
+    for J_, who in [(PI, "prior-allowed region")] + [(PHJ[k]["joint"]["A"], k) for k in joints]:
+        assert ylo <= J_["y"][0] and J_["y"][-1] <= yhi, (who, J_["y"][0], J_["y"][-1], ylo, yhi)
     # constant rate-per-host ratio through the input (n_gal at its input, m < 18; hosts normalized to z = 5 as the exploratory runs, or to
     # the end of the production redshift grid, z = 1.10, once the production runs are drawn); h^3 Mpc^-3 densities with the volume at H0 = 100
     zm = bv.ZMAX_PROD if prod else bv.ZMAX_GRID
@@ -1847,10 +1850,10 @@ AGN_DARK = "#A63F00"                     # the truly AGN-hosted mergers of (c): 
 
 def cl_labels():
     dG, dX = VALUES["macros"]["MockDmuG"]["render"], VALUES["macros"]["MockDmuChi"]["render"]
-    return {"unknown": "Host class unknown", "known": "Host class known",
-            "pops": rf"Host-dependent populations, $\Delta\mu_{{\rm G}}={dG}\,M_\odot$, $\Delta\mu_\chi={dX}$",
-            "pops2": "Host-dependent populations, twice those offsets", "host": r"Host-dependent populations inferred with $H_0$",
-            "none": "No catalog", "galaxy": r"Galaxy catalog alone, $f_{\rm AGN}=0$"}
+    return {"unknown": "host class unknown", "known": "host class known",
+            "pops": rf"host-dependent populations, $\Delta\mu_{{\rm G}}={dG}\,M_\odot$, $\Delta\mu_\chi={dX}$",
+            "pops2": "host-dependent populations, twice those offsets", "host": r"host-dependent populations inferred with $H_0$",
+            "none": "no catalog", "galaxy": r"galaxy catalog alone, $f_{\rm AGN}=0$"}
 
 
 def cl_color(series, real):
@@ -1903,7 +1906,7 @@ def panel_classes(ax, spec, name, tag, facts):
     ax.set_xticks([0, 0.1, 0.3, 0.5, 1.0])
     ax.set_xticklabels(["0", "0.1", "0.3", "0.5", "1"])
     ax.xaxis.set_minor_locator(plt.NullLocator())
-    ax.set_xlabel(r"Fraction of mergers hosted by AGN, $f_{\rm AGN}$")
+    ax.set_xlabel(r"fraction of mergers hosted by AGN, $f_{\rm AGN}$")
     return handles
 
 
@@ -1916,7 +1919,7 @@ def panel_membership(axs, name, facts):
     data = {w: CLS.membership_draw(w) for w in ("Pos", "Pops")}
     ymax = max(np.histogram(r, bins, density=True)[0].max() for d in data.values() for r in (d["r_agn"], d["r_gal"]))
     top = 1.75 * ymax
-    words = {"Pos": "Positions alone", "Pops": "Positions with\nmasses and spins"}
+    words = {"Pos": "positions alone", "Pops": "positions with\nmasses and spins"}
     for ax, w in zip(axs, ("Pos", "Pops")):
         d = data[w]
         cg, ca = (fs.GAL, AGN_DARK) if d["real"] else (RED[1], RED[2])
@@ -1944,7 +1947,7 @@ def panel_membership(axs, name, facts):
         facts.append(("(c)", words[w].replace("\n", " "), d, printed))
     axs[0].text(data["Pos"]["f_in"], 1.02, r"$f_{\rm AGN}$", transform=axs[0].get_xaxis_transform(), ha="center", va="bottom", fontsize=7.4, color=fs.INPUT)
     axs[0].tick_params(labelbottom=False)
-    axs[1].set_xlabel("Probability of an AGN host")
+    axs[1].set_xlabel("probability of an AGN host")
     fs.panel_label(axs[0], "(c)", x=0.03, y=0.97)
     return data
 
@@ -1971,7 +1974,7 @@ def fig_classes(outdir=None):
     fs.panel_label(axa, "(a) peak-dominated spectrum", x=0.03, y=0.97, fontsize=8.5)
     fs.panel_label(axb, "(b) observed-like spectrum", x=0.03, y=0.97, fontsize=8.5)
     data = panel_membership((axc1, axc2), name, facts)
-    fig.text((xc - 0.34) / W, bot + hgt / 2, "Probability density", rotation=90, ha="center", va="center", fontsize=fs.FS_LABEL)
+    fig.text((xc - 0.34) / W, bot + hgt / 2, "probability density", rotation=90, ha="center", va="center", fontsize=fs.FS_LABEL)
     lab = cl_labels()
     hs = {**hb_, **ha_}
     order = [k for k in ("unknown", "known", "pops", "pops2", "host") if k in hs]
@@ -1984,7 +1987,7 @@ def fig_classes(outdir=None):
     real = data["Pos"]["real"]
     cg, ca = (fs.GAL, AGN_DARK) if real else (RED[1], RED[2])
     fig.legend([Patch(facecolor=cg, alpha=0.35 if real else 0.40, lw=0), Line2D([], [], color=ca, lw=1.5)],
-               ["Truly hosted by galaxies", "Truly hosted by AGN"], loc="upper center", bbox_to_anchor=((xc + wc / 2) / W, 1.0),
+               ["truly hosted by galaxies", "truly hosted by AGN"], loc="upper center", bbox_to_anchor=((xc + wc / 2) / W, 1.0),
                fontsize=7.4, handlelength=1.5, labelspacing=0.32, borderaxespad=0.25, handletextpad=0.5)
     fs.save(fig, outdir or FIGDIR, name)
     write_classes_facts(facts, data)
@@ -2029,8 +2032,11 @@ def write_classes_facts(facts, data):
     for row in facts:
         if row[0] == "(c)":
             tag, lab_, d, printed = row
+            info = printed[0][1][len("ProbGal"):]
             L.append(f"- (c) {lab_}: {'real' if d['real'] else 'red (placeholder shape: ' + d['how'] + ')'}; {len(d['r_agn'])} AGN-hosted and "
-                     f"{len(d['r_gal'])} galaxy-hosted mergers; printed means: " + ", ".join(f"{t} = {fmt(m)}" for t, m in printed))
+                     f"{len(d['r_gal'])} galaxy-hosted mergers; printed means: " + ", ".join(f"{t} = {fmt(m)}" for t, m in printed)
+                     + f"; evaluated at f_AGN = {fmt('ProbEvalfAGN' + info)} (the run's posterior median, where a merger with equal class "
+                       f"likelihoods lies; not drawn: the dashed line is the input); mean over all the mergers {fmt('ProbAll' + info)}")
     L += ["- Numbers printed in the panels: the four means of (c) above; the legend's offsets 5 (`\\MockDmuG`) and 0.10 (`\\MockDmuChi`). "
           "The figure check compares every drawn point, bar end and line with its macro (value and printed text) and the printed text with "
           "the macro's text.", CF_END]

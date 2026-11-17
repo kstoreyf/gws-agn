@@ -1444,7 +1444,17 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   `...PriorULh` (realization A) are the same two limits in h^3 Mpc^-3, the unit the production analyses sample and the text quotes
   (Table I, `\\MockLognGalh`, `\\MockLognAGNh`): the 90th percentile of the run's own samples of its parameter and the weighted
   90th percentile of the prior draws, no conversion. While a key is a placeholder its exploratory run (which sampled Mpc^-3) is
-  converted per sample with its own H0 the other way, log10 n - 3 log10(H0/100).
+  converted per sample with its own H0 the other way, log10 n - 3 log10(H0/100), and reweighted to the production prior: only
+  the samples and prior draws with both densities inside the Table I box in h^3 Mpc^-3 are kept, and every quantity of the key
+  is computed from them, so every red limit and the region drawn in Fig. 4(a) lie inside the stated prior (since 17 Nov evening,
+  REVIEW_2 1.7; rule in the header of `scripts/placeholder_results.py`).
+- Re-anchored placeholders (since 17 Nov evening, REVIEW_2 1.11): while `KnownBoth` is a production result and a key
+  `Flux<limit>` or `Free<limit>` is not, its H0, f_AGN and rate ratio of realization A are the exploratory ones moved onto the
+  finished complete-catalog result: median = `KnownBoth` median + (exploratory median - exploratory complete median), every
+  quantile moved by x -> new median + s (x - exploratory median), s = `KnownBoth` 90% half-width / exploratory complete 90%
+  half-width (the 90% half-width is the `KnownBoth` one times the exploratory ratio of this key's to the complete one). The
+  combination follows from the re-anchored realization A by the invented-combination rule; the map of each quantity is in
+  `placeholder_results.json` ("reanchor"). They stay red.
 - Keys: `KnownBoth`, `KnownGal`, `KnownAGN`, `KnownNone`, `AGNhosted`, `Galhosted`, `CtrlZero`, `CtrlTenth`,
   `Flux<limit>`, `Free<limit>` (limit `TwentyOne` ... `Eighteen`), `SingleBoth`, `SingleNone`, `HDSingle`, `HDHost`, `HDNone`,
   `ObsSingle`, `ObsHost`, `ObsNone`; each key's events, analysis and catalogs are in the meaning column below and in
@@ -2598,11 +2608,13 @@ A macro prints black when every run summary it needs exists, red with the expect
 
 - **`\\HW<spectrum><analysis><f>`**: the mean over the \\NrealClasses{} realizations of half the 90% equal-tailed width of
   the H0 posterior of each realization (its `summary.json`, `posterior.H0`); **`...Min`, `...Max`**: the smallest and the
-  largest of those half-widths (the bars of fig_classes). Spectrum: none = peak-dominated, `Obs` = observed-like.
+  largest of those half-widths (the bars of fig_classes). Every `\\HW...` macro, `Min` and `Max` included, prints two
+  significant figures (3.5, 2.0, 0.82; since 17 Nov evening, REVIEW_2 2.2; before, two decimals); every derived macro (costs,
+  shares) is computed from the unrounded values in values.json. Spectrum: none = peak-dominated, `Obs` = observed-like.
   f: `Zero`, `Ten`, `Thirty`, `Fifty`, `Hundred` = input f_AGN 0, 0.1, 0.3, 0.5, 1. Analysis:
   `Unknown` host class unknown (both catalogs, f_AGN inferred); `Known` host class known (each merger with the catalog and
   population of its true class, the two posteriors multiplied; at f = 0 this is the galaxy catalog alone, the horizontal
-  line "Galaxy catalog alone, f_AGN = 0" of fig_classes; at f = 1 the AGN catalog alone on all-AGN-hosted mergers);
+  line "galaxy catalog alone, f_AGN = 0" of fig_classes; at f = 1 the AGN catalog alone on all-AGN-hosted mergers);
   `None` no catalog (the mass spectrum alone, on the f = 0 set); `Pops` host-dependent populations (AGN offsets
   `\\MockDmuG` Msun and `\\MockDmuChi`) held at their inputs, host class unknown, on host-dependent mergers; `PopsTwice`
   the same with twice the offsets; `KnownPops`, `KnownPopsTwice` the host class known on those same host-dependent mergers
@@ -2619,7 +2631,13 @@ A macro prints black when every run summary it needs exists, red with the expect
   Denominators: `\\CostUnknown<f>` uses `\\HWKnown<f>` (the equal-population mergers); `\\CostPops<f>` uses
   `\\HWKnownPops<f>` and `\\CostPopsTwice<f>` uses `\\HWKnownPopsTwice<f>` (the host-dependent mergers themselves; until
   17 Nov evening both used `\\HWKnown<f>`, which mixed the cost of the unknown host class with the larger share of AGN-hosted
-  mergers among the detected host-dependent ones). Each macro's line in the table below names its denominator.
+  mergers among the detected host-dependent ones). Each macro's line in the table below names its denominator. The
+  central value is the ratio of the means (of the half-widths over the realizations), not the mean of the per-realization
+  ratios. **`...Min`, `...Max`** (one decimal, like the cost): the smallest and the largest over the realizations of the
+  same ratio computed per realization, (hw_num[r] / hw_den[r])^2, with the two half-widths of one realization from their
+  summaries. While either half-width is red: the central value times `\\CostUnknown<f>Min` / `\\CostUnknown<f>` and
+  `\\CostUnknown<f>Max` / `\\CostUnknown<f>` (the relative spread of the finished equal-population cost at the same f), or
+  times 0.8 and 1.2 where that cost is itself red.
 - **`\\ShareAGNTen`, `\\ShareAGNThirty`** (percent): 100 (`\\HWKnown<f>` / `\\HWKnownAGN<f>`)^2 from the unrounded means:
   the share of the information on H0 (inverse variance) carried by the AGN-hosted mergers with the host class known. The
   two posteriors multiply, so for Gaussian posteriors 1/hw^2 = 1/hw_AGN^2 + 1/hw_gal^2 in each realization; values.json
@@ -2633,7 +2651,14 @@ A macro prints black when every run summary it needs exists, red with the expect
   `grid/membership.npz`; = `summary.json` `membership.mean_r_true_agn` / `_gal`). info: `Equal` equal populations,
   positions alone; `Pos` host-dependent populations, positions alone (one population for both classes, held at its
   input); `Pops` host-dependent populations, positions with masses and spins (the two populations at their inputs);
-  `PosTwice`, `PopsTwice` the same with twice the offsets.
+  `PosTwice`, `PopsTwice` the same with twice the offsets. **`\\ProbEvalfAGN<info>`**: the f_AGN at which the probability
+  of that run is evaluated, the posterior median of f_AGN of its grid (`summary.json` `membership.f_agn_median`, = the
+  run's `grid/membership.npz` `f_agn`; it agrees with `posterior.f_agn.median` to 1e-4). A merger whose two class
+  likelihoods are equal has exactly this probability, not the input 0.30 (the dashed line of fig_classes (c) stays at the
+  input). **`\\ProbAll<info>`**: the mean of the same probability over all the mergers of the set (both true classes;
+  `membership.mean_r`). Red values: `ProbEvalfAGN` the input 0.30 (`Equal`, `Pos`, `Pops`) or the value with the smaller
+  offsets (`PosTwice`, `PopsTwice`); `ProbAll` the two class means weighted by the AGN-hosted fraction of the 1000 detected
+  mergers of realization A of that set. Two decimals, like the class means.
 - **`\\KnownAGNNoPeak`** (a word): realizations of key `KnownAGN` (the AGN catalog alone on equal-population mergers, three in
   ten AGN-hosted) whose H0 posterior has no interior maximum in the prior range [50, 100]: the largest corrected ln L
   over the nodes of the fine and coarse passes lies at a prior edge. **`\\KnownAGNPeak<n>Hzero[Med|Lo|Hi]`** (n = `One`,

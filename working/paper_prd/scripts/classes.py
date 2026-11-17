@@ -12,7 +12,8 @@ under "classes"; --status/--report count them), make_figures.py (fig_classes) an
 
 Macros (all half-widths are of H0 in km/s/Mpc; "realizations" = the experiment's five, \\NrealClasses):
   HW<spectrum><analysis><f>        mean over the realizations of half the 90% equal-tailed width of the H0 posterior,
-  HW...Min, HW...Max               and its smallest and largest value over the same realizations
+  HW...Min, HW...Max               and its smallest and largest value over the same realizations (all printed to two
+                                   significant figures, f2sig; derived macros use the unrounded values)
       spectrum   (none) peak-dominated, Obs observed-like
       analysis   Unknown  host class unknown: both catalogs, f_AGN inferred, population known (two_tracers_one_population)
                  Known    host class known: each merger with the catalog and population of its true host class, the two
@@ -30,7 +31,9 @@ Macros (all half-widths are of H0 in km/s/Mpc; "realizations" = the experiment's
                  of mergers needed with the host class unknown per merger with it known, on the same mergers: the denominator
                  of CostUnknown<f> is HWKnown<f> (equal-population mergers); of CostPops<f> HWKnownPops<f> and of
                  CostPopsTwice<f> HWKnownPopsTwice<f> (the host-dependent mergers themselves), HWKnown<f> only where the run
-                 lists hold no such runs (COST_DENOMINATOR)
+                 lists hold no such runs (COST_DENOMINATOR); the central value is the ratio of the means.
+  Cost...Min, Cost...Max   the smallest and largest over the realizations of the same ratio computed per realization
+                 (cost_range; while red: the central value times the relative spread of CostUnknown<f>)
   ShareAGN<f>    100 (HWKnown<f> / HWKnownAGN<f>)^2 from the unrounded means: percent of the inverse variance of H0 that
                  the AGN-hosted mergers carry with the host class known (the two posteriors multiply; exact for
                  Gaussian posteriors, per realization 1/hw^2 = 1/hw_AGN^2 + 1/hw_gal^2)
@@ -38,6 +41,8 @@ Macros (all half-widths are of H0 in km/s/Mpc; "realizations" = the experiment's
                  of an AGN host f L_AGN / (f L_AGN + (1 - f) L_gal) at the posterior median (membership.npz of the grid);
                  info: Equal (equal populations, positions alone), Pos (host-dependent populations, positions alone),
                  Pops (host-dependent populations, positions with masses and spins), PosTwice, PopsTwice (twice the offsets)
+  ProbEvalfAGN<info>   the f_AGN at which that probability is evaluated: the run's posterior median (membership.f_agn_median)
+  ProbAll<info>  the mean of that probability over all the mergers (membership.mean_r)
   KnownAGNNoPeak, KnownAGNPeak<n>Hzero[Med|Lo|Hi|CL]  the AGN catalog alone on equal-population mergers with f = 0.3
                  (key KnownAGN): the number of realizations whose H0 posterior has no interior maximum in the prior
                  range, and for each one that has (n = One, Two, ...) its median and 90% interval (summary.json) and
@@ -164,9 +169,18 @@ def _table():
                             ("PopsTwice", ("exp", "two_tracers_two_populations", "peak_f0p30_s2"), "host-dependent populations with twice the "
                                                                                                      "offsets, positions with masses and spins")):
         for cls, ht in (("AGN", 1), ("Gal", 0)):
-            T[f"Prob{cls}{info}"] = {"kind": "membership", "select": sel, "host_type": ht, "info": info,
+            T[f"Prob{cls}{info}"] = {"kind": "membership", "select": sel, "host_type": ht, "info": info, "stat": cls.lower(),
                                      "what": f"mean probability of an AGN host over the mergers truly hosted by {'AGN' if ht else 'galaxies'}, "
                                              f"{what}, input f_AGN = 0.3, realization A (membership of the grid at its posterior median)"}
+        # where the probability is evaluated, and its mean over every merger (REVIEW_2 1.1): the same run and membership file as
+        # ProbAGN<info> ('partner': its record of the map is used while the map has none of its own)
+        T[f"ProbEvalfAGN{info}"] = {"kind": "membership", "select": sel, "info": info, "stat": "f", "partner": f"ProbAGN{info}",
+                                    "what": f"f_AGN at which the probability of an AGN host of ProbAGN{info}, ProbGal{info} and ProbAll{info} is "
+                                            f"evaluated: the posterior median of f_AGN of the run's grid (membership.json f_agn_median), {what}, "
+                                            "input f_AGN = 0.3, realization A"}
+        T[f"ProbAll{info}"] = {"kind": "membership", "select": sel, "info": info, "stat": "all", "partner": f"ProbAGN{info}",
+                               "what": f"mean probability of an AGN host over all the mergers (both true host classes), {what}, input f_AGN = 0.3, "
+                                       f"realization A (membership of the grid at its posterior median, ProbEvalfAGN{info})"}
     T["KnownAGNNoPeak"] = {"kind": "interior", "select": ("key", "KnownAGN"),
                            "what": "number of realizations in which the H0 posterior of the AGN catalog alone (equal populations, three in ten "
                                    "mergers AGN-hosted, population known) has no interior maximum in the prior range [50, 100]"}
@@ -296,7 +310,19 @@ def expected(name):
         v = float(ra2.mean() if name.startswith("ProbAGN") else rg2.mean())
     elif v == "same_mergers":
         v = same_mergers_expected(name)
+    elif v == "all_weighted":
+        v = all_weighted_expected(name)
     return v, src
+
+
+def all_weighted_expected(name):
+    """Expected ProbAll<info> while red: the class means ProbAGN<info> and ProbGal<info> (real or red) weighted by the AGN-hosted
+    fraction x of the 1000 detected mergers of realization A of that event set (events_meta realised_f_agn)."""
+    e = TABLE[name]
+    info = e["info"]
+    s = int(e["select"][2].rsplit("_s", 1)[1])
+    x = det_fraction("peak", 0.3, s, [REAL_A])
+    return float(x * evaluate(f"ProbAGN{info}").value + (1 - x) * evaluate(f"ProbGal{info}").value)
 
 
 def _events_meta(spec, f, s, r):
@@ -343,11 +369,17 @@ def evaluate(name):
         a, b = deps[0].value, deps[1].value
         v = 100.0 * (a / b) ** 2 if e["fn"] == "share" else (a / b) ** 2
         real = all(d.real for d in deps)
-        return Res(name, real, float(v), files=sorted({f for d in deps for f in d.files}), missing=sorted({m for d in deps for m in d.missing}),
+        vmin = vmax = None
+        extra = {"from": {d.name: d.value for d in deps}}
+        if e["fn"] == "cost":
+            vmin, vmax, extra["range"] = cost_range(name, deps, float(v), real)
+        return Res(name, real, float(v), vmin, vmax, files=sorted({f for d in deps for f in d.files}), missing=sorted({m for d in deps for m in d.missing}),
                    how=f"{'100 ' if e['fn'] == 'share' else ''}({e['deps'][0]} / {e['deps'][1]})^2 of the unrounded "
                        f"{'values' if real else 'values (some red)'}",
-                   extra={"from": {d.name: d.value for d in deps}})
+                   extra=extra)
     rec = blk.get(name)
+    if rec is None and e.get("partner"):
+        rec = blk.get(e["partner"])
     if rec is None:
         v, src = expected(name)
         return _placeholder(name, kind, v, src, [], ["not in the run lists"])
@@ -382,12 +414,24 @@ def evaluate(name):
         mem = _jr(paths[0])["membership"]
         z = np.load(d / "grid" / "membership.npz")
         r_, ht = np.asarray(z["r"], float), np.asarray(z["host_type"], int)
-        v = float(r_[ht == e["host_type"]].mean())
-        key = "mean_r_true_agn" if e["host_type"] == 1 else "mean_r_true_gal"
-        assert abs(v - mem[key]) < 1e-9, (name, v, mem[key])
-        return Res(name, True, v, files=[str(paths[0]), str(d / "grid" / "membership.npz")],
-                   how=f"realization {REAL_A}: mean of r over the {int((ht == e['host_type']).sum())} mergers with host_type {e['host_type']} "
-                       f"(membership.npz; = summary.json membership.{key}); r at H0 = {mem['H0_median']:.3f}, f_AGN = {mem['f_agn_median']:.4f}",
+        at = f"r at H0 = {mem['H0_median']:.3f}, f_AGN = {mem['f_agn_median']:.4f}"
+        st = e["stat"]
+        if st in ("agn", "gal"):
+            v = float(r_[ht == e["host_type"]].mean())
+            key = "mean_r_true_agn" if e["host_type"] == 1 else "mean_r_true_gal"
+            assert abs(v - mem[key]) < 1e-9, (name, v, mem[key])
+            how = (f"realization {REAL_A}: mean of r over the {int((ht == e['host_type']).sum())} mergers with host_type {e['host_type']} "
+                   f"(membership.npz; = summary.json membership.{key}); {at}")
+        elif st == "f":
+            v = float(mem["f_agn_median"])
+            assert abs(v - float(z["f_agn"])) < 1e-12, (name, v, float(z["f_agn"]))
+            how = (f"realization {REAL_A}: the f_AGN at which r is evaluated, summary.json membership.f_agn_median (= membership.npz f_agn; the "
+                   f"posterior median of f_AGN of the grid, summary.json posterior.f_agn.median = {_jr(paths[0])['posterior']['f_agn']['median']:.5f}); {at}")
+        else:
+            v = float(r_.mean())
+            assert abs(v - mem["mean_r"]) < 1e-9, (name, v, mem["mean_r"])
+            how = f"realization {REAL_A}: mean of r over all {len(r_)} mergers (membership.npz; = summary.json membership.mean_r); {at}"
+        return Res(name, True, v, files=[str(paths[0]), str(d / "grid" / "membership.npz")], how=how,
                    extra={"r": r_, "host_type": ht, "f_median": mem["f_agn_median"], "H0_median": mem["H0_median"], "run": rec["run"],
                           "realizations": [REAL_A]})
     if kind == "interior":
@@ -406,6 +450,31 @@ def _placeholder(name, kind, v, src, files, missing, rec=None):
     return Res(name, False, float(v), lo, hi, files, missing, f"placeholder: {src}",
                {"run": rec["run"] if rec else None, "realizations": rec["realizations"] if rec else None,
                 "stage": rec.get("stage") if rec else None, "runlist": rec.get("runlist") if rec else None})
+
+
+def cost_range(name, deps, v, real):
+    """Cost<tag><f>Min, Max: the smallest and largest over the realizations of the same ratio computed per realization,
+    (hw_num[r] / hw_den[r])^2, from the summaries' half-widths of the two macros (one realization at a time). While either
+    half-width is red (no per-realization values): the central value times the relative spread of the finished equal-population
+    cost at the same f, CostUnknown<f>Min / CostUnknown<f> and CostUnknown<f>Max / CostUnknown<f>; where that cost is itself red,
+    the central value times 1 -+ 2 CLASS_SPREAD (two half-widths with placeholder bars of +-CLASS_SPREAD). -> (min, max, record)."""
+    import placeholder_results as PR
+    a, b = deps
+    if real:
+        pa, pb = a.extra["per_realization"], b.extra["per_realization"]
+        assert sorted(pa) == sorted(pb), (name, sorted(pa), sorted(pb))
+        per = {r: (pa[r] / pb[r]) ** 2 for r in sorted(pa)}
+        return min(per.values()), max(per.values()), {"per_realization": per,
+                                                      "how": f"({a.name}[r] / {b.name}[r])^2 per realization r, smallest and largest"}
+    ref = f"CostUnknown{F_WORD[TABLE[name]['f']]}"
+    rr = evaluate(ref) if name != ref else None
+    if rr is not None and rr.real:
+        return v * rr.vmin / rr.value, v * rr.vmax / rr.value, {
+            "how": f"placeholder: the central value times {ref}Min / {ref} = {rr.vmin / rr.value:.4f} and {ref}Max / {ref} = {rr.vmax / rr.value:.4f} "
+                   "(relative spread over the realizations of the finished equal-population cost at the same f)"}
+    s = 2 * PR.CLASS_SPREAD
+    return v * (1 - s), v * (1 + s), {"how": f"placeholder: the central value times {1 - s:g} and {1 + s:g} (two half-widths with placeholder "
+                                             f"bars of +-{PR.CLASS_SPREAD:g})"}
 
 
 def interior(rec, paths):
@@ -497,8 +566,18 @@ def _runs_text(res):
     return ""
 
 
+def f2sig(x):
+    """x to two significant figures (REVIEW_2 2.2: 3.528 -> 3.5, 0.819 -> 0.82, 0.996 -> 1.0, 9.96 -> 10) -> (text, decimals)."""
+    if x == 0 or not np.isfinite(x):
+        return bv.fnum(x, 2), 2
+    r = round(float(x), 1 - math.floor(math.log10(abs(x))))
+    d = max(0, 1 - math.floor(math.log10(abs(r))))
+    return bv.fnum(r, d), d
+
+
 def build(add, fnum, fci, fpct, num_word):
-    """Register every macro (build_values.add)."""
+    """Register every macro (build_values.add). Half-widths print two significant figures (f2sig); every derived macro
+    (cost, share) is computed from the unrounded half-widths."""
     n_real = 0
     for name, e in TABLE.items():
         res = evaluate(name)
@@ -506,20 +585,28 @@ def build(add, fnum, fci, fpct, num_word):
         wrap = (lambda t: t) if res.real else (lambda t: f"\\ph{{{t}}}")
         what = e["what"]
         if e["kind"] in ("mean_hw", "factor_hw"):
-            d = 2
             mean = f"mean over the realizations of the 90% half-width of H0, {what}{_runs_text(res)}"
-            add(name, cls, wrap(fnum(res.value, d)), res.value, "km/s/Mpc", mean, _src(res), "classes",
-                extra={"per_realization": res.extra.get("per_realization"), "decimals": d, "kind": e["kind"]})
-            add(name + "Min", cls, wrap(fnum(res.vmin, d)), res.vmin, "km/s/Mpc", f"smallest over the realizations of the 90% half-width of H0 of {name}",
-                _src(res), "classes")
-            add(name + "Max", cls, wrap(fnum(res.vmax, d)), res.vmax, "km/s/Mpc", f"largest over the realizations of the 90% half-width of H0 of {name}",
-                _src(res), "classes")
+            for suf, v, m in (("", res.value, mean), ("Min", res.vmin, f"smallest over the realizations of the 90% half-width of H0 of {name}"),
+                              ("Max", res.vmax, f"largest over the realizations of the 90% half-width of H0 of {name}")):
+                t, d = f2sig(v)
+                ex = {"decimals": d, "rounding": "two significant figures"}
+                if suf == "":
+                    ex.update({"per_realization": res.extra.get("per_realization"), "kind": e["kind"]})
+                add(name + suf, cls, wrap(t), v, "km/s/Mpc", m, _src(res), "classes", extra=ex)
             n_real += res.real
         elif e["kind"] == "derived":
             d = 0 if e["fn"] == "share" else 1
             src = _src(res) if not res.real else {"files": [bv.rel(f) for f in res.files], "computation": res.how}
             add(name, cls, wrap(fnum(res.value, d)), res.value, "%" if e["fn"] == "share" else "", what, src, "classes",
                 extra={"from": res.extra["from"], "decimals": d})
+            if e["fn"] == "cost":
+                rg = res.extra["range"]
+                srcr = dict(src, computation=rg["how"]) if res.real else dict(src, placeholder_source=rg["how"].replace("placeholder: ", ""))
+                for suf, v, w in (("Min", res.vmin, "smallest"), ("Max", res.vmax, "largest")):
+                    add(name + suf, cls, wrap(fnum(v, d)), v, "",
+                        f"{w} over the realizations of the same ratio computed per realization, ({e['deps'][0]}[r] / {e['deps'][1]}[r])^2 "
+                        f"(the central {name} is the ratio of the means)", srcr, "classes",
+                        extra={"decimals": d, "per_realization": rg.get("per_realization")})
             n_real += res.real
         elif e["kind"] == "membership":
             add(name, cls, wrap(fnum(res.value, 2)), res.value, "", what + _runs_text(res), _src(res), "classes", extra={"decimals": 2})
