@@ -91,7 +91,7 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
 - (a) No catalog (horizontal line): 1 point (1 real, 0 red): `\HWNone` = 5.57 (real) (range over the realizations 3.97 to 6.06, not drawn)
 - (a) Galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (1 real, 0 red): `\HWKnownZero` = 3.55 (real) (range over the realizations 2.96 to 4.57, not drawn)
 - (b) Host class unknown: 3 points (3 real, 0 red): f=0 `\HWObsUnknownZero` = 3.49 (real) [2.64, 4.66]; f=0.3 `\HWObsUnknownThirty` = 1.98 (real) [1.82, 2.33]; f=1 `\HWObsUnknownHundred` = 0.84 (real) [0.70, 1.06]
-- (b) Host-dependent populations, $\Delta\mu_{\rm G}=5\,M_\odot$, $\Delta\mu_\chi=0.10$: 1 point (0 real, 1 red): f=0.3 `\HWObsPopsThirty` = 1.62 (red) [1.46, 1.78]
+- (b) Host-dependent populations, $\Delta\mu_{\rm G}=5\,M_\odot$, $\Delta\mu_\chi=0.10$: 1 point (1 real, 0 red): f=0.3 `\HWObsPopsThirty` = 1.61 (real) [1.30, 1.78]
 - (b) Host class known: 3 points (3 real, 0 red): f=0 `\HWObsKnownZero` = 3.49 (real) [2.57, 4.35]; f=0.3 `\HWObsKnownThirty` = 1.34 (real) [1.17, 1.47]; f=1 `\HWObsKnownHundred` = 0.83 (real) [0.68, 1.06]
 - (b) Host-dependent populations inferred with $H_0$: 1 point (0 real, 1 red): f=0.3 `\HWObsHost` = 2.30 (red) [2.07, 2.53]
 - (b) No catalog (horizontal line): 1 point (1 real, 0 red): `\HWObsNone` = 8.44 (real) (range over the realizations 7.15 to 9.33, not drawn)

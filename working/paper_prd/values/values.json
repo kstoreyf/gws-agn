@@ -18970,14 +18970,14 @@
    "class": "anc",
    "render": "49^{+22}_{-17}",
    "value": {
-    "median": 49.35532207979034,
+    "median": 49.35532207979035,
     "ci68": [
      38.80511504902779,
-     61.62880047720121
+     61.62880047720122
     ],
     "ci90": [
      32.6173257650206,
-     70.94144852801101
+     70.94144852801104
     ]
    },
    "units": "",
@@ -46822,7 +46822,7 @@
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, each population at its input, the two H0 posteriors multiplied), host-dependent mergers (AGN offsets 5 Msun and 0.10; the same mergers as HWPopsTen), input f_AGN = 0.1, peak-dominated spectrum; runs hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,102,105)",
     "placeholder_source": "invented: HWKnownTen (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
    },
    "claim": "classes",
@@ -46840,7 +46840,7 @@
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWKnownPopsTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,102,105)",
     "placeholder_source": "invented: HWKnownTen (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
    },
    "claim": "classes",
@@ -46854,7 +46854,7 @@
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWKnownPopsTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,102,105)",
     "placeholder_source": "invented: HWKnownTen (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
    },
    "claim": "classes",
@@ -46938,7 +46938,7 @@
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, each population at its input, the two H0 posteriors multiplied), host-dependent mergers (AGN offsets 5 Msun and 0.10; the same mergers as HWPopsFifty), input f_AGN = 0.5, peak-dominated spectrum; runs hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 101,103)",
     "placeholder_source": "invented: HWKnownFifty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
    },
    "claim": "classes",
@@ -46956,7 +46956,7 @@
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWKnownPopsFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 101,103)",
     "placeholder_source": "invented: HWKnownFifty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
    },
    "claim": "classes",
@@ -46970,7 +46970,7 @@
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWKnownPopsFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 101,103)",
     "placeholder_source": "invented: HWKnownFifty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
    },
    "claim": "classes",
@@ -47652,46 +47652,70 @@
    "extra": {}
   },
   "HWObsPopsThirty": {
-   "class": "ph",
-   "render": "\\ph{1.62}",
-   "value": 1.62,
+   "class": "plain",
+   "render": "1.61",
+   "value": 1.608067831724871,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.3, observed-like spectrum; runs two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R} (missing realizations 100,102,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.7716015821835285,
+     "101": 1.3009885785166233,
+     "102": 1.7848485811655834,
+     "103": 1.570919730051017,
+     "105": 1.6119806867076036
+    },
     "decimals": 2,
     "kind": "mean_hw"
    }
   },
   "HWObsPopsThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.46}",
-   "value": 1.4580000000000002,
+   "class": "plain",
+   "render": "1.30",
+   "value": 1.3009885785166233,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R} (missing realizations 100,102,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {}
   },
   "HWObsPopsThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{1.78}",
-   "value": 1.7820000000000003,
+   "class": "plain",
+   "render": "1.78",
+   "value": 1.7848485811655834,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R} (missing realizations 100,102,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48107,7 +48131,7 @@
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs (5 Msun, 0.10) per merger with the host class known, input f_AGN = 0.1: (HWPopsTen / HWKnownPopsTen)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,102,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 100,101,102,103,105)",
     "placeholder_source": "(HWPopsTen / HWKnownPopsTen)^2 of the unrounded values (some red)"
    },
    "claim": "classes",
@@ -48158,7 +48182,7 @@
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs (5 Msun, 0.10) per merger with the host class known, input f_AGN = 0.5: (HWPopsFifty / HWKnownPopsFifty)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_{R}_agn_s32000_inj1 (missing realizations 101,103); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 100,101,102,103,105)",
     "placeholder_source": "(HWPopsFifty / HWKnownPopsFifty)^2 of the unrounded values (some red)"
    },
    "claim": "classes",

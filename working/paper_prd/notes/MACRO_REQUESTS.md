@@ -117,3 +117,47 @@ If the text is to say what the fifth realization does, it also needs that realiz
   host-dependent populations quote the `HD` values (0.45 against 0.97); Sec. III C gives both.
 - `\MCAGNHzeroSdThirtyTwoK`, `\MCAGNLnLVarThirtyTwoK` and `\MCNsampHi` in Sec. V and Appendix A: the sets with every merger hosted by an AGN
   are analyzed with 32000 posterior samples per merger (run names `_s32000_inj6`).
+
+## F. The letter's experiment taken into the long paper (17 Nov 2026, evening)
+
+### F1. Requested: 11 macros that are not in `values/results_macros.tex`
+
+`main.tex` gives each a red default of two dots in its own preamble (after the two `\input` lines), because this
+pass did not touch `values/`; a definition in `values/results_macros.tex` wins.
+
+| macro | what it is | used in |
+|---|---|---|
+| `\Free<limit>LognAGNULh`, limit = `TwentyOne`, `Twenty`, `Nineteen`, `Eighteen` (4) | 90% upper limit on log10 of the AGN number density in h^3 Mpc^-3, the unit the analysis samples, number densities inferred, realization A. The existing `\Free<limit>LognAGNUL` are in Mpc^-3 (converted per sample with its own H0) and are no longer used in the text | Table IV, Sec. IV C |
+| `\Free<limit>LognAGNPriorULh`, the same four limits (4) | the limit the priors allow once the rate per host is measured, in h^3 Mpc^-3, beside the macro above. The existing `...PriorUL` are in Mpc^-3 and are no longer used | Table IV, Sec. IV C |
+| `\FreeEighteenLognGalULh`, `\FreeEighteenLognGalPriorULh` (2) | the same two quantities for the galaxy number density at m < 18, in h^3 Mpc^-3 | Sec. IV C |
+| `\ShareSumThirty` | sum, in percent, of the shares of the information on H0 of the two host classes with the host class known at input f_AGN = 0.3: `\ShareAGNThirty` plus the galaxy share computed the same way (`values.json`, `ShareAGNThirty.extra.galaxy_share_percent`); 107 today. It is the size of the caveat on `\ShareAGNThirty` | Sec. IV B |
+
+The text now quotes the inputs of the number densities in the same unit, `\MockLognGalh` and `\MockLognAGNh`
+(Table I, Sec. III A, Sec. IV C, caption of Table IV). `\MockLognGal` and `\MockLognAGN` are no longer used in the
+text; the design densities `\MocknGal` and `\MocknAGN` stay in Mpc^-3 (Sec. III A, Table II).
+Panel (a) of `fig4_densities` still has its axis, its prior box and its input marker in Mpc^-3.
+
+### F2. Superseded
+
+- `\NrealKnownAGNEdge` (Sec. E1) is replaced in the text by the generated `\KnownAGNNoPeak`; the text also quotes the
+  realization with an interior maximum, `\KnownAGNPeakOneHzero` and `\KnownAGNPeakOneHzeroCL`. The sentence reads
+  "as in four of the five realizations. In the fifth ...": it is worded for exactly one realization with an interior
+  maximum and must be re-read if `\KnownAGNNoPeak` changes.
+- `\WidthRatioAGNGal`, `\GalhostedHzeroWid` (Sec. B) are no longer used: Sec. IV B quotes the means over five
+  realizations of the half-widths (`\HWKnownHundred`, `\HWKnownZero`, `\HWNone`) and no ratio. `\AGNhostedHzeroWid`
+  stays in Sec. V.
+
+### F3. Existing macros that the text now uses
+
+- The experiment (claim `classes`): `\HWUnknown<F>` and `\HWKnown<F>` for the five fractions, with `Min` and `Max` at
+  `Zero` and `Ten` (unknown) and at `Ten` (known); `\HWNone`; `\HWKnownAGNTen`, `\HWKnownAGNThirty`; `\ShareAGNTen`,
+  `\ShareAGNThirty`; `\CostUnknownTen`, `Thirty`, `Fifty`; `\HWPopsThirty`, `\HWKnownPopsThirty` (each with `Min`,
+  `Max`), `\CostPopsThirty`, `\CostPopsTwiceThirty`; `\HWHost`; `\HWObsNone`, `\HWObsUnknown<F>` and `\HWObsKnownThirty`,
+  `\HWObsPopsThirty`, `\HWObsKnownPopsThirty` (each with `Min`, `Max`; `\HWObsPopsThirty` turned real during this pass and
+  moved from an expected sentence to the opening of Sec. IV F), `\HWObsHost`; `\ProbAGNEqual`, `\ProbGalEqual`, `\ProbAGNPos`,
+  `\ProbGalPos`, `\ProbAGNPops`, `\ProbGalPops`, `\ProbAGNPopsTwice`, `\ProbGalPopsTwice`; `\NrealClasses`.
+- Others: `\PureGalHostsPerVolAGNEvents`, `\PureAGNHostsPerVolGalEvents` (the crossed counts of candidate hosts,
+  Sec. IV B); `\MockfAGNRealised` beside `\MockHDfDet` (Sec. IV E); `\ObsDetzMedian` beside `\MockzMedian` (Sec. IV F).
+- Fractions of mergers hosted by AGN other than `\MockfAGN` and `\MockfAGNTenth` are written in words (none, one in
+  ten, three in ten, half, all), like "seven mergers in ten" in Sec. D; `\fagn=0` and `\fagn=1` appear as the limits of
+  the likelihood.
