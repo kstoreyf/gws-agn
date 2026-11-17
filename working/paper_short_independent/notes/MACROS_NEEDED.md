@@ -177,3 +177,75 @@ caption's words.
   realization or the combination; state it once the panel exists. The axis symbols of the text
   are Delta m and Delta chi.
 - The reference for HEALPix is not in `refs.bib`; Appendix A names it without a citation.
+
+## 5. The letter written from `BRIEF_v2.md` (17 Nov 2026)
+
+`main.tex` is now the letter of `BRIEF_v2.md`. Sections 1 to 4 above were written for the first
+draft (`main_v1.tex`); the macro meanings stand, and the points below replace what they say about
+figure numbers, appendices and the count of `% EXPECTED` marks.
+
+- Figures of the letter: Fig. 1 `fig_concept`; Fig. 2 `fig_anchor` (to be drawn); Fig. 3
+  `fig1_budget`; Fig. 4 `fig_populations` (to be merged from `fig3_bias`, panels a and b, and
+  `fig2_labels`, panel c; until the merged file exists `main.tex` sets the two files side by
+  side). Table I: results by analysis.
+- The "Appendix C" macros (`\IndRec...`, `\IndZerofAGNUL`) are used in Sec. IV A and in Sec. V
+  (Validation). The appendices of the letter are A (host distributions, simulated measurements,
+  priors) and B (Monte Carlo evaluation of the likelihood).
+- `% EXPECTED` marks: 39 (abstract 5, captions 3, text 31).
+- Not used by the letter: `\MCWidthChange`, `\MockBeta`, `\MocknAGNScatterEighteen`,
+  `\NormDeltafCountsScatterEighteen`, `\NrealCtrl`, `\ObsMmax`, `\ObsSigmaG`,
+  `\PureAGNHostsPerVolGalEvents`. `\IndZerofAGNUL` is quoted as combined over `\IndNreal`
+  realizations, as `STATUS.md` states.
+
+### New result macros (red, in `values_independent.tex`; not yet in `scripts/results_map.json`)
+
+| macro | meaning | expected | source | comes from (shared key) |
+|---|---|---|---|---|
+| `\IndAnchorHzero` | H0 (median, 90% interval), equal populations, f = 0.30, labels unknown, population at its input, realization A; Sec. IV A and row 1 of Table I, beside `\IndfAGNMix` | 69.2 +1.6 -1.6 | shared placeholder `\KnownBothHzero` (Analysis 15 gives 69.26 [67.65, 70.87] at 2000 samples) | `two_tracers_one_population`, (0.3, 0), realization A (`KnownBoth`) |
+| `\IndOnePopHzero` | H0, one population inferred from mergers whose populations differ by (5 Msun, 0.10), realization A; row 2 of Table I | 70.9 +2.6 -2.6 | shared placeholder `\HDSingleHzero` (input + `\IndBias`, half-width `\IndHWOnePop`) | production stage 3 (`HDSingle`) |
+| `\IndOnePopfAGN` | f_AGN of the same analysis; row 2 of Table I | 0.24 +0.09 -0.09 | shared placeholder `\HDSinglefAGN` | production stage 3 (`HDSingle`) |
+| `\IndOnePopHzeroComb` | H0, one population inferred, combined over `\NrealHDSingle` realizations (dashed curve of Fig. 4a); Sec. V | 70.7 +0.8 -0.8 | the curve now drawn in `fig3_bias` (median 70.74, 90% [69.92, 71.56]); equals the input plus `\IndBias` | production stage 3 (`\HDSingleHzeroComb`) |
+| `\IndTwoPopHzeroComb` | H0, a population for each tracer, combined over `\NrealHD` realizations (solid curve of Fig. 4a); Sec. V | 67.5 +0.9 -0.9 | the curve now drawn in `fig3_bias` (median 67.52, 90% [66.58, 68.46]) | production stage 4 (`\HDHostHzeroComb`) |
+
+### Literature values (black, in `values_independent.tex`; source `../paper_prd/notes/PRIOR_WORK_VERIFIED.md`)
+
+| macro | value | meaning |
+|---|---|---|
+| `\IndLitFifthHzero` | 71.7 +17.7 -11.4 | fifth catalog, dark and bright sirens, 90% (arXiv:2605.27227v2, Table 3) |
+| `\IndLitFifthNsrc` | 236 | sources of that measurement |
+| `\IndLitFifthCatGain` | 3.5 | percent improvement of the H0 constraint from the galaxy catalog over the mass spectrum alone |
+| `\IndLitQuaiafAGNUL` | 0.21 | Veronesi et al. (Quaia): upper limit on the AGN fraction, 95% |
+| `\IndLitQuaiaLogLbol` | 44.5 | log10 bolometric luminosity [erg/s] above which that limit holds |
+| `\IndLitZhuChenfAGN` | 0.39 +0.41 -0.32 | Zhu and Chen: fraction of mergers from AGN, 90% |
+| `\IndLitKumarHzero` | 70.5 +3.4 -2.9 | Kumar and Torres-Orjuela: H0, 68.3%, statistical |
+| `\IndLitKumarN` | 13 | their number of merger-AGN associations |
+
+### Statements of the letter to recheck when numbers arrive
+
+- Containment: every "inside the 90% credible interval" (Sec. IV A, Sec. IV C, abstract, Sec. V)
+  is written for the expected values and carries `% EXPECTED`; no containment flag exists yet.
+- Sign of the bias: "above the input" (Sec. IV C) and the reading of the bias as a mass-scale
+  error assume `\IndBias` and `\IndBiasTwice` positive.
+- `\IndTwoPopHW` < `\IndHWOnePop` is stated in Sec. IV C ("also more precise").
+- Sec. VI quotes Analysis 15 numbers from 2000 posterior samples per merger
+  (`\NormRateRatioCompleteProd` against `\MockRateRatio`; `\NormfEighteenProd` to
+  `\NormfEighteenProdTwo`; `\NormHzeroEighteenProd` to `\NormHzeroEighteenProdTwo`).
+- Sec. V quotes the Monte Carlo shifts of Analysis 14 at `\ProdNsamp` samples for the mixed set
+  and for the all-AGN-hosted set; if the all-AGN-hosted sets are run with more samples or pooled
+  injections, say so there.
+
+### What the figures must show for the captions of the letter to hold
+
+- `figures/fig_anchor` (one column): 90% credible regions of (H0, f_AGN) for realization A and
+  for the combination of `\NrealKnown` realizations, input marked. The caption does not yet
+  name line styles or colors; complete it when the figure exists.
+- `figures/fig_populations` (full width, three panels): (a) and (b) as `fig3_bias`, (c) as
+  `fig2_labels` with a panel label "(c)". Legend words as now ("One population fitted to all
+  mergers", "A population for each tracer", "Input", "Equal populations", "Truly in galaxies",
+  "Truly in AGN", "Positions alone", "Positions with masses and spins").
+- `figures/fig1_budget`: the caption says the bars are the scatter over the realizations;
+  confirm against the plotting script.
+- The three figures drawn from expected values print the word "placeholder" inside the panels;
+  the paper's text does not contain the word, but the rendered PDF does until they are redrawn.
+- The reference for the equal-area pixelization (HEALPix) is still not in `refs.bib`;
+  Appendix A gives the resolution parameter without naming it.
