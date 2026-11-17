@@ -1,0 +1,69 @@
+{
+ "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed103/injections/injections_targeted_obslike.h5",
+ "n_detected": 2928263,
+ "ndraw": 1080000000,
+ "mix": [
+  0.62,
+  0.03,
+  0.35
+ ],
+ "proposal": {
+  "alpha": 3.5,
+  "mmin": 5.0,
+  "mmax": 87.0,
+  "dm_min": 4.9,
+  "dm_max": 0.01,
+  "peak_fraction": 0.15,
+  "peak_mu": 36.5,
+  "peak_sigma": 6.5,
+  "beta": 1.1,
+  "chi_mu": 0.05,
+  "chi_sigma": 0.13,
+  "gamma": 0.0
+ },
+ "targeted_branch": {
+  "branch": "per-host UNIFORM BOX in redshift, H0-range covering",
+  "H0_scan_range": [
+   50.0,
+   100.0
+  ],
+  "r_lo": 0.6774,
+  "r_hi": 1.3548,
+  "nsigma_kernel_pad": 4.0,
+  "host_zmax": 0.75,
+  "z_cap": 0.75,
+  "n_hosts_in_catalog": 1510757,
+  "n_hosts_retained": 849134,
+  "retained_fraction": 0.5620586235906899,
+  "occupied_pixels_retained": 12288,
+  "empty_pixel_fraction_retained": 0.0,
+  "box_width_min": 0.02850103604046989,
+  "box_width_median": 0.3178516167857913,
+  "box_width_max": 0.3999578999367082
+ },
+ "pdraw_vs_mixture_max_rel": 0.0,
+ "recompute_3000_rows_max_rel": {
+  "population": 6.42433960436563e-16,
+  "uniform": 0.0,
+  "targeted_agn_bruteforce": 6.648672768377429e-16
+ },
+ "n_hosts_retained_bruteforce": 849134,
+ "n_hosts_retained_stage": 849134,
+ "pdraw_all_positive_finite": true,
+ "detected_by_branch": {
+  "population": 417361,
+  "uniform": 412136,
+  "targeted_agn": 2098766
+ },
+ "z_max_detected_by_branch": {
+  "population": 0.7443704775557075,
+  "uniform": 0.9812393513728028,
+  "targeted_agn": 0.7181673405074473
+ },
+ "m2src_min": 0.28515340120059673,
+ "legacy_loader": {
+  "ok": true,
+  "darksirens": "/hildafs/projects/phy230014p/magana/src/darksirens-2b86a2d/darksirens/__init__.py"
+ },
+ "pass": true
+}

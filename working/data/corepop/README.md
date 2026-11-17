@@ -3,7 +3,8 @@
 **Status (2026-11-17):** option added to `working/data/generate_dataset.py`; 20 event sets
 (seeds 100, 101, 102, 103, 105 x four kinds) generated beside the signed-off ones and
 validated. The default path is bit-identical to the record. The injection sets need no
-regeneration. Nothing is committed.
+regeneration. Nothing is committed. Second batch, same day: the four kinds on seeds
+106-110 and an f_AGN = 0.10 control on 100-105 ("Second batch" below).
 
 ## Why
 
@@ -308,6 +309,180 @@ seeds, or about 45 min wall time at 16 concurrent array tasks (as `submit_gen.sb
 Disk retained is 0.66 GB per seed (62 GB in all), plus 6.7 GB per seed in flight for the
 transient catalogs (about 107 GB peak at 16-way). phy230054p is at 4.6 of 19.5 TB.
 
+Done for 106-110 (next section); measured 10.5-11 min per seed on RM.
+
+## Second batch (2026-11-17): seeds 106-110, and the f_AGN = 0.10 control
+
+**Realisations 106-110** are the next five after 105; none was skipped (104, before them,
+is skipped throughout: it failed V6 in the original campaign and was never used). Each has
+both complete and all four flux-limited surveys (m21-m18) of both tracers, both injection
+lanes, the legacy event files, and a full validation that passed (12/12,
+`campaign_100seeds/manifest/seeds.tsv`). Like every seed from 106 on, its `catalogs/` had
+been pruned, so the plan of "Further seeds" was followed with one change: the catalogs stage
+merges into META.json, so it ran against a scratch outroot, never the dataset.
+
+`scripts/more_seeds_job.sh` (RM array 1414829 via `scripts/submit_more_seeds.sbatch`; nodes
+Xeon E5-2695 v3, no AVX-512; 8 CPUs, 64 GB), per seed:
+1. `--stage catalogs` into scratch (382-405 s, 5.4 GB);
+2. **gate**: `events.h5`, `events_pureagn.h5`, `events_puregal.h5` regenerated from the
+   rebuilt catalogs and compared dataset by dataset with the files on disk: all 15 files
+   byte-identical with numpy's default dispatch (97 s; `results/more_seeds/gate_default_*.json`);
+3. the four kinds with `make_corepop_events.sh`'s flags and sub-seeds, written into the
+   seed's `events/` through a scratch outroot whose `events/` and `validation/` are symlinks
+   to the seed's own (20-27 s each), then the events-only validation (12-18 s each);
+4. the scratch tree, catalogs included, deleted. Total 625-664 s per seed.
+
+**The f_AGN = 0.10 control**: `events_fagn0p10_corepop.h5` on seeds 100, 101, 102, 103,
+105 (`../obslike/scripts/make_sets.sh fagn0p10`, RM job 1414859): equal populations,
+`--population_code core --f_agn 0.10 --seed_events S*1000+10 --n_events 1000 --nsamp 2000`.
+Offset 10 is used by no other set, so the control is independent of every existing draw
+(it has no legacy counterpart). 42 s to generate and 17-18 s to validate per set.
+
+| seed | set | checks passed | min true m2 | max frac. samples < 5 | core ln p finite | events with q redrawn | events shared with legacy | AGN share |
+|---|---|---|---|---|---|---|---|---|
+| 106 | mixed | V1 V2 V2b V3 V3c V5 V7 | 7.65 | 0.281 | yes | 32 | 968 | 0.307 |
+| 106 | all-AGN | V1 V2 V2b V3 V3c V5 V7 | 6.91 | 0.709 | yes | 30 | 970 | 1 |
+| 106 | all-GAL | V1 V2 V2b V3 V3c V5 V7 | 6.73 | 0.611 | yes | 42 | 958 | 0 |
+| 106 | host-dep. | V1 V2 V2b V3 V3c V5 V7 | 6.38 | 0.675 | yes | 36 | - | 0.379 |
+| 107 | mixed | V1 V2 V2b V3 V3c V5 V7 | 7.32 | 0.203 | yes | 29 | 971 | 0.303 |
+| 107 | all-AGN | V1 V2 V2b V3 V3c V5 V7 | 6.33 | 0.397 | yes | 40 | 960 | 1 |
+| 107 | all-GAL | V1 V2 V2b V3 V3c V5 V7 | 5.87 | 0.843 | yes | 33 | 967 | 0 |
+| 107 | host-dep. | V1 V2 V2b V3 V3c V5 V7 | 6.21 | 0.476 | yes | 20 | - | 0.354 |
+| 108 | mixed | V1 V2 V2b V3 V3c V5 V7 | 7.33 | 0.076 | yes | 34 | 966 | 0.313 |
+| 108 | all-AGN | V1 V2 V2b V3 V3c V5 V7 | 6.71 | 0.174 | yes | 29 | 971 | 1 |
+| 108 | all-GAL | V1 V2 V2b V3 V3c V5 V7 | 6.52 | 0.129 | yes | 22 | 978 | 0 |
+| 108 | host-dep. | V1 V2 V2b V3 V3c V5 V7 | 7.15 | 0.416 | yes | 33 | - | 0.359 |
+| 109 | mixed | V1 V2 V2b V3 V3c V5 V7 | 5.75 | 0.736 | yes | 24 | 976 | 0.344 |
+| 109 | all-AGN | V1 V2 V2b V3 V3c V5 V7 | 7.04 | 0.173 | yes | 36 | 964 | 1 |
+| 109 | all-GAL | V1 V2 V2b V3 V3c V5 V7 | 6.21 | 0.422 | yes | 33 | 967 | 0 |
+| 109 | host-dep. | V1 V2 V2b V3 V3c V5 V7 | 8.01 | 0.074 | yes | 25 | - | 0.394 |
+| 110 | mixed | V1 V2 V2b V3 V3c V5 V7 | 7.16 | 0.143 | yes | 25 | 975 | 0.307 |
+| 110 | all-AGN | V1 V2 V2b V3 V3c V5 V7 | 6.21 | 0.545 | yes | 33 | 967 | 1 |
+| 110 | all-GAL | V1 V2 V2b V3 V3c V5 V7 | 6.58 | 0.530 | yes | 31 | 969 | 0 |
+| 110 | host-dep. | V1 V2 V2b V3 V3c V5 V7 | 7.16 | 0.068 | yes | 21 | - | 0.355 |
+| 100 | f_AGN 0.10 | V1 V2 V2b V3 V3c V5 V7 | 6.29 | 0.142 | yes | 39 | - | 0.097 |
+| 101 | f_AGN 0.10 | V1 V2 V2b V3 V3c V5 V7 | 7.69 | 0.209 | yes | 34 | - | 0.095 |
+| 102 | f_AGN 0.10 | V1 V2 V2b V3 V3c V5 V7 | 6.06 | 0.630 | yes | 27 | - | 0.113 |
+| 103 | f_AGN 0.10 | V1 V2 V2b V3 V3c V5 V7 | 7.28 | 0.466 | yes | 29 | - | 0.084 |
+| 105 | f_AGN 0.10 | V1 V2 V2b V3 V3c V5 V7 | 6.77 | 0.472 | yes | 22 | - | 0.097 |
+
+- All 25 files: 1000 events x 2000 samples, every events-only check passes, no event has a
+  true m2 below 5 Msun (smallest 5.75), no event has more than 95% of its samples below 5
+  (largest 0.843), core's ln p is finite at every truth in both pairing modes, and every
+  file loads through core's `load_gw_store` (`results/more_core_logp_truth.json`, from
+  `../obslike/scripts/core_family.py truth ... mock`; `results/more_summary.json`, from
+  `scripts/summarize_more.py`).
+- Events shared with the legacy file of the same kind (host, z, m1, q, chi_eff and every
+  recorded observation bit-identical): 958-978, as in the first batch.
+- f_AGN = 0.10 control: binomial pulls of the AGN share -0.32, -0.53, +1.37, -1.69, -0.32.
+- Host-dependent sets: detected-class offsets Delta mean chi_eff = 0.095, 0.093, 0.102,
+  0.103, 0.112 (+-0.007 each; planted 0.10) and Delta mean m1 = 5.00, 4.84, 4.76, 4.13, 5.13
+  Msun (+-0.4 each; predicted 4.65). AGN shares 0.354-0.394 against the 0.366-0.370 the
+  first batch's catalogs predict (largest pull +1.7, seed 109); the per-seed
+  selection-corrected prediction and the detected-set KS of `detected_gof.py` need the
+  catalogs, which are pruned again, so they were not run for this batch.
+
+### The short paper's experiment sets (2026-11-17, `paper_short_independent/EXPERIMENT.md`)
+
+`working/data/experiment_sets.json` maps (family, f_AGN, s) to the files of every set of that
+table, existing ones included, with per-realisation existence (`obslike/scripts/
+write_experiment_sets.py`; re-run it to refresh). New here, on 100, 101, 102, 103, 105, core
+population, 1000 x 2000 (`obslike/scripts/make_sets.sh <kind>`, RM jobs 1414916-1414918):
+
+| kind | file | flags | sub-seed |
+|---|---|---|---|
+| s = 0, f = 0.5 | `events_fagn0p50_corepop.h5` | `--f_agn 0.50` | S*1000+13 |
+| s = 1, f = 0.1 | `events_marked_dmu0p10_dmuG5_fagn0p10_corepop.h5` | `--dmu_chi_agn 0.10 --dmu_G_agn 5 --f_agn 0.10` | S*1000+10 |
+| s = 1, f = 0.5 | `events_marked_dmu0p10_dmuG5_fagn0p50_corepop.h5` | `--dmu_chi_agn 0.10 --dmu_G_agn 5 --f_agn 0.50` | S*1000+13 |
+
+A host-dependent set shares the sub-seed of the equal-population set of the same f (+10,
++3, +13), so hosts and galaxy-class draws are common across s at fixed f (as for the record's
+pair at f = 0.3).
+
+- All 15 pass V1-V7. Smallest true m2 5.70; no event has more than 0.73 of its samples below
+  5; core ln p is finite at every truth under each event's class population; core's loader
+  reads every file (`obslike/results/experiment_core_logp_truth_peak.json`).
+- **Selection-corrected V5** (`obslike/scripts/v5_selection_corrected.py` ->
+  `obslike/results/v5_selection_corrected.json`; expected share from each seed's own
+  catalogs, as `detected_gof.py`). The AGN/galaxy detection-efficiency ratio is 1.010-1.027
+  at s = 0 and 1.349-1.369 at s = 1. Per group of five realisations, chi^2 of the pulls:
+  f 0.1 s 0: 6.0; f 0.3 s 0: 6.8; f 0.1 s 1: 3.1; f 0.3 s 1: 4.2; f 0.5 s 1: 9.4;
+  **f 0.5 s 0: 21.7** (pulls -2.18, +2.04, -1.41, +3.05, +1.23; p = 6e-4). Large-N test
+  (`obslike/scripts/v5_largeN.sh`, scratch, 20,000 detected events at f = 0.5, sub-seed
+  S*1000+90): AGN share 0.5011 +- 0.0035 on seed 100 (expected 0.502) and 0.5062 +- 0.0035 on
+  seed 103 (expected 0.505). The generator is unbiased at f = 0.5, so the five sets' scatter
+  is a fluctuation (p = 6e-4 for this group; about 4e-3 across the six groups). The sets are
+  kept as drawn.
+- **The record's lanes do not serve host-dependent analyses well**
+  (`obslike/scripts/inj_stress.py mock <S> <lane> <out> {1,2}`,
+  `obslike/results/inj_stress_peak_existing_s<S>_x{1,2}.json`). Host-dependent mixture
+  N^2/N_eff:
+  - s = 1: 1.6 / 3.0 / 5.4-5.7 at f = 0.1 / 0.3 / 0.5 (worst stressed point 2.9 / 8.9 / 18);
+  - s = 2: 12-15 / 65-86 / 131-170, with the AGN class alone at 280-355.
+  Hence the dedicated lane below.
+- **s = 2 sets** (+10 Msun, +0.20; `make_sets.sh m2f010|m2f030|m2f050`, sub-seeds +10, +3, +13;
+  `events_marked_dmu0p20_dmuG10{_fagn0p10,,_fagn0p50}_corepop.h5`, 100-105).
+  - All 15 pass V1-V7. Smallest true m2 5.70; core ln p is finite under the AGN class
+    (mu_G 45, mu_chi 0.20); core's loader reads every file
+    (`obslike/results/experiment_core_logp_truth_peak_s2.json`).
+  - Selection-corrected V5 (efficiency ratio 1.75-1.77): chi^2 2.1, 5.7 and 6.1 for 5 at
+    f = 0.1, 0.3 and 0.5.
+
+### Dedicated peak-family injection lane (`injections/injections_targeted_peak.h5`, 100-110)
+
+For host-dependent analyses with AGN offsets from 0 to twice the present ones.
+`obslike/scripts/inj_make_peak.sh` (RM array 1414956), per realisation:
+
+- **Proposal** (`--inj_proposal_json "$(cat obslike/scripts/inj_proposal_peak.json)"`): the
+  mass/spin proposal of the population and AGN-targeted branches is a MIXTURE of legacy
+  PopulationConfigs (new generator option; the density is the weighted sum of each
+  component's legacy density, so pdraw stays exact):
+
+  | weight | mass peak [Msun] | chi_eff | role |
+  |---|---|---|---|
+  | 0.50 | 35 +- 5 | 0 +- 0.10 | galaxy class |
+  | 0.15 | 40 +- 5 | 0.10 +- 0.10 | AGN class, s = 1 |
+  | 0.20 | 45 +- 5 | 0.20 +- 0.10 | AGN class, s = 2 |
+  | 0.15 | 40 +- 9 | 0.05 +- 0.25 | broad |
+
+  The power law and pairing are the present family's.
+- **Branches** 0.82 population / 0.03 uniform / 0.15 AGN-targeted; targeted cut and cap 0.5
+  (the record's). Lane seed S*1000+16.
+- **Size and time**: 2.5e8 proposals give 2.94-2.98e6 detected rows (about 0.23 GB per
+  realisation) in 5-5.5 min on 8 RM CPUs.
+- **Checks**: pdraw equals the mixture of its components exactly. 3000 rows were recomputed
+  independently, the targeted density by brute force, to 1e-15 (`obslike/results/
+  inj_check_peak_s<S>.json`).
+- **How the weights were chosen**: a 1e8-proposal pilot reweighted over 52 combinations of
+  component and branch weights (`obslike/scripts/inj_mix_opt_peak.py`,
+  `obslike/results/inj_mix_opt_peak{,2}_s100.json`).
+- **Regressions** of the generator change:
+  - the default injection path is byte-identical to git HEAD;
+  - the single-proposal path reproduces the stored obslike lane exactly
+    (`obslike/results/inj_regress2_*.json`).
+
+N^2/N_eff (N = 1000; `obslike/results/inj_stress_peaklane_s<S>_x{1,2}.json`), range over the
+ten realisations. Stressed points: mu_G 31, 39; sigma_G 3.5, 7; H0 55, 90; mu_chi 0.05;
+sigma_chi 0.15. The worst point is mu_G 31, except for s = 2 at f = 0.5 (mu_G 39).
+
+| analysis | f 0.1 design / worst | f 0.3 | f 0.5 |
+|---|---|---|---|
+| s = 0, equal populations | 1.19 / 2.75 | 1.20 / 2.63 | 1.56 / 3.39 |
+| s = 1, host-dependent | 1.09 / 2.44 | 1.05 / 1.89 | 1.35 / 2.10 |
+| s = 2, host-dependent | 1.03 / 2.22 | 1.22 / 1.83 | 1.81 / 2.88 |
+| *s = 0 on the record's lane (seed 100)* | *1.42 / 3.05* | *1.20 / 2.42* | *1.33 / 2.56* |
+
+- Per class: galaxy 1.36 (worst 3.2; record's lane 1.70 / 3.7); AGN at s = 1 2.65 (3.8); AGN at
+  s = 2 3.5 (5.9).
+- All mergers in AGN (f = 1): 3.4 (7.5) on the new lane, against 2.6 (5.0) on the record's
+  lane, so that set keeps the record's lane.
+- `experiment_sets.json` gives each set its lane (field `injections`).
+
+Disk: 80 files, 3.28 GB (106-110) and 20 files, 0.82 GB (control). Transient: 5.4 GB of
+catalogs per seed in scratch, deleted. All 140 files written today across Tasks 1-3 were
+checked to be new (nothing else under seed100-110 changed; META.json md5 of 100-105 equal
+to `cache/META_md5_before.txt`; META.json of 106-110 untouched since September).
+
 ## Reproduce
 
 ```bash
@@ -348,5 +523,9 @@ python generate_dataset.py --seed S --stage validation --events_suffix _<kind>_c
 | `scripts/low_m2.py` | Analysis 14's `diag_low_m2.table` on the new files |
 | `scripts/make_figure.py`, `figs/` | the figure |
 | `scripts/summarize.py`, `results/corepop_summary.json` | one row per file |
+| `scripts/more_seeds_job.sh`, `scripts/submit_more_seeds.sbatch` | second batch: catalogs in scratch, gate, four kinds, validation, cleanup (one seed) |
+| `scripts/summarize_more.py`, `results/more_summary.json`, `results/more_core_logp_truth.json` | second batch: one row per file; core ln p at truths |
+| `results/more_seeds/`, `logs/more_seeds/` | second batch: gate comparisons, per-seed summaries and logs |
+| `../obslike/scripts/` (`make_sets.sh`, `inj_make_peak.sh`, `inj_mix_opt_peak.py`, `inj_stress.py`, `v5_selection_corrected.py`, `write_experiment_sets.py`) | the experiment sets, the dedicated peak lane and their checks |
 | `results/*.json` | every number above |
 | `cache/`, `logs/` | regenerable intermediates (core tables, figure arrays), job logs |

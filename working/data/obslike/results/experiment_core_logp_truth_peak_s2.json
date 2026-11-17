@@ -1,0 +1,442 @@
+{
+ "what": "core ln p_pop at every event's TRUE parameters, family mock (host-dependent set: each event under its host class's population); core's own loader on each file",
+ "family": "mock",
+ "thetas": {
+  "gal": {
+   "v1": 0.1,
+   "alpha": 2.3,
+   "m_min": 5.0,
+   "m_max": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "mu_G": 35.0,
+   "sigma_G": 5.0,
+   "beta": 1.0,
+   "mu_chi": 0.0,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  },
+  "agn": {
+   "v1": 0.1,
+   "alpha": 2.3,
+   "m_min": 5.0,
+   "m_max": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "mu_G": 40.0,
+   "sigma_G": 5.0,
+   "beta": 1.0,
+   "mu_chi": 0.1,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  }
+ },
+ "files": [
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100/events/events_marked_dmu0p20_dmuG10_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 7.087889572363147,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.398,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.794608214580826,
+    "sum_lnp": -1998.1016079064182
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.794608214580826,
+    "sum_lnp": -1998.1016079064182
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100/events/events_marked_dmu0p20_dmuG10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 7.319977468561015,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.0545,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.707845857126356,
+    "sum_lnp": -2018.3540639111786
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.707845857126356,
+    "sum_lnp": -2018.3540639111786
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100/events/events_marked_dmu0p20_dmuG10_fagn0p50_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 7.158078738010792,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.441,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.50161461114287,
+    "sum_lnp": -2074.5042327473184
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.50161461114287,
+    "sum_lnp": -2074.5042327473184
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed101/events/events_marked_dmu0p20_dmuG10_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.481417318048143,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.189,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.374517405616727,
+    "sum_lnp": -2093.299893821157
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.374517405616727,
+    "sum_lnp": -2093.299893821157
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed101/events/events_marked_dmu0p20_dmuG10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.859510201897365,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.5735,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.813630892305612,
+    "sum_lnp": -2155.974919409152
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.813630892305612,
+    "sum_lnp": -2155.974919409152
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed101/events/events_marked_dmu0p20_dmuG10_fagn0p50_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 5.697864552994155,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.5055,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.849730546573078,
+    "sum_lnp": -1964.6266505639471
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.849730546573078,
+    "sum_lnp": -1964.6266505639471
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed102/events/events_marked_dmu0p20_dmuG10_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.972044913091312,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.0705,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.082709981783555,
+    "sum_lnp": -2059.24670360463
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.082709981783555,
+    "sum_lnp": -2059.24670360463
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed102/events/events_marked_dmu0p20_dmuG10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 7.084495516670056,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.8565,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.420018006857747,
+    "sum_lnp": -2102.7598320177167
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.420018006857747,
+    "sum_lnp": -2102.7598320177167
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed102/events/events_marked_dmu0p20_dmuG10_fagn0p50_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.973778633940034,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.6405,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.132989112786714,
+    "sum_lnp": -2052.6439863315204
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.132989112786714,
+    "sum_lnp": -2052.6439863315204
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed103/events/events_marked_dmu0p20_dmuG10_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.591449285928916,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.4605,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.305402714357822,
+    "sum_lnp": -2049.7030115899315
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.305402714357822,
+    "sum_lnp": -2049.7030115899315
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed103/events/events_marked_dmu0p20_dmuG10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 7.157684129498475,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.214,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.582505975705319,
+    "sum_lnp": -2091.925180320141
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.582505975705319,
+    "sum_lnp": -2091.925180320141
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed103/events/events_marked_dmu0p20_dmuG10_fagn0p50_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 7.394139180938877,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.489,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.95479224858655,
+    "sum_lnp": -2035.0251041583026
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.95479224858655,
+    "sum_lnp": -2035.0251041583026
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed105/events/events_marked_dmu0p20_dmuG10_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.086762432078576,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.2375,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.937863185287531,
+    "sum_lnp": -2080.2161728547835
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.937863185287531,
+    "sum_lnp": -2080.2161728547835
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed105/events/events_marked_dmu0p20_dmuG10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.75716584241925,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.116,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.595141969052749,
+    "sum_lnp": -2043.9767922046594
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.595141969052749,
+    "sum_lnp": -2043.9767922046594
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed105/events/events_marked_dmu0p20_dmuG10_fagn0p50_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "offset_s": 2.0,
+   "min_true_m2src": 6.278705033495634,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.362,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.160627202039029,
+    "sum_lnp": -2043.4635848786852
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.160627202039029,
+    "sum_lnp": -2043.4635848786852
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  }
+ ],
+ "all_pass": true
+}

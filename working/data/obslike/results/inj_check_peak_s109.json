@@ -1,0 +1,117 @@
+{
+ "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed109/injections/injections_targeted_peak.h5",
+ "n_detected": 2961797,
+ "ndraw": 250000000,
+ "mix": [
+  0.82,
+  0.03,
+  0.15
+ ],
+ "proposal": [
+  {
+   "weight": 0.5,
+   "alpha": 2.3,
+   "mmin": 5.0,
+   "mmax": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "peak_fraction": 0.9,
+   "peak_mu": 35.0,
+   "peak_sigma": 5.0,
+   "beta": 1.0,
+   "chi_mu": 0.0,
+   "chi_sigma": 0.1,
+   "gamma": 0.0
+  },
+  {
+   "weight": 0.15,
+   "alpha": 2.3,
+   "mmin": 5.0,
+   "mmax": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "peak_fraction": 0.9,
+   "peak_mu": 40.0,
+   "peak_sigma": 5.0,
+   "beta": 1.0,
+   "chi_mu": 0.1,
+   "chi_sigma": 0.1,
+   "gamma": 0.0
+  },
+  {
+   "weight": 0.2,
+   "alpha": 2.3,
+   "mmin": 5.0,
+   "mmax": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "peak_fraction": 0.9,
+   "peak_mu": 45.0,
+   "peak_sigma": 5.0,
+   "beta": 1.0,
+   "chi_mu": 0.2,
+   "chi_sigma": 0.1,
+   "gamma": 0.0
+  },
+  {
+   "weight": 0.15,
+   "alpha": 2.3,
+   "mmin": 5.0,
+   "mmax": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "peak_fraction": 0.9,
+   "peak_mu": 40.0,
+   "peak_sigma": 9.0,
+   "beta": 1.0,
+   "chi_mu": 0.05,
+   "chi_sigma": 0.25,
+   "gamma": 0.0
+  }
+ ],
+ "targeted_branch": {
+  "branch": "per-host UNIFORM BOX in redshift, H0-range covering",
+  "H0_scan_range": [
+   50.0,
+   100.0
+  ],
+  "r_lo": 0.6774,
+  "r_hi": 1.3548,
+  "nsigma_kernel_pad": 4.0,
+  "host_zmax": 0.5,
+  "z_cap": 0.5,
+  "n_hosts_in_catalog": 1511464,
+  "n_hosts_retained": 309261,
+  "retained_fraction": 0.20461023219871594,
+  "occupied_pixels_retained": 12288,
+  "empty_pixel_fraction_retained": 0.0,
+  "box_width_min": 0.023446982986395172,
+  "box_width_median": 0.2165855653753921,
+  "box_width_max": 0.27199355230493266
+ },
+ "pdraw_vs_mixture_max_rel": 0.0,
+ "recompute_3000_rows_max_rel": {
+  "population": 5.858656962840494e-16,
+  "uniform": 0.0,
+  "targeted_agn_bruteforce": 6.552358361687393e-16
+ },
+ "n_hosts_retained_bruteforce": 309261,
+ "n_hosts_retained_stage": 309261,
+ "pdraw_all_positive_finite": true,
+ "detected_by_branch": {
+  "population": 523013,
+  "uniform": 95723,
+  "targeted_agn": 2343061
+ },
+ "z_max_detected_by_branch": {
+  "population": 0.7167189344799292,
+  "uniform": 0.8455970436520178,
+  "targeted_agn": 0.4989778786521101
+ },
+ "m2src_min": 0.22624559953975498,
+ "legacy_loader": {
+  "ok": true,
+  "darksirens": "/hildafs/projects/phy230014p/magana/src/darksirens-2b86a2d/darksirens/__init__.py"
+ },
+ "pass": true
+}

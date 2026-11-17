@@ -1,0 +1,134 @@
+{
+  "a_record": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3-scratch-injpeak/r_head/seed100/injections/injections_targeted.h5",
+  "b_regen": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3-scratch-injpeak/r_post/seed100/injections/injections_targeted.h5",
+  "n_datasets": 14,
+  "datasets": {
+    "branch": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "aba902a7ee7e1081d3252aa719c8ed14a737f34e53eb8b255e72badaa1336107",
+      "identical": true
+    },
+    "chieff": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "6eb92e80fb23aca2a8fb610f840e3573f206b7dd2c5067bad0cf2845b10dcb61",
+      "identical": true
+    },
+    "dL": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "43bd8780889c7f6568d0542981079eb225cc801ee2e8b23e006e124a952c95f0",
+      "identical": true
+    },
+    "dec": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "94718e595a503c45ba9faf366c79db112aa61459857deffa8cb359855f29138e",
+      "identical": true
+    },
+    "m1det": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "c480d5c3c207b4983f77801f5154b8818fce2241518db924f0c7bc78f1c802ba",
+      "identical": true
+    },
+    "m1src": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "5784d5adde398c6713a3bd9ea4acbfcda49da4d8b7b63614daff7b732dc8815b",
+      "identical": true
+    },
+    "m2det": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "5e683d8fb50ab7228369694e913e4359093ba8e4f002925faea63d79586b6f10",
+      "identical": true
+    },
+    "m2src": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "f5fa9feb06b59869dd285bcd1ab29297027572f7ee3bfb98a483a085af96dbfd",
+      "identical": true
+    },
+    "pdraw": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "f73df9dcfadabe7292a2314f479ed7f6bbcbc88a74f6ac49c4bef82806f43de6",
+      "identical": true
+    },
+    "pdraw_population": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "412f4cdc4a335bd36183a37cece37df98111b7ad2ecb448799034c925c4d02b9",
+      "identical": true
+    },
+    "pdraw_targeted_agn": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "0173bfc8a675102fb833e14ff3ea61385b1e72f6cb5e2414b0e7db62e5d08524",
+      "identical": true
+    },
+    "pdraw_uniform": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "5f6c68eae48a6b276d3ef3dfd0574e891503ce4e3758076c84550198cffd36eb",
+      "identical": true
+    },
+    "ra": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "113872035b41400823a64e179ef947ce495d5c3e165139709accfbff21658cd0",
+      "identical": true
+    },
+    "z": {
+      "shape": [
+        88211
+      ],
+      "dtype": "float64",
+      "sha256": "19b1ecf69e466fc698eb317566606c21207b5bf98cc2d253ea38d628e3ff160d",
+      "identical": true
+    }
+  },
+  "datasets_all_identical": true,
+  "dataset_failures": [],
+  "attr_differences_excluding_metadata_json": [
+    {
+      "attr": "targeted_agn_survey",
+      "record": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3-scratch-injpeak/r_head/seed100/surveys/survey_agn_complete_ns32.h5",
+      "regen": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3-scratch-injpeak/r_post/seed100/surveys/survey_agn_complete_ns32.h5"
+    }
+  ],
+  "metadata_json_keys_that_differ": [
+    "elapsed_s",
+    "generated_at_utc",
+    "targeted_survey"
+  ],
+  "PASS": true
+}

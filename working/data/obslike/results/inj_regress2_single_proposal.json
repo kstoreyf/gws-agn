@@ -1,0 +1,20 @@
+{
+ "n_rows_compared": 10648,
+ "identical": {
+  "branch": true,
+  "chieff": true,
+  "dL": true,
+  "dec": true,
+  "m1det": true,
+  "m1src": true,
+  "m2det": true,
+  "m2src": true,
+  "pdraw": true,
+  "pdraw_population": true,
+  "pdraw_targeted_agn": true,
+  "pdraw_uniform": true,
+  "ra": true,
+  "z": true
+ },
+ "pass": true
+}

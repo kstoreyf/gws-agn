@@ -79,6 +79,14 @@ pairing by an exact coupled rejection (``core_pairing_correction``) on its own c
 RNG stream, so the main stream (hosts, m1, chi_eff, measurement noise, PE) is consumed
 exactly as in the legacy draw and the default path is bit-identical.
 
+THE MASS SPECTRUM  (--mass_spectrum, 2026-11-17)  --  see working/data/obslike/
+===============================================================================
+``mock`` (the default, the record) is legacy darksirens' PopulationConfig, which puts
+0.90 of the mergers in the Gaussian peak.  ``gwtc3_pp`` replaces the mass fields only
+(alpha, m_min, m_max, the two taper widths, the peak weight, location and width, beta)
+by GWTC-3's POWER LAW+PEAK fit mapped onto core's parameterisation; spin, redshift
+evolution, hosts and the measurement model are the record's.  Core route only.
+
 THE THREE NON-NEGOTIABLE CONVENTIONS
 ====================================
 These are the campaign's three hard-won lessons.  Each was a measured, multi-sigma
@@ -394,6 +402,24 @@ CORE_POP_COMMIT = "e7c3007c659205cf4d55279c8e016014c57aa9b3"
 CORE_SFILTER_EXPO_CAP = 130.0         # core population/utils._sfilter_expo_cap (float64)
 CORE_SFILTER_DELTA_FLOOR = 1.0e-140   # core population/utils._SFILTER_DELTA_FLOOR
 CORE_PAIR_MAX_ITER = 10_000           # redraw loop cap (it never comes near it)
+
+# --- the mass spectrum the events stage draws from (--mass_spectrum, 2026-11-17) ---
+# "mock" (the default, the record): legacy darksirens 2b86a2d's PopulationConfig
+# defaults (w_PL 0.10, alpha 2.3, peak 35 +- 5, m_max 80, tapers 3/10, beta 1).
+# "gwtc3_pp": the POWER LAW+PEAK spectrum fitted to GWTC-3 (arXiv:2111.03634, Eqs.
+# B4-B7 and the medians of Secs. VI A and VI E), mapped onto core's powerlaw+peak --
+# the replaced fields below, everything else (spin, gamma) the record's.  GWTC-3
+# multiplies the WHOLE mixture by S(m1; m_min, delta_m) and then renormalises, while
+# core tapers and normalises the power law alone, so GWTC-3's lambda_peak = 0.038 is
+# core's w_G = lambda / ((1-lambda) <S>_PL + lambda) = 0.092 (<S>_PL = 0.388), i.e.
+# peak_fraction 0.092; GWTC-3's cut at m_max is sharp, so dm_max is core's prior floor
+# 0.01.  Only with --population_code core.  working/data/obslike/README.md.
+MASS_SPECTRUM_DEFAULT = "mock"
+MASS_SPECTRA = {
+    "mock": None,
+    "gwtc3_pp": dict(alpha=3.5, mmin=5.0, mmax=87.0, dm_min=4.9, dm_max=0.01,
+                     peak_fraction=0.092, peak_mu=34.0, peak_sigma=3.6, beta=1.1),
+}
 
 STAGES =("catalogs", "events", "surveys", "injections", "validation")
 TRACERS = ("gal", "agn")
@@ -1464,6 +1490,19 @@ def stage_events(args):
     cosmo = gmd._build_cosmology(H0_FID, OM0_FID, W0_FID, WA_FID)
     grids = gmd._cosmology_grids(cosmo, ZMAX_GRID)
     pop = gmd.PopulationConfig(gamma=GAMMA)
+    # --- the mass spectrum (default "mock" = the record) -------------------------
+    # A named spectrum replaces the mass fields of ``pop`` and nothing else; the
+    # default leaves ``pop`` untouched, so the default path is the record's.
+    _MSPEC = getattr(args, "mass_spectrum", None) or MASS_SPECTRUM_DEFAULT
+    if _MSPEC not in MASS_SPECTRA:
+        raise SystemExit(f"--mass_spectrum must be one of {list(MASS_SPECTRA)}; got {_MSPEC}")
+    if MASS_SPECTRA[_MSPEC] is not None:
+        if (getattr(args, "population_code", None) or POPULATION_CODE_DEFAULT) != "core":
+            raise SystemExit(f"--mass_spectrum {_MSPEC} needs --population_code core")
+        _mfields = set(MASS_SPECTRA[_MSPEC])
+        if _mfields & {"chi_mu", "chi_sigma", "gamma"}:
+            raise SystemExit("--mass_spectrum may change mass fields only")
+        pop = dataclasses.replace(pop, **MASS_SPECTRA[_MSPEC])
     # --- the branch-conditioned MASS mark (default 0.0 = the record) -----------
     # ``pop_agn`` differs from ``pop`` in peak_mu ALONE: the AGN-hosted branch's
     # Gaussian-peak LOCATION is shifted by ``--dmu_G_agn``.  Unlike the spin mark
@@ -1528,6 +1567,9 @@ def stage_events(args):
     if _POPCODE == "core":
         _log(f"events: population code core (darksirens-core {CORE_POP_COMMIT[:7]}): "
              f"every component pairs at (m_min, dm_min) = ({pop.mmin}, {pop.dm_min})")
+    if MASS_SPECTRA[_MSPEC] is not None:
+        _log(f"events: mass spectrum {_MSPEC}: "
+             + ", ".join(f"{k}={getattr(pop, k)}" for k in MASS_SPECTRA[_MSPEC]))
 
     # gmd's rate weighting, verbatim: accept ∝ (1+z)^(gamma-1), normalised by its max
     # over the grid so the acceptance probability is <= 1.
@@ -1600,6 +1642,9 @@ def stage_events(args):
             rec["pop_branch"] = is_mark[det].astype(np.int64)
         if src["q_redrawn"] is not None:
             rec["core_q_redrawn"] = src["q_redrawn"][det].astype(np.int64)
+        if MASS_SPECTRA[_MSPEC] is not None:
+            # the true mixture component of the primary (1 = Gaussian peak)
+            rec["pop_component_peak"] = src["use_peak"][det].astype(np.int64)
         for k, v in obs.items():
             rec[f"obs_{k}"] = v[det]
         keep.append(rec)
@@ -1860,6 +1905,20 @@ def stage_events(args):
             "n_detected_with_q_redrawn": int(truth["core_q_redrawn"].sum()),
             "validation": "working/data/corepop/README.md",
         }
+    if MASS_SPECTRA[_MSPEC] is not None:
+        # only a non-default spectrum carries this block (and the attr below)
+        meta["mass_spectrum"] = {
+            "name": _MSPEC,
+            "replaced_fields": dict(MASS_SPECTRA[_MSPEC]),
+            "core_theta": {"v1": 1.0 - pop.peak_fraction, "alpha": pop.alpha,
+                           "m_min": pop.mmin, "m_max": pop.mmax, "dm_min": pop.dm_min,
+                           "dm_max": pop.dm_max, "mu_G": pop.peak_mu,
+                           "sigma_G": pop.peak_sigma, "beta": pop.beta,
+                           "mu_chi": pop.chi_mu, "sigma_chi": pop.chi_sigma,
+                           "gamma": pop.gamma},
+            "n_detected_peak_component": int(truth["pop_component_peak"].sum()),
+            "design": "working/data/obslike/README.md",
+        }
 
     with h5py.File(ev_path, "w") as f:
         f.attrs["format_version"] = "gwcat-1.0"
@@ -1901,6 +1960,8 @@ def stage_events(args):
                 "legacy draw; q|m1 moved onto core's pairing (m_min, dm_min) for every "
                 "component by coupled rejection on child stream spawn_key 0x4350")
             f.attrs["population_table_sha256"] = "none (closed form, no table)"
+        if MASS_SPECTRA[_MSPEC] is not None:
+            f.attrs["mass_spectrum"] = _MSPEC
         f.attrs["shared_gamma"] = True
         f.attrs["detection_rule"] = "observed-data"
         f.attrs["detection_shares_noise_with_pe"] = True
@@ -2307,11 +2368,62 @@ def _chunked_pdraw(fn, n, chunk=200_000):
                            for i in range(0, n, chunk)])
 
 
+def _proposal_pops(gmd, overrides):
+    """The injection stage's mass/spin proposal as [(weight, PopulationConfig), ...].
+
+    ``overrides`` None = the record (one component, the default PopulationConfig); a dict =
+    one component with those fields replaced; a list of dicts each carrying ``weight`` = a
+    MIXTURE of PopulationConfigs (weights normalised), each drawn with the legacy samplers,
+    so the proposal density is exactly sum_k w_k _mass_spin_pdf(pop_k)."""
+    base = gmd.PopulationConfig(gamma=GAMMA)
+    if not overrides:
+        return [(1.0, base)]
+    if isinstance(overrides, dict):
+        return [(1.0, dataclasses.replace(base, **overrides))]
+    tot = float(sum(float(c["weight"]) for c in overrides))
+    return [(float(c["weight"]) / tot,
+             dataclasses.replace(base, **{k: v for k, v in c.items() if k != "weight"}))
+            for c in overrides]
+
+
+def _prop_draw(gmd, rng, n, pops):
+    """(m1src, q, chi_eff) of n lanes from the proposal.  One component: the record's three
+    calls in the record's order (bitwise the record).  A mixture: a component label per lane
+    (one uniform each), then the same three calls per component, in component order."""
+    if len(pops) == 1:
+        pop = pops[0][1]
+        m1, use_peak = gmd._sample_powerlaw_peak_m1(rng, n, pop, return_component=True)
+        q = gmd._sample_q(rng, m1, pop, use_peak=use_peak)
+        chi = gmd._sample_chieff(rng, n, pop)
+        return m1, q, chi
+    edges = np.cumsum([w for w, _ in pops])
+    comp = np.minimum(np.searchsorted(edges, rng.uniform(size=n) * edges[-1], side="right"),
+                      len(pops) - 1)
+    m1, q, chi = np.empty(n), np.empty(n), np.empty(n)
+    for k, (_, pop) in enumerate(pops):
+        sel = comp == k
+        nk = int(sel.sum())
+        if nk:
+            m1k, upk = gmd._sample_powerlaw_peak_m1(rng, nk, pop, return_component=True)
+            m1[sel] = m1k
+            q[sel] = gmd._sample_q(rng, m1k, pop, use_peak=upk)
+            chi[sel] = gmd._sample_chieff(rng, nk, pop)
+    return m1, q, chi
+
+
+def _prop_density(fn, pops):
+    """sum_k w_k fn(pop_k); one component: fn(pop) itself (bitwise the record)."""
+    if len(pops) == 1:
+        return fn(pops[0][1])
+    return sum(w * fn(pop) for w, pop in pops)
+
+
 # --- multiprocessing worker state ------------------------------------------------
 _W = {}
 
 
-def _inj_init(lane, darksirens, agn_survey, zmax, nz_edges, mix, pe_model="v3"):
+def _inj_init(lane, darksirens, agn_survey, zmax, nz_edges, mix, pe_model="v3",
+              pop_overrides=None, tgt_host_zmax=TGT_HOST_ZMAX, tgt_z_cap=TGT_Z_CAP):
     os.environ.setdefault("JAX_PLATFORMS", "cpu")
     for v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
               "NUMEXPR_NUM_THREADS"):
@@ -2319,11 +2431,16 @@ def _inj_init(lane, darksirens, agn_survey, zmax, nz_edges, mix, pe_model="v3"):
     gmd = import_gmd(Path(darksirens))
     cosmo = gmd._build_cosmology(H0_FID, OM0_FID, W0_FID, WA_FID)
     grids = gmd._cosmology_grids(cosmo, zmax)
+    # --inj_proposal_json: the mass/spin PROPOSAL of the population and targeted branches
+    # (one PopulationConfig or a mixture; legacy samplers + legacy _mass_spin_pdf, so pdraw
+    # stays exact).  Default: the record's single default PopulationConfig.
+    pops = _proposal_pops(gmd, pop_overrides)
     _W.update(lane=lane, gmd=gmd, grids=grids, mix=tuple(mix), pe_model=pe_model,
               ddldz=np.gradient(grids["dl"], grids["z"]),
-              pop=gmd.PopulationConfig(gamma=GAMMA), zmax=zmax,
+              pop=pops[0][1], pops=pops, zmax=zmax,
               nz_edges=np.asarray(nz_edges),
-              pmap=(SurveyPixelMap(agn_survey, zmax) if lane == "targeted" else None))
+              pmap=(SurveyPixelMap(agn_survey, zmax, host_zmax=tgt_host_zmax,
+                                   z_cap=tgt_z_cap) if lane == "targeted" else None))
 
 
 def _inj_batch(task):
@@ -2331,6 +2448,7 @@ def _inj_batch(task):
     is independent of how many workers run or in what order they finish."""
     bidx, ss, nb = task
     gmd, grids, pop = _W["gmd"], _W["grids"], _W["pop"]
+    pops = _W["pops"]
     rng = np.random.default_rng(ss)
     m1lo, m1hi = gmd._M1DET_RANGE
     lane = _W["lane"]
@@ -2353,11 +2471,9 @@ def _inj_batch(task):
     if npop:
         zc = gmd._sample_uniform_comoving_z(rng, grids, npop)
         rac, decc = gmd._sample_sky(rng, npop)
-        m1c, use_peak = gmd._sample_powerlaw_peak_m1(rng, npop, pop, return_component=True)
+        m1c, qc, chic = _prop_draw(gmd, rng, npop, pops)
         z[is_pop], ra[is_pop], dec[is_pop] = zc, rac, decc
-        m1src[is_pop] = m1c
-        q[is_pop] = gmd._sample_q(rng, m1c, pop, use_peak=use_peak)
-        chi[is_pop] = gmd._sample_chieff(rng, npop, pop)
+        m1src[is_pop], q[is_pop], chi[is_pop] = m1c, qc, chic
 
     is_unif = branch == 1
     nunif = int(is_unif.sum())
@@ -2379,12 +2495,9 @@ def _inj_batch(task):
             zc = pmap.sample_z_at_hosts(rng, j)
             rac, decc, n_fallback = sample_uniform_in_pixels(
                 rng, pmap.pix_hosts[j], pmap.nside, pmap.resol)
-            m1c, use_peak = gmd._sample_powerlaw_peak_m1(rng, nt, pop,
-                                                         return_component=True)
+            m1c, qc, chic = _prop_draw(gmd, rng, nt, pops)
             z[is_t], ra[is_t], dec[is_t] = zc, rac, decc
-            m1src[is_t] = m1c
-            q[is_t] = gmd._sample_q(rng, m1c, pop, use_peak=use_peak)
-            chi[is_t] = gmd._sample_chieff(rng, nt, pop)
+            m1src[is_t], q[is_t], chi[is_t] = m1c, qc, chic
 
     m2src = q * m1src
     dl = gmd._interp_dl(z, grids)
@@ -2399,15 +2512,15 @@ def _inj_batch(task):
     m1d, qd, chid = m1src[det], q[det], chi[det]
     nd = int(det.sum())
 
-    p_pop = _chunked_pdraw(lambda s: gmd._selection_pdraw(
-        "population", m1d[s], qd[s], chid[s], zd[s], grids, pop), nd)
+    p_pop = _chunked_pdraw(lambda s: _prop_density(lambda pp: gmd._selection_pdraw(
+        "population", m1d[s], qd[s], chid[s], zd[s], grids, pp), pops), nd)
     p_unif = _chunked_pdraw(lambda s: gmd._selection_pdraw(
         "uniform", m1d[s], qd[s], chid[s], zd[s], grids, pop), nd)
     if lane == "targeted":
         mw = _W["mix"]
-        p_tgt = _chunked_pdraw(lambda s: p_targeted_density(
+        p_tgt = _chunked_pdraw(lambda s: _prop_density(lambda pp: p_targeted_density(
             gmd, zd[s], rad[s], decd[s], m1d[s], qd[s], chid[s],
-            grids, _W["ddldz"], pop, _W["pmap"]), nd)
+            grids, _W["ddldz"], pp, _W["pmap"]), pops), nd)
         pdraw = np.maximum(mw[0] * p_pop + mw[1] * p_unif
                            + mw[2] * p_tgt, PDRAW_FLOOR)
     else:
@@ -2462,14 +2575,43 @@ def stage_injections(args):
     if abs(sum(mix) - 1.0) > 1e-12:
         raise SystemExit(f"targeted mixture weights must sum to 1, got {mix}")
 
+    # --- a DEDICATED injection set (default: the record's lanes) -----------------
+    # --inj_proposal_json replaces fields of the mass/spin proposal of the population
+    # and targeted branches; --inj_suffix names the files (and is required with it,
+    # so a dedicated set can never land on the record's files); --tgt_host_zmax and
+    # --tgt_z_cap move the targeted branch's host cut and box cap.  A suffixed run
+    # never touches META.json.  Defaults reproduce the record exactly.
+    _isfx = getattr(args, "inj_suffix", "") or ""
+    _pov = getattr(args, "inj_proposal_json", None)
+    pop_over = json.loads(_pov) if _pov else None
+    if pop_over is not None:
+        if not _isfx:
+            raise SystemExit("--inj_proposal_json needs --inj_suffix")
+        _fields = set(gmd.PopulationConfig.__dataclass_fields__)
+        for _c in (pop_over if isinstance(pop_over, list) else [pop_over]):
+            _bad = (set(_c) - {"weight"}) - _fields | (set(_c) & {"gamma"})
+            if _bad or (isinstance(pop_over, list) and float(_c.get("weight", 0)) <= 0):
+                raise SystemExit(f"--inj_proposal_json: bad component {_c}")
+    _thz = float(getattr(args, "tgt_host_zmax", None) or TGT_HOST_ZMAX)
+    _tzc = float(getattr(args, "tgt_z_cap", None) or TGT_Z_CAP)
+    if (_thz, _tzc) != (TGT_HOST_ZMAX, TGT_Z_CAP) and not _isfx:
+        raise SystemExit("--tgt_host_zmax / --tgt_z_cap need --inj_suffix")
+    _pops = _proposal_pops(gmd, pop_over)
+    pop_prop = [{"weight": w, **dataclasses.asdict(pp)} for w, pp in _pops]
+
+    _iseed = getattr(args, "inj_seed", None)
+    if _iseed is not None and not _isfx:
+        raise SystemExit("--inj_seed needs --inj_suffix")
     lanes = []
     if args.lane in ("both", "targeted"):
-        lanes.append(("targeted", seeds["injections_targeted"],
-                      out_dir / "injections_targeted.h5",
+        lanes.append(("targeted", (seeds["injections_targeted"] if _iseed is None
+                                   else int(_iseed)),
+                      out_dir / f"injections_targeted{_isfx}.h5",
                       args.ndraw_targeted or args.ndraw))
     if args.lane in ("both", "popuni"):
-        lanes.append(("popuni", seeds["injections_popuni"],
-                      out_dir / "injections_popuni.h5",
+        lanes.append(("popuni", (seeds["injections_popuni"] if _iseed is None
+                                 else int(_iseed) + 1),
+                      out_dir / f"injections_popuni{_isfx}.h5",
                       args.ndraw_popuni or args.ndraw))
 
     jobs = args.jobs or max(1, min(48, (os.cpu_count() or 8) - 8))
@@ -2477,7 +2619,7 @@ def stage_injections(args):
     for lane, lseed, path, ndraw in lanes:
         if path.exists() and not args.overwrite:
             _log(f"injections: {path} exists; use --overwrite to regenerate")
-            all_rec[lane] = _read_json(out_dir / f"injections_{lane}_meta.json")
+            all_rec[lane] = _read_json(out_dir / f"injections_{lane}{_isfx}_meta.json")
             continue
         t0 = time.perf_counter()
         nb = args.batch_size
@@ -2499,7 +2641,8 @@ def stage_injections(args):
                                            str(agn_survey), ZMAX_GRID,
                                            nz_edges, mix,
                                            getattr(args, "pe_model",
-                                                   PE_MODEL_DEFAULT))) as ex:
+                                                   PE_MODEL_DEFAULT),
+                                           pop_over, _thz, _tzc)) as ex:
             ndone = 0
             for bidx, arrs, st in ex.map(
                     _inj_batch, [(i, children[i], sizes[i]) for i in range(n_batches)],
@@ -2534,13 +2677,13 @@ def stage_injections(args):
                     else "population+uniform")
         tgt_cfg = None
         if lane == "targeted":
-            pm = SurveyPixelMap(agn_survey, ZMAX_GRID)
+            pm = SurveyPixelMap(agn_survey, ZMAX_GRID, host_zmax=_thz, z_cap=_tzc)
             tgt_cfg = {
                 "branch": "per-host UNIFORM BOX in redshift, H0-range covering",
                 "H0_scan_range": [H0_SCAN_MIN, H0_SCAN_MAX],
                 "r_lo": TGT_R_LO, "r_hi": TGT_R_HI,
                 "nsigma_kernel_pad": TGT_NSIG_PAD,
-                "host_zmax": TGT_HOST_ZMAX, "z_cap": TGT_Z_CAP,
+                "host_zmax": _thz, "z_cap": _tzc,
                 "n_hosts_in_catalog": pm.N_catalog,
                 "n_hosts_retained": pm.N_hosts,
                 "retained_fraction": pm.N_hosts / pm.N_catalog,
@@ -2584,6 +2727,14 @@ def stage_injections(args):
                                   "decision sees the measurement noise"},
             "batch_size": nb, "n_batches": n_batches, "jobs": jobs,
             "elapsed_s": time.perf_counter() - t0,
+            **({"dedicated_set": {
+                "inj_suffix": _isfx, "proposal_overrides": pop_over,
+                "proposal_population": (pop_prop[0] if len(pop_prop) == 1 else pop_prop),
+                "tgt_host_zmax": _thz, "tgt_z_cap": _tzc,
+                "note": "the mass/spin proposal of the population and targeted "
+                        "branches is the legacy PopulationConfig above (legacy "
+                        "samplers, pdraw from legacy _mass_spin_pdf, exact); the "
+                        "uniform branch is the record's"}} if _isfx else {}),
             "pdet_z_grid": {"edges": nz_edges.tolist(),
                             "n_proposed_population": h_prop.tolist(),
                             "n_detected_population": h_det.tolist()},
@@ -2626,6 +2777,10 @@ def stage_injections(args):
             for b, name in enumerate(branch_names):
                 f.attrs[f"n_proposed_{name}_branch"] = n_prop_b[b]
                 f.attrs[f"n_detected_{name}_branch"] = n_det_b[b]
+            if _isfx:
+                f.attrs["inj_suffix"] = _isfx
+                f.attrs["proposal_population_json"] = json.dumps(
+                    pop_prop[0] if len(pop_prop) == 1 else pop_prop)
             f.attrs["metadata_json"] = json.dumps(rec, default=str)
             for key in gmd.SELECTION_KEYS + extra:
                 f.create_dataset(key, data=np.asarray(arrays[key], dtype=np.float64),
@@ -2636,10 +2791,11 @@ def stage_injections(args):
              f"detected {n_detected:,}/{n_proposed:,} "
              f"({n_detected / n_proposed:.4e}), Neff(pop-only)={neff:.1f}, "
              f"{rec['elapsed_s']:.0f} s")
-        _write_json(out_dir / f"injections_{lane}_meta.json", rec)
+        _write_json(out_dir / f"injections_{lane}{_isfx}_meta.json", rec)
         all_rec[lane] = rec
 
-    _merge_meta(args.seed, "injections", all_rec, args.outroot)
+    if not _isfx:
+        _merge_meta(args.seed, "injections", all_rec, args.outroot)
 
 
 # ================================================================================
@@ -4165,6 +4321,24 @@ def parse_args(argv=None):
     p.add_argument("--batch_size", type=int, default=2_000_000)
     p.add_argument("--jobs", type=int, default=None)
     p.add_argument("--lane", default="both", choices=("both", "targeted", "popuni"))
+    p.add_argument("--inj_proposal_json", default=None,
+                   help="DEDICATED INJECTION SETS ONLY: JSON dict of PopulationConfig "
+                        "fields replacing the mass/spin proposal of the population and "
+                        "targeted branches (legacy samplers and density, so pdraw stays "
+                        "exact).  Needs --inj_suffix.  Default: the record's proposal.")
+    p.add_argument("--inj_suffix", default="",
+                   help="DEDICATED INJECTION SETS ONLY: write injections_<lane><SFX>.h5 "
+                        "and its meta json; META.json is not touched.")
+    p.add_argument("--inj_seed", type=int, default=None,
+                   help="DEDICATED INJECTION SETS ONLY: root seed of the targeted lane "
+                        "(popuni: +1).  Default: the record's sub-seeds.  Needs "
+                        "--inj_suffix.")
+    p.add_argument("--tgt_host_zmax", type=float, default=None,
+                   help=f"DEDICATED INJECTION SETS ONLY: targeted branch host cut "
+                        f"(default {TGT_HOST_ZMAX}).  Needs --inj_suffix.")
+    p.add_argument("--tgt_z_cap", type=float, default=None,
+                   help=f"DEDICATED INJECTION SETS ONLY: targeted branch box cap "
+                        f"(default {TGT_Z_CAP}).  Needs --inj_suffix.")
     p.add_argument("--pe_model", default=PE_MODEL_DEFAULT, choices=("v2", "v3"),
                    help="Measurement family.  v3 (default, 2026-08-01) is the "
                         "literature-standard all-observable family of "
@@ -4200,6 +4374,15 @@ def parse_args(argv=None):
                         "component pairs at the power law's (m_min, dm_min); see "
                         "working/data/corepop/README.md.  The legacy path is "
                         "bit-identical to the record.")
+    p.add_argument("--mass_spectrum", default=MASS_SPECTRUM_DEFAULT,
+                   choices=tuple(MASS_SPECTRA),
+                   help="Mass spectrum of the events stage.  'mock' (default) = the "
+                        "record (legacy PopulationConfig defaults: w_PL 0.10, alpha 2.3, "
+                        "peak 35 +- 5).  'gwtc3_pp' = GWTC-3's POWER LAW+PEAK fit "
+                        "(arXiv:2111.03634) mapped onto core's powerlaw+peak: alpha 3.5, "
+                        "m_min 5, m_max 87, dm_min 4.9, dm_max 0.01, w_G 0.092, peak "
+                        "34 +- 3.6, beta 1.1; spin and gamma unchanged.  Needs "
+                        "--population_code core; see working/data/obslike/README.md.")
     p.add_argument("--core_darksirens", default=str(CORE_DARKSIRENS_REPO),
                    help="darksirens-core worktree whose commit --population_code core "
                         f"must match (CORE_POP_COMMIT = {CORE_POP_COMMIT[:7]}); it is "

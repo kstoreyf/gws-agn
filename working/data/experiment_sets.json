@@ -1,0 +1,865 @@
+{
+ "injections_note": "Injections: peak-family analyses use injections/injections_targeted_peak.h5 (dedicated lane covering AGN offsets 0 to 2x), except the all-AGN set (f 1, s 0), which keeps the record's injections/injections_targeted.h5 (N^2/N_eff 2.6 vs 3.4); obslike analyses use injections/injections_targeted_obslike.h5. Each entry's 'injections' field is the file to use, relative to working/data/seed<R>/.",
+ "extra_record_lane_sets_note": "For sets in which every merger is AGN-hosted, pool six injection sets: the record's injections/injections_targeted.h5 and the five independent redraws of the same lane listed in 'extra_record_lane_sets' (Analysis 14's recipe, scripts/make_injection_redraws.py: 1.5e8 proposals each, targeted sub-seed R*1000+900+j). Paths are relative to working/data/seed<R>/.",
+ "extra_record_lane_sets": {
+  "100": {
+   "files": [
+    "mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5"
+   ],
+   "exist": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "sub_seeds": [
+    100901,
+    100902,
+    100903,
+    100904,
+    100905
+   ]
+  },
+  "101": {
+   "files": [
+    "mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5"
+   ],
+   "exist": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "sub_seeds": [
+    101901,
+    101902,
+    101903,
+    101904,
+    101905
+   ]
+  },
+  "102": {
+   "files": [
+    "mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5"
+   ],
+   "exist": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "sub_seeds": [
+    102901,
+    102902,
+    102903,
+    102904,
+    102905
+   ]
+  },
+  "103": {
+   "files": [
+    "mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5"
+   ],
+   "exist": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "sub_seeds": [
+    103901,
+    103902,
+    103903,
+    103904,
+    103905
+   ]
+  },
+  "105": {
+   "files": [
+    "mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5",
+    "mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5"
+   ],
+   "exist": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "sub_seeds": [
+    105901,
+    105902,
+    105903,
+    105904,
+    105905
+   ]
+  }
+ },
+ "what": "event sets of the short paper's experiment (working/paper_short_independent/EXPERIMENT.md): family, planted f_AGN, size s of the AGN-class offset (mass peak +5 s Msun, mean chi_eff +0.10 s), and the file. 'suffix' is everything between 'events' and '.h5'; files live under working/data/seed<R>/events/; 'injections' is relative to working/data/seed<R>/. 'exists' is per realization at 'updated_utc'. 'injection_N2_over_Neff_R100_design_worst' is the selection-term variance of the set's own analysis on its lane (realization 100; design point, worst stressed point; obslike/README.md).",
+ "updated_utc": "2026-11-17T10:37:09+00:00",
+ "populations_galaxy_class": {
+  "peak": {
+   "v1": 0.1,
+   "alpha": 2.3,
+   "m_min": 5.0,
+   "m_max": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "mu_G": 35.0,
+   "sigma_G": 5.0,
+   "beta": 1.0,
+   "mu_chi": 0.0,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  },
+  "obslike": {
+   "v1": 0.908,
+   "alpha": 3.5,
+   "m_min": 5.0,
+   "m_max": 87.0,
+   "dm_min": 4.9,
+   "dm_max": 0.01,
+   "mu_G": 34.0,
+   "sigma_G": 3.6,
+   "beta": 1.1,
+   "mu_chi": 0.0,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  }
+ },
+ "agn_class": "the galaxy-class vector with mu_G + dmu_mass and mu_chi + dmu_spin",
+ "docs": {
+  "peak": "working/data/corepop/README.md",
+  "obslike": "working/data/obslike/README.md"
+ },
+ "sets": [
+  {
+   "family": "peak",
+   "f_agn": 0.0,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_puregal_corepop",
+   "file": "seed<R>/events/events_puregal_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+8",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "all mergers in galaxies",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.3724534040711636,
+    3.1987083028934356
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.1,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_fagn0p10_corepop",
+   "file": "seed<R>/events/events_fagn0p10_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+10",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.1991547885204343,
+    2.7350128337730997
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.3,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_corepop",
+   "file": "seed<R>/events/events_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+3",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "record sub-seed",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.2027875472900111,
+    2.6335404601056007
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.5,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_fagn0p50_corepop",
+   "file": "seed<R>/events/events_fagn0p50_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+13",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.5649306859125105,
+    3.377114952376603
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 1.0,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_pureagn_corepop",
+   "file": "seed<R>/events/events_pureagn_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+9",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted.h5",
+   "note": "all mergers in AGN",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    2.6504661546115287,
+    5.0428281618938415
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.1,
+   "s": 1,
+   "dmu_mass": 5.0,
+   "dmu_spin": 0.1,
+   "suffix": "_marked_dmu0p10_dmuG5_fagn0p10_corepop",
+   "file": "seed<R>/events/events_marked_dmu0p10_dmuG5_fagn0p10_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+10",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.0997851567724288,
+    2.424336450486643
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.3,
+   "s": 1,
+   "dmu_mass": 5.0,
+   "dmu_spin": 0.1,
+   "suffix": "_marked_dmu0p10_dmuG5_corepop",
+   "file": "seed<R>/events/events_marked_dmu0p10_dmuG5_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+3",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "record sub-seed",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.0494604120454296,
+    1.889971030627301
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.5,
+   "s": 1,
+   "dmu_mass": 5.0,
+   "dmu_spin": 0.1,
+   "suffix": "_marked_dmu0p10_dmuG5_fagn0p50_corepop",
+   "file": "seed<R>/events/events_marked_dmu0p10_dmuG5_fagn0p50_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+13",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.361000591121307,
+    2.096448949100139
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.1,
+   "s": 2,
+   "dmu_mass": 10.0,
+   "dmu_spin": 0.2,
+   "suffix": "_marked_dmu0p20_dmuG10_fagn0p10_corepop",
+   "file": "seed<R>/events/events_marked_dmu0p20_dmuG10_fagn0p10_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+10",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.0392666710805427,
+    2.2076440388770515
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.3,
+   "s": 2,
+   "dmu_mass": 10.0,
+   "dmu_spin": 0.2,
+   "suffix": "_marked_dmu0p20_dmuG10_corepop",
+   "file": "seed<R>/events/events_marked_dmu0p20_dmuG10_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+3",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "record sub-seed",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.2218523411581417,
+    1.8273755942131635
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "peak",
+   "f_agn": 0.5,
+   "s": 2,
+   "dmu_mass": 10.0,
+   "dmu_spin": 0.2,
+   "suffix": "_marked_dmu0p20_dmuG10_fagn0p50_corepop",
+   "file": "seed<R>/events/events_marked_dmu0p20_dmuG10_fagn0p50_corepop.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+13",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_peak.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.821616953680199,
+    2.862566828149281
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "obslike",
+   "f_agn": 0.0,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_puregal_obslike",
+   "file": "seed<R>/events/events_puregal_obslike.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+14",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_obslike.h5",
+   "note": "all mergers in galaxies",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.984182774919062,
+    2.6267180121101776
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "obslike",
+   "f_agn": 0.3,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_obslike",
+   "file": "seed<R>/events/events_obslike.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+11",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_obslike.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.4396593125603248,
+    1.890202768769078
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "obslike",
+   "f_agn": 1.0,
+   "s": 0,
+   "dmu_mass": 0.0,
+   "dmu_spin": 0.0,
+   "suffix": "_pureagn_obslike",
+   "file": "seed<R>/events/events_pureagn_obslike.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+15",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_obslike.h5",
+   "note": "all mergers in AGN",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    3.6814074550535385,
+    5.238600874185089
+   ],
+   "status": "complete"
+  },
+  {
+   "family": "obslike",
+   "f_agn": 0.3,
+   "s": 1,
+   "dmu_mass": 5.0,
+   "dmu_spin": 0.1,
+   "suffix": "_marked_dmu0p10_dmuG5_obslike",
+   "file": "seed<R>/events/events_marked_dmu0p10_dmuG5_obslike.h5",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "sub_seed": "R*1000+11",
+   "population_code": "core",
+   "exists": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "all_exist": true,
+   "validated": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injections": "injections/injections_targeted_obslike.h5",
+   "note": "",
+   "injections_exist": {
+    "100": true,
+    "101": true,
+    "102": true,
+    "103": true,
+    "105": true
+   },
+   "injection_N2_over_Neff_R100_design_worst": [
+    1.2905110045309947,
+    1.6115014781997847
+   ],
+   "status": "complete"
+  }
+ ]
+}

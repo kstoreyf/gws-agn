@@ -320,10 +320,15 @@ re-derives the posterior numerically and checks the closed form against it
 | `events/events.h5` | `gwcat-1.0`: 1000 events × 2000 PE samples, plus a `truth` group holding **both** the true parameters and the recorded observation (incl. `obs_sigma_ang`) |
 | `events/events_rejected_sample.h5` | 20 000 rejected proposals with their measurement (validation aid) |
 | `events/events_meta.json` | realised horizon, detected fraction, host bookkeeping |
-| `events/events{,_pureagn,_puregal,_marked_dmu0p10_dmuG5}_corepop.h5` | seeds 100-105: the same four kinds drawn from darksirens-core's population (`corepop/README.md`) |
+| `events/events{,_pureagn,_puregal,_marked_dmu0p10_dmuG5}_corepop.h5` | seeds 100-105 and 106-110: the same four kinds drawn from darksirens-core's population (`corepop/README.md`) |
+| `events/events_fagn0p50_corepop.h5`, `events/events_marked_dmu0p10_dmuG5_fagn0p{10,50}_corepop.h5`, `events/events_marked_dmu0p20_dmuG10{_fagn0p10,,_fagn0p50}_corepop.h5` | seeds 100-105: the short paper's experiment (f_AGN 0.5 equal; host-dependent at f_AGN 0.1, 0.5; doubled offsets at 0.1, 0.3, 0.5), `experiment_sets.json` |
+| `events/events_fagn0p10_corepop.h5` | seeds 100-105: equal populations, core population, planted f_AGN = 0.10, sub-seed S*1000+10 (`corepop/README.md`, "Second batch") |
+| `events/events{,_marked_dmu0p10_dmuG5}_obslike.h5` | seeds 100-105: the observed-like mass spectrum (GWTC-3 power law + peak), equal populations and host-dependent, sub-seed S*1000+11 (`obslike/README.md`) |
 | `injections/injections_targeted.h5` | `gwcat-selection-1.0`, three-branch targeted mixture |
 | `injections/injections_popuni.h5` | `gwcat-selection-1.0`, plain population+uniform cross-check |
 | `injections/injections_*_meta.json` | branch bookkeeping and the `P_det(z)` histograms |
+| `injections/injections_targeted_obslike.h5` (+ meta) | seeds 100-105: dedicated lane for the observed-like spectrum (`obslike/README.md`) |
+| `injections/injections_targeted_peak.h5` (+ meta) | seeds 100-110: dedicated lane for host-dependent analyses of the present family, AGN offsets 0 to 2x (`corepop/README.md`) |
 | `validation/validation.json` | every check, pass/fail, and the numbers behind it |
 | `validation/fig_*.{png,pdf}` | dN/dz + clustering overlay, PE calibration, detection, completeness |
 
@@ -360,6 +365,26 @@ Each seed 100-105 now also carries `events_corepop.h5`, `events_pureagn_corepop.
 V2b, V3, V3c, V5, V7), writes `validation/validation_events<SFX>.json`, and does not touch
 `validation.json` or META.json. The injection sets stay valid under core. The density,
 the route, every check and the figure are in **`corepop/README.md`**.
+
+Seeds 106-110 carry the same four kinds (their catalogs were rebuilt in scratch, gated
+bitwise against the legacy event files, and deleted again), and seeds 100-105 also carry
+`events_fagn0p10_corepop.h5`, an equal-population control with f_AGN = 0.10.
+
+### The observed-like mass spectrum (`--mass_spectrum gwtc3_pp`, 2026-11-17)
+
+The default spectrum (`mock`) puts 0.90 of the mergers in the Gaussian peak.
+`--mass_spectrum gwtc3_pp` (core route only) replaces the mass fields alone by GWTC-3's
+power law + peak fit mapped onto core's parameterisation (alpha 3.5, m_min 5, m_max 87,
+dm_min 4.9, dm_max 0.01, w_G 0.092, peak 34 +- 3.6, beta 1.1); spin, redshift evolution,
+hosts and measurement are unchanged. Seeds 100-105 carry `events_obslike.h5`,
+`events_marked_dmu0p10_dmuG5_obslike.h5`, `events_puregal_obslike.h5` and
+`events_pureagn_obslike.h5`. The record's injection lanes do not serve this spectrum
+(selection-term variance 34-36 for 1000 events), so each of these seeds also carries a
+dedicated lane, `injections/injections_targeted_obslike.h5` (1.08e9 proposals, about 2.9e6
+detected; variance 1.3-1.4 at the design point), made with the injection stage's
+`--inj_proposal_json/--inj_suffix/--inj_seed/--tgt_host_zmax/--tgt_z_cap` options (defaults:
+the record, byte for byte). Design, mapping, checks and the injection numbers:
+**`obslike/README.md`**. The short paper's set list is `experiment_sets.json`.
 
 ---
 

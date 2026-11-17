@@ -1,0 +1,142 @@
+{
+ "what": "the observed-like (obslike) mass spectrum: GWTC-3 POWER LAW+PEAK medians and their mapping onto darksirens-core powerlaw+peak; generator name --mass_spectrum gwtc3_pp",
+ "paper": {
+  "citation": "Abbott et al. (LVK), Phys. Rev. X 13, 011048 (2023), arXiv:2111.03634",
+  "model": "POWER LAW+PEAK, App. B 1 b, Eqs. (B4)-(B7); priors Table VI",
+  "medians": {
+   "alpha": {
+    "value": 3.5,
+    "interval": "+0.6 -0.56",
+    "where": "Sec. VI A"
+   },
+   "mu_m": {
+    "value": 34.0,
+    "interval": "+2.6 -4.0",
+    "where": "Sec. VI A"
+   },
+   "beta_q": {
+    "value": 1.1,
+    "interval": "+1.7 -1.3",
+    "where": "Sec. VI A"
+   },
+   "lambda_peak": {
+    "value": 0.038,
+    "interval": "+0.058 -0.026",
+    "where": "Sec. VI A"
+   },
+   "m_min": {
+    "value": 5.0,
+    "interval": "+0.86 -1.7",
+    "where": "Sec. VI E (fit without GW190814 and GW190917)"
+   },
+   "delta_m": {
+    "value": 4.9,
+    "interval": "+3.4 -3.2",
+    "where": "Sec. VI E (same fit)"
+   },
+   "m_99": {
+    "value": 44.0,
+    "interval": "+9.2 -5.1",
+    "where": "Sec. VI A (derived 99th percentile of m1)"
+   }
+  },
+  "not_quoted_in_the_paper": {
+   "sigma_m": {
+    "used": 3.6,
+    "note": "no median in any version's text or tables (the paper says only that the Gaussian's mean and width agree with GWTC-2); 3.6 is the brief's value, said to be the data release's median; not verified here"
+   },
+   "m_max": {
+    "used": 87.0,
+    "note": "no median quoted (the paper reports m_99 instead); 87 is the brief's value; not verified here. With alpha 3.5 the power law above 77 Msun holds 3e-4 of it"
+   }
+  },
+  "earlier_arxiv_versions": "v1/v2 (Nov 2021) quote alpha = 3.4 +0.58 -0.49, mu_m = 34 +2.3 -3.8, beta_q = 1.1 +1.8 -1.3, m_99 = 45 +11 -6.2, and (without the two low-mass events) m_min = 2.5 +0.67 -0.44, delta_m = 7.8 +1.9 -4.0; v3/v4 and the journal version quote the values used here"
+ },
+ "design_gwtc3_parameters": {
+  "alpha": 3.5,
+  "m_min": 5.0,
+  "m_max": 87.0,
+  "delta_m": 4.9,
+  "lambda_peak": 0.038,
+  "mu_m": 34.0,
+  "sigma_m": 3.6,
+  "beta_q": 1.1
+ },
+ "mapping": {
+  "S_avg_powerlaw": 0.388356028064749,
+  "S_avg_gaussian": 0.9999999999997389,
+  "w_G_exact_from_lambda": 0.09232298002172501,
+  "w_G_used": 0.092,
+  "v1_used": 0.908,
+  "lambda_implied_by_w_G_used": 0.037859135274300966,
+  "w_G_if_lambda_taken_literally": 0.038,
+  "dm_min": "delta_m (core's low-mass taper of the power law AND the pairing taper of m2 = q m1 for both components, as GWTC-3's Eqs. B4 and B7)",
+  "dm_max": "core's high-mass taper width of the power law; GWTC-3 cuts P sharply at m_max, so it is set to core's prior floor 0.01 Msun (DM_MAX bounds [0.01, 20])",
+  "structural_differences": "core leaves the Gaussian untapered and truncates it to [1, 200] (GWTC-3: tapered by S); <S>_G = 1 - 1e-9, so immaterial"
+ },
+ "core_theta": {
+  "v1": 0.908,
+  "alpha": 3.5,
+  "m_min": 5.0,
+  "m_max": 87.0,
+  "dm_min": 4.9,
+  "dm_max": 0.01,
+  "mu_G": 34.0,
+  "sigma_G": 3.6,
+  "beta": 1.1,
+  "mu_chi": 0.0,
+  "sigma_chi": 0.1,
+  "gamma": 0.0
+ },
+ "core_theta_order": "v1 alpha m_min m_max dm_min dm_max mu_G sigma_G beta mu_chi sigma_chi gamma (v1 = POWER-LAW weight)",
+ "unchanged_from_present_family": {
+  "mu_chi": 0.0,
+  "sigma_chi": 0.1,
+  "gamma": 0.0,
+  "host_dependent_offsets": {
+   "dmu_G": 5.0,
+   "dmu_chi": 0.1
+  },
+  "f_agn": 0.3,
+  "measurement_model": "v3",
+  "detection": "rho_obs >= 8"
+ },
+ "present_family_core_theta": {
+  "v1": 0.1,
+  "alpha": 2.3,
+  "m_min": 5.0,
+  "m_max": 80.0,
+  "dm_min": 3.0,
+  "dm_max": 10.0,
+  "mu_G": 35.0,
+  "sigma_G": 5.0,
+  "beta": 1.0,
+  "mu_chi": 0.0,
+  "sigma_chi": 0.1,
+  "gamma": 0.0
+ },
+ "cross_check_m99": {
+  "paper_m99": "44 +9.2 -5.1",
+  "design_density": {
+   "m1_q01": 6.275164313833672,
+   "m1_median": 10.038505523887101,
+   "m1_q99": 42.57366097496244
+  },
+  "same_with_lambda_0p038_but_no_renormalisation_ie_w_G_0p038": {
+   "m1_q99": 42.662993162292466,
+   "m1_median": 9.77433036241876
+  },
+  "sensitivity_to_unverified": {
+   "sigma_m_5p5_m_max_65 (core registry placeholders)": {
+    "m1_q01": 6.27465297048793,
+    "m1_median": 10.028393835238168,
+    "m1_q99": 43.764076107023854
+   },
+   "sigma_m_3p6_m_max_65": {
+    "m1_q01": 6.274652996361243,
+    "m1_median": 10.028399304741075,
+    "m1_q99": 41.33694407830196
+   }
+  }
+ }
+}

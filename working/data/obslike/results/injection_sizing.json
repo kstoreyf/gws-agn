@@ -1,0 +1,65 @@
+{
+ "what": "sbatch --job-name=injsize run_cpu.sbatch jax injection_sizing.py",
+ "ndraw_old": 150000000,
+ "n_detected_old": 2205380,
+ "mixture_weights_old": [
+  0.65,
+  0.1,
+  0.25
+ ],
+ "pdraw_equals_weighted_components_max_rel": 0.0,
+ "current": {
+  "gal": {
+   "n_eff": 17635.81393078987,
+   "n_eff_per_proposal": 0.00011757209287193247
+  },
+  "agn": {
+   "n_eff": 9628.607364135174,
+   "n_eff_per_proposal": 6.419071576090116e-05
+  }
+ },
+ "designs": {
+  "targeted_design_0.65pop_0.10unif_0.25targ": {
+   "gal": {
+    "n_eff_per_proposal": 0.0007138964835075429,
+    "ndraw_for_N2_over_Neff_2": 700381654.1347581,
+    "ndraw_for_N2_over_Neff_1": 1400763308.2695162,
+    "n_old_injections_carrying_half_of_S2": 982
+   },
+   "agn": {
+    "n_eff_per_proposal": 0.00030201391816559196,
+    "ndraw_for_N2_over_Neff_2": 1655552840.2033901,
+    "ndraw_for_N2_over_Neff_1": 3311105680.4067802,
+    "n_old_injections_carrying_half_of_S2": 531
+   }
+  },
+  "popuni_design_0.90pop_0.10unif": {
+   "gal": {
+    "n_eff_per_proposal": 0.0004395096137119678,
+    "ndraw_for_N2_over_Neff_2": 1137631542.9761555,
+    "ndraw_for_N2_over_Neff_1": 2275263085.952311,
+    "n_old_injections_carrying_half_of_S2": 60780
+   },
+   "agn": {
+    "n_eff_per_proposal": 0.00012214138277836202,
+    "ndraw_for_N2_over_Neff_2": 4093616664.773649,
+    "ndraw_for_N2_over_Neff_1": 8187233329.547298,
+    "n_old_injections_carrying_half_of_S2": 22275
+   }
+  },
+  "pure_population": {
+   "gal": {
+    "n_eff_per_proposal": 0.00045793637792745315,
+    "ndraw_for_N2_over_Neff_2": 1091854729.3904016,
+    "ndraw_for_N2_over_Neff_1": 2183709458.780803,
+    "n_old_injections_carrying_half_of_S2": 60940
+   },
+   "agn": {
+    "n_eff_per_proposal": 0.0,
+    "ndraw_for_N2_over_Neff_2": Infinity,
+    "ndraw_for_N2_over_Neff_1": Infinity,
+    "n_old_injections_carrying_half_of_S2": 1
+   }
+  }
+ }
+}

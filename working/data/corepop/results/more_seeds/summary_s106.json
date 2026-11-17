@@ -1,0 +1,8 @@
+{"seed": 106, "host": "r020.opa.vera.psc.edu", "gate": "PASS", "numpy_dispatch": "default",
+ "seconds": {"catalogs": 382, "gate": 97, "four_sets_and_validation": 146, "total": 625},
+ "sets": {
+  "mixed": {"generate_s": 27, "validate_s": 17, "validation": "PASS"},
+  "pureagn": {"generate_s": 20, "validate_s": 14, "validation": "PASS"},
+  "puregal": {"generate_s": 21, "validate_s": 12, "validation": "PASS"},
+  "marked": {"generate_s": 22, "validate_s": 13, "validation": "PASS"}
+ }, "n_failed": 0}

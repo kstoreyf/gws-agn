@@ -1,0 +1,242 @@
+{
+ "what": "core powerlaw+peak at the obslike theta vs the closed form the generator's core route samples; normalisation; marginals",
+ "family": "obslike",
+ "theta_order": [
+  "v1",
+  "alpha",
+  "m_min",
+  "m_max",
+  "dm_min",
+  "dm_max",
+  "mu_G",
+  "sigma_G",
+  "beta",
+  "mu_chi",
+  "sigma_chi",
+  "gamma"
+ ],
+ "thetas": {
+  "gal": {
+   "v1": 0.908,
+   "alpha": 3.5,
+   "m_min": 5.0,
+   "m_max": 87.0,
+   "dm_min": 4.9,
+   "dm_max": 0.01,
+   "mu_G": 34.0,
+   "sigma_G": 3.6,
+   "beta": 1.1,
+   "mu_chi": 0.0,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  },
+  "agn": {
+   "v1": 0.908,
+   "alpha": 3.5,
+   "m_min": 5.0,
+   "m_max": 87.0,
+   "dm_min": 4.9,
+   "dm_max": 0.01,
+   "mu_G": 39.0,
+   "sigma_G": 3.6,
+   "beta": 1.1,
+   "mu_chi": 0.1,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  }
+ },
+ "core": {
+  "historical": {
+   "darksirens_file": "/hildafs/projects/phy230014p/magana/src/darksirens-core-e7c3007/src/darksirens/__init__.py",
+   "settings": "historical",
+   "family": "obslike",
+   "labels": [
+    "$v_1$",
+    "$\\alpha_{\\rm PL}$",
+    "$m_{\\min,\\rm PL}$",
+    "$m_{\\max,\\rm PL}$",
+    "$\\delta m_{\\min,\\rm PL}$",
+    "$\\delta m_{\\max,\\rm PL}$",
+    "$\\mu_{\\rm G}$",
+    "$\\sigma_{\\rm G}$",
+    "$\\beta$",
+    "$\\mu_\\chi$",
+    "$\\sigma_\\chi$",
+    "$\\gamma$"
+   ],
+   "names": [
+    "v1",
+    "alpha",
+    "m_min",
+    "m_max",
+    "dm_min",
+    "dm_max",
+    "mu_G",
+    "sigma_G",
+    "beta",
+    "mu_chi",
+    "sigma_chi",
+    "gamma"
+   ],
+   "pairing_norm": "per_sample",
+   "theta_gal": [
+    0.908,
+    3.5,
+    5.0,
+    87.0,
+    4.9,
+    0.01,
+    34.0,
+    3.6,
+    1.1,
+    0.0,
+    0.1,
+    0.0
+   ],
+   "theta_agn": [
+    0.908,
+    3.5,
+    5.0,
+    87.0,
+    4.9,
+    0.01,
+    39.0,
+    3.6,
+    1.1,
+    0.1,
+    0.1,
+    0.0
+   ]
+  },
+  "default": {
+   "darksirens_file": "/hildafs/projects/phy230014p/magana/src/darksirens-core-e7c3007/src/darksirens/__init__.py",
+   "settings": "default",
+   "family": "obslike",
+   "labels": [
+    "$v_1$",
+    "$\\alpha_{\\rm PL}$",
+    "$m_{\\min,\\rm PL}$",
+    "$m_{\\max,\\rm PL}$",
+    "$\\delta m_{\\min,\\rm PL}$",
+    "$\\delta m_{\\max,\\rm PL}$",
+    "$\\mu_{\\rm G}$",
+    "$\\sigma_{\\rm G}$",
+    "$\\beta$",
+    "$\\mu_\\chi$",
+    "$\\sigma_\\chi$",
+    "$\\gamma$"
+   ],
+   "names": [
+    "v1",
+    "alpha",
+    "m_min",
+    "m_max",
+    "dm_min",
+    "dm_max",
+    "mu_G",
+    "sigma_G",
+    "beta",
+    "mu_chi",
+    "sigma_chi",
+    "gamma"
+   ],
+   "pairing_norm": "auto",
+   "theta_gal": [
+    0.908,
+    3.5,
+    5.0,
+    87.0,
+    4.9,
+    0.01,
+    34.0,
+    3.6,
+    1.1,
+    0.0,
+    0.1,
+    0.0
+   ],
+   "theta_agn": [
+    0.908,
+    3.5,
+    5.0,
+    87.0,
+    4.9,
+    0.01,
+    39.0,
+    3.6,
+    1.1,
+    0.1,
+    0.1,
+    0.0
+   ]
+  }
+ },
+ "identity": {
+  "historical": {
+   "gal": {
+    "n_points": 110000,
+    "n_both_finite": 110000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_outside_floor_zone": 3.3512232722188173e-07,
+    "max_abs_dlnp_all": 0.0007727665492289759,
+    "max_abs_dlnp_m1_near_mmax": 3.3511861374790897e-07,
+    "max_abs_dlnp_taper_band": 3.3512232722188173e-07,
+    "median_abs_dlnp": 3.3506510543901413e-07
+   },
+   "agn": {
+    "n_points": 110000,
+    "n_both_finite": 110000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_outside_floor_zone": 3.351223263337033e-07,
+    "max_abs_dlnp_all": 0.0007727665492325286,
+    "max_abs_dlnp_m1_near_mmax": 3.3511861374790897e-07,
+    "max_abs_dlnp_taper_band": 3.351223263337033e-07,
+    "median_abs_dlnp": 3.3508881269739277e-07
+   }
+  },
+  "default": {
+   "gal": {
+    "n_points": 110000,
+    "n_both_finite": 110000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_outside_floor_zone": 3.3512061969886986e-07,
+    "max_abs_dlnp_all": 3.351206316892785e-07,
+    "max_abs_dlnp_m1_near_mmax": 3.3511861374790897e-07,
+    "max_abs_dlnp_taper_band": 3.3512061969886986e-07,
+    "median_abs_dlnp": 3.3506499441671167e-07
+   },
+   "agn": {
+    "n_points": 110000,
+    "n_both_finite": 110000,
+    "n_finite_mismatch": 0,
+    "max_abs_dlnp_outside_floor_zone": 3.3512062014295907e-07,
+    "max_abs_dlnp_all": 3.3512062014295907e-07,
+    "max_abs_dlnp_m1_near_mmax": 3.3511861374790897e-07,
+    "max_abs_dlnp_taper_band": 3.3512062014295907e-07,
+    "median_abs_dlnp": 3.3508859997866125e-07
+   }
+  }
+ },
+ "marginals": {
+  "gal": {
+   "integral_p_m1_q": 1.0000020178864792,
+   "P_m2_lt_5": 6.573723939692687e-21,
+   "P_m2_lt_6": 0.01119578307421742,
+   "P_m2_lt_8": 0.38853844013388356,
+   "m1_median": 10.036912462524963,
+   "m1_q01": 6.275191890250597,
+   "m1_q99": 42.57364980783523,
+   "chi_mean": 1.94489176179313e-18
+  },
+  "agn": {
+   "integral_p_m1_q": 1.0000020178730298,
+   "P_m2_lt_5": 3.501830810613198e-26,
+   "P_m2_lt_6": 0.011194888301877903,
+   "P_m2_lt_8": 0.3883318455724867,
+   "m1_median": 10.036912462471719,
+   "m1_q01": 6.275191890247292,
+   "m1_q99": 45.83209126904403,
+   "chi_mean": 0.09999999999999998
+  }
+ }
+}

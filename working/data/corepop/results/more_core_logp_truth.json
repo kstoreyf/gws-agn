@@ -1,0 +1,687 @@
+{
+ "what": "core ln p_pop at every event's TRUE parameters, family mock (host-dependent set: each event under its host class's population); core's own loader on each file",
+ "family": "mock",
+ "thetas": {
+  "gal": {
+   "v1": 0.1,
+   "alpha": 2.3,
+   "m_min": 5.0,
+   "m_max": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "mu_G": 35.0,
+   "sigma_G": 5.0,
+   "beta": 1.0,
+   "mu_chi": 0.0,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  },
+  "agn": {
+   "v1": 0.1,
+   "alpha": 2.3,
+   "m_min": 5.0,
+   "m_max": 80.0,
+   "dm_min": 3.0,
+   "dm_max": 10.0,
+   "mu_G": 40.0,
+   "sigma_G": 5.0,
+   "beta": 1.0,
+   "mu_chi": 0.1,
+   "sigma_chi": 0.1,
+   "gamma": 0.0
+  }
+ },
+ "files": [
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed106/events/events_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.647675633218652,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.281,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.838474611705806,
+    "sum_lnp": -2076.281784986141
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.838474611705806,
+    "sum_lnp": -2076.281784986141
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed106/events/events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.9087110196608235,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.709,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.214902812570841,
+    "sum_lnp": -2022.2044846003578
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.214902812570841,
+    "sum_lnp": -2022.2044846003578
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed106/events/events_puregal_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.730437894299463,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.6105,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.314032058050229,
+    "sum_lnp": -2022.1544312367546
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.314032058050229,
+    "sum_lnp": -2022.1544312367546
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "min_true_m2src": 6.381281672738369,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.675,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.053478978273784,
+    "sum_lnp": -2098.890420359149
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.053478978273784,
+    "sum_lnp": -2098.890420359149
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed107/events/events_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.31649161759511,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.2035,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.947461850148915,
+    "sum_lnp": -1991.443555561541
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.947461850148915,
+    "sum_lnp": -1991.443555561541
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed107/events/events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.328856837052117,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.3965,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.100236068033212,
+    "sum_lnp": -2036.0790704602487
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.100236068033212,
+    "sum_lnp": -2036.0790704602487
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed107/events/events_puregal_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 5.873580564509484,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.8425,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.060559724782655,
+    "sum_lnp": -2107.160515675291
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.060559724782655,
+    "sum_lnp": -2107.160515675291
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "min_true_m2src": 6.213079359462991,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.4765,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -12.911818352793958,
+    "sum_lnp": -2044.1664723805384
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -12.911818352793958,
+    "sum_lnp": -2044.1664723805384
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed108/events/events_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.331615327172334,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.076,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.755619808629756,
+    "sum_lnp": -1997.8150236736703
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.755619808629756,
+    "sum_lnp": -1997.8150236736703
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed108/events/events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.706475478254391,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.1745,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.498012242344217,
+    "sum_lnp": -2021.9056452690554
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.498012242344217,
+    "sum_lnp": -2021.9056452690554
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed108/events/events_puregal_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.522758610439038,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.1285,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.83220688068149,
+    "sum_lnp": -2001.0756446744008
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.83220688068149,
+    "sum_lnp": -2001.0756446744008
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "min_true_m2src": 7.1506673388350945,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.416,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.835896447641176,
+    "sum_lnp": -2085.3035103711754
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.835896447641176,
+    "sum_lnp": -2085.3035103711754
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed109/events/events_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 5.7497888070188825,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.7355,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.430225913574773,
+    "sum_lnp": -2024.2103329258362
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.430225913574773,
+    "sum_lnp": -2024.2103329258362
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed109/events/events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.040680490788851,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.173,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.406886981898607,
+    "sum_lnp": -2062.903678707842
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -10.406886981898607,
+    "sum_lnp": -2062.903678707842
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed109/events/events_puregal_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.2129653661439415,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.4225,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.205587137619093,
+    "sum_lnp": -2002.6952182517778
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.205587137619093,
+    "sum_lnp": -2002.6952182517778
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "min_true_m2src": 8.01296532993508,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.0745,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.812795123248632,
+    "sum_lnp": -2088.118448297212
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.812795123248632,
+    "sum_lnp": -2088.118448297212
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed110/events/events_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.164768695523901,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.1435,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.343662283450861,
+    "sum_lnp": -2046.2509987285903
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -11.343662283450861,
+    "sum_lnp": -2046.2509987285903
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed110/events/events_pureagn_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.210422836001971,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.5455,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.570943110632225,
+    "sum_lnp": -2051.822639956724
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.570943110632225,
+    "sum_lnp": -2051.822639956724
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed110/events/events_puregal_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.576441438569969,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.5305,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.930298304707417,
+    "sum_lnp": -2038.0132390766362
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.930298304707417,
+    "sum_lnp": -2038.0132390766362
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": true,
+   "min_true_m2src": 7.164768695523901,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.068,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.99423675829738,
+    "sum_lnp": -2080.7875274744765
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.99423675829738,
+    "sum_lnp": -2080.7875274744765
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed100/events/events_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.293404850432272,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.142,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.015392247411421,
+    "sum_lnp": -1977.4973128596266
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.015392247411421,
+    "sum_lnp": -1977.4973128596266
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed101/events/events_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.691692233759911,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.2095,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.268725908056084,
+    "sum_lnp": -2041.6562197137441
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.268725908056084,
+    "sum_lnp": -2041.6562197137441
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed102/events/events_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.057954392425836,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.63,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.971883572388993,
+    "sum_lnp": -2037.0149246231479
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -8.971883572388993,
+    "sum_lnp": -2037.0149246231479
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed103/events/events_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 7.280217716777673,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.4655,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.305402714357822,
+    "sum_lnp": -2044.6401416156214
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.305402714357822,
+    "sum_lnp": -2044.6401416156214
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  },
+  {
+   "file": "/hildafs/projects/phy230054p/magana/gws-agn-data-v3/seed105/events/events_fagn0p10_corepop.h5",
+   "n_events": 1000,
+   "host_dependent": false,
+   "min_true_m2src": 6.766825395703554,
+   "n_true_m2_lt_5": 0,
+   "max_frac_samples_m2_lt_5": 0.4725,
+   "historical": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.251956758887177,
+    "sum_lnp": -2033.6931736556191
+   },
+   "default": {
+    "all_finite": true,
+    "n_finite": 1000,
+    "min_lnp": -9.251956758887177,
+    "sum_lnp": -2033.6931736556191
+   },
+   "core_loader": {
+    "ok": true,
+    "n_events": 1000,
+    "nsamp": 2000,
+    "p_pe_row_sum_max_abs_dev": 2.220446049250313e-16
+   }
+  }
+ ],
+ "all_pass": true
+}

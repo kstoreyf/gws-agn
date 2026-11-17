@@ -1,0 +1,147 @@
+{
+ "what": "sbatch --job-name=sampler run_cpu.sbatch jax sampler_check.py     (after core_family.py identity)",
+ "n_per_branch": 4000000,
+ "seed_root": 20261118,
+ "population": {
+  "alpha": 3.5,
+  "mmin": 5.0,
+  "mmax": 87.0,
+  "dm_min": 4.9,
+  "dm_max": 0.01,
+  "peak_fraction": 0.092,
+  "peak_mu": 34.0,
+  "peak_sigma": 3.6,
+  "beta": 1.1,
+  "chi_mu": 0.0,
+  "chi_sigma": 0.1,
+  "gamma": 0.0
+ },
+ "ks_resolution_95pct_N": 0.000679,
+ "ks_resolution_95pct_1000_events": 0.04294373062508659,
+ "branches": {
+  "gal": {
+   "n_drawn": 4000000,
+   "n_dropped_outside_core_support": 0,
+   "tally": {
+    "n_lanes": 4000000,
+    "n_peak_lanes": 367629,
+    "n_q_kept": 3984409,
+    "n_q_redrawn": 15591,
+    "n_excluded_m1_le_mmin": 0,
+    "n_unresolved_after_max_iter": 0,
+    "n_excluded_chieff_outside_pm1": 0,
+    "max_redraw_iterations": 4
+   },
+   "ks": {
+    "m1": {
+     "D": 0.00032606467965368147,
+     "pvalue": 0.788578020405831
+    },
+    "q": {
+     "D": 0.00044582468131926234,
+     "pvalue": 0.40424622494072715
+    },
+    "m2": {
+     "D": 0.000287062499549684,
+     "pvalue": 0.8964824804853454
+    },
+    "chi": {
+     "D": 0.0002703732662010516,
+     "pvalue": 0.9317266023796223
+    }
+   },
+   "peak_share": {
+    "drawn": 0.09190725,
+    "w_G": 0.092,
+    "binomial_sd": 0.000144512975196001
+   },
+   "fraction_m2_below": {
+    "5": {
+     "drawn": 0.0,
+     "core": 6.573723939692687e-21
+    },
+    "6": {
+     "drawn": 0.01120925,
+     "core": 0.01119578307421742
+    },
+    "8": {
+     "drawn": 0.388393,
+     "core": 0.38853844013388356
+    }
+   },
+   "min_m2": 5.001571557802639,
+   "m1_median_drawn": 10.035420162873674,
+   "m1_median_core": 10.036912462524963,
+   "m1_q99_drawn": 42.6097965863418,
+   "m1_q99_core": 42.57364980783523,
+   "chi_mean_drawn": -3.545618573928814e-06,
+   "chi_mean_core": 1.94489176179313e-18
+  },
+  "agn": {
+   "n_drawn": 4000000,
+   "n_dropped_outside_core_support": 0,
+   "tally": {
+    "n_lanes": 4000000,
+    "n_peak_lanes": 367899,
+    "n_q_kept": 3988310,
+    "n_q_redrawn": 11690,
+    "n_excluded_m1_le_mmin": 0,
+    "n_unresolved_after_max_iter": 0,
+    "n_excluded_chieff_outside_pm1": 0,
+    "max_redraw_iterations": 3
+   },
+   "ks": {
+    "m1": {
+     "D": 0.00044146242459441876,
+     "pvalue": 0.41661412813703547
+    },
+    "q": {
+     "D": 0.00036179816473835835,
+     "pvalue": 0.6715396236123694
+    },
+    "m2": {
+     "D": 0.000370788139858913,
+     "pvalue": 0.6412207716352
+    },
+    "chi": {
+     "D": 0.0005607145286016246,
+     "pvalue": 0.16154671999871517
+    }
+   },
+   "peak_share": {
+    "drawn": 0.09197475,
+    "w_G": 0.092,
+    "binomial_sd": 0.000144512975196001
+   },
+   "fraction_m2_below": {
+    "5": {
+     "drawn": 0.0,
+     "core": 3.501830810613198e-26
+    },
+    "6": {
+     "drawn": 0.011123,
+     "core": 0.011194888301877903
+    },
+    "8": {
+     "drawn": 0.38836625,
+     "core": 0.3883318455724867
+    }
+   },
+   "min_m2": 5.000264963667552,
+   "m1_median_drawn": 10.040081555772167,
+   "m1_median_core": 10.036912462471719,
+   "m1_q99_drawn": 45.86280395019055,
+   "m1_q99_core": 45.83209126904403,
+   "chi_mean_drawn": 0.10012174887886721,
+   "chi_mean_core": 0.09999999999999998
+  }
+ },
+ "legacy_powerlaw_fallback": {
+  "what": "probability per proposal that a power-law lane exhausts gmd._sample_q's 10,000 rejection rounds and gets a hard q**beta draw on [m_min/m1, 1] instead of the tapered one (m2 >= 5 either way; core gives those binaries finite density)",
+  "probability_per_proposal": 4.8167096571538826e-05,
+  "m1_where_p_fail_gt_1e-3": [
+   5.000001,
+   5.7656258437500005
+  ]
+ }
+}
