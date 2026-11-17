@@ -1,4 +1,4 @@
-# Checkpoint, 17 Nov 2026, 21:15 UTC (read this first after a context clear)
+# Checkpoint, 17 Nov 2026, 22:00 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -42,15 +42,22 @@ hold the owner's words; this file holds the working state.
   figure `fig_classes` drawn; Fig. 1 from the production event sets; Obs keys mapped to stage 5
   and their placeholders narrowed (skeleton Sec. 7); `refresh_papers.sh` covers one paper; the
   letter is frozen in `working/archive/paper_short_independent/` (`FROZEN.md`).
-- IN PROGRESS at 21:15 UTC: a Fable writer on `main.tex` per skeleton Sec. 9.3 (new subsection
-  `sec:classes` with `fig_classes`, the probability of an AGN host in Sec. II A, the AGN catalog
-  alone, masses and spins as a label, the observed-like opening, abstract, units of the number
-  densities). When it reports: read the diff, check its claims against the macros, commit.
-- THEN: (i) an independent Fable review of the new text against the skill's self-check and the
-  build gates; (ii) a small Opus cleanup: `build_hosts_per_volume` and audit G4 still read the old
-  `events_puregal.h5` / `events_pureagn.h5`, `_inputs()` the old `events_meta_marked_*.json`,
-  `\MockzHorizonMin/Max` and audit G9 the old `events.h5`: move them to the `_corepop`
-  production sets; (iii) send the PDF to the owner once the text is consistent.
+- DONE by 22:00 UTC (commits ca7da6e, 06843cf): the text of the experiment is in `main.tex` (18 pp):
+  new Sec. IV B `sec:classes` with Fig. 3 `fig_classes`, Eq. 3 (probability of an AGN host), the
+  AGN catalog alone as a biased analysis, masses and spins as a label (host-dependent
+  subsection), the observed-like half-widths for the known population, one abstract sentence
+  (seven in all), number densities in h^3 Mpc^-3 in text, tables and `fig4_densities`; every
+  macro the text uses exists (`values/fallback_macros.tex` is generated and empty); design
+  numbers and hosts per localization volume come from the production event sets.
+- IN PROGRESS at 22:00 UTC: an independent Fable review of the changed text (findings only, no
+  edits). When it reports: apply the fixes (small ones myself, larger ones by a Fable writer
+  under the skill), refresh, commit, send the PDF to the owner with SendUserFile.
+- Small leftovers: the hand-written blocks of `figures/CAPTION_FACTS.md` for Figs. 2, 3, 5, 8
+  still call finished keys placeholders; `notes/MACRO_REQUESTS.md` Sec. F1 is stale; the red
+  placeholder density limits of Table IV lie above the Table I prior edge until the stage-2
+  nested runs replace them; Sec. III C says Secs. IV A to IV E use the peak-dominated spectrum
+  although Fig. 3(b), placed in IV B, draws the observed-like one; the refresh can fail once
+  when a run finishes between its values step and its audit (rerun it).
 
 ## 3. Runs (analysis 16: `working/analyses/analysis_16_production_runs/`, README there)
 - Machine: partition RITA-GPU, two A100-80, both ours.
@@ -63,7 +70,7 @@ hold the owner's words; this file holds the working state.
   stage 3 on 100-105, stage 5, stage 3 on 106-110. Summaries: `runs/<run>/summary.json` (block
   `posterior`, computed on a refined lattice since 20:00 UTC; `grid/result.json` holds older
   node-based bounds, do not use them).
-- State at 20:15 UTC: E1 108 of 235, E2 57 of 75; lane 1 ends about 06:45 UTC on 18 Nov, lane 2
+- State at 22:00 UTC: E1 132 of 235, E2 finished; lane 1 ends about 05:30 UTC on 18 Nov, lane 2
   continues by itself into the 32 stage-2 grids (4.7 GPU-h) and the stage-4 single-population
   runs on realizations 100-105 (20.5 GPU-h), queued at 20:10 UTC. Jobs: 1414946 (lane 1),
   1415005 (lane 2), successors 1414969 and 1415023.
@@ -130,4 +137,4 @@ None.
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to 9ac3426 plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to 06843cf plus the one that adds this file; `git log --oneline | head -20`.
