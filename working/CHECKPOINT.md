@@ -1,4 +1,4 @@
-# Checkpoint, 17 Nov 2026, 22:00 UTC (read this first after a context clear)
+# Checkpoint, 17 Nov 2026, 23:20 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -42,22 +42,26 @@ hold the owner's words; this file holds the working state.
   figure `fig_classes` drawn; Fig. 1 from the production event sets; Obs keys mapped to stage 5
   and their placeholders narrowed (skeleton Sec. 7); `refresh_papers.sh` covers one paper; the
   letter is frozen in `working/archive/paper_short_independent/` (`FROZEN.md`).
-- DONE by 22:00 UTC (commits ca7da6e, 06843cf): the text of the experiment is in `main.tex` (18 pp):
-  new Sec. IV B `sec:classes` with Fig. 3 `fig_classes`, Eq. 3 (probability of an AGN host), the
-  AGN catalog alone as a biased analysis, masses and spins as a label (host-dependent
-  subsection), the observed-like half-widths for the known population, one abstract sentence
-  (seven in all), number densities in h^3 Mpc^-3 in text, tables and `fig4_densities`; every
-  macro the text uses exists (`values/fallback_macros.tex` is generated and empty); design
-  numbers and hosts per localization volume come from the production event sets.
-- IN PROGRESS at 22:00 UTC: an independent Fable review of the changed text (findings only, no
-  edits). When it reports: apply the fixes (small ones myself, larger ones by a Fable writer
-  under the skill), refresh, commit, send the PDF to the owner with SendUserFile.
-- Small leftovers: the hand-written blocks of `figures/CAPTION_FACTS.md` for Figs. 2, 3, 5, 8
-  still call finished keys placeholders; `notes/MACRO_REQUESTS.md` Sec. F1 is stale; the red
-  placeholder density limits of Table IV lie above the Table I prior edge until the stage-2
-  nested runs replace them; Sec. III C says Secs. IV A to IV E use the peak-dominated spectrum
-  although Fig. 3(b), placed in IV B, draws the observed-like one; the refresh can fail once
-  when a run finishes between its values step and its audit (rerun it).
+- DONE by 23:20 UTC, 17 Nov (commits ca7da6e to 5bb62bf): the experiment is in `main.tex` (17 pp,
+  ten figures): Sec. IV B `sec:classes` with Fig. 3 `fig_classes` and the equation for the
+  probability of an AGN host; the AGN catalog alone as a biased analysis; masses and spins as a
+  label (host-dependent subsection); observed-like half-widths for the known population; number
+  densities in h^3 Mpc^-3 everywhere; abstract of seven sentences and fifteen numbers; the 90%
+  half-width (two significant figures) as the one measure of precision. An independent Fable
+  review was applied in full except its length item (`REVIEW_2.md`: findings and decisions). The
+  PDF of 5bb62bf minus the HEALPix citation was sent to the owner at 23:12 UTC.
+- State of the numbers: 78 of 177 result macros used in the text are real; the experiment's 111
+  of 164. Red placeholders of the flux-limited and inferred-density analyses are re-anchored to
+  the finished complete-catalog result and kept inside the Table I prior (rules in the header of
+  `scripts/placeholder_results.py`).
+- Leftovers, none urgent: Table IV prints the AGN-density limit, which in the placeholders shows
+  no gain over the priors (galaxy-density limits exist as macros; decide the columns when the
+  stage-2 nested runs are real); `fig8_summary` prints "at the prior edge, 100" in a panel with no
+  macro behind the number; the abstract has fifteen numbers where a dozen was the aim; the date
+  of the fifth observing run in the Conclusions still needs a citable schedule; the conventions
+  bullet of `figures/CAPTION_FACTS.md` still says every element drawn from
+  `placeholder_results.json` is a placeholder; the refresh can fail once when a run finishes
+  between its values step and its audit (rerun it).
 
 ## 3. Runs (analysis 16: `working/analyses/analysis_16_production_runs/`, README there)
 - Machine: partition RITA-GPU, two A100-80, both ours.
@@ -114,9 +118,10 @@ hold the owner's words; this file holds the working state.
   bounds moved by up to 0.09 km/s/Mpc, means over realizations by less. The macros are the source.
 
 ## 5. Do next, in order
-1. Finish the items of Sec. 2 (writer, review, cleanup, PDF to the owner).
-2. When the grids are done (watcher; about 06:45 UTC 18 Nov): refresh; Fable consistency pass on
-   the `% EXPECTED` sentences whose numbers turned real; PDF to the owner.
+1. (Done: writer, review, fixes, PDF to the owner on 17 Nov, 23:12 UTC.)
+2. When the grids are done (watcher; about 05:30 UTC 18 Nov): refresh; Fable consistency pass on
+   the `% EXPECTED` sentences whose numbers turned real (the host-dependent series of Fig. 3(a),
+   the twice-offset probabilities and costs in the host-dependent subsection); PDF to the owner.
 3. When the sampler test has ended (watcher; about 09:00 UTC): read
    `tests/results/sampler_test.json`, regenerate the run list, launch `E3 2 3 4 5`.
 4. Stage-2 grids real (about 11:00 UTC): refresh; the flux-limited subsection's numbers turn
@@ -137,4 +142,4 @@ None.
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to 06843cf plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to 5bb62bf plus the one that adds this file; `git log --oneline | head -20`.
