@@ -1084,8 +1084,9 @@ def kcol(key, final_color, i):
 
 
 def ph_word(ax, x=0.985, y=0.975, ha="right", va="top"):
-    ax.text(x, y, "placeholder", color=RED[0], fontsize=7.0, ha=ha, va=va, transform=ax.transAxes, zorder=20,
-            bbox=dict(fc="white", ec="none", pad=0.4, alpha=0.85))
+    # No note to the author is printed inside a figure (owner's style guide): the red colour of the
+    # elements that wait for a run carries the marking. Kept as a no-op so the call sites stay.
+    return
 
 
 def q1(key, q, part="A"):
@@ -1580,8 +1581,7 @@ def draw_summary(name, groups, outdir=None, fs_lab=10.0, row_h=0.255, left=0.40,
         ax.axvline(x0, color=fs.INPUT, lw=1.0, ls="--", zorder=1)
         ax.set_xlim(*xr)
         ax.set_xlabel(xl, fontsize=fs_lab + 0.5)
-        if anyph:
-            ax.text(0.98, 0.997, "placeholder", color=RED[0], fontsize=8, ha="right", va="top", transform=ax.transAxes)
+        # (no "placeholder" word in the panel: red marks the elements that wait for a run)
     # intervals running off the H0 axis
     hi_edge = h0_range[1]
     for yy, (kind, it) in zip(y, rows):
