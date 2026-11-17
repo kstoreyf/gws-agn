@@ -60,7 +60,7 @@ Current analyses infer $H_0$ and the mass spectrum together with a galaxy catalo
 With \IndLitFifthNsrc{} sources of the fifth gravitational-wave transient catalog, one of them with an electromagnetic counterpart, the LIGO--Virgo--KAGRA Collaboration finds $H_0=\IndLitFifthHzero\kmsMpc$ (90\% credible interval)~\cite{LIGOScientific:2026uyd}.
 The main driver of that measurement remains the mass spectrum: the galaxy catalog improves the constraint by \IndLitFifthCatGain\% over the mass spectrum alone~\cite{LIGOScientific:2026uyd}.
 
-A galaxy catalog adds little when the localization volume of a typical merger holds a large number of galaxies.
+A galaxy catalog adds less the more galaxies the localization volume of a typical merger holds.
 A rarer class of host would confine the redshift far better.
 Active galactic nuclei (AGN) are such a class, since they are a small fraction of all galaxies and the gas disk around their central black hole can bring stellar-mass black holes to merge~\cite{Bartos:2016dgn,Stone:2016wzz,Mckernan:2017ssq,Tagawa:2019osr}.
 Whether a sizable fraction of the observed mergers occurs in AGN is not settled.
@@ -146,10 +146,9 @@ The localization region holds far fewer AGN than galaxies, and the AGN-hosted me
 
 \begin{figure}
 \figfile{figures/fig_anchor.pdf}{\columnwidth}{0.8\columnwidth}
-%% To be completed when the figure is drawn: line styles and colors of the two regions and of the input marker.
 \caption{Joint posterior of $H_0$ and the fraction of mergers hosted by AGN, $\fAGN$, for mergers with one population common to both tracers and held at its input.
-The 90\% credible regions are shown for one realization of \MockNev{} mergers and for the combination of \NrealKnown{} realizations, and the input is marked.
-Both parameters are measured together, and the combination tightens around the input.} % EXPECTED
+The dashed line is the 90\% credible region of one realization of \MockNev{} mergers, the filled region with a solid outline is that of the combination of \NrealKnown{} realizations, and the black plus sign is the input.
+Both parameters are measured together, and the 90\% credible region of the combination contains the input.}
 \label{fig:anchor}
 \end{figure}
 
@@ -170,7 +169,7 @@ Triangles and dotted lines: hosts known.
 Squares and diamonds with dashed lines: a population for each tracer, for mergers whose populations differ by $\Delta m=\MockDmuG\Msun$ and $\Delta\chi=\MockDmuChi$ and by twice those values.
 Open square: a population for each tracer inferred with $H_0$.
 Horizontal lines: the mass spectrum alone (long dashes) and the galaxy catalog alone at $\fAGN=0$ (short dashes).
-Points are means over \IndNreal{} realizations, the bars show their scatter, and the points are displaced horizontally for clarity.
+Points are means over \IndNreal{} realizations, the bars span the full range over those realizations, and the points are displaced horizontally for clarity.
 The half-width falls steeply with $\fAGN$, and masses and spins that depend on the host move it toward the value for hosts known.} % EXPECTED
 \label{fig:budget}
 \end{figure*}
@@ -188,7 +187,7 @@ Third, detection must be a function of the data alone, because Eq.~\eqref{eq:lik
 A merger is detected when its observed signal-to-noise ratio exceeds \MockSNRthr, and the uncertainties of its masses, spin, distance and sky position scale inversely with that observed value~\cite{Farah:2023vsc} (Appendix~\ref{app:sim}).
 The median fractional uncertainty of the luminosity distance is \MockSigLnDL\% and the median redshift of the detected mergers is \MockzMedian.
 The 90\% localization volume of a galaxy-hosted merger then holds a median of \PureGalHostsPerVol{} galaxies, and that of an AGN-hosted merger a median of \PureAGNHostsPerVol{} AGN.
-A realization consists of one density field with its two catalogs, \MockNev{} detected mergers with \ProdNsamp{} posterior samples each, and its own injection set for the selection effects.
+A realization consists of one density field with its two catalogs, \MockNev{} detected mergers with \ProdNsamp{} posterior samples each (\MCNsampHi{} when every merger is hosted by an AGN), and its own injection set for the selection effects.
 
 %% =====================================================================
 \section{Results}
@@ -228,9 +227,9 @@ One population fitted to mergers of two kinds displaces $H_0$ by $\IndBias\kmsMp
 
 We first analyze mergers whose masses and spins do not depend on their host, with $\fAGN=\MockfAGN$, and hold the population at its input, so that $H_0$ and $\fAGN$ are the only free parameters.
 This analysis is given the true population, and it tests the two host distributions and the selection effects of Eq.~\eqref{eq:like} alone.
-From one realization of \MockNev{} mergers we find $H_0=\IndAnchorHzero\kmsMpc$ and $\fAGN=\IndfAGNMix$ (Fig.~\ref{fig:anchor} and Table~\ref{tab:results}), and both inputs lie inside the 90\% credible intervals. % EXPECTED
-The combination of \NrealKnown{} realizations gives $H_0=\IndRecHzeroComb\kmsMpc$ and $\fAGN=\IndRecfAGNComb$, again with both inputs inside the 90\% credible intervals (Sec.~\ref{sec:validation}). % EXPECTED
-The mergers thus tell apart two catalogs that trace the same structure, and the fraction hosted by each is measured with $H_0$. % EXPECTED
+From one realization of \MockNev{} mergers we find $H_0=\IndAnchorHzero\kmsMpc$ and $\fAGN=\IndfAGNMix$ (Fig.~\ref{fig:anchor} and Table~\ref{tab:results}), and both inputs lie inside the 90\% credible intervals.
+The combination of \NrealKnown{} realizations gives $H_0=\IndRecHzeroComb\kmsMpc$ and $\fAGN=\IndRecfAGNComb$, again with both inputs inside the 90\% credible intervals (Sec.~\ref{sec:validation}).
+The mergers thus tell apart two catalogs that trace the same structure, and the fraction hosted by each is measured with $H_0$.
 The limit of this analysis with no merger in an AGN is the familiar one with a galaxy catalog, to which we turn next.
 
 \subsection{The information in each tracer}
@@ -239,8 +238,8 @@ The limit of this analysis with no merger in an AGN is the familiar one with a g
 The two tracers contribute very differently to $H_0$.
 In this subsection the populations are held at their inputs and the half-widths are means over \IndNreal{} realizations of \MockNev{} mergers.
 When no merger is hosted by an AGN, the galaxy catalog gives a 90\% half-width of $\IndHWGal\kmsMpc$, to be compared with \IndHWSpec{} from the mass spectrum of the same mergers with no catalog. % EXPECTED
-A catalog with \PureGalHostsPerVol{} candidate hosts in a localization volume adds little to the mass scale, as found for the fifth catalog~\cite{LIGOScientific:2026uyd}. % EXPECTED
-When every merger is hosted by an AGN, the AGN catalog gives $\IndHWAGN\kmsMpc$, with \PureAGNHostsPerVol{} candidate hosts in a localization volume. % EXPECTED
+A catalog with \PureGalHostsPerVol{} candidate hosts in a localization volume thus roughly halves the half-width that the mass scale gives, against the improvement of \IndLitFifthCatGain\% found for the fifth catalog~\cite{LIGOScientific:2026uyd}; our galaxy catalog is complete to the distances of the mergers. % EXPECTED
+When every merger is hosted by an AGN, the AGN catalog gives $\IndHWAGN\kmsMpc$, with \PureAGNHostsPerVol{} candidate hosts in a localization volume.
 
 Figure~\ref{fig:budget}(a) shows the half-width for $\fAGN=\IndfList$.
 With the labels unknown it is $\IndHWMixTenth\kmsMpc$ at $\fAGN=\MockfAGNTenth$ and \IndHWMix{} at $\fAGN=\MockfAGN$. % EXPECTED
@@ -282,9 +281,9 @@ We validate these results with sets of realizations drawn from known inputs.
 Specifically, we want to test whether the multi-tracer likelihood can spuriously assign mergers to AGN that host none, whether a recovery of the inputs in one realization could be a chance agreement, and whether the results rest on the sharp mass scale of the fiducial spectrum.
 
 First, we combine the posteriors of independent realizations, each with its own density field, catalogs, mergers and injections.
-For a population common to both tracers (Sec.~\ref{sec:anchor}), the input $H_0$ lies at the \IndRecHzeroCL\% credible level of the posterior combined over \NrealKnown{} realizations and the input $\fAGN$ at the \IndRecfAGNCL\% level. % EXPECTED
+For a population common to both tracers (Sec.~\ref{sec:anchor}), the input $H_0$ lies at the \IndRecHzeroCL\% credible level of the posterior combined over \NrealKnown{} realizations and the input $\fAGN$ at the \IndRecfAGNCL\% level.
 For populations that depend on the host and a population for each tracer, the posterior combined over \NrealHD{} realizations gives $H_0=\IndTwoPopHzeroComb\kmsMpc$ with the input at the \IndTwoPopCL\% level, whereas with one population the combination of \NrealHDSingle{} realizations gives $\IndOnePopHzeroComb\kmsMpc$ and excludes the input at the \IndOnePopCL\% level (Fig.~\ref{fig:populations}a). % EXPECTED
-The combined interval, $H_0=\IndRecHzeroComb\kmsMpc$ in the first case, would reveal a bias well below the half-width of one realization. % EXPECTED
+The combined interval, $H_0=\IndRecHzeroComb\kmsMpc$ in the first case against $\IndAnchorHzero\kmsMpc$ from one realization, would reveal a bias well below the half-width of one realization.
 
 Second, we analyze mergers that are all hosted by galaxies with both catalogs and $\fAGN$ free.
 The posterior of $\fAGN$ has its maximum at zero, and from \IndNreal{} realizations combined we find $\fAGN<\IndZerofAGNUL$ at 90\% credibility. % EXPECTED
@@ -296,7 +295,7 @@ The mass spectrum alone then gives a half-width of $\IndObsHWSpec\kmsMpc$, again
 The constraint from the AGN-hosted mergers hardly uses the mass scale, so the results of Sec.~\ref{sec:budget} hold for a realistic spectrum, in which the catalogs matter more; the bias of Sec.~\ref{sec:populations} we have measured for the fiducial spectrum only. % EXPECTED
 
 Finally, the quoted intervals carry a Monte Carlo error, because the likelihood is evaluated with sums over posterior samples and injections (Appendix~\ref{app:mc}).
-With \ProdNsamp{} posterior samples per merger, \MCMixedNEightK{} redraws of the samples of one realization with $\fAGN=\MockfAGN$ move the median of $H_0$ by $\MCMixedHzeroSdEightK\kmsMpc$ (standard deviation) and a new injection set moves it by \MCMixedInjHzeroSd; when every merger is hosted by an AGN, the redraws move it by \MCAGNHzeroSdEightK.
+With \ProdNsamp{} posterior samples per merger, \MCMixedNEightK{} redraws of the samples of one realization with $\fAGN=\MockfAGN$ move the median of $H_0$ by $\MCMixedHzeroSdEightK\kmsMpc$ (standard deviation) and a new injection set moves it by \MCMixedInjHzeroSd; when every merger is hosted by an AGN, the redraws move it by \MCAGNHzeroSdEightK, and by \MCAGNHzeroSdThirtyTwoK{} at the \MCNsampHi{} samples per merger with which these sets are analyzed.
 These shifts are to be compared with half-widths of \IndHWMix{} and $\IndHWAGN\kmsMpc$. % EXPECTED
 They are independent between realizations, which have their own samples and injections, and average down in the combined posteriors.
 

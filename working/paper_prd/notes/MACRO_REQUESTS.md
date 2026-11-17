@@ -91,3 +91,29 @@ None is a result or a design value of this work.
 - Words for numbers: "a hundred times" (ratio of the two input number densities), "seven mergers in
   ten", "one in ten", "a factor of two", "half of the detected mergers" (the percentage is
   `\MockEventCompEighteen`).
+
+## E. Consistency pass of 17 Nov 2026 (first production results)
+
+### E1. Requested: 1 macro that is not in `values/results_macros.tex`
+
+| macro | what it is | used in |
+|---|---|---|
+| `\NrealKnownAGNEdge` | number of the `\NrealKnownAlone` realizations of key `KnownAGN` (equal populations, population known, AGN catalog alone) whose H0 posterior has no interior maximum and rises to the upper prior edge, printed as a word. Now four: realizations 100, 101, 103 and 105 have medians of 99.7 to 99.9 with all of the grid-edge mass at H0 = 100; realization 102 has an interior maximum, 76.8 [75.5, 78.1], which excludes the input. Fallback `\ph{four}` in `values/fallback_macros.tex` | Sec. IV A |
+
+If the text is to say what the fifth realization does, it also needs that realization's median and interval
+(a macro such as `\KnownAGNHzeroInterior`); the text does not quote it now.
+
+### E2. Existing macros that the text now uses
+
+- Realization counts split by key: `\NrealKnownAlone` (Table III, Sec. IV A), `\NrealHDSingle` and `\NrealHDNone`
+  (abstract, Sec. IV D, Table III, caption of Fig. 6). `\NrealHD` is now the host-dependent analysis alone.
+- Half-widths of realization A beside each bias of a combined posterior: `\HDSingleHzeroHalfWid`,
+  `\ObsSingleHzeroHalfWid` (abstract, Sec. IV D, Sec. IV E), `\HDNoneHzeroHalfWid`, `\HDSinglefAGNHalfWid` (Sec. IV D).
+- `\KnownBothCorrHzerofAGNComb` replaces the exploratory `\JointRhoComb` in Sec. IV A (item B, last point).
+- Full widths `\KnownNoneHzeroWid`, `\KnownGalHzeroWid`, `\KnownBothHzeroWid` and the median `\KnownAGNHzeroMed`
+  against `\PriorHzeroHi` in Sec. IV A.
+- Share of the detected mergers in the peak: `\ObsDetPeakShare`, `\ObsHDDetPeakShare`, `\MockDetPeakShare`,
+  `\MockHDDetPeakShare` (abstract, Sec. III C, Sec. IV E, caption of Fig. 7, Sec. VI). The sections on mergers with
+  host-dependent populations quote the `HD` values (0.45 against 0.97); Sec. III C gives both.
+- `\MCAGNHzeroSdThirtyTwoK`, `\MCAGNLnLVarThirtyTwoK` and `\MCNsampHi` in Sec. V and Appendix A: the sets with every merger hosted by an AGN
+  are analyzed with 32000 posterior samples per merger (run names `_s32000_inj6`).

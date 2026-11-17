@@ -249,3 +249,47 @@ figure numbers, appendices and the count of `% EXPECTED` marks.
   the paper's text does not contain the word, but the rendered PDF does until they are redrawn.
 - The reference for the equal-area pixelization (HEALPix) is still not in `refs.bib`;
   Appendix A gives the resolution parameter without naming it.
+
+## 6. Consistency pass after the first production results (17 Nov 2026)
+
+Stage 1 of the production list is finished (population held at its input, fiducial spectrum). Seven macros
+are real (`notes/STATUS.md`). No new macro is requested by this pass.
+
+### Red expected values reset to stage-1 measurements (`values_independent.tex`)
+
+The macro's own run (the experiment) has not finished; stage 1 has measured the same kind of analysis. The value
+is the mean over realizations 100, 101, 102, 103 and 105 of the 90% half-width of H0, read from the stage-1
+`summary.json` files. These rows replace the "expected" and "source" columns of Sec. 1 for the same macros.
+
+| macro | was | now | source |
+|---|---|---|---|
+| `\IndHWSpec` | 3.0 (brief) | 6.0 | `known_population/no_catalog/complete/equal_populations` (the f = 0.30 sets; the mass spectrum alone does not use the hosts): mean 6.03, range 5.95 to 6.14, realization A 6.06 |
+| `\IndHWGal` | 3.5 (brief) | 3.4 | `known_population/galaxy_catalog/complete/galaxy_hosted`: mean 3.39, range 2.76 to 4.85, realization A 3.21 |
+| `\IndHWMix` | 1.7 (brief) | 2.0 | `known_population/both_catalogs/complete/equal_populations`: mean 1.98 over the five (2.02 over all ten, range 1.59 to 2.68), realization A 1.96 |
+| `\IndCostMix` | 1.7 (arith) | 2.4 | arith on the row above: (2.0/1.3)^2 = 2.37 |
+| `\IndObsHWMix` | 1.9 (estimate) | 2.1 | the same estimate with the stage-1 values: catalog part of `\IndHWMix` (1/2.0^2 - 1/6.0^2) plus a mass-scale part of 1/10^2 gives 2.08 |
+
+Not reset, because stage 1 does not measure them: `\IndHWMixTenth`, `\IndHWKnown`, `\IndHWKnownTenth`,
+`\IndHWMark`, `\IndHWMarkTwice`, `\IndObsHWSpec`, `\IndObsHWAGN`, and the invented points of
+`scripts/results_map.json` that have no macro (labels unknown at f = 0, 0.5 and 1; panel b of Fig. 3). They
+still follow the brief's information model, in which the galaxy catalog added little to the mass spectrum.
+
+### What changed in `main.tex`
+
+- The galaxy catalog does not add little here: Sec. IV B now says that it roughly halves the half-width of the
+  mass spectrum alone (`\IndHWGal` against `\IndHWSpec`), beside the 3.5% of the fifth catalog, and the
+  introduction states the dependence on the number of galaxies without the word "little".
+- Caption of Fig. 2: line styles named (dashed, one realization; filled with solid outline, the combination of
+  `\NrealKnown` realizations; black plus sign, the input). Caption of Fig. 3: the bars are the full range over
+  the realizations (`scripts/results.py`, `fig1_points`).
+- The sets with every merger hosted by an AGN are analyzed with `\MCNsampHi` (32000) posterior samples per merger
+  (runs `..._s32000_inj6`): Sec. III and Sec. V say so, with `\MCAGNHzeroSdThirtyTwoK` beside
+  `\MCAGNHzeroSdEightK`. Both macros are in `values/results_macros.tex`.
+- `% EXPECTED` marks: 32 (abstract 5, captions 2, text 25). Removed where the sentence now rests on real numbers
+  only: caption of Fig. 2; Sec. IV A (three); Sec. IV B, the AGN catalog with every merger in an AGN; Sec. V,
+  the credible levels of the inputs and the combined interval against one realization.
+
+### To redraw
+
+- `figures/fig1_budget` (Fig. 3) still shows the two horizontal lines at the old expectations (3.0 and 3.5); the
+  next run of `scripts/make_figures.py` moves them to 6.0 and 3.4 and the vertical range of panel (a) with them.

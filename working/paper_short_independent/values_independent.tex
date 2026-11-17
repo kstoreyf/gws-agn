@@ -4,6 +4,8 @@
 %% experiment of EXPERIMENT.md finishes. Black: design value of the simulation.
 %% Meaning, expected value and its source for every macro: notes/MACROS_NEEDED.md.
 %% Half-widths are half the width of the 90% credible interval of H0, km/s/Mpc, 1000 mergers.
+%% 17 Nov 2026: where stage 1 of the production list has measured the same kind of analysis and the macro's own
+%% run of the experiment has not finished, the red value is the stage-1 measurement (marked MEASURED below).
 
 %% ---- design values not in values/MACROS.md (black) ----
 \providecommand{\IndNreal}{five}         % realizations of the experiment (a word: use in text mode)
@@ -24,24 +26,24 @@
 \providecommand{\IndConceptNAGNHosted}{360}    % AGN-hosted among the 1000 detected mergers, populations differ
 
 %% ---- Fig. 2(a) (figures/fig1_budget): sharp mass scale, populations held at their inputs (red) ----
-\providecommand{\IndHWSpec}{\ph{3.0}}          % mass spectrum alone, no catalog
-\providecommand{\IndHWGal}{\ph{3.5}}           % all mergers in galaxies, galaxy catalog
+\providecommand{\IndHWSpec}{\ph{6.0}}          % mass spectrum alone, no catalog. MEASURED in stage 1 on the f = 0.30 sets (known_population/no_catalog/complete/equal_populations): mean over realizations 100, 101, 102, 103, 105 is 6.03 (range 5.95 to 6.14; realization A 6.06). Was 3.0 (brief)
+\providecommand{\IndHWGal}{\ph{3.4}}           % all mergers in galaxies, galaxy catalog. MEASURED in stage 1 (known_population/galaxy_catalog/complete/galaxy_hosted): mean over realizations 100, 101, 102, 103, 105 is 3.39 (range 2.76 to 4.85; realization A 3.21). Was 3.5 (brief)
 \providecommand{\IndHWAGN}{\ph{0.8}}           % all mergers in AGN, AGN catalog
-\providecommand{\IndHWMix}{\ph{1.7}}           % f = 0.30, labels unknown (one population, both catalogs)
+\providecommand{\IndHWMix}{\ph{2.0}}           % f = 0.30, labels unknown (one population, both catalogs). MEASURED in stage 1 (known_population/both_catalogs/complete/equal_populations): mean over realizations 100, 101, 102, 103, 105 is 1.98 (over all ten 2.02, range 1.59 to 2.68; realization A 1.96). Was 1.7 (brief)
 \providecommand{\IndHWMark}{\ph{1.5}}          % f = 0.30, a population for each tracer, (5 Msun, 0.10)
 \providecommand{\IndHWMarkTwice}{\ph{1.4}}     % f = 0.30, a population for each tracer, (10 Msun, 0.20)
 \providecommand{\IndHWKnown}{\ph{1.3}}         % f = 0.30, hosts known
 \providecommand{\IndHWKnownAGNPart}{\ph{1.5}}  % f = 0.30, hosts known, the mergers in AGN alone
 \providecommand{\IndHWMixTenth}{\ph{2.4}}      % f = 0.10, labels unknown
 \providecommand{\IndHWKnownTenth}{\ph{2.0}}    % f = 0.10, hosts known
-\providecommand{\IndCostMix}{\ph{1.7}}         % (IndHWMix/IndHWKnown)^2: mergers needed, labels unknown over hosts known
+\providecommand{\IndCostMix}{\ph{2.4}}         % (IndHWMix/IndHWKnown)^2: mergers needed, labels unknown over hosts known. Recomputed from the stage-1 IndHWMix above: (2.0/1.3)^2 = 2.37. Was 1.7
 \providecommand{\IndCostMark}{\ph{1.3}}        % (IndHWMark/IndHWKnown)^2
 \providecommand{\IndCostMarkTwice}{\ph{1.2}}   % (IndHWMarkTwice/IndHWKnown)^2
 \providecommand{\IndfAGNMix}{\ph{0.28^{+0.08}_{-0.08}}}  % f_AGN, f = 0.30, labels unknown, one realization
 
 %% ---- Fig. 2(b) (figures/fig1_budget): observed-like mass spectrum (red) ----
 \providecommand{\IndObsHWSpec}{\ph{10}}        % mass spectrum alone
-\providecommand{\IndObsHWMix}{\ph{1.9}}        % f = 0.30, labels unknown
+\providecommand{\IndObsHWMix}{\ph{2.1}}        % f = 0.30, labels unknown. Estimate recomputed from the stage-1 values above (the catalog part of IndHWMix, 1/2.0^2 - 1/6.0^2, with a mass-scale part of 1/10^2: 2.08). Was 1.9
 \providecommand{\IndObsHWAGN}{\ph{0.8}}        % all mergers in AGN, AGN catalog
 
 %% ---- Fig. 3 (figures/fig2_labels): probability of an AGN host, one realization, f = 0.30, (5 Msun, 0.10) (red) ----
