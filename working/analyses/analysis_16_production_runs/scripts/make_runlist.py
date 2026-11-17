@@ -1,11 +1,17 @@
 #!/usr/bin/env python
-"""Write the run lists: runs/RUNLIST.yaml (the approved production stages 1-4) and
+"""Write the run lists: runs/RUNLIST.yaml (the approved production stages 1-5) and
 runs/RUNLIST_experiment.yaml (the short paper's experiment, paper_short_independent/EXPERIMENT.md:
 stages E1 grids of the present mass spectrum, E2 grids of the observed-like spectrum, E3 its
 six-parameter nested runs), with every run's driver arguments, parts (schedulable tasks), estimated
-likelihood calls and GPU hours.
+likelihood calls and GPU hours, and its rank on the GPU lanes (`lane_rank`, from LANE_RANKS below).
+Both files are written atomically (temporary file, then rename): the lane workers re-read them.
 
     python scripts/make_runlist.py [--timing tests/results/timing.json] [--realizations-10 100,...]
+
+Stage 5 (paper_prd/runs.txt): the observed-like mass spectrum (data/obslike/README.md), host-dependent
+events, on the "5" realizations: stage 4's three classes with the family in the run name
+(host_dependent_obslike), the family's events suffix, population inputs and injection lane as E2 takes
+them for its (obslike, f = 0.3, s = 1) set from data/experiment_sets.json.
 
 Cost model (the brief's numbers until the tests measure them; --timing merges measured spc_* keys):
   seconds per call at 8,000 samples: 0.39 with the population fixed, 0.44 with it free (both catalogs,
@@ -24,10 +30,16 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   Two independent nested runs (merged) up to six parameters, one for eight.
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
+  Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
+  of that family's population-fixed grids on its lane (E2, set obslike_f0p30_s0) to stage 1's on the
+  record lane, per catalog class (COST["lane_factor"]; measured_lane_factors).
 """
 import argparse
 import json
 import math
+import os
+import re
+import statistics
 import sys
 import time
 from pathlib import Path
@@ -35,6 +47,27 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import prod_common as P  # noqa: E402
+
+# ============================================================================ the order on the GPU lanes
+# Each run's `lane_rank` is the rank of the FIRST row that matches it: its stage, and where given its
+# mode, analysis, catalogs and realizations. The launcher sorts a lane by (lane_rank, priority, estimated GPU hours per part, name, part); a run that
+# matches no row has no rank and falls back to its stage order (launch.py STAGE_ORDER).
+R_FIRST = (100, 101, 102, 103, 105)
+R_LATER = (106, 107, 108, 109, 110)
+LANE_RANKS = [
+    # rank  stage  match
+    (1.0, 1, {}),                                                      # population known, complete
+    (1.5, "E1", {}),                                                   # experiment grids
+    (1.5, "E2", {}),
+    (2, 2, {"mode": "grid"}),                                          # known population, flux-limited
+    (3, 4, {"realizations": R_FIRST}),                                 # all three classes
+    (4, "E3", {}),
+    (5, 4, {"analysis": "single_population", "catalogs": "both", "realizations": R_LATER}),
+    (6, 2, {"mode": "nested"}),                                        # free densities
+    (7, 3, {"realizations": R_FIRST}),
+    (8, 5, {}),
+    (9, 3, {"realizations": R_LATER}),
+]
 
 COST = {"spc_fixed": 0.39, "spc_free": 0.44, "spc_none_fixed": 0.39, "spc_none_free": 0.44,
         "spc_one_fixed": 0.39, "spc_free_hostdep": 0.44, "spc_flux_free_densities": 0.44,
@@ -46,23 +79,123 @@ COST = {"spc_fixed": 0.39, "spc_free": 0.44, "spc_none_fixed": 0.39, "spc_none_f
         "overhead_hours_per_process": 0.05,
         # Analysis 14 (A100, both catalogs): 0.25 / 0.40 / 1.03 s per call at 2000 / 8000 / 32000 samples,
         # i.e. 0.20 s fixed (selection over one injection set of 2.2e6 rows and the rest) + 2.5e-5 s per sample
-        "spc_per_sample": 2.5e-5, "spc_per_injection_set": 0.20}
+        "spc_per_sample": 2.5e-5, "spc_per_injection_set": 0.20,
+        # another family's lane relative to the record lane, per catalog class (both / none; one catalog
+        # takes both's): defaults measured 17 Nov 15:00 UTC on realizations 100-105, replaced by
+        # measured_lane_factors() whenever the reference grids are on record
+        "lane_factor": {"obslike": {"both": 1.1528, "none": 1.2369}}}
 TIMING_KEYS = ("spc_fixed", "spc_free", "spc_none_fixed", "spc_none_free", "spc_one_fixed", "spc_free_hostdep",
                "spc_flux_free_densities", "overhead_hours_per_process")
+# the population-fixed grids that measure a family's lane factor: (this family on its lane, the production
+# family on the record lane), the same analysis class and realization
+LANE_FACTOR_REFERENCES = {
+    "obslike": {
+        "both": ("two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R:03d}",
+                 "known_population/both_catalogs/complete/equal_populations/realization_{R:03d}"),
+        "none": ("mass_spectrum_alone/no_catalog/complete/obslike_f0p30_s0/realization_{R:03d}",
+                 "known_population/no_catalog/complete/equal_populations/realization_{R:03d}"),
+    },
+}
 
-# the launcher's order on the GPU: stage 1, the experiment's grids (both families interleaved by the
-# runs' priority: f = 0.3 sets first), the experiment's nested runs, then stages 2-4
-STAGE_ORDER = {1: 1.0, "E1": 1.5, "E2": 1.5, "E3": 1.7, 2: 2.0, 3: 3.0, 4: 4.0}
+
+def run_seconds_per_call(name, part="grid"):
+    """Seconds per likelihood call of a finished part on record (sum over its sessions), else None."""
+    rj = P.RUNS / name / part / "result.json"
+    if not rj.exists():
+        return None
+    try:
+        r = json.loads(rj.read_text())
+    except json.JSONDecodeError:
+        return None
+    if not r.get("finished"):
+        return None
+    ses = r.get("sessions") or []
+    calls = sum(s.get("calls", 0) for s in ses)
+    return sum(s.get("seconds_in_likelihood", 0.0) for s in ses) / calls if calls else None
+
+
+def measured_lane_factors(realizations=R_FIRST):
+    """{family: {catalog class: {factor, n, ratios}}}: median over realizations of the ratio of seconds per
+    call, the family's population-fixed grid on its lane over stage 1's on the record lane."""
+    out = {}
+    for fam, refs in LANE_FACTOR_REFERENCES.items():
+        for cat, (num, den) in refs.items():
+            ratios = {}
+            for R in realizations:
+                a, b = run_seconds_per_call(num.format(R=R)), run_seconds_per_call(den.format(R=R))
+                if a and b:
+                    ratios[R] = round(a / b, 4)
+            if ratios:
+                out.setdefault(fam, {})[cat] = {"factor": round(statistics.median(ratios.values()), 4),
+                                                "n_realizations": len(ratios), "ratios": ratios,
+                                                "numerator": num, "denominator": den}
+    return out
+
+
+def lane_factor(popfam, catalogs):
+    """Seconds per call of a population family on its own lane relative to the record lane's (1 for
+    the production family: its spc_* were measured on the record lane)."""
+    if popfam == "corepop":
+        return 1.0
+    f = COST["lane_factor"][popfam]
+    return f["none"] if catalogs == "none" else f["both"]
+
 TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
           3: "equal-population events, single population", 4: "host-dependent events",
+          5: "observed-like mass spectrum, host-dependent events",
           "E1": "experiment grids, present mass spectrum", "E2": "experiment grids, observed-like mass spectrum",
           "E3": "experiment nested runs: single population on (f = 0.3, s = 2)"}
 EXPERIMENT_REALIZATIONS = (100, 101, 102, 103, 105)
 MEMBERSHIP_REALIZATION = 100
+STAGE5_SET = ("obslike", 0.3, 1)     # stage 5's events: the observed-like host-dependent set (E2's obslike_f0p30_s1)
+H0_INPUT = 67.74                     # the mocks' H0 (prod_driver.truth_coords)
 
 
-def stage_key(stage):
-    return STAGE_ORDER.get(stage, 9.0)
+def arg_of(e, flag):
+    a = e.get("args") or []
+    return a[a.index(flag) + 1] if flag in a else None
+
+
+def lane_rank_of(stage, e):
+    """The rank of the first LANE_RANKS row matching run e (None: no row matches)."""
+    real = arg_of(e, "--realization")
+    for rank, st, m in LANE_RANKS:
+        if st != stage:
+            continue
+        if "mode" in m and e.get("mode") != m["mode"]:
+            continue
+        if "analysis" in m and e.get("analysis") != m["analysis"]:
+            continue
+        if "catalogs" in m and arg_of(e, "--catalogs") != m["catalogs"]:
+            continue
+        if "realizations" in m and (real is None or int(real) not in m["realizations"]):
+            continue
+        return rank
+    return None
+
+
+def with_lane_rank(stage, e):
+    """e with `lane_rank` placed after `priority` (the other fields keep their order)."""
+    rank = lane_rank_of(stage, e)
+    out = {}
+    for k, v in e.items():
+        out[k] = v
+        if k == "priority":
+            out["lane_rank"] = rank
+    out.setdefault("lane_rank", rank)
+    return out
+
+
+def write_atomic(path, text):
+    """Write a file the lane workers may read at any moment: temporary file in the same directory,
+    flushed, then renamed over the old one."""
+    path = Path(path)
+    tmp = path.with_name(f".{path.name}.tmp.{os.getpid()}")
+    with open(tmp, "w") as fh:
+        fh.write(text)
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, path)
 
 
 def nested_calls(ndim):
@@ -137,18 +270,49 @@ def spc_mc(base, nsamp=8000, n_sets=1, frac=1.0):
     return base + COST["spc_per_sample"] * (nsamp - 8000) * frac + COST["spc_per_injection_set"] * (n_sets - 1)
 
 
+def inputs_of(popfam, kind):
+    """The values a production event set was drawn with, per parameter (H0, planted f_AGN, the family's
+    population inputs, the AGN offsets of host-dependent sets, the class densities' inputs 1e-3 / 1e-5
+    Mpc^-3 at H0 = 67.74 in h^3 Mpc^-3)."""
+    pv = P.POPULATION_INPUTS[popfam]
+    v = {"H0": H0_INPUT, "f_agn": P.EVENT_KINDS[kind][2]}
+    v.update({k: pv[k] for k in P.POP_FREE})
+    v.update(P.AGN_OFFSET_INPUTS[popfam] if kind == "host_dependent" else {k: 0.0 for k in P.OFFSETS})
+    v["log10n_gal"] = -3.0 + 3 * math.log10(100 / H0_INPUT)
+    v["log10n_agn"] = -5.0 + 3 * math.log10(100 / H0_INPUT)
+    return v
+
+
+def check_inputs_in_priors(name, free, popfam, kind):
+    """Every sampled parameter's prior contains the value the events were drawn with."""
+    inp = inputs_of(popfam, kind)
+    bad = {p: (inp[p], P.PRIORS[p]) for p in free
+           if inp.get(p) is not None and not (P.PRIORS[p][0] <= inp[p] <= P.PRIORS[p][1])}
+    if bad:
+        sys.exit(f"[fatal] {name}: inputs outside their priors {bad}")
+    return {p: inp[p] for p in free}
+
+
 def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", agn_factor=1.0, extra_args=(),
-          lane=None, agn_only=False):
+          lane=None, agn_only=False, family=None):
+    """One production run. family: None for the production family (events *_corepop, POPULATION_INPUTS
+    ["corepop"]); else {"name", "suffix", "population_family"} of another mock family (stage 5), passed to
+    the driver as --events-suffix, --family-name and --population-family: the name then joins the events
+    segment of the run name (<kind>_<name>), as the driver names the run directory."""
     free = P.free_parameters(analysis, catalogs, flux)
-    lane = lane or P.default_injection_lane("corepop")
+    popfam = family["population_family"] if family else "corepop"
+    lane = lane or P.default_injection_lane(popfam)
     variant, nsamp, pool = "", 8000, []
     hold_pool = None
     if agn_only:
-        nsamp, pool, variant, hold_pool = agn_only_settings(real, "corepop", lane)
+        nsamp, pool, variant, hold_pool = agn_only_settings(real, popfam, lane)
         extra_args = list(extra_args) + ["--nsamp", str(nsamp), "--variant", variant] + \
             [x for ln in pool for x in ("--pool-injections", ln)]
     args = ["--mode", mode, "--analysis", analysis, "--catalogs", catalogs, "--flux", flux,
-            "--events-kind", kind, "--realization", str(real)]
+            "--events-kind", kind]
+    if family:
+        args += ["--events-suffix", family["suffix"], "--family-name", family["name"], "--population-family", popfam]
+    args += ["--realization", str(real)]
     if flux != "complete" and analysis != "free_densities":
         args += ["--density", density]
     if analysis == "free_densities":
@@ -161,17 +325,19 @@ def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", a
     if mode == "nested" and len(free) > 6:
         args += SAMPLER_8[SAMPLER_8_CHOICE[0]]
     name = P.run_name(analysis, catalogs, flux, kind, real, density=density, agn_density_factor=agn_factor,
-                      variant=variant)
+                      family=family["name"] if family else "", variant=variant)
+    check_inputs_in_priors(name, free, popfam, kind)
     e = {"name": name, "analysis": analysis, "args": args, "injections_lane": lane, "nsamp": nsamp,
          "injection_pool": pool}
     if kind == "host_dependent":
-        hr = hold_reason("peak", 1, lane)
+        hr = hold_reason(family["name"] if family else "peak", 1, lane)
         if hr:
             e["hold"] = hr
     if hold_pool:
         e["hold"] = hold_pool
-    return finish(e, stage, mode, free, spc_mc(spc_of(analysis, catalogs, free, kind, flux), nsamp, 1 + len(pool)),
-                  P.events_path(real, kind), P.injections_path(real, "corepop", lane))
+    s = spc_mc(spc_of(analysis, catalogs, free, kind, flux) * lane_factor(popfam, catalogs), nsamp, 1 + len(pool))
+    return finish(e, stage, mode, free, s, P.events_path(real, kind, family["suffix"] if family else P.DEFAULT_SUFFIX),
+                  P.injections_path(real, popfam, lane))
 
 
 def build(r5, r10, r3, hd_lane=None):
@@ -217,6 +383,38 @@ def build(r5, r10, r3, hd_lane=None):
     for r in r5:
         st[4].append(entry(4, "nested", "single_population", "none", "complete", "host_dependent", r, lane=hd_lane))
     return st
+
+
+def build_stage5(realizations, rec):
+    """Stage 5: stage 4's three classes (single population with both catalogs, host-dependent populations
+    with the eight-parameter sampler setting, single population without a catalog) on the observed-like
+    host-dependent set, which E2 runs as obslike_f0p30_s1: its events suffix and injection lane from
+    data/experiment_sets.json, its population inputs POPULATION_INPUTS["obslike"]. The redraw stream is
+    E2's on that set (same kind and suffix), so a merger has the same samples in both."""
+    label = P.set_name(*STAGE5_SET)
+    if not rec or not rec.get("suffix"):
+        sys.exit(f"[fatal] stage 5: no {label} set in {SETS_JSON}")
+    kind, sfx = P.kind_and_suffix_of_file(f"events{rec['suffix']}.h5")
+    popfam = P.family_of_suffix(sfx)
+    if kind != "host_dependent" or popfam != STAGE5_SET[0]:
+        sys.exit(f"[fatal] stage 5: {label} is events{rec['suffix']}.h5 (kind {kind}, family {popfam}); "
+                 "expected the observed-like host-dependent file")
+    family = {"name": STAGE5_SET[0], "suffix": sfx, "population_family": popfam}
+    lane = rec.get("lane") or P.default_injection_lane(popfam)
+    out = []
+    for analysis, catalogs in (("single_population", "both"), ("host_dependent_populations", "both"),
+                               ("single_population", "none")):
+        for r in realizations:
+            out.append(entry(5, "nested", analysis, catalogs, "complete", kind, r, lane=lane, family=family))
+    inj_ok = rec.get("injections_exist")
+    if isinstance(inj_ok, dict):
+        for e in out:
+            r = arg_of(e, "--realization")
+            if not inj_ok.get(str(r)):
+                e["lane_not_validated"] = (f"data/experiment_sets.json reports no {lane} for realization {r} "
+                                           "yet; rerun make_runlist.py when it does")
+                e["data_exists"] = False
+    return out
 
 
 # ============================================================================ the experiment
@@ -509,6 +707,12 @@ def main():
     if ov is not None:
         COST["overhead_hours_per_process"] = round(max(ov, 0.01), 4)
         measured["overhead_hours_per_process"] = COST["overhead_hours_per_process"]
+    lf = measured_lane_factors()
+    for fam, d in lf.items():
+        for cat, v in d.items():
+            COST["lane_factor"][fam][cat] = v["factor"]
+            measured[f"lane_factor.{fam}.{cat}"] = v["factor"]
+    COST["lane_factor_measured"] = lf
     COST["measured"] = sorted(measured)
     r5 = [int(x) for x in a.realizations_5.split(",")]
     r10 = [int(x) for x in a.realizations_10.split(",")]
@@ -531,20 +735,40 @@ def main():
                 e["lane_not_validated"] = (f"data/experiment_sets.json reports no {hd['lane']} for realization {r} "
                                            "yet; rerun make_runlist.py when it does")
                 e["data_exists"] = False
+    st[5] = build_stage5(r5, smap.get(STAGE5_SET))
+    xs, reused, awaiting, info = build_experiment(rx)
+    unranked = []
+    for stages in (st, xs):
+        for k in stages:
+            stages[k] = [with_lane_rank(k, e) for e in stages[k]]
+            unranked += [e["name"] for e in stages[k] if e["lane_rank"] is None]
     doc = dict(head, realizations={"5": r5, "10": r10, "3": r3},
                stages=[stage_block(k, st[k]) for k in sorted(st)])
-    Path(a.out).write_text(yaml.safe_dump(doc, sort_keys=False, width=140))
-    xs, reused, awaiting, info = build_experiment(rx)
+    write_atomic(a.out, yaml.safe_dump(doc, sort_keys=False, width=140))
     xdoc = dict(head, what="the short paper's experiment (paper_short_independent/EXPERIMENT.md); runs that "
                            "production stage 1 already contains are listed under reused_from_stage_1, not run again",
                 realizations=rx, event_sets=info, awaiting_sets=awaiting, reused_from_stage_1=reused,
                 stages=[stage_block(k, xs[k]) for k in ("E1", "E2", "E3")])
-    Path(a.out_experiment).write_text(yaml.safe_dump(xdoc, sort_keys=False, width=140))
+    write_atomic(a.out_experiment, yaml.safe_dump(xdoc, sort_keys=False, width=140))
     for s in doc["stages"] + xdoc["stages"]:
+        ranks = sorted({r["lane_rank"] for r in s["runs"] if r["lane_rank"] is not None})
         print(f"stage {s['stage']} ({s['title']}): {s['n_runs']} runs, {s['n_tasks']} tasks, "
               f"{s['est_calls']:,} calls, {s['est_gpu_hours']} GPU-h "
               f"({s['est_gpu_hours_existing_data']} on existing data, {s['est_gpu_hours_ready']} ready to run; "
-              f"{s['n_runs_held']} runs held)")
+              f"{s['n_runs_held']} runs held); lane ranks {ranks}")
+    if unranked:
+        print(f"[warning] {len(unranked)} runs match no LANE_RANKS row (the launcher uses their stage order), "
+              f"e.g. {unranked[:3]}")
+    print("stage 5 by class (per run: parts, calls per part, seconds per call, GPU-h; inputs checked inside the priors):")
+    classes = {}
+    for e in st[5]:
+        classes.setdefault((e["analysis"], arg_of(e, "--catalogs")), []).append(e)
+    for (an, cat), runs in classes.items():
+        e = runs[0]
+        print(f"  {an:28s} {cat:5s} {len(runs)} runs x {len(e['parts'])} parts, "
+              f"{e['est_calls'] // len(e['parts']):,} calls per part, {e['est_seconds_per_call']} s/call, "
+              f"{e['est_gpu_hours']} GPU-h per run, {sum(r['est_gpu_hours'] for r in runs):.1f} GPU-h; "
+              f"inputs {check_inputs_in_priors(e['name'], e['free'], arg_of(e, '--population-family'), arg_of(e, '--events-kind'))}")
     print(f"experiment: {len(reused)} runs reused from stage 1; sets awaiting data: "
           f"{', '.join(x['label'] for x in awaiting) or 'none'}; sets file {info}")
     print(f"cost model: {json.dumps({k: v for k, v in COST.items() if k != 'calls_measured_reference'})}")

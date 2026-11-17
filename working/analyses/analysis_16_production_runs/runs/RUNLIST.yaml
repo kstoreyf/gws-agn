@@ -1,14 +1,14 @@
-generated_utc: '2026-11-17T10:42:57Z'
+generated_utc: '2026-11-17T20:05:24Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
   spc_fixed: 0.3894472122192383
-  spc_free: 0.44
+  spc_free: 0.40499120549050305
   spc_none_fixed: 0.39
-  spc_none_free: 0.44
+  spc_none_free: 0.23549553128959094
   spc_one_fixed: 0.39
-  spc_free_hostdep: 0.44
-  spc_flux_free_densities: 0.44
+  spc_free_hostdep: 0.4354846442446989
+  spc_flux_free_densities: 0.09574973895755154
   grid_2d_cells: 1147
   grid_1d_cells: 132
   calls_by_ndim:
@@ -30,9 +30,43 @@ cost_model:
   overhead_hours_per_process: 0.0226
   spc_per_sample: 2.5e-05
   spc_per_injection_set: 0.2
+  lane_factor:
+    obslike:
+      both: 1.1528
+      none: 1.2369
+  lane_factor_measured:
+    obslike:
+      both:
+        factor: 1.1528
+        n_realizations: 5
+        ratios:
+          100: 1.1528
+          101: 1.1607
+          102: 1.1431
+          103: 1.1628
+          105: 1.1476
+        numerator: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R:03d}
+        denominator: known_population/both_catalogs/complete/equal_populations/realization_{R:03d}
+      none:
+        factor: 1.2369
+        n_realizations: 5
+        ratios:
+          100: 1.2099
+          101: 1.238
+          102: 1.2446
+          103: 1.2369
+          105: 1.22
+        numerator: mass_spectrum_alone/no_catalog/complete/obslike_f0p30_s0/realization_{R:03d}
+        denominator: known_population/no_catalog/complete/equal_populations/realization_{R:03d}
   measured:
+  - lane_factor.obslike.both
+  - lane_factor.obslike.none
   - overhead_hours_per_process
   - spc_fixed
+  - spc_flux_free_densities
+  - spc_free
+  - spc_free_hostdep
+  - spc_none_free
 sampler_8: rslice
 realizations:
   '5':
@@ -99,6 +133,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: -1.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -133,6 +168,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -167,6 +203,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -201,6 +238,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -235,6 +273,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -269,6 +308,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted.h5
     data_exists: true
@@ -303,6 +343,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted.h5
     data_exists: true
@@ -337,6 +378,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted.h5
     data_exists: true
@@ -371,6 +413,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted.h5
     data_exists: true
@@ -405,6 +448,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted.h5
     data_exists: true
@@ -438,6 +482,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -471,6 +516,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -504,6 +550,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -556,6 +603,7 @@ stages:
     est_gpu_hours: 0.096
     est_gpu_hours_per_part: 0.096
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_pureagn_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -589,6 +637,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_puregal_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -622,6 +671,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -655,6 +705,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -688,6 +739,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -740,6 +792,7 @@ stages:
     est_gpu_hours: 0.096
     est_gpu_hours_per_part: 0.096
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_pureagn_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -773,6 +826,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_puregal_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -806,6 +860,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -839,6 +894,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -872,6 +928,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -924,6 +981,7 @@ stages:
     est_gpu_hours: 0.096
     est_gpu_hours_per_part: 0.096
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_pureagn_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -957,6 +1015,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_puregal_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -990,6 +1049,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1023,6 +1083,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1056,6 +1117,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1108,6 +1170,7 @@ stages:
     est_gpu_hours: 0.096
     est_gpu_hours_per_part: 0.096
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_pureagn_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1141,6 +1204,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1174,6 +1238,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1207,6 +1272,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1240,6 +1306,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1292,6 +1359,7 @@ stages:
     est_gpu_hours: 0.096
     est_gpu_hours_per_part: 0.096
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1325,6 +1393,7 @@ stages:
     est_gpu_hours: 0.037
     est_gpu_hours_per_part: 0.037
     priority: 0.0
+    lane_rank: 1.0
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_puregal_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1333,9 +1402,9 @@ stages:
   n_runs: 44
   n_tasks: 56
   est_calls: 216704
-  est_gpu_hours: 27.25
-  est_gpu_hours_existing_data: 27.25
-  est_gpu_hours_ready: 27.25
+  est_gpu_hours: 10.03
+  est_gpu_hours_existing_data: 10.03
+  est_gpu_hours_ready: 10.03
   n_runs_held: 0
   runs:
   - name: known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100
@@ -1371,6 +1440,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -1407,6 +1477,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -1443,6 +1514,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -1479,6 +1551,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1515,6 +1588,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1551,6 +1625,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -1587,6 +1662,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -1623,6 +1699,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -1659,6 +1736,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1695,6 +1773,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1731,6 +1810,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -1767,6 +1847,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -1803,6 +1884,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -1839,6 +1921,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -1875,6 +1958,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -1911,6 +1995,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -1947,6 +2032,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -1983,6 +2069,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2019,6 +2106,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -2055,6 +2143,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -2093,6 +2182,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2131,6 +2221,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2169,6 +2260,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2207,6 +2299,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2245,6 +2338,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2283,6 +2377,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2321,6 +2416,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2359,6 +2455,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2397,6 +2494,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2435,6 +2533,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2473,6 +2572,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2511,6 +2611,7 @@ stages:
     est_gpu_hours: 0.147
     est_gpu_hours_per_part: 0.147
     priority: 0.0
+    lane_rank: 2
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2546,10 +2647,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2585,10 +2687,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2624,10 +2727,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2663,10 +2767,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2702,10 +2807,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2741,10 +2847,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2780,10 +2887,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2819,10 +2927,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2858,10 +2967,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2897,10 +3007,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2936,10 +3047,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2975,10 +3087,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 15000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 1.879
-    est_gpu_hours_per_part: 0.939
+    est_seconds_per_call: 0.0957
+    est_gpu_hours: 0.444
+    est_gpu_hours_per_part: 0.222
     priority: 0.0
+    lane_rank: 6
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2987,9 +3100,9 @@ stages:
   n_runs: 20
   n_tasks: 40
   est_calls: 650000
-  est_gpu_hours: 80.35
-  est_gpu_hours_existing_data: 80.35
-  est_gpu_hours_ready: 80.35
+  est_gpu_hours: 60.37
+  est_gpu_hours_existing_data: 60.37
+  est_gpu_hours_ready: 60.37
   n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/equal_populations/realization_100
@@ -3024,10 +3137,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -3063,10 +3177,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -3102,10 +3217,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -3141,10 +3257,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -3180,10 +3297,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -3219,10 +3337,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted.h5
     data_exists: true
@@ -3258,10 +3377,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted.h5
     data_exists: true
@@ -3297,10 +3417,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted.h5
     data_exists: true
@@ -3336,10 +3457,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted.h5
     data_exists: true
@@ -3375,10 +3497,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted.h5
     data_exists: true
@@ -3413,10 +3536,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -3451,10 +3575,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -3489,10 +3614,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -3527,10 +3653,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
     data_exists: true
@@ -3565,10 +3692,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 7
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
     data_exists: true
@@ -3603,10 +3731,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted.h5
     data_exists: true
@@ -3641,10 +3770,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted.h5
     data_exists: true
@@ -3679,10 +3809,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted.h5
     data_exists: true
@@ -3717,10 +3848,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted.h5
     data_exists: true
@@ -3755,10 +3887,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted.h5
     data_exists: true
@@ -3767,9 +3900,9 @@ stages:
   n_runs: 20
   n_tasks: 35
   est_calls: 1865000
-  est_gpu_hours: 228.74
-  est_gpu_hours_existing_data: 228.74
-  est_gpu_hours_ready: 228.74
+  est_gpu_hours: 215.29
+  est_gpu_hours_existing_data: 215.29
+  est_gpu_hours_ready: 215.29
   n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/host_dependent/realization_100
@@ -3806,10 +3939,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
     data_exists: true
@@ -3847,10 +3981,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
     data_exists: true
@@ -3888,10 +4023,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
     data_exists: true
@@ -3929,10 +4065,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
     data_exists: true
@@ -3970,10 +4107,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4011,10 +4149,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4052,10 +4191,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4093,10 +4233,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4134,10 +4275,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4175,10 +4317,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 36000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 4.445
-    est_gpu_hours_per_part: 2.223
+    est_seconds_per_call: 0.405
+    est_gpu_hours: 4.095
+    est_gpu_hours_per_part: 2.048
     priority: 0.0
+    lane_rank: 5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4217,10 +4360,11 @@ stages:
     parts:
     - nested_1
     est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.267
-    est_gpu_hours_per_part: 33.267
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 32.926
+    est_gpu_hours_per_part: 32.926
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4259,10 +4403,11 @@ stages:
     parts:
     - nested_1
     est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.267
-    est_gpu_hours_per_part: 33.267
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 32.926
+    est_gpu_hours_per_part: 32.926
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4301,10 +4446,11 @@ stages:
     parts:
     - nested_1
     est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.267
-    est_gpu_hours_per_part: 33.267
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 32.926
+    est_gpu_hours_per_part: 32.926
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4343,10 +4489,11 @@ stages:
     parts:
     - nested_1
     est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.267
-    est_gpu_hours_per_part: 33.267
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 32.926
+    est_gpu_hours_per_part: 32.926
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4385,10 +4532,11 @@ stages:
     parts:
     - nested_1
     est_calls: 272000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 33.267
-    est_gpu_hours_per_part: 33.267
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 32.926
+    est_gpu_hours_per_part: 32.926
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4425,10 +4573,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4465,10 +4614,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4505,10 +4655,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4545,10 +4696,11 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
     data_exists: true
@@ -4585,10 +4737,741 @@ stages:
     - nested_1
     - nested_2
     est_calls: 29000
-    est_seconds_per_call: 0.44
-    est_gpu_hours: 3.59
-    est_gpu_hours_per_part: 1.795
+    est_seconds_per_call: 0.2355
+    est_gpu_hours: 1.942
+    est_gpu_hours_per_part: 0.971
     priority: 0.0
+    lane_rank: 3
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+- stage: 5
+  title: observed-like mass spectrum, host-dependent events
+  n_runs: 15
+  n_tasks: 25
+  est_calls: 1685000
+  est_gpu_hours: 225.3
+  est_gpu_hours_existing_data: 225.3
+  est_gpu_hours_ready: 225.3
+  n_runs_held: 0
+  runs:
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_100
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_101
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_102
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_103
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_105
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.502
+    est_gpu_hours: 37.954
+    est_gpu_hours_per_part: 37.954
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_101
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.502
+    est_gpu_hours: 37.954
+    est_gpu_hours_per_part: 37.954
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_102
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.502
+    est_gpu_hours: 37.954
+    est_gpu_hours_per_part: 37.954
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_103
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.502
+    est_gpu_hours: 37.954
+    est_gpu_hours_per_part: 37.954
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_105
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 272000
+    est_seconds_per_call: 0.502
+    est_gpu_hours: 37.954
+    est_gpu_hours_per_part: 37.954
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_100
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_101
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_102
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_103
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
+    data_exists: true
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_105
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true

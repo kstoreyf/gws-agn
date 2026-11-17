@@ -6,6 +6,9 @@
 all-AGN-hosted analyses, one GPU lane. Test (a) passed every criterion (`tests/results/closure.json`).
 Production stage 1 and all experiment grids (E1, E2) are queued on one chained lane job
 (`agn-prod-l1`); nested runs wait for tests b and c. REPORT.md comes with the production results.
+**17 Nov, 20:00 UTC:** stage 5 (observed-like mass spectrum) added to `runs/RUNLIST.yaml`; the lanes are
+ordered by an explicit `lane_rank` per run (`make_runlist.py` LANE_RANKS); `launch.py stage` takes
+`--match REGEX` and `--only-lane K`; both run lists regenerated with test b's timings (not queued).
 
 ## What it runs
 
@@ -126,8 +129,8 @@ membership identities (per-event mixture, and mean r = f* mu_agn/mu at the maxim
 | `scripts/prod_common.py` | priors, population inputs, event kinds, files, analysis classes, run names, densities from counts, posterior summaries (no jax) |
 | `scripts/prod_model.py` | the core model of one run: settings, build, redraw, bind, the diagnostics program, coordinates → core labels; `HostsKnownModel`, `SpectralMixtureModel` (experiment) |
 | `scripts/prod_driver.py` | the driver: `--mode grid|nested`, every option explicit (`--help`); resumable |
-| `scripts/make_runlist.py` | → `runs/RUNLIST.yaml` (stages 1–4) and `runs/RUNLIST_experiment.yaml` (E1–E3, from `data/experiment_sets.json`; `reused_from_stage_1`, `hold`): each run's arguments, parts, estimated calls and GPU hours |
-| `scripts/launch.py` | `status`, `stage S [S ...]`, `run NAME`: queue tasks on the GPU lane (one by default; `--lanes 2`), start a chained lane job |
+| `scripts/make_runlist.py` | → `runs/RUNLIST.yaml` (stages 1–5) and `runs/RUNLIST_experiment.yaml` (E1–E3, from `data/experiment_sets.json`; `reused_from_stage_1`, `hold`): each run's arguments, parts, estimated calls and GPU hours, `lane_rank` (the LANE_RANKS table at its top); written atomically |
+| `scripts/launch.py` | `status`, `stage S [S ...] [--match REGEX] [--only-lane K]`, `run NAME`: queue tasks on the GPU lanes (one by default; `--lanes 2`), start a chained lane job |
 | `scripts/lane_worker.py`, `scripts/submit_prod.sbatch` | the lane job (one GPU): runs tasks until its wall time, submits its own successor |
 | `scripts/prod_summary.py` | finished run → `runs/<run>/summary.json` (medians, 90% intervals, ln Z, selection N²/N_eff, membership, calls, GPU hours); run by the lane worker after each run |
 | `runs/<run>/` | `config.json`; `grid/` (coarse.h5, fine.h5, result.json) or `nested_1/`, `nested_2/` (state.save, results.pkl, samples.npz, result.json); `sessions.json`, `attempts.json` per part; `summary.json` |
@@ -164,17 +167,41 @@ setting, the Slurm job id and wall time of every session.
     PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python
     $PY scripts/make_runlist.py --timing tests/results/timing.json   # both run lists, reads data/experiment_sets.json
     $PY scripts/launch.py status [-v] [--stage S]
-    $PY scripts/launch.py stage 1 E1 [--dry-run]    # stages 1-4 (production), E1/E2/E3 (experiment)
+    $PY scripts/launch.py stage 1 E1 [--dry-run]    # stages 1-5 (production), E1/E2/E3 (experiment)
+    $PY scripts/launch.py --lanes 2 stage 2 4 --match '<regex>' --only-lane 2 [--dry-run [--show N]]
     $PY scripts/launch.py run <run name> [--part nested_1] [--hours 6]
+
+`--match REGEX` queues only the runs of the named stages whose name matches (Python `re.search`; anchor
+with `^`/`$`). `--only-lane K` puts every new task on lane K instead of balancing, rewrites only lane K's
+file and starts a job for lane K only. `--dry-run` writes and submits nothing; it prints per lane the tasks
+to do, their GPU hours, the first `--show` (30) tasks in the order the worker takes them, a count by
+(rank, stage), and whether a lane job would be submitted.
+
+**Lane order.** Each run carries a `lane_rank` (written by `make_runlist.py` from its LANE_RANKS table,
+the one place to change it); a lane file is sorted by (lane_rank, priority, estimated hours per part, name,
+part), and a run without a rank falls back to its stage order (1, E1/E2, E3, 2, 3, 4, 5). Priority orders
+the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, family).
+
+| rank | runs |
+|---|---|
+| 1.0, 1.5 | stage 1; E1 and E2 |
+| 2 | stage 2, the grids (known population, flux-limited) |
+| 3 | stage 4 on realizations 100, 101, 102, 103, 105: all three classes |
+| 4 | E3 |
+| 5 | stage 4, single population with both catalogs, realizations 106-110 |
+| 6 | stage 2, the nested runs (free densities) |
+| 7 | stage 3 on realizations 100, 101, 102, 103, 105 |
+| 8 | stage 5 |
+| 9 | stage 3 on realizations 106-110 |
 
 **One lane** (default; this project may run one job at a time on RITA-GPU): every job the launcher
 submits, and every successor a lane job submits, depends (afterany) on all of the user's pending or running
 RITA-GPU jobs named `agn-*` (a job on hold is skipped: its owner releases and chains it). The lane file
-`runs/_lanes/lane1.txt` is sorted by stage order (1, E1/E2, E3, 2, 3, 4), the run's priority (experiment:
-f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, family) and estimated hours. The lane worker
-re-reads the lane before each task, writes `runs/<run>/summary.json` when a run's parts are finished, and
-skips tasks without data or marked `hold`. **Two lanes** again: `launch.py --lanes 2 stage ...` (or
-`export A16_LANES=2`); each lane then chains only behind its own jobs.
+is `runs/_lanes/lane1.txt`. The lane worker re-reads the lane before each task (it re-reads the run lists
+when a lane line names a run it does not know), writes `runs/<run>/summary.json` when a run's parts are
+finished, and skips tasks without data or marked `hold`. **Two lanes** again: `launch.py --lanes 2 stage
+...` (or `export A16_LANES=2`); each lane then chains only behind its own jobs. Lane files and run lists are
+written atomically (temporary file, then rename).
 
 **Injection lanes.** `--injections-lane` (relative to `data/seedNNN/`; default the family's,
 `injections/injections_targeted.h5` or `..._obslike.h5`). The experiment's run list takes each set's
@@ -204,18 +231,44 @@ stream), so a merger's first 8000 samples are the same in every run.
 header and the files). Nested calls are per run: the measured references are merged PAIRS (Analysis 11D,
 six parameters: 29,262 = 14,245 + 15,017; Analysis 12, seven: ~48k per pair), so six parameters are
 18,000 per run (14,600 + 676 iterations for the wider production priors at 5 calls each), five 14,500,
-four 7,500; eight 272,000 for the single run. Seconds per call 0.389 measured (test a, both catalogs,
-8000 samples); the others 0.39/0.44 until tests b and c measure them; 0.023 h per process measured.
+four 7,500 (both guesses); eight 272,000 for the single run (Analysis 13's guarded rslice run, extrapolated;
+test c may change it). Seconds per call at 8000 samples on the record lane: 0.389 measured by test a (both
+catalogs, population fixed), and by test b (`tests/results/timing.json`, realization 100) 0.405 single
+population with both catalogs, 0.235 without a catalog, 0.435 host-dependent populations, 0.096 free
+densities (m < 18); one catalog or no catalog with the population fixed stay at the conservative 0.39;
+0.023 h per process measured.
+
+**Another family's lane** (stage 5): the record-lane seconds per call times the lane factor, the ratio of
+the observed-like family's population-fixed grids on its lane (E2, set obslike_f0p30_s0) to stage 1's on
+the record lane, median over realizations 100-105 (`make_runlist.measured_lane_factors`, recomputed at each
+regeneration): 1.153 with both catalogs (two_tracers_one_population vs known_population, ratios
+1.143-1.163) and 1.237 without one (mass_spectrum_alone at s = 0 vs known_population, 1.210-1.245). The
+lane has 2.9e6 detected injections against the record's 2.2e6.
 
 | stage | runs | tasks | est. calls | est. GPU-h | ready now |
 |---|---|---|---|---|---|
 | 1 population known, complete catalogs (grids) | 35 | 35 | 14,770 | 2.7 | 2.7 |
-| 2 flux-limited catalogs (grids; free densities nested) | 44 | 56 | 216,704 | 27.3 | 27.3 |
-| 3 equal-population events, single population | 20 | 40 | 650,000 | 80.4 | 80.4 |
-| 4 host-dependent events (peak lane) | 20 | 35 | 1,865,000 | 228.7 | 206.5 |
+| 2 flux-limited catalogs (grids; free densities nested) | 44 | 56 | 216,704 | 10.0 | 10.0 |
+| 3 equal-population events, single population | 20 | 40 | 650,000 | 60.4 | 60.4 |
+| 4 host-dependent events (peak lane) | 20 | 35 | 1,865,000 | 215.3 | 215.3 |
+| 5 observed-like spectrum, host-dependent events (obslike lane) | 15 | 25 | 1,685,000 | 225.3 | 225.3 |
 | E1 experiment grids, peak family | 235 | 235 | 147,745 | 28.5 | 28.5 |
 | E2 experiment grids, observed-like family | 75 | 75 | 40,350 | 8.0 | 8.0 |
-| E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 22.2 | 22.2 |
+| E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 20.5 | 20.5 |
+
+**Stage 5** (`paper_prd/runs.txt`, approved): stage 4's three classes on the observed-like host-dependent
+set (`events_marked_dmu0p10_dmuG5_obslike.h5`, E2's `obslike_f0p30_s1`), realizations 100, 101, 102, 103,
+105: `--events-kind host_dependent --events-suffix _obslike --family-name obslike --population-family
+obslike --injections-lane injections/injections_targeted_obslike.h5`, run names
+`<analysis>/<both_catalogs|no_catalog>/complete/host_dependent_obslike/realization_NNN`. The redraw stream
+is E2's on that set. The inputs (H0 67.74, f_AGN 0.30, mu_G 34, sigma_G 3.6, mu_chi 0, sigma_chi 0.1,
+dmu_G 5, dmu_chi 0.10) are inside every prior (checked by `make_runlist.py` and the resolve test).
+
+| class | runs | parts | calls per part | s per call | GPU-h |
+|---|---|---|---|---|---|
+| single population, both catalogs (6 parameters) | 5 | 2 | 18,000 | 0.467 = 0.405 x 1.153 | 23.6 |
+| host-dependent populations, both catalogs (8; rslice, the `--sampler-8` setting) | 5 | 1 | 272,000 | 0.502 = 0.435 x 1.153 | 189.8 |
+| single population, no catalog (5) | 5 | 2 | 14,500 | 0.291 = 0.235 x 1.237 | 12.0 |
 
 Queued 17 Nov (one chain, job agn-prod-l1 1414946 and its successors): stage 1, then E1 and E2 in the
 order s = 0, 1, 2 and within each f = 0.3, then 0.1 and 0.5, then 0 and 1. Nested stages (2-4, E3) wait
@@ -225,9 +278,11 @@ for tests b and c.
 
 CPU (done): `tests/test_nocatalog_identity.py` (above); `tests/compare_resume.py` on a CPU run killed
 after 170 calls and resumed (75 iterations, through the first bound, bit for bit equal to the
-uninterrupted run); `tests/cpu_dryruns.sh` (every configuration class builds, binds, the diagnostics
-program equals the bound call, products written); `tests/test_runlist_resolve.py` (166 tasks);
-`tests/cpu_sampler_pipeline.sh` (test c's mechanics).
+uninterrupted run); `tests/cpu_dryruns.sh [NAME ...]` (every configuration class builds, binds, the
+diagnostics program equals the bound call, products written; `s5_*` are stage 5's three classes);
+`tests/test_runlist_resolve.py` (every task of both lists resolves to the run list's name; planted values
+of production event sets and every sampled input inside its prior); `tests/cpu_sampler_pipeline.sh`
+(test c's mechanics).
 
 GPU (`agn-prodtest`, nice 50, 4.0 GPU-h in all by their time limits), submitted 2026-11-17 ~09:00 UTC:
 
@@ -238,7 +293,7 @@ GPU (`agn-prodtest`, nice 50, 4.0 GPU-h in all by their time limits), submitted 
 | 1414839 (2 h 15) | `tests/submit_test_sampler.sbatch` | `tests/sampler_runs/.../nested_1_phaseA_unif_b0/` (+ `state_it*.save`), `nested_1_phaseB_{rslice,rwalk,unif_b0,unif_boot5}/`, `tests/results/sampler_test.json` | a cheaper setting is recommended only if its insertion-index KS p ≥ 0.01 (Phase A blocks and its branch) and its ln L* after 100 iterations is within 3 sd of rslice's; else rslice |
 
 After them: `make_runlist.py --timing tests/results/timing.json [--sampler-8 unif_b0|rwalk --calls-8 N]`
-updates the estimates (and the eight-parameter setting) before `launch.py stage ...`.
+updates the estimates (and the eight-parameter setting of stages 4 and 5) before `launch.py stage ...`.
 
 Test (a) result (09:56 UTC): all five criteria pass. A14 convention vs A14: max |d ln L| 3.6e-12, summaries
 equal to 1e-13; A15 convention and production on stored samples vs A15: identical (0.0); production
@@ -266,3 +321,8 @@ Extension of 17 Nov (afternoon), CPU:
   restricted to it; S the first 8000 samples of a 32000-sample redraw reproduce the 8000-sample run, 0.0.
 - `tests/results/runlist_resolve.json`: all 486 tasks of both run lists resolve; names, parameters,
   priors, files, planted f_AGN and offsets of every experiment set as the run list says.
+- 17 Nov, 20:00 UTC, with stage 5: all 511 tasks resolve (stage 5: 25); for every production run the
+  events file's planted f_AGN, AGN offsets and galaxy-class mu_G, mu_chi and spectrum are the kind's and
+  family's, and every sampled parameter's input is inside its prior. CPU dry runs of the three stage-5
+  classes on realization 100 (`logs/dryrun/s5_*.log`, `tests/dryrun_runs/`): built and bound on the
+  obslike lane (n_draw 1.08e9), finite ln L at the inputs, diagnostics = bound call.

@@ -199,4 +199,87 @@ eight-parameter run of Analysis 13); record which.
   file of the production run (empty now), which overrides the placeholder when the file exists;
   macros per Sec. 6; figures per Sec. 4; `figures/CAPTION_FACTS.md`; `placeholders.txt` regenerated.
 - Text (Fable): `main.tex` per Secs. 1 to 5, the style note, the review and the verified prior work.
+
+## 9. Addendum of 17 Nov, evening: the long paper takes in the letter's experiment
+The letter's grids (Analysis 16, stages E1 and E2) answer a question the long paper did not ask:
+which mergers carry the H0 constraint, and what is lost because the host class of a merger is not
+known. Most of it is real now; the rest finishes on 18 Nov. This section is binding like the rest
+and wins over Secs. 3 to 6 where they differ.
+
+### 9.1 What was found (population known, complete catalogs, 1000 detected mergers, means over five
+realizations of the 90% half-width of H0 in km/s/Mpc; the numbers in the text come from macros)
+| fraction of mergers hosted by AGN | 0 | 0.1 | 0.3 | 0.5 | 1 |
+|---|---|---|---|---|---|
+| host class unknown (both catalogs, f_AGN inferred) | 3.58 | 3.55 | 2.04 | 1.37 | 0.83 |
+| host class known | 3.56 | 1.90 | 1.34 | 1.10 | 0.81 |
+No catalog (the mass scale alone): 5.6. Observed-like spectrum: no catalog 8.5; host class unknown
+3.55 (0), 2.01 (0.3), 0.86 (1); host class known 3.51, 1.34, 0.84.
+- With one merger in ten hosted by an AGN the analysis gains nothing from the AGN catalog (3.55
+  against 3.58), although the same mergers with their host class known would give 1.90. Positions
+  alone barely say which mergers are AGN-hosted: at a fraction of 0.3 the mean probability of an AGN
+  host is 0.37 for mergers truly hosted by AGN and 0.30 for mergers truly hosted by galaxies.
+- With host-dependent populations (AGN-hosted mergers heavier by 5 Msun, spin mean higher by 0.10)
+  and the populations known, the masses and spins raise that probability to 0.51 and lower it to
+  0.28, and the half-width at 0.3 falls from 2.04 toward the 1.34 of known host classes (1.64 from
+  the three realizations finished so far).
+- With the host class known at a fraction of 0.3, the AGN-hosted mergers alone give 1.4 where all
+  mergers give 1.34: they carry about nine tenths of the information on H0 (inverse variance).
+  Quote this decomposition, which is exact because the two posteriors multiply. Do not quote a
+  share for the analysis with the host class unknown; no unique one exists.
+- The AGN catalog alone, applied to mergers of which seven in ten are hosted by galaxies, has no
+  interior maximum in four of five realizations; in the fifth it peaks at 76.8 [75.5, 78.1] and
+  excludes the input. It is a biased analysis, not only an uninformative one, and the text says so.
+
+### 9.2 Names (added to Sec. 2)
+- **host class unknown**: the analysis of every other section (both catalogs, f_AGN inferred). Named
+  only where it is contrasted with the next.
+- **host class known**: each merger analyzed with the catalog and the population of its true host
+  class; the two H0 posteriors multiply. Available in simulation only, and said so once.
+- **probability of an AGN host** of a merger: f L_AGN / (f L_AGN + (1 - f) L_gal) at the posterior
+  median, one equation in Sec. II A, read off the mixture likelihood.
+
+### 9.3 Layout changes
+- New subsection IV B, "The constraint from each host class" (`sec:classes`), between the known
+  population and the flux-limited catalogs. It takes the last paragraph of IV A (candidate hosts per
+  localization volume; all mergers in AGN against all in galaxies) and adds the table above as a
+  figure, the fraction 0.1 result, the comparison with the host class known, the number of mergers
+  the unknown host class costs, and the probability of an AGN host from positions alone. The later
+  subsections move down by one letter.
+- IV A: the AGN catalog alone, with the exception of 9.1.
+- Populations that depend on the host: one paragraph on masses and spins as a label (probability of
+  an AGN host with and without them, half-width with the populations known), with the confound in
+  the next sentence (more of the detected mergers are AGN-hosted when these are heavier).
+- A mass spectrum like the observed one: the half-widths of 9.1 for the population known open the
+  subsection; they are real, the host-dependent runs of that subsection are not.
+- Abstract: at most one sentence on this result, and the abstract stays within eight sentences.
+- Table I: number densities in the units the analysis samples, h^3 Mpc^-3; the inputs in the same
+  units wherever a prior range is quoted beside them.
+
+### 9.4 Figures
+- New `fig_classes` (after `fig2_anchor`), three panels, the content of the letter's `fig1_budget`
+  (a, b) and `fig_populations` (c) in this paper's names and style:
+  (a) 90% half-width of H0 against the fraction of mergers hosted by AGN for the peak-dominated
+  spectrum, population known: host class unknown; host class known; host-dependent populations
+  (the two sizes of the offsets, 5 Msun and 0.10, and twice those) with the host class unknown;
+  the open symbol for host-dependent populations inferred with H0 (stage 4); horizontal lines for
+  no catalog and for the galaxy catalog alone with no AGN-hosted merger. Means over realizations,
+  bars the range over realizations.
+  (b) the same for the observed-like spectrum.
+  (c) distribution over the mergers of realization A (host-dependent populations, fraction 0.3) of
+  the probability of an AGN host, for mergers truly hosted by AGN and truly hosted by galaxies,
+  from positions alone (top) and from positions with masses and spins (bottom); means marked, the
+  fraction as a line.
+- `fig6_host_dependent` keeps its three panels.
+- `fig1_mocks` panels (c, d) are redrawn from the production event sets.
+
+### 9.5 Macros
+Names follow Sec. 6 where a key exists and are otherwise chosen by the numbers work and listed in
+`values/MACROS.md` with their definitions; the writer uses only what is listed there.
+
+### 9.6 One paper (owner, 17 Nov, ~20:05 UTC)
+"Lets stick to the long paper. You did a better job there. So i would archive the short paper."
+The letter is frozen in `working/archive/paper_short_independent/`. This paper is the only one and
+stands alone: the code it shared with the letter lives in `paper_prd/scripts/`, and the letter's
+experiment (stages E1 to E3 of Analysis 16) is now this paper's Sec. IV B and part of the
+host-dependent and observed-like subsections.
 EOF

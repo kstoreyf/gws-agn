@@ -11,7 +11,12 @@ likelihood calls and GPU hours (the sum of the wall times of every process that 
 Nested runs with two independent parts are merged with dynesty.utils.merge_runs (posterior and
 evidence); each part's own ln Z is listed too, and their difference in units of the combined error
 is a convergence check. Grid runs report the fine-grid posterior, the grid ln Z and the coarse-pass
-check that the mass outside the fine grid is below 1e-4.
+check that the mass outside the fine grid is below 1e-4. The grid posterior is recomputed here from the
+stored ln L on a lattice 16 times denser than the nodes (refined_grid_summary). The driver's own summary
+(grid/result.json, kept here as "posterior_nodes") takes the density as linear between the stored nodes
+and reads the quantiles off a CDF interpolated linearly between them; that moves each 90% bound outward,
+by about 0.04 sd at an H0 step of a third of the sd, 0.1 sd at half the sd, and up to 0.7 sd for f_AGN
+where its step exceeds the sd.
 """
 import argparse
 import json
@@ -79,10 +84,64 @@ def selection_variance_grid(run_dir, cfg, r):
     return out
 
 
+REFINE = 16   # lattice points per stored grid step in refined_grid_summary (16 -> 32 moves no bound by 0.005 sd)
+
+
+def _to_lattice(x, y, xn, axis):
+    """Akima interpolation of y (nodes x along `axis`) to xn (linear below five nodes)."""
+    from scipy.interpolate import Akima1DInterpolator, interp1d
+    if len(x) >= 5:
+        return Akima1DInterpolator(x, y, axis=axis)(xn)
+    return interp1d(x, y, axis=axis, kind="linear", assume_sorted=True)(xn)
+
+
+def refined_grid_summary(run_dir, cfg, r):
+    """Posterior summaries of a grid run's final fine pass (fine_widened.h5 when it was widened) from its
+    stored ln L, with and without the half-variance correction: ln L interpolated along each axis onto a
+    lattice REFINE times denser than the nodes, then prod_common.summarize_1d / summarize_2d on that
+    lattice (trapezoid marginals, CDF, quantiles, correlation). The interpolant is Akima's (piecewise cubic,
+    local): on smooth surfaces it agrees with a not-a-knot cubic spline to 0.01 sd, and it does not ring
+    where ln L jumps by tens of nats between two nodes (a cubic spline overshoots there by up to 10 nats;
+    seen in catalog-free 1-D grids). Non-finite cells are set 300 nats below the lowest finite one.
+    -> (summary, summary_uncorrected, info), or None when the pass is not on disk."""
+    import h5py
+    g = run_dir / "grid"
+    fp = g / ("fine_widened.h5" if (r.get("outside_mass_check") or {}).get("widened") else "fine.h5")
+    if not fp.exists():
+        return None
+    with h5py.File(fp, "r") as f:
+        names = json.loads(f.attrs["axes"])
+        axes = [np.asarray(f[f"axis_{n}"][()], float) for n in names]
+        n = int(f.attrs["n_events"])
+        raw = np.asarray(f["lnL"][()], float)
+        lnc = P.half_variance_corrected(raw, f["pe_var"][()], f["n_eff"][()], n) \
+            if cfg.get("half_variance_correction") else raw
+    lat = [np.linspace(a[0], a[-1], (len(a) - 1) * REFINE + 1) if len(a) > 1 else a for a in axes]
+    out, info = [], {}
+    for tag, l in (("corrected", lnc), ("uncorrected", raw)):
+        ok = np.isfinite(l)
+        if not ok.any():
+            return None
+        lf = np.where(ok, l, np.min(l[ok]) - 300.0)
+        for i, (a, an) in enumerate(zip(axes, lat)):
+            if len(a) > 1:
+                lf = _to_lattice(a, lf, an, i)
+        out.append({names[0]: P.summarize_1d(lat[0], lf)} if len(names) == 1 else
+                   P.summarize_2d(lat[0], lat[1], lf, names=tuple(names)))
+        if tag == "corrected":
+            info = {"file": fp.name, "refine": REFINE, "interpolation": "akima, ln L",
+                    "n_nonfinite_cells": int((~ok).sum()),
+                    "lattice_max_minus_node_max_nats": float(np.max(lf) - np.max(l[ok]))}
+    return out[0], out[1], info
+
+
 def summarize_grid(run_dir, cfg):
     r = json.loads((run_dir / "grid" / "result.json").read_text())
     ses = sessions_of(run_dir / "grid")
     extra = {}
+    ref = refined_grid_summary(run_dir, cfg, r)
+    summ, summ_raw, how = ref if ref is not None else (r["summary"], r["summary_uncorrected"],
+                                                         {"interpolation": "none: the driver's node summary"})
     try:
         extra["selection_N2_over_Neff"] = selection_variance_grid(run_dir, cfg, r)
     except Exception as e:  # noqa: BLE001
@@ -97,14 +156,16 @@ def summarize_grid(run_dir, cfg):
                                                       "identity_event_evidence_max_abs", "file", "error")}
     if cfg.get("analysis") == "hosts_known":
         extra["n_events_by_class"] = (r.get("model_info") or {}).get("n_events_by_class")
-    return {**extra, "posterior": compact(r["summary"], cfg["free"]),
-            "posterior_uncorrected": compact(r["summary_uncorrected"], cfg["free"]),
-            "rho_H0_f": r["summary"].get("rho"),
+    return {**extra, "posterior": compact(summ, cfg["free"]),
+            "posterior_uncorrected": compact(summ_raw, cfg["free"]),
+            "rho_H0_f": summ.get("rho"),
+            "posterior_nodes": compact(r["summary"], cfg["free"]),
             "ln_evidence": {"value": r.get("ln_evidence_grid"), "error": None, "how": "grid (fine + coarse outside)"},
             "grid": {"fine_axes": r["fine_axes"], "coarse_axes": r["coarse_axes"],
                      "outside_mass_fraction": (r.get("outside_mass_check") or {}).get("mass_outside_fraction"),
                      "outside_mass_ok": r.get("outside_mass_ok"),
-                     "mass_at_fine_edges": {p: r["summary"][p]["mass_at_edges"] for p in cfg["free"]}},
+                     "mass_at_fine_edges": {p: r["summary"][p]["mass_at_edges"] for p in cfg["free"]},
+                     "posterior_lattice": how},
             "variance": r["variance"], "calls": int(sum(s.get("calls", 0) for s in ses)),
             "gpu_hours": sum(s.get("wall_seconds", 0.0) for s in ses) / 3600,
             "seconds_per_call": r.get("seconds_per_call_median")}
