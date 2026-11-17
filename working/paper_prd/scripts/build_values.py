@@ -1372,7 +1372,18 @@ def build_c9():
 # ============================================================================================= #
 A14R = AN / "analysis_14_monte_carlo_accuracy" / "results"
 A15R = AN / "analysis_15_host_normalisation" / "results"
+A16 = AN / "analysis_16_production_runs"
 A14_SUMMARY = A14R / "mc_accuracy_summary.json"     # written by scripts/aggregate_mc_accuracy.py at the end of the job
+
+
+def prod_common():
+    """analysis_16's prod_common (priors, survey paths, densities from counts); numpy only, no jax."""
+    import importlib
+    import sys as _sys
+    p = str(A16 / "scripts")
+    if p not in _sys.path:
+        _sys.path.insert(0, p)
+    return importlib.import_module("prod_common")
 A15_SUMMARY = A15R / "normalisation_summary.json"   # written by scripts/aggregate_normalisation.py at the end of the job
 A15_COMMON = AN / "analysis_15_host_normalisation" / "scripts" / "a15_common.py"
 FITDIR = AN / "selection_redo" / "scripts" / "selection_fits_truez"
@@ -1394,15 +1405,19 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   PAPER_SKELETON Sec. 6. Quantities: `Hzero`, `fAGN`, `MuG`, `SigmaG`, `MuChi`, `SigmaChi`, `DmuG`, `DmuChi`, `LognGal`,
   `LognAGN`, `RateRatio`, `LB`.
 - `LB` (log10 Bayes factor) references: `KnownBothLB`, `CtrlZeroLB`, `CtrlTenthLB` against galaxy hosts only (f_AGN = 0,
-  Savage-Dickey, f_AGN prior [0, 1]); `HDHostLB`, `ObsHostLB` (= `\\HDLB`, `\\ObsLB`) against the single-population
-  analysis of the same events with the priors of Table I. `...LBComb`: the same for the combination.
-- Further: `\\HDBiasHzero`, `\\ObsBiasHzero` (median of `<pre>SingleHzeroComb` minus the input); `\\WidthRatioAGNGal`;
+  Savage-Dickey, f_AGN prior [0, 1]); `HDHostLB`, `ObsHostLB` (= `\\HDLB`, `\\ObsLB`, realization A, 1000 mergers) against
+  the single-population analysis of the same events with the priors of Table I. `...LBComb`: the same for the combination
+  (sum over the combined realizations).
+- `HalfWid` (realization A only, `Hzero` and `fAGN`): half of `Wid`, the precision of one catalog of 1000 mergers.
+- Further: `\\HDBiasHzero`, `\\ObsBiasHzero` (median of `<pre>SingleHzeroComb` minus the input); `\\WidthRatioAGNGal`
+  (= `\\GalhostedHzeroWid` / `\\AGNhostedHzeroWid`, realization A); `\\KnownBothCorrHzerofAGN[Comb]` (= `\\JointRhoCatA`, `\\JointRhoComb`);
   `\\MassScaleShareKnown`, `\\MassScaleShareSingle` (H0 width, no catalog over both catalogs, realization A);
   `\\CorrHzeroMuGNone`, `\\CorrHzeroMuGBoth`.
 - Colour: red (`\\ph`) while a placeholder; the source of each value (exploratory with its file, or invented) is in
   placeholders.txt. When values/production_map.json maps a key to an existing production summary, its macros print black.
 - Inputs used for the credible levels: H0 67.74, f_AGN 0.30 (0 and 0.10 for the two control sets), mass peak 35 and width
-  5 Msun, spin mean 0 and width 0.10, offsets +5 Msun and +0.10, log10 n = -3 and -5, rate-per-host ratio `\\MockRateRatio`.
+  5 Msun, spin mean 0 and width 0.10, offsets +5 Msun and +0.10, log10 n = -3 and -5, rate-per-host ratio `\\MockRateRatio`;
+  for the `Obs...` keys the mass peak and width of the observed-like spectrum, `\\ObsMuG` and `\\ObsSigmaG`.
   The single-population analysis of host-dependent events has no single input for its population parameters (no `CL`).
 """
 R2_DEFINITIONS = """## Definitions of the revision-2 macros (17 Nov 2026)
@@ -1628,7 +1643,23 @@ def build_design():
          ("PriorSigmaChiHi", box13["sigma_chi"][1], 0, "upper end of the spin-width prior", srcf(A13 / "a13core_e7c3007_rslice_cap20_historical_n200_s1.json", "box sigma_chi")),
          ("PriorSpinDmuChiLo", M8[0], 1, "lower end of the spin-mean offset prior in the spin-offset mock (Analyses 8, 9)", srcf(A8 / "arm_J_joint.h5", "mu_chi_c2_grid[0]")),
          ("PriorSpinDmuChiHi", M8[-1], 2, "upper end of the spin-mean offset prior in the spin-offset mock", srcf(A8 / "arm_J_joint.h5", "mu_chi_c2_grid[-1]"))]
+    # Table I prints the production ranges (MACRO_REQUESTS B, 17 Nov): one range per parameter in every production run,
+    # read from analysis_16's prod_common.PRIORS; the exploratory ranges stay in values.json (extra) and in the *Six/*HD/*Spin macros
+    PC = prod_common()
+    prod = {"PriorHzero": ("H0", 0), "Priorf": ("f_agn", 0), "PriorLognGal": ("log10n_gal", 0), "PriorLognAGN": ("log10n_agn", 0), "PriorMuG": ("mu_G", 0),
+            "PriorDmuG": ("dmu_G", 0), "PriorSigmaG": ("sigma_G", 0), "PriorMuChi": ("mu_chi", 1), "PriorDmuChi": ("dmu_chi", 2), "PriorSigmaChi": ("sigma_chi", 2)}
     for name, v, d, meaning, src in P:
+        stem, end = name[:-2], name[-2:]
+        if stem in prod and end in ("Lo", "Hi"):
+            pn, dd = prod[stem]
+            pv = float(PC.PRIORS[pn][0 if end == "Lo" else 1])
+            if stem == "PriorSigmaChi" and end == "Hi":
+                dd = 0
+            add(name, "plain", fnum(pv, dd), pv, "log10 h^3 Mpc^-3" if "Logn" in stem else "",
+                meaning.replace("two-parameter and free-density analyses", "every production run") + " (production range, every run; Analysis 16)",
+                {"file": rel(A16 / "scripts" / "prod_common.py"), "key": f"PRIORS['{pn}']", "computation": "read"}, "design,TableI",
+                extra={"exploratory_range_value": float(v), "exploratory_source": src})
+            continue
         add(name, "plain", fnum(float(v), d), float(v), "", meaning, src, "design,TableI")
     add("NormZmax", "plain", fnum(ZMAX_GRID, 0), ZMAX_GRID, "", "upper redshift of the host normalisation in every stored run (end of darksirens' internal redshift grid; no driver sets DARKSIRENS_ZMAX)",
         {"file": "paper_prd/notes/LIKELIHOOD_MATH.md", "key": "sections 0 and 4 (z_max = 5, confirmed numerically in sec. 8.3)", "computation": "code default"}, "design,C4")
@@ -2420,6 +2451,10 @@ def build_keys():
                 for pc, v, w in (("Med", sm["median"], "median"), ("Lo", sm["ci90"][0], "lower end of the 90% interval"), ("Hi", sm["ci90"][1], "upper end of the 90% interval"),
                                  ("Wid", sm["ci90"][1] - sm["ci90"][0], "full width of the 90% interval")):
                     add(base + pc, cls, wrap(fnum(v, d)), v, Q["units"], f"{w} of {mean}", srcq, "skeleton,keys")
+                if part == "A" and q in ("Hzero", "fAGN"):
+                    hwv = 0.5 * (sm["ci90"][1] - sm["ci90"][0])
+                    add(base + "HalfWid", cls, wrap(fnum(hwv, d)), hwv, Q["units"],
+                        f"half of the full 90% width ({base}Wid) of {mean}: the precision of one catalog of 1000 mergers, to quote beside a bias", srcq, "skeleton,keys")
                 if (q == "fAGN" and key == "CtrlZero") or (q in ("LognGal", "LognAGN")):
                     add(base + "UL", cls, wrap(fnum(sm["ul90"], max(d, 2))), sm["ul90"], Q["units"], f"90% upper limit (90th percentile) of {mean}", srcq, "skeleton,keys")
                 if part == "A" and q in ("LognGal", "LognAGN") and "prior_ul90" in sm:
@@ -2458,8 +2493,16 @@ def build_keys():
         addf(f"{pre}BiasHzero", [f"{pre}Single"], fnum(b, 1), b, "km/s/Mpc", f"median of {pre}SingleHzeroComb minus the input H0 (bias of the single-population analysis of host-dependent events, {'peak-dominated' if pre == 'HD' else 'observed-like'} spectrum, combined)")
         L = K[f"{pre}Host"]["LB"]["A"]
         addf(f"{pre}LB", [f"{pre}Host"], flb(L), L, "log10", f"log10 Bayes factor of the host-dependent populations against the single population, same events and priors, realization A (= {pre}HostLB; combined: {pre}HostLBComb)")
-    wr = [r for r in REG if r["name"] == "PureRatioNinety"][0]["value"]
-    addf("WidthRatioAGNGal", ["Galhosted", "AGNhosted"], fnum(wr, 1), wr, "", "90% width of H0, galaxy-hosted over AGN-hosted event sets (each with its own catalog), ratio of the mean 90% half-widths over the 93 exploratory realizations (= PureRatioNinety)")
+    # one definition (17 Nov): the ratio of the two printed widths, GalhostedHzeroWid / AGNhostedHzeroWid (realization A, full 90%
+    # widths, unrounded). The earlier value was PureRatioNinety (ratio of the mean half-widths over 93 exploratory realizations).
+    wg, wa = q("Galhosted", "Hzero", "A"), q("AGNhosted", "Hzero", "A")
+    wr = (wg["ci90"][1] - wg["ci90"][0]) / (wa["ci90"][1] - wa["ci90"][0])
+    addf("WidthRatioAGNGal", ["Galhosted", "AGNhosted"], fnum(wr, 1), wr, "",
+         "full 90% width of H0 of the all-galaxy-hosted set with the galaxy catalog over that of the all-AGN-hosted set with the AGN catalog, realization A "
+         "(= GalhostedHzeroWid / AGNhostedHzeroWid, unrounded widths)")
+    for nm, part, where in (("KnownBothCorrHzerofAGN", "A", "realization A (= JointRhoCatA)"), ("KnownBothCorrHzerofAGNComb", "Comb", "combined over realizations (= JointRhoComb)")):
+        v = K["KnownBoth"]["joint"][part]["correlation"]
+        addf(nm, ["KnownBoth"], fnum(v, 2), v, "", f"correlation coefficient r of H0 and f_AGN, population known, both catalogs, {where}")
     for nm, kn, kb in (("MassScaleShareKnown", "KnownNone", "KnownBoth"), ("MassScaleShareSingle", "SingleNone", "SingleBoth")):
         a, b_ = q(kn, "Hzero", "A"), q(kb, "Hzero", "A")
         v = (a["ci90"][1] - a["ci90"][0]) / (b_["ci90"][1] - b_["ci90"][0])
@@ -2467,6 +2510,142 @@ def build_keys():
     for nm, k in (("CorrHzeroMuGNone", "SingleNone"), ("CorrHzeroMuGBoth", "SingleBoth")):
         v = K[k]["joint"]["A"]["correlation"]
         addf(nm, [k], fnum(v, 1), v, "", f"correlation coefficient r of H0 and the mass-peak location, single population, {'no catalog' if 'None' in nm else 'both catalogs'}, realization A")
+
+
+# ============================================================================================= #
+# REQUESTS OF 17 NOV (paper_prd/notes/MACRO_REQUESTS.md A1-A3, paper_short/notes/MACRO_REQUESTS.md) and the
+# observed-like mock family (data/obslike)
+# ============================================================================================= #
+NUM_WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
+OBSJ = DATA / "obslike" / "results" / "obslike_paper_values.json"
+REQ_DEFINITIONS = """## Definitions of the macros added on 17 Nov (second round of requests)
+
+- **Realization A.** Every key-scheme macro without `Comb` (and every `...HalfWid`) is realization A, i.e. one catalog pair
+  with 1000 detected mergers. `\\HDLB` and `\\ObsLB` are realization A (= `\\HDHostLB`, `\\ObsHostLB`); the sums over the
+  combined realizations are `\\HDHostLBComb`, `\\ObsHostLBComb`.
+- **`<Key>HzeroHalfWid`, `<Key>fAGNHalfWid`.** Half of the full 90% width of realization A (`<Key>...Wid` / 2), the
+  precision of 1000 mergers, to quote beside a bias (`\\HDBiasHzero`, `\\ObsBiasHzero` are combined medians minus the input).
+- **`\\WidthRatioAGNGal`** (one definition): `\\GalhostedHzeroWid` / `\\AGNhostedHzeroWid`, the two full 90% widths of
+  realization A, unrounded. It used to be `\\PureRatioNinety` (ratio of the mean half-widths over 93 exploratory
+  realizations, 4.7), which does not divide the two printed widths.
+- **Numbers of realizations, `\\Nreal...`** (plain, printed as words below 13): the realizations of the key's runs in
+  `analyses/analysis_16_production_runs/runs/RUNLIST.yaml` (realization A is 100). Keys not yet in the run list take
+  runs.txt: the observed-like spectrum (Stage 5, five) and the two control sets (run R4, "five for the others").
+  The keys of one macro must have one count; where they differ the macro is split: `\\NrealKnown` (both catalogs) and
+  `\\NrealKnownAlone` (each catalog alone, no catalog); `\\NrealHD` (host-dependent populations), `\\NrealHDSingle`,
+  `\\NrealHDNone`. The `Comb` placeholders are combined over the same N.
+- **Observed-like spectrum, `\\Obs<design>`** (plain): darksirens-core's power law + peak at the GWTC-3 medians
+  (`data/obslike/README.md`). `\\ObsPeakFrac` is the weight of the Gaussian peak in core's normalisation (0.092): GWTC-3's
+  lambda_peak = 0.038 (`\\ObsLambdaPeak`) multiplies a mixture that is tapered and renormalised as a whole, so its fitted
+  density has 9.2% of the mergers in the peak. Inputs of the `Obs...` keys: mass peak `\\ObsMuG`, width `\\ObsSigmaG`.
+- **Detected samples, `\\<fam>Det<quantity>`**: realization A, 1000 detected mergers; fam `Mock` (peak-dominated, equal
+  populations), `MockHD` (peak-dominated, host-dependent), `Obs`, `ObsHD` (observed-like). PeakShare: share of detected
+  mergers in the Gaussian peak (observed-like: the realised component flag; peak-dominated: the mean membership
+  probability, the files store no flag); zMedian, zMax: true redshifts; MoneMedian, MtwoMedian: source-frame masses [Msun].
+  Five-realization means and sd in values.json (extra).
+- **AGN counts at m < 18, `\\MockNAGNCompleteEighteen`**: AGN of realization A's m < 18 AGN catalog (survey file, photometric
+  redshifts) below the redshift to which that catalog is complete (AGN selection fit, z_c = 0.108; the galaxy fit's
+  `\\MockzCompleteEighteen` agrees to 0.0005), counted by the production code (`prod_common.density_from_counts`).
+  `\\MocknAGNPrecEighteen` = 100/sqrt(N) (Poisson); `\\MocknAGNScatterEighteen` = sd over the five production realizations of
+  the density from counts, in percent of the mean (the field's own fluctuation inside z_c, larger than Poisson).
+  `\\NormDeltafCountsEighteen` = `\\SlopefAGNDepthNorm` x log10(1 + `\\MocknAGNPrecEighteen`/100): the shift of the f_AGN
+  median for an AGN density off by that precision (Analysis 15's measured slope at m < 18, hosts to z = 1.10);
+  `\\NormDeltafCountsScatterEighteen` the same for the realised scatter.
+"""
+
+
+def build_requests():
+    import placeholder_results as PR
+    v = {r["name"]: r for r in REG}
+    # ---- A1: numbers of realizations (RUNLIST.yaml; runs.txt where the run list has no runs yet)
+    def nreal(name, keys, meaning):
+        Ns = {PR.NREAL[k][0] for k in keys}
+        assert len(Ns) == 1, (name, {k: PR.NREAL[k][0] for k in keys})
+        N = Ns.pop()
+        inlist = all(k in PR.RUNREAL for k in keys)
+        src = ({"file": rel(PR.RUNLIST), "computation": "realizations of the runs of " + "; ".join(f"{k} {PR.KEY_SELECTOR[k]}" for k in keys)} if inlist else
+               {"file": "paper_prd/runs.txt", "computation": "; ".join(f"{k}: {PR.NREAL[k][1]}" for k in keys)})
+        add(name, "plain", NUM_WORD.get(N, str(N)), N, "realizations", meaning, src, "design,realizations",
+            extra={"keys": keys, "realizations": {k: PR.RUNREAL.get(k) for k in keys}})
+    nreal("NrealKnown", ["KnownBoth"], "realizations combined, population known, both catalogs, complete (key KnownBoth)")
+    nreal("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"], "realizations combined, population known, galaxy catalog alone, AGN catalog alone, no catalog (keys KnownGal, KnownAGN, KnownNone)")
+    nreal("NrealPure", ["AGNhosted", "Galhosted"], "realizations combined, all-AGN-hosted and all-galaxy-hosted sets (keys AGNhosted, Galhosted)")
+    nreal("NrealFlux", [f"Flux{w}" for _, w, _ in RUNGS], "realizations combined, flux-limited catalogs, number densities from the catalog counts (keys Flux...)")
+    nreal("NrealFree", [f"Free{w}" for _, w, _ in RUNGS], "realizations combined, number densities inferred (keys Free...)")
+    nreal("NrealSingle", ["SingleBoth", "SingleNone"], "realizations combined, single population on equal-population mergers, both catalogs and no catalog (keys SingleBoth, SingleNone)")
+    nreal("NrealHD", ["HDHost"], "realizations combined, host-dependent populations analysis of host-dependent mergers, peak-dominated spectrum (key HDHost)")
+    nreal("NrealHDSingle", ["HDSingle"], "realizations combined, single-population analysis of host-dependent mergers, both catalogs (key HDSingle)")
+    nreal("NrealHDNone", ["HDNone"], "realizations combined, single-population analysis of host-dependent mergers, no catalog (key HDNone)")
+    nreal("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"], "realizations combined, observed-like spectrum, all three analyses (keys Obs...; runs.txt Stage 5, not yet in the run list)")
+    nreal("NrealCtrl", ["CtrlZero", "CtrlTenth"], "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; run R4, not yet in the run list)")
+    # ---- A2: the observed-like spectrum (design, GWTC-3 medians mapped onto core's power law + peak)
+    O = jload(OBSJ)
+    th, gw = O["design"]["core_theta"], O["design"]["design_gwtc3_parameters"]
+    srcO = lambda key: {"file": rel(OBSJ), "key": key}
+    for name, val, d, units, meaning, key in (
+            ("ObsPeakFrac", 1 - th["v1"], 3, "", "fraction of the mergers in the Gaussian peak of the observed-like spectrum (weight of the peak in core's normalisation, 1 - v1; GWTC-3's lambda_peak 0.038 of a mixture tapered and renormalised as a whole)", "design.core_theta.v1"),
+            ("ObsLambdaPeak", gw["lambda_peak"], 3, "", "GWTC-3's fitted mixing fraction lambda_peak (POWER LAW+PEAK, Sec. VI A), which maps onto ObsPeakFrac", "design.design_gwtc3_parameters.lambda_peak"),
+            ("ObsMuG", th["mu_G"], 0, "Msun", "location of the Gaussian peak of the observed-like spectrum (galaxy hosts)", "design.core_theta.mu_G"),
+            ("ObsSigmaG", th["sigma_G"], 1, "Msun", "width of the Gaussian peak of the observed-like spectrum", "design.core_theta.sigma_G"),
+            ("ObsAlpha", th["alpha"], 1, "", "power-law index of the primary mass of the observed-like spectrum, printed without its sign (p(m1) ~ m1^-alpha)", "design.core_theta.alpha"),
+            ("ObsMmin", th["m_min"], 0, "Msun", "minimum mass of the observed-like spectrum", "design.core_theta.m_min"),
+            ("ObsMmax", th["m_max"], 0, "Msun", "maximum mass of the observed-like spectrum (sharp cut)", "design.core_theta.m_max"),
+            ("ObsDeltaM", th["dm_min"], 1, "Msun", "width of the low-mass taper of the observed-like spectrum (GWTC-3 delta_m)", "design.core_theta.dm_min"),
+            ("ObsBeta", th["beta"], 1, "", "power-law index of the mass ratio of the observed-like spectrum", "design.core_theta.beta")):
+        add(name, "plain", fnum(float(val), d), float(val), units, meaning, srcO(key), "mock,obslike")
+    assert abs(O["design"]["unchanged_from_present_family"]["f_agn"] - IN["f"]) < 1e-12
+    # detected samples of realization A, both families
+    for fam, blk, desc in (("Mock", "mock_equal", "peak-dominated spectrum, equal populations"), ("MockHD", "mock_host_dependent", "peak-dominated spectrum, host-dependent populations"),
+                           ("Obs", "obslike_equal", "observed-like spectrum, equal populations"), ("ObsHD", "obslike_host_dependent", "observed-like spectrum, host-dependent populations")):
+        r100, five = O["detected"][blk]["realisation_100"], O["detected"][blk]["five_realisations"]
+        ps_key = "peak_share_detected_realised" if r100.get("peak_share_detected_realised") is not None else "peak_share_detected_expected"
+        for q, key, d, units, what in (("DetPeakShare", ps_key, 2, "", "share of the detected mergers in the Gaussian peak" + (" (realised component flag)" if ps_key.endswith("realised") else " (mean peak-membership probability; the files store no flag)")),
+                                       ("DetzMedian", "z_median", 2, "", "median true redshift of the detected mergers"),
+                                       ("DetzMax", "z_max", 2, "", "largest true redshift of a detected merger"),
+                                       ("DetMoneMedian", "m1src_median", 1, "Msun", "median source-frame primary mass of the detected mergers"),
+                                       ("DetMtwoMedian", "m2src_median", 1, "Msun", "median source-frame secondary mass of the detected mergers")):
+            add(f"{fam}{q}", "plain", fnum(float(r100[key]), d), float(r100[key]), units, f"{what}, realization A (1000 detected mergers), {desc}",
+                srcO(f"detected.{blk}.realisation_100.{key}"), "mock,obslike", extra={"five_realisations": five.get(key)})
+    # ---- A2: the control set with one merger in ten AGN-hosted; AGN counts at m < 18
+    pt = DATA / "seed100" / "events" / "events_meta_fagn0p10_corepop.json"
+    ft = float(jload(pt)["planted_f_agn"])
+    add("MockfAGNTenth", "plain", fnum(ft, 2), ft, "", "input f_AGN of the control set with one merger in ten hosted by an AGN", {"file": rel(pt), "key": "planted_f_agn"}, "mock,validation")
+    PC = prod_common()
+    seeds = PR.RUNREAL["FluxEighteen"]
+    dens = {s: PC.density_from_counts(PC.survey_path(s, "agn", "18"), PC.fit_path("agn", "18")) for s in seeds}
+    NA = int(dens[100]["n_below_z_complete"])
+    srcN = {"files": [rel(PC.survey_path(100, "agn", "18")), rel(PC.fit_path("agn", "18")), rel(A16 / "scripts" / "prod_common.py")],
+            "computation": "prod_common.density_from_counts: AGN with zgals < z_complete(AGN m<18 selection fit)"}
+    add("MockNAGNCompleteEighteen", "plain", str(NA), NA, "objects", f"AGN of the m < 18 AGN catalog of realization A below the redshift to which it is complete (z_c = {dens[100]['z_complete']:.4f}, AGN fit)",
+        srcN, "mock,C4", extra={"z_complete": dens[100]["z_complete"], "counts_five_realizations": {s: dens[s]["n_below_z_complete"] for s in seeds}})
+    prec = 100.0 / math.sqrt(NA)
+    add("MocknAGNPrecEighteen", "plain", fsig(prec, 2), prec, "%", "Poisson precision (100/sqrt N) of the AGN number density from those counts, realization A", dict(srcN, computation="100 / sqrt(MockNAGNCompleteEighteen)"), "mock,C4")
+    nh = np.array([dens[s]["n_h3Mpc-3"] for s in seeds])
+    scat = 100.0 * float(np.std(nh, ddof=1) / np.mean(nh))
+    add("MocknAGNScatterEighteen", "plain", fsig(scat, 2), scat, "%", f"scatter (sd, ddof 1) of the AGN number density from the m < 18 counts over the {len(seeds)} production realizations {seeds}, in percent of the mean",
+        dict(srcN, computation="sd/mean of density_from_counts over the realizations"), "mock,C4", extra={"densities_h3Mpc-3": {s: dens[s]["n_h3Mpc-3"] for s in seeds}})
+    sl = v.get("SlopefAGNDepthNorm")
+    for name, pct, what in (("NormDeltafCountsEighteen", prec, "MocknAGNPrecEighteen (Poisson)"), ("NormDeltafCountsScatterEighteen", scat, "MocknAGNScatterEighteen (realised scatter)")):
+        meaning = f"shift of the f_AGN median at m < 18 (hosts to z = 1.10) for an AGN number density off by {what}: SlopefAGNDepthNorm x log10(1 + p/100)"
+        if sl is not None and sl["class"] != "ph":
+            dv = float(sl["value"]) * math.log10(1 + pct / 100.0)
+            add(name, "plain", fsig(dv, 1), dv, "", meaning, {"files": [rel(A15_SUMMARY)] + srcN["files"], "computation": "SlopefAGNDepthNorm (Analysis 15) x log10(1 + p/100)"}, "C4,C5")
+        else:
+            add_ph(name, r"\ph{0.00X}", "", meaning, A15_RUN, "C4,C5")
+    # ---- A3: settings
+    rl = PR.RUNLIST.read_text()
+    ns = int(re.search(r"--nsamp (\d+)", rl).group(1))
+    add("ProdNsamp", "plain", str(ns), ns, "samples", "posterior samples per merger in the production analyses (redrawn from each merger's measurement)", {"file": rel(PR.RUNLIST), "key": "driver (--nsamp)"}, "design,appendixA")
+    plan = jload(A14R / "plan_b.json")
+    nsl = sorted(int(k) for k in plan["seconds_per_call"])
+    assert nsl == sorted(NS_WORD), nsl
+    for name, n_, w in zip(("MCNsampLo", "MCNsampMid", "MCNsampHi"), nsl, ("smallest", "middle", "largest")):
+        add(name, "plain", str(n_), n_, "samples", f"{w} number of posterior samples per merger in the Monte Carlo accuracy study (Analysis 14; suffix {NS_WORD[n_]} of the MC macros)",
+            {"file": rel(A14R / "plan_b.json"), "key": "seconds_per_call (the sample counts of the redraws)"}, "appendixA")
+    for name, val, units, what in (("SkyResShiftHzero", 0.1, "km/s/Mpc", "change of the H0 median"), ("SkyResShiftfAGN", 0.005, "", "change of the f_AGN median")):
+        add(name, "ph", f"\\ph{{{fnum(val, 1 if units else 3)}}}", val, units, f"{what} of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32)",
+            {"missing": "run R10 of runs.txt (complete catalogs at twice the pixel resolution); not in the approved stages or the run list",
+             "placeholder_source": "invented (expectation: below a tenth of the 90% half-width of realization A)"}, "validation")
 
 
 # ============================================================================================= #
@@ -2579,6 +2758,7 @@ def compute():
     build_placeholders()
     build_r2()
     build_keys()
+    build_requests()
     DIAG["grid_log"] = list(GRIDLOG)
     return REG, DIAG, TABLES, BAYES
 
@@ -2596,7 +2776,7 @@ def write_all():
     M = ["# Macro menu (written by scripts/build_values.py; do not edit)", "",
          "Class: plain = design choice or mock input; teal = exploratory result (production replaces it); red = not yet computable (see placeholders.txt).",
          "Intervals are medians with 90% equal-tailed intervals unless stated. Full numbers, sources and containment records: values.json.", "",
-         KEY_DEFINITIONS, "", R2_DEFINITIONS, "",
+         KEY_DEFINITIONS, "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
          "| macro | meaning | rendered | class | claim |", "|---|---|---|---|---|"]
     for r in reg:
         rr = r["render"].replace("|", "\\|")

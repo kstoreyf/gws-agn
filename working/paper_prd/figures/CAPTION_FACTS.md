@@ -25,10 +25,18 @@ at the end compares every drawn median and 90% interval end with `values/values.
 - Names in the panels are those of PAPER_SKELETON Sec. 2 (both catalogs, galaxy catalog alone, AGN catalog
   alone, no catalog; population known, single population, host-dependent populations; realization A;
   combined over realizations). Each number below names its macro; red macros are placeholders.
-- "Combined over realizations": log-likelihoods summed, parameters shared. Invented combinations are
-  narrower than realization A by sqrt(N), N = 10 (population known, single population, single population
-  on host-dependent events, no catalog), 5 (flux limits, host-dependent populations, observed-like
-  spectrum, all-AGN and all-galaxy sets), 3 (number densities inferred).
+- "Combined over realizations": log-likelihoods summed, parameters shared. N per key is that of the run list
+  (`analyses/analysis_16_production_runs/runs/RUNLIST.yaml`; macros `\Nreal...`): 10 for population known with
+  both catalogs, single population (both catalogs and no catalog) and the single-population analysis of
+  host-dependent mergers; 5 for each catalog alone and no catalog with the population known, the all-AGN and
+  all-galaxy sets, the flux limits, host-dependent populations, no catalog on host-dependent mergers, the
+  observed-like spectrum and the two control sets (the last two from runs.txt, not yet in the run list); 3 with
+  the number densities inferred. Invented combinations (placeholders) are realization A combined with N - 1
+  realizations of A's width centred at the expected value: narrower by sqrt(N), median input + bias +
+  (median_A - input - bias)/N (since 17 Nov; before, the shift was divided by sqrt(N) and the input stayed
+  as far out as in realization A). Exploratory combinations sum the exploratory realizations that are also
+  production realizations (each catalog alone, all-AGN and all-galaxy sets: realizations 100, 101, 102, 103,
+  105) and all nine exploratory realizations for population known with both catalogs.
 
 ## Fig. 1 `fig1_mocks` (final; unchanged from the first draft)
 
@@ -53,7 +61,7 @@ at the end compares every drawn median and 90% interval end with `values/values.
 - (a) Joint posterior of H0 and f_AGN: realization A, 90% region dashed outline (`\KnownBothHzero`,
   `\KnownBothfAGN`); combined over realizations, filled with solid outline (`\KnownBothHzeroComb`,
   `\KnownBothfAGNComb`; input at the `\KnownBothHzeroCL`% and `\KnownBothfAGNCL`% levels; correlation r =
-  `\JointRhoCatA` for realization A, `\JointRhoComb` combined). Black "+": input. Axes H0 [65.5, 73], f_AGN [0.13, 0.43]. Placeholder data:
+  `\KnownBothCorrHzerofAGN` (= `\JointRhoCatA`) for realization A, `\KnownBothCorrHzerofAGNComb` (= `\JointRhoComb`) combined). Black "+": input. Axes H0 [65.5, 73], f_AGN [0.13, 0.43]. Placeholder data:
   the exploratory complete-catalog grids (9 realizations combined; production combines 10).
 - (b) H0 posterior of realization A with both catalogs (solid, `\KnownBothHzero`), galaxy catalog alone
   (dashed, `\KnownGalHzero`), AGN catalog alone (dash-dot, `\KnownAGNHzero`), no catalog (dotted,
@@ -109,7 +117,10 @@ at the end compares every drawn median and 90% interval end with `values/values.
   Width ratios no catalog over both catalogs: `\MassScaleShareKnown`, `\MassScaleShareSingle`.
 - (b) Joint posterior of H0 and the mass-peak location, single population: no catalog (dash-dot outline,
   correlation `\CorrHzeroMuGNone`) and both catalogs (dashed outline, filled, `\CorrHzeroMuGBoth`).
-  Invented: 2-D Gaussians with the stated correlations. Black "+": input (67.74, 35).
+  Invented: 2-D Gaussians with the stated correlations, on a 261 x 261 lattice reaching 5 sd (cut at the H0
+  prior edge 50); both 90% regions close inside their lattices (checked when the figure is drawn; no-catalog
+  region H0 57.3 to 80.7, mass peak 32.5 to 36.7 Msun). Axes fitted to the two regions. "both catalogs" is
+  attached to its region by a thin line. Black "+": input (67.74, 35).
 
 ## Fig. 6 `fig6_host_dependent` and Fig. 7 `fig7_observed_like` (placeholders)
 
@@ -121,29 +132,39 @@ at the end compares every drawn median and 90% interval end with `values/values.
   `\ObsHostHzeroComb`). Log10 Bayes factor of the second against the first: `\HDLB` / `\ObsLB` for
   realization A, `\HDHostLBComb` / `\ObsHostLBComb` combined.
 - (b) Joint posterior of the AGN offsets of the mass peak and of the spin mean, host-dependent
-  populations, 90% region (`\HDHostDmuGComb`, `\HDHostDmuChiComb` / `\ObsHost...`). Black "+": input
-  (5, 0.10); black "x": no offset (0, 0); gray dotted lines at zero.
+  populations, combined over realizations like (a) and (c), 90% region (`\HDHostDmuGComb`,
+  `\HDHostDmuChiComb` / `\ObsHost...`); a 2-D Gaussian with these combined summaries and the correlation of
+  the two offsets in the exploratory eight-parameter run (r = -0.13). Black "+": input (5, 0.10), inside the
+  region in both figures; black "x": no offset (0, 0); gray dotted lines at zero.
 - (c) f_AGN: the same two analyses and line styles (`\HDSinglefAGNComb`,
   `\HDHostfAGNComb`, `\ObsSinglefAGNComb`, `\ObsHostfAGNComb`).
 - Sources. Fig. 6: single population invented (Sec. 7: H0 70.9 +- 2.6 for realization A, bias kept in the
-  combination); host-dependent populations combined invented from the exploratory eight-parameter run of
-  realization A (its offsets: `\HDHostDmuG`, `\HDHostDmuChi`; H0 prior [60, 76] in that run), the 2-D
-  region a Gaussian with that run's correlation of the two offsets. Fig. 7: all invented (Sec. 7); the
-  observed-like inputs of the mass spectrum are not on disk yet.
-- Input lines stop below the labels. In (b) of Fig. 6 the input lies outside the 90% region of the
-  placeholder (the exploratory spin offset, carried into the invented combination).
+  combination, N = 10); host-dependent populations combined (N = 5) invented from the exploratory
+  eight-parameter run of realization A (its offsets: `\HDHostDmuG`, `\HDHostDmuChi`; H0 prior [60, 76] in that
+  run) by the rule of the conventions above. Fig. 7: all invented (Sec. 7, N = 5); population quantities of
+  the `Obs...` keys are now centred on the observed-like inputs (mass peak `\ObsMuG` = 34, width
+  `\ObsSigmaG` = 3.6 Msun; not drawn in this figure).
+- Input lines stop below the labels. The observed-like spectrum has `\ObsPeakFrac` = 0.092 of the mergers in
+  its Gaussian peak, but `\ObsDetPeakShare` = 0.42 of the detected mergers (`\MockDetPeakShare` = 0.97 for
+  the peak-dominated spectrum): "few mergers in the peak" holds for the population, not for the detections.
 
 ## Fig. 8 `fig8_summary` (all placeholder)
 
-- One row per analysis in the order of Sec. IV, grouped under bold headings: population known, complete
-  catalogs (both catalogs, galaxy catalog alone, AGN catalog alone, no catalog); flux-limited catalogs
-  (m < 21, 20, 19, 18 with densities known; m < 18 with number densities inferred); unknown population
-  (single population with both catalogs and with no catalog); host-dependent populations (single
-  population, host-dependent populations, no catalog); observed-like spectrum (the same three).
-- Left: H0, right: f_AGN; marker = median, bar = 90% interval of the combination over realizations
-  (`\<Key>HzeroComb`, `\<Key>fAGNComb`). Black dashed: inputs. "not inferred": f_AGN is not a parameter of
-  that analysis. The AGN-catalog-alone interval lies at the upper prior edge (99.9 to 100) and is marked by
-  an arrow and text. Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size.
+- One row per analysis in the order of Sec. IV, grouped under the subsection titles of Sec. IV, read from
+  `main.tex` when the figure is drawn (bold): "Known population and complete catalogs" (both catalogs, galaxy
+  catalog alone, AGN catalog alone, no catalog); "Flux-limited catalogs" (m < 21, 20, 19, 18, number
+  densities known; m < 18, number densities inferred); "An unknown population" (single population, both
+  catalogs; single population, no catalog); "Populations that depend on the host" and "A mass spectrum like
+  the observed one" (each: single population, both catalogs; host-dependent populations, both catalogs;
+  single population, no catalog). The last two groups use mergers with host-dependent populations, the
+  others mergers with equal populations. No row label repeats its heading.
+- Intervals, uniformly for every row and both panels: median (marker) and 90% interval (bar) of the
+  posterior combined over realizations (`\<Key>HzeroComb`, `\<Key>fAGNComb`; N per row as in the conventions
+  above). For "m < 18, number densities inferred" the f_AGN placeholder of the combination is taken equal to
+  realization A (it follows its prior along the curve of constant rate per host). Realization A is not drawn
+  in this figure. Black dashed: inputs. "not inferred": f_AGN is not a parameter of that analysis. The
+  AGN-catalog-alone interval lies at the upper prior edge (99.9 to 100) and is marked by an arrow and text.
+  Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size.
 
 ## Fig. 9 `fig9_validation` (placeholder)
 
@@ -155,3 +176,41 @@ at the end compares every drawn median and 90% interval end with `values/values.
   limit `\CtrlZerofAGNCombUL`), 0.10 (dashed, `\CtrlTenthfAGNComb`) and 0.30 (dash-dot,
   `\KnownBothfAGNComb`, exploratory); black dashed lines at the three inputs. The two control sets are
   invented.
+
+## Figures of the short draft (`paper_short/figures/`, drawn by `paper_short/scripts/make_figures.py`)
+
+Drawn with the machinery of `scripts/make_figures.py` (imported, not copied); the same placeholder marking
+and figure-against-values check (179 numbers, 0 mismatches). Width 7.0 in (`figure*`).
+
+- `fig1_concept` (final; height 3.05 in). Realization A (seed 100). (a) Slice |delta| < 3 deg, right ascension
+  within 20 deg of the shown merger's region centre (296.2 deg), true z < 0.20, comoving distance at H0 =
+  67.74 (scale bar 200 Mpc, dashed arcs z = 0.05, 0.10, 0.15): 13,398 galaxies (small blue dots) and 126 AGN
+  (vermilion diamonds) of the complete catalogs. Black outline: the footprint in the slice of the 90%
+  localization region of one AGN-hosted merger of the host-dependent set (true z 0.098, m1 44.7 Msun,
+  chi_eff 0.24): a sky disc of radius 3.38 deg holding sqrt(0.9) of its sky samples times the redshift
+  interval [0.081, 0.110] holding sqrt(0.9) of its distance samples at H0 = 67.74 (the construction of
+  `\PureGalHostsPerVol`). Zoom (gray lines): the whole region seen from the side (transverse against radial
+  comoving distance, cataloged positions and redshifts): 225 galaxies and 6 AGN inside it (bold), the same sky
+  disc over a wider redshift range faint; black ring: the merger's true host AGN. (b) Source-frame primary mass
+  and (c) effective spin of the 1000 detected mergers with host-dependent populations
+  (`events_marked_dmu0p10_dmuG5_corepop.h5`; 640 galaxy-hosted, 360 AGN-hosted), true values, each class
+  normalized to unit area (bins 2.5 Msun and 0.05); black dashed lines at the input peaks 35 and 40 Msun and
+  spin means 0 and 0.10. Mean m1 36.7 / 41.3 Msun, mean chi_eff -0.004 / 0.093 (galaxy- / AGN-hosted).
+- `fig2_headline` = Fig. 6 above (same code and facts).
+- `fig3_assumptions` (placeholder; height 4.65 in). Ten rows in three groups by what the mergers are: "Mergers with
+  equal populations" (population known, both catalogs; population known, no catalog; single population, both
+  catalogs; single population, no catalog), "Mergers with host-dependent populations" and "The same,
+  observed-like mass spectrum" (each: single population, both catalogs; host-dependent populations, both
+  catalogs; single population, no catalog). Median and 90% interval of the combination over realizations for
+  every row and both panels (keys `KnownBoth`, `KnownNone`, `SingleBoth`, `SingleNone`, `HD...`, `Obs...`).
+  Axes H0 [60, 80], f_AGN [0.1, 0.6]. Text 11 pt at print size.
+- `fig4_rate_per_host` (height 3.0 in). (a) = Fig. 4(a) above (placeholder). (b) Final (black), Analysis 15,
+  realization A, equal populations, population known, 2000 posterior samples per merger, hosts normalized to
+  z = 1.10 (`\NormZmaxProd`): median and 90% interval of f_AGN against the assumed AGN number density over its
+  input, complete catalogs (filled squares at 1 and 2, `\NormfCompleteProd`, `\NormfCompleteProdTwo`) and
+  m < 18 (open diamonds at 0.5, 1, 2, `\NormfEighteenProdHalf`, `\NormfEighteenProd`, `\NormfEighteenProdTwo`),
+  points offset by 2.5% in x. Black curves: the identity at constant rate per host through the factor-1
+  median, logit f(x) = logit f(1) + ln[F_AGN + x (1 - F_AGN)], F_AGN = 1 (complete, solid: flat) and 0.0041
+  (`\NormFAGNEighteenProd`, dashed). Black dashed: input 0.30.
+- `figA1_mocks` = Fig. 1 above; `figA2_flux_limits`: (a) = Fig. 3(a) above, (b) = Fig. 4(b) above;
+  `figA3_validation` = Fig. 9 above.

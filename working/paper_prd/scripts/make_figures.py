@@ -368,8 +368,9 @@ WEDGE_RA = (0.0, np.pi)  # right-ascension range of panel (a)
 WEDGE_ZMAX = 0.33
 
 
-def fig1_mocks():
-    name = "fig1_mocks"
+def fig1_mocks(outdir=None, stem=None):
+    """outdir, stem: where to write (the short draft draws the same figure as its figA1_mocks)."""
+    name = stem or "fig1_mocks"
     meta = bv.jload(bv.META100)
     H0, Om = meta["stages"]["events"]["cosmology"]["H0"], meta["stages"]["events"]["cosmology"]["Om0"]
     sur = meta["stages"]["surveys"]
@@ -533,7 +534,7 @@ def fig1_mocks():
     n_agn = int((hd["host_type"] == 1).sum())
     chk(name, ("macros", "MockHDNagn", "value"), float(n_agn), "AGN-hosted events of the host-dependent mock")
     note(name, f"(c,d) host-dependent mock, 1000 detected events: {1000 - n_agn} galaxy-hosted, {n_agn} AGN-hosted; true values; histograms normalised per class")
-    fs.save(fig, FIGDIR, name)
+    fs.save(fig, outdir or FIGDIR, name)
 
 
 # ============================================================================================= #
@@ -1198,6 +1199,13 @@ def fig3_flux_limits():
     axH = fig.add_subplot(gs[0, 0])
     axF = fig.add_subplot(gs[1, 0], sharex=axH)
     axb = fig.add_subplot(gs[:, 1])
+    panel_flux_points(axH, axF, name)
+    panel_density_response(axb, name)
+    fs.save(fig, FIGDIR, name)
+
+
+def panel_flux_points(axH, axF, name):
+    """Fig. 3(a): medians and 90% intervals of H0 (axH) and f_AGN (axF), realization A, against the flux limit."""
     keys = ["KnownBoth"] + [f"Flux{w}" for _, w, _ in bv.RUNGS]
     xs = np.arange(len(keys))
     for ax, q, x0, yl in ((axH, "Hzero", IN_H0, fs.H0_LABEL), (axF, "fAGN", IN_F, r"$f_{\rm AGN}$")):
@@ -1229,7 +1237,10 @@ def fig3_flux_limits():
     sec.tick_params(axis="x", which="minor", top=False)
     sec.set_xlabel("completeness weighted by the detected mergers", fontsize=fs.FS_TEXT)
     fs.panel_label(axH, "(a)", y=0.95)
-    # (b) f_AGN against the assumed AGN density
+
+
+def panel_density_response(axb, name):
+    """Fig. 3(b): f_AGN against the assumed AGN density, exploratory (placeholder) and Analysis 15 (final)."""
     at_input, arms = flux()
     facs = [0.5, 1.0, 2.0]
     xx = np.geomspace(0.45, 2.2, 200)
@@ -1283,14 +1294,19 @@ def fig3_flux_limits():
     fs.label(axb, 0.48, 0.60, "black: prediction of the identity, hosts\nnormalized to $z=5$ (solid $m<21$, dashed $m<18$)", "k", ha="left", va="top")
     fs.panel_label(axb, "(b)", x=0.975, y=0.04, ha="right", va="bottom")
     ph_word(axb, x=0.975, y=0.12, va="bottom")
-    fs.save(fig, FIGDIR, name)
 
 
 # ---------------------------------------------------------------- Fig. 4: number densities inferred
 def fig4_densities():
     name = "fig4_densities"
     fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 3.0), layout="constrained", gridspec_kw=dict(width_ratios=[1.0, 1.1]))
-    # (a) f_AGN against log10 n_AGN
+    panel_free_joint(axa, name)
+    panel_rate_ratio(axb, name)
+    fs.save(fig, FIGDIR, name)
+
+
+def panel_free_joint(axa, name, label="(a)"):
+    """Fig. 4(a): f_AGN against log10 n_AGN with the number densities inferred (realization A)."""
     J = smooth_joint(PHJ["FreeEighteen"]["joint"]["prior_induced"], 2.0)
     draw_joint(axa, J, "0.55", ls="-", fill=True, alpha=0.30, lw=0.8, zorder=1)
     for i, (k, mlim, ls) in enumerate((("FreeTwentyOne", 21, "--"), ("FreeEighteen", 18, "-"))):
@@ -1317,9 +1333,13 @@ def fig4_densities():
     c18, c21 = kcol("FreeEighteen", fs.COMP[3], 2), kcol("FreeTwentyOne", fs.COMP[0], 0)
     fs.label(axa, 0.43, -5.22, "$m<18$", c18, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
     fs.label(axa, 0.67, -5.36, "$m<21$", c21, ha="left", bbox=dict(fc="white", ec="none", pad=0.3, alpha=0.8))
-    fs.panel_label(axa, "(a)", x=0.97, y=0.04, ha="right", va="bottom")
+    fs.panel_label(axa, label, x=0.97, y=0.04, ha="right", va="bottom")
     ph_word(axa, x=0.97, y=0.13, va="bottom")
-    # (b) rate per host at each flux limit
+
+
+def panel_rate_ratio(axb, name, label="(b)"):
+    """Fig. 4(b): posterior of the rate-per-host ratio at each flux limit, number densities inferred (realization A)."""
+    Rin = VALUES["macros"]["MockRateRatio"]["value"]
     top = 0.0
     for i, (rk, w, mlim) in enumerate(bv.RUNGS):
         k = f"Free{w}"
@@ -1338,9 +1358,8 @@ def fig4_densities():
         yy = [0.95, 0.83, 0.71, 0.59][i] * 1.25 * top
         fs.label(axb, 72, yy, f"$m<{mlim}$", kcol(f"Free{w}", fs.COMP[i], i), ha="left")
         axb.plot([64, 70.5], [yy, yy], color=kcol(f"Free{w}", fs.COMP[i], i), ls=LS4[i], lw=fs.LW)
-    fs.panel_label(axb, "(b)")
+    fs.panel_label(axb, label)
     ph_word(axb, x=0.03, ha="left", y=0.86)
-    fs.save(fig, FIGDIR, name)
 
 
 # ---------------------------------------------------------------- Fig. 5: an unknown population
@@ -1368,14 +1387,28 @@ def fig5_population():
     axa.set_ylabel(fs.H0_DENS)
     fs.panel_label(axa, "(a)")
     ph_word(axa)
-    for key, i, ls, lab, pos in (("SingleNone", 2, "-.", "no catalog", (60.6, 36.95)), ("SingleBoth", 1, "--", "both\ncatalogs", (71.8, 34.3))):
+    box = []
+    for key, i, ls in (("SingleNone", 2, "-."), ("SingleBoth", 1, "--")):
         c = kcol(key, SINGLE_C if key == "SingleBoth" else "#7F7F7F", i)
-        draw_joint(axb, PHJ[key]["joint"]["A"], c, ls=ls, fill=(key == "SingleBoth"), alpha=0.25)
+        x_, y_, P_, lev_ = draw_joint(axb, PHJ[key]["joint"]["A"], c, ls=ls, fill=(key == "SingleBoth"), alpha=0.25)
         chk_key(name, key, "MuG", "A")
-        fs.label(axb, *pos, lab, c, ha="left")
+        ii, jj = np.where(P_ >= lev_)
+        box.append((x_[ii.min()], x_[ii.max()], y_[jj.min()], y_[jj.max()]))
+        # the 90% region must close inside the stored lattice (it is clipped otherwise)
+        assert 0 < ii.min() and ii.max() < len(x_) - 1 and 0 < jj.min() and jj.max() < len(y_) - 1, (key, "90% region reaches the lattice edge")
+        note(name, f"(b) {key}: 90% region H0 [{box[-1][0]:.1f}, {box[-1][1]:.1f}], mu_G [{box[-1][2]:.2f}, {box[-1][3]:.2f}]; lattice H0 [{x_[0]:.1f}, {x_[-1]:.1f}], mu_G [{y_[0]:.2f}, {y_[-1]:.2f}]")
     axb.plot([IN_H0], [IN["muG"]], marker="+", ms=11, mew=1.6, color=fs.INPUT, zorder=8)
-    axb.set_xlim(55, 82)
-    axb.set_ylim(32.4, 37.8)
+    x0b, x1b = min(b[0] for b in box), max(b[1] for b in box)
+    y0b, y1b = min(b[2] for b in box), max(b[3] for b in box)
+    axb.set_xlim(x0b - 0.08 * (x1b - x0b), x1b + 0.08 * (x1b - x0b))
+    axb.set_ylim(y0b - 0.10 * (y1b - y0b), y1b + 0.16 * (y1b - y0b))
+    # direct labels: "no catalog" above the upper-left end of its region, "both catalogs" to the right of the filled region
+    bN, bB = box[0], box[1]
+    fs.label(axb, bN[0] + 0.12 * (bN[1] - bN[0]), bN[3] + 0.05 * (y1b - y0b), "no catalog", kcol("SingleNone", "#7F7F7F", 2), ha="left", va="bottom")
+    cB = kcol("SingleBoth", SINGLE_C, 1)
+    xy_tip = (bB[1] - 0.03 * (bB[1] - bB[0]), bB[2] + 0.42 * (bB[3] - bB[2]))     # at the right-hand edge of the filled region
+    axb.annotate("both catalogs", xy=xy_tip, xytext=(bB[1] + 0.12 * (x1b - x0b), bB[3] + 0.06 * (y1b - y0b)), color=cB, fontsize=fs.FS_TEXT, ha="left", va="bottom",
+                 arrowprops=dict(arrowstyle="-", color=cB, lw=0.8, shrinkA=1, shrinkB=2), zorder=9)
     axb.set_xlabel(fs.H0_LABEL)
     axb.set_ylabel(r"mass-peak location $\mu_{\rm G}$ [$M_\odot$]")
     fs.panel_label(axb, "(b)")
@@ -1399,7 +1432,7 @@ def host_labels(ax, cur, kS, kH, cS, cH, q):
         fs.label(ax, m + (-0.02 if left else 0.02) * span, y, lab, c, ha="right" if left else "left", va="bottom")
 
 
-def fig_host(pre, name):
+def fig_host(pre, name, outdir=None):
     fig, axs = plt.subplots(1, 3, figsize=(fs.PAGE, 2.6), layout="constrained", gridspec_kw=dict(width_ratios=[1.1, 1.0, 1.0]))
     kS, kH = f"{pre}Single", f"{pre}Host"
     cS, cH = kcol(kS, SINGLE_C, 1), kcol(kH, fs.BOTH, 0)
@@ -1461,7 +1494,7 @@ def fig_host(pre, name):
     fs.panel_label(ax, "(c)")
     if not (fin(kS) and fin(kH)):
         ph_word(ax)
-    fs.save(fig, FIGDIR, name)
+    fs.save(fig, outdir or FIGDIR, name)
 
 
 def fig6_host_dependent():
@@ -1473,28 +1506,41 @@ def fig7_observed_like():
 
 
 # ---------------------------------------------------------------- Fig. 8: the summary
+def results_subsections(tex=PRD / "main.tex"):
+    """Titles of the subsections of Sec. IV (Results) of the long draft, in order."""
+    import re as _re
+    t = Path(tex).read_text()
+    body = t.split("\\section{Results}", 1)[1].split("\\section{", 1)[0]
+    return _re.findall(r"\\subsection\{([^}]*)\}", body)
+
+
+_SEC = results_subsections()
+# group headings: the subsection titles of Sec. IV in the paper (first five); rows: the analyses in words
 SUMMARY_ROWS = [
-    ("Population known, complete catalogs", [("KnownBoth", "both catalogs"), ("KnownGal", "galaxy catalog alone"), ("KnownAGN", "AGN catalog alone"), ("KnownNone", "no catalog")]),
-    ("Flux-limited catalogs", [("FluxTwentyOne", "$m<21$"), ("FluxTwenty", "$m<20$"), ("FluxNineteen", "$m<19$"), ("FluxEighteen", "$m<18$"),
-                               ("FreeEighteen", "$m<18$, number densities inferred")]),
-    ("Unknown population", [("SingleBoth", "single population, both catalogs"), ("SingleNone", "single population, no catalog")]),
-    ("Host-dependent populations", [("HDSingle", "single population"), ("HDHost", "host-dependent populations"), ("HDNone", "no catalog")]),
-    ("Observed-like spectrum", [("ObsSingle", "single population"), ("ObsHost", "host-dependent populations"), ("ObsNone", "no catalog")]),
+    (_SEC[0], [("KnownBoth", "both catalogs"), ("KnownGal", "galaxy catalog alone"), ("KnownAGN", "AGN catalog alone"), ("KnownNone", "no catalog")]),
+    (_SEC[1], [("FluxTwentyOne", "$m<21$, number densities known"), ("FluxTwenty", "$m<20$, number densities known"), ("FluxNineteen", "$m<19$, number densities known"),
+               ("FluxEighteen", "$m<18$, number densities known"), ("FreeEighteen", "$m<18$, number densities inferred")]),
+    (_SEC[2], [("SingleBoth", "single population, both catalogs"), ("SingleNone", "single population, no catalog")]),
+    (_SEC[3], [("HDSingle", "single population, both catalogs"), ("HDHost", "host-dependent populations, both catalogs"), ("HDNone", "single population, no catalog")]),
+    (_SEC[4], [("ObsSingle", "single population, both catalogs"), ("ObsHost", "host-dependent populations, both catalogs"), ("ObsNone", "single population, no catalog")]),
 ]
+assert [h for h, _ in SUMMARY_ROWS] == ["Known population and complete catalogs", "Flux-limited catalogs", "An unknown population",
+                                       "Populations that depend on the host", "A mass spectrum like the observed one"], _SEC
+assert all(lab.lower() != head.lower() for head, items in SUMMARY_ROWS for _, lab in items)
 
 
-def fig8_summary():
-    name = "fig8_summary"
+def draw_summary(name, groups, outdir=None, fs_lab=10.0, row_h=0.255, left=0.40, h0_range=(60, 84), part="Comb", width=fs.PAGE, head_x=0.012, row_x=0.035,
+                 fan=0.62, f_range=(0.0, 1.0), gap=0.03, ni_x=0.80, ni_ha="center"):
+    """One row per analysis, grouped under headings: median (marker) and 90% interval (bar) of H0 (left panel) and f_AGN (right
+    panel) of the posterior combined over realizations (part="Comb", every row); inputs as dashed lines."""
     rows = []
-    for head, items in SUMMARY_ROWS:
+    for head, items in groups:
         rows.append(("head", head))
         rows += [("row", it) for it in items]
     n = len(rows)
-    fs_lab = 10.0
-    fig = plt.figure(figsize=(fs.PAGE, 0.255 * n + 0.75))
-    left, right, bot, topm = 0.37, 0.985, 0.075, 0.985
-    gap = 0.03
-    wH = 0.62 * (right - left - gap)
+    fig = plt.figure(figsize=(width, row_h * n + 0.75))
+    right, bot, topm = 0.985, 0.075 * 6.36 / (row_h * n + 0.75), 0.985
+    wH = fan * (right - left - gap)
     axH = fig.add_axes([left, bot, wH, topm - bot])
     axF = fig.add_axes([left + wH + gap, bot, right - left - gap - wH, topm - bot])
     y = np.arange(n)[::-1].astype(float)
@@ -1503,41 +1549,50 @@ def fig8_summary():
         ax.set_yticks([])
         ax.tick_params(axis="y", which="both", left=False, right=False)
         ax.tick_params(axis="x", labelsize=fs_lab)
+    anyph = False
     for yy, (kind, it) in zip(y, rows):
         if kind == "head":
-            fig.text(0.012, axH.transData.transform((0, yy))[1] / fig.bbox.height, it, fontsize=fs_lab, fontweight="bold", va="center", ha="left")
+            fig.text(head_x, axH.transData.transform((0, yy))[1] / fig.bbox.height, it, fontsize=fs_lab, fontweight="bold", va="center", ha="left")
             for ax in (axH, axF):
                 ax.axhline(yy + 0.5, color="0.85", lw=0.6, zorder=0)
             continue
         key, lab = it
         c = "k" if fin(key) else RED[0]
-        fig.text(0.035, axH.transData.transform((0, yy))[1] / fig.bbox.height, lab, fontsize=fs_lab, va="center", ha="left", color="k")
+        anyph |= not fin(key)
+        fig.text(row_x, axH.transData.transform((0, yy))[1] / fig.bbox.height, lab, fontsize=fs_lab, va="center", ha="left", color="k")
         for ax, q in ((axH, "Hzero"), (axF, "fAGN")):
             if q not in PHJ[key]["quantities"]:
-                ax.text(0.80, yy, "not inferred", transform=ax.get_yaxis_transform(), color="0.55", fontsize=fs_lab - 1.5, ha="center", va="center")
+                ax.text(ni_x, yy, "not inferred", transform=ax.get_yaxis_transform(), color="0.45", fontsize=fs_lab - 1.5, ha=ni_ha, va="center")
                 continue
-            s = PHJ[key]["quantities"][q]["Comb"]
+            s = PHJ[key]["quantities"][q][part]
             ax.plot([s["ci90"][0], s["ci90"][1]], [yy, yy], color=c, lw=3.2, solid_capstyle="butt", zorder=4)
             ax.plot([s["median"]], [yy], marker="o", ms=6.5, color=c, mec="white", mew=0.8, zorder=5)
-            chk_key(name, key, q, "Comb")
-    for ax, x0, xr, xl in ((axH, IN_H0, (60, 84), fs.H0_LABEL), (axF, IN_F, (0.0, 1.0), r"$f_{\rm AGN}$")):
+            chk_key(name, key, q, part)
+    for ax, x0, xr, xl in ((axH, IN_H0, h0_range, fs.H0_LABEL), (axF, IN_F, f_range, r"$f_{\rm AGN}$")):
         ax.axvline(x0, color=fs.INPUT, lw=1.0, ls="--", zorder=1)
         ax.set_xlim(*xr)
         ax.set_xlabel(xl, fontsize=fs_lab + 0.5)
-        ax.text(0.98, 0.997, "placeholder", color=RED[0], fontsize=8, ha="right", va="top", transform=ax.transAxes)
+        if anyph:
+            ax.text(0.98, 0.997, "placeholder", color=RED[0], fontsize=8, ha="right", va="top", transform=ax.transAxes)
     # intervals running off the H0 axis
+    hi_edge = h0_range[1]
     for yy, (kind, it) in zip(y, rows):
         if kind == "row" and "Hzero" in PHJ[it[0]]["quantities"]:
-            s = PHJ[it[0]]["quantities"]["Hzero"]["Comb"]
-            if s["ci90"][1] > 84:
-                axH.annotate("", xy=(84, yy), xytext=(83.0, yy), arrowprops=dict(arrowstyle="->", color=RED[0] if not fin(it[0]) else "k", lw=1.6), annotation_clip=False)
-                axH.text(82.6, yy, f"at the prior\nedge, {s['ci90'][1]:.0f}", fontsize=fs_lab - 2.0, ha="right", va="center", color="0.3")
-    fs.save(fig, FIGDIR, name)
+            s = PHJ[it[0]]["quantities"]["Hzero"][part]
+            if s["ci90"][1] > hi_edge:
+                axH.annotate("", xy=(hi_edge, yy), xytext=(hi_edge - 1.0, yy), arrowprops=dict(arrowstyle="->", color=RED[0] if not fin(it[0]) else "k", lw=1.6), annotation_clip=False)
+                axH.text(hi_edge - 1.4, yy, f"at the prior\nedge, {s['ci90'][1]:.0f}", fontsize=fs_lab - 2.0, ha="right", va="center", color="0.3")
+    fs.save(fig, outdir or FIGDIR, name)
+    return fig
+
+
+def fig8_summary():
+    draw_summary("fig8_summary", SUMMARY_ROWS)
 
 
 # ---------------------------------------------------------------- Fig. 9: validation
-def fig9_validation():
-    name = "fig9_validation"
+def fig9_validation(outdir=None, stem=None):
+    name = stem or "fig9_validation"
     fig, (axa, axb) = plt.subplots(1, 2, figsize=(fs.PAGE, 2.6), layout="constrained")
     specs = [("KnownBoth", fs.BOTH, 0, "-", "population known"), ("SingleBoth", SINGLE_C, 1, "--", "single population"),
              ("HDHost", "#009E73", 2, "-.", "host-dependent populations")]
@@ -1576,7 +1631,7 @@ def fig9_validation():
     axb.set_ylabel(r"$p(f_{\rm AGN})$")
     fs.panel_label(axb, "(b)", x=0.97, ha="right")
     ph_word(axb, y=0.87)
-    fs.save(fig, FIGDIR, name)
+    fs.save(fig, outdir or FIGDIR, name)
 
 
 # ============================================================================================= #

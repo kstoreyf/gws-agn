@@ -548,8 +548,10 @@ def audit_keys(mac):
     red = [n for n in mac if mac[n]["claim"].startswith("skeleton") and mac[n]["class"] != "ph" and not any(n.startswith(k) for k in pm)]
     check(not red, f"H1 with production_map.json {'empty' if not pm else 'partial'}, every key-scheme macro without a production summary prints red ({len(red)} exceptions)")
     # exploratory keys equal the exploratory macros built by the separate code of build_c1..build_r2
-    pairs = [("KnownBothHzero", "JointHzeroCatA"), ("KnownBothHzeroComb", "JointHzeroComb"), ("KnownBothfAGNComb", "JointfComb"), ("KnownGalHzeroComb", "GalOnlyHzeroComb"),
-             ("AGNhostedHzeroComb", "PureAGNHzeroComb"), ("GalhostedHzeroComb", "PureGalHzeroComb"), ("FluxEighteenfAGN", "FluxfEighteen"), ("FluxTwentyOneHzero", "FluxHzeroTwentyOne"),
+    # (the combinations of the all-AGN, all-galaxy and galaxy-catalog-alone keys use the production realizations only since
+    #  17 Nov; they are checked against an independent sum in I9 below, not against the 93- and 9-realization macros)
+    pairs = [("KnownBothHzero", "JointHzeroCatA"), ("KnownBothHzeroComb", "JointHzeroComb"), ("KnownBothfAGNComb", "JointfComb"), ("KnownGalHzero", "GalOnlyHzeroCatA"),
+             ("FluxEighteenfAGN", "FluxfEighteen"), ("FluxTwentyOneHzero", "FluxHzeroTwentyOne"),
              ("FreeEighteenLognAGN", "FreeLognAGNEighteen"), ("FreeEighteenfAGN", "FreefAGNEighteen"), ("HDHostDmuChi", "HDEightDmuChi"), ("HDHostHzero", "HDEightHzero"),
              ("KnownBothRateRatio", "RateRatioJointCatA"), ("KnownBothRateRatioComb", "RateRatioJointComb"), ("FluxEighteenRateRatio", "RateRatioEighteen"),
              ("FreeEighteenRateRatio", "RateRatioFreeEighteen")]
@@ -573,6 +575,143 @@ def audit_keys(mac):
                 wc = Q["Comb"]["ci90"][1] - Q["Comb"]["ci90"][0]
                 rat.append(abs(wc / wa * math.sqrt(E["N_comb"]) - 1))
     check(max(rat) < 0.05, f"H3 every invented combination is narrower than realization A by sqrt(N) to {100 * max(rat):.1f}% ({len(rat)} key-quantities; truncation at prior edges allowed for)")
+    audit_requests(mac, doc)
+
+
+# ============================================================================================= #
+# I: the macros of 17 Nov (requests of both drafts, the observed-like family), each from a source build_values.py
+# does not read or by a different computation: the run list parsed here, the event files themselves, the survey file
+# counted with h5py at build_values' own completeness redshift, the A14 scan files, prod_common's text.
+# ============================================================================================= #
+def audit_requests(mac, doc):
+    import yaml
+    val = lambda n: mac[n]["value"]
+    # ---- I0: numbers of realizations from RUNLIST.yaml (own parser) and runs.txt ----
+    rl = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml").read_text())
+    cnt = {}
+    for st in rl["stages"]:
+        for r in st["runs"]:
+            a = r["args"]
+            d = {a[i][2:]: a[i + 1] for i in range(0, len(a) - 1, 2)}
+            if "agn-density-factor" in d:
+                continue
+            cnt.setdefault((d["analysis"], d["catalogs"], d["flux"], d["events-kind"], d.get("density")), set()).add(d["realization"])
+    n = lambda *k: len(cnt.get(k, ()))
+    want = {"NrealKnown": n("known_population", "both", "complete", "equal_populations", None),
+            "NrealKnownAlone": {n("known_population", c, "complete", "equal_populations", None) for c in ("galaxy", "agn", "none")},
+            "NrealPure": {n("known_population", "agn", "complete", "agn_hosted", None), n("known_population", "galaxy", "complete", "galaxy_hosted", None)},
+            "NrealFlux": {n("known_population", "both", m, "equal_populations", "counts") for m in ("21", "20", "19", "18")},
+            "NrealFree": {n("free_densities", "both", m, "equal_populations", "free") for m in ("21", "20", "19", "18")},
+            "NrealSingle": {n("single_population", c, "complete", "equal_populations", None) for c in ("both", "none")},
+            "NrealHD": n("host_dependent_populations", "both", "complete", "host_dependent", None),
+            "NrealHDSingle": n("single_population", "both", "complete", "host_dependent", None),
+            "NrealHDNone": n("single_population", "none", "complete", "host_dependent", None)}
+    runs_txt = (OUT / "runs.txt").read_text()
+    want["NrealObs"] = 5 if re.search(r"Stage 5 .*\n.*5 realizations", runs_txt) else -1
+    want["NrealCtrl"] = 5 if "five for the others" in runs_txt else -1
+    words = {3: "three", 5: "five", 10: "ten"}
+    bad = []
+    for k, w in want.items():
+        w = w.pop() if isinstance(w, set) and len(w) == 1 else w
+        if isinstance(w, set) or val(k) != w or mac[k]["render"] != words.get(w) or mac[k]["class"] != "plain":
+            bad.append(f"{k}: {mac[k]['render']} vs {w}")
+    bad += [f"{k} N_comb {E['N_comb']} vs macro" for k, E in doc.items()
+            for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
+                          ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
+                          ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"])) if k in ks and E["N_comb"] != val(m)]
+    check(not bad, f"I0 the eleven numbers of realizations equal the run list (own parser) / runs.txt, print as words, and equal N_comb of their keys{': ' + '; '.join(bad) if bad else ''}")
+    # ---- I1: observed-like design values from the events files' own metadata ----
+    E = B.DATA / "seed100" / "events"
+    with h5py.File(E / "events_obslike.h5") as h:
+        ms = json.loads(h.attrs["metadata_json"])["mass_spectrum"]
+    th, rf = ms["core_theta"], ms["replaced_fields"]
+    pairs = [("ObsPeakFrac", rf["peak_fraction"]), ("ObsMuG", rf["peak_mu"]), ("ObsSigmaG", rf["peak_sigma"]), ("ObsAlpha", rf["alpha"]), ("ObsMmin", rf["mmin"]),
+             ("ObsMmax", rf["mmax"]), ("ObsDeltaM", rf["dm_min"]), ("ObsBeta", rf["beta"])]
+    d1 = max(abs(val(k) - x) for k, x in pairs)
+    check(d1 < 1e-12 and abs(1 - th["v1"] - val("ObsPeakFrac")) < 1e-12 and all(mac[k]["class"] == "plain" for k, _ in pairs),
+          f"I1 observed-like design values equal the mass_spectrum block of events_obslike.h5 (max diff {d1:.1e})")
+    K = json.loads((OUT / "values" / "placeholder_results.json").read_text())
+    inp = K["_inputs_observed_like"]
+    check(abs(inp["MuG"] - rf["peak_mu"]) < 1e-12 and abs(inp["SigmaG"] - rf["peak_sigma"]) < 1e-12 and K["keys"]["ObsHost"]["quantities"]["MuG"]["input"] == rf["peak_mu"],
+          "I1b the Obs... placeholder keys take the observed-like inputs (mass peak and width) for their credible levels")
+    # ---- I2: detected samples from the truth groups of the four event files ----
+    files = {"Mock": "events_corepop.h5", "MockHD": "events_marked_dmu0p10_dmuG5_corepop.h5", "Obs": "events_obslike.h5", "ObsHD": "events_marked_dmu0p10_dmuG5_obslike.h5"}
+    bad = []
+    for fam, f in files.items():
+        with h5py.File(E / f) as h:
+            t = {k: h["truth/" + k][()] for k in ("z", "m1src", "m2src")}
+            pk = h["truth/pop_component_peak"][()] if "pop_component_peak" in h["truth"] else None
+        for q, x in (("DetzMedian", np.median(t["z"])), ("DetzMax", t["z"].max()), ("DetMoneMedian", np.median(t["m1src"])), ("DetMtwoMedian", np.median(t["m2src"]))):
+            if abs(val(fam + q) - x) > 1e-9:
+                bad.append(fam + q)
+        if pk is not None and abs(val(fam + "DetPeakShare") - pk.mean()) > 1e-12:
+            bad.append(fam + "DetPeakShare")
+    check(not bad, f"I2 detected-sample macros (median and largest z, median masses, observed-like peak share) recomputed from the truth groups of the four event files{': ' + ', '.join(bad) if bad else ''}")
+    # ---- I3: control set, production samples, Analysis-14 sample counts ----
+    with h5py.File(E / "events_fagn0p10_corepop.h5") as h:
+        ft = float(h.attrs["planted_f_agn"])
+    drv = (B.AN / "analysis_16_production_runs" / "scripts" / "prod_driver.py").read_text()
+    nsd = re.findall(r"--nsamp[^\n]*default=(\d+)", drv)
+    scans = sorted({int(m) for m in re.findall(r"b_pe_n(\d+)_r\d+\.json", " ".join(p.name for p in (B.A14R / "scans").glob("b_pe_n*_r*.json")))})
+    check(abs(val("MockfAGNTenth") - ft) < 1e-12 and (not nsd or int(nsd[0]) == val("ProdNsamp")) and val("ProdNsamp") == 8000
+          and scans == [val("MCNsampLo"), val("MCNsampMid"), val("MCNsampHi")],
+          f"I3 f_AGN of the one-in-ten set from its event file ({ft}); production samples per merger {val('ProdNsamp')} (driver default {nsd[:1]}); Analysis-14 sample counts from its scan files {scans}")
+    # ---- I4: AGN counts at m < 18, counted here at build_values' own completeness redshift ----
+    zc = B.norm_cfg(100)["m18"]["agn"]["zc"]
+    with h5py.File(B.DATA / "seed100" / "surveys" / "survey_agn_m18_ns32.h5") as h:
+        ng, zg = h["ngals"][()], h["zgals"][()]
+    real = np.arange(zg.shape[1])[None, :] < ng[:, None]
+    nown = int(np.sum(real & (zg < zc)))
+    rr = json.loads((B.AN / "analysis_16_production_runs" / "tests" / "results" / "runlist_resolve.json").read_text())["densities_from_counts"]["100|18|agn"]["n_below_z_complete"]
+    p_ = 100 / math.sqrt(val("MockNAGNCompleteEighteen"))
+    slope = val("SlopefAGNDepthNorm") if mac["SlopefAGNDepthNorm"]["class"] != "ph" else None
+    okd = slope is None or abs(val("NormDeltafCountsEighteen") - slope * math.log10(1 + p_ / 100)) < 1e-12
+    check(abs(nown - val("MockNAGNCompleteEighteen")) <= 2 and rr == val("MockNAGNCompleteEighteen") and abs(val("MocknAGNPrecEighteen") - p_) < 1e-12 and okd,
+          f"I4 AGN below z_c at m < 18: {val('MockNAGNCompleteEighteen')} (counted here at z_c = {zc:.4f}: {nown}; analysis_16 resolve test: {rr}); precision 100/sqrt N; f_AGN shift = slope x log10(1 + p)")
+    # ---- I5: one definition of the width ratio; half-widths ----
+    wr = val("GalhostedHzeroWid") / val("AGNhostedHzeroWid")
+    hb = [k for k in mac if k.endswith("HalfWid") and abs(val(k) - 0.5 * val(k[:-7] + "Wid")) > 1e-12]
+    nh = sum(1 for k in mac if k.endswith("HalfWid"))
+    keys_hf = sum(1 for k, E_ in doc.items() for q in ("Hzero", "fAGN") if q in E_["quantities"])
+    check(abs(wr - val("WidthRatioAGNGal")) < 1e-12 and not hb and nh == keys_hf,
+          f"I5 WidthRatioAGNGal = GalhostedHzeroWid / AGNhostedHzeroWid ({wr:.3f}); {nh} HalfWid macros, one per key with Hzero or fAGN ({keys_hf}), each half its Wid")
+    # ---- I6: Table I prior ranges from prod_common's text ----
+    txt = (B.AN / "analysis_16_production_runs" / "scripts" / "prod_common.py").read_text()
+    pri = {m.group(1): (float(m.group(2)), float(m.group(3))) for m in re.finditer(r'"(\w+)": \(([-0-9.]+), ([-0-9.]+)\)', txt.split("PRIORS = {")[1].split("}")[0])}
+    mp = {"Hzero": "H0", "f": "f_agn", "MuG": "mu_G", "SigmaG": "sigma_G", "MuChi": "mu_chi", "SigmaChi": "sigma_chi", "DmuG": "dmu_G", "DmuChi": "dmu_chi",
+          "LognGal": "log10n_gal", "LognAGN": "log10n_agn"}
+    bad = [k for k, pn in mp.items() for e, i in (("Lo", 0), ("Hi", 1)) if abs(val(f"Prior{k}{e}") - pri[pn][i]) > 1e-12]
+    check(not bad, f"I6 the Table I prior macros equal the production ranges of prod_common.PRIORS (text parsed){': ' + ', '.join(bad) if bad else ''}")
+    # ---- I9: exploratory combinations over the production realizations, by plain trapezoid sums of the stored grids ----
+    dev = []
+    for k, tr in (("AGNhosted", "agn"), ("Galhosted", "gal")):
+        use = doc[k]["comb_realizations_used"]
+        L = None
+        for s in use:
+            with h5py.File(B.A0 / f"h0_pure{tr}_targeted_s{s}.h5") as h:
+                Hg, l_ = h["H0_grid"][()], h["log_likelihood"][()]
+            L = l_ if L is None else L + l_
+        dev.append((k, len(use), _trap_median(Hg, L), val(f"{k}HzeroComb")))
+    for k, col in (("KnownGal", 0), ("KnownAGN", -1)):
+        use = doc[k]["comb_realizations_used"]
+        L = None
+        for s in use:
+            with h5py.File(B.A2 / f"joint_s{s}.h5") as h:
+                Hg, l_ = h["H0_grid"][()], h["log_likelihood"][()][:, col]
+            L = l_ if L is None else L + l_
+        dev.append((k, len(use), _trap_median(Hg, L), val(f"{k}HzeroComb")))
+    # the AGN-catalog-alone posterior piles up in the last stored cell (99.75-100): there the stored-cell trapezoid and the
+    # spline-refined lattice differ by a fraction of that cell, so it is held to a quarter of the 0.25 km/s/Mpc grid step
+    rel_ = [abs(m - v["median"]) / (0.5 * (v["ci90"][1] - v["ci90"][0])) for k, _, m, v in dev if k != "KnownAGN"]
+    edge = [abs(m - v["median"]) for k, _, m, v in dev if k == "KnownAGN"][0]
+    check(max(rel_) < 0.06 and edge < 0.25 * 0.5 + 1e-9 and all(nn == doc[k]["N_comb"] for k, nn, _, _ in dev),
+          f"I9 exploratory combinations (all-AGN, all-galaxy, each catalog alone) use N_comb production realizations; medians by a plain trapezoid sum agree to {max(rel_):.3f} of the 90% half-width (AGN catalog alone, at the prior edge: {edge:.3f} km/s/Mpc)")
+
+
+def _trap_median(x, L):
+    p = np.exp(L - L.max())
+    c = np.concatenate([[0.0], np.cumsum(0.5 * (p[1:] + p[:-1]) * np.diff(x))])
+    return float(np.interp(0.5, c / c[-1], x))
 
 
 if __name__ == "__main__":

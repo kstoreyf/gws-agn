@@ -1,0 +1,59 @@
+%% values_independent.tex -- numbers of the short paper that values/results_macros.tex does not carry.
+%% Input AFTER values/results_macros.tex. Every macro is \providecommand, so a value file that
+%% defines the same name earlier wins. Red (\ph): expected value, to be replaced when the
+%% experiment of EXPERIMENT.md finishes. Black: design value of the simulation.
+%% Meaning, expected value and its source for every macro: notes/MACROS_NEEDED.md.
+%% Half-widths are half the width of the 90% credible interval of H0, km/s/Mpc, 1000 mergers.
+
+%% ---- design values not in values/MACROS.md (black) ----
+\providecommand{\IndNreal}{five}         % realizations of the experiment (a word: use in text mode)
+\providecommand{\IndfList}{0,\ 0.1,\ 0.3,\ 0.5\ {\rm and}\ 1}  % the input fractions of Fig. 1 (math mode)
+\providecommand{\IndDmTwice}{10}         % mass-peak difference of the stronger case [Msun]
+\providecommand{\IndDchiTwice}{0.20}     % mean effective spin difference of the stronger case
+
+%% ---- Fig. 1(a): sharp mass scale, populations held at their inputs (red) ----
+\providecommand{\IndHWSpec}{\ph{3.0}}          % mass spectrum alone, no catalog
+\providecommand{\IndHWGal}{\ph{3.5}}           % all mergers in galaxies, galaxy catalog
+\providecommand{\IndHWAGN}{\ph{0.8}}           % all mergers in AGN, AGN catalog
+\providecommand{\IndHWMix}{\ph{1.7}}           % f = 0.30, labels unknown (one population, both catalogs)
+\providecommand{\IndHWMark}{\ph{1.5}}          % f = 0.30, a population for each tracer, (5 Msun, 0.10)
+\providecommand{\IndHWMarkTwice}{\ph{1.4}}     % f = 0.30, a population for each tracer, (10 Msun, 0.20)
+\providecommand{\IndHWKnown}{\ph{1.3}}         % f = 0.30, hosts known
+\providecommand{\IndHWKnownAGNPart}{\ph{1.5}}  % f = 0.30, hosts known, the mergers in AGN alone
+\providecommand{\IndHWMixTenth}{\ph{2.4}}      % f = 0.10, labels unknown
+\providecommand{\IndHWKnownTenth}{\ph{2.0}}    % f = 0.10, hosts known
+\providecommand{\IndCostMix}{\ph{1.7}}         % (IndHWMix/IndHWKnown)^2: mergers needed, labels unknown over hosts known
+\providecommand{\IndCostMark}{\ph{1.3}}        % (IndHWMark/IndHWKnown)^2
+\providecommand{\IndCostMarkTwice}{\ph{1.2}}   % (IndHWMarkTwice/IndHWKnown)^2
+\providecommand{\IndfAGNMix}{\ph{0.28^{+0.08}_{-0.08}}}  % f_AGN, f = 0.30, labels unknown, one realization
+
+%% ---- Fig. 1(b): observed-like mass spectrum (red) ----
+\providecommand{\IndObsHWSpec}{\ph{10}}        % mass spectrum alone
+\providecommand{\IndObsHWMix}{\ph{1.9}}        % f = 0.30, labels unknown
+\providecommand{\IndObsHWAGN}{\ph{0.8}}        % all mergers in AGN, AGN catalog
+
+%% ---- Fig. 2: probability of an AGN host, one realization, f = 0.30, (5 Msun, 0.10) (red) ----
+\providecommand{\IndProbAGNPos}{\ph{0.36}}     % mean over mergers truly in AGN, positions alone
+\providecommand{\IndProbGalPos}{\ph{0.27}}     % mean over mergers truly in galaxies, positions alone
+\providecommand{\IndProbAGNMark}{\ph{0.41}}    % mean over mergers truly in AGN, positions with masses and spins
+\providecommand{\IndProbGalMark}{\ph{0.25}}    % mean over mergers truly in galaxies, positions with masses and spins
+
+%% ---- Fig. 3: populations inferred, f = 0.30 (red) ----
+\providecommand{\IndBias}{\ph{3}}              % one population fitted, (5 Msun, 0.10): combined H0 median minus input
+\providecommand{\IndBiasTwice}{\ph{6}}         % the same for (10 Msun, 0.20)
+\providecommand{\IndHWOnePop}{\ph{2.6}}        % one population fitted, half-width from one catalog
+\providecommand{\IndOnePopCL}{\ph{99.9}}       % credible level (percent) beyond which the input H0 lies, one population, combined
+\providecommand{\IndTwoPopHzero}{\ph{67.4^{+2.1}_{-2.1}}}   % a population for each tracer, one catalog: H0
+\providecommand{\IndTwoPopHW}{\ph{2.1}}                     % its half-width (open symbol of Fig. 1)
+\providecommand{\IndTwoPopfAGN}{\ph{0.30^{+0.06}_{-0.06}}}  % f_AGN
+\providecommand{\IndTwoPopDm}{\ph{5.1^{+1.0}_{-1.0}}}       % mass-peak difference [Msun]
+\providecommand{\IndTwoPopDchi}{\ph{0.10^{+0.03}_{-0.03}}}  % mean effective spin difference
+\providecommand{\IndTwoPopCL}{\ph{30}}         % credible level (percent) of the input H0, a population for each tracer, combined
+\providecommand{\IndLB}{\ph{9}}                % log10 Bayes factor, a population for each tracer over one population, one catalog
+
+%% ---- Appendix C (red) ----
+\providecommand{\IndRecHzeroComb}{\ph{67.9^{+0.6}_{-0.6}}}  % equal populations, f = 0.30, labels unknown, combined: H0
+\providecommand{\IndRecHzeroCL}{\ph{40}}                    % credible level (percent) of the input H0 in it
+\providecommand{\IndRecfAGNComb}{\ph{0.30^{+0.03}_{-0.03}}} % the same combination: f_AGN
+\providecommand{\IndRecfAGNCL}{\ph{35}}                     % credible level (percent) of the input f_AGN in it
+\providecommand{\IndZerofAGNUL}{\ph{0.05}}     % no merger in AGN: 90% upper limit on f_AGN, combined

@@ -14,12 +14,20 @@ Sources
                  prior range; half-normal for an upper limit) with the stated median and 90% half-width
     production   a production summary named in values/production_map.json exists and overrides the entry
 
-Realization A ("A") and the combination over realizations ("Comb"). Where no combination exists on disk the
-combination is invented from realization A: narrower by sqrt(N), with N the number of realizations of the
-production stage that fills it (runs.txt, block "APPROVED BY THE OWNER"), and centred nearer the input,
-    med_Comb = input + bias + (med_A - input - bias) / sqrt(N),
+Realization A ("A") and the combination over realizations ("Comb"). N, the number of realizations the
+production combines for each key, is read from analyses/analysis_16_production_runs/runs/RUNLIST.yaml (the
+runs of the key's analysis, catalogs, flux limit and event set); the keys the run list does not hold yet take
+it from runs.txt (observed-like spectrum: Stage 5, five; the two control sets: run R4, "five for the others").
+Where no combination exists on disk the combination is invented from realization A as realization A combined
+with N - 1 realizations whose posteriors have A's width and sit at their expectation (input + bias): narrower
+by sqrt(N) and centred at
+    med_Comb = input + bias + (med_A - input - bias) / N,
 where `bias` is the systematic offset the skeleton expects to survive the combination (the single-population
-analysis of host-dependent events) and zero otherwise.
+analysis of host-dependent events) and zero otherwise. (Until 17 Nov the shift was divided by sqrt(N), which
+kept the input at realization A's credible level and left it outside the combined region wherever it lay
+outside A's.) Exploratory combinations use the exploratory realizations that are also production
+realizations of the key where those exist (all-AGN and all-galaxy sets, each catalog alone: 100, 101, 102,
+103, 105), and all nine exploratory realizations for both catalogs.
 
 Production summaries (contract): values/production_map.json maps a key to a JSON file with the same schema
 as one entry here ({"quantities": {Q: {"A": summary, "Comb": summary, ...}}, "joint": ..., "LB": ...}); when
@@ -46,20 +54,64 @@ PMAP = PRD / "values" / "production_map.json"
 IN = bv.IN
 Z90 = 1.6448536269514722
 
-# production stages (runs.txt, approved block) and realizations combined
-STAGE = {
-    "known": ("Stage 1: population known, complete catalogs, 10 realizations", 10),
-    "pure": ("Stage 1: all-AGN and all-galaxy event sets, 5 realizations", 5),
-    "ctrl": ("run R4 of runs.txt ('as before', 10 realizations); not yet placed in the approved stages", 10),
-    "flux": ("Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations", 5),
-    "free": ("Stage 2: number densities inferred, 3 realizations", 3),
-    "single": ("Stage 3: single population, equal populations, 10 realizations, and no catalog", 10),
-    "hdsingle": ("Stage 4: host-dependent events, single population, 10 realizations", 10),
-    "hdhost": ("Stage 4: host-dependent events, host-dependent populations, 5 realizations (5 more if needed)", 5),
-    "hdnone": ("Stage 4: host-dependent events, no catalog (10 realizations assumed)", 10),
-    "obs": ("Stage 5: observed-like spectrum, host-dependent events, 5 realizations", 5),
+# production runs: analysis_16's run list (one selector per key) and realizations combined
+RUNLIST = bv.AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml"
+KEY_SELECTOR = {   # key -> the run-list arguments of its runs (realization excluded)
+    "KnownBoth": dict(analysis="known_population", catalogs="both", flux="complete", events="equal_populations"),
+    "KnownGal": dict(analysis="known_population", catalogs="galaxy", flux="complete", events="equal_populations"),
+    "KnownAGN": dict(analysis="known_population", catalogs="agn", flux="complete", events="equal_populations"),
+    "KnownNone": dict(analysis="known_population", catalogs="none", flux="complete", events="equal_populations"),
+    "AGNhosted": dict(analysis="known_population", catalogs="agn", flux="complete", events="agn_hosted"),
+    "Galhosted": dict(analysis="known_population", catalogs="galaxy", flux="complete", events="galaxy_hosted"),
+    "SingleBoth": dict(analysis="single_population", catalogs="both", flux="complete", events="equal_populations"),
+    "SingleNone": dict(analysis="single_population", catalogs="none", flux="complete", events="equal_populations"),
+    "HDSingle": dict(analysis="single_population", catalogs="both", flux="complete", events="host_dependent"),
+    "HDHost": dict(analysis="host_dependent_populations", catalogs="both", flux="complete", events="host_dependent"),
+    "HDNone": dict(analysis="single_population", catalogs="none", flux="complete", events="host_dependent"),
 }
-PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "SigmaG": (1.0, 10.0), "MuChi": (-0.1, 0.1), "SigmaChi": (0.01, 1.0),
+for _k, _w, _m in bv.RUNGS:
+    KEY_SELECTOR[f"Flux{_w}"] = dict(analysis="known_population", catalogs="both", flux=str(_m), events="equal_populations", density="counts")
+    KEY_SELECTOR[f"Free{_w}"] = dict(analysis="free_densities", catalogs="both", flux=str(_m), events="equal_populations", density="free")
+# keys whose runs are not in the run list yet: runs.txt, block "REVISION OF 17 NOV" and "APPROVED BY THE OWNER"
+NOT_IN_RUNLIST = {
+    "CtrlZero": (5, "run R4 of runs.txt (no AGN-hosted mergers), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"),
+    "CtrlTenth": (5, "run R4 of runs.txt (one merger in ten AGN-hosted), not yet in the run list or the approved stages; 'five for the others' (revision of 17 Nov)"),
+    "ObsSingle": (5, "Stage 5 of runs.txt (observed-like spectrum, 5 realizations), not yet in the run list"),
+    "ObsHost": (5, "Stage 5 of runs.txt (observed-like spectrum, 5 realizations), not yet in the run list"),
+    "ObsNone": (5, "Stage 5 of runs.txt (observed-like spectrum, 5 realizations), not yet in the run list"),
+}
+
+
+def _runlist_realizations():
+    """key -> sorted list of the realizations of its runs in RUNLIST.yaml (only runs without an AGN-density factor)."""
+    import yaml
+    doc = yaml.safe_load(RUNLIST.read_text())
+    out = {}
+    for st in doc["stages"]:
+        for r in st["runs"]:
+            a = r["args"]
+            kv = {a[i].lstrip("-"): a[i + 1] for i in range(len(a) - 1) if a[i].startswith("--") and not a[i + 1].startswith("--")}
+            if "agn-density-factor" in kv:
+                continue
+            sel = dict(analysis=kv["analysis"], catalogs=kv["catalogs"], flux=kv["flux"], events=kv["events-kind"])
+            if "density" in kv:
+                sel["density"] = kv["density"]
+            for key, want in KEY_SELECTOR.items():
+                if want == sel:
+                    out.setdefault(key, set()).add(int(kv["realization"]))
+    return {k: sorted(v) for k, v in out.items()}
+
+
+RUNREAL = _runlist_realizations()
+NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizations {v}") for k, v in RUNREAL.items()}
+NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items()})
+assert set(NREAL) == set(KEY_SELECTOR) | set(NOT_IN_RUNLIST), sorted(set(KEY_SELECTOR) - set(NREAL))
+STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": "Stage 1: all-AGN and all-galaxy event sets",
+               "ctrl": "run R4 of runs.txt (not yet in the run list)", "flux": "Stage 2: flux-limited catalogs, densities from catalog counts",
+               "free": "Stage 2: number densities inferred", "single": "Stage 3: single population, equal populations",
+               "hdsingle": "Stage 4: host-dependent events, single population", "hdhost": "Stage 4: host-dependent events, host-dependent populations",
+               "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events (not yet in the run list)"}
+PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "SigmaG": (1.0, 10.0), "MuChi": (-0.2, 0.3), "SigmaChi": (0.01, 1.0),
          "DmuG": (-10.0, 10.0), "DmuChi": (-0.05, 0.30), "LognGal": (-4.0, -1.0), "LognAGN": (-6.0, -4.0), "RateRatio": (0.0, 400.0)}
 UNIT = {"Hzero": "km/s/Mpc", "fAGN": "", "MuG": "Msun", "SigmaG": "Msun", "MuChi": "", "SigmaChi": "", "DmuG": "Msun", "DmuChi": "",
         "LognGal": "log10 Mpc^-3", "LognAGN": "log10 Mpc^-3", "RateRatio": ""}
@@ -74,6 +126,13 @@ def _ratio100():
 RIN = IN["f"] / (1 - IN["f"]) * _ratio100()
 INPUT = {"Hzero": IN["H0"], "fAGN": IN["f"], "MuG": IN["muG"], "SigmaG": IN["sigmaG"], "MuChi": IN["muChi"], "SigmaChi": IN["sigmaChi"],
          "DmuG": IN["dmuG"], "DmuChi": IN["dmuChi"], "LognGal": IN["lognGal"], "LognAGN": IN["lognAGN"], "RateRatio": RIN}
+# the observed-like family (data/obslike/README.md): only the mass spectrum differs; offsets, spin, f_AGN as above
+OBSJ = bv.DATA / "obslike" / "results" / "obslike_paper_values.json"
+_obs = bv.jload(OBSJ)["design"]["core_theta"]
+_obs_un = bv.jload(OBSJ)["design"]["unchanged_from_present_family"]
+assert abs(_obs_un["host_dependent_offsets"]["dmu_G"] - IN["dmuG"]) < 1e-12 and abs(_obs_un["host_dependent_offsets"]["dmu_chi"] - IN["dmuChi"]) < 1e-12
+assert abs(_obs["mu_chi"] - IN["muChi"]) < 1e-12 and abs(_obs["sigma_chi"] - IN["sigmaChi"]) < 1e-12 and abs(_obs_un["f_agn"] - IN["f"]) < 1e-12
+INPUT_OBS = dict(INPUT, MuG=float(_obs["mu_G"]), SigmaG=float(_obs["sigma_G"]))
 
 
 # ---------------------------------------------------------------- shapes and summaries
@@ -142,8 +201,10 @@ def joint_grid(x, y, P, n=110):
     return {"x": [float(f"{v:.7g}") for v in xs], "y": [float(f"{v:.7g}") for v in ys], "p": [[float(f"{v:.5g}") for v in row] for row in Q]}
 
 
-def joint_gauss(qx, qy, sx, sy, rho, n=110):
-    """2-D Gaussian density from two 1-D summaries (median, 90% half-width) and a correlation."""
+def joint_gauss(qx, qy, sx, sy, rho, n=261):
+    """2-D Gaussian density from two 1-D summaries (median, 90% half-width) and a correlation, on a lattice
+    reaching 5 sd along each axis (cut at the prior edges): the 90% region (2.15 sd) lies well inside it, and the
+    thin tips of strongly correlated regions are resolved."""
     mx, my = qx["median"], qy["median"]
     hx = 0.5 * (qx["ci90"][1] - qx["ci90"][0])
     hy = 0.5 * (qy["ci90"][1] - qy["ci90"][0])
@@ -166,10 +227,11 @@ def joint_samples(a, b, ra, rb, sx, sy, nb=60, smooth=1.4):
 
 
 def invented_comb(sA, N, x0, bias=0.0, rng=None, kind="normal"):
-    """Combination over N realizations from realization A (header rule)."""
+    """Combination over N realizations from realization A (header rule): A combined with N - 1 realizations of
+    A's width centred at their expectation x0 + bias."""
     if x0 is None:
         x0 = sA["median"]
-    med = x0 + bias + (sA["median"] - x0 - bias) / math.sqrt(N)
+    med = x0 + bias + (sA["median"] - x0 - bias) / N
     hw = 0.5 * (sA["ci90"][1] - sA["ci90"][0]) / math.sqrt(N)
     if kind == "halfnormal":
         return gauss_xp(0.0, sA["ul90"] / math.sqrt(N), rng, x0, "halfnormal")
@@ -177,9 +239,10 @@ def invented_comb(sA, N, x0, bias=0.0, rng=None, kind="normal"):
 
 
 # ---------------------------------------------------------------- the entries
-def entry(events, analysis, catalogs, free, stage):
-    st, N = STAGE[stage]
-    return {"events": events, "analysis": analysis, "catalogs": catalogs, "free": free, "stage": st, "N_comb": N,
+def entry(events, analysis, catalogs, free, stage, key):
+    N, why = NREAL[key]
+    return {"events": events, "analysis": analysis, "catalogs": catalogs, "free": free, "stage": f"{STAGE_TITLE[stage]}, {N} realizations",
+            "N_comb": N, "N_comb_source": why, "realizations": RUNREAL.get(key),
             "final": False, "quantities": {}, "joint": {}, "LB": None}
 
 
@@ -205,7 +268,8 @@ def build():
     gC = bv.GridPost(["H0", "f"], [H, F], np.sum(Ls, axis=0), [4, 10], extra=dict(EXT), tag="ph_joint_comb")
     fa = rel(bv.A2 / "joint_s100.h5")
     fc = f"{rel(bv.A2)}/joint_s<seed>.h5, the {len(bv.C1_SEEDS)} realizations {bv.C1_SEEDS} (log-likelihoods summed)"
-    E = entry("equal populations", "population known", "both catalogs, complete", "H0, f_AGN", "known")
+    E = entry("equal populations", "population known", "both catalogs, complete", "H0, f_AGN", "known", "KnownBoth")
+    E["comb_realizations_used"] = list(bv.C1_SEEDS)
     for q, n in (("Hzero", "H0"), ("fAGN", "f")):
         q_put(E, q, summarize_xp(*gA.marg1(n), INPUT[q]), summarize_xp(*gC.marg1(n), INPUT[q]), "exploratory", "exploratory", fa, fc)
     lr = [math.log(bv.survey_counts(s_)["gal"] / bv.survey_counts(s_)["agn"]) for s_ in bv.C1_SEEDS]
@@ -234,13 +298,16 @@ def build():
                "A": None, "Comb": None}
     K["KnownBoth"] = E
     for key, col, cat, desc in (("KnownGal", 0, "galaxy catalog alone", "f_AGN = 0 column"), ("KnownAGN", -1, "AGN catalog alone", "f_AGN = 1 column")):
-        E = entry("equal populations", "population known", cat, "H0", "known")
+        E = entry("equal populations", "population known", cat, "H0", "known", key)
+        use = [s_ for s_ in bv.C1_SEEDS if s_ in RUNREAL[key]]          # the production realizations among the exploratory ones
+        E["comb_realizations_used"] = use
         g1 = bv.GridPost(["H0"], [H], Ls[0][:, col], [8], extra={"H0": [IN["H0"]]}, tag=f"ph_{key}_A")
-        g2 = bv.GridPost(["H0"], [H], np.sum(Ls, axis=0)[:, col], [8], extra={"H0": [IN["H0"]]}, tag=f"ph_{key}_C")
+        g2 = bv.GridPost(["H0"], [H], np.sum([Ls[bv.C1_SEEDS.index(s_)] for s_ in use], axis=0)[:, col], [8], extra={"H0": [IN["H0"]]}, tag=f"ph_{key}_C")
         q_put(E, "Hzero", summarize_xp(*g1.marg1("H0"), IN["H0"]), summarize_xp(*g2.marg1("H0"), IN["H0"]), "exploratory", "exploratory",
-              fa + f" ({desc})", fc + f" ({desc})", note="the posterior rises to the upper end of the prior" if col == -1 else None)
+              fa + f" ({desc})", f"{rel(bv.A2)}/joint_s<seed>.h5, the {len(use)} realizations {use} (log-likelihoods summed; {desc})",
+              note="the posterior rises to the upper end of the prior" if col == -1 else None)
         K[key] = E
-    E = entry("equal populations", "population known", "no catalog", "H0", "known")
+    E = entry("equal populations", "population known", "no catalog", "H0", "known", "KnownNone")
     A = gauss_xp(68.6, 3.2, PRIOR["Hzero"], IN["H0"])
     q_put(E, "Hzero", A, invented_comb(A, E["N_comb"], IN["H0"], rng=PRIOR["Hzero"]), "invented", "invented")
     K["KnownNone"] = E
@@ -248,9 +315,12 @@ def build():
     ens = bv.jload(bv.A0 / "h0_pure_tracer_ens93.json")
     seeds = list(ens["seeds_requested"])
     for key, tr, cat in (("AGNhosted", "agn", "AGN catalog"), ("Galhosted", "gal", "galaxy catalog")):
-        E = entry("all AGN-hosted" if tr == "agn" else "all galaxy-hosted", "population known", cat, "H0", "pure")
+        E = entry("all AGN-hosted" if tr == "agn" else "all galaxy-hosted", "population known", cat, "H0", "pure", key)
+        use = [s_ for s_ in seeds if s_ in RUNREAL[key]]               # the production realizations among the 93 exploratory ones
+        assert len(use) == E["N_comb"], (key, use)
+        E["comb_realizations_used"] = use
         acc = None
-        for s in seeds:
+        for s in use:
             with h5py.File(bv.A0 / f"h0_pure{tr}_targeted_s{s}.h5") as h:
                 Hp, L = h["H0_grid"][()], h["log_likelihood"][()]
             if s == 100:
@@ -258,11 +328,11 @@ def build():
             acc = L if acc is None else acc + L
         g2 = bv.GridPost(["H0"], [Hp], acc, [16], extra={"H0": [IN["H0"]]}, tag=f"ph_pure{tr}_C")
         q_put(E, "Hzero", summarize_xp(*g1.marg1("H0"), IN["H0"]), summarize_xp(*g2.marg1("H0"), IN["H0"]), "exploratory", "exploratory",
-              rel(bv.A0 / f"h0_pure{tr}_targeted_s100.h5"), f"{rel(bv.A0)}/h0_pure{tr}_targeted_s<seed>.h5, {len(seeds)} realizations summed")
+              rel(bv.A0 / f"h0_pure{tr}_targeted_s100.h5"), f"{rel(bv.A0)}/h0_pure{tr}_targeted_s<seed>.h5, the {len(use)} realizations {use} summed")
         K[key] = E
     # ======== no AGN-hosted mergers; one in ten (invented) ========
     for key, f0, fmed, fhw, lb in (("CtrlZero", 0.0, None, 0.05, -1.0), ("CtrlTenth", 0.10, 0.11, 0.05, 2.5)):
-        E = entry(f"mergers with {'no AGN hosts' if f0 == 0 else 'one in ten hosted by AGN'}", "population known", "both catalogs, complete", "H0, f_AGN", "ctrl")
+        E = entry(f"mergers with {'no AGN hosts' if f0 == 0 else 'one in ten hosted by AGN'}", "population known", "both catalogs, complete", "H0, f_AGN", "ctrl", key)
         A = gauss_xp(67.9, 1.7, PRIOR["Hzero"], IN["H0"])
         q_put(E, "Hzero", A, invented_comb(A, E["N_comb"], IN["H0"], rng=PRIOR["Hzero"]), "invented", "invented",
               note="H0 width as for population known with both catalogs")
@@ -282,7 +352,7 @@ def build():
     NC = bv.norm_cfg(100)
     ng, na = 10 ** IN["lognGal"], 10 ** IN["lognAGN"]
     for rk, word, mlim in bv.RUNGS:
-        E = entry("equal populations", "population known, number densities from the catalog counts", f"both catalogs, m < {mlim}", "H0, f_AGN", "flux")
+        E = entry("equal populations", "population known, number densities from the catalog counts", f"both catalogs, m < {mlim}", "H0, f_AGN", "flux", f"Flux{word}")
         p = bv.A3 / f"joint_{rk}_s100.h5"
         g = bv.hf_post(p, f"ph_a3_{rk}")
         for q, n in (("Hzero", "H0"), ("fAGN", "f")):
@@ -299,7 +369,7 @@ def build():
         K[f"Flux{word}"] = E
     # ======== number densities inferred (Analysis 5) ========
     for rk, word, mlim in bv.RUNGS:
-        E = entry("equal populations", "number densities inferred", f"both catalogs, m < {mlim}", "H0, f_AGN, log10 n_gal, log10 n_AGN", "free")
+        E = entry("equal populations", "number densities inferred", f"both catalogs, m < {mlim}", "H0, f_AGN, log10 n_gal, log10 n_AGN", "free", f"Free{word}")
         ph5, pj = bv.A5 / f"campaign_{rk}_dynesty_s100.h5", bv.A5 / f"campaign_{rk}_dynesty_s100.json"
         c, _, _, j = bv.load_a5(ph5, pj)
         pri = j["priors"]
@@ -330,7 +400,7 @@ def build():
             "file": rel(bv.A3 / f"joint_{rk}_s100.h5")}
         K[f"Free{word}"] = E
     # ======== single population, equal populations (invented) ========
-    E = entry("equal populations", "single population", "both catalogs, complete", "H0, f_AGN, mass-peak location and width, spin mean and width", "single")
+    E = entry("equal populations", "single population", "both catalogs, complete", "H0, f_AGN, mass-peak location and width, spin mean and width", "single", "SingleBoth")
     spec = {"Hzero": (68.0, 2.6), "fAGN": (0.29, 0.09), "MuG": (34.9, 0.6), "SigmaG": (5.0, 0.4), "MuChi": (0.000, 0.010), "SigmaChi": (0.100, 0.008)}
     for q, (m, hw) in spec.items():
         A = gauss_xp(m, hw, PRIOR[q], INPUT[q])
@@ -338,7 +408,7 @@ def build():
     E["joint"]["A"] = joint_gauss(E["quantities"]["Hzero"]["A"], E["quantities"]["MuG"]["A"], "Hzero", "MuG", -0.5)
     E["joint"]["Comb"] = joint_gauss(E["quantities"]["Hzero"]["Comb"], E["quantities"]["MuG"]["Comb"], "Hzero", "MuG", -0.5)
     K["SingleBoth"] = E
-    E = entry("equal populations", "single population", "no catalog", "H0, mass-peak location and width, spin mean and width", "single")
+    E = entry("equal populations", "single population", "no catalog", "H0, mass-peak location and width, spin mean and width", "single", "SingleNone")
     spec = {"Hzero": (69.0, 9.0), "MuG": (34.6, 1.6), "SigmaG": (5.0, 0.5), "MuChi": (0.000, 0.012), "SigmaChi": (0.100, 0.010)}
     for q, (m, hw) in spec.items():
         A = gauss_xp(m, hw, PRIOR[q], INPUT[q])
@@ -354,22 +424,25 @@ def build():
     rho13 = c13.corr("dmu_G", "dmu_chi")
     for pre, stage_s, stage_n, label in (("HD", "hdsingle", "hdnone", "peak-dominated"), ("Obs", "obs", "obs", "observed-like")):
         ev = "host-dependent populations" + ("" if pre == "HD" else ", observed-like spectrum")
-        inv_note = None if pre == "HD" else "the observed-like inputs are not on disk: population quantities are centred on the peak-dominated inputs until the family is generated"
-        # single population (biased)
-        E = entry(ev, "single population", "both catalogs, complete", "six", stage_s)
+        INP = INPUT if pre == "HD" else INPUT_OBS
+        inv_note = None if pre == "HD" else (f"observed-like inputs (data/obslike): mass peak {INP['MuG']:g} Msun, width {INP['SigmaG']:g} Msun; "
+                                             "the invented medians keep their offsets from the inputs of the earlier placeholder")
+        # single population (biased); the observed-like medians sit at the same offsets from the observed-like inputs
+        E = entry(ev, "single population", "both catalogs, complete", "six", stage_s, f"{pre}Single")
         if pre == "HD":
             spec = {"Hzero": (70.9, 2.6, 3.0), "fAGN": (0.24, 0.09, -0.05), "MuG": (36.4, 0.6, 1.4), "SigmaG": (5.6, 0.4, 0.6), "MuChi": (0.030, 0.010, 0.03), "SigmaChi": (0.110, 0.008, 0.01)}
         else:
-            spec = {"Hzero": (69.0, 5.0, 1.0), "fAGN": (0.27, 0.10, -0.03), "MuG": (35.4, 1.2, 0.4), "SigmaG": (5.3, 0.8, 0.3), "MuChi": (0.030, 0.014, 0.03), "SigmaChi": (0.110, 0.012, 0.01)}
+            spec = {"Hzero": (69.0, 5.0, 1.0), "fAGN": (0.27, 0.10, -0.03), "MuG": (INP["MuG"] + 0.4, 1.2, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 0.8, 0.3),
+                    "MuChi": (0.030, 0.014, 0.03), "SigmaChi": (0.110, 0.012, 0.01)}
         for q, (m, hw, b) in spec.items():
-            x0 = INPUT[q] if q in ("Hzero", "fAGN") else None
+            x0 = INP[q] if q in ("Hzero", "fAGN") else None
             A = gauss_xp(m, hw, PRIOR[q], x0)
-            ref = INPUT[q]
+            ref = INP[q]
             q_put(E, q, A, invented_comb(A, E["N_comb"], ref, bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
                   note=("one population for a mixture: no single input" if x0 is None else None) if inv_note is None else inv_note)
         K[f"{pre}Single"] = E
         # host-dependent populations
-        E = entry(ev, "host-dependent populations", "both catalogs, complete", "eight", "hdhost" if pre == "HD" else "obs")
+        E = entry(ev, "host-dependent populations", "both catalogs, complete", "eight", "hdhost" if pre == "HD" else "obs", f"{pre}Host")
         if pre == "HD":
             for cn, q in CHAIN_Q.items():
                 A = summarize_samples(c13.col(cn), *box13[cn], x0=INPUT[q])
@@ -377,12 +450,12 @@ def build():
                       note="H0 prior [60, 76] in the exploratory run" if q == "Hzero" else None)
             E["joint"]["A"] = joint_samples(c13.col("dmu_G"), c13.col("dmu_chi"), box13["dmu_G"], box13["dmu_chi"], "DmuG", "DmuChi", nb=50) | {"file": rel(p13)}
         else:
-            spec = {"Hzero": (67.9, 5.2), "fAGN": (0.30, 0.08), "MuG": (35.0, 1.2), "SigmaG": (5.0, 0.8), "MuChi": (0.000, 0.014), "SigmaChi": (0.100, 0.012),
+            spec = {"Hzero": (67.9, 5.2), "fAGN": (0.30, 0.08), "MuG": (INP["MuG"], 1.2), "SigmaG": (INP["SigmaG"], 0.8), "MuChi": (0.000, 0.014), "SigmaChi": (0.100, 0.012),
                     "DmuG": (4.5, 3.5), "DmuChi": (0.10, 0.04)}
             for q, (m, hw) in spec.items():
-                A = gauss_xp(m, hw, PRIOR[q], INPUT[q])
-                q_put(E, q, A, invented_comb(A, E["N_comb"], INPUT[q], rng=PRIOR[q]), "invented", "invented",
-                      note=inv_note if q in ("MuG", "SigmaG", "MuChi", "SigmaChi") else None)
+                A = gauss_xp(m, hw, PRIOR[q], INP[q])
+                q_put(E, q, A, invented_comb(A, E["N_comb"], INP[q], rng=PRIOR[q]), "invented", "invented", x0=INP[q],
+                      note=inv_note if q in ("MuG", "SigmaG") else None)
             E["joint"]["A"] = joint_gauss(E["quantities"]["DmuG"]["A"], E["quantities"]["DmuChi"]["A"], "DmuG", "DmuChi", rho13)
         E["joint"]["Comb"] = joint_gauss(E["quantities"]["DmuG"]["Comb"], E["quantities"]["DmuChi"]["Comb"], "DmuG", "DmuChi", rho13) | {
             "correlation_from": rel(p13)}
@@ -391,15 +464,16 @@ def build():
                    "A": lb, "Comb": lb * E["N_comb"]}
         K[f"{pre}Host"] = E
         # no catalog
-        E = entry(ev, "single population", "no catalog", "five", stage_n)
+        E = entry(ev, "single population", "no catalog", "five", stage_n, f"{pre}None")
         if pre == "HD":
             spec = {"Hzero": (73.0, 9.0, 5.0), "MuG": (36.4, 1.6, 1.4), "SigmaG": (5.6, 0.5, 0.6), "MuChi": (0.030, 0.012, 0.03), "SigmaChi": (0.110, 0.010, 0.01)}
         else:
-            spec = {"Hzero": (70.0, 14.0, 2.0), "MuG": (35.4, 2.4, 0.4), "SigmaG": (5.3, 1.0, 0.3), "MuChi": (0.030, 0.016, 0.03), "SigmaChi": (0.110, 0.014, 0.01)}
+            spec = {"Hzero": (70.0, 14.0, 2.0), "MuG": (INP["MuG"] + 0.4, 2.4, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 1.0, 0.3), "MuChi": (0.030, 0.016, 0.03),
+                    "SigmaChi": (0.110, 0.014, 0.01)}
         for q, (m, hw, b) in spec.items():
-            x0 = INPUT[q] if q == "Hzero" else None
+            x0 = INP[q] if q == "Hzero" else None
             A = gauss_xp(m, hw, PRIOR[q], x0)
-            q_put(E, q, A, invented_comb(A, E["N_comb"], INPUT[q], bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
+            q_put(E, q, A, invented_comb(A, E["N_comb"], INP[q], bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
                   note=inv_note)
         K[f"{pre}None"] = E
     # Bayes factors of the anchor from the stored grids (exploratory)
@@ -432,6 +506,8 @@ def main():
     pm = production_override(K)
     doc = {"_what": "placeholder results of the PRD paper (notes/PAPER_SKELETON.md Secs. 6 and 7), one entry per key; written by scripts/placeholder_results.py",
            "_conventions": __doc__, "_inputs": {**INPUT, "RateRatio_note": "[0.30/0.70] N_gal/N_AGN of the reference catalog pair"},
+           "_inputs_observed_like": {**INPUT_OBS, "file": bv.rel(OBSJ)},
+           "_realizations_combined": {k: {"N": v[0], "source": v[1], "realizations": RUNREAL.get(k)} for k, v in NREAL.items()},
            "_production_map": pm, "keys": bv.jsonable(K)}
     OUTJ.write_text(json.dumps(doc, indent=0))
     n = sum(len(E["quantities"]) for E in K.values())
