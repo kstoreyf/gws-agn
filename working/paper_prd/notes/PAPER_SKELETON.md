@@ -250,7 +250,10 @@ unknown 3.49 (0), 1.98 (0.3), 0.84 (1); host class known 3.49, 1.34, 0.83. (Valu
 - **host class known**: each merger analyzed with the catalog and the population of its true host
   class; the two H0 posteriors multiply. Available in simulation only, and said so once.
 - **probability of an AGN host** of a merger: f L_AGN / (f L_AGN + (1 - f) L_gal) at the posterior
-  median, one equation in Sec. II A, read off the mixture likelihood.
+  median, one equation, read off the mixture likelihood. It sits in Sec. IV B, where the quantity
+  is first used (decision on `REVIEW_2.md` 2.7: in Sec. II A it made the Method longer than the
+  section on the simulations). A merger whose data say nothing about its host class has the
+  f_AGN at which the equation is evaluated, the posterior median, not the input.
 
 ### 9.3 Layout changes
 - New subsection IV B, "The constraint from each host class" (`sec:classes`), between the known
@@ -296,4 +299,9 @@ The letter is frozen in `working/archive/paper_short_independent/`. This paper i
 stands alone: the code it shared with the letter lives in `paper_prd/scripts/`, and the letter's
 experiment (stages E1 to E3 of Analysis 16) is now this paper's Sec. IV B and part of the
 host-dependent and observed-like subsections.
+Length: the earlier target of 14 to 15 pages and nine figures (Sec. 3, `REVISION_DECISIONS.md`
+item 8) predates this decision; the one paper is about 18 pages with ten figures. The other
+measures of Sec. 3 stand: an abstract of about seven sentences and a dozen numbers, a Method
+shorter than the section on the simulations. Precision is quoted as the 90% half-width, defined
+once and used in every section, to two significant figures (`REVIEW_2.md` 2.2, 3.1).
 EOF
