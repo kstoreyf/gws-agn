@@ -21,6 +21,8 @@ things live and the rules the directories follow.
 | 11 | `analysis_11_free_common_population/` | reference population inferred with the offsets; 11D H0 free | complete through 11D and §21 |
 | 12 | `analysis_12_shared_width_robustness/` | one shared σ_G or σ_χ freed on top of 11D | complete |
 | 13 | `analysis_13_joint_shared_widths/` | both shared widths free together (the recommended calibration model) | restarting on darksirens-core |
+| 14 | `analysis_14_monte_carlo_accuracy/` | how far redrawing the per-event samples (2000/8000/32000) or the injection set moves the posteriors (run R0; gaps A1, A2) | running 2026-11-17: (b) seed 100, (a) moved to seed 103 (core gives seed 100's all-AGN set an event of zero population density) |
+| 15 | `analysis_15_host_normalisation/` | how the assumed host densities enter through each catalog's normaliser Z_k: core reproduces the A3 flux-limited grids, then the normalisation volume restricted (grid to 1.10) and the AGN density varied, against the identity of LIKELIHOOD_MATH §8 | queued 2026-11-17 (RITA-GPU 1414681, `agn-follow`); CPU validation passed |
 
 Other directories here:
 
