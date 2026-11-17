@@ -63,3 +63,24 @@ Cost at the settings of the exploratory runs (0.28 s per call on an 80 GB A100):
 R1-R6 and R10 about 40 GPU-h in total; R7 about 30; R8 about 200 (8d dominates
 at 18 GPU-h per catalog); R9 about 10. R0 may multiply the per-call cost by 4
 to 16.
+
+REVISION OF 17 NOV (after REVIEW.md and REVISION_DECISIONS.md; supersedes the lines above where they differ)
+  Production convention for every run below:
+    - events regenerated with darksirens-core's population (working/data/corepop/);
+    - hosts normalized over the redshift grid to z = 1.10; each class's number density from its catalog counts
+      where the catalog is complete;
+    - no population parameter that carries H0 is held at its input: the single-population model infers the
+      mass-peak location and width and the spin mean and width with H0 and f_AGN (six parameters); the
+      host-dependent model adds the two AGN offsets (eight);
+    - H0 uniform on [50, 100] in every run; one prior range per parameter across models;
+    - posterior samples per event and injections as Analysis 14 decides; variance of ln L recorded.
+  R1'  complete catalogs, single population (6 parameters), equal-population mock.            Sec. IV A, V
+  R8'  host-dependent mock: single population (6) against host-dependent populations (8).     Sec. IV B, V
+       This is the lead comparison. The exploratory 8a to 8c become one sentence in the text.
+  R11  no catalog (hosts uniform in comoving volume), single population, on the events of R1' and R8':
+       H0 from the mass distribution alone.                                                   Sec. IV A, IV B
+  R5', R6', R7'  flux-limited catalogs under the production convention: densities from the complete part;
+       response to a wrong completeness model or density; densities free.                     Sec. IV C
+  R2, R3, R4, R9, R10 as before, with the six-parameter single population in place of the fixed one.
+  Option for the owner: a second mock family with a smaller fraction of mergers in the Gaussian peak.
+  Realizations: about ten for R1' and R8', five for the others. The cost comes with the plan, after Analysis 14.
