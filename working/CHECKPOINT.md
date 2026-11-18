@@ -1,4 +1,4 @@
-# Checkpoint, 17 Nov 2026, 23:20 UTC (read this first after a context clear)
+# Checkpoint, 18 Nov 2026, 06:20 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -64,34 +64,52 @@ hold the owner's words; this file holds the working state.
   between its values step and its audit (rerun it).
 
 ## 3. Runs (analysis 16: `working/analyses/analysis_16_production_runs/`, README there)
-- Machine: partition RITA-GPU, two A100-80, both ours.
+- Machine: partition RITA-GPU, two A100-80, both ours. (This Claude session itself runs inside
+  Slurm job 1412516 on MIKO; never cancel it.)
 - Launcher: `PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python`;
   `$PY scripts/launch.py --lanes 2 status`; `... --lanes 2 stage <S ...> [--match REGEX]
-  [--only-lane K] [--dry-run]`; lanes `runs/_lanes/lane1.txt`, `lane2.txt`, jobs `agn-prod-l1`,
-  `agn-prod-l2` (each job runs its lane file to the end and chains a successor). Lane order is
-  the `lane_rank` of each run (table `LANE_RANKS` at the top of `scripts/make_runlist.py`):
-  stage-2 grids, stage 4 on realizations 100-105, E3, stage 4 on 106-110, stage-2 nested,
-  stage 3 on 100-105, stage 5, stage 3 on 106-110. Summaries: `runs/<run>/summary.json` (block
-  `posterior`, computed on a refined lattice since 20:00 UTC; `grid/result.json` holds older
-  node-based bounds, do not use them).
-- State at 22:00 UTC: E1 132 of 235, E2 finished; lane 1 ends about 05:30 UTC on 18 Nov, lane 2
-  continues by itself into the 32 stage-2 grids (4.7 GPU-h) and the stage-4 single-population
-  runs on realizations 100-105 (20.5 GPU-h), queued at 20:10 UTC. Jobs: 1414946 (lane 1),
-  1415005 (lane 2), successors 1414969 and 1415023.
-- Sampler test for the eight-parameter model, job 1414839 (2 h 15), starts by itself when lane 1
-  ends (`afterany:1414946`); result in `tests/results/sampler_test.json`.
-- Two background watchers of the session: one ends when all E1/E2 grids are finished, one when
-  job 1414839 has ended. If the session was restarted they are gone: check by hand.
-- After the sampler test: `$PY scripts/make_runlist.py --timing tests/results/timing.json
-  [--sampler-8 X --calls-8 N]`, then `$PY scripts/launch.py --lanes 2 stage E3 2 3 4 5` (dry run
-  first). Estimates with the present setting: E3 20.5, stage 2 10, stage 3 60, stage 4 215,
-  stage 5 225 GPU-h (stage 4 and E3 about 1.14 times more on their injection set); the
-  eight-parameter runs are 165 + 190 of it.
+  [--only-lane K] [--dry-run]` (always `--lanes 2`); lanes `runs/_lanes/lane1.txt`, `lane2.txt`,
+  jobs `agn-prod-l1`, `agn-prod-l2` (each runs its lane file in rank order and chains a
+  successor). Ranks: table `LANE_RANKS` at the top of `scripts/make_runlist.py`. Summaries:
+  `runs/<run>/summary.json` (block `posterior`; never `grid/result.json`).
+- FINISHED: stage 1; every grid of the experiment (E1, E2); the stage-2 grids (flux limits with
+  known densities, and m < 20, m < 18 with the AGN density at half and twice).
+- QUEUED at 06:15 UTC, 18 Nov, in lane order. Lane 1: stage-2 nested runs (number densities
+  inferred; 16 tasks, 3.6 h), then the eight-parameter reference run of realization 100 with
+  rslice (33 h; `host_dependent_populations/both_catalogs/complete/host_dependent/realization_100`),
+  then the no-catalog runs on host-dependent mergers, E3, and so on. Lane 2: the validation pair
+  `.../realization_100_unif_boot5` (stage V8: eight parameters with the six-parameter sampler),
+  then stage-2 nested (8 tasks), the single-population runs on host-dependent mergers of
+  realizations 100-105 (running), and so on. Everything else that is not an eight-parameter run
+  is queued behind (stages 3, 4, 5, E3).
+- NOT QUEUED: the other four eight-parameter runs of stage 4, the five of stage 5, and the other
+  four V8 pairs. They wait for the sampler decision below.
+- THE SAMPLER QUESTION (eight parameters). Test c (job 1414839) is VOID: its uniform-sampling run
+  with bootstrap 0 collapsed onto a plane (first bound built from 3 live points, because 198 of
+  200 initial points sat on the variance-guard floor at 2000 samples), so its projection of 9000
+  calls is the cost of sampling a slice; `tests/results/sampler_test_corrected.json`. Never use
+  `--sampler-8 unif_b0`. What is known: rslice costs about 60 calls per iteration (33 GPU-h per
+  run); Analysis 13's eight-parameter run with uniform sampling and bootstrap 5 stalled (589k
+  calls by iteration 2884), but that run had no variance guard. The validation pair on
+  realization 100 measures what uniform sampling with bootstrap 5 costs with the guard. A watcher
+  of the session ends 3.5 h after its first part starts (or when it finishes). Then:
+  `$PY tests/nested_diagnostics.py runs/<V8 run>/nested_1` (calls per iteration by block,
+  corrected insertion-rank test, bound volume against contour volume, flatness of the live set).
+  If it runs at well under 60 calls per iteration and passes the diagnostics, let the pair
+  finish, compare the two parts and the rslice reference with `tests/compare_sampler_runs.py`,
+  and run the other realizations with it; if it stalls, take its two lines out of `lane2.txt`,
+  cancel the lane-2 job (its successor carries on), and run all eight-parameter runs with
+  rslice (4 x 33 GPU-h more for stage 4, 190 for stage 5).
+- OPEN CHECK for the Bayes factors: at production settings 75 to 99% of the initial live points
+  of a nested run sit on the floor that the driver gives dynesty for the variance guard (-1e300).
+  The six-parameter runs pass the diagnostics, but nobody has checked that ln Z is right with
+  such a plateau (an analytic test on CPU would settle it) before a Bayes factor is printed black.
 - Settings: core e7c3007; hosts normalized over the grid to z = 1.10; mixed sets 8000 posterior
   samples per merger with the half-variance correction; all-AGN sets 32000 samples and six pooled
   injection sets; each realization its own injections; host-dependent analyses use
   `injections/injections_targeted_peak.h5`; observed-like `injections_targeted_obslike.h5`;
-  `working/data/experiment_sets.json` maps event sets to files and injection sets.
+  nested runs: nlive 200, dlogz 0.1, six parameters uniform sampling in multi-ellipsoid bounds
+  with bootstrap 5, two independent parts merged by the summary.
 - Owner-approved scope: stages 1 to 4 with the eight-parameter model on 5 realizations first
   ("Staged: 5, then 10"), plus the observed-like family (stage 5), plus the experiment.
 
@@ -118,28 +136,32 @@ hold the owner's words; this file holds the working state.
   bounds moved by up to 0.09 km/s/Mpc, means over realizations by less. The macros are the source.
 
 ## 5. Do next, in order
-1. (Done: writer, review, fixes, PDF to the owner on 17 Nov, 23:12 UTC.)
-2. When the grids are done (watcher; about 05:30 UTC 18 Nov): refresh; Fable consistency pass on
-   the `% EXPECTED` sentences whose numbers turned real (the host-dependent series of Fig. 3(a),
-   the twice-offset probabilities and costs in the host-dependent subsection); PDF to the owner.
-3. When the sampler test has ended (watcher; about 09:00 UTC): read
-   `tests/results/sampler_test.json`, regenerate the run list, launch `E3 2 3 4 5`.
-4. Stage-2 grids real (about 11:00 UTC): refresh; the flux-limited subsection's numbers turn
-   real (they are exploratory and narrower than the complete-catalog width until then).
-5. Open points for the text: number densities in h^3 Mpc^-3 in Table I and wherever a prior is
-   quoted; the AGN-catalog-alone exception (realization 102); the date of the fifth observing
-   run in the conclusions needs a citable schedule; acknowledgments and author list are the
-   owner's.
-6. Known numerical flags (from the audit fix of 17 Nov): two catalog-free observed-like grids
-   (all mergers in AGN, realizations 101 and 103) have ln L jumps of about 100 nats between
-   neighbouring H0 nodes; one all-AGN observed-like grid (realization 102) is under-resolved in
-   f_AGN. The numbers agent of Sec. 2a reports whether anything printed uses them.
+1. Density-response paragraph of the flux-limited subsection: an Opus agent is wiring the stage-2
+   runs with the AGN density at half and twice into macros and redrawing panel (b) of
+   `fig3_flux_limits` from finished results only (started 06:00 UTC). When it reports: rewrite
+   that paragraph and the figure's caption from its numbers (main session, under the skill),
+   refresh, commit, send the PDF to the owner.
+2. The sampler decision of Sec. 3 when the watcher ends.
+3. Stage-2 nested runs finish (about four hours after they start): refresh; the second half of
+   the flux-limited subsection, Table IV and `fig4_densities` turn real; decide Table IV's
+   columns (AGN-density limit or galaxy-density limit); consistency pass on those sentences.
+4. As six-parameter runs finish (HDSingle, HDNone, then E3, stage 3): refresh and consistency
+   pass per subsection.
+5. Open points for the text: the date of the fifth observing run in the Conclusions needs a
+   citable schedule; acknowledgments, K. Storey-Fisher's affiliation and the rest of the author
+   list are the owner's; `\SkyResShiftHzero`, `\SkyResShiftfAGN` are still exploratory (the
+   agent of item 1 reports what run would replace them).
+6. Known numerical flags: two catalog-free observed-like grids (all mergers in AGN, realizations
+   101 and 103) have ln L jumps of about 100 nats from one heavy merger at the mass cut; no
+   number of the paper uses them and audit check K2 guards against it.
 
-## 6. Decisions waiting for the owner
-None.
+## 6. Waiting for the owner (asked 18 Nov, 05:15 UTC; none blocks work)
+K. Storey-Fisher's affiliation (she is second author since 37ca4f7; the owner is sharing the
+draft with her); acknowledgments and funding; the date of the fifth observing run or leave it
+out; whether to push (about 40 local commits); whether 17 pages is the size wanted.
 
 ## 7. Other sessions
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to 5bb62bf plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to 5ab834f plus the one that adds this file; `git log --oneline | head -20`.
