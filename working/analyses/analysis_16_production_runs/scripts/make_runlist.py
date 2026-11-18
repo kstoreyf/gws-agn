@@ -28,15 +28,20 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   estimates (half the former per-pair figures). Eight: 272,000 for the single run = Analysis 13's guarded
   rslice run (228k calls, box H0 [60,76] etc.) + 747 iterations at its 58 calls (test c may change it).
   Two independent nested runs (merged) up to six parameters, one for eight.
-  Stage V8 (validation of the eight-parameter sampler, 18 Nov): stage 4's host_dependent_populations runs
-  on realizations 100, 101, 102, 103, 105 with the six-parameter sampler configuration (dynesty multi /
-  unif, bootstrap 5, enlarge 1 -- dynesty 2.1.4's defaults for unif, which the six-parameter runs get by
-  passing no bootstrap or enlarge; nlive 200, dlogz 0.1, first bound after 2 nlive calls), only with eight
-  parameters: the driver's --sample unif, two independent parts nested_1, nested_2 (seeds 1, 2), run name
-  realization_NNN_unif_boot5 (--variant). Calls per part: test c's projection for unif with bootstrap 5
-  (tests/results/sampler_test.json, 9,128; --calls-v8 overrides) -- a lower bound: test c's Phase A was
-  confined to a plane (tests/results/sampler_test_corrected.json), and Analysis 13's eight-parameter run with
-  this configuration needed 588,771 calls for its first 2,884 iterations.
+  Stage V8 (the eight-parameter sampler, 18 Nov): stage 4's host_dependent_populations runs (same arguments,
+  events, injection lane, redraw, one part nested_1, seed 1) sampling uniformly while that is cheaper than rslice
+  and with rslice after, run names realization_NNN_unif_then_rslice (--variant):
+    realization 100: realization_100_unif_boot5 (the six-parameter configuration, --sample unif: dynesty 2.1.4's
+      unif defaults bootstrap 5, enlarge 1) stalled near 150 calls per iteration and was stopped at iteration 1,594
+      (30,102 calls); it is held, and realization_100_unif_then_rslice continues it from its nested_1/state.save
+      (--init-from, --switch-sample rslice with no further option = dynesty's rslice defaults = the production
+      eight-parameter setting: slices 11, enlarge 1.25, bootstrap 0).
+    realizations 101, 102, 103, 105: --sample unif --auto-switch-sample rslice --auto-switch-cpi 60: the driver
+      switches to the same rslice once a 2,000-call chunk needs more than 60 calls per iteration.
+  Cost (V8_COST): seconds per call = the stopped run's own (its sessions.json, likelihood time over calls); an
+  eight-parameter run takes calls_by_ndim[8] / 58 iterations (Analysis 13's 58 calls per iteration: 4,690), rslice
+  60 calls per iteration; the automatic runs spend realization 100's unif calls up to its switch point at 60
+  (iteration 1,558, 24,769 calls; tests/results/unif_then_rslice_checks.json, "cost").
   Stage X (checks of two settings, 18 Nov; build_checks): stage 1's two-tracer grid of realization 100 with the
   catalogs at nside 64 (--nside 64, run name realization_100_nside64), and the m < 18 grid of realization 100 with both
   number densities given in Mpc^-3 (--density given --density-units physical, the counts' values converted at
@@ -74,8 +79,8 @@ LANE_RANKS = [
     (1.5, "E1", {}),                                                   # experiment grids
     (1.5, "E2", {}),
     (2, 2, {"mode": "grid"}),                                          # known population, flux-limited
-    (2.5, "V8", {"realizations": (100,)}),                             # sampler validation, realization 100
-    (2.7, "V8", {"realizations": (101, 102, 103, 105)}),               # sampler validation, the other four
+    (2.5, "V8", {"realizations": (100,)}),                             # realization 100: unif then rslice (continuation)
+    (3.5, "V8", {"realizations": (101, 102, 103, 105)}),               # unif then rslice, the other four (after rank 3)
     (2.8, 2, {"mode": "nested"}),                                      # free densities (was 6 until 18 Nov)
     (2.85, "X", {}),                                                   # checks of two settings, realization 100 (18 Nov)
     (2.9, 4, {"analysis": "host_dependent_populations", "realizations": (100,)}),   # V8's rslice reference
@@ -163,8 +168,9 @@ TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
           5: "observed-like mass spectrum, host-dependent events",
           "E1": "experiment grids, present mass spectrum", "E2": "experiment grids, observed-like mass spectrum",
           "E3": "experiment nested runs: single population on (f = 0.3, s = 2)",
-          "V8": "validation of the eight-parameter sampler: stage 4's host-dependent populations with the "
-                "six-parameter sampler configuration (unif, bootstrap 5), two independent parts",
+          "V8": "the eight-parameter sampler: stage 4's host-dependent populations sampled uniformly (bootstrap 5) while "
+                "that is cheaper than rslice and with rslice after (realization 100 continued from its stopped uniform "
+                "run, which is held; realizations 101-105 with the automatic switch at 60 calls per iteration)",
           "X": "checks of two analysis settings on realization 100 (not production results): stage 1's two-tracer grid with "
                "the catalogs pixelized at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical "
                "units) at the values from the counts, the AGN density at that value and at twice it"}
@@ -424,17 +430,89 @@ V8_CALLS = {"calls_per_part": 9128,
                       "Analysis 13's eight-parameter run with this configuration used 588,771 calls for 2,884 iterations"}
 
 
+# 18 Nov: unif while it is cheaper than rslice, rslice after (run names realization_NNN_unif_then_rslice)
+V8_UNIF_THEN_RSLICE = "unif_then_rslice"
+V8_STOPPED = {"realization": 100, "part": "nested_1", "iterations": 1594, "ncall": 30102,
+              "source": "its state.save (dynesty it 1595, ncall 30102), stopped 18 Nov at about 150 calls per iteration"}
+# the continuation: the stopped state, switched to rslice with no further option (dynesty's rslice defaults, which are
+# the production eight-parameter runs' setting: they pass no sampler option, SAMPLER_8["rslice"] == [])
+V8_AUTO_ARGS = ["--sample", "unif", "--auto-switch-sample", "rslice", "--auto-switch-cpi", "60"]
+V8_COST = {"rslice_calls_per_iteration": 60, "a13_calls_per_iteration": 58,
+           # realization 100's own trajectory with 2,000-call chunks: the first chunk above 60 calls per iteration ended
+           # at iteration 1,558 (24,769 calls; 29 iterations, 2,421 calls, 83.5 per iteration); the largest chunk before it
+           # was 45.5 (tests/results/unif_then_rslice_checks.json, "cost")
+           "auto_switch_at": {"iterations": 1558, "ncall": 24769}}
+
+
+def v8_seconds_per_call():
+    """The stopped run's own seconds per call (likelihood time over calls in its sessions.json), else the class's."""
+    p = P.RUNS / P.run_name("host_dependent_populations", "both", "complete", "host_dependent", V8_STOPPED["realization"],
+                            variant=V8_VARIANT) / V8_STOPPED["part"] / "sessions.json"
+    if p.exists():
+        ses = json.loads(p.read_text())
+        calls = sum(s.get("calls", 0) for s in ses)
+        if calls:
+            return sum(s.get("seconds_in_likelihood", 0.0) for s in ses) / calls, f"{p.relative_to(P.A16)} ({calls} calls)"
+    return COST["spc_free_hostdep"], "spc_free_hostdep (test b)"
+
+
 def build_v8(realizations, hd_lane=None):
-    """Stage V8: for each realization, stage 4's host_dependent_populations run (same arguments, events,
-    injection lane, priors) with --sample unif (dynesty's unif defaults: bootstrap 5, enlarge 1, i.e. the
-    six-parameter configuration) and two independent parts (seeds 1, 2), named realization_NNN_unif_boot5."""
+    """Stage V8 (18 Nov): stage 4's host_dependent_populations run of each realization (same arguments, events,
+    injection lane, priors, redraw), one part nested_1 (seed 1), sampled uniformly while that is cheaper than rslice
+    and with rslice after, named realization_NNN_unif_then_rslice:
+      realization 100  --init-from the stopped realization_100_unif_boot5 run's nested_1/state.save, --switch-sample
+                       rslice (dynesty's rslice defaults = the production eight-parameter setting); the stopped run
+                       (--sample unif, two parts, as listed before) stays in the list, held
+      the others       --sample unif --auto-switch-sample rslice --auto-switch-cpi 60."""
+    assert SAMPLER_8["rslice"] == [], "the production eight-parameter setting is dynesty's rslice defaults"
+    spc, spc_src = v8_seconds_per_call()
+    n_it = COST["calls_by_ndim"][8] / V8_COST["a13_calls_per_iteration"]
+    cpi = V8_COST["rslice_calls_per_iteration"]
+    it_src = (f"{n_it:.0f} iterations in all (calls_by_ndim[8] {COST['calls_by_ndim'][8]:,} at Analysis 13's "
+              f"{V8_COST['a13_calls_per_iteration']} calls per iteration; extrapolating the stopped run's ln L(X) as an "
+              "eight-dimensional Gaussian gives 4,970-5,100, i.e. about 7% more; tests/results/unif_then_rslice_checks.json, \"cost\")")
     out = []
     for r in realizations:
+        stage4 = P.run_name("host_dependent_populations", "both", "complete", "host_dependent", r)
+        if r == V8_STOPPED["realization"]:
+            e = entry("V8", "nested", "host_dependent_populations", "both", "complete", "host_dependent", r, lane=hd_lane,
+                      sampler_args=V8_SAMPLER_ARGS, name_variant=V8_VARIANT, n_parts=2,
+                      calls_per_part=V8_CALLS["calls_per_part"])
+            e["est_calls_source"] = V8_CALLS["source"]
+            e["validates"] = stage4
+            cont = P.run_name("host_dependent_populations", "both", "complete", "host_dependent", r,
+                              variant=V8_UNIF_THEN_RSLICE)
+            e["hold"] = (f"stopped 18 Nov at iteration {V8_STOPPED['iterations']:,} ({V8_STOPPED['ncall']:,} calls; about "
+                         f"150 calls per iteration at the end); continued with rslice as {cont} from its "
+                         f"{V8_STOPPED['part']}/state.save: never queue it again")
+            out.append(e)
+            state = P.RUNS / e["name"] / V8_STOPPED["part"] / "state.save"
+            left = max(n_it - V8_STOPPED["iterations"], 0)
+            c = entry("V8", "nested", "host_dependent_populations", "both", "complete", "host_dependent", r, lane=hd_lane,
+                      sampler_args=["--init-from", str(state), "--switch-sample", "rslice"],
+                      name_variant=V8_UNIF_THEN_RSLICE, n_parts=1, calls_per_part=int(round(left * cpi)))
+            c = finish(c, "V8", "nested", c["free"], spc, c["events_file"], c["injections_file"], n_parts=1,
+                       calls_per_part=int(round(left * cpi)))
+            c["est_calls_source"] = (f"{left:.0f} iterations left after the stopped run's {V8_STOPPED['iterations']:,} at "
+                                     f"{cpi} calls per iteration (rslice); {it_src}")
+            c["est_seconds_per_call_source"] = f"the stopped run's own: {spc_src}"
+            c["continues"] = {"run": e["name"], "part": V8_STOPPED["part"], "state": str(state),
+                              "iterations": V8_STOPPED["iterations"], "ncall": V8_STOPPED["ncall"],
+                              "source": V8_STOPPED["source"]}
+            c["data_exists"] = bool(c["data_exists"] and state.exists())
+            c["validates"] = stage4
+            out.append(c)
+            continue
+        sw = V8_COST["auto_switch_at"]
+        calls = int(round(sw["ncall"] + max(n_it - sw["iterations"], 0) * cpi))
         e = entry("V8", "nested", "host_dependent_populations", "both", "complete", "host_dependent", r, lane=hd_lane,
-                  sampler_args=V8_SAMPLER_ARGS, name_variant=V8_VARIANT, n_parts=2,
-                  calls_per_part=V8_CALLS["calls_per_part"])
-        e["est_calls_source"] = V8_CALLS["source"]
-        e["validates"] = P.run_name("host_dependent_populations", "both", "complete", "host_dependent", r)
+                  sampler_args=V8_AUTO_ARGS, name_variant=V8_UNIF_THEN_RSLICE, n_parts=1, calls_per_part=calls)
+        e = finish(e, "V8", "nested", e["free"], spc, e["events_file"], e["injections_file"], n_parts=1,
+                   calls_per_part=calls)
+        e["est_calls_source"] = (f"unif to the switch as on realization 100 (iteration {sw['iterations']:,}, "
+                                 f"{sw['ncall']:,} calls), then {cpi} calls per iteration (rslice) to the end; {it_src}")
+        e["est_seconds_per_call_source"] = f"realization 100's stopped run: {spc_src}"
+        e["validates"] = stage4
         out.append(e)
     return out
 

@@ -1,4 +1,4 @@
-generated_utc: '2026-11-18T07:23:57Z'
+generated_utc: '2026-11-18T13:21:32Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:

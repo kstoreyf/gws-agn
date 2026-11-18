@@ -9,6 +9,9 @@ Production stage 1 and all experiment grids (E1, E2) are queued on one chained l
 **17 Nov, 20:00 UTC:** stage 5 (observed-like mass spectrum) added to `runs/RUNLIST.yaml`; the lanes are
 ordered by an explicit `lane_rank` per run (`make_runlist.py` LANE_RANKS); `launch.py stage` takes
 `--match REGEX` and `--only-lane K`; both run lists regenerated with test b's timings (not queued).
+**18 Nov, 13:00 UTC:** the eight-parameter runs sample uniformly first and with rslice after (stage V8 below): driver
+options `--auto-switch-sample/--auto-switch-cpi` (off by default; default path bit for bit unchanged), realization 100
+continued from its stopped uniform run, realizations 101-105 with the automatic switch; both run lists regenerated.
 
 ## What it runs
 
@@ -161,8 +164,11 @@ centred on it, ±5 sd; the mass outside the fine grid is computed from the coars
 < 1e-4 (else the fine grid is widened once); `--grid NAME=LO,HI,STEP` sets it explicitly. Nested:
 dynesty, nlive 200, dlogz 0.1, bound multi, first bound after 400 calls, unif up to six parameters
 (two independent runs, `--nested-index 1|2`, merged by the summary), rslice with slices 11, enlarge 1.25,
-no bootstrap for eight (Analysis 13's guarded run; see test c); checkpoint every 10 min and at the end of
-every 2000-call chunk; resumes from `nested_<k>/state.save`; stops cleanly 5 min before the job's
+no bootstrap for eight (Analysis 13's guarded run; see test c); `--init-from STATE --switch-sample M` starts a part from
+another run's state (only read; recorded in `<part>/init_from.json`) with sampler M; `--auto-switch-sample rslice
+--auto-switch-cpi C` (off by default) switches a unif part once to rslice (dynesty's defaults, the production setting) after
+the first chunk above C calls per iteration, recorded in the state itself and in `<part>/sampler_switch.json` (stage V8);
+checkpoint every 10 min and at the end of every 2000-call chunk; resumes from `nested_<k>/state.save`; stops cleanly 5 min before the job's
 deadline (exit 75). The run's JSON records the core commit (checked against the worktree HEAD), every
 setting, the Slurm job id and wall time of every session.
 
@@ -190,12 +196,12 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 |---|---|
 | 1.0, 1.5 | stage 1; E1 and E2 |
 | 2 | stage 2, the grids (known population, flux-limited) |
-| 2.5 | stage V8 (sampler validation, below), realization 100 |
-| 2.7 | stage V8, realizations 101, 102, 103, 105 |
+| 2.5 | stage V8 (eight-parameter sampler, below), realization 100: the rslice continuation |
 | 2.8 | stage 2, the nested runs (free densities; rank 6 until 18 Nov) |
 | 2.85 | stage X (checks of two settings on realization 100, below) |
 | 2.9 | stage 4, host-dependent populations (rslice), realization 100: V8's reference |
 | 3 | stage 4 on realizations 100, 101, 102, 103, 105: all three classes |
+| 3.5 | stage V8, realizations 101, 102, 103, 105 (unif, then rslice automatically) |
 | 4 | E3 |
 | 5 | stage 4, single population with both catalogs, realizations 106-110 |
 | 7 | stage 3 on realizations 100, 101, 102, 103, 105 |
@@ -282,17 +288,25 @@ Queued 17 Nov (one chain, job agn-prod-l1 1414946 and its successors): stage 1, 
 order s = 0, 1, 2 and within each f = 0.3, then 0.1 and 0.5, then 0 and 1. Nested stages (2-4, E3) wait
 for tests b and c.
 
-**Stage V8 (18 Nov, sampler validation).** Stage 4's `host_dependent_populations` runs on realizations 100,
-101, 102, 103, 105 (same arguments, events, injection lane, redraw) with the six-parameter sampler
-configuration: `--sample unif` and nothing else, so dynesty 2.1.4 applies its unif defaults, bootstrap 5 and
-enlarge 1 (multi-ellipsoid bound, nlive 200, dlogz 0.1, first bound after 400 calls, update every 300 calls,
-core's -inf passed to dynesty as -1e300), two independent parts `nested_1`, `nested_2` (seeds 1, 2; seed 1
-is also the rslice run's, so nested_1 starts from the same 200 points), run names
-`host_dependent_populations/both_catalogs/complete/host_dependent/realization_NNN_unif_boot5` (`--variant`).
-The paper's number chain cannot pick them up (its patterns end in `realization_{R}`; `classes.py` groups by
-the name before `/realization_` and keeps the first run listed, so stage V8 stays after stage 4 in
-RUNLIST.yaml). Estimated calls per part: test c's projection (9,128; `make_runlist.py --calls-v8 N`
-overrides), a lower bound (see test c below). Compare finished runs with `tests/compare_sampler_runs.py`.
+**Stage V8 (the eight-parameter sampler; 18 Nov).** *Found:* stage 4's eight-parameter model on realization 100 with
+the six-parameter sampler (uniform sampling in multi-ellipsoid bounds, dynesty's bootstrap 5; run
+`..._realization_100_unif_boot5`) was healthy by every check of `tests/nested_diagnostics.py` and cheap for about 1,500
+iterations (calls per iteration by 200-iteration block 4.9, 4.1, 11.1, 21.0, 14.2, 16.7, 24.6), then stalled near 150 calls
+per iteration, against about 60 for rslice. It was stopped at iteration 1,594 (30,102 calls, 0.497 s per call) and is held
+in the run list. *Now:* the eight-parameter V8 runs sample uniformly while that is cheaper and with rslice after (run names
+`host_dependent_populations/both_catalogs/complete/host_dependent/realization_NNN_unif_then_rslice`, stage 4's arguments,
+events, lane and redraw, one part `nested_1`, seed 1):
+- realization 100 continues the stopped run: `--init-from <its nested_1/state.save> --switch-sample rslice` (rank 2.5);
+- realizations 101, 102, 103, 105: `--sample unif --auto-switch-sample rslice --auto-switch-cpi 60` (rank 3.5): the driver
+  switches once, after the first 2,000-call chunk above 60 calls per iteration (on realization 100's trajectory: after
+  iteration 1,558, at 24,769 calls; the largest chunk before was 45.5).
+
+Both switches give the production rslice exactly (dynesty's defaults: slices 11, enlarge 1.25, bootstrap 0, bound update
+every 4,400 calls). Estimates (`make_runlist.py`): 4,690 iterations per run (272,000 calls at Analysis 13's 58 per iteration;
+the stopped run's ln L(X) extrapolated as an 8-D Gaussian gives 4,970-5,100), 60 calls per iteration with rslice, 0.497 s per
+call: the continuation 186k calls, 25.6 GPU-h; each automatic run 213k calls, 29.4 GPU-h (rslice from the start: 272k, 37.5).
+The paper's selectors skip stage V8. Checks: `tests/test_unif_then_rslice.py` (`tests/results/unif_then_rslice_checks.json`,
+below).
 
 **Stage X (18 Nov, checks of two analysis settings, realization 100; not production results).** Three grids, last in
 RUNLIST.yaml, 0.25 GPU-h in all (seconds per call: the measured value of the production run each one varies):
@@ -314,6 +328,23 @@ Queue: `$PY scripts/launch.py --lanes 2 stage X` (CPU dry runs: `bash tests/cpu_
 x_m18_units_physical_double`; default-path identity of the extended driver: `tests/results/nside_option_checks.json`).
 
 ## Tests
+
+**Unif, then rslice (18 Nov; `tests/test_unif_then_rslice.py`, `tests/results/unif_then_rslice_checks.json`, all pass).**
+(settings) `switch_sampler(s, "rslice")` with no option gives exactly the sampler the driver builds for eight parameters
+(method, proposals, slices 11, enlarge 1.25, bootstrap 0, walks, facc, bound update every 4,400 calls, first update, kwargs), on a
+toy and on a copy of the stopped realization-100 checkpoint. (continuation) The continuation's run-list arguments on that copy
+(dry-run model, ln L shifted by one constant to the state's scale by `tests/driver_lnl_offset.py`), into
+`tests/unif_then_rslice_runs/`: the first process restored the copy, switched, wrote part `nested_1`'s own checkpoint and ran
+4 rslice iterations until a hard kill; the second resumed from that checkpoint as rslice with the production settings and
+continued (iterations 1,599-1,600); the copy was only read. (two_phase) A small finished run, 150 unif iterations then rslice
+to convergence: the 150 first-phase dead points are in the results bit for bit, and prod_summary's posterior and ln Z are the
+same before and after its change; the summary now also lists the switch, the restored state and
+`calls_including_init_state` / `gpu_hours_including_init_source` (before, `calls` and `gpu_hours` covered the second phase
+only). (auto) The automatic switch on that small problem (threshold 40): one switch, at iteration 246; runs killed before and
+after it and resumed end bit for bit equal to the uninterrupted one (switch at the same iteration and call). Default path:
+the V8, no-catalog (stopped and converged) and two-tracer grid dry runs with the driver before and after the change are
+identical bit for bit, results and bounds included (`tests/results/unif_then_rslice_default_path.json`), and prod_summary
+before/after gives identical summaries of three finished production runs (copies).
 
 **ln Z with initial points on the floor (18 Nov; `tests/test_plateau_evidence.py`, `tests/results/plateau_evidence.json`).**
 Analytic likelihoods (a Gaussian, sigma 0.03, inside a box holding q = 2%, 25%, 100% of the unit cube, -1e300 outside) in 6

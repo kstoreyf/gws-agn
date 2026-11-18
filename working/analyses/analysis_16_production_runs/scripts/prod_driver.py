@@ -137,8 +137,16 @@ def parse_args(argv=None):
     a("--maxiter-more", type=int, default=None, help="tests: stop after this many more iterations than at start")
     a("--kill-after-calls", type=int, default=None, help="tests: hard exit after N calls in this process")
     a("--save-at-iterations", default="", help="tests: copy the state at these iterations")
-    a("--init-from", default=None, help="tests: start from this dynesty state (copied), then --switch-sample")
+    a("--init-from", default=None,
+      help="start the part from this dynesty state (only read; the part writes its own checkpoint and resumes from "
+           "it), then --switch-sample; recorded in <part>/init_from.json")
     a("--switch-sample", choices=["unif", "rwalk", "rslice"], default=None)
+    a("--auto-switch-sample", choices=["rwalk", "rslice"], default=None,
+      help="nested: while the sampler is unif, switch it once to this method (dynesty's defaults for it: the "
+           "production eight-parameter rslice is enlarge 1.25, bootstrap 0, slices 3 + ndim) after the first chunk "
+           "whose calls per iteration exceed --auto-switch-cpi; recorded in <part>/sampler_switch.json. Default off")
+    a("--auto-switch-cpi", type=float, default=60.0,
+      help="threshold of --auto-switch-sample: likelihood calls per iteration over one chunk (--chunk-calls)")
     a("--dry-run", action="store_true", help="CPU: 20 events, 20000 injections, a few cells/calls")
     return ap.parse_args(argv)
 
@@ -321,6 +329,17 @@ def resolve(args):
                          "walks": args.walks, "slices": args.slices,
                          "first_update": {"min_ncall": 2 * args.nlive, "min_eff": 100.0},
                          "checkpoint_every": args.checkpoint_every, "neginf_to": -1e300}
+        if args.auto_switch_sample:      # recorded only when on (default configs unchanged)
+            if not args.auto_switch_cpi > 0:
+                sys.exit("[fatal] --auto-switch-cpi must be positive")
+            cfg["nested"]["auto_switch"] = {
+                "to": args.auto_switch_sample, "calls_per_iteration_above": float(args.auto_switch_cpi),
+                "measured_over": f"one chunk of the nested loop (--chunk-calls {args.chunk_calls})",
+                "while_sampler_is": "unif", "at_most": 1,
+                "settings": "dynesty 2.1.4's defaults for the method (walks, slices, enlarge, bootstrap None), as the "
+                            "production eight-parameter runs get them"}
+    elif args.auto_switch_sample:
+        sys.exit("[fatal] --auto-switch-sample is an option of nested runs")
     else:
         cfg["grid"] = {"explicit": args.grid, "coarse": args.coarse, "fine_cells": args.fine_cells,
                        "fine_cells_1d": args.fine_cells_1d, "fine_halfwidth_sd": args.fine_halfwidth_sd,
@@ -909,6 +928,15 @@ def run_nested(args, cfg, run_dir):
         install_dynesty_checkpointing(s)
         log(f"new sampler: {sampler_settings(s)}")
     settings_now = sampler_settings(s)
+    auto = nk.get("auto_switch")          # None unless --auto-switch-sample (the default path is unchanged)
+    auto_here = None                      # the switch made by this process, if any
+    if auto is not None:
+        done = getattr(s, "a16_auto_switch", None)      # stored in the dynesty state itself, saved with it
+        if done is not None and not (ndir / "sampler_switch.json").exists():
+            write_json(ndir / "sampler_switch.json", done)   # (the process stopped between the state and this copy)
+        log(f"automatic switch: unif -> {auto['to']} above {auto['calls_per_iteration_above']:g} calls per iteration; "
+            + (f"done at iteration {done['iterations_done']} (ncall {done['ncall']}); sampler {s.method}"
+               if done is not None else f"not yet; sampler {s.method}"))
     save_at = sorted(int(x) for x in args.save_at_iterations.split(",") if x)
     saved_copies = []
     maxcall_total = args.maxcall_total
@@ -947,6 +975,7 @@ def run_nested(args, cfg, run_dir):
         if maxiter_total is not None:
             rem = maxiter_total - (s.it - 1)
             maxiter = rem if maxiter is None else min(maxiter, rem)
+        chunk_start = (int(s.it - 1), int(s.ncall))
         s.run_nested(maxcall=chunk, maxiter=maxiter if maxiter is None else maxiter - 1, dlogz=nk["dlogz"],
                      add_live=False, print_progress=False, checkpoint_file=str(ckpt),
                      checkpoint_every=nk["checkpoint_every"], resume=True)
@@ -959,6 +988,29 @@ def run_nested(args, cfg, run_dir):
             log(f"[test] state copied at iteration {it_done} (ncall {s.ncall})")
         log(f"it {it_done}  ncall {s.ncall}  delta_logz {delta_logz(s):.4g}  logz {s.saved_run['logz'][-1]:.6g}  "
             f"logl* {s.saved_run['logl'][-1]:.6g}  {spc:.3f} s/call  eff {100 * it_done / max(s.ncall, 1):.1f}%")
+        if auto is not None and s.method == "unif" and getattr(s, "a16_auto_switch", None) is None:
+            d_it, d_call = it_done - chunk_start[0], int(s.ncall) - chunk_start[1]
+            cpi = d_call / d_it if d_it > 0 else float("inf")
+            if cpi > auto["calls_per_iteration_above"] and delta_logz(s) >= nk["dlogz"]:
+                rec = switch_sampler(s, auto["to"])           # dynesty's defaults for the method
+                rec.update({"trigger": "automatic", "iterations_done": int(it_done),
+                            "chunk": {"first_iteration": chunk_start[0] + 1, "last_iteration": int(it_done),
+                                      "iterations": int(d_it), "calls": int(d_call),
+                                      "calls_per_iteration": float(cpi)},
+                            "threshold_calls_per_iteration": auto["calls_per_iteration_above"],
+                            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                            "slurm_job_id": os.environ.get("SLURM_JOB_ID")})
+                s.a16_auto_switch = rec
+                s.save(str(ckpt))                     # state and record in one file
+                # continue from the saved state, as a resumed process would
+                s = restore_dynesty_sampler(str(ckpt), loglike, ptform)
+                install_dynesty_checkpointing(s)
+                write_json(ndir / "sampler_switch.json", rec)
+                auto_here = rec
+                settings_now = sampler_settings(s)
+                log(f"automatic switch at iteration {it_done} (ncall {s.ncall}): {d_call} calls over the last {d_it} "
+                    f"iterations = {cpi:.1f} per iteration > {auto['calls_per_iteration_above']:g}; now "
+                    f"{settings_now}")
     s.save(str(ckpt))
     rec_base = {"run_name": cfg["run_name"], "mode": "nested", "part": part, "free": free,
                 "priors": cfg["priors"], "sampler": settings_now, "sampler_switch": switch_rec,
@@ -966,6 +1018,12 @@ def run_nested(args, cfg, run_dir):
                 "start_state_this_session": start_state,
                 "n_neginf_this_session": cnt["neginf"], "calls_this_session": cnt["n"],
                 "seconds_per_call_this_session": cnt["t"] / max(cnt["n"], 1)}
+    # (keys present only when the option was used: the default path's records are unchanged)
+    if (ndir / "init_from.json").exists():
+        rec_base["init_from"] = json.loads((ndir / "init_from.json").read_text())   # the part's starting state
+    if auto is not None:
+        rec_base["sampler_auto_switch"] = getattr(s, "a16_auto_switch", None)     # the part's switch (any session)
+        rec_base["sampler_auto_switch_this_session"] = auto_here is not None
     if status != "converged":
         rec = {**rec_base, "finished": False, "status": status, "it": int(s.it - 1), "ncall": int(s.ncall),
                "delta_logz": delta_logz(s), "logz_so_far": float(s.saved_run["logz"][-1]) if s.it > 1 else None,

@@ -1,4 +1,4 @@
-generated_utc: '2026-11-18T07:23:57Z'
+generated_utc: '2026-11-18T13:21:32Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -5476,15 +5476,16 @@ stages:
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
 - stage: V8
-  title: 'validation of the eight-parameter sampler: stage 4''s host-dependent populations with the six-parameter sampler configuration (unif,
-    bootstrap 5), two independent parts'
-  n_runs: 5
-  n_tasks: 10
-  est_calls: 91280
-  est_gpu_hours: 11.27
-  est_gpu_hours_existing_data: 11.27
-  est_gpu_hours_ready: 11.27
-  n_runs_held: 0
+  title: 'the eight-parameter sampler: stage 4''s host-dependent populations sampled uniformly (bootstrap 5) while that is cheaper than rslice
+    and with rslice after (realization 100 continued from its stopped uniform run, which is held; realizations 101-105 with the automatic switch
+    at 60 calls per iteration)'
+  n_runs: 6
+  n_tasks: 7
+  est_calls: 1054667
+  est_gpu_hours: 145.35
+  est_gpu_hours_existing_data: 145.35
+  est_gpu_hours_ready: 143.09
+  n_runs_held: 1
   runs:
   - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5
     analysis: host_dependent_populations
@@ -5538,7 +5539,71 @@ stages:
       Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
       Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_boot5
+    hold: 'stopped 18 Nov at iteration 1,594 (30,102 calls; about 150 calls per iteration at the end); continued with rslice as host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice
+      from its nested_1/state.save: never queue it again'
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --init-from
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/state.save
+    - --switch-sample
+    - rslice
+    - --variant
+    - unif_then_rslice
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 185739
+    est_seconds_per_call: 0.4966
+    est_gpu_hours: 25.647
+    est_gpu_hours_per_part: 25.647
+    priority: 0.0
+    lane_rank: 2.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 3096 iterations left after the stopped run's 1,594 at 60 calls per iteration (rslice); 4690 iterations in all (calls_by_ndim[8]
+      272,000 at Analysis 13's 58 calls per iteration; extrapolating the stopped run's ln L(X) as an eight-dimensional Gaussian gives 4,970-5,100,
+      i.e. about 7% more; tests/results/unif_then_rslice_checks.json, "cost")
+    est_seconds_per_call_source: 'the stopped run''s own: runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/sessions.json
+      (28810 calls)'
+    continues:
+      run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5
+      part: nested_1
+      state: /hildafs/projects/phy230014p/magana/gws-agn/working/analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/state.save
+      iterations: 1594
+      ncall: 30102
+      source: its state.save (dynesty it 1595, ncall 30102), stopped 18 Nov at about 150 calls per iteration
+    validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5557,8 +5622,12 @@ stages:
     - injections/injections_targeted_peak.h5
     - --sample
     - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
     - --variant
-    - unif_boot5
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_peak.h5
     nsamp: 8000
     injection_pool: []
@@ -5576,21 +5645,22 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    - nested_2
-    est_calls: 18256
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 2.254
-    est_gpu_hours_per_part: 1.127
+    est_calls: 212668
+    est_seconds_per_call: 0.4966
+    est_gpu_hours: 29.362
+    est_gpu_hours_per_part: 29.362
     priority: 0.0
-    lane_rank: 2.7
+    lane_rank: 3.5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
     data_exists: true
-    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
-      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
-      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    est_calls_source: unif to the switch as on realization 100 (iteration 1,558, 24,769 calls), then 60 calls per iteration (rslice) to the end;
+      4690 iterations in all (calls_by_ndim[8] 272,000 at Analysis 13's 58 calls per iteration; extrapolating the stopped run's ln L(X) as an
+      eight-dimensional Gaussian gives 4,970-5,100, i.e. about 7% more; tests/results/unif_then_rslice_checks.json, "cost")
+    est_seconds_per_call_source: 'realization 100''s stopped run: runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/sessions.json
+      (28810 calls)'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_boot5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5609,8 +5679,12 @@ stages:
     - injections/injections_targeted_peak.h5
     - --sample
     - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
     - --variant
-    - unif_boot5
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_peak.h5
     nsamp: 8000
     injection_pool: []
@@ -5628,21 +5702,22 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    - nested_2
-    est_calls: 18256
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 2.254
-    est_gpu_hours_per_part: 1.127
+    est_calls: 212668
+    est_seconds_per_call: 0.4966
+    est_gpu_hours: 29.362
+    est_gpu_hours_per_part: 29.362
     priority: 0.0
-    lane_rank: 2.7
+    lane_rank: 3.5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
     data_exists: true
-    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
-      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
-      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    est_calls_source: unif to the switch as on realization 100 (iteration 1,558, 24,769 calls), then 60 calls per iteration (rslice) to the end;
+      4690 iterations in all (calls_by_ndim[8] 272,000 at Analysis 13's 58 calls per iteration; extrapolating the stopped run's ln L(X) as an
+      eight-dimensional Gaussian gives 4,970-5,100, i.e. about 7% more; tests/results/unif_then_rslice_checks.json, "cost")
+    est_seconds_per_call_source: 'realization 100''s stopped run: runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/sessions.json
+      (28810 calls)'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_boot5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5661,8 +5736,12 @@ stages:
     - injections/injections_targeted_peak.h5
     - --sample
     - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
     - --variant
-    - unif_boot5
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_peak.h5
     nsamp: 8000
     injection_pool: []
@@ -5680,21 +5759,22 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    - nested_2
-    est_calls: 18256
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 2.254
-    est_gpu_hours_per_part: 1.127
+    est_calls: 212668
+    est_seconds_per_call: 0.4966
+    est_gpu_hours: 29.362
+    est_gpu_hours_per_part: 29.362
     priority: 0.0
-    lane_rank: 2.7
+    lane_rank: 3.5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
     data_exists: true
-    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
-      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
-      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    est_calls_source: unif to the switch as on realization 100 (iteration 1,558, 24,769 calls), then 60 calls per iteration (rslice) to the end;
+      4690 iterations in all (calls_by_ndim[8] 272,000 at Analysis 13's 58 calls per iteration; extrapolating the stopped run's ln L(X) as an
+      eight-dimensional Gaussian gives 4,970-5,100, i.e. about 7% more; tests/results/unif_then_rslice_checks.json, "cost")
+    est_seconds_per_call_source: 'realization 100''s stopped run: runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/sessions.json
+      (28810 calls)'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_boot5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5713,8 +5793,12 @@ stages:
     - injections/injections_targeted_peak.h5
     - --sample
     - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
     - --variant
-    - unif_boot5
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_peak.h5
     nsamp: 8000
     injection_pool: []
@@ -5732,19 +5816,20 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    - nested_2
-    est_calls: 18256
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 2.254
-    est_gpu_hours_per_part: 1.127
+    est_calls: 212668
+    est_seconds_per_call: 0.4966
+    est_gpu_hours: 29.362
+    est_gpu_hours_per_part: 29.362
     priority: 0.0
-    lane_rank: 2.7
+    lane_rank: 3.5
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
     data_exists: true
-    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
-      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
-      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    est_calls_source: unif to the switch as on realization 100 (iteration 1,558, 24,769 calls), then 60 calls per iteration (rslice) to the end;
+      4690 iterations in all (calls_by_ndim[8] 272,000 at Analysis 13's 58 calls per iteration; extrapolating the stopped run's ln L(X) as an
+      eight-dimensional Gaussian gives 4,970-5,100, i.e. about 7% more; tests/results/unif_then_rslice_checks.json, "cost")
+    est_seconds_per_call_source: 'realization 100''s stopped run: runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/sessions.json
+      (28810 calls)'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
 - stage: X
   title: 'checks of two analysis settings on realization 100 (not production results): stage 1''s two-tracer grid with the catalogs pixelized

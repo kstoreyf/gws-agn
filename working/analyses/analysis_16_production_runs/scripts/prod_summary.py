@@ -224,12 +224,51 @@ def summarize_nested(run_dir, cfg, parts):
         conv = None
     sel = {"posterior_mean_per_part": [v["sigma2_sel_mean"] for v in var_rows],
            "note": "N^2/N_eff of the selection term, posterior mean over each part's dead points"}
-    return {"selection_N2_over_Neff": sel,
-            "posterior": compact(post, names), "posterior_uncorrected": compact(post_raw, names),
-            "ln_evidence": {"value": lz, "error": lze, "how": "dynesty" + (" (merged)" if len(res) > 1 else "")},
-            "parts": [{"part": p, "logZ": r["logZ"], "logZerr": r["logZerr"], "ncall": r["ncall_total"],
-                       "niter": r["niter"], "sampler": r["sampler"]["method"]} for p, r in zip(parts, recs)],
-            "convergence": conv, "variance": var_rows, "calls": calls, "gpu_hours": gpu_h}
+    out = {"selection_N2_over_Neff": sel,
+           "posterior": compact(post, names), "posterior_uncorrected": compact(post_raw, names),
+           "ln_evidence": {"value": lz, "error": lze, "how": "dynesty" + (" (merged)" if len(res) > 1 else "")},
+           "parts": [{"part": p, "logZ": r["logZ"], "logZerr": r["logZerr"], "ncall": r["ncall_total"],
+                      "niter": r["niter"], "sampler": r["sampler"]["method"]} for p, r in zip(parts, recs)],
+           "convergence": conv, "variance": var_rows, "calls": calls, "gpu_hours": gpu_h}
+    out.update(sampler_history(run_dir, parts, recs, calls, gpu_h))     # empty unless a part switched its sampler
+    return out
+
+
+def sampler_history(run_dir, parts, recs, calls, gpu_h):
+    """Parts that changed sampler: started from another run's state (--init-from, <part>/init_from.json) or switched
+    automatically (--auto-switch-sample, <part>/sampler_switch.json). The dead points of both phases are in the part's
+    results (the restored state carries the first phase's), so the posterior and ln Z above already use them all; the
+    first phase's likelihood calls (the restored state's ncall) and its processes' wall time (the source part's
+    sessions.json, which ends at that part's last record) are added here. {} when no part changed sampler."""
+    out, sw, init = {}, [], []
+    for p, r in zip(parts, recs):
+        d = run_dir / p
+        if (d / "init_from.json").exists():
+            j = json.loads((d / "init_from.json").read_text())
+            src = Path(j["init_from"]).parent
+            ses = sessions_of(src)
+            init.append({"part": p, "state": j["init_from"], "iterations": int(j["it"]) - 1, "ncall": int(j["ncall"]),
+                         "source_sessions": {"part_dir": str(src), "n": len(ses),
+                                             "calls": int(sum(s.get("calls", 0) for s in ses)),
+                                             "gpu_hours": sum(s.get("wall_seconds", 0.0) for s in ses) / 3600,
+                                             "closed": all(s.get("exit") not in (None, "running") for s in ses)}})
+            if j.get("switch"):
+                sw.append({"part": p, "how": "init_from", **{k: j["switch"].get(k) for k in
+                                                             ("from", "to", "it", "ncall", "enlarge", "bootstrap",
+                                                              "walks", "slices", "bound_update_interval")}})
+        if (d / "sampler_switch.json").exists():
+            j = json.loads((d / "sampler_switch.json").read_text())
+            sw.append({"part": p, "how": "automatic", **{k: j.get(k) for k in
+                                                         ("from", "to", "iterations_done", "ncall", "chunk",
+                                                          "threshold_calls_per_iteration", "enlarge", "bootstrap",
+                                                          "walks", "slices", "bound_update_interval")}})
+    if sw:
+        out["sampler_switches"] = sw
+    if init:
+        out["init_from"] = init
+        out["calls_including_init_state"] = calls + sum(x["ncall"] for x in init)
+        out["gpu_hours_including_init_source"] = gpu_h + sum(x["source_sessions"]["gpu_hours"] for x in init)
+    return out
 
 
 def summarize(name, root=None):
