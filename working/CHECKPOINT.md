@@ -1,194 +1,172 @@
-# Checkpoint, 18 Nov 2026, 12:35 UTC (read this first after a context clear)
+# Checkpoint, 18 Nov 2026, 19:10 UTC (read this first after a context clear or compaction)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
-you orchestrate and check). Everything below is the state at the time of writing. The memory files
-`gw-agn-paper-prd.md`, `writer-briefs-must-follow-style-skill.md`, `gw-agn-ownership-handover.md`
-hold the owner's words; this file holds the working state.
+you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
+`gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
+this file holds the working state.
 
 ## 1. What the owner wants (standing)
-- ONE paper (owner, 17 Nov ~20:05 UTC: "Lets stick to the long paper. You did a better job there.
-  So i would archive the short paper."): `working/paper_prd/`. The letter
-  `paper_short_independent` is archived (Sec. 2). Do not propose a short version again unless asked.
+- ONE paper: `working/paper_prd/` (owner, 17 Nov: "Lets stick to the long paper"). The letter is
+  frozen in `working/archive/paper_short_independent/`. Do not propose a short version.
 - What is new, in the owner's words: "proper multi-tracer darksirens, and correlated gw
-  properties with galaxies". The paper is titled and argued for that.
-- The draft is written for the expected results at once; anything that waits for a run is red (red
-  macros `\ph{}`, red figure data); no note to the author is printed in a figure.
-- Form is governed by the owner's style skill `astro-paper-style`. LOAD IT YOURSELF before
-  briefing any writer; a brief adds content and never overrides the skill (the owner rejected a
-  draft whose brief did). Bayesian statements only, 90% credible intervals, no em dashes.
-- Commit locally on `main`, never push (push is the owner's call). Attribution lines:
-  `Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>` and
+  properties with galaxies".
+- The draft is written for the expected results at once; what waits for a run is red (macros
+  `\ph{}`, figure data); no note to the author is printed in a figure or in the text.
+- Form: the owner's style skill `astro-paper-style`. LOAD IT before briefing a writer or writing
+  text yourself; a brief adds content and never overrides the skill. Bayesian statements only,
+  90% credible intervals, precision as the 90% half-width (two significant figures), no em dashes.
+- Editorial and structural choices about the paper are YOURS: do not ask the owner (18 Nov:
+  "Whatever makes it coherent. Again you own it. You decide."). Ask only for facts they alone
+  have and for actions outside the repo.
+- Commit locally on `main`. `origin` is K. Storey-Fisher's GitHub repository (she is second
+  author); the owner approved one push on 18 Nov (up to ba8f91f); ask before each later push.
+  Attribution lines: `Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>` and
   `Claude-Session: https://claude.ai/code/session_01L6W2Gr2RxPuB4nQyh4gjGp`.
-- Private: never put the owner's name, the project name or local paths into outside requests.
-- Agents: no idle waiting; code watchers or Slurm dependencies instead; fresh agents with short
-  briefs beat resuming cold ones; keep the number proportionate.
+- Private: never put the owner's name, the project name or local paths into outside requests
+  (the owner did ask for the lookup of their own arXiv paper on 18 Nov).
+- Agents: no idle waiting; code watchers; fresh agents with short briefs; proportionate numbers.
+  If an agent dies with an API or billing error its edits stay in the working tree: resume it
+  with SendMessage to its id.
 
-## 2. The paper
-- `working/paper_prd/main.tex` (16 pp). Design: `notes/PAPER_SKELETON.md` (Sec. 9 of 17 Nov evening:
-  the long paper takes in the letter's experiment; new subsection IV B "The constraint from each
-  host class", new figure `fig_classes`, names "host class unknown / known", "probability of an AGN
-  host"), `REVISION_DECISIONS.md` (item 13), `notes/OWNER_STYLE_DETAILS.md`.
-- Numbers: `scripts/build_values.py`, `production.py`, `values/production_map.json`,
-  `audit_values.py`, `values/MACROS.md`. Figures: `scripts/make_figures.py`,
-  `figures/CAPTION_FACTS.md`. Shared notes: `refs.bib`, `notes/PRIOR_WORK_VERIFIED.md` (the only
-  source for statements about other papers), `notes/LIKELIHOOD_MATH.md`, `notes/GAPS.md`.
-- Maintenance loop: `bash working/refresh_papers.sh` (values, audit, figures, PDF, gates, counts)
-  -> a Fable consistency pass limited to sentences tagged `% EXPECTED` whose numbers turned real
-  -> send the PDF to the owner (SendUserFile) only when it is consistent.
-- DONE by 21:15 UTC (commit 9ac3426): the long paper stands alone (`scripts/run_posteriors.py`,
-  `scripts/classes.py`; nothing reads the archived letter); the experiment's numbers are macros
-  (135, of which 87 real; block `classes` of `values/production_map.json`; audit checks K0 to K2);
-  figure `fig_classes` drawn; Fig. 1 from the production event sets; Obs keys mapped to stage 5
-  and their placeholders narrowed (skeleton Sec. 7); `refresh_papers.sh` covers one paper; the
-  letter is frozen in `working/archive/paper_short_independent/` (`FROZEN.md`).
-- DONE by 23:20 UTC, 17 Nov (commits ca7da6e to 5bb62bf): the experiment is in `main.tex` (17 pp,
-  ten figures): Sec. IV B `sec:classes` with Fig. 3 `fig_classes` and the equation for the
-  probability of an AGN host; the AGN catalog alone as a biased analysis; masses and spins as a
-  label (host-dependent subsection); observed-like half-widths for the known population; number
-  densities in h^3 Mpc^-3 everywhere; abstract of seven sentences and fifteen numbers; the 90%
-  half-width (two significant figures) as the one measure of precision. An independent Fable
-  review was applied in full except its length item (`REVIEW_2.md`: findings and decisions). The
-  PDF of 5bb62bf minus the HEALPix citation was sent to the owner at 23:12 UTC.
-- State of the numbers: 78 of 177 result macros used in the text are real; the experiment's 111
-  of 164. Red placeholders of the flux-limited and inferred-density analyses are re-anchored to
-  the finished complete-catalog result and kept inside the Table I prior (rules in the header of
-  `scripts/placeholder_results.py`).
-- Leftovers, none urgent: Table IV prints the AGN-density limit, which in the placeholders shows
-  no gain over the priors (galaxy-density limits exist as macros; decide the columns when the
-  stage-2 nested runs are real); `fig8_summary` prints "at the prior edge, 100" in a panel with no
-  macro behind the number; the abstract has fifteen numbers where a dozen was the aim; the date
-  of the fifth observing run in the Conclusions still needs a citable schedule; the conventions
-  bullet of `figures/CAPTION_FACTS.md` still says every element drawn from
-  `placeholder_results.json` is a placeholder; the refresh can fail once when a run finishes
-  between its values step and its audit (rerun it).
+## 2. The paper (state at commit b29e087; 18 pp, ten figures)
+- `working/paper_prd/main.tex`. Design: `notes/PAPER_SKELETON.md` (Sec. 9: the experiment taken
+  in; 9.6 conventions), `REVISION_DECISIONS.md` item 13 (owner's words),
+  `notes/OWNER_STYLE_DETAILS.md`, `REVIEW_2.md` (independent review of 17 Nov, applied).
+- Numbers chain (`scripts/`): `build_values.py`, `production.py` + `values/production_map.json`
+  (keys), `classes.py` (the experiment), `density.py` (assumed AGN density, units), `skyres.py`
+  (sky resolution), `placeholder_results.py` (red values and their rules), `audit_values.py`
+  (second code path; 78 checks pass), `make_figures.py`, `figures/CAPTION_FACTS.md`,
+  `values/MACROS.md`. `notes/PRIOR_WORK_VERIFIED.md` and `notes/CITATION_CHECKS.md` are the only
+  sources for statements about other work.
+- Loop: `bash working/refresh_papers.sh` (about 6 min; exit 0 required; rerun once if a GPU run
+  finished mid-refresh) -> re-read every sentence whose macros turned black (tag `% EXPECTED`
+  marks sentences worded for unfinished runs; 36 left) -> commit -> PDF to the owner with
+  SendUserFile (a named copy in the scratchpad).
+- Real now: 159 of 217 result macros used in the text. Final sections: known population (IV A),
+  the constraint from each host class (IV B, Fig. 3; two points wait for the eight-parameter
+  runs), flux-limited catalogs (IV C, Table IV, Figs. 4 and 5), most of Validation. Red: unknown
+  population (IV D, stage 3), host-dependent populations (IV E, stage 4), observed-like (IV F,
+  stage 5), the abstract's headline, Table III rows of those, Figs. 6 to 10 where they use them.
+- Front matter: authors I. Magana Hernandez (CMU) and K. Storey-Fisher (KIPAC, Stanford);
+  acknowledgments modeled on the owner's arXiv:2610.37617. The owner has been asked to confirm
+  (not blocking): that NASA Grant No. 22-LPS22-0025 covers this work; the AI sentence ("drafting
+  and editing", Claude models only); whether to push at each milestone.
+- Sentences to revisit when their runs finish: Validation, sky resolution (the 8000-sample pair
+  moves H0 by 0.64 with twice the Monte Carlo variance; the pair at 32,000 samples and six
+  injection sets decides what to say: macros `\SkyResMC...`, red now); Sec. IV E and the
+  abstract when HDSingle/HDHost are real; `fig8_summary` prints "at the prior edge, 100" with no
+  macro behind the number.
 
 ## 3. Runs (analysis 16: `working/analyses/analysis_16_production_runs/`, README there)
-- Machine: partition RITA-GPU, two A100-80, both ours. (This Claude session itself runs inside
-  Slurm job 1412516 on MIKO; never cancel it.)
+- Machine: partition RITA-GPU on the Vera cluster (PSC), two A100-80, both ours. This Claude
+  session itself runs inside Slurm job 1412516 on MIKO; never cancel it.
 - Launcher: `PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python`;
   `$PY scripts/launch.py --lanes 2 status`; `... --lanes 2 stage <S ...> [--match REGEX]
-  [--only-lane K] [--dry-run]` (always `--lanes 2`); lanes `runs/_lanes/lane1.txt`, `lane2.txt`,
-  jobs `agn-prod-l1`, `agn-prod-l2` (each runs its lane file in rank order and chains a
-  successor). Ranks: table `LANE_RANKS` at the top of `scripts/make_runlist.py`. Summaries:
-  `runs/<run>/summary.json` (block `posterior`; never `grid/result.json`).
-- FINISHED: stage 1; every grid of the experiment (E1, E2); the stage-2 grids (flux limits with
-  known densities, and m < 20, m < 18 with the AGN density at half and twice).
-- QUEUED at 06:15 UTC, 18 Nov, in lane order. Lane 1: stage-2 nested runs (number densities
-  inferred; 16 tasks, 3.6 h), then the eight-parameter reference run of realization 100 with
-  rslice (33 h; `host_dependent_populations/both_catalogs/complete/host_dependent/realization_100`),
-  then the no-catalog runs on host-dependent mergers, E3, and so on. Lane 2: the validation pair
-  `.../realization_100_unif_boot5` (stage V8: eight parameters with the six-parameter sampler),
-  then stage-2 nested (8 tasks), the single-population runs on host-dependent mergers of
-  realizations 100-105 (running), and so on. Everything else that is not an eight-parameter run
-  is queued behind (stages 3, 4, 5, E3).
-- NOT QUEUED: the other four eight-parameter runs of stage 4, the five of stage 5, and the other
-  four V8 pairs. They wait for the sampler decision below.
-- THE SAMPLER OF THE EIGHT-PARAMETER RUNS (decided 18 Nov, 12:25 UTC). Test c (job 1414839) was
-  void (uniform sampling with bootstrap 0 collapsed onto a plane; never use `--sampler-8
-  unif_b0`). The validation run with the six-parameter sampler (uniform, bootstrap 5),
-  `.../realization_100_unif_boot5/nested_1`, was healthy by every diagnostic and cheap for 1500
-  iterations (5 to 25 calls per iteration), then stalled at about 150 calls per iteration; I
-  stopped it at iteration 1594 (30,102 calls; checkpoint kept in its directory, lines taken out of
-  `lane2.txt`, lane-2 job 1415005 cancelled, successor 1415023 carried on). DECISION: uniform
-  sampling while it is cheaper than rslice (60 calls per iteration), rslice from there on. An
-  Opus agent (started 12:30 UTC) adds (i) the run `.../realization_100_unif_then_rslice`, which
-  continues from that checkpoint with rslice (`--init-from`, `--switch-sample`), and (ii) a
-  driver option that switches automatically, with runs for realizations 101, 102, 103, 105 under
-  the same variant name. When it reports: queue with its command lines (dry run first). The
-  pure-rslice run of realization 100 (canonical name, lane 1 after the stage-2 nested runs,
-  about 40 h at the measured 0.52 s per call) is the reference: when both have finished,
-  `tests/compare_sampler_runs.py` on the two; if they agree, the five `..._unif_then_rslice`
-  runs become the paper's HDHost runs (change the map in `paper_prd/scripts/production.py`),
-  and stage 5 uses the same procedure. Paper keys stay red until then (stage V8 is excluded
-  from the paper chain).
-- EVIDENCE WITH A FLOOR PLATEAU (checked 18 Nov, `tests/test_plateau_evidence.py`,
-  `tests/results/plateau_evidence.json`): with the driver's floor of -1e300 for guard rejections,
-  ln Z is right at the 75% floor of the six-parameter runs (bias under 0.05 nats); at the 98%
-  floor of the eight-parameter runs it is biased by +0.2 to 0.4 nats and its error is 1.5 times
-  too small. `scripts/plateau_correction.py` corrects finished runs from what they store; apply
-  it (a new field in `prod_summary.py`, by atomic replace) before a Bayes factor with |ln B|
-  below about 2 is printed; the paper's are expected near 100 and 35. At a 98% floor 1 to 2.5%
-  of runs cannot start (every initial point on the floor, dynesty raises IndexError) and about
-  1% crash in the first bound: another seed is the fix.
-- STAGE X (queued on lane 1 at rank 2.85, after the stage-2 nested runs): the nside-64 grid of
-  realization 100 (turns `\SkyResShiftHzero`, `\SkyResShiftfAGN` black) and two m < 18 grids
-  with the AGN density in physical units (expected: the H0 shift under a doubled density turns
-  from -0.66 to about +1.1, which would explain Analysis 15's +1.05 by the units).
-- TIMING: a stage-2 nested part takes about 45 minutes, three times its estimate, so lane 1's
-  block of them ends about 17:30 UTC on 18 Nov and the 33-hour reference run starts then. A
-  six-parameter part takes about 2.3 h (0.47 s per call), as estimated. The driver and
-  `prod_common.py` were replaced at 07:10 UTC (`--nside`); tasks started since run normally.
-- Settings: core e7c3007; hosts normalized over the grid to z = 1.10; mixed sets 8000 posterior
-  samples per merger with the half-variance correction; all-AGN sets 32000 samples and six pooled
-  injection sets; each realization its own injections; host-dependent analyses use
-  `injections/injections_targeted_peak.h5`; observed-like `injections_targeted_obslike.h5`;
-  nested runs: nlive 200, dlogz 0.1, six parameters uniform sampling in multi-ellipsoid bounds
-  with bootstrap 5, two independent parts merged by the summary.
+  [--only-lane K] [--dry-run]` (always `--lanes 2`; dry run first). Lanes
+  `runs/_lanes/lane{1,2}.txt`, jobs `agn-prod-l1`, `agn-prod-l2` (each runs its lane file in
+  order and chains a successor; a cancelled job's successor carries on from checkpoints).
+  Order = `lane_rank` per run (table `LANE_RANKS` in `scripts/make_runlist.py`); a lane file may
+  be reordered by hand (atomic rewrite), `launch.py` re-sorts it at its next call.
+  Summaries: `runs/<run>/summary.json`, block `posterior` (never `grid/result.json`).
+  Diagnostics of a nested part: `tests/nested_diagnostics.py <part dir>` (core venv python
+  `/hildafs/projects/phy230014p/magana/envs/darksirens-core-e7c3007/bin/python`, `JAX_PLATFORMS=cpu`).
+- FINISHED: stage 1; the experiment's grids (E1, E2); all of stage 2 (grids and nested); stage X
+  first three runs (nside 64 at 8000 samples; two m < 18 grids with the AGN density in Mpc^-3).
+- RUNNING since 18 Nov: lane 1 (job 1416192), the eight-parameter reference of realization 100
+  with rslice from the start (`host_dependent_populations/both_catalogs/complete/host_dependent/
+  realization_100`, started 17:50 UTC, about 37 to 40 h); lane 2 (job 1415023), the continuation
+  `.../realization_100_unif_then_rslice` (from the stopped uniform run at iteration 1594, rslice
+  from there; started 16:55 UTC, about 26 to 28 h).
+- QUEUED behind them, in order. Lane 1: no-catalog single-population runs on host-dependent
+  mergers (HDNone), `..._unif_then_rslice` of realizations 101 and 102 (automatic switch, about
+  30 h each), E3, HDSingle 106 to 110, stage 3, stage 5 six-parameter runs. Lane 2: the
+  sky-resolution pair at 32,000 samples and six injection sets (stage X, 1.2 GPU-h), HDSingle
+  of realizations 101 to 105, `..._unif_then_rslice` of 103 and 105, E3, HDSingle 106 to 110,
+  stage 3, stage 5 six-parameter runs.
+- NOT QUEUED: the pure-rslice stage-4 runs of 101 to 105 and the five eight-parameter runs of
+  stage 5 (they wait for the comparison below).
+- THE EIGHT-PARAMETER SAMPLER (decided 18 Nov). Uniform sampling (bootstrap 5) is healthy and
+  cheap for about 1500 iterations and then stalls (150 calls per iteration against rslice's 60);
+  test c was void (bootstrap 0 collapses onto a plane: never use `--sampler-8 unif_b0`). The
+  runs therefore sample uniformly while that is cheaper and switch to rslice (driver options
+  `--auto-switch-sample rslice --auto-switch-cpi 60`, or `--init-from STATE --switch-sample
+  rslice`); stage V8 holds the five such runs (`..._unif_then_rslice`). VALIDATION when both
+  realization-100 runs have finished (about 20 Nov, midday UTC): `tests/compare_sampler_runs.py`
+  on the two run directories (medians in units of the half-width, distance between posteriors
+  against its null, ln Z difference, insertion-rank diagnostics). If they agree: map the paper's
+  keys `HDHost` (and `HWHost`) to the `..._unif_then_rslice` runs in
+  `paper_prd/scripts/production.py` (stage V8 is excluded from the selectors by design, so this
+  is a deliberate edit), queue stage 5's eight-parameter runs the same way (new run-list entries),
+  and drop the unqueued pure-rslice entries. If they disagree: run 101 to 105 with rslice from
+  the start and find out why first.
+- EVIDENCE: with the driver's floor of -1e300 for guard rejections ln Z is right at the 75% floor
+  of the six-parameter runs and biased by +0.2 to 0.4 nats (error 1.5 times too small) at the
+  98% floor of the eight-parameter runs (`tests/results/plateau_evidence.json`).
+  `scripts/plateau_correction.py` corrects finished runs; apply it in `prod_summary.py` (new
+  field, atomic replace) before a Bayes factor with |ln B| below about 2 is printed. A run
+  that cannot start at a 98% floor (IndexError) needs another seed.
+- COST, measured: a six-parameter part 2.3 h; a stage-2 nested part 0.75 h; the eight-parameter
+  model 0.50 s per call (the run list's estimates for it are about 14% low). Remaining queue:
+  about 65 GPU-h of eight-parameter work in progress for realization 100, 120 for 101 to 105,
+  then about 150 for stage 5's five, plus about 150 of six-parameter work; two GPUs, about ten
+  days in all, the host-dependent headline about 23 Nov.
+- Settings: core e7c3007; hosts normalized over the grid to z = 1.10; number densities in
+  h^3 Mpc^-3 from catalog counts; 8000 posterior samples per merger with the half-variance
+  correction (all-AGN sets 32,000 samples and six pooled injection sets); nside 32; nested runs
+  nlive 200, dlogz 0.1.
 - Owner-approved scope: stages 1 to 4 with the eight-parameter model on 5 realizations first
-  ("Staged: 5, then 10"), plus the observed-like family (stage 5), plus the experiment.
+  ("Staged: 5, then 10"), the observed-like family (stage 5), the experiment.
+- Watchers are background shells of the session; after a restart they are gone: check by hand.
 
-## 4. Results so far (population known unless said; 1000 detected mergers per realization;
-90%; inputs H0 = 67.74, f_AGN = 0.30)
-- One realization: both catalogs H0 68.4 (+1.9, -2.0), f_AGN 0.27 +- 0.08. Ten combined: H0 68.2
-  +- 0.6 (input at the 80% level), f_AGN 0.306 +- 0.026 (30%). No merger in AGN: f_AGN < 0.02.
-- 90% half-width of H0, mean over five realizations, against the fraction of mergers in AGN:
-  host class unknown 3.58 (0), 3.55 (0.1), 2.04 (0.3), 1.37 (0.5), 0.83 (1); host class known
-  3.56, 1.90, 1.34, 1.10, 0.81; no catalog 5.6. With one merger in ten in an AGN the analysis
-  gains nothing from the AGN catalog (3.55 against 3.58) although known hosts would give 1.90.
-- Probability of an AGN host (f = 0.3, AGN-hosted mergers heavier by 5 Msun and spin +0.10):
-  positions alone 0.37 for mergers truly in AGN against 0.30 for those truly in galaxies; with
-  masses and spins 0.51 against 0.28.
-- Observed-like spectrum: no catalog 8.5, both catalogs at f = 0.3 2.0, all in AGN 0.84.
-- AGN catalog alone on mixed mergers: at the prior edge H0 = 100 in four of five realizations;
-  realization 102 peaks at 76.8 [75.5, 78.1] and excludes the input.
-- Analysis 14 (`analyses/analysis_14_monte_carlo_accuracy/REPORT.md`): 2000 samples per merger
-  are too few; the old low f_AGN is the log-mean bias; injections matter as much as samples.
-- Analysis 15 (`analyses/analysis_15_host_normalisation/REPORT.md`): the mergers constrain the
-  merger rate per host; with complete catalogs no number density enters; at m < 18 an AGN
-  density wrong by a factor of two moves f_AGN by 0.13 and H0 by about 1.
-- These numbers were made before the summaries moved to the refined lattice; single-realization
-  bounds moved by up to 0.09 km/s/Mpc, means over realizations by less. The macros are the source.
+## 4. Results so far (1000 detected mergers per realization; 90%; inputs H0 = 67.74, f_AGN = 0.30)
+- Known population, complete catalogs: one realization H0 68.4 (+1.9, -2.0), f_AGN 0.27 +- 0.08;
+  ten combined 68.2 +- 0.6 and 0.306 +- 0.026. No merger in AGN: f_AGN < 0.02.
+- Half-width of H0 against the fraction of mergers in AGN (means over five realizations): host
+  class unknown 3.5 (0), 3.5 (0.1), 2.0 (0.3), 1.4 (0.5), 0.82 (1); host class known 3.5, 1.9,
+  1.3, 1.1, 0.81; no catalog 5.6 (observed-like 8.4). Cost of the unknown host class in mergers:
+  3.4 [1.6, 7.2] at 0.1, 2.3 [1.8, 3.4] at 0.3; with host-dependent populations known 1.6
+  [1.3, 2.3]; with twice the offsets 1.1 [0.8, 1.7].
+- Probability of an AGN host: positions alone 0.33 against 0.24 (evaluated at f = 0.27); with
+  host-dependent masses and spins 0.51 against 0.28; twice the offsets 0.72 against 0.21.
+- AGN catalog alone on mixed mergers: biased (prior edge in four of five realizations, 76.8 in
+  the fifth).
+- Flux limits with known densities: H0 68.4, 68.4, 68.0, 68.3 at m < 21, 20, 19, 18 (half-width
+  1.9 to 2.2). Assumed AGN density at twice its value: f_AGN +0.145 at m < 20 (as the identity
+  predicts, H0 unmoved), +0.10 and H0 -0.68 at m < 18; with the density given in Mpc^-3 the H0
+  shift is +1.62 (units, not event set, explain the old Analysis 15 sign).
+- Number densities inferred (m < 18): rate ratio 41 (+18, -14) for an input of 42.8, f_AGN
+  follows its prior, H0 68.1 (+2.3, -2.2), an upper limit on the galaxy density and none on the
+  AGN density.
+- Sky resolution: nside 64 against 32 at 8000 samples moves H0 by 0.64 and f_AGN by 0.016, with
+  1.9 times the Monte Carlo variance; not yet separated.
+- Analyses 14 and 15: see their REPORT.md (Monte Carlo accuracy; rate per host and the
+  normalization volume).
 
 ## 5. Do next, in order
-0. Done 18 Nov 06:50 UTC (commit b37c15d): the flux-limited subsection rests on finished runs:
-   all four flux limits with known densities, and the response of f_AGN and H0 to an AGN density
-   assumed at half and at twice its value at m < 20 and m < 18 (three realizations; macros from
-   `paper_prd/scripts/density.py`, panel (b) of `fig3_flux_limits` redrawn, paragraph, caption
-   and abstract sentence rewritten). 137 of 218 result macros in the text are real; the PDF
-   (18 pp) went to the owner at 06:50 UTC.
-1. Done 07:35 UTC (commit d4af0ed): the evidence test, the sky-resolution run's tooling and
-   wiring, the paper chain's selectors (validation stage V8 and check stage X excluded), and
-   the two physical-units grids; their three runs are queued (Sec. 3, stage X).
-2. The sampler: see Sec. 3 (agent running; queue its runs when it reports).
-3. Stage-2 nested runs finish (a watcher of the session ends then; lane 1 by about 17:30 UTC,
-   lane 2 after its validation pair):
-   refresh; the second half of the flux-limited subsection, Table IV and `fig4_densities` turn
-   real; decide Table IV's columns (AGN-density limit or galaxy-density limit); consistency
-   pass on those sentences (main session, under the skill), PDF to the owner.
-4. As six-parameter runs finish (HDSingle, HDNone, then E3, stage 3): refresh and consistency
-   pass per subsection.
-5. Open points for the text: none that wait for the owner except the confirmations of Sec. 6.
-6. Known numerical flags: two catalog-free observed-like grids (all mergers in AGN, realizations
-   101 and 103) have ln L jumps of about 100 nats from one heavy merger at the mass cut; no
-   number of the paper uses them and audit check K2 guards against it.
-7. If an agent dies with an API or billing error (it happened at 06:30 UTC on 18 Nov), its edits
-   stay in the working tree: resume it with SendMessage to its id rather than starting over.
+1. Lane 2 reaches the sky-resolution pair when the continuation ends (about 19 Nov, 20:00 UTC):
+   refresh, then rewrite the sky-resolution sentence of the Validation from `\SkyResMC...`
+   (is the shift at high accuracy small against the half-width, or is nside 32 too coarse? If
+   it is not small: a resolution study at nside 64 for the headline runs becomes a real item;
+   cost it before deciding).
+2. Both realization-100 eight-parameter runs finished: the comparison of Sec. 3, then the
+   mapping and the stage-5 entries; realization-A numbers of Sec. IV E turn black only when
+   their keys' other runs exist (HDHost needs five realizations and their HDSingle partners).
+3. As six-parameter runs finish (HDNone, HDSingle 101 to 105, E3, stage 3): refresh and re-read
+   the tagged sentences of that subsection; PDF to the owner at each subsection that turns black.
+4. Before the paper is called ready: an independent Fable review against the skill's self-check
+   (the last one, `REVIEW_2.md`, predates Secs. IV C to F turning real), the build gates, the
+   title-image count, the reference list.
+5. Small leftovers: `fig8_summary` in-panel number; the conventions bullet of
+   `figures/CAPTION_FACTS.md`; realization-A interval macros for the number densities still
+   exist although unbounded (unused in the text); the prior-allowed density limits carry a
+   Monte Carlo error of about 0.01 dex in their second decimal.
 
-## 6. Owner decisions of 18 Nov (multiple choice, about 08:30 UTC) and what is still theirs
-- Decided: push (done, 45 commits up to ba8f91f; `origin` is K. Storey-Fisher's GitHub repository,
-  each later push is asked for again); no date for the fifth observing run; K. Storey-Fisher's
-  affiliation (KIPAC, Stanford); the paper's length is mine to decide ("Whatever makes it
-  coherent. Again you own it. You decide."): it stays at about 18 pages; acknowledgments modeled
-  on the owner's arXiv:2610.37617 (commit aadae78), with the AI statement adapted to this work.
-- Still theirs to confirm (asked 09:00 UTC, none blocks work): that NASA Grant No. 22-LPS22-0025
-  (a LISA award, carried over from that paper) covers this work; the AI sentence (it says
-  "manuscript drafting and editing" and names Claude models only; add other tools if their other
-  sessions used them for code this paper rests on); whether to push as milestones are committed.
-- Do not ask the owner editorial questions about the paper (memory: ownership handover).
+## 6. Waiting for the owner (none blocks work)
+The three confirmations of Sec. 2 (grant, AI sentence, push policy). Six local commits since the
+push (ba8f91f): ask before pushing.
 
 ## 7. Other sessions
-`gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
-`paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
+`gaia`, `darksirens`: nothing owed. Never touch other sessions' jobs (anything not named `agn-*`).
 
-Commits up to ba8f91f are pushed; local since then: aadae78 plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to b29e087 plus the one that adds this file; `git log --oneline | head -30`.
