@@ -29480,7 +29480,7 @@
     "median": 36.08351647747809,
     "ci68": [
      28.47935594198885,
-     45.74163570373069
+     45.74163570373067
     ],
     "ci90": [
      23.525147632581536,
@@ -49399,6 +49399,2916 @@
     "agn_share_percent": 89.94605616367207,
     "galaxy_share_percent": 17.067295126615583,
     "decimals": 0
+   }
+  },
+  "NormFAGNTwentyCounts": {
+   "class": "plain",
+   "render": "0.042",
+   "value": 0.04179499388755791,
+   "units": "",
+   "meaning": "cataloged share F_AGN = N_AGN/(N_AGN + n_AGN V_miss,AGN) of the m < 20 AGN catalog of realization A, hosts normalized to z = 1.1, n_AGN the AGN density from the catalog counts (unit-factor run of key FluxTwenty, h^3 Mpc^-3), V_miss,AGN at H0 = 100 (h^-3 Mpc^3), so independent of H0: the share in the identity behind FluxTwenty<Half|Double>DeltafAGNPred",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "data/seed100/surveys/survey_agn_m20_ns32.h5",
+     "analyses/selection_redo/scripts/selection_fits_truez/fit_agn_m20_schechter.json"
+    ],
+    "computation": "N = sum of ngals of the survey file; n = 10^densities.agn.log10n_used; V = build_values.vmiss100(fit, 1.10)"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "agn": {
+     "N": 84547,
+     "log10n_h3Mpc-3": -4.49233897235664,
+     "V_miss_h-3Mpc3": 60224242177.93182,
+     "nV": 1938350.7716197027,
+     "F": 0.04179499388755791,
+     "survey": "data/seed100/surveys/survey_agn_m20_ns32.h5",
+     "fit": "analyses/selection_redo/scripts/selection_fits_truez/fit_agn_m20_schechter.json"
+    },
+    "gal": {
+     "N": 8452893,
+     "log10n_h3Mpc-3": -2.4934170011849757,
+     "V_miss_h-3Mpc3": 60215968933.3471,
+     "nV": 193327964.22709388,
+     "F": 0.04189145152895603,
+     "survey": "data/seed100/surveys/survey_gal_m20_ns32.h5",
+     "fit": "analyses/selection_redo/scripts/selection_fits_truez/fit_gal_m20_schechter.json"
+    }
+   }
+  },
+  "FluxTwentyHalffAGN": {
+   "class": "plain",
+   "render": "0.16^{+0.06}_{-0.05}",
+   "value": {
+    "median": 0.16246101235363605,
+    "ci90": [
+     0.11176602905870098,
+     0.22014983834610552
+    ]
+   },
+   "units": "",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 2
+   }
+  },
+  "FluxTwentyHalffAGNMed": {
+   "class": "plain",
+   "render": "0.16",
+   "value": 0.16246101235363605,
+   "units": "",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalffAGNLo": {
+   "class": "plain",
+   "render": "0.11",
+   "value": 0.11176602905870098,
+   "units": "",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalffAGNHi": {
+   "class": "plain",
+   "render": "0.22",
+   "value": 0.22014983834610552,
+   "units": "",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalffAGNWid": {
+   "class": "plain",
+   "render": "0.11",
+   "value": 0.10838380928740454,
+   "units": "",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalfDeltafAGN": {
+   "class": "plain",
+   "render": "-0.106",
+   "value": -0.1064942152115956,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.1064942152115956,
+     "101": -0.12088560079008437,
+     "102": -0.10695730051468341
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.16246101235363605,
+     "101": 0.2008457008674469,
+     "102": 0.16667571687844093
+    }
+   }
+  },
+  "FluxTwentyHalfDeltafAGNMean": {
+   "class": "plain",
+   "render": "-0.111",
+   "value": -0.11144570550545446,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.1064942152115956,
+     "101": -0.12088560079008437,
+     "102": -0.10695730051468341
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.16246101235363605,
+     "101": 0.2008457008674469,
+     "102": 0.16667571687844093
+    }
+   }
+  },
+  "FluxTwentyHalfDeltafAGNMin": {
+   "class": "plain",
+   "render": "-0.121",
+   "value": -0.12088560079008437,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.1064942152115956,
+     "101": -0.12088560079008437,
+     "102": -0.10695730051468341
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.16246101235363605,
+     "101": 0.2008457008674469,
+     "102": 0.16667571687844093
+    }
+   }
+  },
+  "FluxTwentyHalfDeltafAGNMax": {
+   "class": "plain",
+   "render": "-0.106",
+   "value": -0.1064942152115956,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.1064942152115956,
+     "101": -0.12088560079008437,
+     "102": -0.10695730051468341
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.16246101235363605,
+     "101": 0.2008457008674469,
+     "102": 0.16667571687844093
+    }
+   }
+  },
+  "FluxTwentyHalfDeltafAGNPred": {
+   "class": "plain",
+   "render": "-0.106",
+   "value": -0.10640446106478499,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 0.5 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxTwenty) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNTwentyCounts; median at x = 0.5 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 20, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.04179499388755791,
+    "dlogit": 0.6522019994954085,
+    "predicted_at_x": {
+     "dlogit": 0.6522019994954085,
+     "f": {
+      "median": 0.16254767872046058,
+      "ci90": [
+       0.11183441129944043,
+       0.22025683598603166
+      ]
+     },
+     "H0": {
+      "median": 68.38775671573069,
+      "ci90": [
+       66.402101379691,
+       70.28151384963795
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.26895213978524557,
+      "ci90": [
+       0.1924092606775383,
+       0.348915738086548
+      ]
+     },
+     "H0": {
+      "median": 68.38381439815169,
+      "ci90": [
+       66.39366274011196,
+       70.28114926576403
+      ]
+     }
+    },
+    "median_map_only": -0.10813418605161712,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      -0.11892466468609963,
+      -0.11275316030558416,
+      -0.10640446106478499,
+      -0.10635049529610274,
+      -0.09971328647442435,
+      -0.09283766934089924,
+      -0.08572032305102834,
+      -0.0783585941245056,
+      -0.07075028323195828,
+      -0.06289383874165211,
+      -0.05478765106880085,
+      -0.04643124661864689,
+      -0.037825094525984676,
+      -0.028969332546708138,
+      -0.019865653609109385,
+      -0.010516046802343693,
+      -0.0009237759312366589,
+      0.0,
+      0.00890780255471002,
+      0.01897406371532584,
+      0.02926972064847605,
+      0.039788417814226096,
+      0.05052343751166061,
+      0.061466634254404906,
+      0.07260964271105097,
+      0.08394285711126226,
+      0.09545598884461642,
+      0.10713799523192247,
+      0.11897715201126452,
+      0.13096087596331302,
+      0.1430760764994481,
+      0.14549236809579352,
+      0.15530895919899906,
+      0.16764536056113793
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "FluxTwentyHalfHzero": {
+   "class": "plain",
+   "render": "68.4^{+1.9}_{-2.0}",
+   "value": {
+    "median": 68.39638316554334,
+    "ci90": [
+     66.41266635681507,
+     70.29161304047025
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 1
+   }
+  },
+  "FluxTwentyHalfHzeroMed": {
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.39638316554334,
+   "units": "km/s/Mpc",
+   "meaning": "median of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalfHzeroLo": {
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.41266635681507,
+   "units": "km/s/Mpc",
+   "meaning": "lower end of the 90% interval of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalfHzeroHi": {
+   "class": "plain",
+   "render": "70.3",
+   "value": 70.29161304047025,
+   "units": "km/s/Mpc",
+   "meaning": "upper end of the 90% interval of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalfHzeroWid": {
+   "class": "plain",
+   "render": "3.9",
+   "value": 3.8789466836551867,
+   "units": "km/s/Mpc",
+   "meaning": "full width of the 90% interval of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyHalfDeltaHzero": {
+   "class": "plain",
+   "render": "0.01",
+   "value": 0.01255693618432474,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.01255693618432474,
+     "101": 0.026976678252466968,
+     "102": 0.044450316691182934
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.39638316554334,
+     "101": 67.69891947631935,
+     "102": 67.64766934969212
+    }
+   }
+  },
+  "FluxTwentyHalfDeltaHzeroMean": {
+   "class": "plain",
+   "render": "0.03",
+   "value": 0.02799464370932488,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.01255693618432474,
+     "101": 0.026976678252466968,
+     "102": 0.044450316691182934
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.39638316554334,
+     "101": 67.69891947631935,
+     "102": 67.64766934969212
+    }
+   }
+  },
+  "FluxTwentyHalfDeltaHzeroMin": {
+   "class": "plain",
+   "render": "0.01",
+   "value": 0.01255693618432474,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.01255693618432474,
+     "101": 0.026976678252466968,
+     "102": 0.044450316691182934
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.39638316554334,
+     "101": 67.69891947631935,
+     "102": 67.64766934969212
+    }
+   }
+  },
+  "FluxTwentyHalfDeltaHzeroMax": {
+   "class": "plain",
+   "render": "0.04",
+   "value": 0.044450316691182934,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.01255693618432474,
+     "101": 0.026976678252466968,
+     "102": 0.044450316691182934
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.39638316554334,
+     "101": 67.69891947631935,
+     "102": 67.64766934969212
+    }
+   }
+  },
+  "FluxTwentyHalfDeltaHzeroPred": {
+   "class": "plain",
+   "render": "0.00",
+   "value": 0.003942317579003429,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 0.5 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxTwenty) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNTwentyCounts; median at x = 0.5 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 20, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.04179499388755791,
+    "dlogit": 0.6522019994954085,
+    "predicted_at_x": {
+     "dlogit": 0.6522019994954085,
+     "f": {
+      "median": 0.16254767872046058,
+      "ci90": [
+       0.11183441129944043,
+       0.22025683598603166
+      ]
+     },
+     "H0": {
+      "median": 68.38775671573069,
+      "ci90": [
+       66.402101379691,
+       70.28151384963795
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.26895213978524557,
+      "ci90": [
+       0.1924092606775383,
+       0.348915738086548
+      ]
+     },
+     "H0": {
+      "median": 68.38381439815169,
+      "ci90": [
+       66.39366274011196,
+       70.28114926576403
+      ]
+     }
+    },
+    "median_map_only": null,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      0.004410287189983819,
+      0.004179496840805541,
+      0.003942317579003429,
+      0.0039403027474378405,
+      0.003692600747456254,
+      0.003436272091363435,
+      0.0031712153329692683,
+      0.0028973580445637026,
+      0.002614642296606462,
+      0.0023230365381721185,
+      0.0020225063728247505,
+      0.001713059538801076,
+      0.0013947395025297737,
+      0.0010675755284523802,
+      0.0007316555917924461,
+      0.00038707654708503014,
+      3.3983621221977955e-05,
+      0.0,
+      -0.0003274821568908237,
+      -0.0006971251998351136,
+      -0.0010747333567735495,
+      -0.0014600553728740806,
+      -0.0018528288170216456,
+      -0.002252741210838849,
+      -0.0026594743683716615,
+      -0.0030726672869576532,
+      -0.003491936769393078,
+      -0.0039168748791666985,
+      -0.004347051772356281,
+      -0.004782009367033879,
+      -0.005221273822243688,
+      -0.005308827797904314,
+      -0.005664349332690222,
+      -0.006110729286120886
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "FluxTwentyDoublefAGN": {
+   "class": "plain",
+   "render": "0.41^{+0.09}_{-0.10}",
+   "value": {
+    "median": 0.4138022906810959,
+    "ci90": [
+     0.3129932481228139,
+     0.5074626749281074
+    ]
+   },
+   "units": "",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 2
+   }
+  },
+  "FluxTwentyDoublefAGNMed": {
+   "class": "plain",
+   "render": "0.41",
+   "value": 0.4138022906810959,
+   "units": "",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoublefAGNLo": {
+   "class": "plain",
+   "render": "0.31",
+   "value": 0.3129932481228139,
+   "units": "",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoublefAGNHi": {
+   "class": "plain",
+   "render": "0.51",
+   "value": 0.5074626749281074,
+   "units": "",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoublefAGNWid": {
+   "class": "plain",
+   "render": "0.19",
+   "value": 0.19446942680529344,
+   "units": "",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoubleDeltafAGN": {
+   "class": "plain",
+   "render": "0.145",
+   "value": 0.14484706311586426,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.14484706311586426,
+     "101": 0.15313633057079384,
+     "102": 0.14326312721741574
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.4138022906810959,
+     "101": 0.4748676322283251,
+     "102": 0.4168961446105401
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltafAGNMean": {
+   "class": "plain",
+   "render": "0.147",
+   "value": 0.14708217363469128,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.14484706311586426,
+     "101": 0.15313633057079384,
+     "102": 0.14326312721741574
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.4138022906810959,
+     "101": 0.4748676322283251,
+     "102": 0.4168961446105401
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltafAGNMin": {
+   "class": "plain",
+   "render": "0.143",
+   "value": 0.14326312721741574,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.14484706311586426,
+     "101": 0.15313633057079384,
+     "102": 0.14326312721741574
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.4138022906810959,
+     "101": 0.4748676322283251,
+     "102": 0.4168961446105401
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltafAGNMax": {
+   "class": "plain",
+   "render": "0.153",
+   "value": 0.15313633057079384,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.14484706311586426,
+     "101": 0.15313633057079384,
+     "102": 0.14326312721741574
+    },
+    "unit_median": {
+     "100": 0.26895522756523166,
+     "101": 0.3217313016575313,
+     "102": 0.27363301739312434
+    },
+    "arm_median": {
+     "100": 0.4138022906810959,
+     "101": 0.4748676322283251,
+     "102": 0.4168961446105401
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltafAGNPred": {
+   "class": "plain",
+   "render": "0.145",
+   "value": 0.14549236809579352,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 2 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxTwenty) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNTwentyCounts; median at x = 2 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 20, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.04179499388755791,
+    "dlogit": -0.6720282404213612,
+    "predicted_at_x": {
+     "dlogit": -0.6720282404213612,
+     "f": {
+      "median": 0.4144445078810391,
+      "ci90": [
+       0.3135443906742036,
+       0.5081571586418784
+      ]
+     },
+     "H0": {
+      "median": 68.37850557035378,
+      "ci90": [
+       66.38211002370349,
+       70.28085528892774
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.26895213978524557,
+      "ci90": [
+       0.1924092606775383,
+       0.348915738086548
+      ]
+     },
+     "H0": {
+      "median": 68.38381439815169,
+      "ci90": [
+       66.39366274011196,
+       70.28114926576403
+      ]
+     }
+    },
+    "median_map_only": 0.1497960706203349,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      -0.11892466468609963,
+      -0.11275316030558416,
+      -0.10640446106478499,
+      -0.10635049529610274,
+      -0.09971328647442435,
+      -0.09283766934089924,
+      -0.08572032305102834,
+      -0.0783585941245056,
+      -0.07075028323195828,
+      -0.06289383874165211,
+      -0.05478765106880085,
+      -0.04643124661864689,
+      -0.037825094525984676,
+      -0.028969332546708138,
+      -0.019865653609109385,
+      -0.010516046802343693,
+      -0.0009237759312366589,
+      0.0,
+      0.00890780255471002,
+      0.01897406371532584,
+      0.02926972064847605,
+      0.039788417814226096,
+      0.05052343751166061,
+      0.061466634254404906,
+      0.07260964271105097,
+      0.08394285711126226,
+      0.09545598884461642,
+      0.10713799523192247,
+      0.11897715201126452,
+      0.13096087596331302,
+      0.1430760764994481,
+      0.14549236809579352,
+      0.15530895919899906,
+      0.16764536056113793
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "FluxTwentyDoubleHzero": {
+   "class": "plain",
+   "render": "68.4^{+1.9}_{-2.0}",
+   "value": {
+    "median": 68.35149838262407,
+    "ci90": [
+     66.35153560344986,
+     70.24858369388463
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 1
+   }
+  },
+  "FluxTwentyDoubleHzeroMed": {
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.35149838262407,
+   "units": "km/s/Mpc",
+   "meaning": "median of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoubleHzeroLo": {
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.35153560344986,
+   "units": "km/s/Mpc",
+   "meaning": "lower end of the 90% interval of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoubleHzeroHi": {
+   "class": "plain",
+   "render": "70.2",
+   "value": 70.24858369388463,
+   "units": "km/s/Mpc",
+   "meaning": "upper end of the 90% interval of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoubleHzeroWid": {
+   "class": "plain",
+   "render": "3.9",
+   "value": 3.8970480904347653,
+   "units": "km/s/Mpc",
+   "meaning": "full width of the 90% interval of H0, population known, both catalogs, m < 20, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxTwentyDoubleDeltaHzero": {
+   "class": "plain",
+   "render": "-0.03",
+   "value": -0.03232784673494393,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.03232784673494393,
+     "101": -0.05432431868933918,
+     "102": -0.08711455207226493
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.35149838262407,
+     "101": 67.61761847937754,
+     "102": 67.51610448092868
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltaHzeroMean": {
+   "class": "plain",
+   "render": "-0.06",
+   "value": -0.05792223916551601,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.03232784673494393,
+     "101": -0.05432431868933918,
+     "102": -0.08711455207226493
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.35149838262407,
+     "101": 67.61761847937754,
+     "102": 67.51610448092868
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltaHzeroMin": {
+   "class": "plain",
+   "render": "-0.09",
+   "value": -0.08711455207226493,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.03232784673494393,
+     "101": -0.05432431868933918,
+     "102": -0.08711455207226493
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.35149838262407,
+     "101": 67.61761847937754,
+     "102": 67.51610448092868
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltaHzeroMax": {
+   "class": "plain",
+   "render": "-0.03",
+   "value": -0.03232784673494393,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxTwenty) of the same realization, population known, both catalogs, m < 20, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.03232784673494393,
+     "101": -0.05432431868933918,
+     "102": -0.08711455207226493
+    },
+    "unit_median": {
+     "100": 68.38382622935902,
+     "101": 67.67194279806688,
+     "102": 67.60321903300094
+    },
+    "arm_median": {
+     "100": 68.35149838262407,
+     "101": 67.61761847937754,
+     "102": 67.51610448092868
+    }
+   }
+  },
+  "FluxTwentyDoubleDeltaHzeroPred": {
+   "class": "plain",
+   "render": "-0.01",
+   "value": -0.005308827797904314,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 2 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxTwenty) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNTwentyCounts; median at x = 2 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 20, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.04179499388755791,
+    "dlogit": -0.6720282404213612,
+    "predicted_at_x": {
+     "dlogit": -0.6720282404213612,
+     "f": {
+      "median": 0.4144445078810391,
+      "ci90": [
+       0.3135443906742036,
+       0.5081571586418784
+      ]
+     },
+     "H0": {
+      "median": 68.37850557035378,
+      "ci90": [
+       66.38211002370349,
+       70.28085528892774
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.26895213978524557,
+      "ci90": [
+       0.1924092606775383,
+       0.348915738086548
+      ]
+     },
+     "H0": {
+      "median": 68.38381439815169,
+      "ci90": [
+       66.39366274011196,
+       70.28114926576403
+      ]
+     }
+    },
+    "median_map_only": null,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      0.004410287189983819,
+      0.004179496840805541,
+      0.003942317579003429,
+      0.0039403027474378405,
+      0.003692600747456254,
+      0.003436272091363435,
+      0.0031712153329692683,
+      0.0028973580445637026,
+      0.002614642296606462,
+      0.0023230365381721185,
+      0.0020225063728247505,
+      0.001713059538801076,
+      0.0013947395025297737,
+      0.0010675755284523802,
+      0.0007316555917924461,
+      0.00038707654708503014,
+      3.3983621221977955e-05,
+      0.0,
+      -0.0003274821568908237,
+      -0.0006971251998351136,
+      -0.0010747333567735495,
+      -0.0014600553728740806,
+      -0.0018528288170216456,
+      -0.002252741210838849,
+      -0.0026594743683716615,
+      -0.0030726672869576532,
+      -0.003491936769393078,
+      -0.0039168748791666985,
+      -0.004347051772356281,
+      -0.004782009367033879,
+      -0.005221273822243688,
+      -0.005308827797904314,
+      -0.005664349332690222,
+      -0.006110729286120886
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "NormFAGNEighteenCounts": {
+   "class": "plain",
+   "render": "0.0042",
+   "value": 0.004176364426288765,
+   "units": "",
+   "meaning": "cataloged share F_AGN = N_AGN/(N_AGN + n_AGN V_miss,AGN) of the m < 18 AGN catalog of realization A, hosts normalized to z = 1.1, n_AGN the AGN density from the catalog counts (unit-factor run of key FluxEighteen, h^3 Mpc^-3), V_miss,AGN at H0 = 100 (h^-3 Mpc^3), so independent of H0: the share in the identity behind FluxEighteen<Half|Double>DeltafAGNPred",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "data/seed100/surveys/survey_agn_m18_ns32.h5",
+     "analyses/selection_redo/scripts/selection_fits_truez/fit_agn_m18_schechter.json"
+    ],
+    "computation": "N = sum of ngals of the survey file; n = 10^densities.agn.log10n_used; V = build_values.vmiss100(fit, 1.10)"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "agn": {
+     "N": 8274,
+     "log10n_h3Mpc-3": -4.501436519499827,
+     "V_miss_h-3Mpc3": 62594486085.04311,
+     "nV": 1972874.9504886214,
+     "F": 0.004176364426288765,
+     "survey": "data/seed100/surveys/survey_agn_m18_ns32.h5",
+     "fit": "analyses/selection_redo/scripts/selection_fits_truez/fit_agn_m18_schechter.json"
+    },
+    "gal": {
+     "N": 821444,
+     "log10n_h3Mpc-3": -2.503119650722689,
+     "V_miss_h-3Mpc3": 62597502219.72708,
+     "nV": 196533846.22846895,
+     "F": 0.004162259846437625,
+     "survey": "data/seed100/surveys/survey_gal_m18_ns32.h5",
+     "fit": "analyses/selection_redo/scripts/selection_fits_truez/fit_gal_m18_schechter.json"
+    }
+   }
+  },
+  "FluxEighteenHalffAGN": {
+   "class": "plain",
+   "render": "0.14^{+0.05}_{-0.05}",
+   "value": {
+    "median": 0.14433062665858643,
+    "ci90": [
+     0.0980409234630191,
+     0.19699396426369783
+    ]
+   },
+   "units": "",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 2
+   }
+  },
+  "FluxEighteenHalffAGNMed": {
+   "class": "plain",
+   "render": "0.14",
+   "value": 0.14433062665858643,
+   "units": "",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalffAGNLo": {
+   "class": "plain",
+   "render": "0.10",
+   "value": 0.0980409234630191,
+   "units": "",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalffAGNHi": {
+   "class": "plain",
+   "render": "0.20",
+   "value": 0.19699396426369783,
+   "units": "",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalffAGNWid": {
+   "class": "plain",
+   "render": "0.10",
+   "value": 0.09895304080067874,
+   "units": "",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalfDeltafAGN": {
+   "class": "plain",
+   "render": "-0.143",
+   "value": -0.14303484906444985,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.14303484906444985,
+     "101": -0.16251368661948734,
+     "102": -0.13653838295739304
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.14433062665858643,
+     "101": 0.18705512540006275,
+     "102": 0.1578872477393828
+    }
+   }
+  },
+  "FluxEighteenHalfDeltafAGNMean": {
+   "class": "plain",
+   "render": "-0.147",
+   "value": -0.14736230621377674,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.14303484906444985,
+     "101": -0.16251368661948734,
+     "102": -0.13653838295739304
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.14433062665858643,
+     "101": 0.18705512540006275,
+     "102": 0.1578872477393828
+    }
+   }
+  },
+  "FluxEighteenHalfDeltafAGNMin": {
+   "class": "plain",
+   "render": "-0.163",
+   "value": -0.16251368661948734,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.14303484906444985,
+     "101": -0.16251368661948734,
+     "102": -0.13653838295739304
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.14433062665858643,
+     "101": 0.18705512540006275,
+     "102": 0.1578872477393828
+    }
+   }
+  },
+  "FluxEighteenHalfDeltafAGNMax": {
+   "class": "plain",
+   "render": "-0.137",
+   "value": -0.13653838295739304,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.14303484906444985,
+     "101": -0.16251368661948734,
+     "102": -0.13653838295739304
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.14433062665858643,
+     "101": 0.18705512540006275,
+     "102": 0.1578872477393828
+    }
+   }
+  },
+  "FluxEighteenHalfDeltafAGNPred": {
+   "class": "plain",
+   "render": "-0.117",
+   "value": -0.11695587637896201,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 0.5 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxEighteen) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNEighteenCounts; median at x = 0.5 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 18, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.004176364426288765,
+    "dlogit": 0.6889795129379597,
+    "predicted_at_x": {
+     "dlogit": 0.6889795129379597,
+     "f": {
+      "median": 0.1704037128585669,
+      "ci90": [
+       0.11718793324171844,
+       0.23147038428975844
+      ]
+     },
+     "H0": {
+      "median": 68.29318016357092,
+      "ci90": [
+       66.15152987751681,
+       70.61693228089607
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.2873595892375289,
+      "ci90": [
+       0.20643470704043737,
+       0.37177046422510035
+      ]
+     },
+     "H0": {
+      "median": 68.28691677582671,
+      "ci90": [
+       66.14312414342888,
+       70.61377472981296
+      ]
+     }
+    },
+    "median_map_only": -0.11899123041729068,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      -0.13098853915864114,
+      -0.12406409682744357,
+      -0.11695587637896201,
+      -0.11689553687932203,
+      -0.10948061967308512,
+      -0.10181675183942984,
+      -0.09390185956390842,
+      -0.08573481140729083,
+      -0.07731497618491542,
+      -0.06864252233462945,
+      -0.05971759625964004,
+      -0.050541657335467866,
+      -0.04111724651229942,
+      -0.03144651286771605,
+      -0.021533408068078075,
+      -0.01138214816874028,
+      -0.0009984173369413374,
+      0.0,
+      0.00961225268891902,
+      0.020442654637784108,
+      0.031485126664405505,
+      0.04273087258588332,
+      0.05417077576607765,
+      0.06579428996669784,
+      0.07759073159666685,
+      0.08954822314425037,
+      0.10165430079427851,
+      0.11389584078451026,
+      0.12625916673444976,
+      0.13872989193992696,
+      0.1512932479590653,
+      0.15379364645398302,
+      0.16393397140099136,
+      0.17663658617047684
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "FluxEighteenHalfHzero": {
+   "class": "plain",
+   "render": "68.5^{+2.4}_{-2.2}",
+   "value": {
+    "median": 68.54511299802343,
+    "ci90": [
+     66.3057816798667,
+     70.92312507212732
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 1
+   }
+  },
+  "FluxEighteenHalfHzeroMed": {
+   "class": "plain",
+   "render": "68.5",
+   "value": 68.54511299802343,
+   "units": "km/s/Mpc",
+   "meaning": "median of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalfHzeroLo": {
+   "class": "plain",
+   "render": "66.3",
+   "value": 66.3057816798667,
+   "units": "km/s/Mpc",
+   "meaning": "lower end of the 90% interval of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalfHzeroHi": {
+   "class": "plain",
+   "render": "70.9",
+   "value": 70.92312507212732,
+   "units": "km/s/Mpc",
+   "meaning": "upper end of the 90% interval of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalfHzeroWid": {
+   "class": "plain",
+   "render": "4.6",
+   "value": 4.617343392260622,
+   "units": "km/s/Mpc",
+   "meaning": "full width of the 90% interval of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 0.5 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenHalfDeltaHzero": {
+   "class": "plain",
+   "render": "0.26",
+   "value": 0.2582532560301587,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.2582532560301587,
+     "101": -0.05734007100973315,
+     "102": 0.020106801551193598
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 68.54511299802343,
+     "101": 67.82629682475972,
+     "102": 67.88204438690985
+    }
+   }
+  },
+  "FluxEighteenHalfDeltaHzeroMean": {
+   "class": "plain",
+   "render": "0.07",
+   "value": 0.07367332885720639,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.2582532560301587,
+     "101": -0.05734007100973315,
+     "102": 0.020106801551193598
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 68.54511299802343,
+     "101": 67.82629682475972,
+     "102": 67.88204438690985
+    }
+   }
+  },
+  "FluxEighteenHalfDeltaHzeroMin": {
+   "class": "plain",
+   "render": "-0.06",
+   "value": -0.05734007100973315,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.2582532560301587,
+     "101": -0.05734007100973315,
+     "102": 0.020106801551193598
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 68.54511299802343,
+     "101": 67.82629682475972,
+     "102": 67.88204438690985
+    }
+   }
+  },
+  "FluxEighteenHalfDeltaHzeroMax": {
+   "class": "plain",
+   "render": "0.26",
+   "value": 0.2582532560301587,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 0.5 times the value from the catalog counts: median of the run at factor 0.5 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.2582532560301587,
+     "101": -0.05734007100973315,
+     "102": 0.020106801551193598
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 68.54511299802343,
+     "101": 67.82629682475972,
+     "102": 67.88204438690985
+    }
+   }
+  },
+  "FluxEighteenHalfDeltaHzeroPred": {
+   "class": "plain",
+   "render": "0.01",
+   "value": 0.006263387744212423,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 0.5 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxEighteen) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNEighteenCounts; median at x = 0.5 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 18, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.004176364426288765,
+    "dlogit": 0.6889795129379597,
+    "predicted_at_x": {
+     "dlogit": 0.6889795129379597,
+     "f": {
+      "median": 0.1704037128585669,
+      "ci90": [
+       0.11718793324171844,
+       0.23147038428975844
+      ]
+     },
+     "H0": {
+      "median": 68.29318016357092,
+      "ci90": [
+       66.15152987751681,
+       70.61693228089607
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.2873595892375289,
+      "ci90": [
+       0.20643470704043737,
+       0.37177046422510035
+      ]
+     },
+     "H0": {
+      "median": 68.28691677582671,
+      "ci90": [
+       66.14312414342888,
+       70.61377472981296
+      ]
+     }
+    },
+    "median_map_only": null,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      0.007025975914558558,
+      0.006649356967059816,
+      0.006263387744212423,
+      0.006260113590300875,
+      0.005858184102351061,
+      0.0054434875565902985,
+      0.005015975479778945,
+      0.004575650270425058,
+      0.0041225412182512855,
+      0.003656723040023735,
+      0.0031782686751427036,
+      0.0026873205351023444,
+      0.0021840791400933313,
+      0.0016687234815577767,
+      0.001141525525582665,
+      0.00060277059507996,
+      5.281834287984566e-05,
+      0.0,
+      -0.0005079802740652894,
+      -0.0010791924210451498,
+      -0.0016603636035767977,
+      -0.002250983884323432,
+      -0.0028505318338289953,
+      -0.0034584160912487505,
+      -0.004074044098047125,
+      -0.004696766618906167,
+      -0.005325910137628398,
+      -0.005960773896006799,
+      -0.006600634991841048,
+      -0.0072447398036104005,
+      -0.007892323307785887,
+      -0.00802105343166204,
+      -0.008542600513166576,
+      -0.009194783420895192
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "FluxEighteenDoublefAGN": {
+   "class": "plain",
+   "render": "0.39^{+0.09}_{-0.10}",
+   "value": {
+    "median": 0.38698663274243816,
+    "ci90": [
+     0.2895704051973952,
+     0.47910763754511115
+    ]
+   },
+   "units": "",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 2
+   }
+  },
+  "FluxEighteenDoublefAGNMed": {
+   "class": "plain",
+   "render": "0.39",
+   "value": 0.38698663274243816,
+   "units": "",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoublefAGNLo": {
+   "class": "plain",
+   "render": "0.29",
+   "value": 0.2895704051973952,
+   "units": "",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoublefAGNHi": {
+   "class": "plain",
+   "render": "0.48",
+   "value": 0.47910763754511115,
+   "units": "",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoublefAGNWid": {
+   "class": "plain",
+   "render": "0.19",
+   "value": 0.18953723234771597,
+   "units": "",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.f_agn"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoubleDeltafAGN": {
+   "class": "plain",
+   "render": "0.100",
+   "value": 0.09962115701940188,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.09962115701940188,
+     "101": 0.07663392169777627,
+     "102": 0.043598735075562556
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.38698663274243816,
+     "101": 0.42620273371732637,
+     "102": 0.3380243657723384
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltafAGNMean": {
+   "class": "plain",
+   "render": "0.073",
+   "value": 0.07328460459758024,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.09962115701940188,
+     "101": 0.07663392169777627,
+     "102": 0.043598735075562556
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.38698663274243816,
+     "101": 0.42620273371732637,
+     "102": 0.3380243657723384
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltafAGNMin": {
+   "class": "plain",
+   "render": "0.044",
+   "value": 0.043598735075562556,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.09962115701940188,
+     "101": 0.07663392169777627,
+     "102": 0.043598735075562556
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.38698663274243816,
+     "101": 0.42620273371732637,
+     "102": 0.3380243657723384
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltafAGNMax": {
+   "class": "plain",
+   "render": "0.100",
+   "value": 0.09962115701940188,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": 0.09962115701940188,
+     "101": 0.07663392169777627,
+     "102": 0.043598735075562556
+    },
+    "unit_median": {
+     "100": 0.2873654757230363,
+     "101": 0.3495688120195501,
+     "102": 0.29442563069677585
+    },
+    "arm_median": {
+     "100": 0.38698663274243816,
+     "101": 0.42620273371732637,
+     "102": 0.3380243657723384
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltafAGNPred": {
+   "class": "plain",
+   "render": "0.154",
+   "value": 0.15379364645398302,
+   "units": "",
+   "meaning": "shift of the f_AGN (fraction of mergers hosted by AGN) median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 2 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxEighteen) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNEighteenCounts; median at x = 2 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 18, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.004176364426288765,
+    "dlogit": -0.6910568150543854,
+    "predicted_at_x": {
+     "dlogit": -0.6910568150543854,
+     "f": {
+      "median": 0.44115323569151194,
+      "ci90": [
+       0.3366207504993236,
+       0.5372591734306245
+      ]
+     },
+     "H0": {
+      "median": 68.27889572239505,
+      "ci90": [
+       66.1322029529158,
+       70.60994966370804
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.2873595892375289,
+      "ci90": [
+       0.20643470704043737,
+       0.37177046422510035
+      ]
+     },
+     "H0": {
+      "median": 68.28691677582671,
+      "ci90": [
+       66.14312414342888,
+       70.61377472981296
+      ]
+     }
+    },
+    "median_map_only": 0.15855760576713795,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      -0.13098853915864114,
+      -0.12406409682744357,
+      -0.11695587637896201,
+      -0.11689553687932203,
+      -0.10948061967308512,
+      -0.10181675183942984,
+      -0.09390185956390842,
+      -0.08573481140729083,
+      -0.07731497618491542,
+      -0.06864252233462945,
+      -0.05971759625964004,
+      -0.050541657335467866,
+      -0.04111724651229942,
+      -0.03144651286771605,
+      -0.021533408068078075,
+      -0.01138214816874028,
+      -0.0009984173369413374,
+      0.0,
+      0.00961225268891902,
+      0.020442654637784108,
+      0.031485126664405505,
+      0.04273087258588332,
+      0.05417077576607765,
+      0.06579428996669784,
+      0.07759073159666685,
+      0.08954822314425037,
+      0.10165430079427851,
+      0.11389584078451026,
+      0.12625916673444976,
+      0.13872989193992696,
+      0.1512932479590653,
+      0.15379364645398302,
+      0.16393397140099136,
+      0.17663658617047684
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "FluxEighteenDoubleHzero": {
+   "class": "plain",
+   "render": "67.6^{+2.3}_{-2.1}",
+   "value": {
+    "median": 67.6117985373519,
+    "ci90": [
+     65.52008511371491,
+     69.95885998029686
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A (median and 90% equal-tailed interval)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "decimals": 1
+   }
+  },
+  "FluxEighteenDoubleHzeroMed": {
+   "class": "plain",
+   "render": "67.6",
+   "value": 67.6117985373519,
+   "units": "km/s/Mpc",
+   "meaning": "median of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoubleHzeroLo": {
+   "class": "plain",
+   "render": "65.5",
+   "value": 65.52008511371491,
+   "units": "km/s/Mpc",
+   "meaning": "lower end of the 90% interval of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoubleHzeroHi": {
+   "class": "plain",
+   "render": "70.0",
+   "value": 69.95885998029686,
+   "units": "km/s/Mpc",
+   "meaning": "upper end of the 90% interval of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoubleHzeroWid": {
+   "class": "plain",
+   "render": "4.4",
+   "value": 4.4387748665819515,
+   "units": "km/s/Mpc",
+   "meaning": "full width of the 90% interval of H0, population known, both catalogs, m < 18, hosts normalized to z = 1.1, the AGN number density assumed at 2 times the value from the catalog counts (runs known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}, stage 2 of RUNLIST.yaml), realization A",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+    "key": "posterior.H0"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {}
+  },
+  "FluxEighteenDoubleDeltaHzero": {
+   "class": "plain",
+   "render": "-0.68",
+   "value": -0.6750612046413664,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; realization A (signed; set in math mode)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.6750612046413664,
+     "101": -0.5296408918979836,
+     "102": -0.7884099913731575
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 67.6117985373519,
+     "101": 67.35399600387147,
+     "102": 67.0735275939855
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltaHzeroMean": {
+   "class": "plain",
+   "render": "-0.66",
+   "value": -0.6643706959708359,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; mean over the 3 realizations [100, 101, 102] (signed)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.6750612046413664,
+     "101": -0.5296408918979836,
+     "102": -0.7884099913731575
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 67.6117985373519,
+     "101": 67.35399600387147,
+     "102": 67.0735275939855
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltaHzeroMin": {
+   "class": "plain",
+   "render": "-0.79",
+   "value": -0.7884099913731575,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the smallest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.6750612046413664,
+     "101": -0.5296408918979836,
+     "102": -0.7884099913731575
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 67.6117985373519,
+     "101": 67.35399600387147,
+     "102": 67.0735275939855
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltaHzeroMax": {
+   "class": "plain",
+   "render": "-0.53",
+   "value": -0.5296408918979836,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median when the AGN number density assumed at 2 times the value from the catalog counts: median of the run at factor 2 minus that of the unit-factor run (key FluxEighteen) of the same realization, population known, both catalogs, m < 18, hosts normalized to z = 1.1; the largest (signed) over the 3 realizations [100, 101, 102]",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_102/summary.json"
+    ]
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "per_realization": {
+     "100": -0.6750612046413664,
+     "101": -0.5296408918979836,
+     "102": -0.7884099913731575
+    },
+    "unit_median": {
+     "100": 68.28685974199327,
+     "101": 67.88363689576946,
+     "102": 67.86193758535866
+    },
+    "arm_median": {
+     "100": 67.6117985373519,
+     "101": 67.35399600387147,
+     "102": 67.0735275939855
+    }
+   }
+  },
+  "FluxEighteenDoubleDeltaHzeroPred": {
+   "class": "plain",
+   "render": "-0.01",
+   "value": -0.00802105343166204,
+   "units": "km/s/Mpc",
+   "meaning": "shift of the H0 median predicted by the normalization identity (LIKELIHOOD_MATH Sec. 8) when the AGN number density assumed at 2 times the value from the catalog counts: the corrected ln L of the unit-factor grid of realization A (key FluxEighteen) mapped as ln L_x(H0, f) = ln L_1(H0, f'), logit f' = logit f + ln[F_AGN(x)/F_AGN(1)] = logit f - ln[F + x(1 - F)], F = NormFAGNEighteenCounts; median at x = 2 minus median at x = 1 on the same lattice; the normaliser part only (the uncataloged hosts where mergers and detected injections lie also scale with the assumed density and are not in the map), population known, both catalogs, m < 18, hosts normalized to z = 1.1",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/grid"
+    ],
+    "computation": "density.identity: lattice 401 (H0) x 4001 (f in [0, 1]); p_x(f) = m_1(f'), p_x(H0) = int L_1 (df/df') df'"
+   },
+   "claim": "density",
+   "containment": null,
+   "extra": {
+    "F_AGN": 0.004176364426288765,
+    "dlogit": -0.6910568150543854,
+    "predicted_at_x": {
+     "dlogit": -0.6910568150543854,
+     "f": {
+      "median": 0.44115323569151194,
+      "ci90": [
+       0.3366207504993236,
+       0.5372591734306245
+      ]
+     },
+     "H0": {
+      "median": 68.27889572239505,
+      "ci90": [
+       66.1322029529158,
+       70.60994966370804
+      ]
+     }
+    },
+    "predicted_at_1": {
+     "dlogit": -0.0,
+     "f": {
+      "median": 0.2873595892375289,
+      "ci90": [
+       0.20643470704043737,
+       0.37177046422510035
+      ]
+     },
+     "H0": {
+      "median": 68.28691677582671,
+      "ci90": [
+       66.14312414342888,
+       70.61377472981296
+      ]
+     }
+    },
+    "median_map_only": null,
+    "curve": {
+     "x": [
+      0.45,
+      0.474445,
+      0.5,
+      0.500219,
+      0.527392,
+      0.556041,
+      0.586247,
+      0.618094,
+      0.651671,
+      0.687071,
+      0.724395,
+      0.763747,
+      0.805235,
+      0.848978,
+      0.895097,
+      0.943722,
+      0.994987,
+      1.0,
+      1.049038,
+      1.106025,
+      1.166108,
+      1.229454,
+      1.296242,
+      1.366657,
+      1.440898,
+      1.519172,
+      1.601698,
+      1.688707,
+      1.780443,
+      1.877162,
+      1.979135,
+      2.0,
+      2.086647,
+      2.2
+     ],
+     "shift": [
+      0.007025975914558558,
+      0.006649356967059816,
+      0.006263387744212423,
+      0.006260113590300875,
+      0.005858184102351061,
+      0.0054434875565902985,
+      0.005015975479778945,
+      0.004575650270425058,
+      0.0041225412182512855,
+      0.003656723040023735,
+      0.0031782686751427036,
+      0.0026873205351023444,
+      0.0021840791400933313,
+      0.0016687234815577767,
+      0.001141525525582665,
+      0.00060277059507996,
+      5.281834287984566e-05,
+      0.0,
+      -0.0005079802740652894,
+      -0.0010791924210451498,
+      -0.0016603636035767977,
+      -0.002250983884323432,
+      -0.0028505318338289953,
+      -0.0034584160912487505,
+      -0.004074044098047125,
+      -0.004696766618906167,
+      -0.005325910137628398,
+      -0.005960773896006799,
+      -0.006600634991841048,
+      -0.0072447398036104005,
+      -0.007892323307785887,
+      -0.00802105343166204,
+      -0.008542600513166576,
+      -0.009194783420895192
+     ],
+     "what": "predicted median at x minus at 1 (Fig. 3(b) draws the unit-factor median of realization A plus this)"
+    }
+   }
+  },
+  "NrealFluxDensity": {
+   "class": "plain",
+   "render": "three",
+   "value": 3,
+   "units": "realizations",
+   "meaning": "realizations run at each assumed AGN density (0.5 and 2 times the counts), m < 20 and m < 18, realizations [100, 101, 102]",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST.yaml",
+    "computation": "realizations of the runs of values/production_map.json 'density_response'"
+   },
+   "claim": "design,realizations",
+   "containment": null,
+   "extra": {
+    "realizations": [
+     100,
+     101,
+     102
+    ]
    }
   },
   "NrealKnown": {

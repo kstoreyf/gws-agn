@@ -223,7 +223,9 @@ def build_map():
     for k, why in PAPER_KEYS_WITHOUT_RUNS.items():
         missing.setdefault(k, why)
     import classes
-    return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs)}
+    import density
+    return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs),
+            "density_response": density.map_block(runs)}
 
 
 SCHEMA = [
@@ -239,6 +241,9 @@ SCHEMA = [
     "classes: the macros of Sec. IV B and of the experiment's numbers elsewhere (scripts/classes.py, notes/PAPER_SKELETON.md Sec. 9):",
     "  classes.<macro>: run (pattern, '{R}' = three-digit realization), runlist, stage, realizations, how (mean_hw | factor_hw | membership |",
     "  interior); derived macros (cost, share) name the macros they are computed from. A macro is real when every summary it names exists.",
+    "density_response: the runs of the macros Flux<limit><Half|Double>... (scripts/density.py): arms.<limit><factor>: run (the factor-x",
+    "  runs, '{R}' = three-digit realization), unit_run (their unit-factor partners, the runs of key unit_key), factor, realizations,",
+    "  realization_A, stage; validation stages of the run list (names starting with 'V') excluded. Real when every summary named exists.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
 ]
 
@@ -764,12 +769,25 @@ def classes_status_lines():
     return out
 
 
+def density_status_lines():
+    """The response to the assumed AGN density (scripts/density.py, map block 'density_response'): real, or what it waits for."""
+    import density
+    st = density.status()
+    real = [k for k, (r, _) in st.items() if r]
+    out = [f"  assumed AGN density (Sec. IV C, Fig. 3(b); values/production_map.json 'density_response'): {len(real)} of {len(st)} groups real"
+           + (f" ({', '.join(real)})" if real else "")]
+    for k, (r, miss) in st.items():
+        if not r:
+            out.append(f"    waiting {k}: {'; '.join(miss[:3])}{' ...' if len(miss) > 3 else ''}")
+    return out
+
+
 def macro_counts(values_json=PRD / "values" / "values.json", tex=PRD / "main.tex"):
     """Result macros of the long paper: the key-scheme macros (claim 'skeleton,keys') and the experiment's (claim
     'classes'); real = printed black."""
     mac = json.loads(Path(values_json).read_text())["macros"]
     used = set(re.findall(r"\\([A-Za-z]+)", Path(tex).read_text()))
-    keys = {k: v for k, v in mac.items() if v["claim"].startswith("skeleton") or v["claim"].startswith("classes")}
+    keys = {k: v for k, v in mac.items() if v["claim"].startswith(("skeleton", "classes", "density"))}
     real = [k for k, v in keys.items() if v["class"] != "ph"]
     ureal = [k for k in real if k in used]
     uall = [k for k in keys if k in used]
@@ -794,6 +812,7 @@ def main(argv=None):
         st.update({k: {"state": "no run", "why": w} for k, w in (pm.get("not_in_run_lists") or {}).items()})
         print("\n".join(status_lines(st)))
         print("\n".join(classes_status_lines()))
+        print("\n".join(density_status_lines()))
     if a.report:
         c = macro_counts()
         doc = json.loads((PRD / "values" / "placeholder_results.json").read_text())

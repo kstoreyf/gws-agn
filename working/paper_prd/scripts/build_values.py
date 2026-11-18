@@ -2703,6 +2703,17 @@ def build_classes():
              "placeholder_source": "invented: the two shares add to 100% for Gaussian posteriors"}, "classes")
 
 
+def build_density():
+    """The response to the assumed AGN number density at m < 20 and m < 18 (Analysis 16, stage 2; scripts/density.py)."""
+    import density as DN
+    DN.build(add, add_ph, fnum, fci, fsig, NUM_WORD)
+
+
+def density_definitions():
+    import density as DN
+    return DN.DEFINITIONS
+
+
 def _gal_share(CL, f):
     """100 (HWKnown<f> / mean half-width of the galaxy factor)^2, the galaxy counterpart of ShareAGN<f> (values.json only)."""
     rec = CL.mapped()["macros"].get(f"HWKnownAGN{f}")
@@ -3002,6 +3013,7 @@ def compute():
     build_r2()
     build_keys()
     build_classes()
+    build_density()
     build_requests()
     DIAG["grid_log"] = list(GRIDLOG)
     return REG, DIAG, TABLES, BAYES
@@ -3022,7 +3034,7 @@ def write_all():
     M = ["# Macro menu (written by scripts/build_values.py; do not edit)", "",
          "Class: plain = design choice or mock input; teal = exploratory result (production replaces it); red = not yet computable (see placeholders.txt).",
          "Intervals are medians with 90% equal-tailed intervals unless stated. Full numbers, sources and containment records: values.json.", "",
-         KEY_DEFINITIONS, "", CLASS_DEFINITIONS, "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
+         KEY_DEFINITIONS, "", CLASS_DEFINITIONS, "", density_definitions(), "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
          "| macro | meaning | rendered | class | claim |", "|---|---|---|---|---|"]
     for r in reg:
         rr = r["render"].replace("|", "\\|")

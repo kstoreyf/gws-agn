@@ -68,8 +68,10 @@ mergers are in the peak, the bias of the single-population analysis falls to
 $\ObsBiasHzero\,\kms$ and the input lies inside its 90\% interval. % EXPECTED
 With flux-limited catalogs the mergers measure the merger rate per AGN
 relative to that per galaxy, and $\fagn$ follows only once the number of AGN
-is given: at the shallowest flux limit a factor of two in that number moves
-$\fagn$ by \NormDeltafTwoEighteenProd{} for an input of \MockfAGN.
+is given: with catalogs that hold the hosts of \MockEventCompTwenty\% of
+the detected mergers, a factor of two in that number moves $\fagn$ by
+$\FluxTwentyDoubleDeltafAGN$, against a 90\% half-width of
+\FluxTwentyfAGNHalfWid.
 With the population known and complete catalogs, the half-width of the 90\%
 credible interval of $H_0$ falls from \HWUnknownZero{} to
 $\HWUnknownHundred\,\kms$ as the mergers hosted by AGN go from none to all
@@ -814,17 +816,18 @@ catalog misses.
 intervals of $H_0$ (top) and of $\fagn$ (bottom) against the flux limit of
 both catalogs, with the number densities known; the upper axis gives the
 completeness weighted by the detected mergers. (b) Median and 90\% interval
-of $\fagn$ against the assumed AGN number density in units of its input.
-With the hosts normalized to $z=\NormZmax$: $m<\MockMlimTwentyOne$ (filled
-circles), $m<\MockMlimEighteen$ (red open diamonds) and complete catalogs
-(filled squares). With the hosts normalized to $z=\NormZmaxProd$: complete
-catalogs (open squares) and $m<\MockMlimEighteen$ (purple open diamonds).
-Black curves are the prediction of the identity of Eq.~(\ref{eq:rates}):
-solid $m<\MockMlimTwentyOne$ and dashed $m<\MockMlimEighteen$ for $z=\NormZmax$,
-dotted for the other three sets. Black dashed lines are the inputs. The flux
-limit hardly moves either parameter, and the assumed number density moves
-$\fagn$ unless the catalog is complete over the volume. % EXPECTED
-}
+of $\fagn$ against the assumed AGN number density in units of its input:
+complete catalogs with the hosts normalized to $z=\NormZmax$ (filled
+circles) and to $z=\NormZmaxProd$ (open circles), and the flux limits
+$m<\MockMlimTwenty$ (squares) and $m<\MockMlimEighteen$ (diamonds) with the
+hosts normalized to $z=\NormZmaxProd$. Black curves are the predictions of
+the identity of Eq.~(\ref{eq:rates}): dotted for the complete catalogs,
+solid for $m<\MockMlimTwenty$ and dash-dotted for $m<\MockMlimEighteen$.
+Points at one density are set apart horizontally, and the gray dotted line
+marks the input density. Black dashed lines are the inputs. The flux limit
+hardly moves either parameter, and the assumed number density moves $\fagn$
+unless the catalog is complete over the volume to which the hosts are
+normalized.}
 \label{fig:flux}
 \end{figure*}
 
@@ -841,17 +844,47 @@ at $z=\MockzCat$, the complete AGN catalog holds a share $F_{\rm
 AGN}=\NormFAGNComplete$ of them and the doubling moves $\fagn$ by
 \NormDeltafTwoCompleteFive, the \NormDeltafTwoCompleteFivePred{} that
 Eq.~(\ref{eq:rates}) predicts, although no host is missing where the mergers
-are. A flux-limited catalog holds a small share of the hosts whichever
-volume is used, $F_{\rm AGN}=\NormFAGNEighteenProd$ at $m<\MockMlimEighteen$,
-and there the doubling moves $\fagn$ by \NormDeltafTwoEighteenProd, against a
-predicted \NormDeltafTwoEighteenProdPred{} and a 90\% half-width of
-\FluxEighteenfAGNHalfWid. It also moves $H_0$, by
-$\NormDeltaHzeroTwoEighteenProd\,\kms$ against a 90\% half-width of
-$\FluxEighteenHzeroHalfWid\,\kms$, which Eq.~(\ref{eq:rates}) does not describe:
-half of the detected mergers lie where this catalog is incomplete, and the
-assumed density sets how much of each is given to the uniform hosts. At
-$m<\MockMlimTwentyOne$, where every merger has its host in the catalog,
-$H_0$ moves by $\NormDeltaHzeroTwoTwentyOneFive\,\kms$. The fraction of
+are.
+
+A flux-limited catalog holds a small share of the hosts of the volume, and
+$\fagn$ follows the assumed density even where the catalog holds the host
+of nearly every merger. At $m<\MockMlimTwenty$, where
+\MockEventCompTwenty\% of the detected mergers have their host in the
+catalog and $F_{\rm AGN}=\NormFAGNTwentyCounts$, an AGN number density
+assumed at twice its value moves $\fagn$ from $\FluxTwentyfAGN$ to
+$\FluxTwentyDoublefAGN$ on realization A, and one assumed at half its value
+moves it to $\FluxTwentyHalffAGN$. The shifts of the median,
+$\FluxTwentyDoubleDeltafAGN$ and $\FluxTwentyHalfDeltafAGN$, are the
+$\FluxTwentyDoubleDeltafAGNPred$ and $\FluxTwentyHalfDeltafAGNPred$ that
+Eq.~(\ref{eq:rates}) predicts, and they exceed the 90\% half-width of
+\FluxTwentyfAGNHalfWid. Over \NrealFluxDensity{} realizations they are
+$\FluxTwentyDoubleDeltafAGNMean$ [$\FluxTwentyDoubleDeltafAGNMin$,
+$\FluxTwentyDoubleDeltafAGNMax$] and $\FluxTwentyHalfDeltafAGNMean$
+[$\FluxTwentyHalfDeltafAGNMin$, $\FluxTwentyHalfDeltafAGNMax$], where the
+brackets hold the smallest and the largest shift among the realizations.
+$H_0$ stays where it was: the doubling moves its median by
+$\FluxTwentyDoubleDeltaHzeroMean$ [$\FluxTwentyDoubleDeltaHzeroMin$,
+$\FluxTwentyDoubleDeltaHzeroMax$]$\,\kms$, against a half-width of
+\FluxTwentyHzeroHalfWid.
+
+At $m<\MockMlimEighteen$ the catalog holds the hosts of
+\MockEventCompEighteen\% of the detected mergers and $F_{\rm
+AGN}=\NormFAGNEighteenCounts$. The doubling moves $\fagn$ by
+$\FluxEighteenDoubleDeltafAGN$ on realization A and by
+$\FluxEighteenDoubleDeltafAGNMean$ [$\FluxEighteenDoubleDeltafAGNMin$,
+$\FluxEighteenDoubleDeltafAGNMax$] over the \NrealFluxDensity, where
+Eq.~(\ref{eq:rates}) predicts $\FluxEighteenDoubleDeltafAGNPred$, and the
+halving moves it by $\FluxEighteenHalfDeltafAGN$ where the prediction is
+$\FluxEighteenHalfDeltafAGNPred$. $H_0$ moves as well, by
+$\FluxEighteenDoubleDeltaHzeroMean$ [$\FluxEighteenDoubleDeltaHzeroMin$,
+$\FluxEighteenDoubleDeltaHzeroMax$]$\,\kms$ under the doubling, against a
+half-width of $\FluxEighteenHzeroHalfWid\,\kms$; under the halving it moves
+by $\FluxEighteenHalfDeltaHzeroMean$ [$\FluxEighteenHalfDeltaHzeroMin$,
+$\FluxEighteenHalfDeltaHzeroMax$], with no definite sign. Equation
+(\ref{eq:rates}) describes the normalization of the hosts and predicts
+neither departure. We read both as owed to the mergers that lie where this
+catalog is incomplete, half of those detected: for them the assumed density
+also sets how much of each merger is given to the uniform hosts. The fraction of
 mergers hosted by AGN thus refers to a volume and needs the number of AGN in
 it, as Pouw \textit{et al.}~\cite{Pouw:2026lar} note for the maximum
 redshift of their merger populations. This is why each number density is

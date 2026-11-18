@@ -709,6 +709,7 @@ def audit_keys(mac):
     audit_requests(mac, doc)
     audit_production(mac, doc, owner)
     audit_classes(mac, doc)
+    audit_density(mac)
 
 
 # the further macros of PAPER_SKELETON.md Sec. 6 and the keys they are built from
@@ -1520,6 +1521,12 @@ def audit_classes(mac, doc):
         if doc.get(k_, {}).get("final") and sp["mode"] == "grid":
             for r in sp["realizations"]:
                 used[RUNS16 / sp["run"].format(R=f"{r:03d}")] = (f"key {k_}", None)
+    for name, rec in ((pm.get("density_response") or {}).get("arms") or {}).items():
+        for pat in (rec["run"], rec["unit_run"]):
+            for r in rec["realizations"]:
+                run = RUNS16 / pat.format(R=f"{r:03d}")
+                if (run / "summary.json").exists():
+                    used.setdefault(run, (f"density {name}", None))
     for name, rec in blk.items():
         if rec.get("how") in (None, "derived") or not have.get(name):
             continue
@@ -1551,6 +1558,135 @@ def audit_classes(mac, doc):
                      f"{max(over, default=0.0):.2f}); jumps found outside that region: {len(seen) - len(fails)}"
                      + (f" ({'; '.join([s_ for s_ in seen if s_ not in [f_.rsplit(' (', 1)[0] for f_ in fails]][:3])})" if len(seen) > len(fails) else "")
                      + (f"; FAIL: {'; '.join(fails[:4])}" if fails else ""))
+
+
+# ============================================================================================= #
+# L: the response to the assumed AGN density (scripts/density.py; map block 'density_response'), by code that density.py and
+# run_posteriors.py do not use: the run list parsed here (stages and --agn-density-factor), the summaries read directly, the
+# cataloged counts read with h5py from the files the unit-factor run's config names, Analysis 15's closed form of the missing
+# volume, and the identity applied cell by cell to the stored grid (own cubic splines of the fine pass, coarse pass outside),
+# marginals by Simpson sums, quantiles from an own CDF.
+# ============================================================================================= #
+def audit_density(mac):
+    import yaml
+    pm = _jr(OUT / "values" / "production_map.json")
+    blk = (pm.get("density_response") or {}).get("arms") or {}
+    dm = {k: v for k, v in mac.items() if v["claim"] == "density"}
+    if not dm or not blk:
+        check(False, "L0 values.json has the density-response macros (claim 'density') and the map its block 'density_response'")
+        return
+    rows, bad = [], []
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+
+    # ---- L0: the map's runs are the run list's (own parser): every run with --agn-density-factor outside the validation stages, by limit,
+    # factor and realization; no run of a validation stage named; black exactly when every summary of the group exists
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    own, vnames = {}, set()
+    for st in rl["stages"]:
+        for r in st["runs"]:
+            a = r["args"]
+            if str(st["stage"]).startswith("V"):
+                vnames.add(r["name"])
+                continue
+            if "--agn-density-factor" not in a:
+                continue
+            fl, x = a[a.index("--flux") + 1], float(a[a.index("--agn-density-factor") + 1])
+            own.setdefault((fl, x), set()).add(int(a[a.index("--realization") + 1]))
+    mine = {(rec["flux"], float(rec["factor"])): set(rec["realizations"]) for rec in blk.values()}
+    named = {rec[k].format(R=f"{r:03d}") for rec in blk.values() for k in ("run", "unit_run") for r in rec["realizations"]}
+    wrong = []
+    for name, rec in blk.items():
+        word, xw = re.fullmatch(r"(Twenty|Eighteen)(Half|Double)", name).groups()
+        need = [RUNS16 / rec[k].format(R=f"{r:03d}") / "summary.json" for k in ("run", "unit_run") for r in rec["realizations"]]
+        ok = all(p_.exists() for p_ in need)
+        okA = (RUNS16 / rec["unit_run"].format(R=f"{rec['realization_A']:03d}") / "summary.json").exists()
+        for n, v in dm.items():
+            if n.startswith(f"Flux{word}{xw}"):
+                want_black = okA if n.endswith("Pred") else ok
+                if (v["class"] == "plain") != want_black:
+                    wrong.append(n)
+    check(mine == own and not (named & vnames) and not wrong,
+          f"L0 the density-response groups ({len(blk)}; {len(dm)} macros, {sum(1 for v in dm.values() if v['class'] == 'plain')} black) name the runs of "
+          f"RUNLIST.yaml with --agn-density-factor outside the validation stages ({', '.join(f'm<{k[0]} x{k[1]:g}: {sorted(v)}' for k, v in sorted(own.items()))}; "
+          f"own parser), no run of a validation stage ({len(vnames)} runs there), and print black exactly when every summary of the group exists"
+          f"{'; MAP ' + str(mine) if mine != own else ''}{'; V-STAGE RUN NAMED' if named & vnames else ''}{': ' + ', '.join(wrong[:6]) if wrong else ''}")
+    # ---- L1: the numbers
+    C = _a15()
+    from scipy.interpolate import CubicSpline  # noqa: F401
+    val = lambda n: mac[n]["value"]
+    par = {"fAGN": "f_agn", "Hzero": "H0"}
+    shares = {}
+    for name, rec in blk.items():
+        word, xw = re.fullmatch(r"(Twenty|Eighteen)(Half|Double)", name).groups()
+        key = f"Flux{word}{xw}"
+        x = float(rec["factor"])
+        if mac[f"{key}fAGN"]["class"] != "plain":
+            continue
+        S = {r: (_jr(RUNS16 / rec["run"].format(R=f"{r:03d}") / "summary.json"), _jr(RUNS16 / rec["unit_run"].format(R=f"{r:03d}") / "summary.json"))
+             for r in rec["realizations"]}
+        rA = rec["realization_A"]
+        for r, (sa, su) in S.items():
+            cmp(f"{key} r{r}", sa["densities"]["agn"]["log10n_used"] - su["densities"]["agn"]["log10n_used"], math.log10(x), 1e-9,
+                "assumed AGN density over the unit-factor run's (summaries)")
+        for q, pn in par.items():
+            ps = S[rA][0]["posterior"][pn]
+            v = val(f"{key}{q}")
+            for nm, a_, b_ in (("median", v["median"], ps["median"]), ("lo", v["ci90"][0], ps["ci90"][0]), ("hi", v["ci90"][1], ps["ci90"][1])):
+                cmp(f"{key}{q}", a_, b_, 1e-12, f"A {nm} = summary.json")
+            for pc, b_ in (("Med", ps["median"]), ("Lo", ps["ci90"][0]), ("Hi", ps["ci90"][1]), ("Wid", ps["ci90"][1] - ps["ci90"][0])):
+                cmp(f"{key}{q}{pc}", val(f"{key}{q}{pc}"), b_, 1e-12, "= summary.json")
+            sh = {r: sa["posterior"][pn]["median"] - su["posterior"][pn]["median"] for r, (sa, su) in S.items()}
+            cmp(f"{key}Delta{q}", val(f"{key}Delta{q}"), sh[rA], 1e-12, "A: medians of the two summaries")
+            cmp(f"{key}Delta{q}Mean", val(f"{key}Delta{q}Mean"), sum(sh.values()) / len(sh), 1e-12, "mean over the realizations")
+            cmp(f"{key}Delta{q}Min", val(f"{key}Delta{q}Min"), min(sh.values()), 1e-12, "smallest over the realizations")
+            cmp(f"{key}Delta{q}Max", val(f"{key}Delta{q}Max"), max(sh.values()), 1e-12, "largest over the realizations")
+    for name, rec in blk.items():
+        word, xw = re.fullmatch(r"(Twenty|Eighteen)(Half|Double)", name).groups()
+        key = f"Flux{word}{xw}"
+        x = float(rec["factor"])
+        if mac[f"{key}DeltafAGNPred"]["class"] != "plain":
+            continue
+        run = RUNS16 / rec["unit_run"].format(R=f"{rec['realization_A']:03d}")
+        if word not in shares:
+            # the share: own counts (h5py, the files the run's config names) and Analysis 15's closed form of the missing volume
+            sm, cfg = _jr(run / "summary.json"), _jr(run / "config.json")
+            N = _counts(run)["agn"]
+            fit = C.schechter_fit(cfg["selection_fits"]["agn"]["path"])
+            Z = C.z_closed(N, sm["densities"]["agn"]["log10n_used"] + 3 * math.log10(0.6774), fit, 67.74, C.ZMAX_R)
+            shares[word] = N / Z
+            cmp(f"NormFAGN{word}Counts", val(f"NormFAGN{word}Counts"), shares[word], 2e-4 * shares[word], "own counts and Analysis 15's closed form")
+            # the identity cell by cell on the stored grid: ln L_x(H0, f) = ln L_1(H0, f'), own splines, Simpson marginals
+            parts = _grid_spl(run)
+            _, axes = _lattice16([parts])
+            Hg, fg = axes[0], np.linspace(0.0, 1.0, 2001)
+            Hm, Fm = np.meshgrid(Hg, fg, indexing="ij")
+            med = {}
+            for xx in (0.5, 1.0, 2.0):
+                d = -math.log(shares[word] + xx * (1 - shares[word]))
+                with np.errstate(divide="ignore", over="ignore"):
+                    fp = 1.0 / (1.0 + np.exp(-(np.log(Fm) - np.log1p(-Fm) + d)))
+                fp[:, 0], fp[:, -1] = 0.0, 1.0
+                lv = _grid_eval(parts, np.stack([Hm.ravel(), fp.ravel()], -1)).reshape(Hm.shape)
+                med[xx] = {q: _quant(*_marg(["H0", "f_agn"], [Hg, fg], lv, pn))["median"] for q, pn in par.items()}
+            shares[word] = (shares[word], med)
+        F, med = shares[word]
+        hw = {q: 0.5 * (lambda s: s["ci90"][1] - s["ci90"][0])(_jr(run / "summary.json")["posterior"][pn]) for q, pn in par.items()}
+        cmp(f"{key}DeltafAGNPred", mac[f"{key}DeltafAGNPred"]["extra"]["F_AGN"], F, 2e-4 * F, "F_AGN of the map")
+        for q in par:
+            cmp(f"{key}Delta{q}Pred", val(f"{key}Delta{q}Pred"), med[x][q] - med[1.0][q], 0.01 * hw[q],
+                "own map of the stored grid cell by cell (cubic splines, Simpson marginals), median at x minus at 1")
+    reals = {tuple(rec["realizations"]) for rec in blk.values()}
+    if len(reals) == 1:
+        cmp("NrealFluxDensity", float(val("NrealFluxDensity")), float(len(next(iter(own.values())))), 0.0, "realizations of the run list (own parser)")
+    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf))
+    check(not bad, f"L1 {len(rows)} numbers of the density-response macros recomputed by a second code path (summaries read directly; own counts and "
+                   f"Analysis 15's missing volume for F_AGN; the identity applied cell by cell to the stored unit-factor grid); largest deviation "
+                   f"{worst[2]:.2g} ({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
 
 
 def _trap_median(x, L):

@@ -1247,8 +1247,9 @@ def fig3_flux_limits():
     axF = fig.add_subplot(gs[1, 0], sharex=axH)
     axb = fig.add_subplot(gs[:, 1])
     panel_flux_points(axH, axF, name)
-    panel_density_response(axb, name)
+    drawn = panel_density_response(axb, name)
     fs.save(fig, FIGDIR, name)
+    write_fig3_facts(drawn)
 
 
 def panel_flux_points(axH, axF, name):
@@ -1286,48 +1287,81 @@ def panel_flux_points(axH, axF, name):
     fs.panel_label(axH, "(a)", y=0.95)
 
 
+# Fig. 3(b): the series drawn, finished results only (in drawing order). Analysis 15: one realization (catalog A); production: realization A
+# of Analysis 16's stage-2 runs (scripts/density.py). x offsets (multiplicative, log axis) keep the four sets at one factor apart.
+FIG3B_A15 = [  # (tag, label, [(macro, factor)], marker, filled, x offset, curve style, curve description)
+    ("five", "complete, normalized to $z=5$", [("NormfCompleteFive", 1.0), ("NormfCompleteFiveTwo", 2.0)], "o", True, 0.962, ":",
+     "complete catalogs with the hosts normalized to z = 5 (Analysis 15, scans p1_complete and c_complete_x2; the input AGN density and twice it)"),
+    ("prod", "complete, normalized to $z=1.10$", [("NormfCompleteProd", 1.0), ("NormfCompleteProdTwo", 2.0)], "o", False, 0.987, ":",
+     "complete catalogs with the hosts normalized to z = 1.10 (Analysis 15, scans b_complete_x1 and b_complete_x2)")]
+FIG3B_PROD = [  # (limit word, m_lim, colour index of fs.COMP, marker, x offset, curve style)
+    ("Twenty", 20, 1, "s", 1.013, "-"),
+    ("Eighteen", 18, 3, "D", 1.04, "-.")]
+LS_NAME = {"-": "solid", "-.": "dash-dot", ":": "dotted", "--": "dashed"}
+
+
 def panel_density_response(axb, name):
-    """Fig. 3(b): f_AGN against the assumed AGN density, exploratory (placeholder) and Analysis 15 (final)."""
-    at_input, arms = flux()
-    facs = [0.5, 1.0, 2.0]
-    xx = np.geomspace(0.45, 2.2, 200)
-    for i, (rk, word, mlim) in enumerate([r for r in bv.RUNGS if r[0] in ("m21", "m18")]):
-        k = f"Flux{word}"
-        c = kcol(k, fs.COMP[0 if rk == "m21" else 3], i * 2)
-        off = 0.985 if rk == "m21" else 1.015
-        med = []
-        for f_ in facs:
-            sm = arms[(rk, f_)].summary("f")
-            med.append(sm["median"])
-            axb.errorbar([f_ * off], [sm["median"]], yerr=[[sm["median"] - sm["ci90"][0]], [sm["ci90"][1] - sm["median"]]], fmt=fs.COMP_MARKERS[0 if rk == "m21" else 3],
-                         ms=fs.MS, color=c, mfc=c if rk == "m21" else "white", mew=1.3, elinewidth=1.4, capsize=2.2, zorder=5)
-            chk(name, ("macros", f"SlopefAGN{word}", "extra", "medians_f", str(f_)), sm["median"], "median against assumed AGN density")
-        FA = VALUES["macros"][f"NormFAGN{word}"]["value"]
-        f1 = med[1]
-        pred = bv.expit(bv.logit(f1) + np.log(FA + xx * (1 - FA)))
-        axb.plot(xx, pred, color="k", lw=1.1, ls="-" if rk == "m21" else (0, (4, 2)), zorder=3)
-        lo05 = arms[(rk, 0.5)].summary("f")["ci90"]
-        fs.label(axb, 0.5 * off, lo05[1] + 0.012 if rk == "m21" else lo05[0] - 0.012, f"$m<{mlim}$", c, ha="center", va="bottom" if rk == "m21" else "top")
-    # Analysis 15 (final palette) when its summary exists
-    if bv.A15_SUMMARY.exists():
-        S = bv.jload(bv.A15_SUMMARY)["scans"]
-        cfgs = [("complete, normalized to $z=5$", [("p1_complete", 1.0), ("c_complete_x2", 2.0)], "k", "s", True),
-                ("complete, normalized to $z=1.10$", [("b_complete_x1", 1.0), ("b_complete_x2", 2.0)], "k", "s", False),
-                ("$m<18$, normalized to $z=1.10$", [("d_m18_x05", 0.5), ("d_m18_x1", 1.0), ("d_m18_x2", 2.0)], fs.COMP[3], "D", False)]
-        for lab, pts, c, mk, filled in cfgs:
-            ok = [(S[n], x) for n, x in pts if n in S and S[n].get("status") == "done"]
-            if len(ok) < 2:
-                continue
-            for r, x in ok:
-                m = r["measured"]["f"]
-                axb.errorbar([x], [m["median"]], yerr=[[m["median"] - m["ci90"][0]], [m["ci90"][1] - m["median"]]], fmt=mk, ms=fs.MS, color=c,
-                             mfc=c if filled else "white", mew=1.3, elinewidth=1.4, capsize=2.2, zorder=6)
-            r1 = [r for r, x in ok if x == 1.0]
-            if r1:
-                FA = r1[0]["normaliser"]["F_at_67.74"]["AGN"]
-                f1 = r1[0]["measured"]["f"]["median"]
-                axb.plot(xx, bv.expit(bv.logit(f1) + np.log(FA + xx * (1 - FA))), color="k", lw=1.0, ls=":", zorder=3)
-            note(name, f"(b) Analysis 15 drawn: {lab}")
+    """Fig. 3(b): f_AGN against the assumed AGN number density over its input (realization A), finished results only: Analysis 15's
+    complete catalogs with the hosts normalized to z = 5 and to z = 1.10, and Analysis 16's runs at m < 20 and m < 18 with the AGN density
+    assumed at 0.5, 1 and 2 times the value from the catalog counts (scripts/density.py), each with the identity's prediction (black).
+    Every point is a macro of values.json; every curve passes through its factor-1 point and is checked against the predicted shift's
+    macro at the factors that have one. Returns what was drawn, for the generated block of figures/CAPTION_FACTS.md."""
+    import density as DN
+    M = VALUES["macros"]
+    real = lambda n: M[n]["class"] != "ph"
+    drawn = {"a15": [], "prod": [], "skipped": []}
+    xx = np.asarray(DN.CURVE_X)
+
+    def point(x, v, mk, c, filled):
+        axb.errorbar([x], [v["median"]], yerr=[[v["median"] - v["ci90"][0]], [v["ci90"][1] - v["median"]]], fmt=mk, ms=fs.MS, color=c,
+                     mfc=c if filled else "white", mew=1.3, elinewidth=1.4, capsize=2.2, zorder=6)
+
+    # Analysis 15: complete catalogs (black circles; filled: normalized to z = 5, open: to z = 1.10)
+    for tag, lab, pts, mk, filled, off, ls, desc in FIG3B_A15:
+        if not all(real(m) for m, _ in pts):
+            drawn["skipped"].append(lab)
+            continue
+        for m, x in pts:
+            point(x * off, M[m]["value"], mk, "k", filled)
+            chk_post(name, m, M[m]["value"], f"Analysis 15, {lab}, factor {x:g}")
+        f1 = M[pts[0][0]]["value"]["median"]
+        if tag == "five":
+            cur = DN.a15_complete_curve(xx)
+            y = f1 + np.asarray(cur["median"]) - cur["median"][list(xx).index(1.0)]
+            pred = "NormDeltafTwoCompleteFivePred"
+        else:
+            assert M["NormFAGNCompleteProd"]["value"] == 1.0          # F_AGN = 1: the identity predicts no shift
+            y = np.full_like(xx, f1)
+            pred = "NormDeltafTwoCompleteProdPred"
+        axb.plot(xx, y, color="k", lw=1.0, ls=ls, zorder=3)
+        i1, i2 = list(xx).index(1.0), list(xx).index(2.0)
+        chk(name, ("macros", pts[0][0], "value", "median"), y[i1], f"identity curve of {lab} at factor 1")
+        CHECKS.append((name, ("macros", pred, "render"), ("PRINTED", float(y[i2] - y[i1])), f"identity curve of {lab}: shift at factor 2 (at the printed precision)"))
+        drawn["a15"].append({"tag": tag, "label": lab, "points": pts, "marker": mk, "filled": filled, "ls": ls, "desc": desc, "pred": pred,
+                             "curve_shift_2": float(y[i2] - y[i1])})
+    # Analysis 16, stage 2: m < 20 and m < 18, realization A (the colours and markers of panel (a))
+    for word, mlim, ci, mk, off, ls in FIG3B_PROD:
+        names = {0.5: f"Flux{word}HalffAGN", 1.0: f"Flux{word}fAGN", 2.0: f"Flux{word}DoublefAGN"}
+        c = fs.COMP[ci]
+        if not all(real(n) for n in names.values()):
+            drawn["skipped"].append(f"m < {mlim}")
+            continue
+        for x, n in names.items():
+            point(x * off, M[n]["value"], mk, c, True)
+            chk_post(name, n, M[n]["value"], f"m < {mlim}, factor {x:g}")
+        preds = {0.5: f"Flux{word}HalfDeltafAGNPred", 2.0: f"Flux{word}DoubleDeltafAGNPred"}
+        curve = None
+        if all(real(p_) for p_ in preds.values()):
+            cur = M[preds[2.0]]["extra"]["curve"]
+            assert cur["x"] == list(xx), "curve lattice"
+            f1 = M[names[1.0]]["value"]["median"]
+            y = f1 + np.asarray(cur["shift"])
+            axb.plot(xx, y, color="k", lw=1.1, ls=ls, zorder=3)
+            chk(name, ("macros", names[1.0], "value", "median"), y[list(xx).index(1.0)], f"identity curve of m < {mlim} at factor 1")
+            for x, p_ in preds.items():
+                chk(name, ("macros", p_, "value"), y[list(xx).index(x)] - f1, f"identity curve of m < {mlim}: shift at factor {x:g}")
+            curve = ls
+        drawn["prod"].append({"word": word, "mlim": mlim, "color": c, "marker": mk, "names": names, "preds": preds, "ls": curve, "offset": off})
     fs.input_hline(axb, IN_F)
     axb.axvline(1.0, color=fs.PRIOR, lw=0.8, ls=":", zorder=1)
     axb.set_xscale("log")
@@ -1335,12 +1369,74 @@ def panel_density_response(axb, name):
     axb.set_xticklabels(["0.5", "0.7", "1", "1.4", "2"])
     axb.xaxis.set_minor_locator(plt.NullLocator())
     axb.set_xlim(0.45, 2.25)
-    axb.set_ylim(0.03, 0.62)
+    axb.set_ylim(0.05, 0.60)
     axb.set_xlabel("assumed AGN number density / input")
     axb.set_ylabel(r"$f_{\rm AGN}$")
-    fs.label(axb, 0.48, 0.60, "black: prediction of the identity, hosts\nnormalized to $z=5$ (solid $m<21$, dashed $m<18$)", "k", ha="left", va="top")
+    # key: each series' marker beside the black line of its identity curve
+    from matplotlib.legend_handler import HandlerTuple
+    hs, ls_ = [], []
+    for d in drawn["a15"]:
+        hs.append((Line2D([], [], color="k", marker=d["marker"], ms=fs.MS, mfc="k" if d["filled"] else "white", mew=1.3, ls="none"),
+                   Line2D([], [], color="k", lw=1.0, ls=d["ls"])))
+        ls_.append(d["label"])
+    for d in drawn["prod"]:
+        mh = Line2D([], [], color=d["color"], marker=d["marker"], ms=fs.MS, mfc=d["color"], mew=1.3, ls="none")
+        hs.append((mh, Line2D([], [], color="k", lw=1.1, ls=d["ls"])) if d["ls"] else mh)
+        ls_.append(f"$m<{d['mlim']}$")
+    axb.legend(hs, ls_, loc="upper left", handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)}, handlelength=3.2, fontsize=fs.FS_TEXT,
+               borderaxespad=0.5, labelspacing=0.35, frameon=True, facecolor="white", edgecolor="none", framealpha=1.0)
+    drawn["legend"] = ls_
     fs.panel_label(axb, "(b)", x=0.975, y=0.04, ha="right", va="bottom")
-    ph_word(axb, x=0.975, y=0.12, va="bottom")
+    for s_ in drawn["skipped"]:
+        note(name, f"(b) not drawn (a run is missing): {s_}")
+    return drawn
+
+
+def write_fig3_facts(drawn):
+    """The generated block of Fig. 3 in figures/CAPTION_FACTS.md (both panels), from values.json and placeholder_results.json."""
+    keys = ["KnownBoth"] + [f"Flux{w}" for _, w, _ in bv.RUNGS]
+    mk_a = ["open circle (bluish green)"] + [f"filled {m} ({c})" for m, c in zip(("circle", "square", "triangle", "diamond"),
+                                                                                    ("lightest purple", "light purple", "dark purple", "darkest purple"))]
+    allfin = all(fin(k) for k in keys)
+    L = ["## Fig. 3 `fig3_flux_limits` (" + ("final: every element a finished result" if allfin and not drawn["skipped"] else "partly placeholder")
+         + "; written by the figure script from values.json and placeholder_results.json)", "",
+         "- (a) Medians and 90% intervals of H0 (top) and f_AGN (bottom) of realization A against the flux limit of both catalogs, number "
+         "densities known (flux-limited catalogs: from the catalog counts, hosts normalized to z = 1.10): "
+         + "; ".join(f"{lab} {mk}: `\\{k}Hzero`, `\\{k}fAGN`, {key_state(k, 'fAGN', 'A')}"
+                     for k, lab, mk in zip(keys, ["complete"] + [f"m < {m}" for _, _, m in bv.RUNGS], mk_a))
+         + ". Upper axis: the completeness weighted by the detected mergers, 100% for complete catalogs (by construction) and "
+         + ", ".join(mfmt(f"MockEventComp{w}", "%") for _, w, _ in bv.RUNGS) + ". Black dashed: the inputs "
+         + f"{mfmt('MockHzero')}, {mfmt('MockfAGN')}.",
+         "- (b) Median and 90% interval of f_AGN against the assumed AGN number density over its input (log axis; factors 0.5, 1, 2), "
+         "realization A, finished results only; points of one factor offset in x by the factors given (multiplicative) for legibility."]
+    for d in drawn["a15"]:
+        L.append(f"  - {d['desc']}: black {'filled' if d['filled'] else 'open'} circles ("
+                 + ", ".join(f"factor {x:g} {mfmt(m)}" for m, x in d["points"])
+                 + f"; x offset {[a for a in FIG3B_A15 if a[0] == d['tag']][0][5]:g}); one realization (catalog A, the exploratory event set "
+                 "events.h5), darksirens-core e7c3007; final. Identity curve: black " + LS_NAME[d["ls"]]
+                 + (f", F_AGN = {mfmt('NormFAGNComplete')} at H0 = 67.74 (H0-dependent: densities in Mpc^-3), Analysis 15's map of its zero-density "
+                    "grid row by row in H0, through the factor-1 point; its shift at factor 2 is " + mfmt(d["pred"]) + " (measured "
+                    + mfmt("NormDeltafTwoCompleteFive") + ")" if d["tag"] == "five" else
+                    f", flat at the factor-1 median: F_AGN = {mfmt('NormFAGNCompleteProd')}, no shift ({mfmt(d['pred'])}; measured "
+                    + mfmt("NormDeltafTwoCompleteProd") + ")") + ".")
+    for d in drawn["prod"]:
+        n = d["names"]
+        L.append(f"  - m < {d['mlim']} (Analysis 16, stage 2, realization A; the runs of `values/production_map.json` 'density_response' and of key "
+                 f"`Flux{d['word']}` at factor 1): filled {'squares' if d['marker'] == 's' else 'diamonds'} in the colour of m < {d['mlim']} in (a) "
+                 f"(x offset {d['offset']:g}): factor 0.5 {mfmt(n[0.5])}, 1 {mfmt(n[1.0])}, 2 {mfmt(n[2.0])}; final. "
+                 + (f"Identity curve: black {LS_NAME[d['ls']]}, the unit-factor grid of realization A mapped through the identity with "
+                    f"F_AGN = {mfmt('NormFAGN' + d['word'] + 'Counts')} (H0-independent: densities in h^3 Mpc^-3), through the factor-1 point; "
+                    f"predicted shifts {mfmt(d['preds'][0.5])} (factor 0.5) and {mfmt(d['preds'][2.0])} (factor 2), measured "
+                    f"{mfmt(n[0.5].replace('fAGN', 'DeltafAGN'))} and {mfmt(n[2.0].replace('fAGN', 'DeltafAGN'))}; the map carries the "
+                    "normaliser only (the hosts added where the catalog is incomplete and mergers lie also scale with the density)."
+                    if d["ls"] else "No identity curve (its macros are red)."))
+    if drawn["skipped"]:
+        L.append("  - Not drawn (a run is missing): " + ", ".join(drawn["skipped"]) + ".")
+    L.append("  - Key (upper left, lower-case labels): each series' marker beside the black line of its identity curve: "
+             + "; ".join(f"\"{lab.replace('$', '')}\"" for lab in drawn.get("legend", [])) + ". No other text in the panel. Black dashed horizontal: the input "
+             f"{mfmt('MockfAGN')}; gray dotted vertical: factor 1. Not drawn any more: the exploratory grids normalized to z = 5 at m < 21 and "
+             "m < 18 (Analyses 3 and 4) and Analysis 15's m < 18 normalized to z = 1.10 (its production counterpart is the m < 18 series).")
+    write_facts_block("fig3_flux_limits", "## Fig. 3 `fig3_flux_limits`", L)
 
 
 # ---------------------------------------------------------------- Fig. 4: number densities inferred

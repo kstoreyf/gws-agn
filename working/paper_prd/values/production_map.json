@@ -12,6 +12,9 @@
   "classes: the macros of Sec. IV B and of the experiment's numbers elsewhere (scripts/classes.py, notes/PAPER_SKELETON.md Sec. 9):",
   "  classes.<macro>: run (pattern, '{R}' = three-digit realization), runlist, stage, realizations, how (mean_hw | factor_hw | membership |",
   "  interior); derived macros (cost, share) name the macros they are computed from. A macro is real when every summary it names exists.",
+  "density_response: the runs of the macros Flux<limit><Half|Double>... (scripts/density.py): arms.<limit><factor>: run (the factor-x",
+  "  runs, '{R}' = three-digit realization), unit_run (their unit-factor partners, the runs of key unit_key), factor, realizations,",
+  "  realization_A, stage; validation stages of the run list (names starting with 'V') excluded. Real when every summary named exists.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
  ],
  "runs_root": "analyses/analysis_16_production_runs/runs",
@@ -3445,6 +3448,72 @@
     ],
     "key": "KnownAGN",
     "how": "interior"
+   }
+  },
+  "not_in_run_lists": {}
+ },
+ "density_response": {
+  "_what": "the runs of the density-response macros (scripts/density.py): factor-X runs and their unit-factor partners (the runs of key Flux<limit>) of the same realizations; validation stages excluded",
+  "arms": {
+   "TwentyHalf": {
+    "run": "known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_half/equal_populations/realization_{R}",
+    "unit_run": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_{R}",
+    "unit_key": "FluxTwenty",
+    "flux": "20",
+    "factor": 0.5,
+    "runlist": "RUNLIST.yaml",
+    "stage": "2",
+    "realizations": [
+     100,
+     101,
+     102
+    ],
+    "realization_A": 100
+   },
+   "TwentyDouble": {
+    "run": "known_population/both_catalogs/flux_limit_20_densities_from_counts_agn_density_double/equal_populations/realization_{R}",
+    "unit_run": "known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_{R}",
+    "unit_key": "FluxTwenty",
+    "flux": "20",
+    "factor": 2.0,
+    "runlist": "RUNLIST.yaml",
+    "stage": "2",
+    "realizations": [
+     100,
+     101,
+     102
+    ],
+    "realization_A": 100
+   },
+   "EighteenHalf": {
+    "run": "known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_half/equal_populations/realization_{R}",
+    "unit_run": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}",
+    "unit_key": "FluxEighteen",
+    "flux": "18",
+    "factor": 0.5,
+    "runlist": "RUNLIST.yaml",
+    "stage": "2",
+    "realizations": [
+     100,
+     101,
+     102
+    ],
+    "realization_A": 100
+   },
+   "EighteenDouble": {
+    "run": "known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}",
+    "unit_run": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}",
+    "unit_key": "FluxEighteen",
+    "flux": "18",
+    "factor": 2.0,
+    "runlist": "RUNLIST.yaml",
+    "stage": "2",
+    "realizations": [
+     100,
+     101,
+     102
+    ],
+    "realization_A": 100
    }
   },
   "not_in_run_lists": {}
