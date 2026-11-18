@@ -1,4 +1,4 @@
-# Checkpoint, 18 Nov 2026, 09:00 UTC (read this first after a context clear)
+# Checkpoint, 18 Nov 2026, 12:35 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -84,22 +84,24 @@ hold the owner's words; this file holds the working state.
   is queued behind (stages 3, 4, 5, E3).
 - NOT QUEUED: the other four eight-parameter runs of stage 4, the five of stage 5, and the other
   four V8 pairs. They wait for the sampler decision below.
-- THE SAMPLER QUESTION (eight parameters). Test c (job 1414839) is VOID: its uniform-sampling run
-  with bootstrap 0 collapsed onto a plane (first bound built from 3 live points, because 198 of
-  200 initial points sat on the variance-guard floor at 2000 samples), so its projection of 9000
-  calls is the cost of sampling a slice; `tests/results/sampler_test_corrected.json`. Never use
-  `--sampler-8 unif_b0`. What is known: rslice costs about 60 calls per iteration (33 GPU-h per
-  run); Analysis 13's eight-parameter run with uniform sampling and bootstrap 5 stalled (589k
-  calls by iteration 2884), but that run had no variance guard. The validation pair on
-  realization 100 measures what uniform sampling with bootstrap 5 costs with the guard. A watcher
-  of the session ends 3.5 h after its first part starts (or when it finishes). Then:
-  `$PY tests/nested_diagnostics.py runs/<V8 run>/nested_1` (calls per iteration by block,
-  corrected insertion-rank test, bound volume against contour volume, flatness of the live set).
-  If it runs at well under 60 calls per iteration and passes the diagnostics, let the pair
-  finish, compare the two parts and the rslice reference with `tests/compare_sampler_runs.py`,
-  and run the other realizations with it; if it stalls, take its two lines out of `lane2.txt`,
-  cancel the lane-2 job (its successor carries on), and run all eight-parameter runs with
-  rslice (4 x 33 GPU-h more for stage 4, 190 for stage 5).
+- THE SAMPLER OF THE EIGHT-PARAMETER RUNS (decided 18 Nov, 12:25 UTC). Test c (job 1414839) was
+  void (uniform sampling with bootstrap 0 collapsed onto a plane; never use `--sampler-8
+  unif_b0`). The validation run with the six-parameter sampler (uniform, bootstrap 5),
+  `.../realization_100_unif_boot5/nested_1`, was healthy by every diagnostic and cheap for 1500
+  iterations (5 to 25 calls per iteration), then stalled at about 150 calls per iteration; I
+  stopped it at iteration 1594 (30,102 calls; checkpoint kept in its directory, lines taken out of
+  `lane2.txt`, lane-2 job 1415005 cancelled, successor 1415023 carried on). DECISION: uniform
+  sampling while it is cheaper than rslice (60 calls per iteration), rslice from there on. An
+  Opus agent (started 12:30 UTC) adds (i) the run `.../realization_100_unif_then_rslice`, which
+  continues from that checkpoint with rslice (`--init-from`, `--switch-sample`), and (ii) a
+  driver option that switches automatically, with runs for realizations 101, 102, 103, 105 under
+  the same variant name. When it reports: queue with its command lines (dry run first). The
+  pure-rslice run of realization 100 (canonical name, lane 1 after the stage-2 nested runs,
+  about 40 h at the measured 0.52 s per call) is the reference: when both have finished,
+  `tests/compare_sampler_runs.py` on the two; if they agree, the five `..._unif_then_rslice`
+  runs become the paper's HDHost runs (change the map in `paper_prd/scripts/production.py`),
+  and stage 5 uses the same procedure. Paper keys stay red until then (stage V8 is excluded
+  from the paper chain).
 - EVIDENCE WITH A FLOOR PLATEAU (checked 18 Nov, `tests/test_plateau_evidence.py`,
   `tests/results/plateau_evidence.json`): with the driver's floor of -1e300 for guard rejections,
   ln Z is right at the 75% floor of the six-parameter runs (bias under 0.05 nats); at the 98%
@@ -158,8 +160,7 @@ hold the owner's words; this file holds the working state.
 1. Done 07:35 UTC (commit d4af0ed): the evidence test, the sky-resolution run's tooling and
    wiring, the paper chain's selectors (validation stage V8 and check stage X excluded), and
    the two physical-units grids; their three runs are queued (Sec. 3, stage X).
-2. The sampler decision of Sec. 3 when the watcher ends (about 11:45 UTC; the validation
-   run starts when the single-population run on lane 2 finishes, about 08:10 UTC).
+2. The sampler: see Sec. 3 (agent running; queue its runs when it reports).
 3. Stage-2 nested runs finish (a watcher of the session ends then; lane 1 by about 17:30 UTC,
    lane 2 after its validation pair):
    refresh; the second half of the flux-limited subsection, Table IV and `fig4_densities` turn
