@@ -1,29 +1,36 @@
 #!/usr/bin/env python
 """Test (c) report: dynesty settings for the eight-parameter model (CPU, seconds).
 
-    JAX_PLATFORMS=cpu <core venv python> tests/sampler_report.py [--root tests/sampler_runs/...]
-    -> tests/results/sampler_test.json
+    JAX_PLATFORMS=cpu <core venv python> tests/sampler_report.py [--root tests/sampler_runs/...] [--out JSON]
+    -> tests/results/sampler_test.json (default)
 
 From the dynesty states of Phase A (unif, enlarge 1.25, bootstrap off, from scratch) and of the
 Phase B branches (100 iterations each from Phase A's last state copy):
 - calls per iteration (Phase A in blocks of 250 iterations; each branch over its own iterations);
-- the insertion-index test (Fowlie, Handley & Su 2020): the rank of each new point's ln L among the
-  live points it joins is uniform on 0..nlive-1 when the proposal samples the constrained prior
-  correctly; a bound that misses part of the contour pushes the ranks up. KS p-value per block /
-  branch (ranks randomised within their unit bin);
-- ln L* reached and ln Z gained over the same 100 iterations from the same state; their expected
-  scatter from the shrinkage alone, sd(ln L*) ~ |d lnL/d lnX| sqrt(K)/nlive, with the slope from
-  Phase A's last 200 iterations;
+- the insertion-index test (Fowlie, Handley & Su 2020), as corrected on 18 Nov (tests/nested_diagnostics.py):
+  the rank of each new point among the alive points strictly above L* (the points tied at L*, here the
+  driver's floor -1e300 for core's -inf, are outside the constrained prior and no longer counted), only
+  the first niter dead points of a state (a converged state carries the final live points twice), u =
+  (rank + V)/(n_ref + 1); KS p-value per block / branch. The first version (18 Nov, 05:27 UTC) counted the
+  floor points (Phase A's first block: 198 of 200 initial points on the floor, mean rank 0.71) and the
+  duplicated final live points (Phase A's last two blocks, 0.60 and 0.79);
+- the geometry of the run (nested_diagnostics.geometry): the log-volume of the bound in use against ln X,
+  and the flatness of the live set (smallest over largest singular value in the unit cube). Test c's
+  Phase A built its first bound at 400 calls from the 3 live points above the floor: a degenerate
+  ellipsoid (ln V = -79.7) that confined every later point to a plane; the test is then void;
+- ln L* reached and ln Z gained over the same 100 iterations from the same state; the highest ln L of
+  each branch's live points; expected scatter of ln L* from the shrinkage alone,
+  sd(ln L*) ~ |d lnL/d lnX| sqrt(K)/nlive, with the slope from Phase A's last 200 iterations;
 - projected calls for the whole run: N_it = 4645 iterations (Analysis 13's 3898 + 747 for the wider
   production priors), rslice and rwalk at their measured rate throughout, unif from Phase A's actual
-  calls to the branch point plus the branch rate after it (rates usually keep falling or flatten after
-  the first half, so this is an estimate, not a bound); GPU hours at 0.44 s/call (8,000 samples).
-Recommendation rule: the cheapest setting whose insertion-index p-values are >= 0.01 (Phase A blocks
-and its branch) and whose ln L* after 100 iterations is within 3 sd of rslice's; otherwise rslice.
+  calls to the branch point plus the branch rate after it (an estimate, not a bound; void when Phase A
+  is flat); GPU hours at 0.44 s/call (8,000 samples).
+Recommendation rule: none when Phase A's geometry is flagged (flat live set or bound below the contour
+volume); else the cheapest setting whose insertion-index p-values are >= 0.01 (Phase A blocks and its
+branch) and whose ln L* after 100 iterations is within 3 sd of rslice's; otherwise rslice.
 """
 import argparse
 import json
-import pickle
 import sys
 import time
 from pathlib import Path
@@ -31,6 +38,9 @@ from pathlib import Path
 import numpy as np
 
 A16 = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import nested_diagnostics as N  # noqa: E402
+
 ROOT = A16 / "tests" / "sampler_runs" / "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100"
 N_IT_PROJECTED = 4645
 SPC_PROD = 0.44
@@ -41,45 +51,7 @@ def load(d):
     p = Path(d) / "state.save"
     if not p.exists():
         return None
-    with open(p, "rb") as fh:
-        D = pickle.load(fh)
-    s = D["sampler"] if isinstance(D, dict) and "sampler" in D else D
-    sr = s.saved_run
-    return {"logl": np.asarray(sr["logl"], float), "nc": np.asarray(sr["nc"], float), "it": np.asarray(sr["it"], int),
-            "logz": np.asarray(sr["logz"], float), "logvol": np.asarray(sr["logvol"], float),
-            "live_logl": np.asarray(s.live_logl, float), "live_it": np.asarray(s.live_it, int),
-            "nlive": int(s.nlive), "ncall": int(s.ncall), "niter": int(s.it - 1), "method": s.method,
-            "bootstrap": int(s.bootstrap), "enlarge": float(s.enlarge)}
-
-
-def insertion_ranks(st):
-    """rank of the point born at iteration T (1-based) among the points alive after T's removal."""
-    n_dead = len(st["logl"])
-    born = np.concatenate([st["it"], st["live_it"]])
-    died = np.concatenate([np.arange(1, n_dead + 1), np.full(len(st["live_logl"]), np.iinfo(np.int64).max)])
-    ll = np.concatenate([st["logl"], st["live_logl"]])
-    ranks = np.full(n_dead + 1, -1)
-    where_born = {}
-    for i, b in enumerate(born):
-        if b > 0:
-            where_born[int(b)] = i
-    for T in range(1, n_dead + 1):
-        i = where_born.get(T)
-        if i is None:
-            continue
-        alive = (born < T) & (died > T)
-        ranks[T] = int(np.sum(ll[alive] < ll[i]))
-    return ranks  # index by iteration; -1 where unknown
-
-
-def ks_uniform(ranks, nlive, seed=0):
-    from scipy.stats import kstest
-    r = np.asarray([x for x in ranks if x >= 0], float)
-    if r.size < 10:
-        return {"n": int(r.size), "ks_p": None, "mean_rank_over_nlive": None}
-    u = (r + np.random.default_rng(seed).random(r.size)) / nlive
-    return {"n": int(r.size), "ks_p": float(kstest(u, "uniform").pvalue),
-            "mean_rank_over_nlive": float(np.mean(r) / nlive)}
+    return N.load_run(p)
 
 
 def sessions_spc(d):
@@ -94,29 +66,40 @@ def sessions_spc(d):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=str(ROOT))
+    ap.add_argument("--out", default=str(A16 / "tests/results/sampler_test.json"))
     a = ap.parse_args()
     root = Path(a.root)
+    out_path = Path(a.out)
     A = load(root / "nested_1_phaseA_unif_b0")
-    out = {"root": str(root), "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    out = {"root": str(root), "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "diagnostic": "tests/nested_diagnostics.py (corrected insertion ranks, 18 Nov)"}
     if A is None:
         out["error"] = "no Phase A state"
-        (A16 / "tests/results/sampler_test.json").write_text(json.dumps(out, indent=1))
+        out_path.write_text(json.dumps(out, indent=1))
         print(out)
         return
     nl = A["nlive"]
-    rA = insertion_ranks(A)
+    uA, nrefA, platA, _ = N.insertion_ranks(A, seed=0)
+    old = N.insertion_ranks_old(A)
     blocks = []
     for a0 in range(0, A["niter"], 250):
         b0 = min(a0 + 250, A["niter"])
         sl = slice(a0, b0)
-        blocks.append({"iterations": [a0 + 1, b0], "calls_per_iteration": float(A["nc"][sl].mean()),
-                       "cum_calls_end": float(A["nc"][:b0].sum() + nl), "logl_end": float(A["logl"][b0 - 1]),
-                       "logz_end": float(A["logz"][b0 - 1]), **ks_uniform(rA[a0 + 1:b0 + 1], nl, seed=a0)})
+        blocks.append({"iterations": [a0 + 1, b0], "calls_per_iteration": float(A["dead_nc"][sl].mean()),
+                       "cum_calls_end": float(A["dead_nc"][:b0].sum() + nl), "logl_end": float(A["dead_logl"][b0 - 1]),
+                       "n_plateau_iterations": int(platA[sl].sum()), **N.ks_summary(uA[sl]),
+                       "mean_rank_first_version_without_duplicates": float(np.nanmean(old[sl]))})
     tail = slice(max(0, A["niter"] - 200), A["niter"])
-    slope = float(np.polyfit(A["logvol"][tail], A["logl"][tail], 1)[0]) if A["niter"] > 50 else float("nan")
-    out["phase_A"] = {"setting": {"method": A["method"], "bootstrap": A["bootstrap"], "enlarge": A["enlarge"]},
-                      "niter": A["niter"], "ncall": A["ncall"], "seconds_per_call": sessions_spc(root / "nested_1_phaseA_unif_b0"),
-                      "insertion_all": ks_uniform(rA, nl), "blocks": blocks, "dlogl_dlnX_last200": slope}
+    slope = float(np.polyfit(A["dead_logvol"][tail], A["dead_logl"][tail], 1)[0]) if A["niter"] > 50 else float("nan")
+    geoA = N.geometry(A, block=250)
+    insA = N.insertion_test(A, block=250)
+    out["phase_A"] = {"setting": A["settings"], "niter": A["niter"], "ncall": A["ncall"],
+                      "state_carried_final_live_points": A["added_live_in_state"],
+                      "seconds_per_call": sessions_spc(root / "nested_1_phaseA_unif_b0"),
+                      "n_initial_at_floor": insA["n_initial_at_floor"], "n_plateau_iterations": insA["n_plateau_iterations"],
+                      "insertion_all": insA["whole"], "insertion_after_plateau": insA["after_plateau"], "blocks": blocks,
+                      "dlogl_dlnX_last200": slope, "geometry": geoA, "flags": N.verdict(insA, geoA, "unif"),
+                      "max_live_logl": float(np.max(A["live_logl"]))}
     br = {}
     for b in BRANCHES:
         S = load(root / f"nested_1_{b}")
@@ -126,13 +109,15 @@ def main():
         init = json.loads((root / f"nested_1_{b}" / "init_from.json").read_text())
         it0, nc0 = init["it"] - 1, init["ncall"]
         k = S["niter"] - it0
-        r = insertion_ranks(S)
-        sl = slice(it0, S["niter"])
-        br[b] = {"available": True, "setting": {"method": S["method"], "bootstrap": S["bootstrap"], "enlarge": S["enlarge"]},
+        u, _, _, _ = N.insertion_ranks(S, seed=it0)
+        geo = N.geometry(S, block=100)
+        br[b] = {"available": True, "setting": S["settings"],
                  "switch": init.get("switch"), "start_it": it0, "iterations_done": int(k),
                  "calls": int(S["ncall"] - nc0), "calls_per_iteration": float((S["ncall"] - nc0) / max(k, 1)),
-                 "logl_star_end": float(S["logl"][-1]), "dlogz": float(S["logz"][-1] - S["logz"][it0 - 1]),
-                 "insertion": ks_uniform(r[it0 + 1:], nl, seed=it0),
+                 "logl_star_end": float(S["dead_logl"][-1]), "max_live_logl": float(np.max(S["live_logl"])),
+                 "dlogz": float(S["dead_logz"][-1] - S["dead_logz"][it0 - 1]),
+                 "insertion": N.ks_summary(u[it0:]),
+                 "flatness_end": geo["flatness"][-1].get("sv_min_over_max"),
                  "seconds_per_call": sessions_spc(root / f"nested_1_{b}")}
     out["phase_B"] = br
     # expected scatter of ln L* after K iterations from the same state, and the comparison with rslice
@@ -147,7 +132,7 @@ def main():
     # projections
     proj = {}
     itS = br.get("phaseB_rslice", {}).get("start_it") or A["niter"]
-    pre = float(A["nc"][:itS].sum() + nl)
+    pre = float(A["dead_nc"][:itS].sum() + nl)
     for b, v in br.items():
         if not v.get("available"):
             continue
@@ -162,30 +147,39 @@ def main():
     out["projection"] = {"n_iterations": N_IT_PROJECTED, "per_setting": proj,
                          "a13_record": {"calls": 227836, "niter": 3898, "calls_per_iteration": 58.4}}
     # recommendation
-    pa_ok = all((b["ks_p"] is None or b["ks_p"] >= 0.01) for b in blocks)
-    cands = []
-    for b, v in br.items():
-        if not v.get("available") or b not in proj:
-            continue
-        ins_ok = v["insertion"]["ks_p"] is None or v["insertion"]["ks_p"] >= 0.01
-        if v["setting"]["method"] == "unif" and v["setting"]["bootstrap"] == 0:
-            ins_ok &= pa_ok
-        z_ok = v.get("z_vs_rslice") is None or abs(v["z_vs_rslice"]) <= 3
-        v["admissible"] = bool(ins_ok and z_ok)
-        if v["admissible"]:
-            cands.append((proj[b]["calls"], b))
-    if cands and rs.get("available"):
-        best = min(cands)[1]
-        save = 1 - proj[best]["calls"] / proj["phaseB_rslice"]["calls"]
-        out["recommendation"] = {"setting": best, "projected_calls": proj[best]["calls"],
-                                 "rslice_projected_calls": proj["phaseB_rslice"]["calls"],
-                                 "saving_fraction": save}
+    if out["phase_A"]["flags"] and any(("subspace" in f) or ("bound volume" in f) for f in out["phase_A"]["flags"]):
+        out["recommendation"] = {"setting": None, "reason": "test void: Phase A's live set is confined to a subspace "
+                                 "(its first bound was built from the few live points above the floor), so every branch "
+                                 "starts from a state that is not a sample of the eight-dimensional contour; the unif "
+                                 "projections are the cost of sampling that subspace", "phase_A_flags": out["phase_A"]["flags"]}
     else:
-        out["recommendation"] = {"setting": "phaseB_rslice (Analysis 13)", "reason": "no admissible cheaper setting"}
-    (A16 / "tests/results/sampler_test.json").write_text(json.dumps(out, indent=1, default=float))
-    print(json.dumps({"phase_A": {k: out["phase_A"][k] for k in ("niter", "ncall", "insertion_all")},
-                      "blocks": [(b["iterations"], round(b["calls_per_iteration"], 1), b["ks_p"]) for b in blocks],
-                      "phase_B": {b: {k: v.get(k) for k in ("calls_per_iteration", "insertion", "z_vs_rslice", "dlogz")}
+        pa_ok = all((b["ks_p"] is None or b["ks_p"] >= 0.01) for b in blocks)
+        cands = []
+        for b, v in br.items():
+            if not v.get("available") or b not in proj:
+                continue
+            ins_ok = v["insertion"]["ks_p"] is None or v["insertion"]["ks_p"] >= 0.01
+            if v["setting"]["method"] == "unif" and v["setting"]["bootstrap"] == 0:
+                ins_ok &= pa_ok
+            z_ok = v.get("z_vs_rslice") is None or abs(v["z_vs_rslice"]) <= 3
+            v["admissible"] = bool(ins_ok and z_ok)
+            if v["admissible"]:
+                cands.append((proj[b]["calls"], b))
+        if cands and rs.get("available"):
+            best = min(cands)[1]
+            save = 1 - proj[best]["calls"] / proj["phaseB_rslice"]["calls"]
+            out["recommendation"] = {"setting": best, "projected_calls": proj[best]["calls"],
+                                     "rslice_projected_calls": proj["phaseB_rslice"]["calls"],
+                                     "saving_fraction": save}
+        else:
+            out["recommendation"] = {"setting": "phaseB_rslice (Analysis 13)", "reason": "no admissible cheaper setting"}
+    out_path.write_text(json.dumps(out, indent=1, default=float))
+    print(json.dumps({"phase_A": {k: out["phase_A"][k] for k in ("niter", "ncall", "n_initial_at_floor", "insertion_all",
+                                                                 "insertion_after_plateau", "flags")},
+                      "blocks": [(b["iterations"], round(b["calls_per_iteration"], 1), b["ks_p"], round(b["mean_u"], 3),
+                                  round(b["mean_rank_first_version_without_duplicates"], 3)) for b in blocks],
+                      "phase_B": {b: {k: v.get(k) for k in ("calls_per_iteration", "insertion", "max_live_logl",
+                                                             "flatness_end", "z_vs_rslice")}
                                   for b, v in br.items()},
                       "recommendation": out["recommendation"]}, indent=1, default=float))
 

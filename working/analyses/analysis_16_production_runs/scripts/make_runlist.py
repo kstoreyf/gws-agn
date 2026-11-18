@@ -28,6 +28,15 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   estimates (half the former per-pair figures). Eight: 272,000 for the single run = Analysis 13's guarded
   rslice run (228k calls, box H0 [60,76] etc.) + 747 iterations at its 58 calls (test c may change it).
   Two independent nested runs (merged) up to six parameters, one for eight.
+  Stage V8 (validation of the eight-parameter sampler, 18 Nov): stage 4's host_dependent_populations runs
+  on realizations 100, 101, 102, 103, 105 with the six-parameter sampler configuration (dynesty multi /
+  unif, bootstrap 5, enlarge 1 -- dynesty 2.1.4's defaults for unif, which the six-parameter runs get by
+  passing no bootstrap or enlarge; nlive 200, dlogz 0.1, first bound after 2 nlive calls), only with eight
+  parameters: the driver's --sample unif, two independent parts nested_1, nested_2 (seeds 1, 2), run name
+  realization_NNN_unif_boot5 (--variant). Calls per part: test c's projection for unif with bootstrap 5
+  (tests/results/sampler_test.json, 9,128; --calls-v8 overrides) -- a lower bound: test c's Phase A was
+  confined to a plane (tests/results/sampler_test_corrected.json), and Analysis 13's eight-parameter run with
+  this configuration needed 588,771 calls for its first 2,884 iterations.
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -60,10 +69,13 @@ LANE_RANKS = [
     (1.5, "E1", {}),                                                   # experiment grids
     (1.5, "E2", {}),
     (2, 2, {"mode": "grid"}),                                          # known population, flux-limited
+    (2.5, "V8", {"realizations": (100,)}),                             # sampler validation, realization 100
+    (2.7, "V8", {"realizations": (101, 102, 103, 105)}),               # sampler validation, the other four
+    (2.8, 2, {"mode": "nested"}),                                      # free densities (was 6 until 18 Nov)
+    (2.9, 4, {"analysis": "host_dependent_populations", "realizations": (100,)}),   # V8's rslice reference
     (3, 4, {"realizations": R_FIRST}),                                 # all three classes
     (4, "E3", {}),
     (5, 4, {"analysis": "single_population", "catalogs": "both", "realizations": R_LATER}),
-    (6, 2, {"mode": "nested"}),                                        # free densities
     (7, 3, {"realizations": R_FIRST}),
     (8, 5, {}),
     (9, 3, {"realizations": R_LATER}),
@@ -144,7 +156,9 @@ TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
           3: "equal-population events, single population", 4: "host-dependent events",
           5: "observed-like mass spectrum, host-dependent events",
           "E1": "experiment grids, present mass spectrum", "E2": "experiment grids, observed-like mass spectrum",
-          "E3": "experiment nested runs: single population on (f = 0.3, s = 2)"}
+          "E3": "experiment nested runs: single population on (f = 0.3, s = 2)",
+          "V8": "validation of the eight-parameter sampler: stage 4's host-dependent populations with the "
+                "six-parameter sampler configuration (unif, bootstrap 5), two independent parts"}
 EXPERIMENT_REALIZATIONS = (100, 101, 102, 103, 105)
 MEMBERSHIP_REALIZATION = 100
 STAGE5_SET = ("obslike", 0.3, 1)     # stage 5's events: the observed-like host-dependent set (E2's obslike_f0p30_s1)
@@ -224,21 +238,22 @@ SAMPLER_8 = {"rslice": [], "unif_b0": ["--sample", "unif", "--enlarge", "1.25", 
 SAMPLER_8_CHOICE = ["rslice"]
 
 
-def cost(mode, free, s):
+def cost(mode, free, s, n_parts=None, calls_per_part=None):
+    """n_parts, calls_per_part: overrides for nested runs (stage V8: two parts of eight parameters)."""
     if mode == "grid":
         cells = COST["grid_2d_cells"] if len(free) == 2 else COST["grid_1d_cells"]
         parts = ["grid"]
         calls = cells
     else:
-        n_ind = 2 if len(free) <= 6 else 1
+        n_ind = n_parts or (2 if len(free) <= 6 else 1)
         parts = [f"nested_{k}" for k in range(1, n_ind + 1)]
-        calls = nested_calls(len(free)) * n_ind
+        calls = (calls_per_part or nested_calls(len(free))) * n_ind
     gpu_h = calls * s / 3600 + COST["overhead_hours_per_process"] * len(parts)
     return parts, calls, gpu_h
 
 
-def finish(e, stage, mode, free, s, ev, inj, priority=0.0):
-    parts, calls, gpu_h = cost(mode, free, s)
+def finish(e, stage, mode, free, s, ev, inj, priority=0.0, n_parts=None, calls_per_part=None):
+    parts, calls, gpu_h = cost(mode, free, s, n_parts=n_parts, calls_per_part=calls_per_part)
     e.update({"stage": stage, "mode": mode, "free": free, "n_parameters": len(free), "parts": parts,
               "est_calls": int(calls), "est_seconds_per_call": round(s, 4), "est_gpu_hours": round(gpu_h, 3),
               "est_gpu_hours_per_part": round(gpu_h / len(parts), 3), "priority": priority,
@@ -294,7 +309,8 @@ def check_inputs_in_priors(name, free, popfam, kind):
 
 
 def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", agn_factor=1.0, extra_args=(),
-          lane=None, agn_only=False, family=None):
+          lane=None, agn_only=False, family=None, sampler_args=None, name_variant="", n_parts=None,
+          calls_per_part=None):
     """One production run. family: None for the production family (events *_corepop, POPULATION_INPUTS
     ["corepop"]); else {"name", "suffix", "population_family"} of another mock family (stage 5), passed to
     the driver as --events-suffix, --family-name and --population-family: the name then joins the events
@@ -302,7 +318,7 @@ def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", a
     free = P.free_parameters(analysis, catalogs, flux)
     popfam = family["population_family"] if family else "corepop"
     lane = lane or P.default_injection_lane(popfam)
-    variant, nsamp, pool = "", 8000, []
+    variant, nsamp, pool = name_variant, 8000, []
     hold_pool = None
     if agn_only:
         nsamp, pool, variant, hold_pool = agn_only_settings(real, popfam, lane)
@@ -322,8 +338,12 @@ def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", a
     args += list(extra_args)
     if not P.present_lane(lane):
         args += ["--injections-lane", lane]
-    if mode == "nested" and len(free) > 6:
+    if sampler_args is not None:
+        args += list(sampler_args)
+    elif mode == "nested" and len(free) > 6:
         args += SAMPLER_8[SAMPLER_8_CHOICE[0]]
+    if name_variant and not agn_only:
+        args += ["--variant", name_variant]
     name = P.run_name(analysis, catalogs, flux, kind, real, density=density, agn_density_factor=agn_factor,
                       family=family["name"] if family else "", variant=variant)
     check_inputs_in_priors(name, free, popfam, kind)
@@ -337,7 +357,7 @@ def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", a
         e["hold"] = hold_pool
     s = spc_mc(spc_of(analysis, catalogs, free, kind, flux) * lane_factor(popfam, catalogs), nsamp, 1 + len(pool))
     return finish(e, stage, mode, free, s, P.events_path(real, kind, family["suffix"] if family else P.DEFAULT_SUFFIX),
-                  P.injections_path(real, popfam, lane))
+                  P.injections_path(real, popfam, lane), n_parts=n_parts, calls_per_part=calls_per_part)
 
 
 def build(r5, r10, r3, hd_lane=None):
@@ -383,6 +403,31 @@ def build(r5, r10, r3, hd_lane=None):
     for r in r5:
         st[4].append(entry(4, "nested", "single_population", "none", "complete", "host_dependent", r, lane=hd_lane))
     return st
+
+
+# stage V8: the eight-parameter model with the six-parameter sampler configuration (validation of the sampler)
+V8_VARIANT = "unif_boot5"           # run name: .../realization_NNN_unif_boot5
+V8_SAMPLER_ARGS = ["--sample", "unif"]   # bootstrap and enlarge left to dynesty, as in the six-parameter runs
+V8_CALLS = {"calls_per_part": 9128,
+            "source": "test c's projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection."
+                      "per_setting.phaseB_unif_boot5: Phase A's calls to iteration 1500 + 1.96 calls per iteration "
+                      "after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json); "
+                      "Analysis 13's eight-parameter run with this configuration used 588,771 calls for 2,884 iterations"}
+
+
+def build_v8(realizations, hd_lane=None):
+    """Stage V8: for each realization, stage 4's host_dependent_populations run (same arguments, events,
+    injection lane, priors) with --sample unif (dynesty's unif defaults: bootstrap 5, enlarge 1, i.e. the
+    six-parameter configuration) and two independent parts (seeds 1, 2), named realization_NNN_unif_boot5."""
+    out = []
+    for r in realizations:
+        e = entry("V8", "nested", "host_dependent_populations", "both", "complete", "host_dependent", r, lane=hd_lane,
+                  sampler_args=V8_SAMPLER_ARGS, name_variant=V8_VARIANT, n_parts=2,
+                  calls_per_part=V8_CALLS["calls_per_part"])
+        e["est_calls_source"] = V8_CALLS["source"]
+        e["validates"] = P.run_name("host_dependent_populations", "both", "complete", "host_dependent", r)
+        out.append(e)
+    return out
 
 
 def build_stage5(realizations, rec):
@@ -691,6 +736,8 @@ def main():
     ap.add_argument("--sampler-8", choices=list(SAMPLER_8), default="rslice",
                     help="dynesty setting of the eight-parameter runs (test c); rslice = Analysis 13's guarded run")
     ap.add_argument("--calls-8", type=int, default=None, help="projected calls per eight-parameter run (test c)")
+    ap.add_argument("--calls-v8", type=int, default=None,
+                    help=f"calls per part of a stage-V8 run (default {V8_CALLS['calls_per_part']}: test c's projection)")
     ap.add_argument("--pool-sets-wanted", type=int, default=6,
                     help="all-AGN runs on the record's lane wait until the realization has this many injection sets")
     a = ap.parse_args()
@@ -698,6 +745,8 @@ def main():
     SAMPLER_8_CHOICE[0] = a.sampler_8
     if a.calls_8:
         COST["calls_by_ndim"][8] = a.calls_8
+    if a.calls_v8:
+        V8_CALLS.update(calls_per_part=a.calls_v8, source=f"--calls-v8 {a.calls_v8}")
     measured = {}
     if a.timing and Path(a.timing).exists():
         t = json.loads(Path(a.timing).read_text())
@@ -736,14 +785,24 @@ def main():
                                            "yet; rerun make_runlist.py when it does")
                 e["data_exists"] = False
     st[5] = build_stage5(r5, smap.get(STAGE5_SET))
+    vs = {"V8": build_v8(r5, hd_lane=hd.get("lane"))}
+    if isinstance(hd.get("injections_exist"), dict) and not P.present_lane(hd.get("lane") or ""):
+        for e in vs["V8"]:
+            r = arg_of(e, "--realization")
+            if str(r) in hd["injections_exist"] and not hd["injections_exist"][str(r)]:
+                e["lane_not_validated"] = (f"data/experiment_sets.json reports no {hd['lane']} for realization {r} "
+                                           "yet; rerun make_runlist.py when it does")
+                e["data_exists"] = False
     xs, reused, awaiting, info = build_experiment(rx)
     unranked = []
-    for stages in (st, xs):
+    for stages in (st, xs, vs):
         for k in stages:
             stages[k] = [with_lane_rank(k, e) for e in stages[k]]
             unranked += [e["name"] for e in stages[k] if e["lane_rank"] is None]
+    # stage V8 after stage 4 and 5 (the paper's classes.py groups RUNLIST.yaml runs by the part of the name
+    # before /realization_ and keeps the first run's pattern: stage 4's must come first)
     doc = dict(head, realizations={"5": r5, "10": r10, "3": r3},
-               stages=[stage_block(k, st[k]) for k in sorted(st)])
+               stages=[stage_block(k, st[k]) for k in sorted(st)] + [stage_block("V8", vs["V8"])])
     write_atomic(a.out, yaml.safe_dump(doc, sort_keys=False, width=140))
     xdoc = dict(head, what="the short paper's experiment (archive/paper_short_independent/EXPERIMENT.md); runs that "
                            "production stage 1 already contains are listed under reused_from_stage_1, not run again",

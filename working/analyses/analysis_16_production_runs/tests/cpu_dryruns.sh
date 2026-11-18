@@ -36,3 +36,9 @@ S5="--flux complete --events-kind host_dependent --events-suffix _obslike --fami
 run s5_single_both --mode nested --analysis single_population --catalogs both $S5 --nlive 14 --maxcall-total 40 --chunk-calls 20 --nsamp 2000
 run s5_hostdep_both --mode nested --analysis host_dependent_populations --catalogs both $S5 --nlive 12 --maxcall-total 40 --chunk-calls 20 --nsamp 2000
 run s5_single_none --mode nested --analysis single_population --catalogs none $S5 --nlive 12 --maxcall-total 40 --chunk-calls 20 --nsamp 2000
+# stage V8 (18 Nov): the eight-parameter model with the six-parameter sampler configuration, the run list's
+# arguments for realization 100, part nested_1, at the production nlive (200) and samples (8000), so the
+# recorded sampler settings are the production ones (multi/unif, bootstrap 5, enlarge 1, first bound after 400 calls)
+run v8_hostdep_unif_boot5 --mode nested --analysis host_dependent_populations --catalogs both --flux complete \
+    --events-kind host_dependent --realization 100 --injections-lane injections/injections_targeted_peak.h5 \
+    --sample unif --variant unif_boot5 --nested-index 1 --maxcall-total 230 --chunk-calls 30

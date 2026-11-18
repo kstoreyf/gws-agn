@@ -186,10 +186,13 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 |---|---|
 | 1.0, 1.5 | stage 1; E1 and E2 |
 | 2 | stage 2, the grids (known population, flux-limited) |
+| 2.5 | stage V8 (sampler validation, below), realization 100 |
+| 2.7 | stage V8, realizations 101, 102, 103, 105 |
+| 2.8 | stage 2, the nested runs (free densities; rank 6 until 18 Nov) |
+| 2.9 | stage 4, host-dependent populations (rslice), realization 100: V8's reference |
 | 3 | stage 4 on realizations 100, 101, 102, 103, 105: all three classes |
 | 4 | E3 |
 | 5 | stage 4, single population with both catalogs, realizations 106-110 |
-| 6 | stage 2, the nested runs (free densities) |
 | 7 | stage 3 on realizations 100, 101, 102, 103, 105 |
 | 8 | stage 5 |
 | 9 | stage 3 on realizations 106-110 |
@@ -274,7 +277,31 @@ Queued 17 Nov (one chain, job agn-prod-l1 1414946 and its successors): stage 1, 
 order s = 0, 1, 2 and within each f = 0.3, then 0.1 and 0.5, then 0 and 1. Nested stages (2-4, E3) wait
 for tests b and c.
 
+**Stage V8 (18 Nov, sampler validation).** Stage 4's `host_dependent_populations` runs on realizations 100,
+101, 102, 103, 105 (same arguments, events, injection lane, redraw) with the six-parameter sampler
+configuration: `--sample unif` and nothing else, so dynesty 2.1.4 applies its unif defaults, bootstrap 5 and
+enlarge 1 (multi-ellipsoid bound, nlive 200, dlogz 0.1, first bound after 400 calls, update every 300 calls,
+core's -inf passed to dynesty as -1e300), two independent parts `nested_1`, `nested_2` (seeds 1, 2; seed 1
+is also the rslice run's, so nested_1 starts from the same 200 points), run names
+`host_dependent_populations/both_catalogs/complete/host_dependent/realization_NNN_unif_boot5` (`--variant`).
+The paper's number chain cannot pick them up (its patterns end in `realization_{R}`; `classes.py` groups by
+the name before `/realization_` and keeps the first run listed, so stage V8 stays after stage 4 in
+RUNLIST.yaml). Estimated calls per part: test c's projection (9,128; `make_runlist.py --calls-v8 N`
+overrides), a lower bound (see test c below). Compare finished runs with `tests/compare_sampler_runs.py`.
+
 ## Tests
+
+**Test c, read again (18 Nov).** Its Phase A is void: 198 of the 200 initial points had ln L = -inf (the
+variance guard over most of the eight-dimensional prior at 2,000 samples), which the driver passes as
+-1e300; dynesty counts those as valid points, works through them as a plateau, and built its first bound at
+400 calls from the 3 points above the floor, a degenerate ellipsoid (ln V = -79.7) that confined every later
+point to a plane (singular values of the points 6.2, 2.7, then 4e-5). rslice and rwalk leave the plane in
+Phase B and find ln L 3-4 above anything Phase A reached; the unif branches stay in it. The first insertion
+test also counted the floor points (first block) and the final live points twice (a converged state); both
+fixed in `tests/nested_diagnostics.py` (corrected ranks, bound volume against the contour volume, flatness
+of the live set; CLI). Results: `tests/results/sampler_test_corrected.json` (test c),
+`tests/results/insertion_reference_runs.json` (Analyses 11-13 and the A16 runs), and the comparison tool's
+check on Analysis 11D's pair, `tests/results/compare_sampler_runs_A11D_pair.json`.
 
 CPU (done): `tests/test_nocatalog_identity.py` (above); `tests/compare_resume.py` on a CPU run killed
 after 170 calls and resumed (75 iterations, through the first bound, bit for bit equal to the

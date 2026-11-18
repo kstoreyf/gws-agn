@@ -1,4 +1,4 @@
-generated_utc: '2026-11-17T20:05:24Z'
+generated_utc: '2026-11-18T06:02:49Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -2651,7 +2651,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2691,7 +2691,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2731,7 +2731,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2771,7 +2771,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2811,7 +2811,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2851,7 +2851,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -2891,7 +2891,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -2931,7 +2931,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -2971,7 +2971,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -3011,7 +3011,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
     data_exists: true
@@ -3051,7 +3051,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
     data_exists: true
@@ -3091,7 +3091,7 @@ stages:
     est_gpu_hours: 0.444
     est_gpu_hours_per_part: 0.222
     priority: 0.0
-    lane_rank: 6
+    lane_rank: 2.8
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
     data_exists: true
@@ -4364,7 +4364,7 @@ stages:
     est_gpu_hours: 32.926
     est_gpu_hours_per_part: 32.926
     priority: 0.0
-    lane_rank: 3
+    lane_rank: 2.9
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
     data_exists: true
@@ -5475,3 +5475,274 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
+- stage: V8
+  title: 'validation of the eight-parameter sampler: stage 4''s host-dependent populations with the six-parameter sampler configuration (unif,
+    bootstrap 5), two independent parts'
+  n_runs: 5
+  n_tasks: 10
+  est_calls: 91280
+  est_gpu_hours: 11.27
+  est_gpu_hours_existing_data: 11.27
+  est_gpu_hours_ready: 11.27
+  n_runs_held: 0
+  runs:
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --variant
+    - unif_boot5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 18256
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 2.254
+    est_gpu_hours_per_part: 1.127
+    priority: 0.0
+    lane_rank: 2.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
+      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
+      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_boot5
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --variant
+    - unif_boot5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 18256
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 2.254
+    est_gpu_hours_per_part: 1.127
+    priority: 0.0
+    lane_rank: 2.7
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
+      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
+      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_boot5
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --variant
+    - unif_boot5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 18256
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 2.254
+    est_gpu_hours_per_part: 1.127
+    priority: 0.0
+    lane_rank: 2.7
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
+      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
+      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_boot5
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --variant
+    - unif_boot5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 18256
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 2.254
+    est_gpu_hours_per_part: 1.127
+    priority: 0.0
+    lane_rank: 2.7
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
+      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
+      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_boot5
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --variant
+    - unif_boot5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 18256
+    est_seconds_per_call: 0.4355
+    est_gpu_hours: 2.254
+    est_gpu_hours_per_part: 1.127
+    priority: 0.0
+    lane_rank: 2.7
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'test c''s projection for unif with bootstrap 5 (tests/results/sampler_test.json, projection.per_setting.phaseB_unif_boot5:
+      Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
+      Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
+    validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
