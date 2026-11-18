@@ -1,4 +1,4 @@
-# Checkpoint, 18 Nov 2026, 08:05 UTC (read this first after a context clear)
+# Checkpoint, 18 Nov 2026, 09:00 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -167,22 +167,27 @@ hold the owner's words; this file holds the working state.
    pass on those sentences (main session, under the skill), PDF to the owner.
 4. As six-parameter runs finish (HDSingle, HDNone, then E3, stage 3): refresh and consistency
    pass per subsection.
-5. Open points for the text: the date of the fifth observing run in the Conclusions needs a
-   citable schedule; acknowledgments, K. Storey-Fisher's affiliation and the rest of the author
-   list are the owner's.
+5. Open points for the text: none that wait for the owner except the confirmations of Sec. 6.
 6. Known numerical flags: two catalog-free observed-like grids (all mergers in AGN, realizations
    101 and 103) have ln L jumps of about 100 nats from one heavy merger at the mass cut; no
    number of the paper uses them and audit check K2 guards against it.
 7. If an agent dies with an API or billing error (it happened at 06:30 UTC on 18 Nov), its edits
    stay in the working tree: resume it with SendMessage to its id rather than starting over.
 
-## 6. Waiting for the owner (asked 18 Nov, 05:15 UTC; none blocks work)
-K. Storey-Fisher's affiliation (she is second author since 37ca4f7; the owner is sharing the
-draft with her); acknowledgments and funding; the date of the fifth observing run or leave it
-out; whether to push (about 40 local commits); whether 17 pages is the size wanted.
+## 6. Owner decisions of 18 Nov (multiple choice, about 08:30 UTC) and what is still theirs
+- Decided: push (done, 45 commits up to ba8f91f; `origin` is K. Storey-Fisher's GitHub repository,
+  each later push is asked for again); no date for the fifth observing run; K. Storey-Fisher's
+  affiliation (KIPAC, Stanford); the paper's length is mine to decide ("Whatever makes it
+  coherent. Again you own it. You decide."): it stays at about 18 pages; acknowledgments modeled
+  on the owner's arXiv:2610.37617 (commit aadae78), with the AI statement adapted to this work.
+- Still theirs to confirm (asked 09:00 UTC, none blocks work): that NASA Grant No. 22-LPS22-0025
+  (a LISA award, carried over from that paper) covers this work; the AI sentence (it says
+  "manuscript drafting and editing" and names Claude models only; add other tools if their other
+  sessions used them for code this paper rests on); whether to push as milestones are committed.
+- Do not ask the owner editorial questions about the paper (memory: ownership handover).
 
 ## 7. Other sessions
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to d4af0ed plus the one that adds this file; `git log --oneline | head -20`.
+Commits up to ba8f91f are pushed; local since then: aadae78 plus the one that adds this file; `git log --oneline | head -20`.
