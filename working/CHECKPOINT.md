@@ -1,4 +1,4 @@
-# Checkpoint, 18 Nov 2026, 06:55 UTC (read this first after a context clear)
+# Checkpoint, 18 Nov 2026, 08:05 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -100,10 +100,23 @@ hold the owner's words; this file holds the working state.
   and run the other realizations with it; if it stalls, take its two lines out of `lane2.txt`,
   cancel the lane-2 job (its successor carries on), and run all eight-parameter runs with
   rslice (4 x 33 GPU-h more for stage 4, 190 for stage 5).
-- OPEN CHECK for the Bayes factors: at production settings 75 to 99% of the initial live points
-  of a nested run sit on the floor that the driver gives dynesty for the variance guard (-1e300).
-  The six-parameter runs pass the diagnostics, but nobody has checked that ln Z is right with
-  such a plateau (an analytic test on CPU would settle it) before a Bayes factor is printed black.
+- EVIDENCE WITH A FLOOR PLATEAU (checked 18 Nov, `tests/test_plateau_evidence.py`,
+  `tests/results/plateau_evidence.json`): with the driver's floor of -1e300 for guard rejections,
+  ln Z is right at the 75% floor of the six-parameter runs (bias under 0.05 nats); at the 98%
+  floor of the eight-parameter runs it is biased by +0.2 to 0.4 nats and its error is 1.5 times
+  too small. `scripts/plateau_correction.py` corrects finished runs from what they store; apply
+  it (a new field in `prod_summary.py`, by atomic replace) before a Bayes factor with |ln B|
+  below about 2 is printed; the paper's are expected near 100 and 35. At a 98% floor 1 to 2.5%
+  of runs cannot start (every initial point on the floor, dynesty raises IndexError) and about
+  1% crash in the first bound: another seed is the fix.
+- STAGE X (queued on lane 1 at rank 2.85, after the stage-2 nested runs): the nside-64 grid of
+  realization 100 (turns `\SkyResShiftHzero`, `\SkyResShiftfAGN` black) and two m < 18 grids
+  with the AGN density in physical units (expected: the H0 shift under a doubled density turns
+  from -0.66 to about +1.1, which would explain Analysis 15's +1.05 by the units).
+- TIMING: a stage-2 nested part takes about 45 minutes, three times its estimate, so lane 1's
+  block of them ends about 17:30 UTC on 18 Nov and the 33-hour reference run starts then. A
+  six-parameter part takes about 2.3 h (0.47 s per call), as estimated. The driver and
+  `prod_common.py` were replaced at 07:10 UTC (`--nside`); tasks started since run normally.
 - Settings: core e7c3007; hosts normalized over the grid to z = 1.10; mixed sets 8000 posterior
   samples per merger with the half-variance correction; all-AGN sets 32000 samples and six pooled
   injection sets; each realization its own injections; host-dependent analyses use
@@ -142,16 +155,13 @@ hold the owner's words; this file holds the working state.
    `paper_prd/scripts/density.py`, panel (b) of `fig3_flux_limits` redrawn, paragraph, caption
    and abstract sentence rewritten). 137 of 218 result macros in the text are real; the PDF
    (18 pp) went to the owner at 06:50 UTC.
-1. An Opus agent (started 06:50 UTC) has four small jobs: (i) an analytic test of ln Z when most
-   starting points sit on the variance-guard floor; (ii) a sky-resolution run (nside 64) to
-   replace the last two exploratory macros, `\SkyResShiftHzero` and `\SkyResShiftfAGN`, with
-   driver option, survey files, run-list entry and paper wiring; (iii) validation runs excluded
-   from the paper chain's key selectors; (iv) two grid runs with the AGN density in physical
-   units to explain why the H0 response at m < 18 has the opposite sign in Analysis 15 (+1.05)
-   and in production (-0.66). When it reports: check, queue its runs with the command lines it
-   gives (dry run first), commit.
-2. The sampler decision of Sec. 3 when the watcher ends (about 11:30 UTC).
-3. Stage-2 nested runs finish (lane 1 by about 10:00 UTC, lane 2 after its validation pair):
+1. Done 07:35 UTC (commit d4af0ed): the evidence test, the sky-resolution run's tooling and
+   wiring, the paper chain's selectors (validation stage V8 and check stage X excluded), and
+   the two physical-units grids; their three runs are queued (Sec. 3, stage X).
+2. The sampler decision of Sec. 3 when the watcher ends (about 11:45 UTC; the validation
+   run starts when the single-population run on lane 2 finishes, about 08:10 UTC).
+3. Stage-2 nested runs finish (a watcher of the session ends then; lane 1 by about 17:30 UTC,
+   lane 2 after its validation pair):
    refresh; the second half of the flux-limited subsection, Table IV and `fig4_densities` turn
    real; decide Table IV's columns (AGN-density limit or galaxy-density limit); consistency
    pass on those sentences (main session, under the skill), PDF to the owner.
@@ -175,4 +185,4 @@ out; whether to push (about 40 local commits); whether 17 pages is the size want
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to b37c15d plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to d4af0ed plus the one that adds this file; `git log --oneline | head -20`.
