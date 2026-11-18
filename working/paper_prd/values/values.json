@@ -24564,32 +24564,25 @@
    "extra": {}
   },
   "FluxTwentyOneHzero": {
-   "class": "ph",
-   "render": "\\ph{68.4^{+1.9}_{-1.9}}",
+   "class": "plain",
+   "render": "68.4^{+1.9}_{-2.0}",
    "value": {
-    "median": 68.4017834332347,
+    "median": 68.40075488725367,
     "ci68": [
-     67.23468181966716,
-     69.56925400292174
+     67.23903608114557,
+     69.53046375702515
     ],
     "ci90": [
-     66.46611289047952,
-     70.34090929880138
+     66.40066481558357,
+     70.28655186290457
     ],
-    "ul90": 69.90857023415886,
-    "level_of_input": 0.4274103733464454
+    "ul90": 69.86154803032004,
+    "level_of_input": 0.4353407671653835
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24599,132 +24592,90 @@
    }
   },
   "FluxTwentyOneHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{68.4}",
-   "value": 68.4017834332347,
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.40075488725367,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{66.5}",
-   "value": 66.46611289047952,
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.40066481558357,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{70.3}",
-   "value": 70.34090929880138,
+   "class": "plain",
+   "render": "70.3",
+   "value": 70.28655186290457,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.9}",
-   "value": 3.8747964083218562,
+   "class": "plain",
+   "render": "3.9",
+   "value": 3.885887047321006,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.9}",
-   "value": 1.9373982041609281,
+   "class": "plain",
+   "render": "1.9",
+   "value": 1.942943523660503,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (FluxTwentyOneHzeroWid) of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.9^{+0.9}_{-0.9}}",
+   "class": "plain",
+   "render": "68.4^{+0.8}_{-0.9}",
    "value": {
-    "median": 67.87235668664694,
+    "median": 68.42773061497998,
     "ci68": [
-     67.34852178583928,
-     68.39619158745461
+     67.90874290308507,
+     68.92073832168188
     ],
     "ci90": [
-     67.00592354761977,
-     68.73878982567413
+     67.5499197221012,
+     69.23363122626596
     ],
-    "ul90": 68.54741940521117,
-    "level_of_input": 0.19839352154504086
+    "ul90": 69.05973414805165,
+    "level_of_input": 0.8085793785120706
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24734,132 +24685,90 @@
    }
   },
   "FluxTwentyOneHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.9}",
-   "value": 67.87235668664694,
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.42773061497998,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.0}",
-   "value": 67.00592354761977,
+   "class": "plain",
+   "render": "67.5",
+   "value": 67.5499197221012,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.7}",
-   "value": 68.73878982567413,
+   "class": "plain",
+   "render": "69.2",
+   "value": 69.23363122626596,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.7}",
-   "value": 1.7328662780543596,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.6837115041647621,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{20}",
-   "value": 0.19839352154504086,
+   "class": "plain",
+   "render": "81",
+   "value": 0.8085793785120706,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in FluxTwentyOneHzeroComb (H0, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGN": {
-   "class": "ph",
-   "render": "\\ph{0.27^{+0.08}_{-0.08}}",
+   "class": "plain",
+   "render": "0.27^{+0.08}_{-0.08}",
    "value": {
-    "median": 0.2694676116404577,
+    "median": 0.2696101150324233,
     "ci68": [
-     0.22254444347063856,
-     0.317484080781368
+     0.2227542918335273,
+     0.31770527510295504
     ],
     "ci90": [
-     0.1926653794990758,
-     0.3492820526741604
+     0.1930045718050864,
+     0.34963016841978184
     ],
-    "ul90": 0.33147462967457497,
-    "level_of_input": 0.47434537285470313
+    "ul90": 0.33175703940053897,
+    "level_of_input": 0.4718109097324401
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -24869,267 +24778,183 @@
    }
   },
   "FluxTwentyOnefAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.27}",
-   "value": 0.2694676116404577,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.2696101150324233,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.19}",
-   "value": 0.1926653794990758,
+   "class": "plain",
+   "render": "0.19",
+   "value": 0.1930045718050864,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.35}",
-   "value": 0.3492820526741604,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.34963016841978184,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.16}",
-   "value": 0.1566166731750846,
+   "class": "plain",
+   "render": "0.16",
+   "value": 0.15662559661469544,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.08}",
-   "value": 0.0783083365875423,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.07831279830734772,
    "units": "",
    "meaning": "half of the full 90% width (FluxTwentyOnefAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.294^{+0.035}_{-0.035}}",
+   "class": "plain",
+   "render": "0.31^{+0.04}_{-0.04}",
    "value": {
-    "median": 0.2938935223280915,
+    "median": 0.31063777982599444,
     "ci68": [
-     0.27272046681443984,
-     0.31506657784174313
+     0.2880379344354182,
+     0.3334286113242558
     ],
     "ci90": [
-     0.25887287570220857,
-     0.3289141689539743
+     0.27338340558696966,
+     0.348417102124719
     ],
-    "ul90": 0.32117910485288925,
-    "level_of_input": 0.22574191137674626
+    "ul90": 0.34003016644766254,
+    "level_of_input": 0.35956619920453825
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 3,
+    "decimals": 2,
     "input": 0.3
    }
   },
   "FluxTwentyOnefAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.294}",
-   "value": 0.2938935223280915,
+   "class": "plain",
+   "render": "0.31",
+   "value": 0.31063777982599444,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.259}",
-   "value": 0.25887287570220857,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.27338340558696966,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.329}",
-   "value": 0.3289141689539743,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.348417102124719,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.070}",
-   "value": 0.07004129325176572,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.07503369653774933,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOnefAGNCL": {
-   "class": "ph",
-   "render": "\\ph{23}",
-   "value": 0.22574191137674626,
+   "class": "plain",
+   "render": "36",
+   "value": 0.35956619920453825,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in FluxTwentyOnefAGNComb (f_AGN (fraction of mergers hosted by AGN), [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatio": {
-   "class": "ph",
-   "render": "\\ph{37^{+17}_{-13}}",
+   "class": "plain",
+   "render": "37^{+17}_{-13}",
    "value": {
-    "median": 36.88385187871097,
+    "median": 36.87505557283845,
     "ci68": [
-     28.60824647927249,
-     46.51298363194233
+     28.62984519009216,
+     46.51613948264002
     ],
     "ci90": [
-     23.833698724960428,
-     53.65980946297187
+     23.891739676055188,
+     53.70315041281315
     ],
-    "ul90": 49.57495726443463,
-    "level_of_input": 0.46754336923635376
+    "ul90": 49.59489853778533,
+    "level_of_input": 0.46955625472699447
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -25139,112 +24964,77 @@
    }
   },
   "FluxTwentyOneRateRatioMed": {
-   "class": "ph",
-   "render": "\\ph{37}",
-   "value": 36.88385187871097,
+   "class": "plain",
+   "render": "37",
+   "value": 36.87505557283845,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioLo": {
-   "class": "ph",
-   "render": "\\ph{24}",
-   "value": 23.833698724960428,
+   "class": "plain",
+   "render": "24",
+   "value": 23.891739676055188,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioHi": {
-   "class": "ph",
-   "render": "\\ph{54}",
-   "value": 53.65980946297187,
+   "class": "plain",
+   "render": "54",
+   "value": 53.70315041281315,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioWid": {
-   "class": "ph",
-   "render": "\\ph{30}",
-   "value": 29.826110738011444,
+   "class": "plain",
+   "render": "30",
+   "value": 29.811410736757963,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioComb": {
-   "class": "ph",
-   "render": "\\ph{42^{+7}_{-7}}",
+   "class": "plain",
+   "render": "45^{+8}_{-7}",
    "value": {
-    "median": 41.5998178115534,
+    "median": 44.92305340240157,
     "ci68": [
-     37.56761686123528,
-     45.6320187618715
+     40.33251518308188,
+     49.86762301593792
     ],
     "ci90": [
-     34.930478824811864,
-     48.26915679829489
+     37.5084665837736,
+     53.3079841508283
     ],
-    "ul90": 46.79608963521788,
-    "level_of_input": 0.22877552604812923
+    "ul90": 51.36364499174109,
+    "level_of_input": 0.3511976374055631
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -25254,132 +25044,90 @@
    }
   },
   "FluxTwentyOneRateRatioCombMed": {
-   "class": "ph",
-   "render": "\\ph{42}",
-   "value": 41.5998178115534,
+   "class": "plain",
+   "render": "45",
+   "value": 44.92305340240157,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioCombLo": {
-   "class": "ph",
-   "render": "\\ph{35}",
-   "value": 34.930478824811864,
+   "class": "plain",
+   "render": "38",
+   "value": 37.5084665837736,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioCombHi": {
-   "class": "ph",
-   "render": "\\ph{48}",
-   "value": 48.26915679829489,
+   "class": "plain",
+   "render": "53",
+   "value": 53.3079841508283,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioCombWid": {
-   "class": "ph",
-   "render": "\\ph{13}",
-   "value": 13.338677973483023,
+   "class": "plain",
+   "render": "16",
+   "value": 15.7995175670547,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.69))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyOneRateRatioCL": {
-   "class": "ph",
-   "render": "\\ph{23}",
-   "value": 0.22877552604812923,
+   "class": "plain",
+   "render": "35",
+   "value": 0.3511976374055631,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FluxTwentyOneRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FluxTwentyOne] equal populations; population known, number densities from the catalog counts; both catalogs, m < 21)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwentyOne",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m21_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzero": {
-   "class": "ph",
-   "render": "\\ph{68.4^{+2.0}_{-1.9}}",
+   "class": "plain",
+   "render": "68.4^{+1.9}_{-2.0}",
    "value": {
-    "median": 68.39980644486076,
+    "median": 68.38382622935902,
     "ci68": [
-     67.22856662379141,
-     69.5700283337318
+     67.22743293174027,
+     69.51292152146776
     ],
     "ci90": [
-     66.45713319695156,
-     70.35472113402247
+     66.39419063326238,
+     70.28068421821574
     ],
-    "ul90": 69.91347107700217,
-    "level_of_input": 0.42534439499456256
+    "ul90": 69.84767933752192,
+    "level_of_input": 0.4270136073506674
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -25389,132 +25137,90 @@
    }
   },
   "FluxTwentyHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{68.4}",
-   "value": 68.39980644486076,
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.38382622935902,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{66.5}",
-   "value": 66.45713319695156,
+   "class": "plain",
+   "render": "66.4",
+   "value": 66.39419063326238,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{70.4}",
-   "value": 70.35472113402247,
+   "class": "plain",
+   "render": "70.3",
+   "value": 70.28068421821574,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.9}",
-   "value": 3.8975879370709094,
+   "class": "plain",
+   "render": "3.9",
+   "value": 3.8864935849533566,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.9}",
-   "value": 1.9487939685354547,
+   "class": "plain",
+   "render": "1.9",
+   "value": 1.9432467924766783,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (FluxTwentyHzeroWid) of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.9^{+0.9}_{-0.9}}",
+   "class": "plain",
+   "render": "68.4^{+0.8}_{-0.9}",
    "value": {
-    "median": 67.87196128897214,
+    "median": 68.37624899108181,
     "ci68": [
-     67.34504519448528,
-     68.39887738345901
+     67.8488763585731,
+     68.88110321218683
     ],
     "ci90": [
-     67.00043179552624,
-     68.74349078241805
+     67.48932021672081,
+     69.20434685536347
     ],
-    "ul90": 68.55099472231366,
-    "level_of_input": 0.19668014834402903
+    "ul90": 69.02399422882539,
+    "level_of_input": 0.7682067028280078
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -25524,132 +25230,90 @@
    }
   },
   "FluxTwentyHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.9}",
-   "value": 67.87196128897214,
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.37624899108181,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.0}",
-   "value": 67.00043179552624,
+   "class": "plain",
+   "render": "67.5",
+   "value": 67.48932021672081,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.7}",
-   "value": 68.74349078241805,
+   "class": "plain",
+   "render": "69.2",
+   "value": 69.20434685536347,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.7}",
-   "value": 1.7430589868918105,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.7150266386426551,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{20}",
-   "value": 0.19668014834402903,
+   "class": "plain",
+   "render": "77",
+   "value": 0.7682067028280078,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in FluxTwentyHzeroComb (H0, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.27^{+0.08}_{-0.08}}",
+   "class": "plain",
+   "render": "0.27^{+0.08}_{-0.08}",
    "value": {
-    "median": 0.26972304028906957,
+    "median": 0.26895522756523166,
     "ci68": [
-     0.22279976838740762,
-     0.31773653673288277
+     0.2221264008966762,
+     0.31702261990067915
     ],
     "ci90": [
-     0.1929062156770035,
-     0.3495299085026049
+     0.1924038405818258,
+     0.34893244447012617
     ],
-    "ul90": 0.33171688331183086,
-    "level_of_input": 0.4709246878168729
+    "ul90": 0.3310679416443241,
+    "level_of_input": 0.48083913232050657
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -25659,267 +25323,183 @@
    }
   },
   "FluxTwentyfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.27}",
-   "value": 0.26972304028906957,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.26895522756523166,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.19}",
-   "value": 0.1929062156770035,
+   "class": "plain",
+   "render": "0.19",
+   "value": 0.1924038405818258,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.35}",
-   "value": 0.3495299085026049,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.34893244447012617,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.16}",
-   "value": 0.1566236928256014,
+   "class": "plain",
+   "render": "0.16",
+   "value": 0.15652860388830037,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.08}",
-   "value": 0.0783118464128007,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.07826430194415018,
    "units": "",
    "meaning": "half of the full 90% width (FluxTwentyfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.294^{+0.035}_{-0.035}}",
+   "class": "plain",
+   "render": "0.31^{+0.04}_{-0.04}",
    "value": {
-    "median": 0.2939446080578139,
+    "median": 0.31129446417300427,
     "ci68": [
-     0.27277060355548133,
-     0.31511861256014634
+     0.28866336856156893,
+     0.3341198800046045
     ],
     "ci90": [
-     0.2589223917861506,
-     0.32896682432947677
+     0.2739795582254602,
+     0.3491287303276973
     ],
-    "ul90": 0.32123141353831336,
-    "level_of_input": 0.22389441990856707
+    "ul90": 0.3407395149032691,
+    "level_of_input": 0.37953541858376216
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 3,
+    "decimals": 2,
     "input": 0.3
    }
   },
   "FluxTwentyfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.294}",
-   "value": 0.2939446080578139,
+   "class": "plain",
+   "render": "0.31",
+   "value": 0.31129446417300427,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.259}",
-   "value": 0.2589223917861506,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.2739795582254602,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.329}",
-   "value": 0.32896682432947677,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.3491287303276973,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.070}",
-   "value": 0.07004443254332615,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.0751491721022371,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{22}",
-   "value": 0.22389441990856707,
+   "class": "plain",
+   "render": "38",
+   "value": 0.37953541858376216,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in FluxTwentyfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatio": {
-   "class": "ph",
-   "render": "\\ph{37^{+17}_{-13}}",
+   "class": "plain",
+   "render": "37^{+17}_{-13}",
    "value": {
-    "median": 36.934943444766795,
+    "median": 36.69796995100063,
     "ci68": [
-     28.65306786821806,
-     46.57115198001686
+     28.483750612764627,
+     46.30095588574562
     ],
     "ci90": [
-     23.872840496474694,
-     53.72286168422779
+     23.764326936734687,
+     53.459060961382
     ],
-    "ul90": 49.633370194149066,
-    "level_of_input": 0.46591319070885917
+    "ul90": 49.36750121559986,
+    "level_of_input": 0.4827756928480107
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -25929,112 +25509,77 @@
    }
   },
   "FluxTwentyRateRatioMed": {
-   "class": "ph",
-   "render": "\\ph{37}",
-   "value": 36.934943444766795,
+   "class": "plain",
+   "render": "37",
+   "value": 36.69796995100063,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioLo": {
-   "class": "ph",
-   "render": "\\ph{24}",
-   "value": 23.872840496474694,
+   "class": "plain",
+   "render": "24",
+   "value": 23.764326936734687,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioHi": {
-   "class": "ph",
-   "render": "\\ph{54}",
-   "value": 53.72286168422779,
+   "class": "plain",
+   "render": "53",
+   "value": 53.459060961382,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioWid": {
-   "class": "ph",
-   "render": "\\ph{30}",
-   "value": 29.850021187753093,
+   "class": "plain",
+   "render": "30",
+   "value": 29.694734024647314,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioComb": {
-   "class": "ph",
-   "render": "\\ph{42^{+7}_{-7}}",
+   "class": "plain",
+   "render": "45^{+8}_{-7}",
    "value": {
-    "median": 41.61003612476456,
+    "median": 44.75606197747832,
     "ci68": [
-     37.57460271349913,
-     45.64546953602997
+     40.18190700475883,
+     49.68442985339986
     ],
     "ci90": [
-     34.93535058459361,
-     48.284721664935425
+     37.36658038750014,
+     53.113452226241385
     ],
-    "ul90": 46.81047360037659,
-    "level_of_input": 0.2266709053939302
+    "ul90": 51.1775507891268,
+    "level_of_input": 0.3260792627734933
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26044,132 +25589,90 @@
    }
   },
   "FluxTwentyRateRatioCombMed": {
-   "class": "ph",
-   "render": "\\ph{42}",
-   "value": 41.61003612476456,
+   "class": "plain",
+   "render": "45",
+   "value": 44.75606197747832,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioCombLo": {
-   "class": "ph",
-   "render": "\\ph{35}",
-   "value": 34.93535058459361,
+   "class": "plain",
+   "render": "37",
+   "value": 37.36658038750014,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioCombHi": {
-   "class": "ph",
-   "render": "\\ph{48}",
-   "value": 48.284721664935425,
+   "class": "plain",
+   "render": "53",
+   "value": 53.113452226241385,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioCombWid": {
-   "class": "ph",
-   "render": "\\ph{13}",
-   "value": 13.349371080341818,
+   "class": "plain",
+   "render": "16",
+   "value": 15.746871838741242,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (99.02))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxTwentyRateRatioCL": {
-   "class": "ph",
-   "render": "\\ph{23}",
-   "value": 0.2266709053939302,
+   "class": "plain",
+   "render": "33",
+   "value": 0.3260792627734933,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FluxTwentyRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FluxTwenty] equal populations; population known, number densities from the catalog counts; both catalogs, m < 20)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxTwenty",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m20_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_20_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzero": {
-   "class": "ph",
-   "render": "\\ph{68.1^{+2.0}_{-2.0}}",
+   "class": "plain",
+   "render": "68.0^{+2.2}_{-2.0}",
    "value": {
-    "median": 68.14004652752385,
+    "median": 68.04602064641624,
     "ci68": [
-     66.95732258660756,
-     69.31517350169584
+     66.82618253173214,
+     69.36201255088588
     ],
     "ci90": [
-     66.16703670075132,
-     70.09144117532672
+     66.02966478779705,
+     70.26428025234163
     ],
-    "ul90": 69.65681740013798,
-    "level_of_input": 0.26462827043119463
+    "ul90": 69.75878605939869,
+    "level_of_input": 0.19357134390386566
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26179,132 +25682,90 @@
    }
   },
   "FluxNineteenHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{68.1}",
-   "value": 68.14004652752385,
+   "class": "plain",
+   "render": "68.0",
+   "value": 68.04602064641624,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{66.2}",
-   "value": 66.16703670075132,
+   "class": "plain",
+   "render": "66.0",
+   "value": 66.02966478779705,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{70.1}",
-   "value": 70.09144117532672,
+   "class": "plain",
+   "render": "70.3",
+   "value": 70.26428025234163,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.9}",
-   "value": 3.9244044745753968,
+   "class": "plain",
+   "render": "4.2",
+   "value": 4.234615464544589,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{2.0}",
-   "value": 1.9622022372876984,
+   "class": "plain",
+   "render": "2.1",
+   "value": 2.1173077322722946,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (FluxNineteenHzeroWid) of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.8^{+0.9}_{-0.9}}",
+   "class": "plain",
+   "render": "68.2^{+0.9}_{-0.9}",
    "value": {
-    "median": 67.82000930550477,
+    "median": 68.18222999607458,
     "ci68": [
-     67.28946787518517,
-     68.35055073582437
+     67.64279787736571,
+     68.71452039657974
     ],
     "ci90": [
-     66.94248343590915,
-     68.69753517510038
+     67.28352918214716,
+     69.06007590835686
     ],
-    "ul90": 68.50371468617011,
-    "level_of_input": 0.11921257522371753
+    "ul90": 68.86700475944686,
+    "level_of_input": 0.5862062364184224
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26314,132 +25775,90 @@
    }
   },
   "FluxNineteenHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.8}",
-   "value": 67.82000930550477,
+   "class": "plain",
+   "render": "68.2",
+   "value": 68.18222999607458,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{66.9}",
-   "value": 66.94248343590915,
+   "class": "plain",
+   "render": "67.3",
+   "value": 67.28352918214716,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.7}",
-   "value": 68.69753517510038,
+   "class": "plain",
+   "render": "69.1",
+   "value": 69.06007590835686,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.7550517391912308,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.7765467262097019,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{12}",
-   "value": 0.11921257522371753,
+   "class": "plain",
+   "render": "59",
+   "value": 0.5862062364184224,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in FluxNineteenHzeroComb (H0, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.27^{+0.08}_{-0.08}}",
+   "class": "plain",
+   "render": "0.27^{+0.08}_{-0.08}",
    "value": {
-    "median": 0.2714760077305349,
+    "median": 0.2705417427585702,
     "ci68": [
-     0.2241213798638726,
-     0.3199603433197788
+     0.22349991395911162,
+     0.3187835842787688
     ],
     "ci90": [
-     0.1939597917831219,
-     0.3520807889618569
+     0.19361541666854243,
+     0.3507886067651504
     ],
-    "ul90": 0.3341097088534255,
-    "level_of_input": 0.4430629004660951
+    "ul90": 0.33287261296168913,
+    "level_of_input": 0.4578783917478142
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26449,267 +25868,183 @@
    }
   },
   "FluxNineteenfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.27}",
-   "value": 0.2714760077305349,
+   "class": "plain",
+   "render": "0.27",
+   "value": 0.2705417427585702,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.19}",
-   "value": 0.1939597917831219,
+   "class": "plain",
+   "render": "0.19",
+   "value": 0.19361541666854243,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.35}",
-   "value": 0.3520807889618569,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.3507886067651504,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.16}",
-   "value": 0.158120997178735,
+   "class": "plain",
+   "render": "0.16",
+   "value": 0.15717319009660796,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.08}",
-   "value": 0.0790604985893675,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.07858659504830398,
    "units": "",
    "meaning": "half of the full 90% width (FluxNineteenfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.294^{+0.035}_{-0.035}}",
+   "class": "plain",
+   "render": "0.31^{+0.04}_{-0.04}",
    "value": {
-    "median": 0.2942952015461069,
+    "median": 0.31337173950017977,
     "ci68": [
-     0.2729187760144738,
-     0.3156716270777398
+     0.2906078599573507,
+     0.33631276708283514
     ],
     "ci90": [
-     0.2589381769454232,
-     0.3296522261467902
+     0.2758417134758868,
+     0.35139771504088513
     ],
-    "ul90": 0.32184286572487847,
-    "level_of_input": 0.20929429937127741
+    "ul90": 0.3429714972703608,
+    "level_of_input": 0.44029179258566964
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 3,
+    "decimals": 2,
     "input": 0.3
    }
   },
   "FluxNineteenfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.294}",
-   "value": 0.2942952015461069,
+   "class": "plain",
+   "render": "0.31",
+   "value": 0.31337173950017977,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.259}",
-   "value": 0.2589381769454232,
+   "class": "plain",
+   "render": "0.28",
+   "value": 0.2758417134758868,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.330}",
-   "value": 0.3296522261467902,
+   "class": "plain",
+   "render": "0.35",
+   "value": 0.35139771504088513,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.071}",
-   "value": 0.07071404920136698,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.07555600156499831,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{21}",
-   "value": 0.20929429937127741,
+   "class": "plain",
+   "render": "44",
+   "value": 0.44029179258566964,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in FluxNineteenfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatio": {
-   "class": "ph",
-   "render": "\\ph{37^{+17}_{-13}}",
+   "class": "plain",
+   "render": "37^{+17}_{-13}",
    "value": {
-    "median": 37.26856041245064,
+    "median": 36.55645129237128,
     "ci68": [
-     28.875708662168172,
-     47.05491607258626
+     28.370438186240122,
+     46.125494586643946
     ],
     "ci90": [
-     24.03776358617742,
-     54.33245761967985
+     23.66616621736005,
+     53.258574515304424
     ],
-    "ul90": 50.17552024768178,
-    "level_of_input": 0.4360494814329101
+    "ul90": 49.18124141829707,
+    "level_of_input": 0.49340634004133066
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26719,112 +26054,77 @@
    }
   },
   "FluxNineteenRateRatioMed": {
-   "class": "ph",
-   "render": "\\ph{37}",
-   "value": 37.26856041245064,
+   "class": "plain",
+   "render": "37",
+   "value": 36.55645129237128,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioLo": {
-   "class": "ph",
-   "render": "\\ph{24}",
-   "value": 24.03776358617742,
+   "class": "plain",
+   "render": "24",
+   "value": 23.66616621736005,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioHi": {
-   "class": "ph",
-   "render": "\\ph{54}",
-   "value": 54.33245761967985,
+   "class": "plain",
+   "render": "53",
+   "value": 53.258574515304424,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioWid": {
-   "class": "ph",
-   "render": "\\ph{30}",
-   "value": 30.29469403350243,
+   "class": "plain",
+   "render": "30",
+   "value": 29.592408297944374,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioComb": {
-   "class": "ph",
-   "render": "\\ph{42^{+7}_{-7}}",
+   "class": "plain",
+   "render": "45^{+8}_{-7}",
    "value": {
-    "median": 41.67675951830133,
+    "median": 44.7648351878161,
     "ci68": [
-     37.581210650248366,
-     45.77230838635426
+     40.18091478103371,
+     49.702556395117874
     ],
     "ci90": [
-     34.902641840546245,
-     48.45087719605632
+     37.36158336152607,
+     53.139724035204544
     ],
-    "ul90": 46.9546674022885,
-    "level_of_input": 0.2109879740548355
+    "ul90": 51.20031760888579,
+    "level_of_input": 0.32693773464910436
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26834,100 +26134,65 @@
    }
   },
   "FluxNineteenRateRatioCombMed": {
-   "class": "ph",
-   "render": "\\ph{42}",
-   "value": 41.67675951830133,
+   "class": "plain",
+   "render": "45",
+   "value": 44.7648351878161,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioCombLo": {
-   "class": "ph",
-   "render": "\\ph{35}",
-   "value": 34.902641840546245,
+   "class": "plain",
+   "render": "37",
+   "value": 37.36158336152607,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioCombHi": {
-   "class": "ph",
-   "render": "\\ph{48}",
-   "value": 48.45087719605632,
+   "class": "plain",
+   "render": "53",
+   "value": 53.139724035204544,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioCombWid": {
-   "class": "ph",
-   "render": "\\ph{14}",
-   "value": 13.548235355510073,
+   "class": "plain",
+   "render": "16",
+   "value": 15.778140673678472,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (98.08))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxNineteenRateRatioCL": {
-   "class": "ph",
-   "render": "\\ph{21}",
-   "value": 0.2109879740548355,
+   "class": "plain",
+   "render": "33",
+   "value": 0.32693773464910436,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FluxNineteenRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FluxNineteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 19)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxNineteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m19_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_19_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -30215,7 +29480,7 @@
     "median": 36.08351647747809,
     "ci68": [
      28.47935594198885,
-     45.74163570373067
+     45.74163570373069
     ],
     "ci90": [
      23.525147632581536,
@@ -31711,7 +30976,7 @@
      24.503951912326006,
      55.57292382016388
     ],
-    "ul90": 51.42048873033586,
+    "ul90": 51.42048873033585,
     "level_of_input": 0.33111997280338046
    },
    "units": "",
@@ -33192,7 +32457,7 @@
    "class": "ph",
    "render": "\\ph{40^{+19}_{-14}}",
    "value": {
-    "median": 40.07052519923584,
+    "median": 40.07052519923585,
     "ci68": [
      31.008247904259644,
      50.84103857658395
@@ -33202,7 +32467,7 @@
      59.15001024428547
     ],
     "ul90": 54.46796628073204,
-    "level_of_input": 0.19765565976611166
+    "level_of_input": 0.19765565976611144
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (median and 90% equal-tailed interval)",
@@ -33226,7 +32491,7 @@
   "FreeEighteenRateRatioMed": {
    "class": "ph",
    "render": "\\ph{40}",
-   "value": 40.07052519923584,
+   "value": 40.07052519923585,
    "units": "",
    "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A",
    "source": {
@@ -33309,15 +32574,15 @@
    "value": {
     "median": 41.87604793113916,
     "ci68": [
-     36.05551668526393,
-     47.696580462631196
+     36.05551668526394,
+     47.6965804626312
     ],
     "ci90": [
      32.24875906193783,
-     51.503339276911134
+     51.50333927691114
     ],
     "ul90": 49.37693876308184,
-    "level_of_input": 0.12257933886038486
+    "level_of_input": 0.12257933886038375
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations (median and 90% equal-tailed interval)",
@@ -33381,7 +32646,7 @@
   "FreeEighteenRateRatioCombHi": {
    "class": "ph",
    "render": "\\ph{52}",
-   "value": 51.503339276911134,
+   "value": 51.50333927691114,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations",
    "source": {
@@ -33401,7 +32666,7 @@
   "FreeEighteenRateRatioCombWid": {
    "class": "ph",
    "render": "\\ph{19}",
-   "value": 19.254580214973302,
+   "value": 19.25458021497331,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations",
    "source": {
@@ -33421,7 +32686,7 @@
   "FreeEighteenRateRatioCL": {
    "class": "ph",
    "render": "\\ph{12}",
-   "value": 0.12257933886038486,
+   "value": 0.12257933886038375,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeEighteenRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18)",
    "source": {
