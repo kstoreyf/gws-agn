@@ -1,10 +1,49 @@
-# Checkpoint, 18 Nov 2026, 19:10 UTC (read this first after a context clear or compaction)
+# Checkpoint, 18 Nov 2026, 20:55 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
 you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
+
+## 0. How to resume (the owner clears the context and says "resume from the latest checkpoint")
+1. Read this file to the end. Do not re-read the paper or the scripts until a step needs them.
+2. Look at the state: `git -C /hildafs/projects/phy230014p/magana/gws-agn log --oneline | head -5`;
+   `squeue -u $USER -p RITA-GPU`; `$PY scripts/launch.py --lanes 2 status` in the analysis-16
+   directory (Sec. 3 has `PY`).
+3. Nothing is owed right now except waiting: both GPUs are on the two eight-parameter runs of
+   realization 100 and everything else is queued behind them. The next actions are Sec. 5,
+   items 1 and 2, each triggered by a watcher.
+4. WATCHERS survive a context clear and report as background-task notifications that carry no
+   context. Two are armed (18 Nov, 19:15 UTC):
+   - task `bk2x1ic8d`, "Wait until the high-accuracy sky-resolution pair has finished": then do
+     Sec. 5 item 1.
+   - task `bue7u6pya`, "Wait until both eight-parameter runs of realization 100 have finished":
+     then do Sec. 5 item 2.
+   A notification from any other old task (earlier watchers, earlier agents) needs no action:
+   check what it printed and move on. If the session was restarted, the watchers are gone:
+   check the two conditions by hand.
+5. Tell the owner in a few lines what the state is and what you are waiting for; do not ask
+   them editorial questions (Sec. 1).
+
+### Rules that go into every agent brief (they were in force all through 17 and 18 Nov)
+- Opus agents for code, numbers, figures and run lists; Fable agents (or yourself) for prose and
+  reviews. One agent per coherent job; sequential when two would touch the same scripts.
+- No sbatch, scancel or scontrol by an agent: it prepares, gives the launcher command line with
+  its `--dry-run` output, and you queue. No git commit by an agent: you commit after checking.
+- Two lane jobs start `prod_driver.py` (importing `prod_common.py`, `prod_model.py`) fresh for
+  every task and `prod_summary.py` after every run: such files are changed only in a copy,
+  tested on CPU, and installed by one atomic `mv`, with every existing option and default
+  unchanged; never `lane_worker.py`; lane files and run lists only through `make_runlist.py`
+  and `launch.py` (you may reorder a lane file by hand, atomically). After a driver change,
+  check that the next task on each lane starts normally.
+- Paper agents do not edit `main.tex` unless they are the writer; the writer edits only
+  `main.tex`. Every brief for text says: load the skill `astro-paper-style` first, it governs.
+- Stages V8 (validation) and X (checks) never feed a paper key (selectors exclude them).
+- Check an agent's claims yourself on a sample (recompute a number, read the diff, view the
+  figure) before using them, and say in the report to the owner what was verified.
+- A PDF goes to the owner with SendUserFile as a named copy in the scratchpad
+  (`dark_sirens_galaxies_and_AGN_draft_<date><letter>.pdf`), only after a refresh that exits 0.
 
 ## 1. What the owner wants (standing)
 - ONE paper: `working/paper_prd/` (owner, 17 Nov: "Lets stick to the long paper"). The letter is
@@ -73,11 +112,14 @@ this file holds the working state.
   `/hildafs/projects/phy230014p/magana/envs/darksirens-core-e7c3007/bin/python`, `JAX_PLATFORMS=cpu`).
 - FINISHED: stage 1; the experiment's grids (E1, E2); all of stage 2 (grids and nested); stage X
   first three runs (nside 64 at 8000 samples; two m < 18 grids with the AGN density in Mpc^-3).
-- RUNNING since 18 Nov: lane 1 (job 1416192), the eight-parameter reference of realization 100
-  with rslice from the start (`host_dependent_populations/both_catalogs/complete/host_dependent/
-  realization_100`, started 17:50 UTC, about 37 to 40 h); lane 2 (job 1415023), the continuation
-  `.../realization_100_unif_then_rslice` (from the stopped uniform run at iteration 1594, rslice
-  from there; started 16:55 UTC, about 26 to 28 h).
+- RUNNING since 18 Nov: lane 1 (job 1416192, successor 1416219 queued), the eight-parameter
+  reference of realization 100 with rslice from the start
+  (`host_dependent_populations/both_catalogs/complete/host_dependent/realization_100`, started
+  17:50 UTC; at 20:49 UTC iteration 584, 32.6k calls); lane 2 (job 1415023, successor 1416415
+  queued), the continuation `.../realization_100_unif_then_rslice` (from the stopped uniform run
+  at iteration 1594, rslice from there; started 16:55 UTC; at 20:49 UTC iteration 2112, 60.5k
+  calls). About 4700 to 5100 iterations are needed in all; at the present rates (about 195 and
+  135 iterations per hour) both end in the evening of 19 Nov, UTC.
 - QUEUED behind them, in order. Lane 1: no-catalog single-population runs on host-dependent
   mergers (HDNone), `..._unif_then_rslice` of realizations 101 and 102 (automatic switch, about
   30 h each), E3, HDSingle 106 to 110, stage 3, stage 5 six-parameter runs. Lane 2: the
@@ -92,8 +134,9 @@ this file holds the working state.
   runs therefore sample uniformly while that is cheaper and switch to rslice (driver options
   `--auto-switch-sample rslice --auto-switch-cpi 60`, or `--init-from STATE --switch-sample
   rslice`); stage V8 holds the five such runs (`..._unif_then_rslice`). VALIDATION when both
-  realization-100 runs have finished (about 20 Nov, midday UTC): `tests/compare_sampler_runs.py`
-  on the two run directories (medians in units of the half-width, distance between posteriors
+  realization-100 runs have finished (evening of 19 Nov, UTC):
+  `JAX_PLATFORMS=cpu <core venv python> tests/compare_sampler_runs.py reference=runs/.../realization_100/nested_1 mixed=runs/.../realization_100_unif_then_rslice/nested_1 --out tests/results/compare_r100_eight_parameter.json`
+  on the two part directories (medians in units of the half-width, distance between posteriors
   against its null, ln Z difference, insertion-rank diagnostics). If they agree: map the paper's
   keys `HDHost` (and `HWHost`) to the `..._unif_then_rslice` runs in
   `paper_prd/scripts/production.py` (stage V8 is excluded from the selectors by design, so this
@@ -117,7 +160,6 @@ this file holds the working state.
   nlive 200, dlogz 0.1.
 - Owner-approved scope: stages 1 to 4 with the eight-parameter model on 5 realizations first
   ("Staged: 5, then 10"), the observed-like family (stage 5), the experiment.
-- Watchers are background shells of the session; after a restart they are gone: check by hand.
 
 ## 4. Results so far (1000 detected mergers per realization; 90%; inputs H0 = 67.74, f_AGN = 0.30)
 - Known population, complete catalogs: one realization H0 68.4 (+1.9, -2.0), f_AGN 0.27 +- 0.08;
@@ -144,12 +186,14 @@ this file holds the working state.
   normalization volume).
 
 ## 5. Do next, in order
-1. Lane 2 reaches the sky-resolution pair when the continuation ends (about 19 Nov, 20:00 UTC):
+1. Lane 2 reaches the sky-resolution pair when the continuation ends (evening of 19 Nov, UTC;
+   watcher `bk2x1ic8d`):
    refresh, then rewrite the sky-resolution sentence of the Validation from `\SkyResMC...`
    (is the shift at high accuracy small against the half-width, or is nside 32 too coarse? If
    it is not small: a resolution study at nside 64 for the headline runs becomes a real item;
    cost it before deciding).
-2. Both realization-100 eight-parameter runs finished: the comparison of Sec. 3, then the
+2. Both realization-100 eight-parameter runs finished (watcher `bue7u6pya`): the comparison of
+   Sec. 3 (also look at each run's `summary.json`), then, by an Opus agent with a brief, the
    mapping and the stage-5 entries; realization-A numbers of Sec. IV E turn black only when
    their keys' other runs exist (HDHost needs five realizations and their HDSingle partners).
 3. As six-parameter runs finish (HDNone, HDSingle 101 to 105, E3, stage 3): refresh and re-read
