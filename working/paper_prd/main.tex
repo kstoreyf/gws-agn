@@ -897,40 +897,40 @@ redshift, such as obscured AGN.
 by the detected mergers; $H_0$, $\fagn$ and the merger rate per AGN relative
 to that per galaxy, $\rr$, with the number densities known; and, with both
 number densities inferred, $H_0$, $\rr$ and the 90\% upper limit on
-$\log_{10}[\nagn/(h^3\,{\rm Mpc^{-3}})]$ beside the limit that the priors
+$\log_{10}[\ngal/(h^3\,{\rm Mpc^{-3}})]$ beside the limit that the priors
 allow once $\rr$ is measured.
 The inputs are $H_0=\MockHzero\,\kms$, $\fagn=\MockfAGN$,
-$\rr=\MockRateRatio$ and $\log_{10}[\nagn/(h^3\,{\rm
-Mpc^{-3}})]=\MockLognAGNh$.
+$\rr=\MockRateRatio$ and $\log_{10}[\ngal/(h^3\,{\rm
+Mpc^{-3}})]=\MockLognGalh$.
 Medians and 90\% intervals, $H_0$ in $\kms$.}
 \label{tab:flux}
 \begin{ruledtabular}
 \begin{tabular}{lcccccccc}
  & & \multicolumn{3}{c}{Number densities known} & \multicolumn{4}{c}{Number densities inferred}\\
-Flux limit & Weighted compl. & $H_0$ & $\fagn$ & $\rr$ & $H_0$ & $\rr$ & $\log_{10}\nagn$ & Priors allow\\
+Flux limit & Weighted compl. & $H_0$ & $\fagn$ & $\rr$ & $H_0$ & $\rr$ & $\log_{10}\ngal$ & Priors allow\\
 \hline
 none & & $\KnownBothHzero$ & $\KnownBothfAGN$ & $\KnownBothRateRatio$ & & & & \\
-$m<\MockMlimTwentyOne$ & \MockEventCompTwentyOne\% & $\FluxTwentyOneHzero$ & $\FluxTwentyOnefAGN$ & $\FluxTwentyOneRateRatio$ & $\FreeTwentyOneHzero$ & $\FreeTwentyOneRateRatio$ & $<\FreeTwentyOneLognAGNULh$ & $<\FreeTwentyOneLognAGNPriorULh$\\
-$m<\MockMlimTwenty$ & \MockEventCompTwenty\% & $\FluxTwentyHzero$ & $\FluxTwentyfAGN$ & $\FluxTwentyRateRatio$ & $\FreeTwentyHzero$ & $\FreeTwentyRateRatio$ & $<\FreeTwentyLognAGNULh$ & $<\FreeTwentyLognAGNPriorULh$\\
-$m<\MockMlimNineteen$ & \MockEventCompNineteen\% & $\FluxNineteenHzero$ & $\FluxNineteenfAGN$ & $\FluxNineteenRateRatio$ & $\FreeNineteenHzero$ & $\FreeNineteenRateRatio$ & $<\FreeNineteenLognAGNULh$ & $<\FreeNineteenLognAGNPriorULh$\\
-$m<\MockMlimEighteen$ & \MockEventCompEighteen\% & $\FluxEighteenHzero$ & $\FluxEighteenfAGN$ & $\FluxEighteenRateRatio$ & $\FreeEighteenHzero$ & $\FreeEighteenRateRatio$ & $<\FreeEighteenLognAGNULh$ & $<\FreeEighteenLognAGNPriorULh$\\
+$m<\MockMlimTwentyOne$ & \MockEventCompTwentyOne\% & $\FluxTwentyOneHzero$ & $\FluxTwentyOnefAGN$ & $\FluxTwentyOneRateRatio$ & $\FreeTwentyOneHzero$ & $\FreeTwentyOneRateRatio$ & $<\FreeTwentyOneLognGalULh$ & $<\FreeTwentyOneLognGalPriorULh$\\
+$m<\MockMlimTwenty$ & \MockEventCompTwenty\% & $\FluxTwentyHzero$ & $\FluxTwentyfAGN$ & $\FluxTwentyRateRatio$ & $\FreeTwentyHzero$ & $\FreeTwentyRateRatio$ & $<\FreeTwentyLognGalULh$ & $<\FreeTwentyLognGalPriorULh$\\
+$m<\MockMlimNineteen$ & \MockEventCompNineteen\% & $\FluxNineteenHzero$ & $\FluxNineteenfAGN$ & $\FluxNineteenRateRatio$ & $\FreeNineteenHzero$ & $\FreeNineteenRateRatio$ & $<\FreeNineteenLognGalULh$ & $<\FreeNineteenLognGalPriorULh$\\
+$m<\MockMlimEighteen$ & \MockEventCompEighteen\% & $\FluxEighteenHzero$ & $\FluxEighteenfAGN$ & $\FluxEighteenRateRatio$ & $\FreeEighteenHzero$ & $\FreeEighteenRateRatio$ & $<\FreeEighteenLognGalULh$ & $<\FreeEighteenLognGalPriorULh$\\
 \end{tabular}
 \end{ruledtabular}
 \end{table*}
 
 With both number densities inferred, the mergers still measure the rate per
 host and leave $\fagn$ to its prior (Fig.~\ref{fig:free},
-Table~\ref{tab:flux}). % EXPECTED
+Table~\ref{tab:flux}).
 At $m<\MockMlimEighteen$ we find $\rr=\FreeEighteenRateRatio$, against
 $\FluxEighteenRateRatio$ with the densities known, while
 $\fagn=\FreeEighteenfAGN$ spans most of its prior range and follows
 $\log_{10}\nagn$ along the curve of constant $\rr$
-[Fig.~\ref{fig:free}(a)]. % EXPECTED
+[Fig.~\ref{fig:free}(a)].
 What Eq.~(\ref{eq:rates}) leaves free is the ratio $\nagn/\ngal$, and the
-priors of Table~\ref{tab:priors} decide where $\fagn$ falls. The mergers
-that lie where the catalogs are incomplete add an upper limit on the galaxy
-density, which we read as too many uniform hosts erasing the clustering that
-the mergers follow. % EXPECTED
+priors of Table~\ref{tab:priors} decide where $\fagn$ falls. Where the
+catalog is incomplete the mergers add an upper limit on the galaxy density
+(Table~\ref{tab:flux}), which we read as too many uniform hosts erasing the
+clustering that the mergers follow.
 We find $\log_{10}[\ngal/(h^3\,{\rm Mpc^{-3}})]<\FreeEighteenLognGalULh$ at
 90\% credibility for an input of $\MockLognGalh$, where the priors allow
 $\FreeEighteenLognGalPriorULh$ once $\rr$ is measured; at
@@ -940,12 +940,11 @@ $\FreeTwentyOneLognGalPriorULh$. On the AGN density the mergers add no limit
 of their own: we find $\log_{10}[\nagn/(h^3\,{\rm
 Mpc^{-3}})]<\FreeEighteenLognAGNULh$ for an input of $\MockLognAGNh$, where
 the priors allow $\FreeEighteenLognAGNPriorULh$, both near the upper edge of
-the prior at $\PriorLognAGNHi$, and the same holds at every flux limit
-(Table~\ref{tab:flux}). % EXPECTED
+the prior at $\PriorLognAGNHi$, and the same holds at every flux limit.
 $H_0$ is spared: we find $\FreeEighteenHzero\,\kms$, against
-$\FluxEighteenHzero\,\kms$ with the densities known. % EXPECTED
+$\FluxEighteenHzero\,\kms$ with the densities known.
 Bom and Palmese \cite{Bom:2023zgw} suggested leaving the AGN number density
-free. Doing so keeps $H_0$ and the rate per host, and gives up $\fagn$. % EXPECTED
+free. Doing so keeps $H_0$ and the rate per host, and gives up $\fagn$.
 
 \begin{figure*}[t]
 \figslot{fig4_densities}{3.0in}
@@ -957,8 +956,7 @@ input (black plus sign), and the gray area is the 90\% region allowed by the
 priors once that rate is measured.
 (b) Posterior density of the merger rate per AGN relative to that per galaxy
 at the four flux limits; the black dashed line is the input. Along the line
-of constant rate, $\fagn$ and the AGN number density follow their priors. % EXPECTED
-}
+of constant rate, $\fagn$ and the AGN number density follow their priors.}
 \label{fig:free}
 \end{figure*}
 
@@ -1293,9 +1291,13 @@ $\MCAGNHzeroSdThirtyTwoK\,\kms$ with the \MCNsampHi{} samples per merger that
 we use for these sets, against a 90\% half-width of
 $\AGNhostedHzeroHalfWid\,\kms$.
 
-Finally, the sky resolution of the catalog term is sufficient: with pixels
-half as wide the medians of $H_0$ and $\fagn$ move by
-$\SkyResShiftHzero\,\kms$ and \SkyResShiftfAGN{} on realization A. % EXPECTED
+Finally, we repeat the analysis of realization A with pixels half as wide.
+The medians of $H_0$ and $\fagn$ move by $\SkyResShiftHzero\,\kms$ and
+\SkyResShiftfAGN, against 90\% half-widths of
+$\KnownBothHzeroHalfWid\,\kms$ and \KnownBothfAGNHalfWid. The finer pixels
+hold a quarter of the objects each, and the Monte Carlo sums of the
+likelihood are noisier with them, so part of this shift is Monte Carlo
+error; we have not separated the two.
 
 %% ==========================================================================
 \section{Conclusions}
