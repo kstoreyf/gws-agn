@@ -1,4 +1,4 @@
-generated_utc: '2026-11-18T06:02:49Z'
+generated_utc: '2026-11-18T07:23:57Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -5746,3 +5746,178 @@ stages:
       Phase A''s calls to iteration 1500 + 1.96 calls per iteration after); a lower bound: Phase A was confined to a plane (tests/results/sampler_test_corrected.json);
       Analysis 13''s eight-parameter run with this configuration used 588,771 calls for 2,884 iterations'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
+- stage: X
+  title: 'checks of two analysis settings on realization 100 (not production results): stage 1''s two-tracer grid with the catalogs pixelized
+    at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
+    that value and at twice it'
+  n_runs: 3
+  n_tasks: 3
+  est_calls: 3441
+  est_gpu_hours: 0.25
+  est_gpu_hours_existing_data: 0.25
+  est_gpu_hours_ready: 0.25
+  n_runs_held: 0
+  runs:
+  - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3857
+    est_gpu_hours: 0.146
+    est_gpu_hours_per_part: 0.146
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: measured on known_population/both_catalogs/complete/equal_populations/realization_100 (its sessions)
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term
+      partner: known_population/both_catalogs/complete/equal_populations/realization_100
+      differs_by: --nside 64
+  - name: known_population/both_catalogs/flux_limit_18_densities_given/equal_populations/realization_100_units_physical
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - given
+    - --log10n-gal
+    - '-3.010584'
+    - --log10n-agn
+    - '-5.008901'
+    - --density-units
+    - physical
+    - --variant
+    - units_physical
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.096
+    est_gpu_hours: 0.053
+    est_gpu_hours_per_part: 0.053
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: measured on known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100
+      (its sessions)
+    check:
+      what: units of the assumed number densities (Mpc^-3 against h^3 Mpc^-3)
+      partner: known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100
+      log10n_Mpc-3:
+        gal: -3.010584
+        agn: -5.008901
+      log10n_h3Mpc-3_from_counts:
+        gal: -2.5031196507226836
+        agn: -4.501436519499835
+      converted_at_H0: 67.74
+  - name: known_population/both_catalogs/flux_limit_18_densities_given_agn_density_double/equal_populations/realization_100_units_physical
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - '18'
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --density
+    - given
+    - --agn-density-factor
+    - '2'
+    - --log10n-gal
+    - '-3.010584'
+    - --log10n-agn
+    - '-5.008901'
+    - --density-units
+    - physical
+    - --variant
+    - units_physical
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.096
+    est_gpu_hours: 0.053
+    est_gpu_hours_per_part: 0.053
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: measured on known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100
+      (its sessions)
+    check:
+      what: units of the assumed number densities (Mpc^-3 against h^3 Mpc^-3)
+      partner: known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_100
+      log10n_Mpc-3:
+        gal: -3.010584
+        agn: -5.008901
+      log10n_h3Mpc-3_from_counts:
+        gal: -2.5031196507226836
+        agn: -4.501436519499835
+      converted_at_H0: 67.74

@@ -36,7 +36,8 @@ value from the catalog counts; claim 'density'):
 
 A group (limit, factor) is real (black) when every summary.json it names exists: the factor-X runs of its realizations
 and their unit-factor partners; the prediction and the share when the unit-factor run of realization A exists.
-Validation stages of the run list (stage names starting with 'V') never feed these macros.
+Validation and check stages of the run list (stage names starting with 'V' or 'X', build_values.production_stage) never
+feed these macros.
 """
 from __future__ import annotations
 
@@ -82,14 +83,15 @@ def limit_desc(mlim):
 # the run list -> the map block (production.py --write-map writes it into values/production_map.json)
 # ============================================================================================= #
 def _runlist_index():
-    """run name -> (stage, args as a dict), RUNLIST.yaml, every stage except the validation stages (names starting with 'V')."""
+    """run name -> (stage, args as a dict), RUNLIST.yaml, every stage except the validation and check stages (names starting
+    with 'V' or 'X', bv.production_stage)."""
     import yaml
     out = {}
     if not RUNLIST.exists():
         return out
     d = yaml.safe_load(RUNLIST.read_text())
     for st in d["stages"]:
-        if str(st["stage"]).startswith("V"):
+        if not bv.production_stage(st["stage"]):
             continue
         for r in st["runs"]:
             a = r["args"]

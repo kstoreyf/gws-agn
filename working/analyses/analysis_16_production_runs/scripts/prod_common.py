@@ -212,8 +212,15 @@ def rung(flux: str) -> str:
     return "complete" if flux == "complete" else f"m{flux}"
 
 
-def survey_path(realization: int, tracer: str, flux: str) -> Path:
-    return DATA / f"seed{int(realization)}" / "surveys" / f"survey_{tracer}_{rung(flux)}_ns32.h5"
+SURVEY_NSIDE = 32          # the production catalogs' HEALPix resolution (data/seedNNN/surveys/)
+
+
+def survey_path(realization: int, tracer: str, flux: str, nside: int = SURVEY_NSIDE) -> Path:
+    """The survey file of a catalog. nside 32: data/seedNNN/surveys/ (production); another nside:
+    data/seedNNN/surveys_ns<nside>/ (scripts/make_survey_nside.py, selection_redo/scripts/repixelate.py)."""
+    if int(nside) == SURVEY_NSIDE:
+        return DATA / f"seed{int(realization)}" / "surveys" / f"survey_{tracer}_{rung(flux)}_ns32.h5"
+    return DATA / f"seed{int(realization)}" / f"surveys_ns{int(nside)}" / f"survey_{tracer}_{rung(flux)}_ns{int(nside)}.h5"
 
 
 def fit_path(tracer: str, flux: str) -> Path:

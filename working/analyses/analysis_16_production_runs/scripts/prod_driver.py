@@ -99,6 +99,9 @@ def parse_args(argv=None):
     a("--agn-subset-pool", action="append", default=[], metavar="LANE",
       help="hosts_known: injection sets pooled with the lane for the AGN-hosted subset only")
     a("--variant", default="", help="run-name suffix of non-default Monte Carlo settings (e.g. s32000_inj6)")
+    a("--nside", type=int, default=P.SURVEY_NSIDE,
+      help="HEALPix nside of the catalogs' survey files (default 32: data/seedNNN/surveys/; another value reads "
+           "data/seedNNN/surveys_ns<nside>/ and needs a --variant containing nside<nside>)")
     a("--injections-lane", default=None,
       help="the injection lane, a file relative to data/seedNNN/ (default: the population family's, "
            "injections/injections_targeted[_obslike].h5); the run list takes it from data/experiment_sets.json")
@@ -229,7 +232,15 @@ def resolve(args):
                       "injection_lanes": [lane] + list(args.agn_subset_pool)}
         if agn_subset["nsamp"] % P.REDRAW_BLOCK or int(args.nsamp) == 0:
             sys.exit("[fatal] --agn-subset-nsamp must be a multiple of 2000 with redrawn samples")
-    surveys = {t: str(P.survey_path(args.realization, t, flux)) for t in tracers}
+    if args.nside != P.SURVEY_NSIDE:
+        if not tracers:
+            sys.exit(f"[fatal] --nside {args.nside} without a catalog")
+        if f"nside{args.nside}" not in args.variant.split("_"):
+            sys.exit(f"[fatal] --nside {args.nside} needs a --variant containing nside{args.nside} (the run name "
+                     "carries the setting)")
+        surveys = {t: str(P.survey_path(args.realization, t, flux, nside=args.nside)) for t in tracers}
+    else:
+        surveys = {t: str(P.survey_path(args.realization, t, flux)) for t in tracers}
     fits = {}
     densities = {}
     if comp == "selection":
@@ -302,6 +313,8 @@ def resolve(args):
         "Om0": P.OM0, "core": P.CORE, "limit_events": args.limit_events, "limit_injections": args.limit_injections,
         "dry_run": bool(args.dry_run),
     }
+    if args.nside != P.SURVEY_NSIDE:
+        cfg["survey_nside"] = int(args.nside)      # recorded only off the default (default configs unchanged)
     if args.mode == "nested":
         cfg["nested"] = {"index": args.nested_index, "seed": seed, "nlive": args.nlive, "dlogz": args.dlogz,
                          "bound": "multi", "sample": sample, "bootstrap": args.bootstrap, "enlarge": args.enlarge,
@@ -1022,6 +1035,11 @@ def main(argv=None):
         if not P.injections_ready(f):
             log(f"[missing data] {f} (or its _meta.json) does not exist")
             return 4
+    if cfg.get("survey_nside") is not None:
+        for f in cfg["surveys"].values():
+            if not Path(f).exists():
+                log(f"[missing data] {f} does not exist (scripts/make_survey_nside.py makes it)")
+                return 4
     if cfg["mode"] == "grid":
         return run_grid(args, cfg, run_dir)
     return run_nested(args, cfg, run_dir)

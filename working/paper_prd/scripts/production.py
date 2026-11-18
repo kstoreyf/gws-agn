@@ -224,8 +224,9 @@ def build_map():
         missing.setdefault(k, why)
     import classes
     import density
+    import skyres
     return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs),
-            "density_response": density.map_block(runs)}
+            "density_response": density.map_block(runs), "sky_resolution": skyres.map_block(runs)}
 
 
 SCHEMA = [
@@ -243,7 +244,10 @@ SCHEMA = [
     "  interior); derived macros (cost, share) name the macros they are computed from. A macro is real when every summary it names exists.",
     "density_response: the runs of the macros Flux<limit><Half|Double>... (scripts/density.py): arms.<limit><factor>: run (the factor-x",
     "  runs, '{R}' = three-digit realization), unit_run (their unit-factor partners, the runs of key unit_key), factor, realizations,",
-    "  realization_A, stage; validation stages of the run list (names starting with 'V') excluded. Real when every summary named exists.",
+    "  realization_A, stage; validation and check stages of the run list (names starting with 'V' or 'X') excluded. Real when every summary",
+    "  named exists.",
+    "sky_resolution: the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): pair.run (the nside-64 run, stage X, '{R}' = three-digit",
+    "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization. Real when both summaries exist.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
 ]
 
@@ -782,6 +786,13 @@ def density_status_lines():
     return out
 
 
+def skyres_status_lines():
+    """The sky resolution (scripts/skyres.py, map block 'sky_resolution'): real, or what it waits for."""
+    import skyres
+    real, miss = skyres.status()
+    return [f"  sky resolution (Sec. V; values/production_map.json 'sky_resolution'): " + ("real" if real else f"waiting: {'; '.join(miss)}")]
+
+
 def macro_counts(values_json=PRD / "values" / "values.json", tex=PRD / "main.tex"):
     """Result macros of the long paper: the key-scheme macros (claim 'skeleton,keys') and the experiment's (claim
     'classes'); real = printed black."""
@@ -813,6 +824,7 @@ def main(argv=None):
         print("\n".join(status_lines(st)))
         print("\n".join(classes_status_lines()))
         print("\n".join(density_status_lines()))
+        print("\n".join(skyres_status_lines()))
     if a.report:
         c = macro_counts()
         doc = json.loads((PRD / "values" / "placeholder_results.json").read_text())

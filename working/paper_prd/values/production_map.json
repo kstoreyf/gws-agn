@@ -14,7 +14,10 @@
   "  interior); derived macros (cost, share) name the macros they are computed from. A macro is real when every summary it names exists.",
   "density_response: the runs of the macros Flux<limit><Half|Double>... (scripts/density.py): arms.<limit><factor>: run (the factor-x",
   "  runs, '{R}' = three-digit realization), unit_run (their unit-factor partners, the runs of key unit_key), factor, realizations,",
-  "  realization_A, stage; validation stages of the run list (names starting with 'V') excluded. Real when every summary named exists.",
+  "  realization_A, stage; validation and check stages of the run list (names starting with 'V' or 'X') excluded. Real when every summary",
+  "  named exists.",
+  "sky_resolution: the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): pair.run (the nside-64 run, stage X, '{R}' = three-digit",
+  "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization. Real when both summaries exist.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
  ],
  "runs_root": "analyses/analysis_16_production_runs/runs",
@@ -3517,5 +3520,17 @@
    }
   },
   "not_in_run_lists": {}
+ },
+ "sky_resolution": {
+  "_what": "the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): the nside-64 run and its nside-32 partner (key KnownBoth), realization A",
+  "pair": {
+   "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64",
+   "partner": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
+   "nside": 64,
+   "realization": 100,
+   "stage": "X",
+   "partner_stage": "1",
+   "runlist": "RUNLIST.yaml"
+  }
  }
 }

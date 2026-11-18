@@ -132,6 +132,8 @@ membership identities (per-event mixture, and mean r = f* mu_agn/mu at the maxim
 | `scripts/make_runlist.py` | → `runs/RUNLIST.yaml` (stages 1–5) and `runs/RUNLIST_experiment.yaml` (E1–E3, from `data/experiment_sets.json`; `reused_from_stage_1`, `hold`): each run's arguments, parts, estimated calls and GPU hours, `lane_rank` (the LANE_RANKS table at its top); written atomically |
 | `scripts/launch.py` | `status`, `stage S [S ...] [--match REGEX] [--only-lane K]`, `run NAME`: queue tasks on the GPU lanes (one by default; `--lanes 2`), start a chained lane job |
 | `scripts/lane_worker.py`, `scripts/submit_prod.sbatch` | the lane job (one GPU): runs tasks until its wall time, submits its own successor |
+| `scripts/make_survey_nside.py` | complete-catalog survey files at another nside, as the generator made the nside-32 ones (stage X) |
+| `scripts/plateau_correction.py` | ln Z of a finished nested run corrected for the floor plateau (tests/test_plateau_evidence.py) |
 | `scripts/prod_summary.py` | finished run → `runs/<run>/summary.json` (medians, 90% intervals, ln Z, selection N²/N_eff, membership, calls, GPU hours); run by the lane worker after each run |
 | `runs/<run>/` | `config.json`; `grid/` (coarse.h5, fine.h5, result.json) or `nested_1/`, `nested_2/` (state.save, results.pkl, samples.npz, result.json); `sessions.json`, `attempts.json` per part; `summary.json` |
 | `runs/_lanes/lane1.txt` | the lane queue (written by `launch.py`; `lane2.txt` only in two-lane mode) |
@@ -151,7 +153,9 @@ complete|21|20|19|18`, `--density counts|given|free` (`--log10n-gal/--log10n-agn
 `--agn-density-factor`, `--density-units h_scaled|physical`), `--events-kind`, `--events-suffix`
 (another mock family; `--family-name` for its directory, `--population-family` and `--pop NAME=VALUE`
 for its fixed values), `--nsamp` (0 = the file's own samples), `--redraw-index`, `--half-variance-correction
-on|off`, `--max-var`, `--zmax`, `--free`, `--prior NAME=LO,HI` (tests only). Grid: a coarse pass over the
+on|off`, `--max-var`, `--zmax`, `--free`, `--prior NAME=LO,HI` (tests only), `--nside N` (18 Nov; default 32 = the
+production survey files `data/seedNNN/surveys/`, unchanged; another value reads `data/seedNNN/surveys_ns<N>/` and needs a
+`--variant` containing `nside<N>`, recorded as `survey_nside` in config.json only off the default). Grid: a coarse pass over the
 whole prior (H0 step 2 × f step 0.1; H0 step 1 in 1-D), then a fine grid of 41 × 21 (81 in 1-D) cells
 centred on it, ±5 sd; the mass outside the fine grid is computed from the coarse pass and must be
 < 1e-4 (else the fine grid is widened once); `--grid NAME=LO,HI,STEP` sets it explicitly. Nested:
@@ -189,6 +193,7 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 | 2.5 | stage V8 (sampler validation, below), realization 100 |
 | 2.7 | stage V8, realizations 101, 102, 103, 105 |
 | 2.8 | stage 2, the nested runs (free densities; rank 6 until 18 Nov) |
+| 2.85 | stage X (checks of two settings on realization 100, below) |
 | 2.9 | stage 4, host-dependent populations (rslice), realization 100: V8's reference |
 | 3 | stage 4 on realizations 100, 101, 102, 103, 105: all three classes |
 | 4 | E3 |
@@ -289,7 +294,42 @@ the name before `/realization_` and keeps the first run listed, so stage V8 stay
 RUNLIST.yaml). Estimated calls per part: test c's projection (9,128; `make_runlist.py --calls-v8 N`
 overrides), a lower bound (see test c below). Compare finished runs with `tests/compare_sampler_runs.py`.
 
+**Stage X (18 Nov, checks of two analysis settings, realization 100; not production results).** Three grids, last in
+RUNLIST.yaml, 0.25 GPU-h in all (seconds per call: the measured value of the production run each one varies):
+- `known_population/both_catalogs/complete/equal_populations/realization_100_nside64`: stage 1's two-tracer grid (same
+  events, redraw index 0, 8000 samples, injections, settings; no membership output) with both complete catalogs pixelized at
+  nside 64 (`--nside 64 --variant nside64`), 1147 calls, ~0.15 GPU-h (an upper bound: on CPU a call costs 0.4 of the nside-32
+  one, the padded rows hold 4023 instead of 14569 galaxies). Feeds `\SkyResShiftHzero`, `\SkyResShiftfAGN`
+  (`paper_prd/scripts/skyres.py`). Survey files: `data/seed100/surveys_ns64/survey_{gal,agn}_complete_ns64.h5`, made by
+  `scripts/make_survey_nside.py` as `data/generate_dataset.py` (stage_surveys) made the nside-32 ones; the tool rebuilds the
+  nside-32 AGN file bit for bit (`--reproduce`), and each nside-64 file passes its checks (`<file>.check.json`: identical object
+  counts, the four children of every nside-32 pixel hold its objects, redshifts per parent bitwise equal).
+- `known_population/both_catalogs/flux_limit_18_densities_given[_agn_density_double]/equal_populations/realization_100_units_physical`:
+  stage 2's m < 18 grid with both number densities given in Mpc^-3 (`--density given --density-units physical`) at the counts'
+  values converted at H0 = 67.74 (log10 n_gal = -3.010584, log10 n_AGN = -5.008901), the AGN density at that value and twice it,
+  ~0.05 GPU-h each. At H0 = 67.74 these equal the production runs (CPU dry runs: 1.1e-7 nats, the rounding of the inputs); they
+  isolate how the densities scale with H0 (Analysis 15's +1.05 km/s/Mpc for doubling the AGN density against the production -0.66).
+The paper's selectors skip stages whose names start with V or X (`paper_prd/scripts/build_values.production_stage`).
+Queue: `$PY scripts/launch.py --lanes 2 stage X` (CPU dry runs: `bash tests/cpu_dryruns.sh x_nside64 x_m18_units_physical
+x_m18_units_physical_double`; default-path identity of the extended driver: `tests/results/nside_option_checks.json`).
+
 ## Tests
+
+**ln Z with initial points on the floor (18 Nov; `tests/test_plateau_evidence.py`, `tests/results/plateau_evidence.json`).**
+Analytic likelihoods (a Gaussian, sigma 0.03, inside a box holding q = 2%, 25%, 100% of the unit cube, -1e300 outside) in 6
+and 8 dimensions, run with the driver's sampler and loop (nlive 200, multi, unif with dynesty's bootstrap 5 / rslice for
+eight, first bound after 400 calls, dlogz 0.1 in chunks of 2000 calls, then add_live), 150-200 seeds per cell. dynesty 2.1.4
+works through the floor points as a plateau and sets the volume after it to (N + 1 - n_f)/(N + 1): right in expectation, but
+ln of it is biased by about +(1 - q)/(2 N q) and scatters by sqrt((1 - q)/(N q)), which logzerr does not contain. Measured
+(ln Z - truth, mean +- sem; z = that / logzerr): 6D unif q = 1: +0.016 +- 0.019 (z sd 0.77); q = 0.25: +0.073 +- 0.018 (z sd
+0.88); q = 0.02: +0.209 +- 0.032 (z sd 1.50). 8D unif: +0.041 +- 0.025, +0.064 +- 0.022, +0.254 +- 0.035 (z sd 0.90, 0.92,
+1.46). 8D rslice: +0.022 +- 0.050, +0.079 +- 0.049, +0.42 +- 0.08 (z sd 0.93, 0.92, 1.45; at q = 0.02 also +0.18 after the
+plateau). At q = 0.02, 1-2.5% of runs cannot start (every initial point on the floor) and 1-1.5% crash in dynesty's bootstrap
+of the first bound (one or two points above the floor); the driver would fail the same way, deterministically. Returning -inf
+instead of -1e300 (dynesty's initialiser then draws until 100 points lie above the floor) gives +0.07 +- 0.04 and +0.08 +- 0.04
+at q = 0.02 (z sd 0.8). Correction for finished runs: `scripts/plateau_correction.py` (n_f from the stored dead points; ln
+X -> ln(k/N) + n_f/(2 N k), variance + n_f/(N k), N = 400 for a merged pair), tested by `tests/test_plateau_correction.py`
+(`tests/results/plateau_correction_test.json`); at q = 0.02 it brings z sd to 0.80-0.98.
 
 **Test c, read again (18 Nov).** Its Phase A is void: 198 of the 200 initial points had ln L = -inf (the
 variance guard over most of the eight-dimensional prior at 2,000 samples), which the driver passes as

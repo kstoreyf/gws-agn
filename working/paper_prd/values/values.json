@@ -32457,7 +32457,7 @@
    "class": "ph",
    "render": "\\ph{40^{+19}_{-14}}",
    "value": {
-    "median": 40.07052519923585,
+    "median": 40.07052519923584,
     "ci68": [
      31.008247904259644,
      50.84103857658395
@@ -32467,7 +32467,7 @@
      59.15001024428547
     ],
     "ul90": 54.46796628073204,
-    "level_of_input": 0.19765565976611144
+    "level_of_input": 0.19765565976611166
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (median and 90% equal-tailed interval)",
@@ -32491,7 +32491,7 @@
   "FreeEighteenRateRatioMed": {
    "class": "ph",
    "render": "\\ph{40}",
-   "value": 40.07052519923585,
+   "value": 40.07052519923584,
    "units": "",
    "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A",
    "source": {
@@ -32574,15 +32574,15 @@
    "value": {
     "median": 41.87604793113916,
     "ci68": [
-     36.05551668526394,
-     47.6965804626312
+     36.05551668526393,
+     47.696580462631196
     ],
     "ci90": [
      32.24875906193783,
-     51.50333927691114
+     51.503339276911134
     ],
     "ul90": 49.37693876308184,
-    "level_of_input": 0.12257933886038375
+    "level_of_input": 0.12257933886038486
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations (median and 90% equal-tailed interval)",
@@ -32646,7 +32646,7 @@
   "FreeEighteenRateRatioCombHi": {
    "class": "ph",
    "render": "\\ph{52}",
-   "value": 51.50333927691114,
+   "value": 51.503339276911134,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations",
    "source": {
@@ -32666,7 +32666,7 @@
   "FreeEighteenRateRatioCombWid": {
    "class": "ph",
    "render": "\\ph{19}",
-   "value": 19.25458021497331,
+   "value": 19.254580214973302,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, combined over 3 realizations",
    "source": {
@@ -32686,7 +32686,7 @@
   "FreeEighteenRateRatioCL": {
    "class": "ph",
    "render": "\\ph{12}",
-   "value": 0.12257933886038375,
+   "value": 0.12257933886038486,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeEighteenRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18)",
    "source": {
@@ -53454,9 +53454,9 @@
    "render": "\\ph{0.1}",
    "value": 0.1,
    "units": "km/s/Mpc",
-   "meaning": "change of the H0 median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32)",
+   "meaning": "change of the H0 median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32): median of the nside-64 run minus that of the nside-32 run, signed",
    "source": {
-    "missing": "run R10 of runs.txt (complete catalogs at twice the pixel resolution); not in the approved stages or the run list",
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64/summary.json",
     "placeholder_source": "invented (expectation: below a tenth of the 90% half-width of realization A)"
    },
    "claim": "validation",
@@ -53468,9 +53468,9 @@
    "render": "\\ph{0.005}",
    "value": 0.005,
    "units": "",
-   "meaning": "change of the f_AGN median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32)",
+   "meaning": "change of the f_AGN median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32): median of the nside-64 run minus that of the nside-32 run, signed",
    "source": {
-    "missing": "run R10 of runs.txt (complete catalogs at twice the pixel resolution); not in the approved stages or the run list",
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64/summary.json",
     "placeholder_source": "invented (expectation: below a tenth of the 90% half-width of realization A)"
    },
    "claim": "validation",

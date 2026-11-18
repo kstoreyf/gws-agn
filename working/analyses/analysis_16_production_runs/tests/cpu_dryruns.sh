@@ -42,3 +42,14 @@ run s5_single_none --mode nested --analysis single_population --catalogs none $S
 run v8_hostdep_unif_boot5 --mode nested --analysis host_dependent_populations --catalogs both --flux complete \
     --events-kind host_dependent --realization 100 --injections-lane injections/injections_targeted_peak.h5 \
     --sample unif --variant unif_boot5 --nested-index 1 --maxcall-total 230 --chunk-calls 30
+# stage X (18 Nov): checks of two settings on realization 100, the run list's arguments. x_nside64: stage 1's two-tracer
+# grid with the survey files at nside 64 (data/seed100/surveys_ns64/, scripts/make_survey_nside.py); x_m18_units_*: the
+# m < 18 grid with both densities given in Mpc^-3 at the counts' values converted at H0 = 67.74 (equal to the production
+# run at H0 = 67.74), the AGN density at that value and twice it
+run x_nside64 --mode grid --analysis known_population --catalogs both --flux complete --events-kind equal_populations \
+    --realization 100 --nside 64 --variant nside64
+run x_m18_units_physical --mode grid --analysis known_population --catalogs both --flux 18 --events-kind equal_populations \
+    --realization 100 --density given --log10n-gal -3.010584 --log10n-agn -5.008901 --density-units physical --variant units_physical
+run x_m18_units_physical_double --mode grid --analysis known_population --catalogs both --flux 18 --events-kind equal_populations \
+    --realization 100 --density given --agn-density-factor 2 --log10n-gal -3.010584 --log10n-agn -5.008901 --density-units physical \
+    --variant units_physical

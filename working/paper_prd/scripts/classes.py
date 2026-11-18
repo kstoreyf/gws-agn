@@ -215,6 +215,8 @@ def _runlist_index():
     if RUNLIST.exists():
         d = yaml.safe_load(RUNLIST.read_text())
         for st in d["stages"]:
+            if not bv.production_stage(st["stage"]):     # validation (V...) and check (X...) stages: never a production run
+                continue
             for r in st["runs"]:
                 pat = _pattern(r["name"])
                 rec = prod.setdefault(pat.rsplit("/realization_", 1)[0], {"run": pat, "runlist": RUNLIST.name, "stage": str(st["stage"]),

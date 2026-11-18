@@ -544,7 +544,8 @@ def audit_r2(mac, reg, diag, tables):
     import yaml
     rl9 = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml").read_text())
     kb = sorted({int(r["args"][r["args"].index("--realization") + 1]) for st in rl9["stages"] for r in st["runs"]
-                 if r["name"].startswith("known_population/both_catalogs/complete/equal_populations/realization_")})
+                 if not str(st["stage"]).startswith(("V", "X"))
+                 and re.fullmatch(r"known_population/both_catalogs/complete/equal_populations/realization_\d{3}", r["name"])})
     zmax9 = {}
     for s_ in kb:
         with h5py.File(B.DATA / f"seed{s_}" / "events" / "events_corepop.h5") as h:
@@ -710,6 +711,7 @@ def audit_keys(mac):
     audit_production(mac, doc, owner)
     audit_classes(mac, doc)
     audit_density(mac)
+    audit_skyres(mac)
 
 
 # the further macros of PAPER_SKELETON.md Sec. 6 and the keys they are built from
@@ -746,6 +748,8 @@ def audit_requests(mac, doc):
     rl = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml").read_text())
     cnt = {}
     for st in rl["stages"]:
+        if str(st["stage"]).startswith(("V", "X")):       # validation and check stages are not production runs
+            continue
         for r in st["runs"]:
             a = r["args"]
             d = {a[i][2:]: a[i + 1] for i in range(0, len(a) - 1, 2)}
@@ -1561,6 +1565,58 @@ def audit_classes(mac, doc):
 
 
 # ============================================================================================= #
+# S: the sky resolution (scripts/skyres.py; map block 'sky_resolution'), by own code: the run list parsed here, the two
+# summaries and configs read directly, the survey files' nside and object counts read with h5py.
+# ============================================================================================= #
+def audit_skyres(mac):
+    import yaml
+    names = ("SkyResShiftHzero", "SkyResShiftfAGN")
+    if not all(n in mac for n in names):
+        check(False, "S0 values.json has SkyResShiftHzero and SkyResShiftfAGN")
+        return
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    idx = {r["name"]: (str(st["stage"]), r["args"]) for st in rl["stages"] for r in st["runs"]}
+    run, partner = (f"known_population/both_catalogs/complete/equal_populations/realization_100{s}" for s in ("_nside64", ""))
+    ok_list = run in idx and partner in idx and idx[run][0].startswith("X") and idx[partner][0] == "1"
+    if ok_list:
+        a64, a32 = list(idx[run][1]), list(idx[partner][1])
+        i = a64.index("--nside")
+        ok_list = a64[i + 1] == "64" and a64[a64.index("--variant") + 1] == "nside64"
+        rest64 = [x for j, x in enumerate(a64) if j not in (i, i + 1, a64.index("--variant"), a64.index("--variant") + 1)]
+        rest32 = [x for x in a32 if x != "--membership"]
+        ok_list = ok_list and rest64 == rest32
+    pm = _jr(OUT / "values" / "production_map.json")
+    blk = (pm.get("sky_resolution") or {}).get("pair") or {}
+    ok_map = blk.get("run", "").format(R="100") == run and blk.get("partner", "").format(R="100") == partner
+    have = all((RUNS16 / n / "summary.json").exists() for n in (run, partner))
+    black = [mac[n]["class"] == "plain" for n in names]
+    check(ok_list and ok_map and all(b == have for b in black),
+          f"S0 the sky-resolution pair is RUNLIST.yaml's (own parser): {run} in a check stage (X) with --nside 64 and otherwise stage 1's "
+          f"arguments of {partner} (without --membership); the map names the same pair; black exactly when both summaries exist ({have})")
+    if not have:
+        return
+    s64, s32 = (_jr(RUNS16 / n / "summary.json") for n in (run, partner))
+    c64, c32 = (_jr(RUNS16 / n / "config.json") for n in (run, partner))
+    diff = sorted(k for k in set(c64) | set(c32) if c64.get(k) != c32.get(k))
+    want_diff = ["membership", "run_name", "survey_nside", "surveys", "variant"]
+    nside, nobj = {}, {}
+    for tag, c in (("64", c64), ("32", c32)):
+        for t, path in c["surveys"].items():
+            with h5py.File(path, "r") as h:
+                nside[(tag, t)] = int(h.attrs["nside"])
+                nobj[(tag, t)] = int(np.asarray(h["ngals"]).sum())
+    ok_files = all(nside[("64", t)] == 64 and nside[("32", t)] == 32 and nobj[("64", t)] == nobj[("32", t)] for t in ("gal", "agn"))
+    dev = []
+    for n, par in zip(names, ("H0", "f_agn")):
+        want = s64["posterior"][par]["median"] - s32["posterior"][par]["median"]
+        dev.append(abs(mac[n]["value"] - want))
+    check(set(diff) <= set(want_diff) and ok_files and max(dev) < 1e-12,
+          f"S1 the two runs' configs differ only in {diff} (allowed {want_diff}); survey files at nside 64 and 32 with the same objects "
+          f"({ {t: nobj[('64', t)] for t in ('gal', 'agn')} }); SkyResShift<Hzero|fAGN> = difference of the summaries' medians to "
+          f"{max(dev):.1g}")
+
+
+# ============================================================================================= #
 # L: the response to the assumed AGN density (scripts/density.py; map block 'density_response'), by code that density.py and
 # run_posteriors.py do not use: the run list parsed here (stages and --agn-density-factor), the summaries read directly, the
 # cataloged counts read with h5py from the files the unit-factor run's config names, Analysis 15's closed form of the missing
@@ -1590,7 +1646,7 @@ def audit_density(mac):
     for st in rl["stages"]:
         for r in st["runs"]:
             a = r["args"]
-            if str(st["stage"]).startswith("V"):
+            if str(st["stage"]).startswith(("V", "X")):
                 vnames.add(r["name"])
                 continue
             if "--agn-density-factor" not in a:

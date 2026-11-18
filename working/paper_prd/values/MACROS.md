@@ -146,6 +146,18 @@ read. Runs: `values/production_map.json`, block `density_response`. Black when e
 - **`\NrealFluxDensity`** (a word): the realizations run at each factor.
 
 
+## The sky resolution of the catalog term (Sec. V; scripts/skyres.py)
+
+Two grids of realization A, population known, both catalogs complete, identical (events, redraw, injections, settings) but
+for the survey files: the production pixelization (HEALPix nside 32, the run of key `KnownBoth`) and pixels half as wide
+(nside 64; `data/seed100/surveys_ns64/`, made by `analysis_16_production_runs/scripts/make_survey_nside.py` the way the
+generator made the nside-32 files; run `.../realization_100_nside64`, stage X of RUNLIST.yaml). Runs: `values/production_map.json`,
+block `sky_resolution`. Black when both summaries exist.
+
+- **`\SkyResShiftHzero`**, **`\SkyResShiftfAGN`**: median at nside 64 minus median at nside 32 (H0 in km/s/Mpc to two decimals,
+  f_AGN to three), signed (a negative value is wrapped in \ensuremath, so it reads right in text and in math).
+
+
 ## Definitions of the macros added on 17 Nov (second round of requests)
 
 - **Realization A.** Every key-scheme macro without `Comb` (and every `...HalfWid`) is realization A, i.e. one catalog pair
@@ -2378,5 +2390,5 @@ read. Runs: `values/production_map.json`, block `density_response`. Black when e
 | `\MCNsampLo` | smallest number of posterior samples per merger in the Monte Carlo accuracy study (Analysis 14; suffix TwoK of the MC macros) | $2000$ | plain | appendixA |
 | `\MCNsampMid` | middle number of posterior samples per merger in the Monte Carlo accuracy study (Analysis 14; suffix EightK of the MC macros) | $8000$ | plain | appendixA |
 | `\MCNsampHi` | largest number of posterior samples per merger in the Monte Carlo accuracy study (Analysis 14; suffix ThirtyTwoK of the MC macros) | $32000$ | plain | appendixA |
-| `\SkyResShiftHzero` | change of the H0 median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32) | $\ph{0.1}$ | red | validation |
-| `\SkyResShiftfAGN` | change of the f_AGN median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32) | $\ph{0.005}$ | red | validation |
+| `\SkyResShiftHzero` | change of the H0 median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32): median of the nside-64 run minus that of the nside-32 run, signed | $\ph{0.1}$ | red | validation |
+| `\SkyResShiftfAGN` | change of the f_AGN median of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32): median of the nside-64 run minus that of the nside-32 run, signed | $\ph{0.005}$ | red | validation |

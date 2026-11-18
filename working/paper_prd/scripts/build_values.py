@@ -564,6 +564,15 @@ def src_grid(path, keys, how="spline-refined flat-prior grid posterior (GridPost
 
 CAT_LETTERS = "ABCDEFGHI"
 RUNGS = [("m21", "TwentyOne", 21), ("m20", "Twenty", 20), ("m19", "Nineteen", 19), ("m18", "Eighteen", 18)]
+# Stages of analysis_16's RUNLIST.yaml that never feed the paper's selectors (placeholder_results._runlist_realizations,
+# classes._runlist_index, density._runlist_index): validation of the sampler (V8, ...) and checks of analysis settings (X:
+# catalogs at nside 64, densities in Mpc^-3). Their runs reach the paper only by name (scripts/skyres.py).
+NONPRODUCTION_STAGE_PREFIXES = ("V", "X")
+
+
+def production_stage(stage) -> bool:
+    """A production stage of RUNLIST.yaml (1-5), not a validation (V...) or check (X...) stage."""
+    return not str(stage).startswith(NONPRODUCTION_STAGE_PREFIXES)
 
 # --------------------------------------------------------------------------------------------- #
 # loaders
@@ -2714,6 +2723,11 @@ def density_definitions():
     return DN.DEFINITIONS
 
 
+def skyres_definitions():
+    import skyres as SK
+    return SK.DEFINITIONS
+
+
 def _gal_share(CL, f):
     """100 (HWKnown<f> / mean half-width of the galaxy factor)^2, the galaxy counterpart of ShareAGN<f> (values.json only)."""
     rec = CL.mapped()["macros"].get(f"HWKnownAGN{f}")
@@ -2858,10 +2872,9 @@ def build_requests():
     for name, n_, w in zip(("MCNsampLo", "MCNsampMid", "MCNsampHi"), nsl, ("smallest", "middle", "largest")):
         add(name, "plain", str(n_), n_, "samples", f"{w} number of posterior samples per merger in the Monte Carlo accuracy study (Analysis 14; suffix {NS_WORD[n_]} of the MC macros)",
             {"file": rel(A14R / "plan_b.json"), "key": "seconds_per_call (the sample counts of the redraws)"}, "appendixA")
-    for name, val, units, what in (("SkyResShiftHzero", 0.1, "km/s/Mpc", "change of the H0 median"), ("SkyResShiftfAGN", 0.005, "", "change of the f_AGN median")):
-        add(name, "ph", f"\\ph{{{fnum(val, 1 if units else 3)}}}", val, units, f"{what} of KnownBoth, realization A, when the sky pixels are half as wide (nside 64 against 32)",
-            {"missing": "run R10 of runs.txt (complete catalogs at twice the pixel resolution); not in the approved stages or the run list",
-             "placeholder_source": "invented (expectation: below a tenth of the 90% half-width of realization A)"}, "validation")
+    # the sky resolution (SkyResShiftHzero, SkyResShiftfAGN): the nside-64 run of realization A against KnownBoth's (scripts/skyres.py)
+    import skyres as SK
+    SK.build(add, add_ph)
 
 
 # ============================================================================================= #
@@ -3034,7 +3047,7 @@ def write_all():
     M = ["# Macro menu (written by scripts/build_values.py; do not edit)", "",
          "Class: plain = design choice or mock input; teal = exploratory result (production replaces it); red = not yet computable (see placeholders.txt).",
          "Intervals are medians with 90% equal-tailed intervals unless stated. Full numbers, sources and containment records: values.json.", "",
-         KEY_DEFINITIONS, "", CLASS_DEFINITIONS, "", density_definitions(), "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
+         KEY_DEFINITIONS, "", CLASS_DEFINITIONS, "", density_definitions(), "", skyres_definitions(), "", REQ_DEFINITIONS, "", R2_DEFINITIONS, "",
          "| macro | meaning | rendered | class | claim |", "|---|---|---|---|---|"]
     for r in reg:
         rr = r["render"].replace("|", "\\|")

@@ -37,6 +37,11 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   (tests/results/sampler_test.json, 9,128; --calls-v8 overrides) -- a lower bound: test c's Phase A was
   confined to a plane (tests/results/sampler_test_corrected.json), and Analysis 13's eight-parameter run with
   this configuration needed 588,771 calls for its first 2,884 iterations.
+  Stage X (checks of two settings, 18 Nov; build_checks): stage 1's two-tracer grid of realization 100 with the
+  catalogs at nside 64 (--nside 64, run name realization_100_nside64), and the m < 18 grid of realization 100 with both
+  number densities given in Mpc^-3 (--density given --density-units physical, the counts' values converted at
+  H0 = 67.74), the AGN density at that value and twice it (run names ..._units_physical). Seconds per call: the measured
+  value of the production run each one varies (stage 1's, stage 2's m < 18 grid).
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -72,6 +77,7 @@ LANE_RANKS = [
     (2.5, "V8", {"realizations": (100,)}),                             # sampler validation, realization 100
     (2.7, "V8", {"realizations": (101, 102, 103, 105)}),               # sampler validation, the other four
     (2.8, 2, {"mode": "nested"}),                                      # free densities (was 6 until 18 Nov)
+    (2.85, "X", {}),                                                   # checks of two settings, realization 100 (18 Nov)
     (2.9, 4, {"analysis": "host_dependent_populations", "realizations": (100,)}),   # V8's rslice reference
     (3, 4, {"realizations": R_FIRST}),                                 # all three classes
     (4, "E3", {}),
@@ -158,7 +164,10 @@ TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
           "E1": "experiment grids, present mass spectrum", "E2": "experiment grids, observed-like mass spectrum",
           "E3": "experiment nested runs: single population on (f = 0.3, s = 2)",
           "V8": "validation of the eight-parameter sampler: stage 4's host-dependent populations with the "
-                "six-parameter sampler configuration (unif, bootstrap 5), two independent parts"}
+                "six-parameter sampler configuration (unif, bootstrap 5), two independent parts",
+          "X": "checks of two analysis settings on realization 100 (not production results): stage 1's two-tracer grid with "
+               "the catalogs pixelized at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical "
+               "units) at the values from the counts, the AGN density at that value and at twice it"}
 EXPERIMENT_REALIZATIONS = (100, 101, 102, 103, 105)
 MEMBERSHIP_REALIZATION = 100
 STAGE5_SET = ("obslike", 0.3, 1)     # stage 5's events: the observed-like host-dependent set (E2's obslike_f0p30_s1)
@@ -426,6 +435,58 @@ def build_v8(realizations, hd_lane=None):
                   calls_per_part=V8_CALLS["calls_per_part"])
         e["est_calls_source"] = V8_CALLS["source"]
         e["validates"] = P.run_name("host_dependent_populations", "both", "complete", "host_dependent", r)
+        out.append(e)
+    return out
+
+
+# stage X (18 Nov): checks of two analysis settings on realization 100; the paper's number chain reads the nside-64 run by
+# name (paper_prd/scripts/skyres.py) and its selectors skip this stage (as they skip V8)
+X_REALIZATION = 100
+X_NSIDE = 64
+X_UNITS_LIMIT = "18"
+
+
+def build_checks(real=X_REALIZATION):
+    """Stage X.
+    (a) Sky resolution: stage 1's known_population grid with both catalogs (realization 100, the redraw of index 0, 8000
+        samples) with the survey files at nside 64 (data/seedNNN/surveys_ns64/, scripts/make_survey_nside.py): --nside 64,
+        run name realization_100_nside64 (--variant); no membership output. Seconds per call: the stage-1 run's measured
+        value (its sessions; the catalog arrays have the same number of entries at nside 64).
+    (b) Density units: stage 2's m < 18 grid (realization 100) with both number densities given in Mpc^-3 instead of from
+        the counts in h^3 Mpc^-3, at the values from the counts converted at H0 = 67.74 (log10 n + 3 log10 0.6774, so the
+        model equals the production one at H0 = 67.74 and differs only in how the densities scale with H0), the AGN
+        density at that value and at twice it; run names ..._densities_given[_agn_density_double]/.../realization_100_
+        units_physical. Seconds per call: the stage-2 m < 18 run's measured value."""
+    out = []
+    partner = P.run_name("known_population", "both", "complete", "equal_populations", real)
+    e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
+              extra_args=["--nside", str(X_NSIDE)], name_variant=f"nside{X_NSIDE}")
+    surveys = [P.survey_path(real, t, "complete", nside=X_NSIDE) for t in ("gal", "agn")]
+    spc = run_seconds_per_call(partner)
+    if spc:
+        e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"])
+        e["est_seconds_per_call_source"] = f"measured on {partner} (its sessions)"
+    e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys))
+    e["surveys"] = [str(p) for p in surveys]
+    e["check"] = {"what": "sky resolution of the catalog term", "partner": partner, "differs_by": f"--nside {X_NSIDE}"}
+    out.append(e)
+    lim = X_UNITS_LIMIT
+    unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
+    dens = {t: P.density_from_counts(P.survey_path(real, t, lim), P.fit_path(t, lim)) for t in ("gal", "agn")}
+    phys = {t: dens[t]["log10n_h_scaled"] + 3 * math.log10(H0_INPUT / 100.0) for t in dens}
+    spc = run_seconds_per_call(unit_partner)
+    for x in (1.0, 2.0):
+        e = entry("X", "grid", "known_population", "both", lim, "equal_populations", real, density="given", agn_factor=x,
+                  extra_args=["--log10n-gal", f"{phys['gal']:.6f}", "--log10n-agn", f"{phys['agn']:.6f}",
+                              "--density-units", "physical"], name_variant="units_physical")
+        if spc:
+            e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"])
+            e["est_seconds_per_call_source"] = f"measured on {unit_partner} (its sessions)"
+        prod = P.run_name("known_population", "both", lim, "equal_populations", real, density="counts", agn_density_factor=x)
+        e["check"] = {"what": "units of the assumed number densities (Mpc^-3 against h^3 Mpc^-3)", "partner": prod,
+                      "log10n_Mpc-3": {t: round(phys[t], 6) for t in phys},
+                      "log10n_h3Mpc-3_from_counts": {t: dens[t]["log10n_h_scaled"] for t in dens},
+                      "converted_at_H0": H0_INPUT}
         out.append(e)
     return out
 
@@ -793,16 +854,18 @@ def main():
                 e["lane_not_validated"] = (f"data/experiment_sets.json reports no {hd['lane']} for realization {r} "
                                            "yet; rerun make_runlist.py when it does")
                 e["data_exists"] = False
+    vs["X"] = build_checks()
     xs, reused, awaiting, info = build_experiment(rx)
     unranked = []
     for stages in (st, xs, vs):
         for k in stages:
             stages[k] = [with_lane_rank(k, e) for e in stages[k]]
             unranked += [e["name"] for e in stages[k] if e["lane_rank"] is None]
-    # stage V8 after stage 4 and 5 (the paper's classes.py groups RUNLIST.yaml runs by the part of the name
-    # before /realization_ and keeps the first run's pattern: stage 4's must come first)
+    # stage V8 after stage 4 and 5, stage X last (the paper's classes.py groups RUNLIST.yaml runs by the part of the
+    # name before /realization_ and keeps the first run's pattern: stage 1's and 4's must come first; its selectors
+    # also skip the stages whose names start with V or X)
     doc = dict(head, realizations={"5": r5, "10": r10, "3": r3},
-               stages=[stage_block(k, st[k]) for k in sorted(st)] + [stage_block("V8", vs["V8"])])
+               stages=[stage_block(k, st[k]) for k in sorted(st)] + [stage_block("V8", vs["V8"]), stage_block("X", vs["X"])])
     write_atomic(a.out, yaml.safe_dump(doc, sort_keys=False, width=140))
     xdoc = dict(head, what="the short paper's experiment (archive/paper_short_independent/EXPERIMENT.md); runs that "
                            "production stage 1 already contains are listed under reused_from_stage_1, not run again",

@@ -134,11 +134,14 @@ NOT_IN_RUNLIST = {
 
 
 def _runlist_realizations():
-    """key -> sorted list of the realizations of its runs in RUNLIST.yaml (only runs without an AGN-density factor)."""
+    """key -> sorted list of the realizations of its runs in RUNLIST.yaml (only runs without an AGN-density factor; the
+    validation (V...) and check (X...) stages skipped, bv.production_stage)."""
     import yaml
     doc = yaml.safe_load(RUNLIST.read_text())
     out = {}
     for st in doc["stages"]:
+        if not bv.production_stage(st["stage"]):
+            continue
         for r in st["runs"]:
             a = r["args"]
             kv = {a[i].lstrip("-"): a[i + 1] for i in range(len(a) - 1) if a[i].startswith("--") and not a[i + 1].startswith("--")}
