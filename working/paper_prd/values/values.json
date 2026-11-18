@@ -26934,32 +26934,25 @@
    "extra": {}
   },
   "FluxEighteenHzero": {
-   "class": "ph",
-   "render": "\\ph{67.8^{+2.0}_{-2.2}}",
+   "class": "plain",
+   "render": "68.3^{+2.3}_{-2.1}",
    "value": {
-    "median": 67.8459226243284,
+    "median": 68.28685974199327,
     "ci68": [
-     66.56062906835922,
-     69.05713546551371
+     66.95737435480318,
+     69.69618097990934
     ],
     "ci90": [
-     65.67987206175603,
-     69.82910923386655
+     66.14456380819799,
+     70.61264829895069
     ],
-    "ul90": 69.39830155038523,
-    "level_of_input": 0.06740445550667085
+    "ul90": 70.10353984671816,
+    "level_of_input": 0.3102921156165932
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -26969,132 +26962,90 @@
    }
   },
   "FluxEighteenHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{67.8}",
-   "value": 67.8459226243284,
+   "class": "plain",
+   "render": "68.3",
+   "value": 68.28685974199327,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{65.7}",
-   "value": 65.67987206175603,
+   "class": "plain",
+   "render": "66.1",
+   "value": 66.14456380819799,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{69.8}",
-   "value": 69.82910923386655,
+   "class": "plain",
+   "render": "70.6",
+   "value": 70.61264829895069,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{4.1}",
-   "value": 4.149237172110517,
+   "class": "plain",
+   "render": "4.5",
+   "value": 4.468084490752702,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{2.1}",
-   "value": 2.0746185860552586,
+   "class": "plain",
+   "render": "2.2",
+   "value": 2.234042245376351,
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (FluxEighteenHzeroWid) of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.8^{+0.9}_{-0.9}}",
+   "class": "plain",
+   "render": "68.1^{+0.9}_{-0.9}",
    "value": {
-    "median": 67.76118452486567,
+    "median": 68.11004692913657,
     "ci68": [
-     67.20024789402439,
-     68.32212115570695
+     67.5557047231977,
+     68.67029617600096
     ],
     "ci90": [
-     66.8333844009988,
-     68.68898464873253
+     67.19656733802137,
+     69.04035517665099
     ],
-    "ul90": 68.4840600079122,
-    "level_of_input": 0.02995913600012401
+    "ul90": 68.83319945995984,
+    "level_of_input": 0.4919320610243496
    },
    "units": "km/s/Mpc",
    "meaning": "H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -27104,132 +27055,90 @@
    }
   },
   "FluxEighteenHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.8}",
-   "value": 67.76118452486567,
+   "class": "plain",
+   "render": "68.1",
+   "value": 68.11004692913657,
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{66.8}",
-   "value": 66.8333844009988,
+   "class": "plain",
+   "render": "67.2",
+   "value": 67.19656733802137,
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.7}",
-   "value": 68.68898464873253,
+   "class": "plain",
+   "render": "69.0",
+   "value": 69.04035517665099,
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.9}",
-   "value": 1.855600247733733,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8437878386296234,
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{3.0}",
-   "value": 0.02995913600012401,
+   "class": "plain",
+   "render": "49",
+   "value": 0.4919320610243496,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in FluxEighteenHzeroComb (H0, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.28^{+0.09}_{-0.08}}",
+   "class": "plain",
+   "render": "0.29^{+0.08}_{-0.08}",
    "value": {
-    "median": 0.2825513505037132,
+    "median": 0.2873654757230363,
     "ci68": [
-     0.23263802726352048,
-     0.3337026702330993
+     0.23784464524552304,
+     0.33813227254487643
     ],
     "ci90": [
-     0.20092318139284732,
-     0.3675664994993053
+     0.20639082534875977,
+     0.3718110219820874
     ],
-    "ul90": 0.3486217897008952,
-    "level_of_input": 0.2672848295506247
+    "ul90": 0.3529527846455039,
+    "level_of_input": 0.19705610059778222
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -27239,132 +27148,90 @@
    }
   },
   "FluxEighteenfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.28}",
-   "value": 0.2825513505037132,
+   "class": "plain",
+   "render": "0.29",
+   "value": 0.2873654757230363,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.20}",
-   "value": 0.20092318139284732,
+   "class": "plain",
+   "render": "0.21",
+   "value": 0.20639082534875977,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.37}",
-   "value": 0.3675664994993053,
+   "class": "plain",
+   "render": "0.37",
+   "value": 0.3718110219820874,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.17}",
-   "value": 0.166643318106458,
+   "class": "plain",
+   "render": "0.17",
+   "value": 0.1654201966333276,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.08}",
-   "value": 0.083321659053229,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.0827100983166638,
    "units": "",
    "meaning": "half of the full 90% width (FluxEighteenfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.30^{+0.04}_{-0.04}}",
+   "class": "plain",
+   "render": "0.33^{+0.04}_{-0.04}",
    "value": {
-    "median": 0.29651027010074266,
+    "median": 0.3274249395110313,
     "ci68": [
-     0.2739817094199603,
-     0.319038830781525
+     0.3033925212095759,
+     0.3516518374739911
     ],
     "ci90": [
-     0.25924759150044613,
-     0.3337729487010394
+     0.28780695706447934,
+     0.3675681220678727
     ],
-    "ul90": 0.3255426835482992,
-    "level_of_input": 0.12242493787989583
+    "ul90": 0.3586683323379174,
+    "level_of_input": 0.7440159103255612
    },
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -27374,132 +27241,90 @@
    }
   },
   "FluxEighteenfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.30}",
-   "value": 0.29651027010074266,
+   "class": "plain",
+   "render": "0.33",
+   "value": 0.3274249395110313,
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.26}",
-   "value": 0.25924759150044613,
+   "class": "plain",
+   "render": "0.29",
+   "value": 0.28780695706447934,
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.33}",
-   "value": 0.3337729487010394,
+   "class": "plain",
+   "render": "0.37",
+   "value": 0.3675681220678727,
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.07}",
-   "value": 0.07452535720059328,
+   "class": "plain",
+   "render": "0.08",
+   "value": 0.07976116500339336,
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{12}",
-   "value": 0.12242493787989583,
+   "class": "plain",
+   "render": "74",
+   "value": 0.7440159103255612,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in FluxEighteenfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatio": {
-   "class": "ph",
-   "render": "\\ph{39^{+19}_{-14}}",
+   "class": "plain",
+   "render": "40^{+19}_{-14}",
    "value": {
-    "median": 39.40838515561532,
+    "median": 40.169772845331075,
     "ci68": [
-     30.324015078094217,
-     50.109486720832734
+     31.087193523587118,
+     50.89171208834934
     ],
     "ci90": [
-     25.134246770040605,
-     58.13160681053553
+     25.906894202947626,
+     58.960830393688504
     ],
-    "ul90": 53.54248022085988,
-    "level_of_input": 0.2600184885531933
+    "ul90": 54.339080326545044,
+    "level_of_input": 0.203469314641882
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -27509,112 +27334,77 @@
    }
   },
   "FluxEighteenRateRatioMed": {
-   "class": "ph",
-   "render": "\\ph{39}",
-   "value": 39.40838515561532,
+   "class": "plain",
+   "render": "40",
+   "value": 40.169772845331075,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioLo": {
-   "class": "ph",
-   "render": "\\ph{25}",
-   "value": 25.134246770040605,
+   "class": "plain",
+   "render": "26",
+   "value": 25.906894202947626,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioHi": {
-   "class": "ph",
-   "render": "\\ph{58}",
-   "value": 58.13160681053553,
+   "class": "plain",
+   "render": "59",
+   "value": 58.960830393688504,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioWid": {
-   "class": "ph",
-   "render": "\\ph{33}",
-   "value": 32.997360040494925,
+   "class": "plain",
+   "render": "33",
+   "value": 33.05393619074088,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioComb": {
-   "class": "ph",
-   "render": "\\ph{42^{+7}_{-7}}",
+   "class": "plain",
+   "render": "47^{+9}_{-8}",
    "value": {
-    "median": 42.104724466934265,
+    "median": 47.20360555852707,
     "ci68": [
-     37.643801362276626,
-     46.5656475715919
+     42.2299837512177,
+     52.59067957379763
     ],
     "ci90": [
-     34.7262706782157,
-     49.48317825565275
+     39.18390699060493,
+     56.3544561506132
     ],
-    "ul90": 47.85348781525839,
-    "level_of_input": 0.11944946234348142
+    "ul90": 54.22686838441424,
+    "level_of_input": 0.6216300823834777
    },
    "units": "",
-   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10) (median and 90% equal-tailed interval)",
+   "meaning": "merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96)) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -27624,100 +27414,65 @@
    }
   },
   "FluxEighteenRateRatioCombMed": {
-   "class": "ph",
-   "render": "\\ph{42}",
-   "value": 42.104724466934265,
+   "class": "plain",
+   "render": "47",
+   "value": 47.20360555852707,
    "units": "",
-   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioCombLo": {
-   "class": "ph",
-   "render": "\\ph{35}",
-   "value": 34.7262706782157,
+   "class": "plain",
+   "render": "39",
+   "value": 39.18390699060493,
    "units": "",
-   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioCombHi": {
-   "class": "ph",
-   "render": "\\ph{49}",
-   "value": 49.48317825565275,
+   "class": "plain",
+   "render": "56",
+   "value": 56.3544561506132,
    "units": "",
-   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioCombWid": {
-   "class": "ph",
-   "render": "\\ph{15}",
-   "value": 14.756907577437055,
+   "class": "plain",
+   "render": "17",
+   "value": 17.17054916000827,
    "units": "",
-   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (hosts normalised to z = 5 (stored run); the production convention normalises to z = 1.10)",
+   "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18, combined over 5 realizations (R = [f/(1-f)] Z_gal/Z_AGN, Z_k = N_k + n_k V_miss,k (the run's densities from the counts, h-scaled; missing volume to z = 1.10); Comb: the combined f_AGN mapped with the geometric mean of the realizations' ratios (96.96))",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "FluxEighteenRateRatioCL": {
-   "class": "ph",
-   "render": "\\ph{12}",
-   "value": 0.11944946234348142,
+   "class": "plain",
+   "render": "62",
+   "value": 0.6216300823834777,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FluxEighteenRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FluxEighteen] equal populations; population known, number densities from the catalog counts; both catalogs, m < 18)",
    "source": {
-    "missing": "Stage 2: flux-limited catalogs, densities from catalog counts, 5 realizations",
-    "key": "FluxEighteen",
-    "placeholder_source": "A: exploratory, re-anchored to the finished complete-catalog result of the same realization (key KnownBoth, realization A); Comb: invented (from the re-anchored realization A)",
-    "placeholder_file": {
-     "A": "analyses/analysis_3_incomplete_catalog_H0_fagn/results/joint_m18_s100.h5",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -30460,7 +30215,7 @@
     "median": 36.08351647747809,
     "ci68": [
      28.47935594198885,
-     45.74163570373069
+     45.74163570373067
     ],
     "ci90": [
      23.525147632581536,
@@ -46947,33 +46702,51 @@
    }
   },
   "HWPopsTen": {
-   "class": "ph",
-   "render": "\\ph{2.2}",
-   "value": 2.21,
+   "class": "plain",
+   "render": "2.6",
+   "value": 2.6056234584767908,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.1, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 2.6359320861706834,
+     "101": 2.081840394235762,
+     "102": 2.9720196106227164,
+     "103": 2.5322241185379184,
+     "105": 2.8061010828168733
+    },
     "kind": "mean_hw"
    }
   },
   "HWPopsTenMin": {
-   "class": "ph",
-   "render": "\\ph{2.0}",
-   "value": 1.989,
+   "class": "plain",
+   "render": "2.1",
+   "value": 2.081840394235762,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -46983,14 +46756,20 @@
    }
   },
   "HWPopsTenMax": {
-   "class": "ph",
-   "render": "\\ph{2.4}",
-   "value": 2.431,
+   "class": "plain",
+   "render": "3.0",
+   "value": 2.9720196106227164,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47077,50 +46856,74 @@
    }
   },
   "HWPopsFifty": {
-   "class": "ph",
-   "render": "\\ph{1.2}",
-   "value": 1.19,
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.0513571741356273,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.5, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 0.9719318809551751,
+     "101": 1.1881602946130982,
+     "102": 1.0007536907520986,
+     "103": 1.0088999474729903,
+     "105": 1.0870400568847742
+    },
     "kind": "mean_hw"
    }
   },
   "HWPopsFiftyMin": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.071,
+   "class": "plain",
+   "render": "0.97",
+   "value": 0.9719318809551751,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 2,
     "rounding": "two significant figures"
    }
   },
   "HWPopsFiftyMax": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.309,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.1881602946130982,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47130,33 +46933,51 @@
    }
   },
   "HWPopsTwiceTen": {
-   "class": "ph",
-   "render": "\\ph{2.1}",
-   "value": 2.11,
+   "class": "plain",
+   "render": "2.1",
+   "value": 2.0688183179306705,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs, twice the offsets (10 Msun, 0.20), host class unknown, both catalogs, f_AGN inferred, input f_AGN = 0.1, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 2.325801822206614,
+     "101": 1.8477205239705796,
+     "102": 2.130240533988001,
+     "103": 2.064602965215869,
+     "105": 1.9757257442722889
+    },
     "kind": "mean_hw"
    }
   },
   "HWPopsTwiceTenMin": {
-   "class": "ph",
-   "render": "\\ph{1.9}",
-   "value": 1.899,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8477205239705796,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsTwiceTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47166,14 +46987,20 @@
    }
   },
   "HWPopsTwiceTenMax": {
-   "class": "ph",
-   "render": "\\ph{2.3}",
-   "value": 2.321,
+   "class": "plain",
+   "render": "2.3",
+   "value": 2.325801822206614,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsTwiceTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47183,33 +47010,51 @@
    }
   },
   "HWPopsTwiceThirty": {
-   "class": "ph",
-   "render": "\\ph{1.4}",
-   "value": 1.4,
+   "class": "plain",
+   "render": "1.4",
+   "value": 1.3941475013239952,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs, twice the offsets (10 Msun, 0.20), host class unknown, both catalogs, f_AGN inferred, input f_AGN = 0.3, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter macro IndHWMarkTwice"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.4698131525449298,
+     "101": 1.4324200757051315,
+     "102": 1.4809923286568178,
+     "103": 1.4136035446914548,
+     "105": 1.173908405021642
+    },
     "kind": "mean_hw"
    }
   },
   "HWPopsTwiceThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.26,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.173908405021642,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsTwiceThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter macro IndHWMarkTwice"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47219,14 +47064,20 @@
    }
   },
   "HWPopsTwiceThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{1.5}",
-   "value": 1.54,
+   "class": "plain",
+   "render": "1.5",
+   "value": 1.4809923286568178,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsTwiceThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter macro IndHWMarkTwice"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47236,50 +47087,74 @@
    }
   },
   "HWPopsTwiceFifty": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.12,
+   "class": "plain",
+   "render": "1.0",
+   "value": 1.033756709663335,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs, twice the offsets (10 Msun, 0.20), host class unknown, both catalogs, f_AGN inferred, input f_AGN = 0.5, peak-dominated spectrum; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 0.9663117137898851,
+     "101": 1.6302947665179985,
+     "102": 0.8112796699316007,
+     "103": 0.8391837926903563,
+     "105": 0.9217136053868344
+    },
     "kind": "mean_hw"
    }
   },
   "HWPopsTwiceFiftyMin": {
-   "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 1.0080000000000002,
+   "class": "plain",
+   "render": "0.81",
+   "value": 0.8112796699316007,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWPopsTwiceFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 2,
     "rounding": "two significant figures"
    }
   },
   "HWPopsTwiceFiftyMax": {
-   "class": "ph",
-   "render": "\\ph{1.2}",
-   "value": 1.2320000000000002,
+   "class": "plain",
+   "render": "1.6",
+   "value": 1.6302947665179985,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWPopsTwiceFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "letter Fig. 3 point, information model of the letter's notes (1/hw^2 adds over mergers; host class known = (1-f)/hw_gal^2 + f/hw_agn^2; host class unknown keeps a fraction of it; host-dependent populations recover 0.40 (5 Msun, 0.10) or 0.67 (twice those) of the gap at f = 0.3)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_105/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47520,33 +47395,51 @@
    }
   },
   "HWKnownPopsTwiceTen": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.5727740200754803,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.6690695357011491,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, each population at its input, the two H0 posteriors multiplied), host-dependent mergers (twice the offsets, 10 Msun and 0.20; the same mergers as HWPopsTwiceTen), input f_AGN = 0.1, peak-dominated spectrum; runs hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownTen (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.6755404934338642,
+     "101": 1.5391380770166592,
+     "102": 1.7836116824433859,
+     "103": 1.611643672941419,
+     "105": 1.7354137526704179
+    },
     "kind": "mean_hw"
    }
   },
   "HWKnownPopsTwiceTenMin": {
-   "class": "ph",
-   "render": "\\ph{1.4}",
-   "value": 1.4154966180679323,
+   "class": "plain",
+   "render": "1.5",
+   "value": 1.5391380770166592,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWKnownPopsTwiceTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownTen (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47556,14 +47449,20 @@
    }
   },
   "HWKnownPopsTwiceTenMax": {
-   "class": "ph",
-   "render": "\\ph{1.7}",
-   "value": 1.7300514220830285,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.7836116824433859,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWKnownPopsTwiceTen",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownTen (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47573,33 +47472,51 @@
    }
   },
   "HWKnownPopsTwiceThirty": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.149874019364412,
+   "class": "plain",
+   "render": "1.3",
+   "value": 1.3052585336922007,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, each population at its input, the two H0 posteriors multiplied), host-dependent mergers (twice the offsets, 10 Msun and 0.20; the same mergers as HWPopsTwiceThirty), input f_AGN = 0.3, peak-dominated spectrum; runs hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownThirty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.1264768684297977,
+     "101": 1.6300623973974169,
+     "102": 1.2216382852581873,
+     "103": 1.4174756764952363,
+     "105": 1.1306394408803655
+    },
     "kind": "mean_hw"
    }
   },
   "HWKnownPopsTwiceThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 1.0348866174279707,
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.1264768684297977,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWKnownPopsTwiceThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownThirty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47609,14 +47526,20 @@
    }
   },
   "HWKnownPopsTwiceThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.264861421300853,
+   "class": "plain",
+   "render": "1.6",
+   "value": 1.6300623973974169,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWKnownPopsTwiceThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownThirty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47626,33 +47549,51 @@
    }
   },
   "HWKnownPopsTwiceFifty": {
-   "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 0.9960027849204015,
+   "class": "plain",
+   "render": "0.96",
+   "value": 0.9628748335910317,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, each population at its input, the two H0 posteriors multiplied), host-dependent mergers (twice the offsets, 10 Msun and 0.20; the same mergers as HWPopsTwiceFifty), input f_AGN = 0.5, peak-dominated spectrum; runs hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownFifty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 2,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 0.9270061474367921,
+     "101": 1.2100533566718994,
+     "102": 0.8121728777636932,
+     "103": 0.8617068857733159,
+     "105": 1.0034349003094576
+    },
     "kind": "mean_hw"
    }
   },
   "HWKnownPopsTwiceFiftyMin": {
-   "class": "ph",
-   "render": "\\ph{0.90}",
-   "value": 0.8964025064283614,
+   "class": "plain",
+   "render": "0.81",
+   "value": 0.8121728777636932,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWKnownPopsTwiceFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownFifty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47662,14 +47603,20 @@
    }
   },
   "HWKnownPopsTwiceFiftyMax": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.0956030634124418,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.2100533566718994,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWKnownPopsTwiceFifty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "invented: HWKnownFifty (host class known, equal-population mergers, same f) rescaled by the letter's information model, 1/hw^2 = (1 - x)/HWKnownZero^2 + x/HWKnownHundred^2, from the detected AGN-hosted fraction x of the equal-population events to that of the host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_105_agn_s32000_inj1/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48983,57 +48930,102 @@
    }
   },
   "CostPopsTen": {
-   "class": "ph",
-   "render": "\\ph{1.5}",
-   "value": 1.450192684680055,
+   "class": "plain",
+   "render": "2.0",
+   "value": 2.015879060562118,
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs (5 Msun, 0.10) per merger with the host class known, input f_AGN = 0.1: (HWPopsTen / HWKnownPopsTen)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
-    "placeholder_source": "(HWPopsTen / HWKnownPopsTen)^2 of the unrounded values (some red)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTen / HWKnownPopsTen)^2 of the unrounded values"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "from": {
-     "HWPopsTen": 2.21,
+     "HWPopsTen": 2.6056234584767908,
      "HWKnownPopsTen": 1.8351831737552573
     },
     "decimals": 1
    }
   },
   "CostPopsTenMin": {
-   "class": "ph",
-   "render": "\\ph{0.7}",
-   "value": 0.6895498642713442,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.7004682736240608,
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsTen[r] / HWKnownPopsTen[r])^2 (the central CostPopsTen is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
-    "placeholder_source": "the central value times CostUnknownTenMin / CostUnknownTen = 0.4755 and CostUnknownTenMax / CostUnknownTen = 2.1002 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTen[r] / HWKnownPopsTen[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.931555711755959,
+     "101": 1.8953379900283491,
+     "102": 1.7004682736240608,
+     "103": 2.5323533785053716,
+     "105": 2.1887339901720577
+    }
    }
   },
   "CostPopsTenMax": {
-   "class": "ph",
-   "render": "\\ph{3.0}",
-   "value": 3.0456848739429745,
+   "class": "plain",
+   "render": "2.5",
+   "value": 2.5323533785053716,
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsTen[r] / HWKnownPopsTen[r])^2 (the central CostPopsTen is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_{R} (missing realizations 102,105)",
-    "placeholder_source": "the central value times CostUnknownTenMin / CostUnknownTen = 0.4755 and CostUnknownTenMax / CostUnknownTen = 2.1002 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s1/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s1/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTen[r] / HWKnownPopsTen[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.931555711755959,
+     "101": 1.8953379900283491,
+     "102": 1.7004682736240608,
+     "103": 2.5323533785053716,
+     "105": 2.1887339901720577
+    }
    }
   },
   "CostPopsThirty": {
@@ -49136,219 +49128,399 @@
    }
   },
   "CostPopsFifty": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.5767316052377647,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.2307346145278912,
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs (5 Msun, 0.10) per merger with the host class known, input f_AGN = 0.5: (HWPopsFifty / HWKnownPopsFifty)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
-    "placeholder_source": "(HWPopsFifty / HWKnownPopsFifty)^2 of the unrounded values (some red)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsFifty / HWKnownPopsFifty)^2 of the unrounded values"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "from": {
-     "HWPopsFifty": 1.19,
+     "HWPopsFifty": 1.0513571741356273,
      "HWKnownPopsFifty": 0.9476938774119332
     },
     "decimals": 1
    }
   },
   "CostPopsFiftyMin": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.0686045228397536,
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.132517770499159,
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsFifty[r] / HWKnownPopsFifty[r])^2 (the central CostPopsFifty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownFiftyMin / CostUnknownFifty = 0.6777 and CostUnknownFiftyMax / CostUnknownFifty = 1.2996 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsFifty[r] / HWKnownPopsFifty[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.132517770499159,
+     "101": 1.3221661256846793,
+     "102": 1.2011773361591416,
+     "103": 1.2281229717526594,
+     "105": 1.2601466674610096
+    }
    }
   },
   "CostPopsFiftyMax": {
-   "class": "ph",
-   "render": "\\ph{2.0}",
-   "value": 2.0491560746386055,
+   "class": "plain",
+   "render": "1.3",
+   "value": 1.3221661256846793,
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsFifty[r] / HWKnownPopsFifty[r])^2 (the central CostPopsFifty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_{R} (missing realizations 101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownFiftyMin / CostUnknownFifty = 0.6777 and CostUnknownFiftyMax / CostUnknownFifty = 1.2996 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s1/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s1/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsFifty[r] / HWKnownPopsFifty[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.132517770499159,
+     "101": 1.3221661256846793,
+     "102": 1.2011773361591416,
+     "103": 1.2281229717526594,
+     "105": 1.2601466674610096
+    }
    }
   },
   "CostPopsTwiceTen": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.7998331946225419,
+   "class": "plain",
+   "render": "1.5",
+   "value": 1.53637009494756,
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs, twice the offsets per merger with the host class known, input f_AGN = 0.1: (HWPopsTwiceTen / HWKnownPopsTwiceTen)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "(HWPopsTwiceTen / HWKnownPopsTwiceTen)^2 of the unrounded values (some red)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceTen / HWKnownPopsTwiceTen)^2 of the unrounded values"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "from": {
-     "HWPopsTwiceTen": 2.11,
-     "HWKnownPopsTwiceTen": 1.5727740200754803
+     "HWPopsTwiceTen": 2.0688183179306705,
+     "HWKnownPopsTwiceTen": 1.6690695357011491
     },
     "decimals": 1
    }
   },
   "CostPopsTwiceTenMin": {
-   "class": "ph",
-   "render": "\\ph{0.9}",
-   "value": 0.8557998865763431,
+   "class": "plain",
+   "render": "1.3",
+   "value": 1.2961260763813416,
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsTwiceTen[r] / HWKnownPopsTwiceTen[r])^2 (the central CostPopsTwiceTen is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownTenMin / CostUnknownTen = 0.4755 and CostUnknownTenMax / CostUnknownTen = 2.1002 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceTen[r] / HWKnownPopsTwiceTen[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.9267952045532464,
+     "101": 1.4411772601409938,
+     "102": 1.4264503888807467,
+     "103": 1.6410999731747096,
+     "105": 1.2961260763813416
+    }
    }
   },
   "CostPopsTwiceTenMax": {
-   "class": "ph",
-   "render": "\\ph{3.8}",
-   "value": 3.7799975095666185,
+   "class": "plain",
+   "render": "1.9",
+   "value": 1.9267952045532464,
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsTwiceTen[r] / HWKnownPopsTwiceTen[r])^2 (the central CostPopsTwiceTen is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownTenMin / CostUnknownTen = 0.4755 and CostUnknownTenMax / CostUnknownTen = 2.1002 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p10_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p10_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceTen[r] / HWKnownPopsTwiceTen[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.9267952045532464,
+     "101": 1.4411772601409938,
+     "102": 1.4264503888807467,
+     "103": 1.6410999731747096,
+     "105": 1.2961260763813416
+    }
    }
   },
   "CostPopsTwiceThirty": {
-   "class": "ph",
-   "render": "\\ph{1.5}",
-   "value": 1.4823663517732153,
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.1408390199198055,
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs, twice the offsets per merger with the host class known, input f_AGN = 0.3: (HWPopsTwiceThirty / HWKnownPopsTwiceThirty)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "(HWPopsTwiceThirty / HWKnownPopsTwiceThirty)^2 of the unrounded values (some red)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceThirty / HWKnownPopsTwiceThirty)^2 of the unrounded values"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "from": {
-     "HWPopsTwiceThirty": 1.4,
-     "HWKnownPopsTwiceThirty": 1.149874019364412
+     "HWPopsTwiceThirty": 1.3941475013239952,
+     "HWKnownPopsTwiceThirty": 1.3052585336922007
     },
     "decimals": 1
    }
   },
   "CostPopsTwiceThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.2}",
-   "value": 1.1951461380647486,
+   "class": "plain",
+   "render": "0.8",
+   "value": 0.7722045210191543,
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsTwiceThirty[r] / HWKnownPopsTwiceThirty[r])^2 (the central CostPopsTwiceThirty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownThirtyMin / CostUnknownThirty = 0.8062 and CostUnknownThirtyMax / CostUnknownThirty = 1.5001 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceThirty[r] / HWKnownPopsTwiceThirty[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.7024709195615584,
+     "101": 0.7722045210191543,
+     "102": 1.469671757277259,
+     "103": 0.9945440431913704,
+     "105": 1.0780034776002574
+    }
    }
   },
   "CostPopsTwiceThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{2.2}",
-   "value": 2.2237566186166102,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.7024709195615584,
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsTwiceThirty[r] / HWKnownPopsTwiceThirty[r])^2 (the central CostPopsTwiceThirty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownThirtyMin / CostUnknownThirty = 0.8062 and CostUnknownThirtyMax / CostUnknownThirty = 1.5001 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p30_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceThirty[r] / HWKnownPopsTwiceThirty[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.7024709195615584,
+     "101": 0.7722045210191543,
+     "102": 1.469671757277259,
+     "103": 0.9945440431913704,
+     "105": 1.0780034776002574
+    }
    }
   },
   "CostPopsTwiceFifty": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.2644886626441985,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.1526488230123761,
    "units": "",
    "meaning": "mergers needed with the host-dependent populations held at their inputs, twice the offsets per merger with the host class known, input f_AGN = 0.5: (HWPopsTwiceFifty / HWKnownPopsTwiceFifty)^2 from the unrounded means (denominator: the host-class-known analysis of the same host-dependent mergers)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "(HWPopsTwiceFifty / HWKnownPopsTwiceFifty)^2 of the unrounded values (some red)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceFifty / HWKnownPopsTwiceFifty)^2 of the unrounded values"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "from": {
-     "HWPopsTwiceFifty": 1.12,
-     "HWKnownPopsTwiceFifty": 0.9960027849204015
+     "HWPopsTwiceFifty": 1.033756709663335,
+     "HWKnownPopsTwiceFifty": 0.9628748335910317
     },
     "decimals": 1
    }
   },
   "CostPopsTwiceFiftyMin": {
-   "class": "ph",
-   "render": "\\ph{0.9}",
-   "value": 0.8569868831781429,
+   "class": "plain",
+   "render": "0.8",
+   "value": 0.8437496236546059,
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWPopsTwiceFifty[r] / HWKnownPopsTwiceFifty[r])^2 (the central CostPopsTwiceFifty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownFiftyMin / CostUnknownFifty = 0.6777 and CostUnknownFiftyMax / CostUnknownFifty = 1.2996 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceFifty[r] / HWKnownPopsTwiceFifty[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.0865988973034961,
+     "101": 1.8151947523469816,
+     "102": 0.9978016585077162,
+     "103": 0.9484076504904436,
+     "105": 0.8437496236546059
+    }
    }
   },
   "CostPopsTwiceFiftyMax": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.6433580805772412,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8151947523469816,
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWPopsTwiceFifty[r] / HWKnownPopsTwiceFifty[r])^2 (the central CostPopsTwiceFifty is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_{R}_agn_s32000_inj1 (missing realizations 100,101,102,103,105); analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_{R} (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "the central value times CostUnknownFiftyMin / CostUnknownFifty = 0.6777 and CostUnknownFiftyMax / CostUnknownFifty = 1.2996 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_100_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_101_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_102_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_103_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/peak_f0p50_s2/realization_105_agn_s32000_inj1/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p50_s2/realization_105/summary.json"
+    ],
+    "computation": "(HWPopsTwiceFifty[r] / HWKnownPopsTwiceFifty[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.0865988973034961,
+     "101": 1.8151947523469816,
+     "102": 0.9978016585077162,
+     "103": 0.9484076504904436,
+     "105": 0.8437496236546059
+    }
    }
   },
   "ProbAGNEqual": {
@@ -49580,14 +49752,17 @@
    }
   },
   "ProbAGNPosTwice": {
-   "class": "ph",
-   "render": "\\ph{0.37}",
-   "value": 0.36948389313962354,
+   "class": "plain",
+   "render": "0.04",
+   "value": 0.04199176772129717,
    "units": "",
    "meaning": "mean probability of an AGN host over the mergers truly hosted by AGN, host-dependent populations with twice the offsets (10 Msun, 0.20), positions alone, input f_AGN = 0.3, realization A (membership of the grid at its posterior median); runs two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: positions alone carry the same information as with the smaller offsets (= ProbAGNPos)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: mean of r over the 408 mergers with host_type 1 (membership.npz; = summary.json membership.mean_r_true_agn); r at H0 = 99.658, f_AGN = 0.0409"
    },
    "claim": "classes",
    "containment": null,
@@ -49596,14 +49771,17 @@
    }
   },
   "ProbGalPosTwice": {
-   "class": "ph",
-   "render": "\\ph{0.30}",
-   "value": 0.29808211987907657,
+   "class": "plain",
+   "render": "0.04",
+   "value": 0.039396988597903984,
    "units": "",
    "meaning": "mean probability of an AGN host over the mergers truly hosted by galaxies, host-dependent populations with twice the offsets (10 Msun, 0.20), positions alone, input f_AGN = 0.3, realization A (membership of the grid at its posterior median); runs two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: = ProbGalPos"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: mean of r over the 592 mergers with host_type 0 (membership.npz; = summary.json membership.mean_r_true_gal); r at H0 = 99.658, f_AGN = 0.0409"
    },
    "claim": "classes",
    "containment": null,
@@ -49612,14 +49790,17 @@
    }
   },
   "ProbEvalfAGNPosTwice": {
-   "class": "ph",
-   "render": "\\ph{0.32}",
-   "value": 0.3224573802385133,
+   "class": "plain",
+   "render": "0.04",
+   "value": 0.040879206695852946,
    "units": "",
    "meaning": "f_AGN at which the probability of an AGN host of ProbAGNPosTwice, ProbGalPosTwice and ProbAllPosTwice is evaluated: the posterior median of f_AGN of the run's grid (membership.json f_agn_median), host-dependent populations with twice the offsets (10 Msun, 0.20), positions alone, input f_AGN = 0.3, realization A; runs two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: as with the smaller offsets (= ProbEvalfAGNPos)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: the f_AGN at which r is evaluated, summary.json membership.f_agn_median (= membership.npz f_agn; the posterior median of f_AGN of the grid, summary.json posterior.f_agn.median = 0.04016); r at H0 = 99.658, f_AGN = 0.0409"
    },
    "claim": "classes",
    "containment": null,
@@ -49628,14 +49809,17 @@
    }
   },
   "ProbAllPosTwice": {
-   "class": "ph",
-   "render": "\\ph{0.33}",
-   "value": 0.32721404336937976,
+   "class": "plain",
+   "render": "0.04",
+   "value": 0.040455658480248395,
    "units": "",
    "meaning": "mean probability of an AGN host over all the mergers (both true host classes), host-dependent populations with twice the offsets (10 Msun, 0.20), positions alone, input f_AGN = 0.3, realization A (membership of the grid at its posterior median, ProbEvalfAGNPosTwice); runs two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: x ProbAGNPosTwice + (1 - x) ProbGalPosTwice, x the AGN-hosted fraction of the 1000 detected mergers of realization A of that event set (events_meta realised_f_agn)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: mean of r over all 1000 mergers (membership.npz; = summary.json membership.mean_r); r at H0 = 99.658, f_AGN = 0.0409"
    },
    "claim": "classes",
    "containment": null,
@@ -49644,14 +49828,17 @@
    }
   },
   "ProbAGNPopsTwice": {
-   "class": "ph",
-   "render": "\\ph{0.80}",
-   "value": 0.7997504571361321,
+   "class": "plain",
+   "render": "0.72",
+   "value": 0.7221490473110487,
    "units": "",
    "meaning": "mean probability of an AGN host over the mergers truly hosted by AGN, host-dependent populations with twice the offsets, positions with masses and spins, input f_AGN = 0.3, realization A (membership of the grid at its posterior median); runs two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: a calibrated classifier (log-likelihood ratios Gaussian, mean +-s^2/2, variance s^2) matched to ProbAGNPops, its separation s doubled with the offsets; the mean over the truly AGN-hosted mergers"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: mean of r over the 408 mergers with host_type 1 (membership.npz; = summary.json membership.mean_r_true_agn); r at H0 = 66.807, f_AGN = 0.2920"
    },
    "claim": "classes",
    "containment": null,
@@ -49660,14 +49847,17 @@
    }
   },
   "ProbGalPopsTwice": {
-   "class": "ph",
-   "render": "\\ph{0.09}",
-   "value": 0.085819928090127,
+   "class": "plain",
+   "render": "0.21",
+   "value": 0.2093635842507274,
    "units": "",
    "meaning": "mean probability of an AGN host over the mergers truly hosted by galaxies, host-dependent populations with twice the offsets, positions with masses and spins, input f_AGN = 0.3, realization A (membership of the grid at its posterior median); runs two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: as ProbAGNPopsTwice, the mean over the truly galaxy-hosted mergers"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: mean of r over the 592 mergers with host_type 0 (membership.npz; = summary.json membership.mean_r_true_gal); r at H0 = 66.807, f_AGN = 0.2920"
    },
    "claim": "classes",
    "containment": null,
@@ -49676,14 +49866,17 @@
    }
   },
   "ProbEvalfAGNPopsTwice": {
-   "class": "ph",
-   "render": "\\ph{0.30}",
-   "value": 0.2950340690587345,
+   "class": "plain",
+   "render": "0.29",
+   "value": 0.29198295517113065,
    "units": "",
    "meaning": "f_AGN at which the probability of an AGN host of ProbAGNPopsTwice, ProbGalPopsTwice and ProbAllPopsTwice is evaluated: the posterior median of f_AGN of the run's grid (membership.json f_agn_median), host-dependent populations with twice the offsets, positions with masses and spins, input f_AGN = 0.3, realization A; runs two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: as with the smaller offsets (= ProbEvalfAGNPops)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: the f_AGN at which r is evaluated, summary.json membership.f_agn_median (= membership.npz f_agn; the posterior median of f_AGN of the grid, summary.json posterior.f_agn.median = 0.29190); r at H0 = 66.807, f_AGN = 0.2920"
    },
    "claim": "classes",
    "containment": null,
@@ -49692,14 +49885,17 @@
    }
   },
   "ProbAllPopsTwice": {
-   "class": "ph",
-   "render": "\\ph{0.38}",
-   "value": 0.3771035839408971,
+   "class": "plain",
+   "render": "0.42",
+   "value": 0.41858005317933844,
    "units": "",
    "meaning": "mean probability of an AGN host over all the mergers (both true host classes), host-dependent populations with twice the offsets, positions with masses and spins, input f_AGN = 0.3, realization A (membership of the grid at its posterior median, ProbEvalfAGNPopsTwice); runs two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R} (missing realization 100)",
-    "placeholder_source": "invented: x ProbAGNPopsTwice + (1 - x) ProbGalPopsTwice, x the AGN-hosted fraction of the 1000 detected mergers of realization A of that event set (events_meta realised_f_agn)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_100/grid/membership.npz"
+    ],
+    "computation": "realization 100: mean of r over all 1000 mergers (membership.npz; = summary.json membership.mean_r); r at H0 = 66.807, f_AGN = 0.2920"
    },
    "claim": "classes",
    "containment": null,
