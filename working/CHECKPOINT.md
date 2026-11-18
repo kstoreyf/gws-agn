@@ -1,4 +1,4 @@
-# Checkpoint, 18 Nov 2026, 06:20 UTC (read this first after a context clear)
+# Checkpoint, 18 Nov 2026, 06:55 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -136,24 +136,35 @@ hold the owner's words; this file holds the working state.
   bounds moved by up to 0.09 km/s/Mpc, means over realizations by less. The macros are the source.
 
 ## 5. Do next, in order
-1. Density-response paragraph of the flux-limited subsection: an Opus agent is wiring the stage-2
-   runs with the AGN density at half and twice into macros and redrawing panel (b) of
-   `fig3_flux_limits` from finished results only (started 06:00 UTC). When it reports: rewrite
-   that paragraph and the figure's caption from its numbers (main session, under the skill),
-   refresh, commit, send the PDF to the owner.
-2. The sampler decision of Sec. 3 when the watcher ends.
-3. Stage-2 nested runs finish (about four hours after they start): refresh; the second half of
-   the flux-limited subsection, Table IV and `fig4_densities` turn real; decide Table IV's
-   columns (AGN-density limit or galaxy-density limit); consistency pass on those sentences.
+0. Done 18 Nov 06:50 UTC (commit b37c15d): the flux-limited subsection rests on finished runs:
+   all four flux limits with known densities, and the response of f_AGN and H0 to an AGN density
+   assumed at half and at twice its value at m < 20 and m < 18 (three realizations; macros from
+   `paper_prd/scripts/density.py`, panel (b) of `fig3_flux_limits` redrawn, paragraph, caption
+   and abstract sentence rewritten). 137 of 218 result macros in the text are real; the PDF
+   (18 pp) went to the owner at 06:50 UTC.
+1. An Opus agent (started 06:50 UTC) has four small jobs: (i) an analytic test of ln Z when most
+   starting points sit on the variance-guard floor; (ii) a sky-resolution run (nside 64) to
+   replace the last two exploratory macros, `\SkyResShiftHzero` and `\SkyResShiftfAGN`, with
+   driver option, survey files, run-list entry and paper wiring; (iii) validation runs excluded
+   from the paper chain's key selectors; (iv) two grid runs with the AGN density in physical
+   units to explain why the H0 response at m < 18 has the opposite sign in Analysis 15 (+1.05)
+   and in production (-0.66). When it reports: check, queue its runs with the command lines it
+   gives (dry run first), commit.
+2. The sampler decision of Sec. 3 when the watcher ends (about 11:30 UTC).
+3. Stage-2 nested runs finish (lane 1 by about 10:00 UTC, lane 2 after its validation pair):
+   refresh; the second half of the flux-limited subsection, Table IV and `fig4_densities` turn
+   real; decide Table IV's columns (AGN-density limit or galaxy-density limit); consistency
+   pass on those sentences (main session, under the skill), PDF to the owner.
 4. As six-parameter runs finish (HDSingle, HDNone, then E3, stage 3): refresh and consistency
    pass per subsection.
 5. Open points for the text: the date of the fifth observing run in the Conclusions needs a
    citable schedule; acknowledgments, K. Storey-Fisher's affiliation and the rest of the author
-   list are the owner's; `\SkyResShiftHzero`, `\SkyResShiftfAGN` are still exploratory (the
-   agent of item 1 reports what run would replace them).
+   list are the owner's.
 6. Known numerical flags: two catalog-free observed-like grids (all mergers in AGN, realizations
    101 and 103) have ln L jumps of about 100 nats from one heavy merger at the mass cut; no
    number of the paper uses them and audit check K2 guards against it.
+7. If an agent dies with an API or billing error (it happened at 06:30 UTC on 18 Nov), its edits
+   stay in the working tree: resume it with SendMessage to its id rather than starting over.
 
 ## 6. Waiting for the owner (asked 18 Nov, 05:15 UTC; none blocks work)
 K. Storey-Fisher's affiliation (she is second author since 37ca4f7; the owner is sharing the
@@ -164,4 +175,4 @@ out; whether to push (about 40 local commits); whether 17 pages is the size want
 `gaia` (left RITA-GPU; nothing owed), `darksirens` (gave the style note
 `paper_prd/notes/OWNER_STYLE_DETAILS.md`; nothing owed). Never touch other sessions' jobs.
 
-Local commits up to 5ab834f plus the one that adds this file; `git log --oneline | head -20`.
+Local commits up to b37c15d plus the one that adds this file; `git log --oneline | head -20`.
