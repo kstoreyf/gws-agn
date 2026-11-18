@@ -113,3 +113,5 @@ type `misc` instead of `article`, as in the lensing drafts, so that BibTeX raise
 underscore in the DOI of `Vitale:2020aaz` is escaped. Nothing else differs.
 
 - 2026-11-17: `Gorski:2004by` (HEALPix) added for the pixelization named in Appendix A; title, authors, journal reference (Astrophys. J. 622, 759-771, 2005) and DOI 10.1086/427976 read from the arXiv record astro-ph/0409513. A software citation; no result of the paper is quoted.
+
+- 2026-11-18: software references added for the acknowledgments: `Harris:2020xlr` (NumPy; Nature 585, 357 (2020)), `Virtanen:2019joe` (SciPy; Nature Methods 17, 261 (2020)) and `Astropy:2022ucr` (ApJ 935, 167; DOI 10.3847/1538-4357/ac7c74) read from the arXiv records 2006.10256, 1907.10121, 2206.14220; `Hunter:2007ouj` (Matplotlib; Comput. Sci. Eng. 9, 90-95 (2007)) and `Zonca:2019vzt` (healpy; JOSS 4, 1298 (2019)) read from their Crossref records; `Bradbury:2018JAX` copied from the bibliography of the first author's arXiv:2610.37617 project. Software citations; no result is quoted. The acknowledgments follow arXiv:2610.37617 (its text read from the arXiv HTML on this date).
