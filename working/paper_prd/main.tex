@@ -884,7 +884,15 @@ $\FluxEighteenHalfDeltaHzeroMax$], with no definite sign. Equation
 (\ref{eq:rates}) describes the normalization of the hosts and predicts
 neither departure. We read both as owed to the mergers that lie where this
 catalog is incomplete, half of those detected: for them the assumed density
-also sets how much of each merger is given to the uniform hosts. The fraction of
+also sets how much of each merger is given to the uniform hosts. The
+response of $H_0$ depends as well on the unit in which the density is given.
+With the same densities given in ${\rm Mpc^{-3}}$, the doubling moves the
+median of $H_0$ on realization A by
+$\FluxEighteenPhysDoubleDeltaHzero\,\kms$, where it moved it by
+$\FluxEighteenDoubleDeltaHzero$ with the densities in $h^3\,{\rm
+Mpc^{-3}}$. At a fixed density in ${\rm Mpc^{-3}}$ the number of hosts in a
+redshift shell falls as $H_0^{-3}$, and we read the positive shift as a
+larger $H_0$ taking up part of the doubled density. The fraction of
 mergers hosted by AGN thus refers to a volume and needs the number of AGN in
 it, as Pouw \textit{et al.}~\cite{Pouw:2026lar} note for the maximum
 redshift of their merger populations. This is why each number density is
@@ -1296,8 +1304,11 @@ The medians of $H_0$ and $\fagn$ move by $\SkyResShiftHzero\,\kms$ and
 \SkyResShiftfAGN, against 90\% half-widths of
 $\KnownBothHzeroHalfWid\,\kms$ and \KnownBothfAGNHalfWid. The finer pixels
 hold a quarter of the objects each, and the Monte Carlo sums of the
-likelihood are noisier with them, so part of this shift is Monte Carlo
-error; we have not separated the two.
+likelihood are noisier with them: the variance of $\ln\hat\Lcal$ owed to the
+posterior samples rises from \SkyResVarPEThirtyTwo{} to
+\SkyResVarPESixtyFour{} at the posterior maximum
+(Appendix~\ref{app:like}). Part of this shift is therefore Monte Carlo
+error, and we have not separated the two.
 
 %% ==========================================================================
 \section{Conclusions}

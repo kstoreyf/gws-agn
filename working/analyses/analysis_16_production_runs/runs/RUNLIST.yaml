@@ -1,4 +1,4 @@
-generated_utc: '2026-11-18T13:21:32Z'
+generated_utc: '2026-11-18T18:20:12Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -5834,13 +5834,14 @@ stages:
 - stage: X
   title: 'checks of two analysis settings on realization 100 (not production results): stage 1''s two-tracer grid with the catalogs pixelized
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
-    that value and at twice it'
-  n_runs: 3
-  n_tasks: 3
-  est_calls: 3441
-  est_gpu_hours: 0.25
-  est_gpu_hours_existing_data: 0.25
-  est_gpu_hours_ready: 0.25
+    that value and at twice it; and the two-tracer grid at nside 32 and at nside 64 with Analysis 14''s Monte Carlo settings (32000 samples per
+    merger, six pooled injection sets)'
+  n_runs: 5
+  n_tasks: 5
+  est_calls: 5735
+  est_gpu_hours: 1.45
+  est_gpu_hours_existing_data: 1.45
+  est_gpu_hours_ready: 1.45
   n_runs_held: 0
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
@@ -6006,3 +6007,133 @@ stages:
         gal: -2.5031196507226836
         agn: -4.501436519499835
       converted_at_H0: 67.74
+  - name: known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 1.8118
+    est_gpu_hours: 0.6
+    est_gpu_hours_per_part: 0.6
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_100_s32000_inj6 (its
+      sessions: the same two-catalog grid class, realization 100, 32000 samples, 6 pooled sets)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets)
+      partner: known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6
+      differs_by: --nside 64
+      settings_of: README, Monte Carlo settings of the all-AGN-hosted analyses; data/experiment_sets.json extra_record_lane_sets
+  - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '64'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside64_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 1.8118
+    est_gpu_hours: 0.6
+    est_gpu_hours_per_part: 0.6
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_100_s32000_inj6 (its
+      sessions: the same two-catalog grid class, realization 100, 32000 samples, 6 pooled sets)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets)
+      partner: known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6
+      differs_by: --nside 64
+      settings_of: README, Monte Carlo settings of the all-AGN-hosted analyses; data/experiment_sets.json extra_record_lane_sets

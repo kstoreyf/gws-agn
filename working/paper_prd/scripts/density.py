@@ -38,6 +38,21 @@ A group (limit, factor) is real (black) when every summary.json it names exists:
 and their unit-factor partners; the prediction and the share when the unit-factor run of realization A exists.
 Validation and check stages of the run list (stage names starting with 'V' or 'X', build_values.production_stage) never
 feed these macros.
+
+The densities in Mpc^-3 (a check of stage X, read from RUNLIST.yaml by name like scripts/skyres.py, claim 'validation';
+never a production run of any key): the m < 18 grid of realization A with both densities given in Mpc^-3 at the values
+from the counts converted at H0 = 67.74 (--density given --density-units physical), the AGN density at that value and at
+twice it,
+
+    known_population/both_catalogs/flux_limit_18_densities_given/equal_populations/realization_100_units_physical
+    known_population/both_catalogs/flux_limit_18_densities_given_agn_density_double/equal_populations/realization_100_units_physical
+
+  FluxEighteenPhys<fAGN|Hzero>        the unit-factor run (Mpc^-3): median and 90% equal-tailed interval (summary.json, block
+                                      posterior); pieces Med, Lo, Hi, Wid, HalfWid (the 90% width and half of it)
+  FluxEighteenPhysDouble<fAGN|Hzero>  the same for the run with the AGN density doubled
+  FluxEighteenPhysDoubleDelta<fAGN|Hzero>  median of the doubled run minus that of the unit-factor run (Mpc^-3), signed; the
+                                      production pair (h^3 Mpc^-3) is FluxEighteenDoubleDelta<fAGN|Hzero>
+Black when both summaries exist.
 """
 from __future__ import annotations
 
@@ -125,14 +140,81 @@ def map_block(_runs=None):
                           "realization_A": REAL_A if REAL_A in reals else reals[0]}
     return {"_what": "the runs of the density-response macros (scripts/density.py): factor-X runs and their unit-factor partners "
                      "(the runs of key Flux<limit>) of the same realizations; validation stages excluded",
-            "arms": arms, "not_in_run_lists": missing}
+            "arms": arms, "not_in_run_lists": missing, "units_physical": phys_block()}
+
+
+# ============================================================================================= #
+# the densities in Mpc^-3 (stage X of RUNLIST.yaml, read by name; never a production run)
+# ============================================================================================= #
+PHYS_LIMIT = ("m18", "Eighteen", 18)
+PHYS = {"": ("known_population/both_catalogs/flux_limit_{m}_densities_given/equal_populations/realization_{{R}}_units_physical", 1.0),
+        "Double": ("known_population/both_catalogs/flux_limit_{m}_densities_given_agn_density_double/equal_populations/realization_{{R}}_units_physical", 2.0)}
+
+
+def phys_block():
+    """{"runs": {"" | "Double": {run, stage, factor, log10n_Mpc-3}}, "realization", "flux", "partners"} from RUNLIST.yaml by name: both runs in a
+    check stage (X) with --density given --density-units physical, the same given densities, the AGN factor 1 and 2; or {"runs": None, "why"}."""
+    import yaml
+    if not RUNLIST.exists():
+        return {"runs": None, "why": f"no {RUNLIST.name}"}
+    d = yaml.safe_load(RUNLIST.read_text())
+    idx = {r["name"]: (str(st["stage"]), r["args"]) for st in d["stages"] for r in st["runs"]}
+    _, word, mlim = PHYS_LIMIT
+    why, recs = [], {}
+    for tag, (pat, x) in PHYS.items():
+        p = pat.format(m=mlim)
+        name = p.format(R=f"{REAL_A:03d}")
+        if name not in idx:
+            why.append(f"no run {name} in {RUNLIST.name}")
+            continue
+        st, a = idx[name]
+        kv = {a[i].lstrip("-"): a[i + 1] for i in range(len(a) - 1) if a[i].startswith("--") and not a[i + 1].startswith("--")}
+        if not (st.startswith("X") and kv.get("density") == "given" and kv.get("density-units") == "physical"
+                and abs(float(kv.get("agn-density-factor", "1")) - x) < 1e-12 and kv.get("flux") == str(mlim)):
+            why.append(f"{name}: stage {st}, args {kv} (expected stage X, --density given --density-units physical, factor {x:g})")
+            continue
+        recs[tag] = {"run": p, "stage": st, "factor": x, "log10n_Mpc-3": {"gal": float(kv["log10n-gal"]), "agn": float(kv["log10n-agn"])}}
+    if not why and recs[""]["log10n_Mpc-3"] != recs["Double"]["log10n_Mpc-3"]:
+        why.append("the two runs give different densities")
+    if why:
+        return {"runs": None, "why": "; ".join(why)}
+    return {"_what": f"the m < {mlim} grid of realization A with both densities given in Mpc^-3 (stage X, a check; scripts/density.py "
+                     f"FluxEighteenPhys...), the AGN density at the value from the counts and at twice it",
+            "runs": recs, "realization": REAL_A, "flux": str(mlim),
+            "partners": {"": UNIT.format(m=mlim), "Double": ARM.format(m=mlim, v="double")}}
 
 
 @lru_cache(None)
 def mapped():
     m = json.loads(PMAP.read_text()) if PMAP.exists() else {}
     blk = m.get("density_response")
-    return blk if blk else map_block()
+    blk = dict(blk) if blk else map_block()
+    if "units_physical" not in blk:             # a map written before 18 Nov: the run list by name
+        blk["units_physical"] = phys_block()
+    return blk
+
+
+def phys_evaluate():
+    """{"real", "missing", "rec", "runs": {tag: posterior}, "shift": {q}, "files"}."""
+    rec = mapped()["units_physical"]
+    if not rec.get("runs"):
+        return {"real": False, "missing": [rec.get("why", "not in the map")], "rec": None}
+    paths = {t: run_dir(r["run"], rec["realization"]) / "summary.json" for t, r in rec["runs"].items()}
+    miss = [bv.rel(p) for p in paths.values() if not p.exists()]
+    out = {"real": not miss, "missing": miss, "rec": rec, "files": [bv.rel(p) for p in paths.values()]}
+    if not miss:
+        S = {t: _jr(p) for t, p in paths.items()}
+        for t, s in S.items():
+            da = s["densities"]
+            x = rec["runs"][t]["factor"]
+            assert all(da[c]["units"] == "physical" and da[c]["mode"] == "given" for c in ("gal", "agn")), (t, da)
+            assert abs(da["agn"]["factor"] - x) < 1e-12 and abs(da["gal"]["factor"] - 1.0) < 1e-12, (t, da)
+        assert abs(S["Double"]["densities"]["agn"]["log10n_used"] - S[""]["densities"]["agn"]["log10n_used"] - math.log10(2.0)) < 1e-9
+        for k in ("events_file", "injections_file", "nsamp", "half_variance_correction", "max_var", "zmax", "core", "realization"):
+            assert S["Double"].get(k) == S[""].get(k), (k, S["Double"].get(k), S[""].get(k))
+        out["runs"] = {t: s["posterior"] for t, s in S.items()}
+        out["shift"] = {q: S["Double"]["posterior"][par]["median"] - S[""]["posterior"][par]["median"] for q, (par, _, _) in QW.items()}
+    return out
 
 
 def run_dir(pat, r):
@@ -396,6 +478,7 @@ def build(add, add_ph, fnum, fci, fsig, NUM_WORD):
                         "density", extra=ex)
                 else:
                     add_ph(f"{key}Delta{q}Pred", r"\ph{0.XX}", units, pm, f"the unit-factor run of key Flux{word}, realization {REAL_A}", "density")
+    build_phys(add, add_ph, fnum, fci)
     if len(reals_all) == 1:
         N = len(reals_all[0])
         add("NrealFluxDensity", "plain", NUM_WORD.get(N, str(N)), N, "realizations",
@@ -405,6 +488,46 @@ def build(add, add_ph, fnum, fci, fsig, NUM_WORD):
     else:
         add_ph("NrealFluxDensity", r"\ph{three}", "realizations", "realizations run at each assumed AGN density (the arms differ or are missing: "
                f"{reals_all})", "the density-response runs of RUNLIST.yaml", "design,realizations")
+
+
+def build_phys(add, add_ph, fnum, fci):
+    """The macros of the two stage-X runs with the densities given in Mpc^-3 (claim 'validation')."""
+    E = phys_evaluate()
+    _, word, mlim = PHYS_LIMIT
+    rec = E["rec"]
+    desc = f"population known, both catalogs, m < {mlim}, realization A, both number densities given in Mpc^-3 (the counts' values converted at H0 = 67.74)"
+    src_miss = "; ".join(E["missing"]) if not E["real"] else None
+    for tag, x in (("", 1.0), ("Double", 2.0)):
+        fac = "the AGN density at that value" if x == 1.0 else "the AGN density at twice that value"
+        run_s = f" (run {rec['runs'][tag]['run'].format(R=f'{REAL_A:03d}')}, stage X of RUNLIST.yaml)" if rec else ""
+        for q, (par, qd, units) in QW.items():
+            key = f"Flux{word}Phys{tag}{q}"
+            mean = f"{qd}, {desc}, {fac}{run_s}"
+            if E["real"]:
+                s = E["runs"][tag][par]
+                r_, d = fci(s["median"], s["ci90"][0], s["ci90"][1])
+                srcA = {"file": bv.rel(run_dir(rec["runs"][tag]["run"], REAL_A) / "summary.json"), "key": f"posterior.{par}"}
+                add(key, "plain", r_, {"median": s["median"], "ci90": list(s["ci90"])}, units, mean + " (median and 90% equal-tailed interval)", srcA, "validation",
+                    extra={"decimals": d})
+                for pc, vv, w in (("Med", s["median"], "median"), ("Lo", s["ci90"][0], "lower end of the 90% interval"),
+                                  ("Hi", s["ci90"][1], "upper end of the 90% interval"), ("Wid", s["ci90"][1] - s["ci90"][0], "full width of the 90% interval"),
+                                  ("HalfWid", 0.5 * (s["ci90"][1] - s["ci90"][0]), "half of the full 90% width")):
+                    add(key + pc, "plain", fnum(vv, d), vv, units, f"{w} of {mean}", srcA, "validation")
+            else:
+                add_ph(key, EXPECTED[q], units, mean + " (median and 90% equal-tailed interval)", src_miss, "validation")
+                for pc, w in (("Med", "median"), ("Lo", "lower end of the 90% interval"), ("Hi", "upper end of the 90% interval"), ("Wid", "full width of the 90% interval"),
+                              ("HalfWid", "half of the full 90% width")):
+                    add_ph(key + pc, r"\ph{X.XX}", units, f"{w} of {mean}", src_miss, "validation")
+    for q, (par, qd, units) in QW.items():
+        name = f"Flux{word}PhysDoubleDelta{q}"
+        mean = (f"shift of the {qd} median when the AGN density is doubled with both densities given in Mpc^-3: median of Flux{word}PhysDouble{q} minus "
+                f"that of Flux{word}Phys{q}, {desc}; signed (set in math mode); the production pair in h^3 Mpc^-3 is Flux{word}DoubleDelta{q}")
+        if E["real"]:
+            v = float(E["shift"][q])
+            add(name, "plain", fnum(v, DIG[q]), v, units, mean, {"files": E["files"], "computation": f"posterior.{par}.median of the doubled run minus that of the unit run"},
+                "validation", extra={"decimals": DIG[q], "medians": {"unit": E["runs"][""][par]["median"], "double": E["runs"]["Double"][par]["median"]}})
+        else:
+            add_ph(name, r"\ph{0.XX}", units, mean, src_miss, "validation")
 
 
 DEFINITIONS = """## The assumed AGN number density with flux-limited catalogs (Sec. IV C, Fig. 3(b); scripts/density.py)
@@ -432,6 +555,14 @@ read. Runs: `values/production_map.json`, block `density_response`. Black when e
   n_AGN the unit-factor run's density from the counts (h^3 Mpc^-3), V_miss,AGN = 4 pi int_0^1.10 [1 - C_AGN(z)] dV_c/(dz dOmega) dz
   at H0 = 100 with the run's AGN selection fit. `\\NormFAGN<L>Prod` is the same share at the input density (1e-5 Mpc^-3).
 - **`\\NrealFluxDensity`** (a word): the realizations run at each factor.
+- The densities in Mpc^-3 (a check, stage X of RUNLIST.yaml, never a production run of any key; map block
+  `density_response.units_physical`): the m < 18 grid of realization A with both densities given in Mpc^-3 (the counts'
+  values converted at H0 = 67.74, `--density given --density-units physical`), the AGN density at that value and at twice it.
+  **`\\FluxEighteenPhys<fAGN|Hzero>`** (AGN density at the counts' value) and **`\\FluxEighteenPhysDouble<fAGN|Hzero>`** (doubled):
+  median and 90% interval of the run's summary.json; pieces `Med`, `Lo`, `Hi`, `Wid`, `HalfWid` (the full 90% width and half of it).
+  **`\\FluxEighteenPhysDoubleDelta<fAGN|Hzero>`**: median of the doubled run minus that of the unit run, signed, to three and two
+  decimals; beside `\\FluxEighteenDoubleDelta<fAGN|Hzero>`, the same shift with the densities in h^3 Mpc^-3 (production).
+  Black when both summaries exist.
 """
 
 

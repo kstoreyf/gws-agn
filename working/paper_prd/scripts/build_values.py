@@ -1457,6 +1457,15 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   the samples and prior draws with both densities inside the Table I box in h^3 Mpc^-3 are kept, and every quantity of the key
   is computed from them, so every red limit and the region drawn in Fig. 4(a) lie inside the stated prior (since 17 Nov evening,
   REVIEW_2 1.7; rule in the header of `scripts/placeholder_results.py`).
+- Number densities the data do not bound on both sides (production keys `Free<limit>`; `scripts/production.py`, `edge_bounds`):
+  a side is bounded when the posterior density of the run's sampled parameter (h^3 Mpc^-3, flat prior on the Table I box) at
+  that prior edge is below 1% of its maximum in every realization (kernel density reflected at the prior edges). Otherwise the
+  posterior lies against a prior edge or follows the prior there, and by the paper's rule it gets a limit only: no
+  `\\Free<limit>Logn<Gal|AGN>Comb` (nor `Med`, `Lo`, `Hi`, `Wid` after `Comb`) and no `...CL`; `...CombUL` remains, the 90th
+  percentile of the product over the realizations of kernel densities that respect each sample's own support (the Table I box
+  in h^3 Mpc^-3 shifted to Mpc^-3 by the sample's 3 log10 h; each kernel reflected and truncated there). The edge ratios are in
+  values.json (`extra.bounds` of `...CombUL`). Realization A keeps its macros (`\\Free<limit>Logn<Gal|AGN>` and pieces, `UL`,
+  `ULh`, `PriorUL`, `PriorULh`).
 - Re-anchored placeholders (since 17 Nov evening, REVIEW_2 1.11): while `KnownBoth` is a production result and a key
   `Flux<limit>` or `Free<limit>` is not, its H0, f_AGN and rate ratio of realization A are the exploratory ones moved onto the
   finished complete-catalog result: median = `KnownBoth` median + (exploratory median - exploratory complete median), every
@@ -2525,20 +2534,26 @@ def build_keys():
             for part, tag in (("A", ""), ("Comb", "Comb")):
                 sm = Q[part]
                 where = "realization A" if part == "A" else f"combined over {E['N_comb']} realizations"
-                r_, d = fci(sm["median"], sm["ci90"][0], sm["ci90"][1])
-                val = {k: sm[k] for k in ("median", "ci68", "ci90", "ul90", "level_of_input") if k in sm}
                 base = f"{key}{q}{tag}"
                 mean = f"{Q_DESC[q]}, {desc}, {where}{note}"
-                add(base, cls, wrap(r_), val, Q["units"], mean + " (median and 90% equal-tailed interval)", srcq, "skeleton,keys", extra={"decimals": d, "input": Q["input"]})
-                for pc, v, w in (("Med", sm["median"], "median"), ("Lo", sm["ci90"][0], "lower end of the 90% interval"), ("Hi", sm["ci90"][1], "upper end of the 90% interval"),
-                                 ("Wid", sm["ci90"][1] - sm["ci90"][0], "full width of the 90% interval")):
-                    add(base + pc, cls, wrap(fnum(v, d)), v, Q["units"], f"{w} of {mean}", srcq, "skeleton,keys")
+                if sm.get("limit_only"):
+                    # a number density the data do not bound on both sides: no interval and no width, only its limit (production.edge_bounds)
+                    d = 2
+                    mean += f" ({sm['why']})"
+                else:
+                    r_, d = fci(sm["median"], sm["ci90"][0], sm["ci90"][1])
+                    val = {k: sm[k] for k in ("median", "ci68", "ci90", "ul90", "level_of_input") if k in sm}
+                    add(base, cls, wrap(r_), val, Q["units"], mean + " (median and 90% equal-tailed interval)", srcq, "skeleton,keys", extra={"decimals": d, "input": Q["input"]})
+                    for pc, v, w in (("Med", sm["median"], "median"), ("Lo", sm["ci90"][0], "lower end of the 90% interval"), ("Hi", sm["ci90"][1], "upper end of the 90% interval"),
+                                     ("Wid", sm["ci90"][1] - sm["ci90"][0], "full width of the 90% interval")):
+                        add(base + pc, cls, wrap(fnum(v, d)), v, Q["units"], f"{w} of {mean}", srcq, "skeleton,keys")
                 if part == "A" and q in ("Hzero", "fAGN"):
                     hwv = 0.5 * (sm["ci90"][1] - sm["ci90"][0])
                     add(base + "HalfWid", cls, wrap(fnum(hwv, d)), hwv, Q["units"],
                         f"half of the full 90% width ({base}Wid) of {mean}: the precision of one catalog of 1000 mergers, to quote beside a bias", srcq, "skeleton,keys")
                 if (q == "fAGN" and key == "CtrlZero") or (q in ("LognGal", "LognAGN")):
-                    add(base + "UL", cls, wrap(fnum(sm["ul90"], max(d, 2))), sm["ul90"], Q["units"], f"90% upper limit (90th percentile) of {mean}", srcq, "skeleton,keys")
+                    add(base + "UL", cls, wrap(fnum(sm["ul90"], max(d, 2))), sm["ul90"], Q["units"], f"90% upper limit (90th percentile) of {mean}", srcq, "skeleton,keys",
+                        extra={"bounds": sm["bounds"]} if "bounds" in sm else None)
                 if part == "A" and q in ("LognGal", "LognAGN") and "prior_ul90" in sm:
                     add(base + "PriorUL", cls, wrap(fnum(sm["prior_ul90"], max(d, 2))), sm["prior_ul90"], Q["units"],
                         f"the 90% upper limit the priors allow once the rate per host is measured (prior-induced density), beside {base}UL; {desc}", srcq, "skeleton,keys")
@@ -2551,7 +2566,7 @@ def build_keys():
                     add(base + "PriorULh", cls, wrap(fnum(sm["prior_ul90_h"], max(d, 2))), sm["prior_ul90_h"], "log10 h^3 Mpc^-3",
                         f"the 90% upper limit on {Q_DESC[q]} in h^3 Mpc^-3 that the priors allow once the rate per host is measured (prior-induced density){hn}, "
                         f"beside {base}ULh; {desc}; {base}PriorUL is the same limit in Mpc^-3", srcq, "skeleton,keys")
-            if Q["input"] is not None:
+            if Q["input"] is not None and not Q["Comb"].get("limit_only"):
                 C = Q["Comb"]
                 lev = C.get("level_of_input")
                 edge = key == "CtrlZero" and q == "fAGN"

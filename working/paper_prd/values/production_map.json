@@ -17,7 +17,10 @@
   "  realization_A, stage; validation and check stages of the run list (names starting with 'V' or 'X') excluded. Real when every summary",
   "  named exists.",
   "sky_resolution: the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): pair.run (the nside-64 run, stage X, '{R}' = three-digit",
-  "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization. Real when both summaries exist.",
+  "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization; mc_pair: the same two grids at 32000 samples per",
+  "  merger and six pooled injection sets (both stage X; macros SkyResMC...). Each pair is real when both its summaries exist.",
+  "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
+  "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
  ],
  "runs_root": "analyses/analysis_16_production_runs/runs",
@@ -1973,7 +1976,7 @@
     102
    ],
    "realization_A": 100,
-   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the joint posterior of Fig. 4(a) are in h^3 Mpc^-3, the sampled parameter itself",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -2187,7 +2190,7 @@
     102
    ],
    "realization_A": 100,
-   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the joint posterior of Fig. 4(a) are in h^3 Mpc^-3, the sampled parameter itself",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -2401,7 +2404,7 @@
     102
    ],
    "realization_A": 100,
-   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the joint posterior of Fig. 4(a) are in h^3 Mpc^-3, the sampled parameter itself",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -2615,7 +2618,7 @@
     102
    ],
    "realization_A": 100,
-   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the paper's macros are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h)",
+   "settings": "the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the joint posterior of Fig. 4(a) are in h^3 Mpc^-3, the sampled parameter itself",
    "quantities": {
     "Hzero": {
      "param": "H0",
@@ -3326,6 +3329,34 @@
     "how": "membership",
     "realization_A": 100
    },
+   "ProbEvalfAGNEqual": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAllEqual": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
    "ProbAGNPos": {
     "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
     "runlist": "RUNLIST_experiment.yaml",
@@ -3341,6 +3372,34 @@
     "realization_A": 100
    },
    "ProbGalPos": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbEvalfAGNPos": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAllPos": {
     "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
     "runlist": "RUNLIST_experiment.yaml",
     "stage": "E1",
@@ -3382,6 +3441,34 @@
     "how": "membership",
     "realization_A": 100
    },
+   "ProbEvalfAGNPops": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAllPops": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
    "ProbAGNPosTwice": {
     "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
     "runlist": "RUNLIST_experiment.yaml",
@@ -3410,6 +3497,34 @@
     "how": "membership",
     "realization_A": 100
    },
+   "ProbEvalfAGNPosTwice": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAllPosTwice": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
    "ProbAGNPopsTwice": {
     "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
     "runlist": "RUNLIST_experiment.yaml",
@@ -3425,6 +3540,34 @@
     "realization_A": 100
    },
    "ProbGalPopsTwice": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbEvalfAGNPopsTwice": {
+    "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "membership",
+    "realization_A": 100
+   },
+   "ProbAllPopsTwice": {
     "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
     "runlist": "RUNLIST_experiment.yaml",
     "stage": "E1",
@@ -3519,10 +3662,39 @@
     "realization_A": 100
    }
   },
-  "not_in_run_lists": {}
+  "not_in_run_lists": {},
+  "units_physical": {
+   "_what": "the m < 18 grid of realization A with both densities given in Mpc^-3 (stage X, a check; scripts/density.py FluxEighteenPhys...), the AGN density at the value from the counts and at twice it",
+   "runs": {
+    "": {
+     "run": "known_population/both_catalogs/flux_limit_18_densities_given/equal_populations/realization_{R}_units_physical",
+     "stage": "X",
+     "factor": 1.0,
+     "log10n_Mpc-3": {
+      "gal": -3.010584,
+      "agn": -5.008901
+     }
+    },
+    "Double": {
+     "run": "known_population/both_catalogs/flux_limit_18_densities_given_agn_density_double/equal_populations/realization_{R}_units_physical",
+     "stage": "X",
+     "factor": 2.0,
+     "log10n_Mpc-3": {
+      "gal": -3.010584,
+      "agn": -5.008901
+     }
+    }
+   },
+   "realization": 100,
+   "flux": "18",
+   "partners": {
+    "": "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_{R}",
+    "Double": "known_population/both_catalogs/flux_limit_18_densities_from_counts_agn_density_double/equal_populations/realization_{R}"
+   }
+  }
  },
  "sky_resolution": {
-  "_what": "the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): the nside-64 run and its nside-32 partner (key KnownBoth), realization A",
+  "_what": "the runs of the SkyRes... macros (scripts/skyres.py), realization A: pair = the nside-64 run and its nside-32 partner (key KnownBoth) at the production Monte Carlo settings; mc_pair = the same two grids at Analysis 14's settings (32000 samples, six pooled injection sets), both in stage X",
   "pair": {
    "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64",
    "partner": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
@@ -3531,6 +3703,17 @@
    "stage": "X",
    "partner_stage": "1",
    "runlist": "RUNLIST.yaml"
+  },
+  "mc_pair": {
+   "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64_s32000_inj6",
+   "partner": "known_population/both_catalogs/complete/equal_populations/realization_{R}_s32000_inj6",
+   "nside": 64,
+   "realization": 100,
+   "stage": "X",
+   "partner_stage": "X",
+   "runlist": "RUNLIST.yaml",
+   "nsamp": 32000,
+   "n_injection_sets": 6
   }
  }
 }

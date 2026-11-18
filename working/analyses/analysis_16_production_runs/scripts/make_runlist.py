@@ -46,7 +46,11 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   catalogs at nside 64 (--nside 64, run name realization_100_nside64), and the m < 18 grid of realization 100 with both
   number densities given in Mpc^-3 (--density given --density-units physical, the counts' values converted at
   H0 = 67.74), the AGN density at that value and twice it (run names ..._units_physical). Seconds per call: the measured
-  value of the production run each one varies (stage 1's, stage 2's m < 18 grid).
+  value of the production run each one varies (stage 1's, stage 2's m < 18 grid). And (18 Nov, appended) stage 1's
+  two-tracer grid of realization 100 at nside 32 and at nside 64 with Analysis 14's Monte Carlo settings (--nsamp 32000,
+  the record lane pooled with the realization's five further sets; run names realization_100_s32000_inj6 and
+  realization_100_nside64_s32000_inj6); seconds per call measured on the experiment's two-catalog grid of realization
+  100 at the same settings (X_MC_COST_REFERENCE).
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -173,7 +177,9 @@ TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
                 "run, which is held; realizations 101-105 with the automatic switch at 60 calls per iteration)",
           "X": "checks of two analysis settings on realization 100 (not production results): stage 1's two-tracer grid with "
                "the catalogs pixelized at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical "
-               "units) at the values from the counts, the AGN density at that value and at twice it"}
+               "units) at the values from the counts, the AGN density at that value and at twice it; and the two-tracer grid "
+               "at nside 32 and at nside 64 with Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled "
+               "injection sets)"}
 EXPERIMENT_REALIZATIONS = (100, 101, 102, 103, 105)
 MEMBERSHIP_REALIZATION = 100
 STAGE5_SET = ("obslike", 0.3, 1)     # stage 5's events: the observed-like host-dependent set (E2's obslike_f0p30_s1)
@@ -325,18 +331,22 @@ def check_inputs_in_priors(name, free, popfam, kind):
 
 def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", agn_factor=1.0, extra_args=(),
           lane=None, agn_only=False, family=None, sampler_args=None, name_variant="", n_parts=None,
-          calls_per_part=None):
+          calls_per_part=None, a14_mc=False, variant_prefix=""):
     """One production run. family: None for the production family (events *_corepop, POPULATION_INPUTS
     ["corepop"]); else {"name", "suffix", "population_family"} of another mock family (stage 5), passed to
     the driver as --events-suffix, --family-name and --population-family: the name then joins the events
-    segment of the run name (<kind>_<name>), as the driver names the run directory."""
+    segment of the run name (<kind>_<name>), as the driver names the run directory.
+    a14_mc: Analysis 14's Monte Carlo settings (agn_only_settings: 32000 samples, the realization's injection sets
+    pooled) on a run whose mergers are not all AGN-hosted (stage X); variant_prefix goes before the settings tag in
+    the run name (e.g. nside64_ -> realization_100_nside64_s32000_inj6)."""
     free = P.free_parameters(analysis, catalogs, flux)
     popfam = family["population_family"] if family else "corepop"
     lane = lane or P.default_injection_lane(popfam)
     variant, nsamp, pool = name_variant, 8000, []
     hold_pool = None
-    if agn_only:
+    if agn_only or a14_mc:
         nsamp, pool, variant, hold_pool = agn_only_settings(real, popfam, lane)
+        variant = variant_prefix + variant
         extra_args = list(extra_args) + ["--nsamp", str(nsamp), "--variant", variant] + \
             [x for ln in pool for x in ("--pool-injections", ln)]
     args = ["--mode", mode, "--analysis", analysis, "--catalogs", catalogs, "--flux", flux,
@@ -357,7 +367,7 @@ def entry(stage, mode, analysis, catalogs, flux, kind, real, density="counts", a
         args += list(sampler_args)
     elif mode == "nested" and len(free) > 6:
         args += SAMPLER_8[SAMPLER_8_CHOICE[0]]
-    if name_variant and not agn_only:
+    if name_variant and not (agn_only or a14_mc):
         args += ["--variant", name_variant]
     name = P.run_name(analysis, catalogs, flux, kind, real, density=density, agn_density_factor=agn_factor,
                       family=family["name"] if family else "", variant=variant)
@@ -522,6 +532,10 @@ def build_v8(realizations, hd_lane=None):
 X_REALIZATION = 100
 X_NSIDE = 64
 X_UNITS_LIMIT = "18"
+# (c) the cost of the sky-resolution pair at Analysis 14's Monte Carlo settings: the measured seconds per call of the experiment's
+# two-catalog grid of the same realization at the same settings (both catalogs complete, f_AGN and H0 free, population fixed,
+# 32000 samples per merger, the record lane pooled with Analysis 14's five sets: six)
+X_MC_COST_REFERENCE = "two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_{R:03d}_s32000_inj6"
 
 
 def build_checks(real=X_REALIZATION):
@@ -534,7 +548,14 @@ def build_checks(real=X_REALIZATION):
         the counts in h^3 Mpc^-3, at the values from the counts converted at H0 = 67.74 (log10 n + 3 log10 0.6774, so the
         model equals the production one at H0 = 67.74 and differs only in how the densities scale with H0), the AGN
         density at that value and at twice it; run names ..._densities_given[_agn_density_double]/.../realization_100_
-        units_physical. Seconds per call: the stage-2 m < 18 run's measured value."""
+        units_physical. Seconds per call: the stage-2 m < 18 run's measured value.
+    (c) Sky resolution at Analysis 14's Monte Carlo settings (18 Nov): the pair of (a) at nside 32 and at nside 64 with 32000
+        samples per merger and the realization's six injection sets pooled (the record lane and Analysis 14's five further sets,
+        data/experiment_sets.json 'extra_record_lane_sets'; agn_only_settings, the settings of the all-AGN analyses), run names
+        realization_100_s32000_inj6 and realization_100_nside64_s32000_inj6. At 8000 samples and one set the nside-64 run has
+        about twice the nside-32 run's Monte Carlo variance (posterior-sample sums 4.1 against 2.2, selection N^2/N_eff 2.5
+        against 1.4), so the shift between (a) and its partner does not isolate the resolution. Seconds per call: the measured
+        value of X_MC_COST_REFERENCE (the same grid class at the same settings, realization 100), else the cost model."""
     out = []
     partner = P.run_name("known_population", "both", "complete", "equal_populations", real)
     e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
@@ -566,6 +587,31 @@ def build_checks(real=X_REALIZATION):
                       "log10n_h3Mpc-3_from_counts": {t: dens[t]["log10n_h_scaled"] for t in dens},
                       "converted_at_H0": H0_INPUT}
         out.append(e)
+    # (c) the sky-resolution pair at Analysis 14's Monte Carlo settings (appended: the entries above keep their order)
+    ref = X_MC_COST_REFERENCE.format(R=real)
+    spc_ref = run_seconds_per_call(ref)
+    names = {}
+    for nside in (P.SURVEY_NSIDE, X_NSIDE):
+        off = nside != P.SURVEY_NSIDE
+        e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
+                  extra_args=["--nside", str(nside)] if off else (), a14_mc=True, variant_prefix=f"nside{nside}_" if off else "")
+        if spc_ref:
+            e = finish(e, "X", "grid", e["free"], spc_ref, e["events_file"], e["injections_file"])
+            e["est_seconds_per_call_source"] = (f"measured on {ref} (its sessions: the same two-catalog grid class, realization {real}, "
+                                                f"{e['nsamp']} samples, {1 + len(e['injection_pool'])} pooled sets)")
+        else:
+            e["est_seconds_per_call_source"] = "cost model: spc_mc(spc_fixed, nsamp, sets)"
+        surveys = [P.survey_path(real, t, "complete", nside=nside) for t in ("gal", "agn")]
+        e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys) and all(
+            P.injections_ready(P.injections_path(real, "corepop", ln)) for ln in e["injection_pool"]))
+        e["surveys"] = [str(p) for p in surveys]
+        names[nside] = e["name"]
+        out.append(e)
+    for e in out[-2:]:
+        other = names[X_NSIDE] if e["name"] == names[P.SURVEY_NSIDE] else names[P.SURVEY_NSIDE]
+        e["check"] = {"what": "sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, "
+                              "six pooled injection sets)", "partner": other, "differs_by": f"--nside {X_NSIDE}",
+                      "settings_of": "README, Monte Carlo settings of the all-AGN-hosted analyses; data/experiment_sets.json extra_record_lane_sets"}
     return out
 
 

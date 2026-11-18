@@ -601,11 +601,18 @@ def audit_keys(mac):
         need[f"{pre}Host"] = need[f"{pre}Single"] + ["DmuG", "DmuChi"]
         need[f"{pre}None"] = ["Hzero", "MuG", "SigmaG", "MuChi", "SigmaChi"]
     missing = []
+    kdoc = json.loads((OUT / "values" / "placeholder_results.json").read_text())["keys"]
     for k in keys:
         for q in need[k]:
-            for suf in ("", "Med", "Lo", "Hi", "Wid", "Comb", "CombMed", "CombLo", "CombHi", "CombWid"):
+            # a number density the data do not bound on both sides (Comb 'limit_only', production.edge_bounds; recomputed in J1): its
+            # combination has the 90% upper limit only, and no combined interval, width or credible level may exist
+            lim = bool(((kdoc.get(k, {}).get("quantities", {}).get(q) or {}).get("Comb") or {}).get("limit_only"))
+            sufs = ("", "Med", "Lo", "Hi", "Wid") + (("CombUL",) if lim else ("Comb", "CombMed", "CombLo", "CombHi", "CombWid"))
+            for suf in sufs:
                 if f"{k}{q}{suf}" not in mac:
                     missing.append(f"{k}{q}{suf}")
+            if lim:
+                missing += [f"{k}{q}{s} (must not exist)" for s in ("Comb", "CombMed", "CombLo", "CombHi", "CombWid", "CL") if f"{k}{q}{s}" in mac]
     extra = ["HDBiasHzero", "ObsBiasHzero", "HDLB", "ObsLB", "WidthRatioAGNGal", "MassScaleShareKnown", "MassScaleShareSingle", "CorrHzeroMuGNone", "CorrHzeroMuGBoth"]
     missing += [n for n in extra if n not in mac]
     check(not missing, f"H0 every key and quantity of the skeleton has its macro, Comb and pieces, and the further macros exist ({len(missing)} missing{': ' + ', '.join(missing[:6]) if missing else ''})")
@@ -711,6 +718,7 @@ def audit_keys(mac):
     audit_production(mac, doc, owner)
     audit_classes(mac, doc)
     audit_density(mac)
+    audit_density_phys(mac)
     audit_skyres(mac)
 
 
@@ -837,10 +845,12 @@ def audit_requests(mac, doc):
     # ---- I5: one definition of the width ratio; half-widths ----
     wr = val("GalhostedHzeroWid") / val("AGNhostedHzeroWid")
     hb = [k for k in mac if k.endswith("HalfWid") and abs(val(k) - 0.5 * val(k[:-7] + "Wid")) > 1e-12]
-    nh = sum(1 for k in mac if k.endswith("HalfWid"))
+    nh = sum(1 for k in mac if k.endswith("HalfWid") and mac[k]["claim"].startswith("skeleton"))
+    nh_other = sum(1 for k in mac if k.endswith("HalfWid") and not mac[k]["claim"].startswith("skeleton"))
     keys_hf = sum(1 for k, E_ in doc.items() for q in ("Hzero", "fAGN") if q in E_["quantities"])
     check(abs(wr - val("WidthRatioAGNGal")) < 1e-12 and not hb and nh == keys_hf,
-          f"I5 WidthRatioAGNGal = GalhostedHzeroWid / AGNhostedHzeroWid ({wr:.3f}); {nh} HalfWid macros, one per key with Hzero or fAGN ({keys_hf}), each half its Wid")
+          f"I5 WidthRatioAGNGal = GalhostedHzeroWid / AGNhostedHzeroWid ({wr:.3f}); {nh} HalfWid macros of the key scheme, one per key with Hzero or "
+          f"fAGN ({keys_hf}), and {nh_other} others (the stage-X checks), each half its Wid{': NOT ' + ', '.join(hb[:4]) if hb else ''}")
     # ---- I6: Table I prior ranges from prod_common's text ----
     txt = (B.AN / "analysis_16_production_runs" / "scripts" / "prod_common.py").read_text()
     pri = {m.group(1): (float(m.group(2)), float(m.group(3))) for m in re.finditer(r'"(\w+)": \(([-0-9.]+), ([-0-9.]+)\)', txt.split("PRIORS = {")[1].split("}")[0])}
@@ -1006,6 +1016,82 @@ def _kde_prod(sets, lo, hi, n=6001):
     return x, p / np.trapz(p, x)
 
 
+def _edge_ratios(raw, prior, n=4001):
+    """Own test of the support: per realization, the weighted Scott-rule Gaussian kernel density of the sampled parameter
+    (h^3 Mpc^-3; scipy gaussian_kde, reflected at the prior edges) at each prior edge over its maximum on the box."""
+    from scipy.stats import gaussian_kde
+    lo, hi = prior
+    g = np.linspace(lo, hi, n)
+    out = {"lower": [], "upper": []}
+    for xh, _H, w in raw:
+        keep = w > 1e-9 * w.max()
+        k = gaussian_kde(xh[keep], weights=w[keep])
+        p = k(g) + k(2 * lo - g) + k(2 * hi - g)
+        out["lower"].append(float(p[0] / p.max()))
+        out["upper"].append(float(p[-1] / p.max()))
+    return out
+
+
+def _kde_prod_boxed(raw, prior, n=6001, chunk=300):
+    """Own combination of log10 n in Mpc^-3 (y = x + 3 log10 h per weighted sample) that respects each sample's own support:
+    Scott-rule bandwidth of the weighted y (scipy), each kernel reflected at and truncated to the prior box of x shifted by the
+    sample's 3 log10 h; product over the realizations."""
+    from scipy.stats import gaussian_kde
+    lo, hi = prior
+    sh = [3 * np.log10(H / 100.0) for _x, H, _w in raw]
+    y = np.linspace(lo + min(s.min() for s in sh), hi + max(s.max() for s in sh), n)
+    lp = np.zeros(n)
+    for (xh, H, w), s in zip(raw, sh):
+        keep = w > 1e-9 * w.max()
+        xk, sk, wk = xh[keep], s[keep], w[keep] / w[keep].sum()
+        yk = xk + sk
+        bw = float(np.sqrt(gaussian_kde(yk, weights=wk).covariance[0, 0]))
+        p = np.zeros(n)
+        for c in np.array_split(np.arange(len(yk)), max(1, len(yk) // chunk)):
+            el, eh = lo + sk[c], hi + sk[c]
+            kk = sum(np.exp(-0.5 * ((y[:, None] - m[None, :]) / bw) ** 2) for m in (yk[c], 2 * el - yk[c], 2 * eh - yk[c]))
+            kk = kk * ((y[:, None] >= el[None, :]) & (y[:, None] <= eh[None, :]))
+            p += kk @ wk[c]
+        lp += np.log(np.maximum(p, 1e-300))
+    p = np.exp(lp - lp.max())
+    return y, p / np.trapz(p, y)
+
+
+def _prior_limits_own(spec, n=4_000_000, seed=424242):
+    """Own prior-induced 90% upper limits of the two densities (realization A of a Free key): uniform draws from the free-density
+    run's priors (its config.json), weighted by the known-density grid of the same realization and flux limit (own splines of its
+    stored ln L) at f* = expit(logit f + ln[F_AGN(n_AGN)/F_gal(n_gal)] - ln[F_AGN/F_gal at the densities of that run]),
+    F_k = N_k/(N_k + n_k V_miss,k): N_k counted with h5py in the survey files the known-density run names, n_k V_miss,k from
+    Analysis 15's closed form at H0 = 67.74 (n in Mpc^-3 = 10^(log10 n_h) h^3, so n V does not depend on H0). -> {cls: (UL h^3 Mpc^-3, UL Mpc^-3)}."""
+    C = _a15()
+    fdir = RUNS16 / spec["prior_induced_from"]
+    sm, cfg = _jr(fdir / "summary.json"), _jr(fdir / "config.json")
+    pri = _jr(RUNS16 / spec["run"].format(R=f"{spec['realization_A']:03d}") / "config.json")["priors"]
+    N = _counts(fdir)
+    lh = 3 * math.log10(0.6774)
+    Vp = {c: C.z_closed(0, lh, C.schechter_fit(cfg["selection_fits"][c]["path"]), 67.74, C.ZMAX_R) for c in ("gal", "agn")}
+    F = lambda c, l: N[c] / (N[c] + 10.0 ** np.asarray(l, float) * Vp[c])
+    used = {c: sm["densities"][c]["log10n_used"] for c in ("gal", "agn")}
+    rng = np.random.default_rng(seed)
+    H, f, lg, la = (rng.uniform(*pri[p], n) for p in ("H0", "f_agn", "log10n_gal", "log10n_agn"))
+    f = np.clip(f, 1e-12, 1 - 1e-12)
+    lgt = np.log(f) - np.log1p(-f) + np.log(F("agn", la) / F("gal", lg)) - math.log(F("agn", used["agn"]) / F("gal", used["gal"]))
+    fs = 1.0 / (1.0 + np.exp(-lgt))
+    lv = _grid_eval(_grid_spl(fdir), np.stack([H, fs], 1))
+    lv = np.where(np.isfinite(lv), lv, -np.inf)
+    w = np.exp(lv - lv.max())
+    conv = 3 * np.log10(H / 100.0)
+    neff = float(w.sum() ** 2 / np.sum(w ** 2))
+    out = {"n_eff": neff}
+    for c, x in (("Gal", lg), ("AGN", la)):
+        out[c] = []
+        for y in (x, x + conv):
+            q88, q90, q92 = _wq(y, w, [0.88, 0.90, 0.92])
+            # Monte Carlo error of a weighted 90% quantile per unit 1/sqrt(n_eff): sqrt(0.9 x 0.1) / (density at the quantile)
+            out[c].append((float(q90), float(math.sqrt(0.09) * (q92 - q88) / 0.04)))
+    return out
+
+
 def _counts(run):
     cfg = _jr(run / "config.json")
     out = {}
@@ -1039,6 +1125,7 @@ def audit_production(mac, doc, owner):
     check(not miss and not nosum and not notblack, f"J0 {len(final)} production keys ({', '.join(sorted(final))}): each has its runs in production_map.json, every summary.json exists, "
                                                    f"every macro prints black and cites its summary ({len(miss) + len(nosum) + len(notblack)} exceptions{': ' + ', '.join((miss + nosum + notblack)[:6]) if miss or nosum or notblack else ''})")
     comb_cache = {}
+    edge_rows, prior_own = [], {}
     for k in sorted(final):
         sp = specs[k]
         runs = [RUNS16 / sp["run"].format(R=f"{r:03d}") for r in sp["realizations"]]
@@ -1052,10 +1139,15 @@ def audit_production(mac, doc, owner):
             if q == "RateRatio":
                 continue
             par = QPAR[q]
-            vA, vC = val(f"{k}{q}"), val(f"{k}{q}Comb")
-            hwA, hwC = 0.5 * (vA["ci90"][1] - vA["ci90"][0]), 0.5 * (vC["ci90"][1] - vC["ci90"][0])
             x0 = doc[k]["quantities"][q]["input"]
             conv = k.startswith("Free") and q in ("LognGal", "LognAGN")
+            # a number density the data do not bound on both sides has no combined interval, width or credible level (checked below)
+            lim_only = bool(doc[k]["quantities"][q]["Comb"].get("limit_only"))
+            vA = val(f"{k}{q}")
+            hwA = 0.5 * (vA["ci90"][1] - vA["ci90"][0])
+            if not lim_only:
+                vC = val(f"{k}{q}Comb")
+                hwC = 0.5 * (vC["ci90"][1] - vC["ci90"][0])
             # realization A: the macro is the summary's median and 90% interval
             if not conv:
                 ps = sA["posterior"][par]
@@ -1069,10 +1161,14 @@ def audit_production(mac, doc, owner):
                 comb_cache[(k, q)] = _marg(names, axes, tot, par)
             else:
                 if conv:
-                    sets = []
+                    sets, raw = [], []
                     for r in runs:
                         s, w = _nested_w(r, [par, "H0"])
                         sets.append((s[:, 0] + 3 * np.log10(s[:, 1] / 100.0), w))
+                        raw.append((s[:, 0], s[:, 1], w))
+                    pri_h = {tuple(_jr(r / "config.json")["priors"][par]) for r in runs}
+                    assert len(pri_h) == 1, (k, q, pri_h)
+                    pri_h = pri_h.pop()
                 else:
                     sets = [(lambda sw: (sw[0][:, 0], sw[1]))(_nested_w(r, [par])) for r in runs]
                 sa, wa = sets[sp["realizations"].index(sp["realization_A"])]
@@ -1092,17 +1188,47 @@ def audit_production(mac, doc, owner):
             tolA = 0.015 * hwA if not conv else 0.05 * hwA
             for nm, a, b in (("median", vA["median"], ownA["median"]), ("lo", vA["ci90"][0], ownA["ci90"][0]), ("hi", vA["ci90"][1], ownA["ci90"][1])):
                 cmp(f"{k}{q}", a, b, max(tolA, 5e-4), f"A {nm} (summary.json) vs own {'spline of the grid' if grid else 'weighted samples'}")
-            tolC = (0.01 if grid else 0.08) * hwC
-            for nm, a, b in (("median", vC["median"], own["median"]), ("lo", vC["ci90"][0], own["ci90"][0]), ("hi", vC["ci90"][1], own["ci90"][1])):
-                cmp(f"{k}{q}Comb", a, b, max(tolC, 5e-4 if q != "Hzero" else 0.005), f"Comb {nm} vs own {'summed splines' if grid else 'Scott-KDE product'}")
-            if f"{k}{q}CombUL" in mac:
-                cmp(f"{k}{q}CombUL", val(f"{k}{q}CombUL"), own["ul90"], max(tolC, 2e-3), "Comb 90% upper limit")
+            if conv:
+                # the support: own edge ratios (weighted Scott kernel, reflected at the prior edges of the sampled parameter); a side is
+                # bounded when the ratio is below 1% in every realization; limit only exactly when a side is not bounded
+                er = _edge_ratios(raw, pri_h)
+                own_lim = not (max(er["lower"]) < 0.01 and max(er["upper"]) < 0.01)
+                edge_rows.append(f"{k}{q} lower {max(er['lower']):.3f} upper {max(er['upper']):.3f} -> {'limit only' if own_lim else 'interval'}")
+                cmp(f"{k}{q}Comb", float(lim_only), float(own_lim), 0.0, "limit only (no combined interval) by the own edge ratios")
+                # the limits: realization A in Mpc^-3 (converted samples) and in h^3 Mpc^-3 (the sampled parameter), own weighted samples
+                qa_ = _wq(sa, wa, [0.05, 0.90, 0.95])
+                cmp(f"{k}{q}UL", val(f"{k}{q}UL"), float(qa_[1]), max(0.05 * 0.5 * (qa_[2] - qa_[0]), 5e-4), "A 90% upper limit in Mpc^-3 vs own weighted samples")
+            if lim_only:
+                gone = [n for n in (f"{k}{q}Comb", f"{k}{q}CombMed", f"{k}{q}CombLo", f"{k}{q}CombHi", f"{k}{q}CombWid", f"{k}{q}CL") if n in mac]
+                cmp(f"{k}{q}Comb", float(len(gone)), 0.0, 0.0, f"no combined interval, width or credible level{': ' + ', '.join(gone) if gone else ''}")
+                xb, pb = _kde_prod_boxed(raw, pri_h)
+                ob = _quant(xb, pb)
+                cmp(f"{k}{q}CombUL", val(f"{k}{q}CombUL"), ob["ul90"], max(0.08 * 0.5 * (ob["ci90"][1] - ob["ci90"][0]), 2e-3),
+                    "Comb 90% upper limit vs own Scott-KDE product respecting each sample's support")
+            else:
+                tolC = (0.01 if grid else 0.08) * hwC
+                for nm, a, b in (("median", vC["median"], own["median"]), ("lo", vC["ci90"][0], own["ci90"][0]), ("hi", vC["ci90"][1], own["ci90"][1])):
+                    cmp(f"{k}{q}Comb", a, b, max(tolC, 5e-4 if q != "Hzero" else 0.005), f"Comb {nm} vs own {'summed splines' if grid else 'Scott-KDE product'}")
+                if f"{k}{q}CombUL" in mac:
+                    cmp(f"{k}{q}CombUL", val(f"{k}{q}CombUL"), own["ul90"], max(tolC, 2e-3), "Comb 90% upper limit")
             if conv and f"{k}{q}ULh" in mac:
                 # the limit in h^3 Mpc^-3: the run's own weighted samples of its parameter, no conversion
                 sh, wh = _nested_w(rA, [par])
                 qh = _wq(sh[:, 0], wh, [0.05, 0.90, 0.95])
                 cmp(f"{k}{q}ULh", val(f"{k}{q}ULh"), float(qh[1]), max(0.05 * 0.5 * (qh[2] - qh[0]), 5e-4), "A 90% upper limit in h^3 Mpc^-3 vs own weighted samples")
-            if x0 is not None and isinstance(val(f"{k}{q}CL"), (int, float)):
+            if conv and sp.get("prior_induced_from") and f"{k}{q}PriorULh" in mac:
+                # the limits the priors allow once the rate per host is measured: own draws, counts, closed form and splines
+                if k not in prior_own:
+                    prior_own[k] = _prior_limits_own(sp)
+                po = prior_own[k]
+                ne_p = (doc[k].get("joint", {}).get("prior_induced") or {}).get("n_eff") or 0.0
+                for nm_, (qv, s1) in zip(("PriorULh", "PriorUL"), po[q[4:]]):
+                    # tolerance: four times the combined Monte Carlo error of the two weighted quantiles (own draws and the build's, each
+                    # sqrt(0.09 / n_eff) over the density at the quantile)
+                    tol_ = 4.0 * s1 * math.sqrt(1.0 / po["n_eff"] + (1.0 / ne_p if ne_p > 0 else 1.0))
+                    cmp(f"{k}{q}{nm_}", val(f"{k}{q}{nm_}"), qv, tol_, f"A prior-induced 90% upper limit ({'h^3 Mpc^-3' if nm_.endswith('h') else 'Mpc^-3'}) vs own "
+                                                                         f"4e6 prior draws (n_eff {po['n_eff']:.0f}; the build's {ne_p:.0f})")
+            if x0 is not None and not lim_only and isinstance(val(f"{k}{q}CL"), (int, float)):
                 cmp(f"{k}{q}CL", val(f"{k}{q}CL"), own["level"], 0.01 if grid else 0.04, "credible level of the input in Comb")
         # rate per host
         if "RateRatio" in sp["quantities"]:
@@ -1203,7 +1329,9 @@ def audit_production(mac, doc, owner):
     worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf))
     check(not bad, f"J1 {len(rows)} numbers of the production keys recomputed by a second code path (summary.json read directly; own splines of the grids; "
                    f"own weighted samples and kernel densities; own survey counts; Analysis 15's missing volumes); largest deviation {worst[2]:.2g} "
-                   f"({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
+                   f"({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}); number densities, largest posterior density at a prior edge over its maximum "
+                   f"(own weighted kernel; a limit only unless both < 0.01): {'; '.join(edge_rows) or 'none final'}"
+                   f"{'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
 
 
 # ============================================================================================= #
@@ -1597,7 +1725,36 @@ def audit_skyres(mac):
         return
     s64, s32 = (_jr(RUNS16 / n / "summary.json") for n in (run, partner))
     c64, c32 = (_jr(RUNS16 / n / "config.json") for n in (run, partner))
-    diff = sorted(k for k in set(c64) | set(c32) if c64.get(k) != c32.get(k))
+    # the injection set each likelihood used: the newer driver records the list (injections_files, with
+    # n_injection_sets and the pooled lanes); the older one only its file (injections_file), which prod_model takes
+    # when the list is absent; with neither, the driver's default for the realization and family. The three keys
+    # only the newer driver writes are compared through this set, not one by one.
+    inj_keys = ("injections_files", "n_injection_sets", "injection_lanes_pooled")
+
+    def inj_set(c):
+        if c.get("injections_files"):
+            files = list(c["injections_files"])
+        elif c.get("injections_file"):
+            files = [c["injections_file"]]
+        else:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("_pc16", RUNS16.parent / "scripts" / "prod_common.py")
+            pc = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(pc)
+            files = [str(pc.injections_path(c["realization"], c.get("population_family", "corepop"), c.get("injections_lane")))]
+        ok = (c.get("n_injection_sets") in (None, len(files))
+              and (c.get("injection_lanes_pooled") is None or len(c["injection_lanes_pooled"]) == len(files) - 1))
+        return [str(Path(f).resolve()) for f in files], ok
+    (i64, ok64), (i32, ok32) = inj_set(c64), inj_set(c32)
+    ok_inj = ok64 and ok32 and i64 == i32
+    # membership (--membership) writes each merger's AGN-host probability after the grid is summarized
+    # (prod_driver.run_grid: membership_safe(m, cfg, summ, gdir) from the finished summary); the model that
+    # evaluates the grid (prod_model.py) never reads the key, so it may differ between the two runs
+    drv = (RUNS16.parent / "scripts" / "prod_driver.py").read_text()
+    mod = (RUNS16.parent / "scripts" / "prod_model.py").read_text()
+    calls = re.findall(r"(?<!def )membership_safe\(m, cfg, ([^,]+), gdir\)", drv)
+    ok_mem = "membership" not in mod and calls == ['rec["summary"]', "summ"] and drv.index("summ = grid_summary(") < drv.rindex("membership_safe(m, cfg, summ")
+    diff = sorted(k for k in set(c64) | set(c32) if c64.get(k) != c32.get(k) and k not in inj_keys)
     want_diff = ["membership", "run_name", "survey_nside", "surveys", "variant"]
     nside, nobj = {}, {}
     for tag, c in (("64", c64), ("32", c32)):
@@ -1610,10 +1767,103 @@ def audit_skyres(mac):
     for n, par in zip(names, ("H0", "f_agn")):
         want = s64["posterior"][par]["median"] - s32["posterior"][par]["median"]
         dev.append(abs(mac[n]["value"] - want))
-    check(set(diff) <= set(want_diff) and ok_files and max(dev) < 1e-12,
-          f"S1 the two runs' configs differ only in {diff} (allowed {want_diff}); survey files at nside 64 and 32 with the same objects "
-          f"({ {t: nobj[('64', t)] for t in ('gal', 'agn')} }); SkyResShift<Hzero|fAGN> = difference of the summaries' medians to "
-          f"{max(dev):.1g}")
+    # the Monte Carlo quality at the peak: the macros equal the summaries' variance block, and that block equals an own reading of
+    # each grid's final fine pass (h5py: argmax of the corrected ln L, the posterior-sample variance and N^2/N_eff there)
+    dvar, vrows = _skyres_var_dev(mac, "", {64: (run, s64), 32: (partner, s32)})
+    dev += dvar
+    check(set(diff) <= set(want_diff) and ok_files and ok_inj and ok_mem and max(dev) < 1e-9,
+          f"S1 the two runs' configs differ only in {diff} (allowed {want_diff}; membership output written after the grid, never read by "
+          f"prod_model: {ok_mem}); the same injection set {[Path(p).name for p in i64]} (nside 64) and {[Path(p).name for p in i32]} "
+          f"(nside 32: {'its injections_files' if c32.get('injections_files') else 'its injections_file, no list recorded'}), set counts consistent "
+          f"{ok64 and ok32}; survey files at nside 64 and 32 with the same objects "
+          f"({ {t: nobj[('64', t)] for t in ('gal', 'agn')} }); SkyResShift<Hzero|fAGN> = difference of the summaries' medians, "
+          f"SkyResVar<PE|Sel><SixtyFour|ThirtyTwo|Ratio> = the summaries' variance at the peak and the own reading of each fine grid "
+          f"({vrows}), to {max(dev):.1g}")
+    audit_skyres_mc(mac, idx, s64, s32, c32)
+
+
+def _skyres_var_dev(mac, P, runs):
+    """|macro - summary| and |summary - own grid reading| of the SkyRes<P>Var... macros; runs {nside: (run name, summary)}."""
+    dev, own = [], {}
+    for ns, (name, sm) in runs.items():
+        run = RUNS16 / name
+        res, cfg = _jr(run / "grid" / "result.json"), _jr(run / "config.json")
+        fn = "fine_widened.h5" if (res.get("outside_mass_check") or {}).get("widened") else "fine.h5"
+        with h5py.File(run / "grid" / fn, "r") as h:
+            l, pv, ne = (np.asarray(h[k][()], float) for k in ("lnL", "pe_var", "n_eff"))
+            n = int(h.attrs["n_events"])
+        lc = l + 0.5 * pv - 0.5 * n / ne if cfg["half_variance_correction"] else l
+        i = np.unravel_index(int(np.argmax(np.where(np.isfinite(l), lc, -np.inf))), lc.shape)
+        own[ns] = {"PE": float(pv[i]), "Sel": float(n ** 2 / ne[i])}
+        for v, f in (("PE", "pe_var_at_peak"), ("Sel", "sigma2_sel_at_peak")):
+            dev.append(abs(sm["variance"][f] - own[ns][v]) / own[ns][v])
+            dev.append(abs(mac[f"SkyRes{P}Var{v}{ {64: 'SixtyFour', 32: 'ThirtyTwo'}[ns] }"]["value"] - sm["variance"][f]))
+    for v, f in (("PE", "pe_var_at_peak"), ("Sel", "sigma2_sel_at_peak")):
+        dev.append(abs(mac[f"SkyRes{P}Var{v}Ratio"]["value"] - runs[64][1]["variance"][f] / runs[32][1]["variance"][f]))
+    rows = "; ".join(f"{v} {own[64][v]:.3g}/{own[32][v]:.3g} = {own[64][v] / own[32][v]:.3g}" for v in ("PE", "Sel"))
+    return dev, rows
+
+
+def audit_skyres_mc(mac, idx, s64_8k, s32_8k, c32_8k):
+    """S2/S3: the sky-resolution pair at Analysis 14's Monte Carlo settings (skyres 'mc_pair'), by own code."""
+    P = "MC"
+    names = [f"SkyRes{P}Shift{q}" for q in ("Hzero", "fAGN")] + [f"SkyRes{P}Var{v}{w}" for v in ("PE", "Sel") for w in ("SixtyFour", "ThirtyTwo", "Ratio")]
+    if not all(n in mac for n in names):
+        check(False, f"S2 values.json has the {len(names)} SkyResMC... macros ({', '.join(n for n in names if n not in mac)} missing)")
+        return
+    base = "known_population/both_catalogs/complete/equal_populations/realization_100"
+    run, partner = base + "_nside64_s32000_inj6", base + "_s32000_inj6"
+    ok_list, why = run in idx and partner in idx, []
+    if ok_list:
+        (st64, a64), (st32, a32), (_, a1) = idx[run], idx[partner], idx[base]
+        sets = json.loads((B.W / "data" / "experiment_sets.json").read_text())["extra_record_lane_sets"]["100"]["files"]
+        stage1 = [x for x in a1 if x != "--membership"]
+        want32 = stage1 + ["--nsamp", "32000", "--variant", "s32000_inj6"] + [x for f in sets for x in ("--pool-injections", f)]
+        want64 = stage1 + ["--nside", "64", "--nsamp", "32000", "--variant", "nside64_s32000_inj6"] + [x for f in sets for x in ("--pool-injections", f)]
+        ok_list = st64.startswith("X") and st32.startswith("X") and list(a32) == want32 and list(a64) == want64
+        if not ok_list:
+            why.append(f"stages {st64}/{st32}; args 32: {a32 == want32}, 64: {a64 == want64}")
+    pm = _jr(OUT / "values" / "production_map.json")
+    blk = (pm.get("sky_resolution") or {}).get("mc_pair") or {}
+    ok_map = blk.get("run", "").format(R="100") == run and blk.get("partner", "").format(R="100") == partner
+    have = all((RUNS16 / n / "summary.json").exists() for n in (run, partner))
+    black = [mac[n]["class"] == "plain" for n in names]
+    # while red: the shifts of the 8000-sample pair, its variances scaled by the Monte Carlo settings, its ratios
+    red_dev = 0.0
+    if not have:
+        for q, par in (("Hzero", "H0"), ("fAGN", "f_agn")):
+            red_dev = max(red_dev, abs(mac[f"SkyRes{P}Shift{q}"]["value"] - (s64_8k["posterior"][par]["median"] - s32_8k["posterior"][par]["median"])))
+        for v, f, sc in (("PE", "pe_var_at_peak", 8000 / 32000), ("Sel", "sigma2_sel_at_peak", 1 / 6)):
+            red_dev = max(red_dev, abs(mac[f"SkyRes{P}Var{v}SixtyFour"]["value"] - sc * s64_8k["variance"][f]),
+                          abs(mac[f"SkyRes{P}Var{v}ThirtyTwo"]["value"] - sc * s32_8k["variance"][f]),
+                          abs(mac[f"SkyRes{P}Var{v}Ratio"]["value"] - s64_8k["variance"][f] / s32_8k["variance"][f]))
+    check(ok_list and ok_map and all(b == have for b in black) and red_dev < 1e-9,
+          f"S2 the sky-resolution pair at 32000 samples and six injection sets is RUNLIST.yaml's (own parser): {partner} and {run} in a check stage "
+          f"(X) with stage 1's arguments of {base} (without --membership), --nsamp 32000, the five further sets of data/experiment_sets.json "
+          f"(extra_record_lane_sets 100) pooled, the nside-64 one with --nside 64; the map names the pair; black exactly when both summaries "
+          f"exist ({have}){'' if have else f'; red values = the 8000-sample pair scaled (shifts as they are, posterior-sample variance x 1/4, N^2/N_eff x 1/6; to {red_dev:.1g})'}"
+          f"{'; ' + '; '.join(why) if why else ''}")
+    if not have:
+        return
+    s64, s32 = (_jr(RUNS16 / n / "summary.json") for n in (run, partner))
+    c64, c32 = (_jr(RUNS16 / n / "config.json") for n in (run, partner))
+    diff = sorted(k for k in set(c64) | set(c32) if c64.get(k) != c32.get(k))
+    want_diff = ["run_name", "survey_nside", "surveys", "variant"]
+    inj = [str(Path(f).resolve()) for f in c32["injections_files"]]
+    ok_inj = (c32["nsamp"] == 32000 and len(set(inj)) == 6 and inj[0] == str(Path(c32_8k["injections_file"]).resolve())
+              and c32["redraw_key"] == c32_8k["redraw_key"] and c32["events_file"] == c32_8k["events_file"])
+    nside = {}
+    for tag, c in (("64", c64), ("32", c32)):
+        for t, path in c["surveys"].items():
+            with h5py.File(path, "r") as h:
+                nside[(tag, t)] = int(h.attrs["nside"])
+    ok_files = all(nside[("64", t)] == 64 and nside[("32", t)] == 32 for t in ("gal", "agn"))
+    dev = [abs(mac[f"SkyRes{P}Shift{q}"]["value"] - (s64["posterior"][par]["median"] - s32["posterior"][par]["median"])) for q, par in (("Hzero", "H0"), ("fAGN", "f_agn"))]
+    dvar, vrows = _skyres_var_dev(mac, P, {64: (run, s64), 32: (partner, s32)})
+    check(set(diff) <= set(want_diff) and ok_inj and ok_files and max(dev + dvar) < 1e-9,
+          f"S3 the two runs' configs differ only in {diff} (allowed {want_diff}); 32000 samples, six distinct injection sets (the first the record "
+          f"lane of the 8000-sample pair), the same redraw and events; survey files at nside 64 and 32; SkyResMC... = the summaries "
+          f"(shifts of the medians; variance at the peak, own reading of the fine grids {vrows}) to {max(dev + dvar):.1g}")
 
 
 # ============================================================================================= #
@@ -1743,6 +1993,75 @@ def audit_density(mac):
     check(not bad, f"L1 {len(rows)} numbers of the density-response macros recomputed by a second code path (summaries read directly; own counts and "
                    f"Analysis 15's missing volume for F_AGN; the identity applied cell by cell to the stored unit-factor grid); largest deviation "
                    f"{worst[2]:.2g} ({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}){'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
+
+
+def audit_density_phys(mac):
+    """L2/L3: the two stage-X runs with both densities given in Mpc^-3 (density.py FluxEighteenPhys...), by own code: the run list parsed
+    here, the summaries read directly, the given densities against the production partner's densities from the counts converted at
+    H0 = 67.74; and no run of a check or validation stage (X, V) is a production run of any key, experiment macro or density arm."""
+    import yaml
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    idx = {r["name"]: (str(st["stage"]), r["args"]) for st in rl["stages"] for r in st["runs"]}
+    kv = lambda a: {a[i].lstrip("-"): a[i + 1] for i in range(len(a) - 1) if a[i].startswith("--") and not a[i + 1].startswith("--")}
+    base = "known_population/both_catalogs/flux_limit_18_densities_given{}/equal_populations/realization_100_units_physical"
+    runs = {"": base.format(""), "Double": base.format("_agn_density_double")}
+    partner = "known_population/both_catalogs/flux_limit_18_densities_from_counts/equal_populations/realization_100"
+    names = [f"FluxEighteenPhys{t}{q}{pc}" for t in runs for q in ("fAGN", "Hzero") for pc in ("", "Med", "Lo", "Hi", "Wid", "HalfWid")] + \
+            [f"FluxEighteenPhysDoubleDelta{q}" for q in ("fAGN", "Hzero")]
+    if not all(n in mac for n in names):
+        check(False, f"L2 values.json has the {len(names)} FluxEighteenPhys... macros ({', '.join(n for n in names if n not in mac)[:200]} missing)")
+        return
+    why = []
+    ps = _jr(RUNS16 / partner / "summary.json") if (RUNS16 / partner / "summary.json").exists() else None
+    for t, n in runs.items():
+        if n not in idx:
+            why.append(f"no {n}")
+            continue
+        st, a = idx[n]
+        k = kv(a)
+        if not (st.startswith("X") and k.get("density") == "given" and k.get("density-units") == "physical" and k.get("flux") == "18"
+                and abs(float(k.get("agn-density-factor", "1")) - (2.0 if t else 1.0)) < 1e-12):
+            why.append(f"{n}: stage {st}, {k}")
+        if ps is not None:
+            for c, f in (("gal", "log10n-gal"), ("agn", "log10n-agn")):
+                if abs(float(k[f]) - (ps["densities"][c]["log10n_used"] + 3 * math.log10(0.6774))) > 1e-6:
+                    why.append(f"{n} --{f} {k[f]} is not the partner's density from the counts converted at H0 = 67.74")
+    have = all((RUNS16 / n / "summary.json").exists() for n in runs.values())
+    black = [mac[n]["class"] == "plain" for n in names]
+    dev = []
+    if have:
+        S = {t: _jr(RUNS16 / n / "summary.json") for t, n in runs.items()}
+        for t, s in S.items():
+            if not all(s["densities"][c]["units"] == "physical" for c in ("gal", "agn")):
+                why.append(f"{runs[t]}: summary densities not in physical units")
+            for q, par in (("fAGN", "f_agn"), ("Hzero", "H0")):
+                p = s["posterior"][par]
+                v = mac[f"FluxEighteenPhys{t}{q}"]["value"]
+                dev += [abs(v["median"] - p["median"]), abs(v["ci90"][0] - p["ci90"][0]), abs(v["ci90"][1] - p["ci90"][1])]
+                for pc, want in (("Med", p["median"]), ("Lo", p["ci90"][0]), ("Hi", p["ci90"][1]), ("Wid", p["ci90"][1] - p["ci90"][0]),
+                                 ("HalfWid", 0.5 * (p["ci90"][1] - p["ci90"][0]))):
+                    dev.append(abs(mac[f"FluxEighteenPhys{t}{q}{pc}"]["value"] - want))
+        for q, par in (("fAGN", "f_agn"), ("Hzero", "H0")):
+            dev.append(abs(mac[f"FluxEighteenPhysDoubleDelta{q}"]["value"] - (S["Double"]["posterior"][par]["median"] - S[""]["posterior"][par]["median"])))
+    sh = {q: mac[f"FluxEighteenPhysDoubleDelta{q}"]["value"] for q in ("Hzero", "fAGN")}
+    prod = {q: mac.get(f"FluxEighteenDoubleDelta{q}", {}).get("value") for q in ("Hzero", "fAGN")}
+    sh = {q: (v if isinstance(v, (int, float)) else float("nan")) for q, v in sh.items()}
+    prod = {q: (v if isinstance(v, (int, float)) else float("nan")) for q, v in prod.items()}
+    check(not why and all(b == have for b in black) and max(dev, default=0.0) < 1e-12,
+          f"L2 the two runs with both densities given in Mpc^-3 are RUNLIST.yaml's (own parser): stage X, --density given --density-units physical, "
+          f"m < 18, AGN factor 1 and 2, the given densities = the production partner's from the counts + 3 log10 0.6774; the {len(names)} "
+          f"FluxEighteenPhys... macros print black exactly when both summaries exist ({have}) and equal the summaries to {max(dev, default=0.0):.1g} "
+          f"(shift under the doubling: H0 {sh['Hzero']:+.2f}, f_AGN {sh['fAGN']:+.3f}; production, h^3 Mpc^-3: {prod['Hzero']:+.2f}, {prod['fAGN']:+.3f})"
+          f"{'; ' + '; '.join(why) if why else ''}")
+    # L3: check and validation stages never feed a key, an experiment macro or a density arm (own regex of every pattern of the map)
+    pm = _jr(OUT / "values" / "production_map.json")
+    pats = [sp["run"] for sp in pm.get("keys", {}).values()] + [r["run"] for r in (pm.get("classes") or {}).get("macros", {}).values() if r.get("run")]
+    pats += [rec[k] for rec in ((pm.get("density_response") or {}).get("arms") or {}).values() for k in ("run", "unit_run")]
+    rx = [re.compile("^" + re.escape(p).replace(re.escape("{R}"), r"\d{3}") + "$") for p in pats]
+    nonprod = [n for n, (st, _a) in idx.items() if st.startswith(("X", "V"))]
+    hit = [n for n in nonprod if any(r.match(n) for r in rx)]
+    check(not hit, f"L3 none of the {len(nonprod)} runs of the check and validation stages (X, V) of RUNLIST.yaml matches a run pattern of the "
+                   f"production map ({len(pats)} patterns: keys, experiment macros, density arms){': ' + ', '.join(hit[:4]) if hit else ''}")
 
 
 def _trap_median(x, L):

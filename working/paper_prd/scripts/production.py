@@ -30,6 +30,13 @@ scripts, which the paper no longer reads)
                   the credible level of the input (placeholder_results.summarize_xp)
   CL              level_of_input of Comb: |2 F(input) - 1|, the input = the summaries' "truth" (or the
                   paper's input where the map says so)
+  number densities (keys Free<limit>, LognGal and LognAGN, converted to Mpc^-3 per sample): Comb is the product of
+                  kernel densities that respect each sample's own support (kde_product_boxed: the prior box of the
+                  sampled parameter in h^3 Mpc^-3 shifted by the sample's 3 log10 h; reflected and truncated there).
+                  A density the data do not bound on both sides (edge_bounds: posterior density at a prior edge
+                  >= EDGE_FRACTION of its maximum in some realization) gets no combined median, interval, width or
+                  credible level, only its 90% upper limit (Comb "limit_only"; the paper's rule for posteriors
+                  against a prior edge or following the prior)
   RateRatio       R = [f/(1-f)] Z_gal/Z_AGN: complete catalogs Z_k = N_k (counts of the realization's survey
                   files); flux-limited catalogs with densities from counts Z_k = N_k + n_k V_miss,k (h-scaled
                   densities of the run, missing volume to the end of the redshift grid, z = 1.10, from the
@@ -247,7 +254,10 @@ SCHEMA = [
     "  realization_A, stage; validation and check stages of the run list (names starting with 'V' or 'X') excluded. Real when every summary",
     "  named exists.",
     "sky_resolution: the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): pair.run (the nside-64 run, stage X, '{R}' = three-digit",
-    "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization. Real when both summaries exist.",
+    "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization; mc_pair: the same two grids at 32000 samples per",
+    "  merger and six pooled injection sets (both stage X; macros SkyResMC...). Each pair is real when both its summaries exist.",
+    "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
+    "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
 ]
 
@@ -350,6 +360,59 @@ def kde_product(sample_sets, lo, hi, n=4001):
         logp = lp if logp is None else logp + lp
     p = np.exp(logp - logp.max())
     return x, p / np.trapz(p, x)
+
+
+# ---------------------------------------------------------------- number densities with both densities free
+# A side of a number density's posterior is bounded by the data when, in every realization, the posterior density of the run's
+# own sampled parameter (log10 n in h^3 Mpc^-3, flat prior on the box of Table I) at that prior edge is below EDGE_FRACTION of its
+# maximum (a Gaussian falls to 1% at 3.0 standard deviations). A density the data do not bound on both sides gets no combined
+# interval, width or credible level (the paper's rule for posteriors against a prior edge or following the prior: a limit only);
+# its combination keeps the 90% upper limit and the shape.
+EDGE_FRACTION = 0.01
+
+
+def edge_bounds(samples_h, prior, n=2001):
+    """{"lower"|"upper": {"edge_over_peak": {realization: ratio}, "bounded": bool}, "both_bounded", "rule"}: the kernel density of
+    each realization's equal-weight samples of the sampled parameter (run_posteriors.kde1: 0.3 sd, reflected at the prior edges,
+    the bounded-support kernel of a flat prior on a box) at each prior edge over its maximum."""
+    lo, hi = prior
+    rat = {"lower": {}, "upper": {}}
+    for r, s in samples_h.items():
+        _, p, _ = kde1(s, lo, hi, n)
+        rat["lower"][int(r)] = float(p[0] / p.max())
+        rat["upper"][int(r)] = float(p[-1] / p.max())
+    out = {side: {"edge_over_peak": v, "bounded": bool(all(x < EDGE_FRACTION for x in v.values()))} for side, v in rat.items()}
+    out["both_bounded"] = out["lower"]["bounded"] and out["upper"]["bounded"]
+    out["prior_h3Mpc-3"] = [float(lo), float(hi)]
+    out["rule"] = (f"a side is bounded by the data when the posterior density of the sampled parameter (h^3 Mpc^-3) at that prior edge is "
+                   f"below {EDGE_FRACTION:g} of its maximum in every realization (kernel density reflected at the prior edges, 0.3 sd)")
+    return out
+
+
+def kde_product_boxed(sets, prior_h, bw=0.3, n=4001, chunk=400):
+    """Product over realizations of kernel densities of log10 n in Mpc^-3, y = x + 3 log10(H0/100) per sample, that respect each
+    sample's own support: the prior box of the sampled parameter x (h^3 Mpc^-3) carried to Mpc^-3 by the sample's own H0. Each
+    sample's Gaussian kernel (bw sd of y) is reflected at, and truncated to, [lo + s, hi + s], s = 3 log10(H0/100) of the sample, so
+    every kernel keeps unit mass on its own support. sets: {realization: (x [h^3 Mpc^-3], H0)}. -> (y lattice, normalised density)."""
+    lo, hi = prior_h
+    shifts = [3 * np.log10(np.asarray(H, float) / 100.0) for _, H in sets.values()]
+    y = np.linspace(lo + min(s.min() for s in shifts), hi + max(s.max() for s in shifts), n)
+    logp = np.zeros(n)
+    for (xh, H), sft in zip(sets.values(), shifts):
+        xh = np.asarray(xh, float)
+        yy = xh + sft
+        h = bw * float(np.std(yy))
+        p = np.zeros(n)
+        for c in np.array_split(np.arange(len(yy)), max(1, len(yy) // chunk)):
+            el, eh = lo + sft[c], hi + sft[c]
+            k = np.zeros((n, len(c)))
+            for m in (yy[c], 2 * el - yy[c], 2 * eh - yy[c]):
+                k += np.exp(-0.5 * ((y[:, None] - m[None, :]) / h) ** 2)
+            k *= (y[:, None] >= el[None, :]) & (y[:, None] <= eh[None, :])
+            p += k.sum(axis=1)
+        logp += np.log(np.maximum(p, 1e-300))
+    p = np.exp(logp - logp.max())
+    return y, p / np.trapz(p, y)
 
 
 def kde2(a, b, xs, ys, ra, rb, bw=0.3):
@@ -518,8 +581,20 @@ def build_entry(key, spec, ph, inputs):
             A = _phr().summarize_samples(conv[rA], lo, hi, x0=inp)
             A["ul90_h"] = float(np.percentile(S[rA][:, 0], 90))           # the sampled parameter itself, h^3 Mpc^-3
             A["h_note"] = _phr().H_NOTE_PRODUCTION
-            xc, pc = kde_product(list(conv.values()), lo, hi)
+            # the combination respects each sample's own support (the prior box in h^3 Mpc^-3 carried by the sample's H0); a density
+            # the data do not bound on both sides keeps only its 90% upper limit and shape (no interval, width or credible level)
+            prior_h = tuple(_priors()[par])
+            bnd = edge_bounds({r: s[:, 0] for r, s in S.items()}, prior_h)
+            xc, pc = kde_product_boxed({r: (s[:, 0], s[:, 1]) for r, s in S.items()}, prior_h)
             C = _phr().summarize_xp(xc, pc, inp)
+            C["bounds"] = bnd
+            C["kernel"] = ("product over the realizations of Gaussian kernel densities (0.3 sd) of the converted samples, each kernel reflected "
+                           "at and truncated to its sample's own prior box (h^3 Mpc^-3 box shifted by 3 log10(H0/100) of the sample)")
+            if not bnd["both_bounded"]:
+                C = {k: v for k, v in C.items() if k not in ("median", "ci68", "ci90", "level_of_input", "input")}
+                C["limit_only"] = True
+                C["why"] = ("not bounded by the data on the " + " and ".join(s for s in ("lower", "upper") if not bnd[s]["bounded"])
+                            + " side: a limit only (no combined interval, width or credible level)")
             cache[q] = (S, conv)
             E["quantities"][q] = {"A": A, "Comb": C, "source": "production", "comb_source": "production", "file": bv.rel(dA / "grid") if grid else bv.rel(dA),
                                   "comb_file": files_comb, "input": inp, "units": units,
@@ -789,8 +864,15 @@ def density_status_lines():
 def skyres_status_lines():
     """The sky resolution (scripts/skyres.py, map block 'sky_resolution'): real, or what it waits for."""
     import skyres
-    real, miss = skyres.status()
-    return [f"  sky resolution (Sec. V; values/production_map.json 'sky_resolution'): " + ("real" if real else f"waiting: {'; '.join(miss)}")]
+    out = []
+    for which, what in (("pair", "sky resolution (Sec. V; values/production_map.json 'sky_resolution')"),
+                        ("mc_pair", "sky resolution at 32000 samples and six injection sets (stage X; 'sky_resolution.mc_pair')")):
+        real, miss = skyres.status(which)
+        out.append(f"  {what}: " + ("real" if real else f"waiting: {'; '.join(miss)}"))
+    import density
+    E = density.phys_evaluate()
+    out.append("  densities given in Mpc^-3 (stage X; 'density_response.units_physical'): " + ("real" if E["real"] else f"waiting: {'; '.join(E['missing'])}"))
+    return out
 
 
 def macro_counts(values_json=PRD / "values" / "values.json", tex=PRD / "main.tex"):
