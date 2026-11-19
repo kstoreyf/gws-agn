@@ -50,7 +50,10 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   two-tracer grid of realization 100 at nside 32 and at nside 64 with Analysis 14's Monte Carlo settings (--nsamp 32000,
   the record lane pooled with the realization's five further sets; run names realization_100_s32000_inj6 and
   realization_100_nside64_s32000_inj6); seconds per call measured on the experiment's two-catalog grid of realization
-  100 at the same settings (X_MC_COST_REFERENCE).
+  100 at the same settings (X_MC_COST_REFERENCE). And (19 Nov, appended after those five) the same three sky-resolution
+  grids on realizations 101, 102, 103, 105 (X_SKYRES_REALIZATIONS: the realizations with six injection sets; run names
+  realization_NNN_nside64, realization_NNN_s32000_inj6, realization_NNN_nside64_s32000_inj6), seconds per call measured on
+  each realization's own stage-1 grid and X_MC_COST_REFERENCE; held while a survey file or injection set is missing.
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -86,7 +89,7 @@ LANE_RANKS = [
     (2.5, "V8", {"realizations": (100,)}),                             # realization 100: unif then rslice (continuation)
     (3.5, "V8", {"realizations": (101, 102, 103, 105)}),               # unif then rslice, the other four (after rank 3)
     (2.8, 2, {"mode": "nested"}),                                      # free densities (was 6 until 18 Nov)
-    (2.85, "X", {}),                                                   # checks of two settings, realization 100 (18 Nov)
+    (2.85, "X", {}),                                                   # checks of two settings, realization 100 (18 Nov); sky resolution on 101-105 (19 Nov)
     (2.9, 4, {"analysis": "host_dependent_populations", "realizations": (100,)}),   # V8's rslice reference
     (3, 4, {"realizations": R_FIRST}),                                 # all three classes
     (4, "E3", {}),
@@ -530,6 +533,9 @@ def build_v8(realizations, hd_lane=None):
 # stage X (18 Nov): checks of two analysis settings on realization 100; the paper's number chain reads the nside-64 run by
 # name (paper_prd/scripts/skyres.py) and its selectors skip this stage (as they skip V8)
 X_REALIZATION = 100
+# 19 Nov: the sky-resolution checks (a) and (c) also on the other realizations with six injection sets (the units check (b)
+# stays on realization 100 alone); realization 100's five entries come first and keep their order, the others are appended
+X_SKYRES_REALIZATIONS = (100, 101, 102, 103, 105)
 X_NSIDE = 64
 X_UNITS_LIMIT = "18"
 # (c) the cost of the sky-resolution pair at Analysis 14's Monte Carlo settings: the measured seconds per call of the experiment's
@@ -538,7 +544,65 @@ X_UNITS_LIMIT = "18"
 X_MC_COST_REFERENCE = "two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_{R:03d}_s32000_inj6"
 
 
-def build_checks(real=X_REALIZATION):
+def _x_hold_if_missing(e, surveys):
+    """Hold a stage-X entry whose survey files or injection sets (the lane and every pooled set) are not on disk yet (the
+    pooled sets: agn_only_settings already holds a run with fewer than six); data_exists then says the same."""
+    real = arg_of(e, "--realization")
+    inj = [Path(e["injections_file"])] + [P.injections_path(int(real), "corepop", ln) for ln in e["injection_pool"]]
+    miss = [str(p) for p in surveys if not Path(p).exists()] + [str(p) for p in inj if not P.injections_ready(p)]
+    if miss and not e.get("hold"):
+        e["hold"] = (f"missing {', '.join(miss)} (survey files: scripts/make_survey_nside.py --seed {real} --nside {X_NSIDE}); "
+                     "rerun make_runlist.py when they exist")
+    return e
+
+
+def _x_skyres(real):
+    """(a) for one realization: stage 1's two-tracer grid with the survey files at nside 64."""
+    partner = P.run_name("known_population", "both", "complete", "equal_populations", real)
+    e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
+              extra_args=["--nside", str(X_NSIDE)], name_variant=f"nside{X_NSIDE}")
+    surveys = [P.survey_path(real, t, "complete", nside=X_NSIDE) for t in ("gal", "agn")]
+    spc = run_seconds_per_call(partner)
+    if spc:
+        e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"])
+        e["est_seconds_per_call_source"] = f"measured on {partner} (its sessions)"
+    e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys))
+    e["surveys"] = [str(p) for p in surveys]
+    e["check"] = {"what": "sky resolution of the catalog term", "partner": partner, "differs_by": f"--nside {X_NSIDE}"}
+    return _x_hold_if_missing(e, surveys)
+
+
+def _x_skyres_mc(real):
+    """(c) for one realization: the pair of (a) at nside 32 and 64 with Analysis 14's Monte Carlo settings."""
+    out = []
+    ref = X_MC_COST_REFERENCE.format(R=real)
+    spc_ref = run_seconds_per_call(ref)
+    names = {}
+    for nside in (P.SURVEY_NSIDE, X_NSIDE):
+        off = nside != P.SURVEY_NSIDE
+        e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
+                  extra_args=["--nside", str(nside)] if off else (), a14_mc=True, variant_prefix=f"nside{nside}_" if off else "")
+        if spc_ref:
+            e = finish(e, "X", "grid", e["free"], spc_ref, e["events_file"], e["injections_file"])
+            e["est_seconds_per_call_source"] = (f"measured on {ref} (its sessions: the same two-catalog grid class, realization {real}, "
+                                                f"{e['nsamp']} samples, {1 + len(e['injection_pool'])} pooled sets)")
+        else:
+            e["est_seconds_per_call_source"] = "cost model: spc_mc(spc_fixed, nsamp, sets)"
+        surveys = [P.survey_path(real, t, "complete", nside=nside) for t in ("gal", "agn")]
+        e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys) and all(
+            P.injections_ready(P.injections_path(real, "corepop", ln)) for ln in e["injection_pool"]))
+        e["surveys"] = [str(p) for p in surveys]
+        names[nside] = e["name"]
+        out.append(_x_hold_if_missing(e, surveys))
+    for e in out:
+        other = names[X_NSIDE] if e["name"] == names[P.SURVEY_NSIDE] else names[P.SURVEY_NSIDE]
+        e["check"] = {"what": "sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, "
+                              "six pooled injection sets)", "partner": other, "differs_by": f"--nside {X_NSIDE}",
+                      "settings_of": "README, Monte Carlo settings of the all-AGN-hosted analyses; data/experiment_sets.json extra_record_lane_sets"}
+    return out
+
+
+def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
     """Stage X.
     (a) Sky resolution: stage 1's known_population grid with both catalogs (realization 100, the redraw of index 0, 8000
         samples) with the survey files at nside 64 (data/seedNNN/surveys_ns64/, scripts/make_survey_nside.py): --nside 64,
@@ -555,20 +619,16 @@ def build_checks(real=X_REALIZATION):
         realization_100_s32000_inj6 and realization_100_nside64_s32000_inj6. At 8000 samples and one set the nside-64 run has
         about twice the nside-32 run's Monte Carlo variance (posterior-sample sums 4.1 against 2.2, selection N^2/N_eff 2.5
         against 1.4), so the shift between (a) and its partner does not isolate the resolution. Seconds per call: the measured
-        value of X_MC_COST_REFERENCE (the same grid class at the same settings, realization 100), else the cost model."""
-    out = []
-    partner = P.run_name("known_population", "both", "complete", "equal_populations", real)
-    e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
-              extra_args=["--nside", str(X_NSIDE)], name_variant=f"nside{X_NSIDE}")
-    surveys = [P.survey_path(real, t, "complete", nside=X_NSIDE) for t in ("gal", "agn")]
-    spc = run_seconds_per_call(partner)
-    if spc:
-        e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"])
-        e["est_seconds_per_call_source"] = f"measured on {partner} (its sessions)"
-    e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys))
-    e["surveys"] = [str(p) for p in surveys]
-    e["check"] = {"what": "sky resolution of the catalog term", "partner": partner, "differs_by": f"--nside {X_NSIDE}"}
-    out.append(e)
+        value of X_MC_COST_REFERENCE (the same grid class at the same settings, realization 100), else the cost model.
+    (d) 19 Nov: (a) and (c) on every realization of skyres_realizations (100, 101, 102, 103, 105: the realizations with six
+        injection sets), same arguments with the realization's own events, lane, five further sets and survey files (nside 64:
+        scripts/make_survey_nside.py --seed R --nside 64), run names realization_NNN_nside64, realization_NNN_s32000_inj6,
+        realization_NNN_nside64_s32000_inj6; seconds per call measured on the same realization's stage-1 grid and
+        X_MC_COST_REFERENCE. Realization `real`'s five entries come first, in the order above; the others are appended (per
+        realization: nside64, s32000_inj6, nside64_s32000_inj6). An entry whose survey files or injection sets are missing is
+        held (_x_hold_if_missing; fewer than six sets: agn_only_settings). The paper's mean and scatter of the shift over the
+        realizations: paper_prd/scripts/skyres.py."""
+    out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
     dens = {t: P.density_from_counts(P.survey_path(real, t, lim), P.fit_path(t, lim)) for t in ("gal", "agn")}
@@ -588,30 +648,12 @@ def build_checks(real=X_REALIZATION):
                       "converted_at_H0": H0_INPUT}
         out.append(e)
     # (c) the sky-resolution pair at Analysis 14's Monte Carlo settings (appended: the entries above keep their order)
-    ref = X_MC_COST_REFERENCE.format(R=real)
-    spc_ref = run_seconds_per_call(ref)
-    names = {}
-    for nside in (P.SURVEY_NSIDE, X_NSIDE):
-        off = nside != P.SURVEY_NSIDE
-        e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
-                  extra_args=["--nside", str(nside)] if off else (), a14_mc=True, variant_prefix=f"nside{nside}_" if off else "")
-        if spc_ref:
-            e = finish(e, "X", "grid", e["free"], spc_ref, e["events_file"], e["injections_file"])
-            e["est_seconds_per_call_source"] = (f"measured on {ref} (its sessions: the same two-catalog grid class, realization {real}, "
-                                                f"{e['nsamp']} samples, {1 + len(e['injection_pool'])} pooled sets)")
-        else:
-            e["est_seconds_per_call_source"] = "cost model: spc_mc(spc_fixed, nsamp, sets)"
-        surveys = [P.survey_path(real, t, "complete", nside=nside) for t in ("gal", "agn")]
-        e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys) and all(
-            P.injections_ready(P.injections_path(real, "corepop", ln)) for ln in e["injection_pool"]))
-        e["surveys"] = [str(p) for p in surveys]
-        names[nside] = e["name"]
-        out.append(e)
-    for e in out[-2:]:
-        other = names[X_NSIDE] if e["name"] == names[P.SURVEY_NSIDE] else names[P.SURVEY_NSIDE]
-        e["check"] = {"what": "sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, "
-                              "six pooled injection sets)", "partner": other, "differs_by": f"--nside {X_NSIDE}",
-                      "settings_of": "README, Monte Carlo settings of the all-AGN-hosted analyses; data/experiment_sets.json extra_record_lane_sets"}
+    out += _x_skyres_mc(real)
+    # (d) the other realizations' (a) and (c), appended after realization `real`'s five entries
+    for r in skyres_realizations:
+        if r != real:
+            out.append(_x_skyres(r))
+            out += _x_skyres_mc(r)
     return out
 
 

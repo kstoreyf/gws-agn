@@ -256,6 +256,9 @@ SCHEMA = [
     "sky_resolution: the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): pair.run (the nside-64 run, stage X, '{R}' = three-digit",
     "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization; mc_pair: the same two grids at 32000 samples per",
     "  merger and six pooled injection sets (both stage X; macros SkyResMC...). Each pair is real when both its summaries exist.",
+    "  <pair>.realizations: every realization whose pair is in the run list (of realizations_wanted, the realizations with six injection",
+    "  sets; stages per realization), for the means and scatters over them (SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal; real when every",
+    "  wanted realization has both summaries); mc_pair.n_injection_sets_by_run: 1 + the --pool-injections of each run (SkyResMCNsets).",
     "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
     "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
@@ -869,6 +872,15 @@ def skyres_status_lines():
                         ("mc_pair", "sky resolution at 32000 samples and six injection sets (stage X; 'sky_resolution.mc_pair')")):
         real, miss = skyres.status(which)
         out.append(f"  {what}: " + ("real" if real else f"waiting: {'; '.join(miss)}"))
+        # 19 Nov: the pair of every realization, and the mean and scatter over them (SkyRes<P>Mean..., SkyRes<P>Sd...)
+        ok, miss_all, per = skyres.status_all(which)
+        short = lambda m: m.rsplit("/", 2)[-2] if m.endswith("summary.json") else m
+        out.append("    per realization: " + ("; ".join(f"{R} " + ("real" if per[R][0] else f"waiting ({', '.join(short(m) for m in per[R][1])})")
+                                                         for R in sorted(per)) or "none in the map"))
+        n_ok = sum(1 for R in per if per[R][0])
+        out.append(f"    mean and scatter over the realizations (SkyRes{skyres.PAIRS[which]}Mean..., SkyRes{skyres.PAIRS[which]}Sd...): "
+                   + ("real" if ok else f"waiting: {n_ok} of {len(skyres.REALIZATIONS)} pairs real"
+                                                             + "".join(f"; {m}" for m in miss_all if not m.endswith("summary.json") and "(no posterior" not in m)))
     import density
     E = density.phys_evaluate()
     out.append("  densities given in Mpc^-3 (stage X; 'density_response.units_physical'): " + ("real" if E["real"] else f"waiting: {'; '.join(E['missing'])}"))

@@ -1299,16 +1299,19 @@ $\MCAGNHzeroSdThirtyTwoK\,\kms$ with the \MCNsampHi{} samples per merger that
 we use for these sets, against a 90\% half-width of
 $\AGNhostedHzeroHalfWid\,\kms$.
 
-Finally, we repeat the analysis of realization A with pixels half as wide.
-The medians of $H_0$ and $\fagn$ move by $\SkyResShiftHzero\,\kms$ and
-\SkyResShiftfAGN, against 90\% half-widths of
-$\KnownBothHzeroHalfWid\,\kms$ and \KnownBothfAGNHalfWid. The finer pixels
+Finally, we repeat the analysis with pixels half as wide. The finer pixels
 hold a quarter of the objects each, and the Monte Carlo sums of the
 likelihood are noisier with them: the variance of $\ln\hat\Lcal$ owed to the
 posterior samples rises from \SkyResVarPEThirtyTwo{} to
-\SkyResVarPESixtyFour{} at the posterior maximum
-(Appendix~\ref{app:like}). Part of this shift is therefore Monte Carlo
-error, and we have not separated the two.
+\SkyResVarPESixtyFour{} at the posterior maximum of realization A
+(Appendix~\ref{app:like}). We therefore compare the two pixel sizes with
+\MCNsampHi{} posterior samples per merger and \SkyResMCNsets{} sets of
+simulated signals, on \SkyResNreal{} realizations. The median of $H_0$ moves
+by $\SkyResMCMeanShiftHzero\,\kms$ on average, with a standard deviation of
+$\SkyResMCSdShiftHzero\,\kms$ between realizations, and that of $\fagn$ by
+\SkyResMCMeanShiftfAGN{} with a standard deviation of \SkyResMCSdShiftfAGN,
+against 90\% half-widths of $\KnownBothHzeroHalfWid\,\kms$ and
+\KnownBothfAGNHalfWid. % EXPECTED
 
 %% ==========================================================================
 \section{Conclusions}

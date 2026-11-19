@@ -720,6 +720,7 @@ def audit_keys(mac):
     audit_density(mac)
     audit_density_phys(mac)
     audit_skyres(mac)
+    audit_skyres_all(mac)
 
 
 # the further macros of PAPER_SKELETON.md Sec. 6 and the keys they are built from
@@ -1864,6 +1865,147 @@ def audit_skyres_mc(mac, idx, s64_8k, s32_8k, c32_8k):
           f"S3 the two runs' configs differ only in {diff} (allowed {want_diff}); 32000 samples, six distinct injection sets (the first the record "
           f"lane of the 8000-sample pair), the same redraw and events; survey files at nside 64 and 32; SkyResMC... = the summaries "
           f"(shifts of the medians; variance at the peak, own reading of the fine grids {vrows}) to {max(dev + dvar):.1g}")
+
+
+# S4-S8: the sky resolution over the realizations (19 Nov; skyres SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal, SkyResMCNsets), by own
+# code: the run list parsed here, the realizations with six injection sets from data/experiment_sets.json and the files on disk, the
+# summaries read directly, mean and standard deviation by the statistics module, numbers formatted and written as words by own code.
+_OWN_WORDS = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve")
+
+
+def _own_fixed(x, d):
+    """x to d decimals, '-0' as '0', a negative value wrapped in \\ensuremath (as the shift macros print)."""
+    s = f"{x:.{d}f}"
+    if s.startswith("-") and float(s) == 0.0:
+        s = s[1:]
+    return "\\ensuremath{" + s + "}" if s.startswith("-") else s
+
+
+def _own_sig2(x):
+    """x to two significant figures (values between 0.01 and 99)."""
+    e = math.floor(math.log10(abs(x)))
+    assert -2 <= e <= 1, x
+    return f"{x:.{1 - e}f}"
+
+
+def audit_skyres_all(mac):
+    import statistics
+    import yaml
+    new = ["SkyResNreal", "SkyResMCNsets"] + [f"SkyRes{P}{m}" for P in ("", "MC") for m in
+                                               ("MeanShiftHzero", "SdShiftHzero", "MeanShiftfAGN", "SdShiftfAGN", "MeanVarPERatio")]
+    if not all(n in mac for n in new):
+        check(False, f"S4 values.json has the {len(new)} sky-resolution macros over the realizations ({', '.join(n for n in new if n not in mac)} missing)")
+        return
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    idx = {r["name"]: (str(st["stage"]), list(r["args"])) for st in rl["stages"] for r in st["runs"]}
+    base = "known_population/both_catalogs/complete/equal_populations/realization_{R}"
+    # the realizations with six injection sets: the record lane and the five further sets of experiment_sets.json, all on disk
+    ex = json.loads((B.W / "data" / "experiment_sets.json").read_text())["extra_record_lane_sets"]
+    six = sorted(int(R) for R, v in ex.items() if len(set(v["files"])) == 5
+                 and all((B.W / "data" / f"seed{R}" / f).exists() for f in list(v["files"]) + ["injections/injections_targeted.h5"]))
+    # the realizations with an nside-64 grid of the sky resolution in a check stage (X)
+    pat = re.compile(re.escape(base.replace("{R}", "@")).replace("@", r"(\d{3})") + "_nside64")
+    xr = sorted(int(m.group(1)) for n, (s, _) in idx.items() if s.startswith("X") for m in [pat.fullmatch(n)] if m)
+    bad = []
+    for R in six:
+        b = base.format(R=f"{R:03d}")
+        if b not in idx or idx[b][0] != "1":
+            bad.append(f"{b}: no stage-1 run")
+            continue
+        stage1 = [x for x in idx[b][1] if x != "--membership"]
+        pool = [x for f in ex[str(R)]["files"] for x in ("--pool-injections", f)]
+        want = {b + "_nside64": stage1 + ["--nside", "64", "--variant", "nside64"],
+                b + "_s32000_inj6": stage1 + ["--nsamp", "32000", "--variant", "s32000_inj6"] + pool,
+                b + "_nside64_s32000_inj6": stage1 + ["--nside", "64", "--nsamp", "32000", "--variant", "nside64_s32000_inj6"] + pool}
+        for n, a in want.items():
+            if n not in idx:
+                bad.append(f"{n}: not in the run list")
+            elif not idx[n][0].startswith("X") or idx[n][1] != a:
+                bad.append(f"{n}: stage {idx[n][0]}, arguments {'as expected' if idx[n][1] == a else 'differ'}")
+    pm = _jr(OUT / "values" / "production_map.json")
+    sk = pm.get("sky_resolution") or {}
+    maps = {w: (sk.get(w) or {}).get("realizations") for w in ("pair", "mc_pair")}
+    check(six == xr and len(six) >= 2 and not bad and all(v == six for v in maps.values()),
+          f"S4 the sky-resolution grids over the realizations are RUNLIST.yaml's (own parser): the realizations with six injection sets "
+          f"(experiment_sets.json extra_record_lane_sets, files on disk) {six} = those with an nside-64 grid in stage X {xr}; each has its "
+          f"three stage-X grids with stage 1's arguments of its KnownBoth run (without --membership) plus --nside 64 / --nsamp 32000 and its "
+          f"five further sets pooled; the map lists the same realizations for both pairs ({maps})" + (f"; {'; '.join(bad[:4])}" if bad else ""))
+    # S5: the two counts, words of the run list
+    nr = mac["SkyResNreal"]
+    mc_runs = [base.format(R=f"{R:03d}") + s for R in six for s in ("_s32000_inj6", "_nside64_s32000_inj6") if base.format(R=f"{R:03d}") + s in idx]
+    nsets = sorted({1 + idx[n][1].count("--pool-injections") for n in mc_runs})
+    used = {}
+    for n in mc_runs:
+        cfg = RUNS16 / n / "config.json"
+        if cfg.exists():
+            used[n] = len({str(Path(f).resolve()) for f in _jr(cfg).get("injections_files") or []})
+    ns = mac["SkyResMCNsets"]
+    ok_n = nr["class"] == "plain" and nr["value"] == len(six) and nr["render"] == _OWN_WORDS[len(six)]
+    ok_s = (len(nsets) == 1 and ns["class"] == "plain" and ns["value"] == nsets[0] and ns["render"] == _OWN_WORDS[nsets[0]]
+            and all(v == nsets[0] for v in used.values()))
+    check(ok_n and ok_s,
+          f"S5 SkyResNreal = '{nr['render']}' ({nr['class']}) = the {len(six)} realizations; SkyResMCNsets = '{ns['render']}' ({ns['class']}) = 1 + the "
+          f"--pool-injections of each of the {len(mc_runs)} high-accuracy runs in the run list ({nsets}), and the distinct injection files of "
+          f"the {len(used)} of them that ran (config.json injections_files: {sorted(set(used.values()))})")
+    # S6 (8000 samples), S7 (32000 samples, six sets): means and standard deviations over the realizations, or the red rule
+    for tag, P, (suf64, suf32) in (("S6", "", ("_nside64", "")), ("S7", "MC", ("_nside64_s32000_inj6", "_s32000_inj6"))):
+        sums = {}
+        for R in six:
+            b = base.format(R=f"{R:03d}")
+            ss = [_jr(p) if p.exists() else {} for p in (RUNS16 / (b + suf64) / "summary.json", RUNS16 / (b + suf32) / "summary.json")]
+            ok = all("posterior" in s and "pe_var_at_peak" in (s.get("variance") or {}) for s in ss)
+            sums[R] = ss if ok else None
+        have = all(sums.values())
+        names = [f"SkyRes{P}{m}" for m in ("MeanShiftHzero", "SdShiftHzero", "MeanShiftfAGN", "SdShiftfAGN", "MeanVarPERatio")]
+        black = [mac[n]["class"] == "plain" for n in names]
+        dev, rend, rows = [], [], []
+        if have:
+            for q, par, d in (("Hzero", "H0", 2), ("fAGN", "f_agn", 3)):
+                xs = [sums[R][0]["posterior"][par]["median"] - sums[R][1]["posterior"][par]["median"] for R in six]
+                m_, s_ = statistics.fmean(xs), statistics.stdev(xs)
+                dev += [abs(mac[f"SkyRes{P}MeanShift{q}"]["value"] - m_), abs(mac[f"SkyRes{P}SdShift{q}"]["value"] - s_)]
+                rend += [mac[f"SkyRes{P}MeanShift{q}"]["render"] == _own_fixed(m_, d), mac[f"SkyRes{P}SdShift{q}"]["render"] == _own_fixed(s_, d)]
+                rows.append(f"{q} {m_:+.4f} sd {s_:.4f}")
+            rs = [sums[R][0]["variance"]["pe_var_at_peak"] / sums[R][1]["variance"]["pe_var_at_peak"] for R in six]
+            dev.append(abs(mac[f"SkyRes{P}MeanVarPERatio"]["value"] - statistics.fmean(rs)))
+            rend.append(mac[f"SkyRes{P}MeanVarPERatio"]["render"] == _own_sig2(statistics.fmean(rs)))
+            rows.append(f"PE ratio {statistics.fmean(rs):.4f}")
+        else:
+            # red: the means are realization A's own values of the setting (from its summaries when its pair has finished, else the red
+            # value of its own macro), the standard deviations the invented 0.3 (H0) and 0.010 (f_AGN)
+            sA = sums.get(100)
+            for q, par, d, sd in (("Hzero", "H0", 2, 0.3), ("fAGN", "f_agn", 3, 0.010)):
+                a = (sA[0]["posterior"][par]["median"] - sA[1]["posterior"][par]["median"]) if sA else mac[f"SkyRes{P}Shift{q}"]["value"]
+                dev += [abs(mac[f"SkyRes{P}MeanShift{q}"]["value"] - a), abs(mac[f"SkyRes{P}SdShift{q}"]["value"] - sd)]
+                rend += [mac[f"SkyRes{P}MeanShift{q}"]["render"] == "\\ph{" + _own_fixed(a, d) + "}",
+                         mac[f"SkyRes{P}SdShift{q}"]["render"] == "\\ph{" + _own_fixed(sd, d) + "}"]
+                rows.append(f"{q} mean {a:+.4f} (realization A{'' if sA else ', red'}), sd {sd} (invented)")
+            ra = (sA[0]["variance"]["pe_var_at_peak"] / sA[1]["variance"]["pe_var_at_peak"]) if sA else mac[f"SkyRes{P}VarPERatio"]["value"]
+            dev.append(abs(mac[f"SkyRes{P}MeanVarPERatio"]["value"] - ra))
+            rend.append(mac[f"SkyRes{P}MeanVarPERatio"]["render"] == "\\ph{" + _own_sig2(ra) + "}")
+            rows.append(f"PE ratio {ra:.4f} (realization A)")
+        n_have = sum(1 for v in sums.values() if v)
+        check(all(b == have for b in black) and max(dev) < 1e-9 and all(rend),
+              f"{tag} SkyRes{P}Mean.../Sd... over the realizations: black exactly when all {len(six)} pairs have both summaries with posterior and "
+              f"variance blocks ({n_have} of {len(six)}: {'black' if have else 'red'}); {'; '.join(rows)}; values to {max(dev):.1g}, renders "
+              f"(decimals, sign, \\ph) as own formatting: {sum(rend)} of {len(rend)}")
+    # S8: stage X feeds no paper key: no run the map names for a key, an experiment macro or a density arm is a stage-X run
+    xnames = {n for n, (s, _) in idx.items() if s.startswith("X")}
+    named = set()
+    for E in (pm.get("keys") or {}).values():
+        if isinstance(E, dict) and "run" in E:
+            named |= {E["run"].format(R=f"{R:03d}") for R in E.get("realizations", [])}
+    for E in ((pm.get("classes") or {}).get("macros") or {}).values():
+        if isinstance(E, dict) and "run" in E:
+            named |= {E["run"].format(R=f"{R:03d}") for R in E.get("realizations", [])}
+    for E in ((pm.get("density_response") or {}).get("arms") or {}).values():
+        if isinstance(E, dict):
+            named |= {E[k].format(R=f"{R:03d}") for k in ("run", "unit_run") if k in E for R in E.get("realizations", [])}
+    feed = sorted(named & xnames)
+    check(not feed and len(named) > 100,
+          f"S8 no stage-X run ({len(xnames)} in RUNLIST.yaml) is among the {len(named)} runs that production_map.json names for the keys, the "
+          f"experiment's macros and the density arms (stage X reaches the paper only through sky_resolution and density_response.units_physical)"
+          + (f"; FEEDS: {feed[:3]}" if feed else ""))
 
 
 # ============================================================================================= #

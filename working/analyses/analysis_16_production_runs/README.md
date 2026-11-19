@@ -326,6 +326,13 @@ RUNLIST.yaml, 0.25 GPU-h in all (seconds per call: the measured value of the pro
 The paper's selectors skip stages whose names start with V or X (`paper_prd/scripts/build_values.production_stage`).
 Queue: `$PY scripts/launch.py --lanes 2 stage X` (CPU dry runs: `bash tests/cpu_dryruns.sh x_nside64 x_m18_units_physical
 x_m18_units_physical_double`; default-path identity of the extended driver: `tests/results/nside_option_checks.json`).
+*19 Nov:* the three sky-resolution grids (`realization_NNN_nside64`, `realization_NNN_s32000_inj6`,
+`realization_NNN_nside64_s32000_inj6`, same arguments with the realization's own events, lane, five further sets and survey files)
+also on realizations 101, 102, 103, 105 (`make_runlist.X_SKYRES_REALIZATIONS`: the realizations with six injection sets), appended
+after realization 100's five stage-X entries, rank 2.85, held while a survey file or injection set is missing; 12 runs, 5.4 GPU-h
+estimated. Survey files `data/seed{101,102,103,105}/surveys_ns64/` (`make_survey_nside.py --seed R --nside 64`, each with its
+passing `<file>.check.json`). The paper's mean and scatter of the shift over the five: `paper_prd/scripts/skyres.py`
+(`\SkyRes[MC]Mean...`, `\SkyRes[MC]Sd...`, `\SkyResNreal`, `\SkyResMCNsets`).
 
 ## Tests
 

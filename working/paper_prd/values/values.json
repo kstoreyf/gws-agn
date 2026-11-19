@@ -27546,10 +27546,10 @@
     ],
     "ci90": [
      30.199258995276033,
-     48.84737497261421
+     48.84737497261422
     ],
-    "ul90": 46.56061721232109,
-    "level_of_input": 0.4851504541920135
+    "ul90": 46.5606172123211,
+    "level_of_input": 0.4851504541920131
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10)) (median and 90% equal-tailed interval)",
@@ -27592,7 +27592,7 @@
   "FreeTwentyOneRateRatioCombHi": {
    "class": "plain",
    "render": "49",
-   "value": 48.84737497261421,
+   "value": 48.84737497261422,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -27605,7 +27605,7 @@
   "FreeTwentyOneRateRatioCombWid": {
    "class": "plain",
    "render": "19",
-   "value": 18.64811597733818,
+   "value": 18.648115977338186,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -27618,7 +27618,7 @@
   "FreeTwentyOneRateRatioCL": {
    "class": "plain",
    "render": "49",
-   "value": 0.4851504541920135,
+   "value": 0.4851504541920131,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeTwentyOneRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21)",
    "source": {
@@ -28430,11 +28430,11 @@
      44.889184992480686
     ],
     "ci90": [
-     29.703449577389932,
+     29.70344957738993,
      49.22998647773951
     ],
     "ul90": 46.78970924295588,
-    "level_of_input": 0.49517074902572045
+    "level_of_input": 0.4951707490257202
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10)) (median and 90% equal-tailed interval)",
@@ -28464,7 +28464,7 @@
   "FreeTwentyRateRatioCombLo": {
    "class": "plain",
    "render": "30",
-   "value": 29.703449577389932,
+   "value": 29.70344957738993,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28490,7 +28490,7 @@
   "FreeTwentyRateRatioCombWid": {
    "class": "plain",
    "render": "20",
-   "value": 19.526536900349576,
+   "value": 19.52653690034958,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28503,7 +28503,7 @@
   "FreeTwentyRateRatioCL": {
    "class": "plain",
    "render": "50",
-   "value": 0.49517074902572045,
+   "value": 0.4951707490257202,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeTwentyRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20)",
    "source": {
@@ -29231,8 +29231,8 @@
    "value": {
     "median": 36.61426633095006,
     "ci68": [
-     28.81512391388183,
-     46.361704556803105
+     28.815123913881823,
+     46.3617045568031
     ],
     "ci90": [
      24.247667453822032,
@@ -51658,112 +51658,419 @@
    }
   },
   "SkyResMCShiftHzero": {
+   "class": "plain",
+   "render": "0.42",
+   "value": 0.41543747640471906,
+   "units": "km/s/Mpc",
+   "meaning": "change of the H0 median of realization A (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run, signed",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json"
+    ],
+    "computation": "posterior.H0.median of the nside-64 summary minus that of the nside-32 summary"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "decimals": 2,
+    "nside64": {
+     "median": 68.53371954951112,
+     "ci90": [
+      66.17911983687605,
+      70.12254600893189
+     ]
+    },
+    "nside32": {
+     "median": 68.1182820731064,
+     "ci90": [
+      65.96948911501549,
+      70.3119524508039
+     ]
+    },
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCShiftfAGN": {
+   "class": "plain",
+   "render": "0.008",
+   "value": 0.008060301621626409,
+   "units": "",
+   "meaning": "change of the f_AGN median of realization A (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run, signed",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json"
+    ],
+    "computation": "posterior.f_agn.median of the nside-64 summary minus that of the nside-32 summary"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "decimals": 3,
+    "nside64": {
+     "median": 0.2793693676328291,
+     "ci90": [
+      0.2033537852193257,
+      0.3588430194276461
+     ]
+    },
+    "nside32": {
+     "median": 0.2713090660112027,
+     "ci90": [
+      0.19490354010090993,
+      0.35108904219838316
+     ]
+    },
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCVarPESixtyFour": {
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.0690287517099017,
+   "units": "",
+   "meaning": "variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), the nside-64 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json"
+    ],
+    "computation": "variance.pe_var_at_peak"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "nside64": 1.0690287517099017,
+    "nside32": 0.5937552386071516,
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCVarPEThirtyTwo": {
+   "class": "plain",
+   "render": "0.59",
+   "value": 0.5937552386071516,
+   "units": "",
+   "meaning": "variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), the nside-32 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json"
+    ],
+    "computation": "variance.pe_var_at_peak"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "nside64": 1.0690287517099017,
+    "nside32": 0.5937552386071516,
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCVarPERatio": {
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.800453591310892,
+   "units": "",
+   "meaning": "ratio of the variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), nside 64 over nside 32, realization A, at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json"
+    ],
+    "computation": "variance.pe_var_at_peak of the nside-64 summary over that of the nside-32 summary"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "nside64": 1.0690287517099017,
+    "nside32": 0.5937552386071516,
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCVarSelSixtyFour": {
+   "class": "plain",
+   "render": "0.41",
+   "value": 0.4077694688267694,
+   "units": "",
+   "meaning": "the selection term's N^2/N_eff at the grid's peak (N = 1000 mergers, N_eff the effective number of detected injections; summary.json variance.sigma2_sel_at_peak), the nside-64 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json"
+    ],
+    "computation": "variance.sigma2_sel_at_peak"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "nside64": 0.4077694688267694,
+    "nside32": 0.22464950439172413,
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCVarSelThirtyTwo": {
+   "class": "plain",
+   "render": "0.22",
+   "value": 0.22464950439172413,
+   "units": "",
+   "meaning": "the selection term's N^2/N_eff at the grid's peak (N = 1000 mergers, N_eff the effective number of detected injections; summary.json variance.sigma2_sel_at_peak), the nside-32 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json"
+    ],
+    "computation": "variance.sigma2_sel_at_peak"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "nside64": 0.4077694688267694,
+    "nside32": 0.22464950439172413,
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResMCVarSelRatio": {
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8151362938942288,
+   "units": "",
+   "meaning": "ratio of the the selection term's N^2/N_eff at the grid's peak (N = 1000 mergers, N_eff the effective number of detected injections; summary.json variance.sigma2_sel_at_peak), nside 64 over nside 32, realization A, at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json",
+     "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json"
+    ],
+    "computation": "variance.sigma2_sel_at_peak of the nside-64 summary over that of the nside-32 summary"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "nside64": 0.4077694688267694,
+    "nside32": 0.22464950439172413,
+    "runs": [
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6",
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6"
+    ]
+   }
+  },
+  "SkyResNreal": {
+   "class": "plain",
+   "render": "five",
+   "value": 5,
+   "units": "realizations",
+   "meaning": "number of realizations over which the sky-resolution shifts are averaged (SkyRes<P>MeanShift..., SkyRes<P>SdShift..., SkyRes<P>MeanVarPERatio, both settings): the realizations whose pair (nside 64, nside 32) is in RUNLIST.yaml, of 100, 101, 102, 103, 105 (the realizations with six injection sets)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST.yaml",
+    "computation": "realizations of the stage-X sky-resolution pairs of values/production_map.json 'sky_resolution' (pair.realizations = mc_pair.realizations)"
+   },
+   "claim": "validation,realizations",
+   "containment": null,
+   "extra": {
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ]
+   }
+  },
+  "SkyResMCNsets": {
+   "class": "plain",
+   "render": "six",
+   "value": 6,
+   "units": "injection sets",
+   "meaning": "number of injection sets pooled in the sky-resolution grids at Analysis 14's Monte Carlo settings (mc_pair, every realization, both nsides): the realization's own targeted set and the further sets passed with --pool-injections",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST.yaml",
+    "computation": "1 + the number of --pool-injections in the arguments of each of the 10 mc_pair runs (values/production_map.json 'sky_resolution.mc_pair.n_injection_sets_by_run')"
+   },
+   "claim": "validation,design",
+   "containment": null,
+   "extra": {
+    "by_run": {
+     "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6": 6,
+     "known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6": 6
+    }
+   }
+  },
+  "SkyResMeanShiftHzero": {
    "class": "ph",
    "render": "\\ph{0.64}",
    "value": 0.6407589514754335,
    "units": "km/s/Mpc",
-   "meaning": "change of the H0 median of realization A (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run, signed",
+   "meaning": "mean over the 5 realizations (100, 101, 102, 103, 105) of the change of the H0 median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at the production Monte Carlo settings (8000 samples per merger, the realization's own injection set): median of the nside-64 run minus that of the nside-32 run, signed",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResShift..., SkyResVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,
-   "extra": {}
+   "extra": {
+    "decimals": 2
+   }
   },
-  "SkyResMCShiftfAGN": {
+  "SkyResSdShiftHzero": {
+   "class": "ph",
+   "render": "\\ph{0.30}",
+   "value": 0.3,
+   "units": "km/s/Mpc",
+   "meaning": "standard deviation (ddof 1) over the 5 realizations (100, 101, 102, 103, 105) of the change of the H0 median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at the production Monte Carlo settings (8000 samples per merger, the realization's own injection set): median of the nside-64 run minus that of the nside-32 run",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResShift..., SkyResVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "decimals": 2
+   }
+  },
+  "SkyResMeanShiftfAGN": {
    "class": "ph",
    "render": "\\ph{0.016}",
    "value": 0.016341868210602628,
    "units": "",
-   "meaning": "change of the f_AGN median of realization A (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run, signed",
+   "meaning": "mean over the 5 realizations (100, 101, 102, 103, 105) of the change of the f_AGN median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at the production Monte Carlo settings (8000 samples per merger, the realization's own injection set): median of the nside-64 run minus that of the nside-32 run, signed",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResShift..., SkyResVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,
-   "extra": {}
+   "extra": {
+    "decimals": 3
+   }
   },
-  "SkyResMCVarPESixtyFour": {
+  "SkyResSdShiftfAGN": {
    "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 1.0321671098190623,
+   "render": "\\ph{0.010}",
+   "value": 0.01,
    "units": "",
-   "meaning": "variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), the nside-64 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "meaning": "standard deviation (ddof 1) over the 5 realizations (100, 101, 102, 103, 105) of the change of the f_AGN median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at the production Monte Carlo settings (8000 samples per merger, the realization's own injection set): median of the nside-64 run minus that of the nside-32 run",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResShift..., SkyResVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,
-   "extra": {}
+   "extra": {
+    "decimals": 3
+   }
   },
-  "SkyResMCVarPEThirtyTwo": {
-   "class": "ph",
-   "render": "\\ph{0.55}",
-   "value": 0.5462993670040441,
-   "units": "",
-   "meaning": "variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), the nside-32 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
-   "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
-   },
-   "claim": "validation",
-   "containment": null,
-   "extra": {}
-  },
-  "SkyResMCVarPERatio": {
+  "SkyResMeanVarPERatio": {
    "class": "ph",
    "render": "\\ph{1.9}",
    "value": 1.8893800215796726,
    "units": "",
-   "meaning": "ratio of the variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), nside 64 over nside 32, realization A, at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "meaning": "mean over the 5 realizations (100, 101, 102, 103, 105) of the ratio of the variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), nside 64 over nside 32, at the production Monte Carlo settings (8000 samples per merger, the realization's own injection set)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResShift..., SkyResVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,
    "extra": {}
   },
-  "SkyResMCVarSelSixtyFour": {
+  "SkyResMCMeanShiftHzero": {
    "class": "ph",
    "render": "\\ph{0.42}",
-   "value": 0.42184425789685914,
-   "units": "",
-   "meaning": "the selection term's N^2/N_eff at the grid's peak (N = 1000 mergers, N_eff the effective number of detected injections; summary.json variance.sigma2_sel_at_peak), the nside-64 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "value": 0.41543747640471906,
+   "units": "km/s/Mpc",
+   "meaning": "mean over the 5 realizations (100, 101, 102, 103, 105) of the change of the H0 median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run, signed",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResMCShift..., SkyResMCVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,
-   "extra": {}
+   "extra": {
+    "decimals": 2
+   }
   },
-  "SkyResMCVarSelThirtyTwo": {
+  "SkyResMCSdShiftHzero": {
    "class": "ph",
-   "render": "\\ph{0.23}",
-   "value": 0.22646227420511933,
-   "units": "",
-   "meaning": "the selection term's N^2/N_eff at the grid's peak (N = 1000 mergers, N_eff the effective number of detected injections; summary.json variance.sigma2_sel_at_peak), the nside-32 grid of realization A (population known, both catalogs complete), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "render": "\\ph{0.30}",
+   "value": 0.3,
+   "units": "km/s/Mpc",
+   "meaning": "standard deviation (ddof 1) over the 5 realizations (100, 101, 102, 103, 105) of the change of the H0 median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResMCShift..., SkyResMCVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,
-   "extra": {}
+   "extra": {
+    "decimals": 2
+   }
   },
-  "SkyResMCVarSelRatio": {
+  "SkyResMCMeanShiftfAGN": {
    "class": "ph",
-   "render": "\\ph{1.9}",
-   "value": 1.8627573152196275,
+   "render": "\\ph{0.008}",
+   "value": 0.008060301621626409,
    "units": "",
-   "meaning": "ratio of the the selection term's N^2/N_eff at the grid's peak (N = 1000 mergers, N_eff the effective number of detected injections; summary.json variance.sigma2_sel_at_peak), nside 64 over nside 32, realization A, at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "meaning": "mean over the 5 realizations (100, 101, 102, 103, 105) of the change of the f_AGN median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run, signed",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6/summary.json",
-    "placeholder_source": "from the 8000-sample pair (SkyResShift..., SkyResVar...): the shifts as they are (the value this cleaner test replaces); the variances scaled by the Monte Carlo settings (posterior-sample sums x 8000/32000, N^2/N_eff / 6 for 6 pooled sets of the same size), the ratios unchanged"
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResMCShift..., SkyResMCVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "decimals": 3
+   }
+  },
+  "SkyResMCSdShiftfAGN": {
+   "class": "ph",
+   "render": "\\ph{0.010}",
+   "value": 0.01,
+   "units": "",
+   "meaning": "standard deviation (ddof 1) over the 5 realizations (100, 101, 102, 103, 105) of the change of the f_AGN median (population known, both catalogs complete) when the sky pixels are half as wide (nside 64 against 32), at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X): median of the nside-64 run minus that of the nside-32 run",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResMCShift..., SkyResMCVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
+   },
+   "claim": "validation",
+   "containment": null,
+   "extra": {
+    "decimals": 3
+   }
+  },
+  "SkyResMCMeanVarPERatio": {
+   "class": "ph",
+   "render": "\\ph{1.8}",
+   "value": 1.800453591310892,
+   "units": "",
+   "meaning": "mean over the 5 realizations (100, 101, 102, 103, 105) of the ratio of the variance of the posterior-sample sums of ln L at the grid's peak (sum over the mergers of the Monte Carlo variance of each merger's ln L; summary.json variance.pe_var_at_peak), nside 64 over nside 32, at Analysis 14's Monte Carlo settings (32000 samples per merger, 6 pooled injection sets; both runs in stage X)",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6/summary.json; analyses/analysis_16_production_runs/runs/known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6/summary.json",
+    "placeholder_source": "mean: realization A's own value of that setting (SkyResMCShift..., SkyResMCVarPERatio; real); standard deviation invented: 0.3 km/s/Mpc for H0, 0.010 for f_AGN"
    },
    "claim": "validation",
    "containment": null,

@@ -1,4 +1,4 @@
-# Checkpoint, 18 Nov 2026, 20:55 UTC (read this first after a context clear)
+# Checkpoint, 19 Nov 2026, 22:45 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -11,15 +11,16 @@ this file holds the working state.
 2. Look at the state: `git -C /hildafs/projects/phy230014p/magana/gws-agn log --oneline | head -5`;
    `squeue -u $USER -p RITA-GPU`; `$PY scripts/launch.py --lanes 2 status` in the analysis-16
    directory (Sec. 3 has `PY`).
-3. Nothing is owed right now except waiting: both GPUs are on the two eight-parameter runs of
-   realization 100 and everything else is queued behind them. The next actions are Sec. 5,
+3. Nothing is owed right now except waiting: lane 1 is on the eight-parameter reference run of
+   realization 100, lane 2 on the twelve sky-resolution runs. The next actions are Sec. 5,
    items 1 and 2, each triggered by a watcher.
 4. WATCHERS survive a context clear and report as background-task notifications that carry no
-   context. Two are armed (18 Nov, 19:15 UTC):
-   - task `bk2x1ic8d`, "Wait until the high-accuracy sky-resolution pair has finished": then do
-     Sec. 5 item 1.
-   - task `bue7u6pya`, "Wait until both eight-parameter runs of realization 100 have finished":
-     then do Sec. 5 item 2.
+   context. Two are armed:
+   - task `bvv0w6obd` (19 Nov, 22:30 UTC), "Wait until the twelve sky-resolution runs of
+     realizations 101, 102, 103 and 105 have summaries": then do Sec. 5 item 1.
+   - task `bue7u6pya` (18 Nov), "Wait until both eight-parameter runs of realization 100 have
+     finished": then do Sec. 5 item 2.
+   (`bk2x1ic8d`, the high-accuracy pair of realization 100, reported on 19 Nov 21:45 UTC: done.)
    A notification from any other old task (earlier watchers, earlier agents) needs no action:
    check what it printed and move on. If the session was restarted, the watchers are gone:
    check the two conditions by hand.
@@ -68,7 +69,7 @@ this file holds the working state.
   If an agent dies with an API or billing error its edits stay in the working tree: resume it
   with SendMessage to its id.
 
-## 2. The paper (state at commit b29e087; 18 pp, ten figures)
+## 2. The paper (state at the commit of 19 Nov that adds this file's date; 18 pp, ten figures)
 - `working/paper_prd/main.tex`. Design: `notes/PAPER_SKELETON.md` (Sec. 9: the experiment taken
   in; 9.6 conventions), `REVISION_DECISIONS.md` item 13 (owner's words),
   `notes/OWNER_STYLE_DETAILS.md`, `REVIEW_2.md` (independent review of 17 Nov, applied).
@@ -91,9 +92,10 @@ this file holds the working state.
   acknowledgments modeled on the owner's arXiv:2610.37617. The owner has been asked to confirm
   (not blocking): that NASA Grant No. 22-LPS22-0025 covers this work; the AI sentence ("drafting
   and editing", Claude models only); whether to push at each milestone.
-- Sentences to revisit when their runs finish: Validation, sky resolution (the 8000-sample pair
-  moves H0 by 0.64 with twice the Monte Carlo variance; the pair at 32,000 samples and six
-  injection sets decides what to say: macros `\SkyResMC...`, red now); Sec. IV E and the
+- Sentences to revisit when their runs finish: Validation, sky resolution (rewritten 19 Nov for
+  the mean and the scatter of the shift over five realizations at 32,000 samples and six
+  injection sets: macros `\SkyResMCMeanShift...`, `\SkyResMCSdShift...`, red until the twelve
+  runs of Sec. 3 are in; tagged `% EXPECTED`); Sec. IV E and the
   abstract when HDSingle/HDHost are real; `fig8_summary` prints "at the prior edge, 100" with no
   macro behind the number.
 
@@ -111,7 +113,22 @@ this file holds the working state.
   Diagnostics of a nested part: `tests/nested_diagnostics.py <part dir>` (core venv python
   `/hildafs/projects/phy230014p/magana/envs/darksirens-core-e7c3007/bin/python`, `JAX_PLATFORMS=cpu`).
 - FINISHED: stage 1; the experiment's grids (E1, E2); all of stage 2 (grids and nested); stage X
-  first three runs (nside 64 at 8000 samples; two m < 18 grids with the AGN density in Mpc^-3).
+  first five runs (nside 64 at 8000 samples; two m < 18 grids with the AGN density in Mpc^-3;
+  the sky-resolution pair of realization 100 at 32,000 samples and six injection sets); the
+  mixed-sampler eight-parameter run of realization 100 (`..._unif_then_rslice`, 5293 iterations,
+  200k calls, ln Z = -2899.18 +- 0.37; finished 19 Nov 20:44 UTC).
+- STATE 19 Nov 22:45 UTC (the two bullets RUNNING and QUEUED below are the 18 Nov text, kept for
+  the order of the queue): lane 1 still on the rslice reference of realization 100 (iteration
+  3957 at 21:39 UTC, 136 iterations per hour, about 4900 to 5300 needed: ends about 04:30 to
+  07:30 UTC 20 Nov; job 1416192 reaches its time limit at 05:28 UTC 20 Nov and the successor
+  1416219 carries on from the checkpoint). Lane 2: the second part of HDSingle realization 100
+  (until about 23:45 UTC), then the TWELVE SKY-RESOLUTION RUNS queued on 19 Nov 22:29 UTC
+  (stage X, realizations 101, 102, 103, 105: `realization_NNN_nside64`, `..._s32000_inj6`,
+  `..._nside64_s32000_inj6` under `known_population/both_catalogs/complete/equal_populations/`;
+  about 4 GPU-h, done about 04:00 to 05:00 UTC 20 Nov), then HDSingle 101 to 105 and the rest
+  as below. Their nside-64 survey files exist (`data/seedNNN/surveys_ns64/`, checks passed).
+- DISK: `working/data/seedNNN` are links into `/hildafs/projects/phy230054p/` (15 T free); the
+  run outputs and the repo sit on `phy230014p`, which is 92% full (18 G free on 19 Nov).
 - RUNNING since 18 Nov: lane 1 (job 1416192, successor 1416219 queued), the eight-parameter
   reference of realization 100 with rslice from the start
   (`host_dependent_populations/both_catalogs/complete/host_dependent/realization_100`, started
@@ -180,18 +197,37 @@ this file holds the working state.
 - Number densities inferred (m < 18): rate ratio 41 (+18, -14) for an input of 42.8, f_AGN
   follows its prior, H0 68.1 (+2.3, -2.2), an upper limit on the galaxy density and none on the
   AGN density.
-- Sky resolution: nside 64 against 32 at 8000 samples moves H0 by 0.64 and f_AGN by 0.016, with
-  1.9 times the Monte Carlo variance; not yet separated.
+- Sky resolution, realization 100: nside 64 against 32 moves H0 by +0.64 and f_AGN by +0.016 at
+  8000 samples (1.9 times the Monte Carlo variance) and by +0.42 and +0.008 at 32,000 samples
+  and six injection sets (medians 68.12 -> 68.53; variance of the posterior-sample sums 0.59 ->
+  1.07). Redraws alone move the H0 median by 0.20 at 32,000 samples (Analysis 14), so one
+  realization does not separate pixel size from Monte Carlo error: four more realizations are
+  running. A shift common to all realizations of +0.4 would matter for the combined posterior
+  of ten (68.2 +- 0.6, input 67.74).
+- First eight-parameter posterior (mixed sampler, realization 100; inputs in parentheses): H0
+  67.53 [66.09, 68.99] (67.74), f_AGN 0.288 [0.222, 0.361] (0.30), mu_G 35.73 [35.12, 36.31]
+  (35), sigma_G 4.69 [4.30, 5.09] (5), mu_chi -0.019 [-0.033, -0.004] (0), sigma_chi 0.078
+  [0.063, 0.093] (0.10), dmu_G 3.80 [2.42, 5.15] (5), dmu_chi 0.163 [0.126, 0.194] (0.10). The
+  inputs sit at the 97% level of the eight-dimensional posterior (Gaussian distance squared
+  17.0; spins alone 10.2 on three parameters, masses 6.8 on three, H0 and f_AGN 0.1 on two).
+  H0 is uncorrelated with the other seven (|rho| <= 0.10); dmu_chi anticorrelates with mu_chi
+  and sigma_chi (-0.5). One realization: no conclusion; see whether the rslice reference and
+  realizations 101 to 105 show the same spin offsets (narrower widths, larger separation) before
+  Sec. IV E is worded. Mean Monte Carlo variance of ln L over the posterior 4.2 (2.8 from the
+  posterior samples).
 - Analyses 14 and 15: see their REPORT.md (Monte Carlo accuracy; rate per host and the
   normalization volume).
 
 ## 5. Do next, in order
-1. Lane 2 reaches the sky-resolution pair when the continuation ends (evening of 19 Nov, UTC;
-   watcher `bk2x1ic8d`):
-   refresh, then rewrite the sky-resolution sentence of the Validation from `\SkyResMC...`
-   (is the shift at high accuracy small against the half-width, or is nside 32 too coarse? If
-   it is not small: a resolution study at nside 64 for the headline runs becomes a real item;
-   cost it before deciding).
+1. The twelve sky-resolution runs (watcher `bvv0w6obd`, about 05:00 UTC 20 Nov): refresh; the
+   macros `\SkyResMCMeanShift...`, `\SkyResMCSdShift...` turn black; reword the sentence of the
+   Validation by what they show and drop its `% EXPECTED`. The standard error of the mean is
+   the scatter over root five. If the mean H0 shift is within about twice that of zero: say the
+   pixel size moves no median in common, done. If it is a common shift of some tenths: nside 32
+   biases every H0 by that much; say so with its size against the half-width, look at the
+   combined posteriors, and cost a rerun of the headline analyses at nside 64 (an nside-64 grid
+   costs about half an nside-32 one at equal samples; nested runs unknown) before deciding.
+   `\SkyResMeanShift...` (8000 samples) are also produced; not used in the text.
 2. Both realization-100 eight-parameter runs finished (watcher `bue7u6pya`): the comparison of
    Sec. 3 (also look at each run's `summary.json`), then, by an Opus agent with a brief, the
    mapping and the stage-5 entries; realization-A numbers of Sec. IV E turn black only when
@@ -207,10 +243,10 @@ this file holds the working state.
    Monte Carlo error of about 0.01 dex in their second decimal.
 
 ## 6. Waiting for the owner (none blocks work)
-The three confirmations of Sec. 2 (grant, AI sentence, push policy). Six local commits since the
+The three confirmations of Sec. 2 (grant, AI sentence, push policy). Nine local commits since the
 push (ba8f91f): ask before pushing.
 
 ## 7. Other sessions
 `gaia`, `darksirens`: nothing owed. Never touch other sessions' jobs (anything not named `agn-*`).
 
-Local commits up to b29e087 plus the one that adds this file; `git log --oneline | head -30`.
+Local commits up to the one of 19 Nov 22:45 UTC that carries this file; `git log --oneline | head -30`.

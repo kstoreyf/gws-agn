@@ -19,6 +19,9 @@
   "sky_resolution: the runs of SkyResShift<Hzero|fAGN> (scripts/skyres.py): pair.run (the nside-64 run, stage X, '{R}' = three-digit",
   "  realization), pair.partner (its nside-32 partner, key KnownBoth), realization; mc_pair: the same two grids at 32000 samples per",
   "  merger and six pooled injection sets (both stage X; macros SkyResMC...). Each pair is real when both its summaries exist.",
+  "  <pair>.realizations: every realization whose pair is in the run list (of realizations_wanted, the realizations with six injection",
+  "  sets; stages per realization), for the means and scatters over them (SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal; real when every",
+  "  wanted realization has both summaries); mc_pair.n_injection_sets_by_run: 1 + the --pool-injections of each run (SkyResMCNsets).",
   "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
   "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
@@ -3694,7 +3697,7 @@
   }
  },
  "sky_resolution": {
-  "_what": "the runs of the SkyRes... macros (scripts/skyres.py), realization A: pair = the nside-64 run and its nside-32 partner (key KnownBoth) at the production Monte Carlo settings; mc_pair = the same two grids at Analysis 14's settings (32000 samples, six pooled injection sets), both in stage X",
+  "_what": "the runs of the SkyRes... macros (scripts/skyres.py): pair = the nside-64 run and its nside-32 partner (key KnownBoth) at the production Monte Carlo settings; mc_pair = the same two grids at Analysis 14's settings (32000 samples, six pooled injection sets), both in stage X; realization = realization A (the SkyRes<P>Shift... and Var... macros), realizations = every realization whose pair is in the run list (the Mean... and Sd... macros)",
   "pair": {
    "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64",
    "partner": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
@@ -3702,7 +3705,43 @@
    "realization": 100,
    "stage": "X",
    "partner_stage": "1",
-   "runlist": "RUNLIST.yaml"
+   "runlist": "RUNLIST.yaml",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realizations_wanted": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "stages": {
+    "100": [
+     "X",
+     "1"
+    ],
+    "101": [
+     "X",
+     "1"
+    ],
+    "102": [
+     "X",
+     "1"
+    ],
+    "103": [
+     "X",
+     "1"
+    ],
+    "105": [
+     "X",
+     "1"
+    ]
+   }
   },
   "mc_pair": {
    "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64_s32000_inj6",
@@ -3713,7 +3752,55 @@
    "partner_stage": "X",
    "runlist": "RUNLIST.yaml",
    "nsamp": 32000,
-   "n_injection_sets": 6
+   "n_injection_sets": 6,
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realizations_wanted": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "stages": {
+    "100": [
+     "X",
+     "X"
+    ],
+    "101": [
+     "X",
+     "X"
+    ],
+    "102": [
+     "X",
+     "X"
+    ],
+    "103": [
+     "X",
+     "X"
+    ],
+    "105": [
+     "X",
+     "X"
+    ]
+   },
+   "n_injection_sets_by_run": {
+    "known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6": 6,
+    "known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6": 6
+   }
   }
  }
 }
