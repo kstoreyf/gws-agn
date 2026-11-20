@@ -16,6 +16,8 @@ Checks (written next to each file as <file>.check.json; the build fails if one f
   3. the redshifts (and widths) of the children, merged and sorted, equal the nside-32 pixel's row bit for bit
      (every object sits in the parent of its pixel: only the binning changes);
   4. the occupied fraction against the Poisson expectation 1 - exp(-N/npix) (reported; clustering lowers it).
+  Any nside that is a multiple of 32 (64, 128: the new pixels are the children) or divides 32 (16, 19 Nov: the nside-32
+  pixels are the children of the new ones, and checks 2 and 3 compare each new pixel with its four nside-32 children).
 """
 from __future__ import annotations
 
@@ -105,8 +107,12 @@ def _valid_rows(f, keys=("zgals", "dzgals")):
     return idx, col, out
 
 
-def check(new_path, seed, tracer):
-    """Checks 1-4 against the nside-32 file."""
+def check(new_path, seed, tracer, write=True):
+    """Checks 1-4 against the nside-32 file. nside above 32 (a multiple of 32): the new file's pixels are the
+    children and the nside-32 pixels the parents; nside below 32 (dividing 32, 19 Nov): the nside-32 pixels are the
+    children and the new file's pixels the parents (checks 2 and 3 then say: the children of every new pixel hold its
+    objects, and its row is their rows merged and sorted by redshift, bit for bit). write=False: return the result
+    without writing <file>.check.json."""
     import h5py
     import healpy as hp
     ref = P.survey_path(seed, tracer, "complete")
@@ -115,20 +121,28 @@ def check(new_path, seed, tracer):
         ng32, ngn = np.asarray(f32["ngals"]), np.asarray(fn["ngals"])
         res = {"file": str(new_path), "reference": str(ref), "nside": ns, "n_objects": int(ngn.sum()),
                "n_objects_reference": int(ng32.sum()), "count_identical": bool(ngn.sum() == ng32.sum())}
-        if ns % 32 or ns < 32:
-            raise SystemExit(f"[fatal] check needs nside a multiple of 32, got {ns}")
-        ratio = (ns // 32) ** 2
-        parent_ring = hp.nest2ring(32, hp.ring2nest(ns, np.arange(ngn.size)) // ratio)
-        res["children_sum_equals_parent"] = bool(np.array_equal(np.bincount(parent_ring, weights=ngn,
-                                                                            minlength=ng32.size).astype(np.int64),
-                                                                ng32.astype(np.int64)))
-        pix_n, _, vn = _valid_rows(fn)
-        pix_32, _, v32 = _valid_rows(f32)
-        par = parent_ring[pix_n]
-        order = np.lexsort((vn["zgals"], par))
-        res["parent_of_each_object_sorted_equal"] = bool(np.array_equal(par[order], pix_32))
-        res["z_per_parent_bitwise_equal"] = bool(np.array_equal(vn["zgals"][order], v32["zgals"]))
-        res["dz_per_parent_bitwise_equal"] = bool(np.array_equal(np.sort(vn["dzgals"]), np.sort(v32["dzgals"])))
+        if ns >= 32:
+            if ns % 32:
+                raise SystemExit(f"[fatal] check needs nside a multiple of 32 or a divisor of 32, got {ns}")
+            ns_f, ns_c, ng_f, ng_c, f_f, f_c = ns, 32, ngn, ng32, fn, f32          # children: the new file
+        else:
+            if 32 % ns:
+                raise SystemExit(f"[fatal] check needs nside a multiple of 32 or a divisor of 32, got {ns}")
+            ns_f, ns_c, ng_f, ng_c, f_f, f_c = 32, ns, ng32, ngn, f32, fn          # children: the nside-32 file
+            res["pixel_relation"] = (f"parents: the nside-{ns} pixels of this file; children: the "
+                                     f"{(32 // ns) ** 2} nside-32 pixels of each (NESTED)")
+        ratio = (ns_f // ns_c) ** 2
+        parent_ring = hp.nest2ring(ns_c, hp.ring2nest(ns_f, np.arange(ng_f.size)) // ratio)
+        res["children_sum_equals_parent"] = bool(np.array_equal(np.bincount(parent_ring, weights=ng_f,
+                                                                            minlength=ng_c.size).astype(np.int64),
+                                                                ng_c.astype(np.int64)))
+        pix_f, _, vf = _valid_rows(f_f)
+        pix_c, _, vc = _valid_rows(f_c)
+        par = parent_ring[pix_f]
+        order = np.lexsort((vf["zgals"], par))
+        res["parent_of_each_object_sorted_equal"] = bool(np.array_equal(par[order], pix_c))
+        res["z_per_parent_bitwise_equal"] = bool(np.array_equal(vf["zgals"][order], vc["zgals"]))
+        res["dz_per_parent_bitwise_equal"] = bool(np.array_equal(np.sort(vf["dzgals"]), np.sort(vc["dzgals"])))
         n = int(ngn.sum())
         occ_frac = float((ngn > 0).mean())
         pois = float(1 - np.exp(-n / ngn.size))
@@ -137,6 +151,8 @@ def check(new_path, seed, tracer):
         res["passed"] = all(res[k] for k in ("count_identical", "children_sum_equals_parent",
                                              "parent_of_each_object_sorted_equal", "z_per_parent_bitwise_equal",
                                              "dz_per_parent_bitwise_equal"))
+    if not write:
+        return res
     out = Path(str(new_path) + ".check.json")
     out.write_text(json.dumps(res, indent=1))
     print(f"[{tracer} nside {ns}] checks: {json.dumps(res)}", flush=True)

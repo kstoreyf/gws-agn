@@ -1,4 +1,4 @@
-generated_utc: '2026-11-19T22:06:39Z'
+generated_utc: '2026-11-20T05:09:01Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -5836,12 +5836,12 @@ stages:
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
     that value and at twice it; and the two-tracer grid at nside 32 and at nside 64 with Analysis 14''s Monte Carlo settings (32000 samples per
     merger, six pooled injection sets)'
-  n_runs: 17
-  n_tasks: 17
-  est_calls: 19499
-  est_gpu_hours: 6.81
-  est_gpu_hours_existing_data: 6.81
-  est_gpu_hours_ready: 6.81
+  n_runs: 72
+  n_tasks: 72
+  est_calls: 36909
+  est_gpu_hours: 21.2
+  est_gpu_hours_existing_data: 21.2
+  est_gpu_hours_ready: 21.2
   n_runs_held: 0
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
@@ -6845,3 +6845,3053 @@ stages:
       partner: known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6
       differs_by: --nside 64
       settings_of: README, Monte Carlo settings of the all-AGN-hosted analyses; data/experiment_sets.json extra_record_lane_sets
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_100_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '100'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.0021
+    est_gpu_hours: 0.059
+    est_gpu_hours_per_part: 0.059
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6 (its sessions) x 3.483,
+      the longest catalog row at nside 16 (620 objects) over that at nside 32 (178): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6
+      differs_by: --nside 16
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_100_nside64_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '100'
+    - --nside
+    - '64'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside64_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2877
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6
+      differs_by: --nside 64
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_100_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '100'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2877
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_100_s32000_inj6
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '100'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3807
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_100 (its sessions) x 3.747, the
+      longest catalog row at nside 16 (54590 objects) over that at nside 32 (14569): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '100'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3685
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_100 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '100'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3685
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_100 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_100
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_100_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3753
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_100 (its sessions) x 3.747,
+      the longest catalog row at nside 16 (54590 objects) over that at nside 32 (14569): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_100
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_100_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.367
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_100 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_100
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_100_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.367
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_100 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_100
+      differs_by: --nside 128
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_101_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '101'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.9623
+    est_gpu_hours: 0.058
+    est_gpu_hours_per_part: 0.058
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6 (its sessions) x 3.294,
+      the longest catalog row at nside 16 (616 objects) over that at nside 32 (187): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6
+      differs_by: --nside 16
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_101_nside64_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '101'
+    - --nside
+    - '64'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside64_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2921
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6
+      differs_by: --nside 64
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_101_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '101'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2921
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_101_s32000_inj6
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '101'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3653
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_101 (its sessions) x 3.706, the
+      longest catalog row at nside 16 (54384 objects) over that at nside 32 (14676): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '101'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3684
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_101 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '101'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3684
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_101 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_101
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_101_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3663
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_101 (its sessions) x 3.706,
+      the longest catalog row at nside 16 (54384 objects) over that at nside 32 (14676): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_101
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_101_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3687
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_101 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_101
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_101_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3687
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_101 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_101
+      differs_by: --nside 128
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_102_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '102'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.9443
+    est_gpu_hours: 0.057
+    est_gpu_hours_per_part: 0.057
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6 (its sessions) x 3.269,
+      the longest catalog row at nside 16 (595 objects) over that at nside 32 (182): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6
+      differs_by: --nside 16
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_102_nside64_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '102'
+    - --nside
+    - '64'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside64_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2888
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6
+      differs_by: --nside 64
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_102_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '102'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2888
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_102_s32000_inj6
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '102'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3829
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_102 (its sessions) x 3.730, the
+      longest catalog row at nside 16 (54585 objects) over that at nside 32 (14636): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '102'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3708
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_102 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '102'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3708
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_102 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_102
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_102_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3804
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_102 (its sessions) x 3.730,
+      the longest catalog row at nside 16 (54585 objects) over that at nside 32 (14636): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_102
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_102_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3701
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_102 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_102
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_102_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3701
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_102 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_102
+      differs_by: --nside 128
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_103_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '103'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.9324
+    est_gpu_hours: 0.057
+    est_gpu_hours_per_part: 0.057
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6 (its sessions) x 3.214,
+      the longest catalog row at nside 16 (601 objects) over that at nside 32 (187): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6
+      differs_by: --nside 16
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_103_nside64_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '103'
+    - --nside
+    - '64'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside64_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2901
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6
+      differs_by: --nside 64
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_103_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '103'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2901
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_103_s32000_inj6
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '103'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3919
+    est_gpu_hours: 0.074
+    est_gpu_hours_per_part: 0.074
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_103 (its sessions) x 3.729, the
+      longest catalog row at nside 16 (53996 objects) over that at nside 32 (14479): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '103'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3732
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_103 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '103'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3732
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_103 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_103
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_103_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3879
+    est_gpu_hours: 0.073
+    est_gpu_hours_per_part: 0.073
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_103 (its sessions) x 3.729,
+      the longest catalog row at nside 16 (53996 objects) over that at nside 32 (14479): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_103
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_103_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3722
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_103 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_103
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_103_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3722
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_103 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_103
+      differs_by: --nside 128
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_105_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '105'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.9358
+    est_gpu_hours: 0.057
+    est_gpu_hours_per_part: 0.057
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6 (its sessions) x 3.211,
+      the longest catalog row at nside 16 (594 objects) over that at nside 32 (185): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6
+      differs_by: --nside 16
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_105_nside64_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '105'
+    - --nside
+    - '64'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside64_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2915
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6
+      differs_by: --nside 64
+  - name: known_population/agn_catalog/complete/agn_hosted/realization_105_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - agn
+    - --flux
+    - complete
+    - --events-kind
+    - agn_hosted
+    - --realization
+    - '105'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.2915
+    est_gpu_hours: 0.033
+    est_gpu_hours_per_part: 0.033
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_pureagn_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: AGNhosted
+      partner: known_population/agn_catalog/complete/agn_hosted/realization_105_s32000_inj6
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '105'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3442
+    est_gpu_hours: 0.072
+    est_gpu_hours_per_part: 0.072
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_105 (its sessions) x 3.744, the
+      longest catalog row at nside 16 (53596 objects) over that at nside 32 (14316): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '105'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.359
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_105 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - galaxy_hosted
+    - --realization
+    - '105'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.359
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_puregal_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/galaxy_hosted/realization_105 (its sessions) at nside 32:
+      an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: Galhosted
+      partner: known_population/galaxy_catalog/complete/galaxy_hosted/realization_105
+      differs_by: --nside 128
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_105_nside16
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --nside
+    - '16'
+    - --variant
+    - nside16
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 1.3394
+    est_gpu_hours: 0.072
+    est_gpu_hours_per_part: 0.072
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_105 (its sessions) x 3.744,
+      the longest catalog row at nside 16 (53596 objects) over that at nside 32 (14316): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns16/survey_gal_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_105
+      differs_by: --nside 16
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_105_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3578
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_105 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_gal_complete_ns64.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_105
+      differs_by: --nside 64
+  - name: known_population/galaxy_catalog/complete/equal_populations/realization_105_nside128
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - galaxy
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --nside
+    - '128'
+    - --variant
+    - nside128
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3578
+    est_gpu_hours: 0.036
+    est_gpu_hours_per_part: 0.036
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/galaxy_catalog/complete/equal_populations/realization_105 (its sessions) at nside
+      32: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns128/survey_gal_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)
+      key: KnownGal
+      partner: known_population/galaxy_catalog/complete/equal_populations/realization_105
+      differs_by: --nside 128
+  - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.8206
+    est_gpu_hours: 0.284
+    est_gpu_hours_per_part: 0.284
+    priority: 1.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6 (its
+      sessions) at nside 64: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns128/survey_gal_complete_ns128.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6
+      differs_by: --nside 128
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '100'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed100/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed100/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 6.7934
+    est_gpu_hours: 2.187
+    est_gpu_hours_per_part: 2.187
+    priority: 2.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6 (its sessions)
+      x 3.747, the longest catalog row at nside 16 (54590 objects) over that at nside 32 (14569): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns16/survey_gal_complete_ns16.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_100_s32000_inj6
+      differs_by: --nside 16
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_100_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_101_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.8706
+    est_gpu_hours: 0.3
+    est_gpu_hours_per_part: 0.3
+    priority: 1.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6 (its
+      sessions) at nside 64: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns128/survey_gal_complete_ns128.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6
+      differs_by: --nside 128
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_101_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '101'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed101/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed101/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 6.7405
+    est_gpu_hours: 2.17
+    est_gpu_hours_per_part: 2.17
+    priority: 2.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6 (its sessions)
+      x 3.706, the longest catalog row at nside 16 (54384 objects) over that at nside 32 (14676): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns16/survey_gal_complete_ns16.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_101_s32000_inj6
+      differs_by: --nside 16
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_101_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_102_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.8264
+    est_gpu_hours: 0.286
+    est_gpu_hours_per_part: 0.286
+    priority: 1.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6 (its
+      sessions) at nside 64: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns128/survey_gal_complete_ns128.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6
+      differs_by: --nside 128
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_102_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '102'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed102/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed102/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 6.7943
+    est_gpu_hours: 2.187
+    est_gpu_hours_per_part: 2.187
+    priority: 2.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6 (its sessions)
+      x 3.730, the longest catalog row at nside 16 (54585 objects) over that at nside 32 (14636): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns16/survey_gal_complete_ns16.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_102_s32000_inj6
+      differs_by: --nside 16
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_102_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_103_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.837
+    est_gpu_hours: 0.289
+    est_gpu_hours_per_part: 0.289
+    priority: 1.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6 (its
+      sessions) at nside 64: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns128/survey_gal_complete_ns128.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6
+      differs_by: --nside 128
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_103_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '103'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed103/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed103/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 6.8263
+    est_gpu_hours: 2.198
+    est_gpu_hours_per_part: 2.198
+    priority: 2.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6 (its sessions)
+      x 3.729, the longest catalog row at nside 16 (53996 objects) over that at nside 32 (14479): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns16/survey_gal_complete_ns16.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6
+      differs_by: --nside 16
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_103_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_105_nside128_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --nside
+    - '128'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside128_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.8371
+    est_gpu_hours: 0.289
+    est_gpu_hours_per_part: 0.289
+    priority: 1.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6 (its
+      sessions) at nside 64: an upper bound (finer pixels)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns128/survey_gal_complete_ns128.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns128/survey_agn_complete_ns128.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6
+      differs_by: --nside 128
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6
+  - name: known_population/both_catalogs/complete/equal_populations/realization_105_nside16_s32000_inj6
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '105'
+    - --nside
+    - '16'
+    - --nsamp
+    - '32000'
+    - --variant
+    - nside16_s32000_inj6
+    - --pool-injections
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - --pool-injections
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 32000
+    injection_pool:
+    - mc_accuracy/inj_set1/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set2/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set3/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set4/seed105/injections/injections_targeted.h5
+    - mc_accuracy/inj_set5/seed105/injections/injections_targeted.h5
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 6.6345
+    est_gpu_hours: 2.136
+    est_gpu_hours_per_part: 2.136
+    priority: 2.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6 (its sessions)
+      x 3.744, the longest catalog row at nside 16 (53596 objects) over that at nside 32 (14316): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns16/survey_gal_complete_ns16.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns16/survey_agn_complete_ns16.h5
+    check:
+      what: sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, six pooled injection sets; the
+        sequence nside 16, 32, 64, 128)
+      key: KnownBoth
+      partner: known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6
+      differs_by: --nside 16
+      arguments_of: known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6

@@ -1,4 +1,4 @@
-# Checkpoint, 19 Nov 2026, 22:45 UTC (read this first after a context clear)
+# Checkpoint, 20 Nov 2026, 05:35 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -12,15 +12,17 @@ this file holds the working state.
    `squeue -u $USER -p RITA-GPU`; `$PY scripts/launch.py --lanes 2 status` in the analysis-16
    directory (Sec. 3 has `PY`).
 3. Nothing is owed right now except waiting: lane 1 is on the eight-parameter reference run of
-   realization 100, lane 2 on the twelve sky-resolution runs. The next actions are Sec. 5,
-   items 1 and 2, each triggered by a watcher.
+   realization 100, lane 2 on the pixel-size sequence (Sec. 3). The next actions are Sec. 5,
+   items 1 and 2, each triggered by a watcher. THE OPEN QUESTION OF THE DAY is Sec. 4, "Pixel
+   size": read it before anything else is decided about H0 numbers.
 4. WATCHERS survive a context clear and report as background-task notifications that carry no
    context. Two are armed:
-   - task `bvv0w6obd` (19 Nov, 22:30 UTC), "Wait until the twelve sky-resolution runs of
-     realizations 101, 102, 103 and 105 have summaries": then do Sec. 5 item 1.
+   - task `bq68ysl4k` (20 Nov, 05:20 UTC), "Wait until the fifty pixel-size sequence runs have
+     summaries" (about 10:30 UTC 20 Nov): then do Sec. 5 item 1.
    - task `bue7u6pya` (18 Nov), "Wait until both eight-parameter runs of realization 100 have
      finished": then do Sec. 5 item 2.
-   (`bk2x1ic8d`, the high-accuracy pair of realization 100, reported on 19 Nov 21:45 UTC: done.)
+   (`bk2x1ic8d` and `bvv0w6obd`, the sky-resolution pairs of the five realizations, reported
+   on 19 Nov 21:45 UTC and 20 Nov 04:40 UTC: done.)
    A notification from any other old task (earlier watchers, earlier agents) needs no action:
    check what it printed and move on. If the session was restarted, the watchers are gone:
    check the two conditions by hand.
@@ -92,10 +94,10 @@ this file holds the working state.
   acknowledgments modeled on the owner's arXiv:2610.37617. The owner has been asked to confirm
   (not blocking): that NASA Grant No. 22-LPS22-0025 covers this work; the AI sentence ("drafting
   and editing", Claude models only); whether to push at each milestone.
-- Sentences to revisit when their runs finish: Validation, sky resolution (rewritten 19 Nov for
-  the mean and the scatter of the shift over five realizations at 32,000 samples and six
-  injection sets: macros `\SkyResMCMeanShift...`, `\SkyResMCSdShift...`, red until the twelve
-  runs of Sec. 3 are in; tagged `% EXPECTED`); Sec. IV E and the
+- Sentences to revisit when their runs finish: Validation, sky resolution (its numbers are real
+  since 20 Nov: H0 median +0.39 on average, sd 0.18, f_AGN +0.005, sd 0.017; the sentence still
+  carries `% EXPECTED` because it does not yet say that the shift is common to the realizations
+  nor what it means: word it from the pixel-size sequence, Sec. 5 item 1); Sec. IV E and the
   abstract when HDSingle/HDHost are real; `fig8_summary` prints "at the prior edge, 100" with no
   macro behind the number.
 
@@ -117,16 +119,29 @@ this file holds the working state.
   the sky-resolution pair of realization 100 at 32,000 samples and six injection sets); the
   mixed-sampler eight-parameter run of realization 100 (`..._unif_then_rslice`, 5293 iterations,
   200k calls, ln Z = -2899.18 +- 0.37; finished 19 Nov 20:44 UTC).
-- STATE 19 Nov 22:45 UTC (the two bullets RUNNING and QUEUED below are the 18 Nov text, kept for
-  the order of the queue): lane 1 still on the rslice reference of realization 100 (iteration
-  3957 at 21:39 UTC, 136 iterations per hour, about 4900 to 5300 needed: ends about 04:30 to
-  07:30 UTC 20 Nov; job 1416192 reaches its time limit at 05:28 UTC 20 Nov and the successor
-  1416219 carries on from the checkpoint). Lane 2: the second part of HDSingle realization 100
-  (until about 23:45 UTC), then the TWELVE SKY-RESOLUTION RUNS queued on 19 Nov 22:29 UTC
-  (stage X, realizations 101, 102, 103, 105: `realization_NNN_nside64`, `..._s32000_inj6`,
-  `..._nside64_s32000_inj6` under `known_population/both_catalogs/complete/equal_populations/`;
-  about 4 GPU-h, done about 04:00 to 05:00 UTC 20 Nov), then HDSingle 101 to 105 and the rest
-  as below. Their nside-64 survey files exist (`data/seedNNN/surveys_ns64/`, checks passed).
+- STATE 20 Nov 05:35 UTC (the two bullets RUNNING and QUEUED below are the 18 Nov text, kept for
+  the order of the queue): lane 1 on the rslice reference of realization 100 (iteration 4834 at
+  04:35 UTC, about 126 per hour; the mixed run needed 5093: ends about 07:00 UTC; job 1416192
+  ended at its limit, its successor 1416219 carries on, 1425268 queued behind), then HDNone
+  (nine tasks, about 9 h), then the mixed-sampler run of realization 101 (about 29 h; would
+  start about 16:00 UTC 20 Nov: DECIDE THE PIXEL SIZE BEFORE THAT, Sec. 5 item 1). Lane 2 (job
+  1415023 until its limit at 12:23 UTC, successor 1416415): the first part of HDSingle
+  realization 101 until about 06:45 UTC, then the PIXEL-SIZE SEQUENCE queued 20 Nov 05:17 UTC
+  (stage X, 50 runs, about 3.5 GPU-h, done about 10:30 UTC), then HDSingle 101 to 105 and the
+  rest as below.
+- PIXEL-SIZE RUNS (stage X, realizations 100, 101, 102, 103, 105; survey files
+  `data/seedNNN/surveys_ns{16,64,128}/`, all checks passed). Finished: KnownBoth at nside 32 and
+  64, at 8000 samples and at 32,000 samples with six injection sets (`realization_NNN_nside64`,
+  `..._s32000_inj6`, `..._nside64_s32000_inj6`). Queued (the sequence): nside 16, 64, 128 for
+  the three one-catalog analyses (`known_population/agn_catalog/complete/agn_hosted/
+  realization_NNN_nside<N>_s32000_inj6`; `known_population/galaxy_catalog/complete/
+  {galaxy_hosted,equal_populations}/realization_NNN_nside<N>`), then KnownBoth at nside 128
+  (`..._nside128_s32000_inj6`). In the run list but NOT queued: KnownBoth at nside 16 (five
+  runs, 8 to 11 GPU-h, GPU memory untested; queue only if the trend toward coarse pixels is
+  needed: `launch.py --lanes 2 stage X --only-lane 2`, dry run first). Table of all of it:
+  `JAX_PLATFORMS=cpu $PY tests/skyres_sequence.py` -> `tests/results/skyres_sequence.json`
+  (paired shifts to nside 32, posteriors combined over the five with the paper chain's own
+  function, credible level of the inputs, Monte Carlo variances; missing runs are listed).
 - DISK: `working/data/seedNNN` are links into `/hildafs/projects/phy230054p/` (15 T free); the
   run outputs and the repo sit on `phy230014p`, which is 92% full (18 G free on 19 Nov).
 - RUNNING since 18 Nov: lane 1 (job 1416192, successor 1416219 queued), the eight-parameter
@@ -197,13 +212,26 @@ this file holds the working state.
 - Number densities inferred (m < 18): rate ratio 41 (+18, -14) for an input of 42.8, f_AGN
   follows its prior, H0 68.1 (+2.3, -2.2), an upper limit on the galaxy density and none on the
   AGN density.
-- Sky resolution, realization 100: nside 64 against 32 moves H0 by +0.64 and f_AGN by +0.016 at
-  8000 samples (1.9 times the Monte Carlo variance) and by +0.42 and +0.008 at 32,000 samples
-  and six injection sets (medians 68.12 -> 68.53; variance of the posterior-sample sums 0.59 ->
-  1.07). Redraws alone move the H0 median by 0.20 at 32,000 samples (Analysis 14), so one
-  realization does not separate pixel size from Monte Carlo error: four more realizations are
-  running. A shift common to all realizations of +0.4 would matter for the combined posterior
-  of ten (68.2 +- 0.6, input 67.74).
+- PIXEL SIZE (open, 20 Nov). KnownBoth at 32,000 samples and six injection sets, nside 64 minus
+  nside 32, realizations 100, 101, 102, 103, 105: H0 median +0.42, +0.18, +0.31, +0.67, +0.40
+  (mean +0.39, sd 0.18, standard error 0.08: common to the realizations, not scatter); f_AGN
+  +0.005 (standard error 0.007); the 90% half-width of H0 shrinks by 12% (mean 2.04 -> 1.80),
+  by the lower edge of the interval moving up (+0.2 to +1.3) while the upper edge stays
+  (-0.2 to +0.4). At 8000 samples the mean shift is +0.26 +- 0.20 (noisier, same sign in
+  three of five). The Monte Carlo variances double with each halving of the pixel (posterior
+  samples 0.6 -> 1.1, selection 0.22 -> 0.43 at 32,000 samples), but going from 8000 to 32,000
+  samples at nside 32 moves the medians by -0.07 on average, so the shift is not Monte Carlo
+  error. Combined over the five (paper chain's function): nside 32 H0 68.22 (+0.89, -0.91),
+  input 67.74 at the 62% level; nside 64 68.74 (+0.74, -0.79), input at the 96% level; f_AGN
+  0.312 and 0.318 (+-0.037), input at the 41% and 59% levels. The mock's sky localization is
+  1 to 1.75 deg per axis (35 deg over the amplitude, clipped), an nside-32 pixel is 1.83 deg
+  wide: nside 32 does not resolve it, so more information at nside 64 is expected; a common
+  shift of the median is not. NOT KNOWN: whether nside 64 is nearer the truth (then nside 32
+  hides part of a positive H0 offset of the two-catalog analysis, about +1.0 at 96%) or whether
+  the shift stops; which term carries it (AGN catalog, 31 objects per nside-64 pixel, or galaxy
+  catalog, 3075). At nside 32 every combined posterior of stage 1 holds the input (AGN-hosted
+  67.69 +- 0.36, input at 18%; galaxy-hosted 68.0, 24%; galaxy catalog alone on mixed mergers
+  68.6, 54%). The sequence of Sec. 3 answers both.
 - First eight-parameter posterior (mixed sampler, realization 100; inputs in parentheses): H0
   67.53 [66.09, 68.99] (67.74), f_AGN 0.288 [0.222, 0.361] (0.30), mu_G 35.73 [35.12, 36.31]
   (35), sigma_G 4.69 [4.30, 5.09] (5), mu_chi -0.019 [-0.033, -0.004] (0), sigma_chi 0.078
@@ -219,15 +247,24 @@ this file holds the working state.
   normalization volume).
 
 ## 5. Do next, in order
-1. The twelve sky-resolution runs (watcher `bvv0w6obd`, about 05:00 UTC 20 Nov): refresh; the
-   macros `\SkyResMCMeanShift...`, `\SkyResMCSdShift...` turn black; reword the sentence of the
-   Validation by what they show and drop its `% EXPECTED`. The standard error of the mean is
-   the scatter over root five. If the mean H0 shift is within about twice that of zero: say the
-   pixel size moves no median in common, done. If it is a common shift of some tenths: nside 32
-   biases every H0 by that much; say so with its size against the half-width, look at the
-   combined posteriors, and cost a rerun of the headline analyses at nside 64 (an nside-64 grid
-   costs about half an nside-32 one at equal samples; nested runs unknown) before deciding.
-   `\SkyResMeanShift...` (8000 samples) are also produced; not used in the text.
+1. The pixel-size sequence (watcher `bq68ysl4k`, about 10:30 UTC 20 Nov): run
+   `tests/skyres_sequence.py` and read, per analysis, the paired shifts 16 -> 32 -> 64 -> 128
+   and the level of the input in the combined posteriors. Questions in order: (a) does the
+   AGN-hosted analysis (AGN catalog alone, combined half-width 0.36) move with the pixel, and
+   does it stay on the input? (b) do the galaxy-catalog analyses move? (c) does KnownBoth
+   converge (64 -> 128 much smaller than 32 -> 64) and where does the input sit at nside 128?
+   Then decide, before lane 1 reaches the mixed-sampler run of realization 101 (about 16:00
+   UTC): if the shift stops at nside 64 or 128 and the input stays inside the combined
+   intervals, keep nside 32 for the campaign, state the shift and the lost precision in the
+   Validation (macros exist) and stop. If the finer pixels put the input outside, there is an
+   offset in the two-catalog likelihood or in the mocks that nside 32 hides: hold the queued
+   eight-parameter runs (reorder the lane files so that six-parameter work goes first; never
+   scancel a running task without need), find the term (the one-catalog runs say where to
+   look), and tell the owner what was found, with the cost of rerunning at the finer pixel
+   (cost per call does not rise with nside; the Monte Carlo variance doubles per halving, so
+   16,000 samples per merger at nside 64 for the variance of today). The paper takes the
+   sequence in as a Validation paragraph either way (extend `paper_prd/scripts/skyres.py`
+   through an Opus agent; `tests/skyres_sequence.py` is the reference computation).
 2. Both realization-100 eight-parameter runs finished (watcher `bue7u6pya`): the comparison of
    Sec. 3 (also look at each run's `summary.json`), then, by an Opus agent with a brief, the
    mapping and the stage-5 entries; realization-A numbers of Sec. IV E turn black only when
@@ -243,10 +280,10 @@ this file holds the working state.
    Monte Carlo error of about 0.01 dex in their second decimal.
 
 ## 6. Waiting for the owner (none blocks work)
-The three confirmations of Sec. 2 (grant, AI sentence, push policy). Nine local commits since the
+The three confirmations of Sec. 2 (grant, AI sentence, push policy). Ten local commits since the
 push (ba8f91f): ask before pushing.
 
 ## 7. Other sessions
 `gaia`, `darksirens`: nothing owed. Never touch other sessions' jobs (anything not named `agn-*`).
 
-Local commits up to the one of 19 Nov 22:45 UTC that carries this file; `git log --oneline | head -30`.
+Local commits up to the one of 20 Nov 05:35 UTC that carries this file; `git log --oneline | head -30`.

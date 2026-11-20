@@ -54,6 +54,10 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   grids on realizations 101, 102, 103, 105 (X_SKYRES_REALIZATIONS: the realizations with six injection sets; run names
   realization_NNN_nside64, realization_NNN_s32000_inj6, realization_NNN_nside64_s32000_inj6), seconds per call measured on
   each realization's own stage-1 grid and X_MC_COST_REFERENCE; held while a survey file or injection set is missing.
+  And (19 Nov, second batch, appended after those) the sky-resolution sequence on the same five realizations: stage 1's
+  one-catalog grids of the keys AGNhosted, Galhosted, KnownGal at nside 16, 64, 128, and KnownBoth at Analysis 14's settings at
+  nside 128 and 16 (build_checks (e)); seconds per call measured on the partner at nside 32 (or the nside-64 run of (c) for
+  nside 128), times the ratio of the longest catalog rows below the reference's nside (_x_seq_cost; upper bounds).
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -544,14 +548,14 @@ X_UNITS_LIMIT = "18"
 X_MC_COST_REFERENCE = "two_tracers_one_population/both_catalogs/complete/peak_f1p00_s0/realization_{R:03d}_s32000_inj6"
 
 
-def _x_hold_if_missing(e, surveys):
+def _x_hold_if_missing(e, surveys, nside=X_NSIDE):
     """Hold a stage-X entry whose survey files or injection sets (the lane and every pooled set) are not on disk yet (the
     pooled sets: agn_only_settings already holds a run with fewer than six); data_exists then says the same."""
     real = arg_of(e, "--realization")
     inj = [Path(e["injections_file"])] + [P.injections_path(int(real), "corepop", ln) for ln in e["injection_pool"]]
     miss = [str(p) for p in surveys if not Path(p).exists()] + [str(p) for p in inj if not P.injections_ready(p)]
     if miss and not e.get("hold"):
-        e["hold"] = (f"missing {', '.join(miss)} (survey files: scripts/make_survey_nside.py --seed {real} --nside {X_NSIDE}); "
+        e["hold"] = (f"missing {', '.join(miss)} (survey files: scripts/make_survey_nside.py --seed {real} --nside {nside}); "
                      "rerun make_runlist.py when they exist")
     return e
 
@@ -602,6 +606,127 @@ def _x_skyres_mc(real):
     return out
 
 
+# (e) 19 Nov, second batch: the sky-resolution sequence. Which part of the likelihood carries KnownBoth's nside-64 shift, and does
+# it converge with finer pixels? On X_SKYRES_REALIZATIONS, appended after (d):
+#   A  stage 1's three one-catalog grids (keys AGNhosted, Galhosted, KnownGal of paper_prd/values/production_map.json) at nside 16,
+#      64 and 128, every other argument the stage-1 run's (the all-AGN grid keeps its 32000 samples and six pooled sets);
+#   B  KnownBoth at Analysis 14's Monte Carlo settings (the pair of (c)) at nside 128 and 16.
+# Lane order: rank 2.85 as the rest of stage X; launch.py sorts a lane by (rank, priority, estimated hours per part, name), and the
+# priority puts A first, then B at nside 128, then B at nside 16 (the name alone would not: it comes after the estimated hours and
+# interleaves the realizations).
+X_SEQ_ONE_CATALOG = (   # (paper key, catalogs, events kind, mergers all AGN-hosted: Analysis 14's settings, as in stage 1)
+    ("AGNhosted", "agn", "agn_hosted", True),
+    ("Galhosted", "galaxy", "galaxy_hosted", False),
+    ("KnownGal", "galaxy", "equal_populations", False),
+)
+X_SEQ_ONE_NSIDES = (16, 64, 128)
+X_SEQ_BOTH_NSIDES = (128, 16)
+X_SEQ_PRIORITY = {"A": 0.0, ("B", 128): 1.0, ("B", 16): 2.0}
+
+
+def _x_strip_nside(args):
+    """args without the --nside and --variant pairs (what may differ between a sequence run and its nside-32 partner)."""
+    out, i = [], 0
+    while i < len(args):
+        if args[i] in ("--nside", "--variant"):
+            i += 2
+            continue
+        out.append(args[i])
+        i += 1
+    return out
+
+
+def _x_max_per_pixel(real, tracers, nside):
+    """The longest catalog row (objects in the fullest pixel) over the run's complete survey files at this nside; None when one
+    is missing."""
+    import h5py
+    m = []
+    for t in tracers:
+        p = P.survey_path(real, t, "complete", nside=nside)
+        if not p.exists():
+            return None
+        with h5py.File(p, "r") as f:
+            m.append(int(f["ngals"][()].max()))
+    return max(m)
+
+
+def _x_seq_cost(e, ref, ref_nside, nside, real, tracers):
+    """Seconds per call of a sequence run: the measured value of `ref` (the same grid class and Monte Carlo settings at ref_nside,
+    its sessions), as is when nside >= ref_nside (finer pixels, shorter catalog rows: an upper bound), and below it times the ratio
+    of the longest catalog row at nside to that at ref_nside (an upper bound when the time per call grows at most in proportion to
+    the row: on the GPU the nside-64 grids of (a), (c), (d) took 0.45-0.50 of the nside-32 time for 0.28 of the row). The cost
+    model when ref is not on record. Keeps the entry's priority."""
+    spc = run_seconds_per_call(ref)
+    if not spc:
+        e["est_seconds_per_call_source"] = f"cost model ({ref} not on record)"
+        return e
+    src = f"measured on {ref} (its sessions)"
+    if nside < ref_nside:
+        m_new, m_ref = _x_max_per_pixel(real, tracers, nside), _x_max_per_pixel(real, tracers, ref_nside)
+        if m_new and m_ref:
+            fac = m_new / m_ref
+            src += (f" x {fac:.3f}, the longest catalog row at nside {nside} ({m_new} objects) over that at nside {ref_nside} "
+                    f"({m_ref}): an upper bound")
+        else:
+            fac = (ref_nside / nside) ** 2
+            src += f" x {fac:g}, the ratio of the pixel areas (a survey file is missing)"
+        spc *= fac
+    elif nside > ref_nside:
+        src += f" at nside {ref_nside}: an upper bound (finer pixels)"
+    e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"], priority=e["priority"])
+    e["est_seconds_per_call_source"] = src
+    return e
+
+
+def _x_seq_data(e, real, tracers, nside):
+    """data_exists with the survey files and every pooled injection set; the surveys listed; held while one is missing."""
+    surveys = [P.survey_path(real, t, "complete", nside=nside) for t in tracers]
+    e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys) and all(
+        P.injections_ready(P.injections_path(real, "corepop", ln)) for ln in e["injection_pool"]))
+    e["surveys"] = [str(p) for p in surveys]
+    return surveys
+
+
+def _x_seq_one(real, key, catalogs, kind, agn_only, nside):
+    """A: one stage-1 one-catalog grid at another nside, its arguments otherwise the stage-1 run's."""
+    partner = entry(1, "grid", "known_population", catalogs, "complete", kind, real, agn_only=agn_only)
+    if agn_only:
+        e = entry("X", "grid", "known_population", catalogs, "complete", kind, real, extra_args=["--nside", str(nside)],
+                  agn_only=True, variant_prefix=f"nside{nside}_")
+    else:
+        e = entry("X", "grid", "known_population", catalogs, "complete", kind, real, extra_args=["--nside", str(nside)],
+                  name_variant=f"nside{nside}")
+    if _x_strip_nside(e["args"]) != _x_strip_nside(partner["args"]) or arg_of(e, "--nside") != str(nside):
+        sys.exit(f"[fatal] {e['name']}: arguments differ from {partner['name']}'s by more than --nside {nside}")
+    e["priority"] = X_SEQ_PRIORITY["A"]
+    tracers = P.CATALOG_SETS[catalogs]
+    e = _x_seq_cost(e, partner["name"], P.SURVEY_NSIDE, nside, real, tracers)
+    surveys = _x_seq_data(e, real, tracers, nside)
+    e["check"] = {"what": "sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)", "key": key,
+                  "partner": partner["name"], "differs_by": f"--nside {nside}"}
+    return _x_hold_if_missing(e, surveys, nside)
+
+
+def _x_seq_both(real, nside):
+    """B: KnownBoth at Analysis 14's Monte Carlo settings at another nside, its arguments otherwise the pair of (c)'s."""
+    e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
+              extra_args=["--nside", str(nside)], a14_mc=True, variant_prefix=f"nside{nside}_")
+    p32 = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real, a14_mc=True)
+    p64 = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
+                extra_args=["--nside", str(X_NSIDE)], a14_mc=True, variant_prefix=f"nside{X_NSIDE}_")
+    if _x_strip_nside(e["args"]) != _x_strip_nside(p64["args"]) or e["args"].index("--nside") != p64["args"].index("--nside"):
+        sys.exit(f"[fatal] {e['name']}: arguments differ from {p64['name']}'s by more than the nside")
+    e["priority"] = X_SEQ_PRIORITY[("B", nside)]
+    tracers = P.CATALOG_SETS["both"]
+    ref, ref_nside = (p64["name"], X_NSIDE) if nside > X_NSIDE else (p32["name"], P.SURVEY_NSIDE)
+    e = _x_seq_cost(e, ref, ref_nside, nside, real, tracers)
+    surveys = _x_seq_data(e, real, tracers, nside)
+    e["check"] = {"what": "sky resolution of the catalog term at Analysis 14's Monte Carlo settings (32000 samples per merger, "
+                          "six pooled injection sets; the sequence nside 16, 32, 64, 128)", "key": "KnownBoth",
+                  "partner": p32["name"], "differs_by": f"--nside {nside}", "arguments_of": p64["name"]}
+    return _x_hold_if_missing(e, surveys, nside)
+
+
 def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
     """Stage X.
     (a) Sky resolution: stage 1's known_population grid with both catalogs (realization 100, the redraw of index 0, 8000
@@ -627,7 +752,16 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
         X_MC_COST_REFERENCE. Realization `real`'s five entries come first, in the order above; the others are appended (per
         realization: nside64, s32000_inj6, nside64_s32000_inj6). An entry whose survey files or injection sets are missing is
         held (_x_hold_if_missing; fewer than six sets: agn_only_settings). The paper's mean and scatter of the shift over the
-        realizations: paper_prd/scripts/skyres.py."""
+        realizations: paper_prd/scripts/skyres.py.
+    (e) 19 Nov, second batch, appended after (d): the sky-resolution sequence on skyres_realizations. A: stage 1's one-catalog
+        grids of the keys AGNhosted (agn_hosted events, AGN catalog; 32000 samples, six pooled sets as stage 1), Galhosted
+        (galaxy_hosted events, galaxy catalog) and KnownGal (equal_populations events, galaxy catalog) at nside 16, 64 and 128
+        (--nside N; run names realization_NNN_nside<N>[_s32000_inj6]), per realization in that order; B: KnownBoth at
+        Analysis 14's Monte Carlo settings at nside 128 and 16 (realization_NNN_nside<N>_s32000_inj6, the arguments of (c)'s
+        nside-64 run with the other nside). Every other argument is the partner's (checked here). Priority 0 (A), 1 (B, nside
+        128), 2 (B, nside 16) orders them on the lane within rank 2.85; seconds per call: _x_seq_cost; held while a survey file
+        or injection set is missing. Survey files: scripts/make_survey_nside.py --seed R --nside 16|128. Tabulated by
+        tests/skyres_sequence.py; the paper does not read them."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -654,6 +788,14 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
         if r != real:
             out.append(_x_skyres(r))
             out += _x_skyres_mc(r)
+    # (e) the sky-resolution sequence, appended after (d): A (one catalog at nside 16, 64, 128), then B (KnownBoth, 128 and 16)
+    for r in skyres_realizations:
+        for key, catalogs, kind, agn_only in X_SEQ_ONE_CATALOG:
+            for nside in X_SEQ_ONE_NSIDES:
+                out.append(_x_seq_one(r, key, catalogs, kind, agn_only, nside))
+    for r in skyres_realizations:
+        for nside in X_SEQ_BOTH_NSIDES:
+            out.append(_x_seq_both(r, nside))
     return out
 
 

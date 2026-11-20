@@ -333,6 +333,19 @@ after realization 100's five stage-X entries, rank 2.85, held while a survey fil
 estimated. Survey files `data/seed{101,102,103,105}/surveys_ns64/` (`make_survey_nside.py --seed R --nside 64`, each with its
 passing `<file>.check.json`). The paper's mean and scatter of the shift over the five: `paper_prd/scripts/skyres.py`
 (`\SkyRes[MC]Mean...`, `\SkyRes[MC]Sd...`, `\SkyResNreal`, `\SkyResMCNsets`).
+*19 Nov, second batch (the sky-resolution sequence; `make_runlist.build_checks` (e)):* which part of the likelihood carries
+KnownBoth's nside-64 shift, and does it converge? On the same five realizations, appended after the entries above, 55 runs:
+(A) stage 1's one-catalog grids of the keys AGNhosted (`agn_catalog/.../agn_hosted/realization_NNN_nside<N>_s32000_inj6`, 32000
+samples and six pooled sets as in stage 1), Galhosted (`galaxy_catalog/.../galaxy_hosted/realization_NNN_nside<N>`) and KnownGal
+(`galaxy_catalog/.../equal_populations/realization_NNN_nside<N>`) at nside 16, 64, 128; (B) KnownBoth at Analysis 14's settings at
+nside 128 and 16 (`realization_NNN_nside<N>_s32000_inj6`). Every other argument is the nside-32 partner's (checked by the
+generator). Rank 2.85; priority 0 (A), 1 (B, nside 128), 2 (B, nside 16) orders them on a lane. Estimated 14.4 GPU-h (A 2.1, B
+128 1.5, B 16 10.9): the partner's measured seconds per call, times the ratio of the longest catalog rows below nside 32 (an
+upper bound; CPU dry runs give 2.7 times the nside-32 time at nside 16, against the row ratio 3.7). Survey files
+`data/seedNNN/surveys_ns{16,128}/survey_{gal,agn}_complete_ns{16,128}.h5` (`make_survey_nside.py --seed R --nside 16|128`; nside
+16 is checked against its four nside-32 children per pixel). Table: `tests/skyres_sequence.py` → `tests/results/skyres_sequence.json`
+(per realization and nside: medians, 90% intervals, paired shifts against nside 32, the combination over the realizations by
+`paper_prd/scripts/run_posteriors.combined`, the variances at the peak). The paper does not read these runs.
 
 ## Tests
 
