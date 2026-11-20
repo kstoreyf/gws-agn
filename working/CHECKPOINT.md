@@ -19,8 +19,8 @@ this file holds the working state.
    context. Two are armed:
    - task `bq68ysl4k` (20 Nov, 05:20 UTC), "Wait until the fifty pixel-size sequence runs have
      summaries" (about 10:30 UTC 20 Nov): then do Sec. 5 item 1.
-   - task `bue7u6pya` (18 Nov), "Wait until both eight-parameter runs of realization 100 have
-     finished": then do Sec. 5 item 2.
+   (`bue7u6pya`, both eight-parameter runs of realization 100, reported 20 Nov 07:12 UTC: the
+   comparison is done, see Sec. 4; what is left of Sec. 5 item 2 is the agent's part.)
    (`bk2x1ic8d` and `bvv0w6obd`, the sky-resolution pairs of the five realizations, reported
    on 19 Nov 21:45 UTC and 20 Nov 04:40 UTC: done.)
    A notification from any other old task (earlier watchers, earlier agents) needs no action:
@@ -232,6 +232,13 @@ this file holds the working state.
   catalog, 3075). At nside 32 every combined posterior of stage 1 holds the input (AGN-hosted
   67.69 +- 0.36, input at 18%; galaxy-hosted 68.0, 24%; galaxy catalog alone on mixed mergers
   68.6, 54%). The sequence of Sec. 3 answers both.
+- THE TWO EIGHT-PARAMETER SAMPLERS AGREE (20 Nov, `tests/results/compare_r100_eight_parameter.json`):
+  rslice reference against uniform-then-rslice on realization 100: every median within 0.08 of
+  the 90% half-width (H0 67.46 against 67.53), ln Z -2899.47 +- 0.38 against -2899.18 +- 0.37,
+  distance between the posteriors at its null (p 0.23); only sigma_G differs formally (KS p
+  0.002) by 0.03 on a half-width of 0.42. Calls 297k against 233k. The mixed sampler is the
+  production sampler. The spin offsets below are in both runs: they come from the data or the
+  model, not from the sampler.
 - First eight-parameter posterior (mixed sampler, realization 100; inputs in parentheses): H0
   67.53 [66.09, 68.99] (67.74), f_AGN 0.288 [0.222, 0.361] (0.30), mu_G 35.73 [35.12, 36.31]
   (35), sigma_G 4.69 [4.30, 5.09] (5), mu_chi -0.019 [-0.033, -0.004] (0), sigma_chi 0.078
@@ -265,8 +272,8 @@ this file holds the working state.
    16,000 samples per merger at nside 64 for the variance of today). The paper takes the
    sequence in as a Validation paragraph either way (extend `paper_prd/scripts/skyres.py`
    through an Opus agent; `tests/skyres_sequence.py` is the reference computation).
-2. Both realization-100 eight-parameter runs finished (watcher `bue7u6pya`): the comparison of
-   Sec. 3 (also look at each run's `summary.json`), then, by an Opus agent with a brief, the
+2. The comparison of Sec. 3 is done and the samplers agree (Sec. 4). STILL TO DO, by an Opus
+   agent with a brief, AFTER the pixel-size decision of item 1 (one brief for both): the
    mapping and the stage-5 entries; realization-A numbers of Sec. IV E turn black only when
    their keys' other runs exist (HDHost needs five realizations and their HDSingle partners).
 3. As six-parameter runs finish (HDNone, HDSingle 101 to 105, E3, stage 3): refresh and re-read
