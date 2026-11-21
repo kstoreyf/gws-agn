@@ -4,6 +4,9 @@
   "Written by `scripts/production.py --write-map` from runs/RUNLIST.yaml and runs/RUNLIST_experiment.yaml; read by scripts/placeholder_results.py.",
   "keys.<Key>: run (pattern under runs_root, '{R}' = three-digit realization), runlist, stage, mode (grid | nested), realizations (all of them",
   "  are combined), realization_A, settings (how the runs differ from the key as the paper defines it, or 'as the key'), quantities, joint, LB.",
+  "  21 Nov: runs_by_realization {realization: run name} where a realization's run is not the pattern: KnownBoth's realizations 111-120,",
+  "  stage X's realization_NNN_nside32 (stage_x_realizations, stage_x_why; build_values.STAGE_X_KEY_RUNS, the one deliberate exception to",
+  "  'stages V and X never feed a key': the same analysis at the same settings as stage 1); quantities.<Q>.Comb.summaries_by_realization.",
   "quantities.<Q>: param (the run's parameter) or derived; A = the summary field of realization A (median and 90% interval printed as is);",
   "  Comb = the summaries of every realization, combined (grids: corrected ln L summed; nested: product of kernel densities);",
   "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
@@ -25,6 +28,9 @@
   "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth; macros SkyResTen..., SkyResOffsetHzero...)",
   "  and agn_pair (key AGNhosted's runs against stage X's ..._nside64_s32000_inj6; macros SkyResAGN...): run, partner, partner_key,",
   "  realizations (whose nside-64 run is in stage X), realizations_wanted (those of the partner's production runs), stages.",
+  "  21 Nov, later: pair_twenty (the pair at the production settings on the twenty realizations of key KnownBoth; partners = the key's",
+  "  runs_by_realization; macros SkyResAll...) and pair_half (host class unknown, half of the mergers in AGN: RUNLIST_experiment.yaml's",
+  "  peak_f0p50_s0 runs of stage E1 against stage X's ..._nside64; partner_runlist; macros SkyResHalf...).",
   "classes (21 Nov): Cls...Comb/CL records have how 'comb' (the runs of the HW... macro named in runs_of); ClsDiff... records are derived",
   "  (fn paired_mean | paired_sd | paired_npos) from the two Cls...HzeroComb records of the same f.",
   "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
@@ -36,7 +42,7 @@
   "KnownBoth": {
    "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
    "runlist": "RUNLIST.yaml",
-   "stage": "1",
+   "stage": "1/X",
    "mode": "grid",
    "realizations": [
     100,
@@ -48,7 +54,17 @@
     107,
     108,
     109,
-    110
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
    ],
    "realization_A": 100,
    "settings": "as the key (production convention: 8000 samples per merger, the realization's own injection set)",
@@ -71,9 +87,31 @@
        107,
        108,
        109,
-       110
+       110,
+       111,
+       112,
+       113,
+       114,
+       115,
+       116,
+       117,
+       118,
+       119,
+       120
       ],
-      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)",
+      "summaries_by_realization": {
+       "111": "known_population/both_catalogs/complete/equal_populations/realization_111_nside32/summary.json",
+       "112": "known_population/both_catalogs/complete/equal_populations/realization_112_nside32/summary.json",
+       "113": "known_population/both_catalogs/complete/equal_populations/realization_113_nside32/summary.json",
+       "114": "known_population/both_catalogs/complete/equal_populations/realization_114_nside32/summary.json",
+       "115": "known_population/both_catalogs/complete/equal_populations/realization_115_nside32/summary.json",
+       "116": "known_population/both_catalogs/complete/equal_populations/realization_116_nside32/summary.json",
+       "117": "known_population/both_catalogs/complete/equal_populations/realization_117_nside32/summary.json",
+       "118": "known_population/both_catalogs/complete/equal_populations/realization_118_nside32/summary.json",
+       "119": "known_population/both_catalogs/complete/equal_populations/realization_119_nside32/summary.json",
+       "120": "known_population/both_catalogs/complete/equal_populations/realization_120_nside32/summary.json"
+      }
      },
      "CL": {
       "of": "Comb",
@@ -98,9 +136,31 @@
        107,
        108,
        109,
-       110
+       110,
+       111,
+       112,
+       113,
+       114,
+       115,
+       116,
+       117,
+       118,
+       119,
+       120
       ],
-      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)",
+      "summaries_by_realization": {
+       "111": "known_population/both_catalogs/complete/equal_populations/realization_111_nside32/summary.json",
+       "112": "known_population/both_catalogs/complete/equal_populations/realization_112_nside32/summary.json",
+       "113": "known_population/both_catalogs/complete/equal_populations/realization_113_nside32/summary.json",
+       "114": "known_population/both_catalogs/complete/equal_populations/realization_114_nside32/summary.json",
+       "115": "known_population/both_catalogs/complete/equal_populations/realization_115_nside32/summary.json",
+       "116": "known_population/both_catalogs/complete/equal_populations/realization_116_nside32/summary.json",
+       "117": "known_population/both_catalogs/complete/equal_populations/realization_117_nside32/summary.json",
+       "118": "known_population/both_catalogs/complete/equal_populations/realization_118_nside32/summary.json",
+       "119": "known_population/both_catalogs/complete/equal_populations/realization_119_nside32/summary.json",
+       "120": "known_population/both_catalogs/complete/equal_populations/realization_120_nside32/summary.json"
+      }
      },
      "CL": {
       "of": "Comb",
@@ -126,9 +186,31 @@
        107,
        108,
        109,
-       110
+       110,
+       111,
+       112,
+       113,
+       114,
+       115,
+       116,
+       117,
+       118,
+       119,
+       120
       ],
-      "combine": "f_AGN combination mapped with the geometric-mean Z ratio"
+      "combine": "f_AGN combination mapped with the geometric-mean Z ratio",
+      "summaries_by_realization": {
+       "111": "known_population/both_catalogs/complete/equal_populations/realization_111_nside32/summary.json",
+       "112": "known_population/both_catalogs/complete/equal_populations/realization_112_nside32/summary.json",
+       "113": "known_population/both_catalogs/complete/equal_populations/realization_113_nside32/summary.json",
+       "114": "known_population/both_catalogs/complete/equal_populations/realization_114_nside32/summary.json",
+       "115": "known_population/both_catalogs/complete/equal_populations/realization_115_nside32/summary.json",
+       "116": "known_population/both_catalogs/complete/equal_populations/realization_116_nside32/summary.json",
+       "117": "known_population/both_catalogs/complete/equal_populations/realization_117_nside32/summary.json",
+       "118": "known_population/both_catalogs/complete/equal_populations/realization_118_nside32/summary.json",
+       "119": "known_population/both_catalogs/complete/equal_populations/realization_119_nside32/summary.json",
+       "120": "known_population/both_catalogs/complete/equal_populations/realization_120_nside32/summary.json"
+      }
      },
      "CL": {
       "of": "Comb",
@@ -136,6 +218,31 @@
      }
     }
    },
+   "runs_by_realization": {
+    "111": "known_population/both_catalogs/complete/equal_populations/realization_111_nside32",
+    "112": "known_population/both_catalogs/complete/equal_populations/realization_112_nside32",
+    "113": "known_population/both_catalogs/complete/equal_populations/realization_113_nside32",
+    "114": "known_population/both_catalogs/complete/equal_populations/realization_114_nside32",
+    "115": "known_population/both_catalogs/complete/equal_populations/realization_115_nside32",
+    "116": "known_population/both_catalogs/complete/equal_populations/realization_116_nside32",
+    "117": "known_population/both_catalogs/complete/equal_populations/realization_117_nside32",
+    "118": "known_population/both_catalogs/complete/equal_populations/realization_118_nside32",
+    "119": "known_population/both_catalogs/complete/equal_populations/realization_119_nside32",
+    "120": "known_population/both_catalogs/complete/equal_populations/realization_120_nside32"
+   },
+   "stage_x_realizations": [
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+   ],
+   "stage_x_why": "the one deliberate exception to 'stages V and X never feed a key' (build_values.STAGE_X_KEY_RUNS): realizations [111, 112, 113, 114, 115, 116, 117, 118, 119, 120] exist only as stage-X runs known_population/both_catalogs/complete/equal_populations/realization_{R}_nside32, the same analysis at the same settings as stage 1 (stage 1's arguments without --membership, plus --variant nside32), run to test whether the H0 offset of the first realizations is a fluctuation",
    "joint": {
     "params": [
      "H0",
@@ -4092,6 +4199,197 @@
      "1"
     ]
    }
+  },
+  "pair_twenty": {
+   "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64",
+   "partner": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
+   "partner_key": "KnownBoth",
+   "nside": 64,
+   "runlist": "RUNLIST.yaml",
+   "macro_prefix": "SkyResAll",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+   ],
+   "realizations_wanted": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+   ],
+   "stages": {
+    "100": [
+     "X",
+     "1"
+    ],
+    "101": [
+     "X",
+     "1"
+    ],
+    "102": [
+     "X",
+     "1"
+    ],
+    "103": [
+     "X",
+     "1"
+    ],
+    "105": [
+     "X",
+     "1"
+    ],
+    "106": [
+     "X",
+     "1"
+    ],
+    "107": [
+     "X",
+     "1"
+    ],
+    "108": [
+     "X",
+     "1"
+    ],
+    "109": [
+     "X",
+     "1"
+    ],
+    "110": [
+     "X",
+     "1"
+    ],
+    "111": [
+     "X",
+     "X"
+    ],
+    "112": [
+     "X",
+     "X"
+    ],
+    "113": [
+     "X",
+     "X"
+    ],
+    "114": [
+     "X",
+     "X"
+    ],
+    "115": [
+     "X",
+     "X"
+    ],
+    "116": [
+     "X",
+     "X"
+    ],
+    "117": [
+     "X",
+     "X"
+    ],
+    "118": [
+     "X",
+     "X"
+    ],
+    "119": [
+     "X",
+     "X"
+    ],
+    "120": [
+     "X",
+     "X"
+    ]
+   },
+   "partners": {
+    "111": "known_population/both_catalogs/complete/equal_populations/realization_111_nside32",
+    "112": "known_population/both_catalogs/complete/equal_populations/realization_112_nside32",
+    "113": "known_population/both_catalogs/complete/equal_populations/realization_113_nside32",
+    "114": "known_population/both_catalogs/complete/equal_populations/realization_114_nside32",
+    "115": "known_population/both_catalogs/complete/equal_populations/realization_115_nside32",
+    "116": "known_population/both_catalogs/complete/equal_populations/realization_116_nside32",
+    "117": "known_population/both_catalogs/complete/equal_populations/realization_117_nside32",
+    "118": "known_population/both_catalogs/complete/equal_populations/realization_118_nside32",
+    "119": "known_population/both_catalogs/complete/equal_populations/realization_119_nside32",
+    "120": "known_population/both_catalogs/complete/equal_populations/realization_120_nside32"
+   }
+  },
+  "pair_half": {
+   "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}_nside64",
+   "partner": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}",
+   "partner_key": null,
+   "nside": 64,
+   "runlist": "RUNLIST.yaml",
+   "macro_prefix": "SkyResHalf",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realizations_wanted": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "stages": {
+    "100": [
+     "X",
+     "E1"
+    ],
+    "101": [
+     "X",
+     "E1"
+    ],
+    "102": [
+     "X",
+     "E1"
+    ],
+    "103": [
+     "X",
+     "E1"
+    ],
+    "105": [
+     "X",
+     "E1"
+    ]
+   },
+   "partner_runlist": "RUNLIST_experiment.yaml"
   }
  }
 }

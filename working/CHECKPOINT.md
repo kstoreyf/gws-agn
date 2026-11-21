@@ -39,36 +39,28 @@ this file holds the working state.
   (half of the mergers in AGN), `\SkyResAGN{Mean,Sd}ShiftHzero`, audit checks, figures, and
   two leftovers (`\HDNoneHzeroCombUL`; the in-panel number of `fig8_summary`). It does not
   touch `main.tex`.
-- WHEN IT REPORTS: check its changed-macro table against the numbers above; then edit
-  `main.tex` (style skill loaded): (1) Validation, first paragraph: drop "and at the
-  \SkyResTenHzeroCL\% level with finer sky pixels, a difference that we examine at the end of
-  this section"; (2) Validation, last paragraph, DRAFT: "Finally, we repeat the analysis with
-  pixels half as wide. [two sentences on the Monte Carlo variance, as now.] With the
-  population known and both catalogs, the 90% interval of H0 from one realization narrows by
-  \SkyResAllNarrowPct% and its median moves by \SkyResAllMeanShiftHzero on average over the
-  \NrealKnown realizations, with a standard deviation of \SkyResAllSdShiftHzero between
-  them, against a 90% half-width of \KnownBothHzeroHalfWid from one realization. With
-  \MCNsampHi posterior samples per merger and \SkyResMCNsets sets of simulated signals, on
-  \SkyResNreal of the realizations, the mean shift is \SkyResMCMeanShiftHzero. The median of
-  f_AGN moves by \SkyResAllMeanShiftfAGN on average, with a standard deviation of
-  \SkyResAllSdShiftfAGN. The shift has no common sign: with half of the mergers hosted by AGN
-  the median of H0 moves by \SkyResHalfMeanShiftHzero on average over \NrealClasses
-  realizations, and with all of them hosted by AGN by \SkyResAGNMeanShiftHzero. Combined over
-  the \NrealKnown realizations, the finer pixels give H0 = \SkyResAllHzeroComb with the input
-  at the \SkyResAllHzeroCL% credible level, where the pixels used throughout give
-  \KnownBothHzeroComb with the input at the \KnownBothHzeroCL% level. The pixel size thus
-  moves H0 by \SkyResAllShiftPctHalfWid% of the 90% half-width that \MockNev mergers give.";
-  (3) Table III, HDNone row: an upper limit, not an interval; Sec. IV F's sentence quoting
-  `\HDNoneHzero` (line ~1156): reword as an interval against the prior range, as Sec. IV E
-  does. Then `bash working/refresh_papers.sh` (exit 0), re-read the changed sentences and the
-  abstract's sentence on \NrealKnown, commit, PDF to the owner (named copy), and the push
-  question again.
+- DONE 21 Nov 13:45 UTC: the agent's macros checked against the reference table (twenty at
+  the pixels used throughout 67.9 +- 0.4, 47%; f_AGN 0.294 +- 0.019, 40%; finer pixels 68.3
+  +- 0.5, 93%; audit 92 of 92; figure check 491, 0 mismatches); `main.tex` edited by me
+  (Validation's first and last paragraphs; Table III's no-catalog row on host-dependent
+  mergers is "< 66", a 90% upper limit, with a caption sentence; Fig. 8 draws that row as a
+  cap with a left arrow, caption sentence); refresh exit 0 (18 pp; 163 of 218 result macros
+  of the text real); committed; PDF `dark_sirens_galaxies_and_AGN_draft_2026-11-21b.pdf` sent.
+  Macros `\SkyResTen...`, `\SkyResOffset...`, `\ClsKnownThirty...`, `\ClsUnknownThirty...`,
+  `\Cls...Fifty...`, `\SkyResMCMin/MaxShiftHzero`, `\SkyResMCNarrowPct` are no longer used
+  in the text (still defined; `\SkyResOffsetHzeroProd` now mixes twenty and ten: prune them
+  with the next macros job). LEFT: Sec. IV F's sentence quoting `\HDNoneHzero` beside
+  `\ObsNoneHzero` (wait for stage 5); Fig. 9(a)'s narrow curve shows slight facets (grid
+  spacing of the combined posterior); `\MockzHorizonMax` is now 0.49 (unused in the text).
+  The catalogs of seeds 106 to 120 (5.4 G each, on phy230054p) can be deleted when no further
+  pixel size is wanted.
 - RUNS: lane 1 (job 1425268, successor 1494378) resumed the eight-parameter run of
   realization 101 at iteration 3288 at 12:34 UTC (ends about 04:00 UTC 22 Nov), then 102.
   Lane 2 (job 1454491) on realization 103, iteration 1704 at 12:33 UTC. No watcher is armed.
-- PENDING WITH THE OWNER: push the corrected Validation paragraph (local commits 8ed540e,
-  f1befea and this one; GitHub has 3e060b3, whose last Validation sentence is too general)?
-  Options given: A push now (recommended), B after the twenty-realization result, C hold.
+- PENDING WITH THE OWNER: PUSH? GitHub has 3e060b3, whose Validation says the analysis places
+  H0 above its input with the origin not identified: now known to be a fluctuation of the
+  first ten. Asked again 21 Nov 12:40 and 13:50 UTC (recommended: push now). Do not push
+  without their word.
 
 ## 0. How to resume (the owner clears the context and says "resume from the latest checkpoint")
 1. Read this file to the end. Do not re-read the paper or the scripts until a step needs them.

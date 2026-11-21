@@ -94,6 +94,14 @@ block (mc_pair: and a variance block, as its Mean/Sd macros). Red values while a
   MeanShift, SdShift    realization A's own shift of the set when its two summaries exist (else 0); 0.3 km/s/Mpc (SD_PH)
   TenNreal              the number of realizations wanted
   OffsetHzero...        from the red median of the combination it reads
+
+21 Nov, later: two more sets (DEFINITIONS, "Over the twenty realizations"):
+  pair_twenty (prefix All)  the pair at the production settings on the twenty realizations of key KnownBoth: nside 32 = the key's runs
+            (stage 1, and for 111-120 stage X's realization_NNN_nside32, the deliberate exception of build_values.STAGE_X_KEY_RUNS, named
+            per realization under "partners"), nside 64 = stage X's realization_NNN_nside64. Macros SkyResAllNreal, SkyResAll<Hzero|fAGN>
+            <Comb|CL>, SkyResAll<Mean|Sd>Shift<Hzero|fAGN>, SkyResAllNarrowPct, SkyResAllShiftPctHalfWid
+  pair_half (prefix Half)   host class unknown, half of the mergers hosted by AGN (the experiment's peak_f0p50_s0; nside 32 =
+            RUNLIST_experiment.yaml stage E1, nside 64 = RUNLIST.yaml stage X). Macros SkyResHalf<Mean|Sd>ShiftHzero
 """
 from __future__ import annotations
 
@@ -135,10 +143,18 @@ SD_PH = {"Hzero": 0.3, "fAGN": 0.010}       # invented standard deviations of th
 # 21 Nov: the sets of pairs combined over their realizations (module header, "Combined over the realizations"):
 # which -> (macro prefix, run (nside 64), partner (nside 32), its production key, parameters, nsides combined)
 AGN_BASE = "known_population/agn_catalog/complete/agn_hosted/realization_{R}"
+# 21 Nov, later: the pair at the production settings over the twenty realizations of key KnownBoth (stage 1's ten and 111-120, whose
+# nside-32 runs are stage X's realization_NNN_nside32, the deliberate exception of build_values.STAGE_X_KEY_RUNS; the nside-64 runs
+# realization_NNN_nside64, stage X), and the experiment's set with half of the mergers hosted by AGN, host class unknown (nside 32:
+# RUNLIST_experiment.yaml stage E1, the runs of HWUnknownFifty; nside 64: RUNLIST.yaml stage X)
+HALF_BASE = "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}"
+RUNLIST_EXP = RUNS / "RUNLIST_experiment.yaml"
 SETS = {"mc_pair": ("MC", MC_RUN, MC_PARTNER, None, ("H0",), (32, NSIDE)),
         "pair_all": ("Ten", RUN, PARTNER, "KnownBoth", ("H0", "f_agn"), (NSIDE,)),
-        "agn_pair": ("AGN", AGN_BASE + f"_nside{NSIDE}_s{MC_NSAMP}_inj{MC_SETS}", AGN_BASE + f"_s{MC_NSAMP}_inj{MC_SETS}", "AGNhosted", ("H0",), (NSIDE,))}
-NEW_SETS = ("pair_all", "agn_pair")          # map sub-blocks written by map_block since 21 Nov (mc_pair is older)
+        "agn_pair": ("AGN", AGN_BASE + f"_nside{NSIDE}_s{MC_NSAMP}_inj{MC_SETS}", AGN_BASE + f"_s{MC_NSAMP}_inj{MC_SETS}", "AGNhosted", ("H0",), (NSIDE,)),
+        "pair_twenty": ("All", RUN, PARTNER, "KnownBoth", ("H0", "f_agn"), (NSIDE,)),
+        "pair_half": ("Half", HALF_BASE + f"_nside{NSIDE}", HALF_BASE, None, ("H0",), ())}
+NEW_SETS = ("pair_all", "agn_pair", "pair_twenty", "pair_half")   # map sub-blocks written by map_block since 21 Nov (mc_pair is older)
 PAR_Q = {"H0": ("Hzero", "H0", "km/s/Mpc"), "f_agn": ("fAGN", "f_AGN", "")}
 COMB_PH = {"H0": 0.8, "f_agn": 0.03}         # invented 90% half-widths of a combined posterior while a set waits
 NARROW_PH = 10.0                             # invented narrowing (percent) while mc_pair waits
@@ -147,7 +163,14 @@ SET_TEXT = {"mc_pair": "population known, both catalogs complete, at Analysis 14
             "pair_all": "population known, both catalogs complete, at the production Monte Carlo settings (8000 samples per merger, the "
                         "realization's own injection set; nside 32 = key KnownBoth's stage-1 runs, nside 64 = stage X)",
             "agn_pair": "mergers all hosted by AGN, AGN catalog alone (32000 samples per merger, six pooled injection sets; nside 32 = key "
-                        "AGNhosted's stage-1 runs, nside 64 = stage X)"}
+                        "AGNhosted's stage-1 runs, nside 64 = stage X)",
+            "pair_twenty": "population known, both catalogs complete, at the production Monte Carlo settings (8000 samples per merger, the "
+                           "realization's own injection set; nside 32 = key KnownBoth's runs, stage 1 and for realizations 111-120 stage X's "
+                           "realization_NNN_nside32; nside 64 = stage X)",
+            "pair_half": "host class unknown, both catalogs complete, half of the mergers hosted by AGN (the experiment's set peak_f0p50_s0, "
+                         "8000 samples per merger, the peak family's injection lane; nside 32 = RUNLIST_experiment.yaml stage E1, the runs of "
+                         "HWUnknownFifty; nside 64 = RUNLIST.yaml stage X)"}
+ALL_HW_PH = 1.9                              # invented mean 90% half-width of H0 at nside 32 (km/s/Mpc) while pair_twenty waits
 
 
 def _args(a):
@@ -220,8 +243,12 @@ def map_block(_runs=None):
         lost = {R: "; ".join(checks[R][2]) for R in REALIZATIONS if checks[R][2]}
         if lost:
             why_all[f"{which}_realizations"] = "; ".join(f"realization {R}: {w}" for R, w in lost.items())
+    idx_exp = {}
+    if RUNLIST_EXP.exists():
+        dx = yaml.safe_load(RUNLIST_EXP.read_text())
+        idx_exp = {r["name"]: (str(st["stage"]), r) for st in dx["stages"] for r in st["runs"]}
     for which in NEW_SETS:
-        out[which], why = _set_block(which, idx)
+        out[which], why = _set_block(which, idx, idx_exp)
         why_all.update(why)
     if why_all:
         out["not_in_run_lists"] = why_all
@@ -233,18 +260,28 @@ def _rx(pat):
     return re.compile("^" + re.escape(pat).replace(re.escape("{R}"), r"(\d{3})") + "$")
 
 
-def _set_block(which, idx):
-    """(record, reasons) of a set of pairs since 21 Nov (pair_all, agn_pair): realizations_wanted = the realizations of the partner
-    pattern in a production stage of the run list (the partner key's runs); realizations = those whose nside-64 run is in stage X
+def _set_block(which, idx, idx_exp=None):
+    """(record, reasons) of a set of pairs since 21 Nov (pair_all, agn_pair, pair_twenty, pair_half): realizations_wanted = the
+    realizations of the partner pattern in a production stage of the run list (the partner key's runs; pair_twenty: key KnownBoth's
+    runs, stage 1 and the deliberate stage-X runs of build_values.STAGE_X_KEY_RUNS, named per realization under "partners";
+    pair_half: the partner pattern in RUNLIST_experiment.yaml); realizations = those whose nside-64 run is in stage X of RUNLIST.yaml
     with --nside 64. The record is None when no partner is in the run list."""
     P, run_p, partner_p, key, _pars, _ns = SETS[which]
     rx = _rx(partner_p)
-    wanted = sorted(int(m.group(1)) for n, (st, _r) in idx.items() if bv.production_stage(st) for m in [rx.match(n)] if m)
+    pidx = (idx_exp or {}) if which == "pair_half" else idx
+    plist = RUNLIST_EXP.name if which == "pair_half" else RUNLIST.name
+    partners = {int(m.group(1)): n for n, (st, _r) in pidx.items() if bv.production_stage(st) for m in [rx.match(n)] if m}
+    named = {}
+    if which == "pair_twenty":
+        # key KnownBoth's runs: stage 1, and realizations 111-120 of stage X (realization_NNN_nside32), the same analysis at the same settings
+        named = bv.stage_x_key_runs({n: (st, r["args"]) for n, (st, r) in idx.items()}, key)
+        partners.update(named)
+    wanted = sorted(partners)
     if not wanted:
-        return None, {which: f"no production run {partner_p} in {RUNLIST.name}"}
+        return None, {which: f"no production run {partner_p} in {plist}"}
     reals, lost, stages = [], {}, {}
     for R in wanted:
-        run, partner = run_p.format(R=f"{R:03d}"), partner_p.format(R=f"{R:03d}")
+        run, partner = run_p.format(R=f"{R:03d}"), partners[R]
         if run not in idx:
             lost[R] = f"no run {run} in {RUNLIST.name}"
             continue
@@ -253,11 +290,21 @@ def _set_block(which, idx):
             lost[R] = f"{run}: stage {st}, --nside {_args(r['args']).get('nside')} (expected stage X, --nside {NSIDE})"
             continue
         reals.append(R)
-        stages[str(R)] = [st, idx[partner][0]]
+        stages[str(R)] = [st, (pidx.get(partner) or idx.get(partner))[0]]
     rec = {"run": run_p, "partner": partner_p, "partner_key": key, "nside": NSIDE, "runlist": RUNLIST.name, "macro_prefix": f"SkyRes{P}",
            "realizations": reals, "realizations_wanted": wanted, "stages": stages}
+    if named:
+        rec["partners"] = {str(R): n for R, n in sorted(named.items())}
+    if which == "pair_half":
+        rec["partner_runlist"] = RUNLIST_EXP.name
     why = {f"{which}_realizations": "; ".join(f"realization {R}: {w}" for R, w in lost.items())} if lost else {}
     return rec, why
+
+
+def _names(rec, R):
+    """(nside-64 run name, nside-32 run name) of realization R of a pair record: the partner's pattern, or its name under "partners"."""
+    r = f"{R:03d}"
+    return rec["run"].format(R=r), (rec.get("partners") or {}).get(str(R)) or rec["partner"].format(R=r)
 
 
 @lru_cache(None)
@@ -292,8 +339,8 @@ def mapped():
 
 def summaries(rec, R=None):
     """(nside-64 summary, nside-32 summary) of realization R's pair (default: realization A)."""
-    r = f"{rec['realization'] if R is None else R:03d}"
-    return RUNS / rec["run"].format(R=r) / "summary.json", RUNS / rec["partner"].format(R=r) / "summary.json"
+    n64, n32 = _names(rec, rec["realization"] if R is None else R)
+    return RUNS / n64 / "summary.json", RUNS / n32 / "summary.json"
 
 
 def _summary_ok(p):
@@ -607,21 +654,21 @@ def evaluate_set(which):
     out["files"] = files
     out["comb"] = {}
     for ns in comb_ns:
-        dirs = tuple(RUNS / (rec["run"] if ns == NSIDE else rec["partner"]).format(R=f"{R:03d}") for R in reals)
+        dirs = tuple(RUNS / _names(rec, R)[0 if ns == NSIDE else 1] for R in reals)
         out["comb"][ns] = {par: _combined(dirs, par) for par in pars}
     out["real"] = True
     return out
 
 
-def _shiftA(which):
-    """Realization A's own shift of the H0 median of a set (red rule of its Mean...): from its two summaries when they exist, else 0."""
+def _shiftA(which, par="H0"):
+    """Realization A's own shift of the median of `par` of a set (red rule of its Mean...): from its two summaries when they exist, else 0."""
     rec = mapped().get(which)
     if rec is None:
         return 0.0
     p64, p32 = summaries(rec, REAL_A)
-    if not (_post_ok(p64, ("H0",)) and _post_ok(p32, ("H0",))):
+    if not (_post_ok(p64, (par,)) and _post_ok(p32, (par,))):
         return 0.0
-    return float(json.loads(p64.read_text())["posterior"]["H0"]["median"] - json.loads(p32.read_text())["posterior"]["H0"]["median"])
+    return float(json.loads(p64.read_text())["posterior"][par]["median"] - json.loads(p32.read_text())["posterior"][par]["median"])
 
 
 def build_sets(add, reg=None):
@@ -664,21 +711,26 @@ def build_sets(add, reg=None):
                     dict(srcR, placeholder_source="0: the input at the red median"), "validation")
             return s
 
-        def mean_sd(name_m, name_s):
+        def mean_sd(name_m, name_s, par="H0"):
+            # H0 to two decimals in km/s/Mpc, f_AGN to three (as SkyRes<P>MeanShift<Hzero|fAGN>)
+            q, qd, units = PAR_Q[par]
+            d = QW[q][3]
+            what = shift_what if par == "H0" else shift_what.replace("the H0 median", f"the {qd} median").replace("posterior.H0", f"posterior.{par}")
+            srcp = (lambda how: dict(src_shift(how), computation=src_shift(how)["computation"].replace("posterior.H0", f"posterior.{par}"))) if E["real"] else None
             if E["real"]:
-                xs = [E["shift"]["H0"][R] for R in reals]
+                xs = [E["shift"][par][R] for R in reals]
                 m_, s_ = float(np.mean(xs)), float(np.std(xs, ddof=1))
-                ex = {"decimals": 2, "per_realization": dict(E["shift"]["H0"]), "realizations": reals}
-                add(name_m, "plain", render(m_, 2), m_, "km/s/Mpc", f"mean {over} of {shift_what}, signed", src_shift("their mean"), "validation", extra=ex)
-                add(name_s, "plain", render(s_, 2), s_, "km/s/Mpc", f"standard deviation (ddof 1) {over} of {shift_what}",
-                    src_shift("their standard deviation (ddof 1)"), "validation", extra=ex)
+                ex = {"decimals": d, "per_realization": dict(E["shift"][par]), "realizations": reals}
+                add(name_m, "plain", render(m_, d), m_, units, f"mean {over} of {what}, signed", srcp("their mean"), "validation", extra=ex)
+                add(name_s, "plain", render(s_, d), s_, units, f"standard deviation (ddof 1) {over} of {what}",
+                    srcp("their standard deviation (ddof 1)"), "validation", extra=ex)
             else:
-                a = _shiftA(which)
+                a = _shiftA(which, par)
                 sr = dict(srcR, placeholder_source=f"mean: realization A's own shift of the set ({a:+.3f}; 0 when its summaries are missing); "
-                                                   f"standard deviation invented: {SD_PH['Hzero']} km/s/Mpc")
-                add(name_m, "ph", f"\\ph{{{render(a, 2)}}}", a, "km/s/Mpc", f"mean {over} of {shift_what}, signed", sr, "validation", extra={"decimals": 2})
-                add(name_s, "ph", f"\\ph{{{render(SD_PH['Hzero'], 2)}}}", SD_PH["Hzero"], "km/s/Mpc", f"standard deviation (ddof 1) {over} of {shift_what}",
-                    sr, "validation", extra={"decimals": 2})
+                                                   f"standard deviation invented: {SD_PH[q]}{' km/s/Mpc' if units else ''}")
+                add(name_m, "ph", f"\\ph{{{render(a, d)}}}", a, units, f"mean {over} of {what}, signed", sr, "validation", extra={"decimals": d})
+                add(name_s, "ph", f"\\ph{{{render(SD_PH[q], d)}}}", SD_PH[q], units, f"standard deviation (ddof 1) {over} of {what}",
+                    sr, "validation", extra={"decimals": d})
 
         if which == "mc_pair":
             # smallest and largest shift, the narrowing of the interval, H0 combined at each nside
@@ -755,9 +807,65 @@ def build_sets(add, reg=None):
             else:
                 add("SkyResOffsetHzeroFine", "ph", f"\\ph{{{render(v, 1)}}}", v, "km/s/Mpc", meaning,
                     dict(srcR, placeholder_source="from the red SkyResTenHzeroComb"), "validation", extra={"decimals": 1})
-        else:
+        elif which == "agn_pair":
             comb("SkyResAGNHzeroCombSixtyFour", "SkyResAGNHzeroCLSixtyFour", NSIDE, "H0", "the nside-64 runs")
             mean_sd("SkyResAGNMeanShiftHzero", "SkyResAGNSdShiftHzero")
+        elif which == "pair_twenty":
+            # 21 Nov, later: the pair over the twenty realizations of key KnownBoth (stage 1's and 111-120 of stage X)
+            wanted = list(rec.get("realizations_wanted") or [])
+            N = len(wanted)
+            meaning = ("number of realizations of key KnownBoth (population known, both catalogs complete, production settings; stage 1's and "
+                       "111-120 of stage X, realization_NNN_nside32) analysed also with the sky pixels half as wide (nside 64, stage X): the "
+                       "SkyResAll... macros")
+            if rec and wanted and list(rec["realizations"]) == wanted:
+                add("SkyResAllNreal", "plain", bv.NUM_WORD.get(N, str(N)), N, "realizations", meaning,
+                    {"file": bv.rel(RUNLIST), "computation": "realizations of values/production_map.json 'sky_resolution.pair_twenty' (key KnownBoth's "
+                                                             "runs, each with its nside-64 run in stage X)"},
+                    "validation,realizations", extra={"realizations": wanted})
+            else:
+                n_ = N or 20
+                add("SkyResAllNreal", "ph", f"\\ph{{{bv.NUM_WORD.get(n_, str(n_))}}}", n_, "realizations", meaning,
+                    {"missing": f"the nside-64 runs of every realization of key KnownBoth in stage X of RUNLIST.yaml (now {rec.get('realizations')} of {wanted})",
+                     "placeholder_source": "the number of realizations wanted"}, "validation,realizations")
+            comb("SkyResAllHzeroComb", "SkyResAllHzeroCL", NSIDE, "H0", "the nside-64 runs")
+            comb("SkyResAllfAGNComb", "SkyResAllfAGNCL", NSIDE, "f_agn", "the nside-64 runs")
+            mean_sd("SkyResAllMeanShiftHzero", "SkyResAllSdShiftHzero", "H0")
+            mean_sd("SkyResAllMeanShiftfAGN", "SkyResAllSdShiftfAGN", "f_agn")
+            # the narrowing of the 90% interval of H0 (as SkyResMCNarrowPct) and the mean shift against one realization's half-width
+            meaning = (f"narrowing of the 90% interval of H0 when the sky pixels are half as wide, {sett}: 100 (1 - mean {over} of the ratio of the "
+                       f"90% half-widths of H0 (summary.json posterior.H0.ci90), nside 64 over nside 32), percent")
+            if E["real"]:
+                rat = E["hw_ratio"]["H0"]
+                v = 100.0 * (1.0 - float(np.mean([rat[R] for R in reals])))
+                add("SkyResAllNarrowPct", "plain", render(v, 0), v, "%", meaning,
+                    {"files": E["files"][NSIDE] + E["files"][32], "computation": "half of the 90% width of H0 of each nside-64 summary over that of its "
+                                                                                  "nside-32 summary; 100 (1 - their mean)"},
+                    "validation", extra={"decimals": 0, "per_realization_ratio": dict(rat), "realizations": reals})
+            else:
+                add("SkyResAllNarrowPct", "ph", f"\\ph{{{render(NARROW_PH, 0)}}}", NARROW_PH, "%", meaning,
+                    dict(srcR, placeholder_source=f"invented: {NARROW_PH:g}"), "validation", extra={"decimals": 0})
+            meaning = (f"the absolute mean shift of the H0 median (SkyResAllMeanShiftHzero, unrounded) as a percentage of the mean {over} of the 90% "
+                       f"half-width of H0 of one realization at the pixels used throughout (nside 32, summary.json posterior.H0.ci90), {sett}; an integer")
+            if E["real"]:
+                m_ = float(np.mean([E["shift"]["H0"][R] for R in reals]))
+                hw32 = {R: 0.5 * (E["per"][R]["H0"][32]["ci90"][1] - E["per"][R]["H0"][32]["ci90"][0]) for R in reals}
+                hwm = float(np.mean(list(hw32.values())))
+                v = 100.0 * abs(m_) / hwm
+                add("SkyResAllShiftPctHalfWid", "plain", render(v, 0), v, "%", meaning,
+                    {"files": E["files"][NSIDE] + E["files"][32], "computation": "100 |mean of (posterior.H0.median at nside 64 minus at nside 32)| / "
+                                                                                  "mean of half of posterior.H0.ci90's width at nside 32"},
+                    "validation", extra={"decimals": 0, "mean_shift": m_, "mean_half_width_nside32": hwm, "per_realization_half_width_nside32": hw32,
+                                         "realizations": reals})
+            else:
+                a = abs(_shiftA(which))
+                hw_ = float(look["KnownBothHzeroHalfWid"]["value"]) if "KnownBothHzeroHalfWid" in look else ALL_HW_PH
+                v = 100.0 * a / hw_
+                add("SkyResAllShiftPctHalfWid", "ph", f"\\ph{{{render(v, 0)}}}", v, "%", meaning,
+                    dict(srcR, placeholder_source=f"realization A's own |shift| ({a:.3f}) over KnownBothHzeroHalfWid ({hw_:.3f}; or {ALL_HW_PH} invented)"),
+                    "validation", extra={"decimals": 0})
+        elif which == "pair_half":
+            # 21 Nov, later: the same paired shift with the host class unknown and half of the mergers hosted by AGN
+            mean_sd("SkyResHalfMeanShiftHzero", "SkyResHalfSdShiftHzero", "H0")
 
 
 DEFINITIONS = """## The sky resolution of the catalog term (Sec. V; scripts/skyres.py)
@@ -816,6 +924,25 @@ is black when both its summaries exist.
   `\\SkyResMCMeanShiftHzero` minus/plus `\\SkyResMCSdShiftHzero`; NarrowPct invented 10; Comb invented, the input with a 90%
   half-width of 0.8 km/s/Mpc (H0) or 0.03 (f_AGN), CL 0; the mean shift realization A's own shift of the set (0 without its
   summaries), the standard deviation 0.3 km/s/Mpc; TenNreal the number wanted; the offsets from the red median they read.
+  Since key `KnownBoth` combines twenty realizations (21 Nov, later), `\\SkyResOffsetHzeroProd` (its median minus the input)
+  is over the twenty, while `\\SkyResOffsetHzeroFine` and the other `SkyResTen...` macros stay over `pair_all`'s ten.
+- **Over the twenty realizations** (21 Nov, later; sets `pair_twenty` and `pair_half`). `pair_twenty`: the pair at the
+  production settings on every realization of key `KnownBoth` (`realizations_wanted` = the key's twenty): nside 32 = the key's
+  runs (stage 1's `.../realization_NNN`, and for 111-120 stage X's `.../realization_NNN_nside32`, named under `partners`; the
+  deliberate exception of `build_values.STAGE_X_KEY_RUNS`, the same analysis at the same settings), nside 64 = stage X's
+  `.../realization_NNN_nside64`. **`\\SkyResAllNreal`** (a word): its realizations (black when every one has its nside-64 run in
+  stage X). **`\\SkyResAllHzeroComb`**, **`\\SkyResAllHzeroCL`**, **`\\SkyResAllfAGNComb`**, **`\\SkyResAllfAGNCL`**: combined over the
+  nside-64 runs (as `SkyResTen...`). **`\\SkyResAllMeanShiftHzero`**, **`\\SkyResAllSdShiftHzero`**, **`\\SkyResAllMeanShiftfAGN`**,
+  **`\\SkyResAllSdShiftfAGN`**: mean and standard deviation (ddof 1) over the twenty of (median at nside 64 minus median at nside
+  32), signed, H0 two decimals, f_AGN three (as `\\SkyResMCMeanShift...`). **`\\SkyResAllNarrowPct`**: 100 (1 - the mean of the
+  ratio of the 90% half-widths of H0, nside 64 over nside 32), an integer (as `\\SkyResMCNarrowPct`).
+  **`\\SkyResAllShiftPctHalfWid`**: 100 |mean shift of the H0 median| / (the mean over the twenty of the 90% half-width of H0 at
+  nside 32, one realization at the pixels used throughout), an integer. `pair_half`: the experiment's set with half of the
+  mergers hosted by AGN, host class unknown (`two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_NNN`,
+  RUNLIST_experiment.yaml stage E1, the runs of `\\HWUnknownFifty`; nside 64: RUNLIST.yaml stage X's `..._nside64`):
+  **`\\SkyResHalfMeanShiftHzero`**, **`\\SkyResHalfSdShiftHzero`**, the same paired shift of H0 over its realizations. The same
+  shift with every merger hosted by AGN (AGN catalog alone) is `\\SkyResAGNMeanShiftHzero`, `\\SkyResAGNSdShiftHzero` above. Red
+  rules as for the other sets; `ShiftPctHalfWid` red: realization A's own |shift| over `\\KnownBothHzeroHalfWid`.
 """
 
 

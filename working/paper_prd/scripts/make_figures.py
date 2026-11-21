@@ -1461,7 +1461,13 @@ def key_state(key, q, part):
     E = PHJ[key]
     if E.get("final"):
         which = "realization A (100)" if part == "A" else f"{E['N_comb']} realizations {E['realizations']}"
-        return f"real (production: {which} of `{E['production_run']}`)"
+        import re as _re
+        byR = (E.get("production_runs_by_realization") or {}) if part != "A" else {}
+        more = ""
+        if byR:
+            pats = sorted({_re.sub(r"realization_\d{3}", "realization_{R}", n) for n in byR.values()})
+            more = f"; realizations {', '.join(byR)}: `{'`, `'.join(pats)}` (stage X, the same analysis and settings)"
+        return f"real (production: {which} of `{E['production_run']}`{more})"
     Q = E["quantities"][q]
     src = Q["source"] if part == "A" else Q["comb_source"]
     f = Q.get("file") if part == "A" else Q.get("comb_file")
@@ -1796,6 +1802,11 @@ SUMMARY_ROWS = [(h, {
     "A mass spectrum like the observed one": [("ObsSingle", "single population, both catalogs"), ("ObsHost", "host-dependent populations, both catalogs"), ("ObsNone", "single population, no catalog")],
 }[h]) for h in _HEADS]
 assert all(lab.lower() != head.lower() for head, items in SUMMARY_ROWS for _, lab in items)
+# rows whose combined H0 is drawn as a 90% upper limit (a cap at the limit with an arrow to the left; no median, no interval), the
+# limit read from the macro named here (values.json, unrounded). HDNone (single population, no catalog, host-dependent mergers): its
+# combined posterior reaches the lower prior edge of H0 (50) with 0.45 of its peak density, so the table quotes the limit only
+SUMMARY_UL = {"HDNone": "HDNoneHzeroCombUL"}
+UL_ARROW = 2.5          # length of the arrow to the left of the cap, km/s/Mpc
 
 
 def draw_summary(name, groups, outdir=None, fs_lab=10.0, row_h=0.255, left=0.40, h0_range=(60, 84), part="Comb", width=fs.PAGE, head_x=0.012, row_x=0.035,
@@ -1834,6 +1845,14 @@ def draw_summary(name, groups, outdir=None, fs_lab=10.0, row_h=0.255, left=0.40,
                 ax.text(ni_x, yy, "not inferred", transform=ax.get_yaxis_transform(), color="0.45", fontsize=fs_lab - 1.5, ha=ni_ha, va="center")
                 continue
             s = PHJ[key]["quantities"][q][part]
+            if q == "Hzero" and part == "Comb" and key in SUMMARY_UL:
+                # a 90% upper limit (SUMMARY_UL): cap at the limit, arrow to the left
+                ul = float(VALUES["macros"][SUMMARY_UL[key]]["value"])
+                ax.plot([ul, ul], [yy - 0.24, yy + 0.24], color=c, lw=2.0, solid_capstyle="butt", zorder=5)
+                ax.annotate("", xy=(ul - UL_ARROW, yy), xytext=(ul, yy), arrowprops=dict(arrowstyle="->", color=c, lw=1.6, shrinkA=0, shrinkB=0), zorder=5)
+                chk_macro(name, SUMMARY_UL[key], ul, f"90% upper limit of {key}'s combined H0 drawn as a cap")
+                chk(name, ("macros", SUMMARY_UL[key], "value"), float(s["ul90"]), f"90th percentile of {key}'s combined H0 (placeholder_results.json)")
+                continue
             ax.plot([s["ci90"][0], s["ci90"][1]], [yy, yy], color=c, lw=3.2, solid_capstyle="butt", zorder=4)
             ax.plot([s["median"]], [yy], marker="o", ms=6.5, color=c, mec="white", mew=0.8, zorder=5)
             chk_key(name, key, q, part)
@@ -1842,14 +1861,20 @@ def draw_summary(name, groups, outdir=None, fs_lab=10.0, row_h=0.255, left=0.40,
         ax.set_xlim(*xr)
         ax.set_xlabel(xl, fontsize=fs_lab + 0.5)
         # (no "placeholder" word in the panel: red marks the elements that wait for a run)
-    # intervals running off the H0 axis
+    # intervals running off the H0 axis: they end at the upper edge of the H0 prior (Table I, \PriorHzeroHi), the number printed
     hi_edge = h0_range[1]
+    pri_hi = VALUES["macros"]["PriorHzeroHi"]
     for yy, (kind, it) in zip(y, rows):
-        if kind == "row" and "Hzero" in PHJ[it[0]]["quantities"]:
+        if kind == "row" and "Hzero" in PHJ[it[0]]["quantities"] and not (part == "Comb" and it[0] in SUMMARY_UL):
             s = PHJ[it[0]]["quantities"]["Hzero"][part]
             if s["ci90"][1] > hi_edge:
                 axH.annotate("", xy=(hi_edge, yy), xytext=(hi_edge - 1.0, yy), arrowprops=dict(arrowstyle="->", color=RED[0] if not fin(it[0]) else "k", lw=1.6), annotation_clip=False)
-                axH.text(hi_edge - 1.4, yy, f"at the prior\nedge, {s['ci90'][1]:.0f}", fontsize=fs_lab - 2.0, ha="right", va="center", color="0.3")
+                txt = unwrap_ph(pri_hi["render"])
+                axH.text(hi_edge - 1.4, yy, f"at the prior\nedge, {txt}", fontsize=fs_lab - 2.0, ha="right", va="center", color="0.3")
+                chk_text(name, "PriorHzeroHi", txt, f"prior edge printed beside the {it[0]} row")
+                # the interval does end at that edge: its upper end, rounded as the printed number, is the printed number
+                CHECKS.append((name, ("macros", "PriorHzeroHi", "render"), ("PRINTED", float(s["ci90"][1])),
+                               f"upper end of the {it[0]} interval at the prior edge (at the printed precision)"))
     fs.save(fig, outdir or FIGDIR, name)
     return fig
 

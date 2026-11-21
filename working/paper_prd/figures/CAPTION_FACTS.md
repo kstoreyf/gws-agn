@@ -27,8 +27,10 @@ at the end compares every drawn median and 90% interval end with `values/values.
   alone, no catalog; population known, single population, host-dependent populations; realization A;
   combined over realizations). Each number below names its macro; red macros are placeholders.
 - "Combined over realizations": log-likelihoods summed, parameters shared. N per key is that of the run list
-  (`analyses/analysis_16_production_runs/runs/RUNLIST.yaml`; macros `\Nreal...`): 10 for population known with
-  both catalogs, single population (both catalogs and no catalog) and the single-population analysis of
+  (`analyses/analysis_16_production_runs/runs/RUNLIST.yaml`; macros `\Nreal...`): 20 for population known with
+  both catalogs (`\NrealKnown`; since 21 Nov stage 1's ten and realizations 111-120, run in stage X as
+  `.../realization_NNN_nside32`, the same analysis at the same settings); 10 for single population (both
+  catalogs and no catalog) and the single-population analysis of
   host-dependent mergers; 5 for each catalog alone and no catalog with the population known, the all-AGN and
   all-galaxy sets, the flux limits, host-dependent populations, no catalog on host-dependent mergers, the
   observed-like spectrum (Stage 5 of the run list) and the two control sets (the experiment's run list); 3 with
@@ -70,7 +72,8 @@ at the end compares every drawn median and 90% interval end with `values/values.
   `\KnownBothfAGN`); combined over the `\NrealKnown` realizations, filled with solid outline (`\KnownBothHzeroComb`,
   `\KnownBothfAGNComb`; input at the `\KnownBothHzeroCL`% and `\KnownBothfAGNCL`% levels; correlation r =
   `\KnownBothCorrHzerofAGN` for realization A, `\KnownBothCorrHzerofAGNComb` combined). Black "+": input. Axes H0
-  [65.5, 73], f_AGN [0.13, 0.43]. (Until 17 Nov the panel drew the exploratory complete-catalog grids, 9 realizations.)
+  [65.5, 73], f_AGN [0.13, 0.43]. (Until 17 Nov the panel drew the exploratory complete-catalog grids, 9 realizations;
+  from 17 to 21 Nov the filled region combined the ten realizations of stage 1, since 21 Nov the twenty of `\NrealKnown`.)
 - (b) H0 posterior of realization A with both catalogs (solid, `\KnownBothHzero`), galaxy catalog alone
   (dashed, `\KnownGalHzero`), AGN catalog alone (dash-dot, `\KnownAGNHzero`), no catalog (dotted,
   `\KnownNoneHzero`). The AGN-catalog-alone posterior rises to the upper end of the prior at 100; its peak lies
@@ -189,14 +192,20 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
   realization A (it follows its prior along the curve of constant rate per host). Realization A is not drawn
   in this figure. Black dashed: inputs. "not inferred": f_AGN is not a parameter of that analysis. The
   AGN-catalog-alone interval lies at the upper prior edge (`\KnownAGNHzeroComb`, 99.8 to 100) and is marked by an
-  arrow and the text "at the prior edge, 100".
+  arrow and the text "at the prior edge, 100" (the number is `\PriorHzeroHi`, read by the figure script; the figure
+  check confirms that the interval's upper end rounds to it). The row "both catalogs" combines the `\NrealKnown`
+  (twenty) realizations of key `KnownBoth`. The row "single population, no catalog" under "Populations that depend
+  on the host" (key `HDNone`) is a 90% upper limit on H0, `\HDNoneHzeroCombUL` (65.61, drawn at the unrounded value of
+  values.json): a short vertical cap at the limit with an arrow pointing left (2.5 km/s/Mpc long), black, no median and
+  no interval (its combined posterior reaches the lower prior edge, 50, with 0.45 of its peak density; the table prints
+  "< `\HDNoneHzeroCombUL`"). Rows drawn this way: `SUMMARY_UL` in `scripts/make_figures.py`.
   Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size.
 
 <!-- fig9_validation: written by scripts/make_figures.py; do not edit -->
 ## Fig. 9 `fig9_validation` (3 of 5 keys real; written by the figure script from values.json and placeholder_results.json)
 
 - Every curve is combined over realizations (log-likelihoods summed for grids, product of kernel densities for nested runs); real curves in the final palette, placeholders in red tones (same line styles).
-- (a) H0 posteriors with both catalogs: population known (solid, `\KnownBothHzeroComb` = 68.2^{+0.6}_{-0.6} (real), input at the `\KnownBothHzeroCL` = 80% (real) level; real (production: 10 realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110] of `known_population/both_catalogs/complete/equal_populations/realization_{R}`)), single population (dashed, `\SingleBothHzeroComb` = 67.8^{+0.8}_{-0.8} (red); red placeholder, invented), host-dependent populations on host-dependent events (dash-dot, `\HDHostHzeroComb` = 67.7^{+0.9}_{-0.9} (red); red placeholder, invented). Axis [65.3, 70.7]. Black dashed: input `\MockHzero` = 67.74 (real).
-- (b) f_AGN posteriors for inputs 0 (solid, `\CtrlZerofAGNComb` = 0.007^{+0.017}_{-0.006} (real), 90% upper limit `\CtrlZerofAGNCombUL` = 0.019 (real); real (production: 5 realizations [100, 101, 102, 103, 105] of `two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}`)), 0.10 (dashed, `\CtrlTenthfAGNComb` = 0.104^{+0.033}_{-0.031} (real), input at the `\CtrlTenthfAGNCL` = 15% (real) level, input `\MockfAGNTenth`; real (production: 5 realizations [100, 101, 102, 103, 105] of `two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}`)) and 0.30 (dash-dot, `\KnownBothfAGNComb` = 0.306^{+0.026}_{-0.026} (real); real (production: 10 realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110] of `known_population/both_catalogs/complete/equal_populations/realization_{R}`)); black dashed lines at the three inputs. Axis f_AGN [-0.005, 0.40].
+- (a) H0 posteriors with both catalogs: population known (solid, `\KnownBothHzeroComb` = 67.9^{+0.4}_{-0.4} (real), input at the `\KnownBothHzeroCL` = 47% (real) level; real (production: 20 realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120] of `known_population/both_catalogs/complete/equal_populations/realization_{R}`; realizations 111, 112, 113, 114, 115, 116, 117, 118, 119, 120: `known_population/both_catalogs/complete/equal_populations/realization_{R}_nside32` (stage X, the same analysis and settings))), single population (dashed, `\SingleBothHzeroComb` = 67.8^{+0.8}_{-0.8} (red); red placeholder, invented), host-dependent populations on host-dependent events (dash-dot, `\HDHostHzeroComb` = 67.7^{+0.9}_{-0.9} (red); red placeholder, invented). Axis [65.3, 70.7]. Black dashed: input `\MockHzero` = 67.74 (real).
+- (b) f_AGN posteriors for inputs 0 (solid, `\CtrlZerofAGNComb` = 0.007^{+0.017}_{-0.006} (real), 90% upper limit `\CtrlZerofAGNCombUL` = 0.019 (real); real (production: 5 realizations [100, 101, 102, 103, 105] of `two_tracers_one_population/both_catalogs/complete/peak_f0p00_s0/realization_{R}`)), 0.10 (dashed, `\CtrlTenthfAGNComb` = 0.104^{+0.033}_{-0.031} (real), input at the `\CtrlTenthfAGNCL` = 15% (real) level, input `\MockfAGNTenth`; real (production: 5 realizations [100, 101, 102, 103, 105] of `two_tracers_one_population/both_catalogs/complete/peak_f0p10_s0/realization_{R}`)) and 0.30 (dash-dot, `\KnownBothfAGNComb` = 0.294^{+0.019}_{-0.019} (real); real (production: 20 realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120] of `known_population/both_catalogs/complete/equal_populations/realization_{R}`; realizations 111, 112, 113, 114, 115, 116, 117, 118, 119, 120: `known_population/both_catalogs/complete/equal_populations/realization_{R}_nside32` (stage X, the same analysis and settings))); black dashed lines at the three inputs. Axis f_AGN [-0.005, 0.40].
 - The two control sets. Input 0: the experiment's f = 0 set (peak_f0p00_s0: every merger hosted by a galaxy, the events of Galhosted) analysed with both catalogs and f_AGN free (two_tracers_one_population = population known, both catalogs), on the experiment's injection lane of the peak family (injections_targeted_peak.h5, 2.5e8 draws) instead of the realization's record lane; the experiment's five realizations. Input 0.10: the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); the experiment's five realizations.
 <!-- end fig9_validation -->

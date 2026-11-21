@@ -615,8 +615,10 @@ analysis against the single-population analysis of the same mergers with
 both catalogs, for the priors of Table~\ref{tab:priors}. The inputs are
 $H_0=\MockHzero\,\kms$ and $\fagn=\MockfAGN$, and for host-dependent
 populations $\dmuG=\MockDmuG\msun$ and $\dmuchi=\MockDmuChi$. Medians and
-90\% intervals. With the number densities inferred $\fagn$ follows its
-prior. % EXPECTED
+90\% intervals, except for the single population with no catalog on mergers
+with host-dependent populations, whose posterior of $H_0$ extends to the
+lower edge of the prior and is given as a 90\% upper limit. With the number
+densities inferred $\fagn$ follows its prior. % EXPECTED
 }
 \label{tab:results}
 \begin{ruledtabular}
@@ -635,7 +637,7 @@ Single population, no catalog & \NrealSingle & $\SingleNoneHzeroComb$ & & & & \\
 \multicolumn{7}{l}{Host-dependent populations, peak-dominated spectrum}\\
 Single population, both catalogs & \NrealHDSingle & $\HDSingleHzeroComb$ & $\HDSinglefAGNComb$ & & & \\
 Host-dependent populations, both catalogs & \NrealHD & $\HDHostHzeroComb$ & $\HDHostfAGNComb$ & $\HDHostDmuGComb$ & $\HDHostDmuChiComb$ & $\HDHostLBComb$\\
-Single population, no catalog & \NrealHDNone & $\HDNoneHzeroComb$ & & & & \\
+Single population, no catalog & \NrealHDNone & $<\HDNoneHzeroCombUL$ & & & & \\
 \hline
 \multicolumn{7}{l}{Host-dependent populations, observed-like spectrum}\\
 Single population, both catalogs & \NrealObs & $\ObsSingleHzeroComb$ & $\ObsSinglefAGNComb$ & & & \\
@@ -1228,7 +1230,10 @@ like the observed one'' use mergers with host-dependent populations, the
 other rows mergers with equal populations. The label ``not inferred'' marks
 analyses without $\fagn$, and the arrow labeled ``at the prior edge,
 \PriorHzeroHi'' the AGN catalog alone, whose posterior has no interior
-maximum and lies at the upper edge of the prior on $H_0$. Among the other
+maximum and lies at the upper edge of the prior on $H_0$. The cap with an
+arrow pointing left is a 90\% upper limit: with no catalog, the posterior of
+the single population on mergers with host-dependent populations extends to
+the lower edge of the prior. Among the other
 rows, only a single population for mergers with host-dependent populations
 moves $H_0$ away from the input. % EXPECTED
 }
@@ -1245,9 +1250,7 @@ single realization (Fig.~\ref{fig:validation}). First, $H_0$ is recovered
 at each level of freedom [Fig.~\ref{fig:validation}(a)]. % EXPECTED
 With the population known and both catalogs,
 \NrealKnown{} realizations combined give $H_0=\KnownBothHzeroComb\,\kms$,
-with the input at the \KnownBothHzeroCL\% credible level, and at the
-\SkyResTenHzeroCL\% level with finer sky pixels, a difference that we
-examine at the end of this section. The
+with the input at the \KnownBothHzeroCL\% credible level. The
 single-population analysis of mergers with equal populations gives
 $\SingleBothHzeroComb\,\kms$, with the input at the \SingleBothHzeroCL\%
 level. The host-dependent analysis of mergers with host-dependent
@@ -1306,35 +1309,28 @@ hold a quarter of the objects each, and the Monte Carlo sums of the
 likelihood are noisier with them: the variance of $\ln\hat\Lcal$ owed to the
 posterior samples rises from \SkyResVarPEThirtyTwo{} to
 \SkyResVarPESixtyFour{} at the posterior maximum of realization A
-(Appendix~\ref{app:like}). We therefore compare the two pixel sizes with
-\MCNsampHi{} posterior samples per merger and \SkyResMCNsets{} sets of
-simulated signals, on \SkyResNreal{} realizations. With the population known
-and both catalogs, the median of $H_0$ rises in each of them, by
-\SkyResMCMinShiftHzero{} to $\SkyResMCMaxShiftHzero\,\kms$ and by
-$\SkyResMCMeanShiftHzero\,\kms$ on average, and its 90\% interval narrows by
-\SkyResMCNarrowPct\%, against a 90\% half-width of
-$\KnownBothHzeroHalfWid\,\kms$ from one realization. The median of $\fagn$
-moves by \SkyResMCMeanShiftfAGN{} on average, with a standard deviation of
-\SkyResMCSdShiftfAGN{} between realizations. The shift of $H_0$ shows when
-realizations are combined: with the finer pixels, \SkyResTenNreal{}
-realizations give $H_0=\SkyResTenHzeroComb\,\kms$ with the input at the
-\SkyResTenHzeroCL\% credible level, where the pixels used throughout give
-$\KnownBothHzeroComb\,\kms$ with the input at the \KnownBothHzeroCL\% level.
-The offset is absent when the host class of each merger is known: for the
-mergers of \NrealClasses{} of these realizations, analyzed both ways, the
-combined posteriors give $H_0=\ClsKnownThirtyHzeroComb\,\kms$ with the host
-class known and $\ClsUnknownThirtyHzeroComb\,\kms$ with it unknown. It is
-also absent from other sets of mergers. With half of the mergers hosted by
-AGN, \NrealClasses{} realizations give $\ClsUnknownFiftyHzeroComb\,\kms$
-with the host class unknown and $\ClsKnownFiftyHzeroComb\,\kms$ with it
-known, and mergers all hosted by AGN give
-$\SkyResAGNHzeroCombSixtyFour\,\kms$ with the finer pixels and
-$\AGNhostedHzeroComb\,\kms$ with those used throughout. The sets with a
-fraction \MockfAGN{} of the mergers hosted by AGN thus lie above the input
-by \SkyResOffsetHzeroProd{} to $\SkyResOffsetHzeroFine\,\kms$, less than half
-of the 90\% half-width of one realization, and we cannot yet say whether
-that is a property of the analysis with the host class unknown or a
-fluctuation of these \SkyResTenNreal{} sets.
+(Appendix~\ref{app:like}). With the population known and both catalogs, the
+90\% interval of $H_0$ from one realization narrows by \SkyResAllNarrowPct\%
+and its median rises by $\SkyResAllMeanShiftHzero\,\kms$ on average over the
+\NrealKnown{} realizations, with a standard deviation of
+\SkyResAllSdShiftHzero{} between them, against a 90\% half-width of
+$\KnownBothHzeroHalfWid\,\kms$ from one realization. The rise is not owed to
+the Monte Carlo sums: with \MCNsampHi{} posterior samples per merger and
+\SkyResMCNsets{} sets of simulated signals, on \SkyResNreal{} of the
+realizations, the median rises in each, by $\SkyResMCMeanShiftHzero\,\kms$
+on average. The median of $\fagn$ moves by \SkyResAllMeanShiftfAGN{} on
+average, with a standard deviation of \SkyResAllSdShiftfAGN. The shift of
+$H_0$ has no common sign across sets of mergers: with half of the mergers
+hosted by AGN the median moves by $\SkyResHalfMeanShiftHzero\,\kms$ on
+average over \NrealClasses{} realizations, and with all of them hosted by
+AGN, analyzed with the AGN catalog alone, by
+$+\SkyResAGNMeanShiftHzero\,\kms$. Combined over the \NrealKnown{}
+realizations, the finer pixels give $H_0=\SkyResAllHzeroComb\,\kms$ with the
+input at the \SkyResAllHzeroCL\% credible level, where the pixels used
+throughout give $\KnownBothHzeroComb\,\kms$ with the input at the
+\KnownBothHzeroCL\% level. The pixel size thus moves $H_0$ by
+\SkyResAllShiftPctHalfWid\% of the 90\% half-width that \MockNev{} mergers
+give.
 
 %% ==========================================================================
 \section{Conclusions}

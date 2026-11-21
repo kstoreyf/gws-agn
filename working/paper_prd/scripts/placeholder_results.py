@@ -155,11 +155,21 @@ def _runlist_realizations():
             for key, want in KEY_SELECTOR.items():
                 if want == sel:
                     out.setdefault(key, set()).add(int(kv["realization"]))
+    # the one deliberate exception (bv.STAGE_X_KEY_RUNS): KnownBoth's realizations 111-120 of stage X (realization_NNN_nside32), the same
+    # analysis at the same settings as stage 1; no other stage-X or V run reaches a key
+    idx = {r["name"]: (str(st["stage"]), list(r["args"])) for st in doc["stages"] for r in st["runs"]}
+    for key in bv.STAGE_X_KEY_RUNS:
+        extra = bv.stage_x_key_runs(idx, key)
+        if extra:
+            out.setdefault(key, set()).update(extra)
     return {k: sorted(v) for k, v in out.items()}
 
 
 RUNREAL = _runlist_realizations()
-NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizations {v}") for k, v in RUNREAL.items()}
+STAGE_X_REAL = {k: sorted(bv.stage_x_key_runs(bv.runlist_index(RUNLIST), k)) for k in bv.STAGE_X_KEY_RUNS}
+NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizations {v}"
+             + (f" (of which {STAGE_X_REAL[k]} the stage-X runs realization_NNN_nside32, the same analysis at the same settings)" if STAGE_X_REAL.get(k) else ""))
+         for k, v in RUNREAL.items()}
 NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items() if k not in RUNREAL_EXP})
 NREAL.update({k: (len(v), f"RUNLIST_experiment.yaml: {len(v)} runs of {EXP_SELECTOR[k][0]} on the experiment's set {EXP_SELECTOR[k][1]}, realizations {v}")
               for k, v in RUNREAL_EXP.items()})

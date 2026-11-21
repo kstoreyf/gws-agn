@@ -545,7 +545,8 @@ def audit_r2(mac, reg, diag, tables):
     rl9 = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml").read_text())
     kb = sorted({int(r["args"][r["args"].index("--realization") + 1]) for st in rl9["stages"] for r in st["runs"]
                  if not str(st["stage"]).startswith(("V", "X"))
-                 and re.fullmatch(r"known_population/both_catalogs/complete/equal_populations/realization_\d{3}", r["name"])})
+                 and re.fullmatch(r"known_population/both_catalogs/complete/equal_populations/realization_\d{3}", r["name"])}
+                | set(_own_kb_stage_x()[1]))        # and KnownBoth's deliberate stage-X realizations 111-120 (21 Nov)
     zmax9 = {}
     for s_ in kb:
         with h5py.File(B.DATA / f"seed{s_}" / "events" / "events_corepop.h5") as h:
@@ -769,7 +770,9 @@ def audit_requests(mac, doc):
             ek = d["events-kind"] + (d["events-suffix"] if d.get("events-suffix") else "")      # Stage 5: host_dependent + _obslike
             cnt.setdefault((d["analysis"], d["catalogs"], d["flux"], ek, d.get("density")), set()).add(d["realization"])
     n = lambda *k: len(cnt.get(k, ()))
-    want = {"NrealKnown": n("known_population", "both", "complete", "equal_populations", None),
+    # KnownBoth: stage 1's realizations and the deliberate stage-X runs realization_NNN_nside32 (own parser, _own_kb_stage_x)
+    _s1, _xr = _own_kb_stage_x()
+    want = {"NrealKnown": n("known_population", "both", "complete", "equal_populations", None) + len(_xr),
             "NrealKnownAlone": {n("known_population", c, "complete", "equal_populations", None) for c in ("galaxy", "agn", "none")},
             "NrealPure": {n("known_population", "agn", "complete", "agn_hosted", None), n("known_population", "galaxy", "complete", "galaxy_hosted", None)},
             "NrealFlux": {n("known_population", "both", m, "equal_populations", "counts") for m in ("21", "20", "19", "18")},
@@ -785,7 +788,7 @@ def audit_requests(mac, doc):
     ctrl = {lab: {r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
                   if r["analysis"] == "two_tracers_one_population" and r["set"]["label"] == lab} for lab in ("peak_f0p00_s0", "peak_f0p10_s0")}
     want["NrealCtrl"] = {len(v) for v in ctrl.values()} if all(ctrl.values()) else (5 if "five for the others" in runs_txt else -1)
-    words = {3: "three", 5: "five", 10: "ten"}
+    words = {3: "three", 5: "five", 10: "ten", 20: "twenty"}
     bad = []
     for k, w in want.items():
         w = w.pop() if isinstance(w, set) and len(w) == 1 else w
@@ -795,7 +798,8 @@ def audit_requests(mac, doc):
             for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
                           ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
                           ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"])) if k in ks and E["N_comb"] != val(m)]
-    check(not bad, f"I0 the eleven numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs), "
+    check(not bad, f"I0 the eleven numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs; "
+                   f"KnownBoth: stage 1 and the {len(_xr)} stage-X runs realization_NNN_nside32 {sorted(_xr)}), "
                    f"print as words, and equal N_comb of their keys{': ' + '; '.join(bad) if bad else ''}")
     # ---- I1: observed-like design values from the events files' own metadata ----
     E = B.DATA / "seed100" / "events"
@@ -847,9 +851,11 @@ def audit_requests(mac, doc):
           f"I4 AGN below z_c at m < 18: {val('MockNAGNCompleteEighteen')} (counted here at z_c = {zc:.4f}: {nown}; analysis_16 resolve test: {rr}); precision 100/sqrt N; f_AGN shift = slope x log10(1 + p)")
     # ---- I5: one definition of the width ratio; half-widths ----
     wr = val("GalhostedHzeroWid") / val("AGNhostedHzeroWid")
-    hb = [k for k in mac if k.endswith("HalfWid") and abs(val(k) - 0.5 * val(k[:-7] + "Wid")) > 1e-12]
+    # SkyResAllShiftPctHalfWid (21 Nov) is a percentage of a half-width, not a half-width: checked in S12, not here
+    not_hw = {"SkyResAllShiftPctHalfWid"}
+    hb = [k for k in mac if k.endswith("HalfWid") and k not in not_hw and abs(val(k) - 0.5 * val(k[:-7] + "Wid")) > 1e-12]
     nh = sum(1 for k in mac if k.endswith("HalfWid") and mac[k]["claim"].startswith("skeleton"))
-    nh_other = sum(1 for k in mac if k.endswith("HalfWid") and not mac[k]["claim"].startswith("skeleton"))
+    nh_other = sum(1 for k in mac if k.endswith("HalfWid") and k not in not_hw and not mac[k]["claim"].startswith("skeleton"))
     keys_hf = sum(1 for k, E_ in doc.items() for q in ("Hzero", "fAGN") if q in E_["quantities"])
     check(abs(wr - val("WidthRatioAGNGal")) < 1e-12 and not hb and nh == keys_hf,
           f"I5 WidthRatioAGNGal = GalhostedHzeroWid / AGNhostedHzeroWid ({wr:.3f}); {nh} HalfWid macros of the key scheme, one per key with Hzero or "
@@ -908,6 +914,58 @@ QPAR = {"Hzero": "H0", "fAGN": "f_agn", "MuG": "mu_G", "SigmaG": "sigma_G", "MuC
 
 def _jr(p):
     return json.loads(Path(p).read_text())
+
+
+# The one deliberate exception to "stages V and X never feed a key" (build_values.STAGE_X_KEY_RUNS), read here by own code: key
+# KnownBoth's realizations 111-120 exist only as stage-X runs .../realization_NNN_nside32, the same analysis at the same settings.
+_KB_RX = r"known_population/both_catalogs/complete/equal_populations/realization_(\d{3})"
+SEQ_JSON = B.AN / "analysis_16_production_runs" / "tests" / "results" / "skyres_sequence.json"
+
+
+def _own_flags(a):
+    """{flag: value or True} of a run's argument list, and the number of tokens it accounts for."""
+    d, i = {}, 0
+    while i < len(a):
+        if a[i].startswith("--") and i + 1 < len(a) and not a[i + 1].startswith("--"):
+            d[a[i]] = a[i + 1]
+            i += 2
+        else:
+            d[a[i]] = True
+            i += 1
+    return d
+
+
+def _own_runlist_idx():
+    import yaml
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    return {r["name"]: (str(st["stage"]), list(r["args"])) for st in rl["stages"] for r in st["runs"]}
+
+
+def _own_kb_stage_x(idx=None):
+    """(stage-1 realizations of KnownBoth, {realization: run name} of its deliberate stage-X runs): a stage-X run named
+    realization_NNN_nside32 joins when NNN is in 111-120 and has no stage-1 run, and its flags are, one by one, those every stage-1
+    KnownBoth run shares (--membership and the realization set aside) with its own realization and --variant nside32, nothing else
+    (no --nside, no density factor), each flag given once."""
+    idx = idx or _own_runlist_idx()
+    s1 = {int(m.group(1)): _own_flags(a) for n, (st, a) in idx.items() if st == "1" for m in [re.fullmatch(_KB_RX, n)] if m}
+    common = [{k: v for k, v in f.items() if k not in ("--membership", "--realization")} for f in s1.values()]
+    if not common or any(c != common[0] for c in common):
+        return sorted(s1), {}
+    out = {}
+    for n, (st, a) in idx.items():
+        m = re.fullmatch(_KB_RX + "_nside32", n)
+        if not m or st != "X":
+            continue
+        R = int(m.group(1))
+        want = dict(common[0], **{"--realization": str(R), "--variant": "nside32"})
+        if 111 <= R <= 120 and R not in s1 and _own_flags(a) == want and len(a) == 2 * len(want):
+            out[R] = n
+    return sorted(s1), dict(sorted(out.items()))
+
+
+def _key_run(sp, r):
+    """A key's run of realization r as the map names it (runs_by_realization, else the pattern)."""
+    return (sp.get("runs_by_realization") or {}).get(str(r)) or sp["run"].format(R=f"{r:03d}")
 
 
 def _grid_spl(run):
@@ -1095,6 +1153,100 @@ def _prior_limits_own(spec, n=4_000_000, seed=424242):
     return out
 
 
+def audit_knownboth_twenty(mac, doc, specs):
+    """J2 (21 Nov): key KnownBoth over twenty realizations, by own code: the run list parsed here (_own_kb_stage_x: stage 1's
+    realizations and the deliberate stage-X runs realization_NNN_nside32, flag by flag), each stage-X run's config against a stage-1
+    config (only the realization's own files differ; survey files at nside 32 by h5py), the map and placeholder_results.json naming
+    exactly those runs, NrealKnown and N_comb twenty, realization A's macros the stage-1 run's summary; the combination recomputed
+    by _grid_comb_safe (own summed splines, PCHIP where a pass has non-finite cells) and compared with the reference computation of
+    analysis_16 (tests/results/skyres_sequence.json, block KnownBoth_production_111_120, nside 32, combined over all twenty)."""
+    rows, bad = [], []
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+    idx = _own_runlist_idx()
+    s1, xr = _own_kb_stage_x(idx)
+    sp = specs.get("KnownBoth") or {}
+    want_reals = sorted(set(s1) | set(xr))
+    why = []
+    if sp.get("realizations") != want_reals:
+        why.append(f"map realizations {sp.get('realizations')} vs own {want_reals}")
+    if {int(k): v for k, v in (sp.get("runs_by_realization") or {}).items()} != xr:
+        why.append("map runs_by_realization differ from the own parse")
+    others = [k for k, s in specs.items() if k != "KnownBoth" and s.get("runs_by_realization")]
+    if others:
+        why.append(f"other keys name runs per realization: {others}")
+    E = doc.get("KnownBoth") or {}
+    if E.get("N_comb") != len(want_reals) or E.get("realizations") != want_reals:
+        why.append(f"placeholder_results.json KnownBoth N_comb {E.get('N_comb')} realizations {E.get('realizations')}")
+    nr = mac["NrealKnown"]
+    if nr["value"] != len(want_reals) or nr["render"] != _OWN_WORDS[len(want_reals)] or nr["class"] != "plain":
+        why.append(f"NrealKnown '{nr['render']}' ({nr['value']})")
+    # configs: a stage-X run differs from a stage-1 run only by the realization's own files
+    c1 = _jr(RUNS16 / sp["run"].format(R=f"{s1[-1]:03d}") / "config.json")
+    own_files = {"events_file", "events_truth", "injections_file", "injections_files", "realization", "redraw_key", "run_name", "surveys", "variant", "membership"}
+    for R, n in xr.items():
+        c = _jr(RUNS16 / n / "config.json")
+        for k in sorted((set(c) | set(c1)) - own_files):
+            if c.get(k) != c1.get(k):
+                why.append(f"{n}: config {k} {str(c.get(k))[:40]} vs {str(c1.get(k))[:40]}")
+        rk, rk1 = list(c["redraw_key"]), list(c1["redraw_key"])
+        if rk[:1] + rk[2:] != rk1[:1] + rk1[2:] or rk[1] != R or c["realization"] != R or c.get("variant") != "nside32":
+            why.append(f"{n}: redraw key {rk}, realization {c['realization']}, variant {c.get('variant')}")
+        if str(c["events_file"]) != str(B.DATA / f"seed{R}" / "events" / "events_corepop.h5") or \
+                [str(Path(f)) for f in c["injections_files"]] != [str(B.DATA / f"seed{R}" / "injections" / "injections_targeted.h5")]:
+            why.append(f"{n}: events or injections not the realization's own")
+        for t, path in c["surveys"].items():
+            with h5py.File(path, "r") as h:
+                if int(h.attrs["nside"]) != 32 or f"seed{R}/" not in str(path):
+                    why.append(f"{n}: survey {t} {path}")
+        if c.get("membership"):
+            why.append(f"{n}: membership requested")
+    # the combination, own and the reference computation
+    runs = [RUNS16 / _key_run(sp, r) for r in want_reals]
+    names, axes, tot = _grid_comb_safe(runs)
+    seq = _jr(SEQ_JSON)["analyses"]["KnownBoth_production_111_120"]["nsides"]["32"]
+    seqc = seq.get("combined") or {}
+    if seqc.get("realizations") != want_reals:
+        why.append(f"skyres_sequence.json combined over {seqc.get('realizations')}")
+    if not all(seq["runs"][str(R)]["run"] == _key_run(sp, R) for R in want_reals if str(R) in seq["runs"]):
+        why.append("skyres_sequence.json reads other runs")
+    for q, par in (("Hzero", "H0"), ("fAGN", "f_agn")):
+        v = mac[f"KnownBoth{q}Comb"]["value"]
+        x0 = doc["KnownBoth"]["quantities"][q]["input"]
+        own = _quant(*_marg(names, axes, tot, par), x0)
+        hw = 0.5 * (v["ci90"][1] - v["ci90"][0])
+        tol = max(0.01 * hw, 0.005 if par == "H0" else 5e-4)
+        for nm, a, b in (("median", v["median"], own["median"]), ("lo", v["ci90"][0], own["ci90"][0]), ("hi", v["ci90"][1], own["ci90"][1])):
+            cmp(f"KnownBoth{q}Comb", a, b, tol, f"{nm} vs own summed splines (_grid_comb_safe)")
+        cmp(f"KnownBoth{q}CL", mac[f"KnownBoth{q}CL"]["value"], own["level"], 0.01, "credible level vs own")
+        r = seqc.get(par) or {}
+        if r:
+            for nm, a, b in (("median", v["median"], r["median"]), ("lo", v["ci90"][0], r["median"] - r["minus"]), ("hi", v["ci90"][1], r["median"] + r["plus"])):
+                cmp(f"KnownBoth{q}Comb", a, b, 1e-6, f"{nm} vs skyres_sequence.json")
+            cmp(f"KnownBoth{q}CL", mac[f"KnownBoth{q}CL"]["value"], r["level_of_input"], 1e-6, "credible level vs skyres_sequence.json")
+            cmp(f"KnownBoth{q}Comb", x0, r["input"], 1e-12, "input = skyres_sequence.json's")
+        else:
+            why.append(f"skyres_sequence.json has no combined {par}")
+    # realization A unchanged: the stage-1 run's own summary
+    sA = _jr(RUNS16 / sp["run"].format(R="100") / "summary.json")
+    for q, par in (("Hzero", "H0"), ("fAGN", "f_agn")):
+        v = mac[f"KnownBoth{q}"]["value"]
+        cmp(f"KnownBoth{q}", v["median"], sA["posterior"][par]["median"], 1e-12, "A = stage 1's realization 100")
+    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf))
+    check(not why and not bad,
+          f"J2 key KnownBoth over {len(want_reals)} realizations (own parser: stage 1 {s1}, stage X realization_NNN_nside32 {sorted(xr)} with stage 1's "
+          f"flags plus --variant nside32 only): the map, placeholder_results.json and NrealKnown ('{nr['render']}') name exactly those runs; each "
+          f"stage-X config as stage 1's but for the realization's own events, injections and nside-32 survey files (h5py); no other key names runs "
+          f"per realization; {len(rows)} numbers of the combination against the own summed splines and against tests/results/skyres_sequence.json "
+          f"(KnownBoth_production_111_120, nside 32: H0 {seqc.get('H0', {}).get('median', float('nan')):.3f}, f_AGN {seqc.get('f_agn', {}).get('median', float('nan')):.4f}); "
+          f"largest deviation {worst[2]:.2g} ({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g})"
+          + (f"; FAIL: {'; '.join((why + bad)[:5])}" if why or bad else ""))
+
+
 def _counts(run):
     cfg = _jr(run / "config.json")
     out = {}
@@ -1123,7 +1275,7 @@ def audit_production(mac, doc, owner):
 
     # ---- J0: every final key has its spec, every summary it names exists, its macros print black and cite the summaries
     miss = [k for k in final if k not in specs]
-    nosum = [k for k in final for r in specs.get(k, {}).get("realizations", []) if not (RUNS16 / specs[k]["run"].format(R=f"{r:03d}") / "summary.json").exists()]
+    nosum = [k for k in final for r in specs.get(k, {}).get("realizations", []) if not (RUNS16 / _key_run(specs[k], r) / "summary.json").exists()]
     notblack = [n for n, ks in owner.items() if all(k in final for k in ks) and (mac[n]["class"] != "plain" or not ("file" in mac[n]["source"] or "files" in mac[n]["source"]))]
     check(not miss and not nosum and not notblack, f"J0 {len(final)} production keys ({', '.join(sorted(final))}): each has its runs in production_map.json, every summary.json exists, "
                                                    f"every macro prints black and cites its summary ({len(miss) + len(nosum) + len(notblack)} exceptions{': ' + ', '.join((miss + nosum + notblack)[:6]) if miss or nosum or notblack else ''})")
@@ -1131,8 +1283,8 @@ def audit_production(mac, doc, owner):
     edge_rows, prior_own = [], {}
     for k in sorted(final):
         sp = specs[k]
-        runs = [RUNS16 / sp["run"].format(R=f"{r:03d}") for r in sp["realizations"]]
-        rA = RUNS16 / sp["run"].format(R=f"{sp['realization_A']:03d}")
+        runs = [RUNS16 / _key_run(sp, r) for r in sp["realizations"]]
+        rA = RUNS16 / _key_run(sp, sp["realization_A"])
         sA = _jr(rA / "summary.json")
         grid = sp["mode"] == "grid"
         if grid:
@@ -1295,7 +1447,7 @@ def audit_production(mac, doc, owner):
         elif L:
             per = []
             for r in sp["realizations"]:
-                za = _jr(RUNS16 / sp["run"].format(R=f"{r:03d}") / "summary.json")["ln_evidence"]["value"]
+                za = _jr(RUNS16 / _key_run(sp, r) / "summary.json")["ln_evidence"]["value"]
                 zb = _jr(RUNS16 / L["reference_run"].format(R=f"{r:03d}") / "summary.json")["ln_evidence"]["value"]
                 per.append((za - zb) / math.log(10))
             cmp(f"{k}LB", val(f"{k}LB"), per[sp["realizations"].index(sp["realization_A"])], 1e-9, "A: ln Z difference of the summaries")
@@ -1317,7 +1469,7 @@ def audit_production(mac, doc, owner):
                 "A correlation of the weighted samples (printed to one decimal)")
     # ---- further macros from the summaries
     fin = set(final)
-    widA = lambda k: (lambda p: p["ci90"][1] - p["ci90"][0])(_jr(RUNS16 / specs[k]["run"].format(R=f"{specs[k]['realization_A']:03d}") / "summary.json")["posterior"]["H0"])
+    widA = lambda k: (lambda p: p["ci90"][1] - p["ci90"][0])(_jr(RUNS16 / _key_run(specs[k], specs[k]["realization_A"]) / "summary.json")["posterior"]["H0"])
     if {"Galhosted", "AGNhosted"} <= fin:
         cmp("WidthRatioAGNGal", val("WidthRatioAGNGal"), widA("Galhosted") / widA("AGNhosted"), 1e-12, "ratio of the summaries' 90% widths")
     for nm, kn, kb in (("MassScaleShareKnown", "KnownNone", "KnownBoth"), ("MassScaleShareSingle", "SingleNone", "SingleBoth")):
@@ -1335,6 +1487,23 @@ def audit_production(mac, doc, owner):
                    f"({worst[0]}, {worst[1]}, tolerance {worst[3]:.2g}); number densities, largest posterior density at a prior edge over its maximum "
                    f"(own weighted kernel; a limit only unless both < 0.01): {'; '.join(edge_rows) or 'none final'}"
                    f"{'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
+    audit_knownboth_twenty(mac, doc, specs)
+    # ---- J3 (21 Nov): HDNoneHzeroCombUL, the 90% upper limit of the combined H0 posterior with no catalog on host-dependent mergers (it
+    # leans on the lower prior edge): own Scott-KDE product of the weighted samples (J1's), its 90th percentile, mode and density at the edge
+    if "HDNone" in fin and ("HDNone", "Hzero") in comb_cache and "HDNoneHzeroCombUL" in mac:
+        xh, ph_ = comb_cache[("HDNone", "Hzero")]
+        oh = _quant(xh, ph_)
+        ul = mac["HDNoneHzeroCombUL"]
+        rc = mac["HDNoneHzeroComb"]["render"]
+        d_ = len(rc.split("^")[0].split(".")[1]) if "." in rc.split("^")[0] else 0
+        hwh = 0.5 * (mac["HDNoneHzeroComb"]["value"]["ci90"][1] - mac["HDNoneHzeroComb"]["value"]["ci90"][0])
+        okr = ul["render"] == f"{ul['value']:.{d_}f}" and ul["class"] == "plain"
+        mode_, edge_ = float(xh[np.argmax(ph_)]), float(ph_[0] / ph_.max())
+        check(okr and abs(ul["value"] - oh["ul90"]) <= 0.08 * hwh and xh[0] == 50.0,
+              f"J3 HDNoneHzeroCombUL = '{ul['render']}' ({ul['value']:.3f}): the 90th percentile of the combined H0 posterior (single population, no "
+              f"catalog, host-dependent mergers, {len(specs['HDNone']['realizations'])} realizations), printed at the decimals of HDNoneHzeroComb "
+              f"({d_}); own Scott-KDE product (reflected at 50 and 100): 90th percentile {oh['ul90']:.3f} (tolerance {0.08 * hwh:.2f}), mode "
+              f"{mode_:.2f}, density at the lower prior edge (50) over the peak {edge_:.3f}")
 
 
 # ============================================================================================= #
@@ -1656,7 +1825,7 @@ def audit_classes(mac, doc):
     for k_, sp in pm.get("keys", {}).items():
         if doc.get(k_, {}).get("final") and sp["mode"] == "grid":
             for r in sp["realizations"]:
-                used[RUNS16 / sp["run"].format(R=f"{r:03d}")] = (f"key {k_}", None)
+                used[RUNS16 / _key_run(sp, r)] = (f"key {k_}", None)
     for name, rec in ((pm.get("density_response") or {}).get("arms") or {}).items():
         for pat in (rec["run"], rec["unit_run"]):
             for r in rec["realizations"]:
@@ -1873,7 +2042,8 @@ def audit_skyres_mc(mac, idx, s64_8k, s32_8k, c32_8k):
 # S4-S8: the sky resolution over the realizations (19 Nov; skyres SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal, SkyResMCNsets), by own
 # code: the run list parsed here, the realizations with six injection sets from data/experiment_sets.json and the files on disk, the
 # summaries read directly, mean and standard deviation by the statistics module, numbers formatted and written as words by own code.
-_OWN_WORDS = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve")
+_OWN_WORDS = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+              "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty")
 
 
 def _own_fixed(x, d):
@@ -1999,7 +2169,11 @@ def audit_skyres_all(mac):
     named = set()
     for E in (pm.get("keys") or {}).values():
         if isinstance(E, dict) and "run" in E:
-            named |= {E["run"].format(R=f"{R:03d}") for R in E.get("realizations", [])}
+            named |= {_key_run(E, R) for R in E.get("realizations", [])}
+    # the one deliberate exception (build_values.STAGE_X_KEY_RUNS): KnownBoth's stage-X realization_NNN_nside32 runs, as the own parser finds them
+    exc8 = set(_own_kb_stage_x({n: (s, a) for n, (s, a) in idx.items()})[1].values())
+    named_exc = named & exc8
+    named -= exc8
     for E in ((pm.get("classes") or {}).get("macros") or {}).values():
         if isinstance(E, dict) and "run" in E:
             named |= {E["run"].format(R=f"{R:03d}") for R in E.get("realizations", [])}
@@ -2007,10 +2181,11 @@ def audit_skyres_all(mac):
         if isinstance(E, dict):
             named |= {E[k].format(R=f"{R:03d}") for k in ("run", "unit_run") if k in E for R in E.get("realizations", [])}
     feed = sorted(named & xnames)
-    check(not feed and len(named) > 100,
+    check(not feed and len(named) > 100 and named_exc == exc8,
           f"S8 no stage-X run ({len(xnames)} in RUNLIST.yaml) is among the {len(named)} runs that production_map.json names for the keys, the "
-          f"experiment's macros and the density arms (stage X reaches the paper only through sky_resolution and density_response.units_physical)"
-          + (f"; FEEDS: {feed[:3]}" if feed else ""))
+          f"experiment's macros and the density arms (stage X reaches the paper only through sky_resolution and density_response.units_physical), "
+          f"but for the one deliberate exception: key KnownBoth's {len(named_exc)} stage-X runs realization_NNN_nside32 (the same analysis at "
+          f"the same settings, own parser: {len(exc8)})" + (f"; FEEDS: {feed[:3]}" if feed else ""))
 
 
 # S9-S11 (21 Nov): the sky-resolution pairs combined over their realizations (skyres SETS: mc_pair, pair_all, agn_pair; macros
@@ -2106,13 +2281,18 @@ def _own_comb_rows(mac, cmp, rend, name_c, name_l, runs, par, x0):
     """Own combination of `par` over `runs` (_grid_comb_safe, Simpson marginal) against the macros name_c (median and 90% interval)
     and name_l (level of the input x0); renders of both from their stored values by own formatting."""
     names, axes, tot = _grid_comb_safe(runs)
-    own = _quant(*_marg(names, axes, tot, par), x0)
+    xo, po = _marg(names, axes, tot, par)
+    own = _quant(xo, po, x0)
     v = mac[name_c]["value"]
     hw = 0.5 * (v["ci90"][1] - v["ci90"][0])
     tol = max(0.01 * hw, 0.005 if par == "H0" else 5e-4)
     for nm, a, b in (("median", v["median"], own["median"]), ("lo", v["ci90"][0], own["ci90"][0]), ("hi", v["ci90"][1], own["ci90"][1])):
         cmp(name_c, a, b, tol, f"{nm} vs own summed splines (_grid_comb_safe)")
-    cmp(name_l, mac[name_l]["value"], own["level"], 0.01, "credible level of the input vs own")
+    # the level is |2 F(input) - 1|: a quantile held to `tol` moves it by up to 2 p(input) tol, so the level is held to the same accuracy
+    # (at least 0.01). 21 Nov: with the input next to the median (f_AGN over the twenty nside-64 grids, four of them with non-finite cells
+    # in the fine pass, where _grid_comb_safe uses PCHIP) a median that agrees to half its tolerance moves the level by 0.012
+    tol_l = max(0.01, 2.0 * float(np.interp(x0, xo, po)) * tol)
+    cmp(name_l, mac[name_l]["value"], own["level"], tol_l, "credible level of the input vs own (the quantiles' tolerance mapped through 2 p(input))")
     cmp(name_l, mac[name_l]["value"], v["level_of_input"], 1e-12, f"= level_of_input of {name_c}")
     rend.append((name_c, mac[name_c]["render"] == _own_interval(v)))
     rend.append((name_l, mac[name_l]["render"] == _own_pct(mac[name_l]["value"])))
@@ -2231,7 +2411,9 @@ def audit_skyres_sets(mac):
     have = sh is not None and len(r10) >= 2 and not lb
     m10 = sk.get("pair_all") or {}
     kb_reals = ((pm.get("keys") or {}).get("KnownBoth") or {}).get("realizations")
-    ok_map = m10.get("realizations") == r10 and m10.get("realizations_wanted") == r10 and kb_reals == r10
+    # since 21 Nov key KnownBoth also has the deliberate stage-X realizations 111-120 (own parser); pair_all stays on its stage-1 ten
+    kb_x = _own_kb_stage_x({n: (s, a) for n, (s, a) in idx.items()})[1]
+    ok_map = m10.get("realizations") == r10 and m10.get("realizations_wanted") == r10 and kb_reals == sorted(set(r10) | set(kb_x))
     nr = mac["SkyResTenNreal"]
     ok_n = nr["value"] == len(r10) and nr["render"] == _OWN_WORDS[len(r10)] and (nr["class"] == "plain") == (not lb)
     if have:
@@ -2248,9 +2430,10 @@ def audit_skyres_sets(mac):
         cmp("SkyResTenHzeroComb", float(x0 is None or f0 is None), 0.0, 0.0, "one input H0 and f_AGN in every summary's truth")
         own = _own_comb_rows(mac, cmp, rend, "SkyResTenHzeroComb", "SkyResTenHzeroCL", runs64, "H0", x0 or H0in)
         _own_comb_rows(mac, cmp, rend, "SkyResTenfAGNComb", "SkyResTenfAGNCL", runs64, "f_agn", f0 if f0 is not None else 0.3)
-        # the offsets: KnownBothHzeroComb's median (and the own combination of the ten nside-32 runs) and SkyResTenHzeroComb's, minus the input
+        # the offsets: KnownBothHzeroComb's median (and the own combination of the key's nside-32 runs, stage 1's and the stage-X
+        # realization_NNN_nside32 ones since 21 Nov) and SkyResTenHzeroComb's, minus the input
         kbv = mac["KnownBothHzeroComb"]["value"]["median"]
-        names32, axes32, tot32 = _grid_comb_safe([RUNS16 / base.format(R=f"{R:03d}") for R in r10])
+        names32, axes32, tot32 = _grid_comb_safe([RUNS16 / base.format(R=f"{R:03d}") for R in r10] + [RUNS16 / n for n in kb_x.values()])
         own32 = _quant(*_marg(names32, axes32, tot32, "H0"))
         for nm, macv, ownv in (("SkyResOffsetHzeroProd", kbv, own32["median"]), ("SkyResOffsetHzeroFine", mac["SkyResTenHzeroComb"]["value"]["median"], own["median"])):
             cmp(nm, mac[nm]["value"], macv - (x0 or H0in), 1e-12, "the median of its combination (values.json) minus the input")
@@ -2262,7 +2445,8 @@ def audit_skyres_sets(mac):
     nb = len(bad) + len(lb) + sum(1 for _n, ok in rend if not ok)
     check(black == have and ok_map and ok_n and not lb and not bad and all(ok for _n, ok in rend),
           f"S10 SkyResTen... and SkyResOffsetHzero... over the realizations of key KnownBoth in stage 1 {r10} (own parser; the map's pair_all "
-          f"{m10.get('realizations')}, wanted {m10.get('realizations_wanted')}, key KnownBoth {kb_reals}): each nside-64 run in stage X with the "
+          f"{m10.get('realizations')}, wanted {m10.get('realizations_wanted')}, key KnownBoth {kb_reals}, stage 1's and stage X's "
+          f"realization_NNN_nside32 {sorted(kb_x)}; SkyResOffsetHzeroProd over all of the key's): each nside-64 run in stage X with the "
           f"stage-1 arguments plus --nside 64, configs equal but for the pixelization and survey files at nside 64 and 32 (h5py); "
           f"SkyResTenNreal '{nr['render']}' ({nr['class']}); black exactly when every summary exists ({'black' if black else 'red'}); {len(rows)} "
           f"numbers against the summaries, KnownBothHzeroComb and the own summed splines (_grid_comb_safe)"
@@ -2299,6 +2483,161 @@ def audit_skyres_sets(mac):
           f"({'black' if black else 'red'}); {len(rows)} numbers against the summaries and the own summed splines (_grid_comb_safe)"
           + (f", largest deviation over tolerance {max(r[2] / r[3] if r[3] else (0 if r[2] == 0 else np.inf) for r in rows):.2g}" if rows else "")
           + f"; renders by own formatting {sum(ok for _n, ok in rend)} of {len(rend)}"
+          + (f"; MISMATCH ({nb}): {'; '.join((lb + bad)[:4])} {[n for n, ok in rend if not ok][:4]}" if nb else ""))
+    audit_skyres_twenty(mac, idx, sk, strip, flag, truth, H0in)
+
+
+# S12-S13 (21 Nov, later): the pair over the twenty realizations of key KnownBoth (skyres pair_twenty, SkyResAll...) and the paired shift
+# of two other sets (pair_half, SkyResHalf...; agn_pair's SkyResAGN<Mean|Sd>ShiftHzero), by own code: the run lists parsed here (the
+# deliberate stage-X runs of KnownBoth by _own_kb_stage_x; every nside-64 run's flags against its partner's), configs and survey files read
+# directly (h5py), the summaries read directly, statistics by the statistics module, combinations by _grid_comb_safe, own formatting; and
+# every number that analysis_16's reference computation has (tests/results/skyres_sequence.json: KnownBoth_production_111_120,
+# HostsUnknown_peak_f0p50_s0, AGNhosted at nside 64) against it.
+def audit_skyres_twenty(mac, idx, sk, strip, flag, truth, H0in):
+    import statistics
+    import yaml
+    rows, bad, rend = [], [], []
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+    names12 = ["SkyResAllNreal", "SkyResAllHzeroComb", "SkyResAllHzeroCL", "SkyResAllfAGNComb", "SkyResAllfAGNCL", "SkyResAllMeanShiftHzero",
+               "SkyResAllSdShiftHzero", "SkyResAllMeanShiftfAGN", "SkyResAllSdShiftfAGN", "SkyResAllNarrowPct", "SkyResAllShiftPctHalfWid"]
+    names13 = ["SkyResHalfMeanShiftHzero", "SkyResHalfSdShiftHzero", "SkyResAGNMeanShiftHzero", "SkyResAGNSdShiftHzero"]
+    absent = [n for n in names12 + names13 if n not in mac]
+    if absent:
+        check(False, f"S12 values.json has the {len(names12 + names13)} macros of the pairs over the twenty realizations and the other two sets "
+                     f"({', '.join(absent[:6])} missing)")
+        return
+    seq = _jr(SEQ_JSON)["analyses"]
+    base = "known_population/both_catalogs/complete/equal_populations/realization_{R}"
+    # ---- S12: pair_twenty
+    s1, kx = _own_kb_stage_x(idx)
+    r12 = sorted(set(s1) | set(kx))
+    n32 = {R: kx.get(R) or base.format(R=f"{R:03d}") for R in r12}
+    n64 = {R: (base + "_nside64").format(R=f"{R:03d}") for R in r12}
+    lb = []
+    for R in r12:
+        if n64[R] not in idx or n32[R] not in idx:
+            lb.append(f"{n64[R]}: pair not in the run list")
+            continue
+        (s64, a64), (s32, a32) = idx[n64[R]], idx[n32[R]]
+        if not (s64 == "X" and s32 == ("X" if R in kx else "1") and flag(a64, "--nside") == "64" and flag(a64, "--variant") == "nside64"
+                and strip(a64, ("--nside", "--variant")) == strip(a32, ("--variant",))):
+            lb.append(f"{n64[R]}: stage {s64}/{s32}, flags differ from its partner's by more than --nside 64 and the variant")
+    m12 = sk.get("pair_twenty") or {}
+    ok_map = (m12.get("realizations") == r12 and m12.get("realizations_wanted") == r12
+              and {int(k): v for k, v in (m12.get("partners") or {}).items()} == kx and m12.get("partner_key") == "KnownBoth")
+    S = {R: tuple((lambda p: _jr(p) if p.exists() else None)(RUNS16 / n / "summary.json") for n in (n64[R], n32[R])) for R in r12}
+    have = all(a and b for a, b in S.values()) and len(r12) >= 2 and not lb
+    nr = mac["SkyResAllNreal"]
+    ok_n = nr["value"] == len(r12) and nr["render"] == _OWN_WORDS[len(r12)] and (nr["class"] == "plain") == (not lb)
+    sq = (seq.get("KnownBoth_production_111_120") or {}).get("nsides", {}).get("64") or {}
+    if have:
+        lb += _own_pair_configs([(n64[R], n32[R]) for R in r12])
+        hwd = lambda s, par: 0.5 * (s["posterior"][par]["ci90"][1] - s["posterior"][par]["ci90"][0])
+        sh = {}
+        for par, q, d in (("H0", "Hzero", 2), ("f_agn", "fAGN", 3)):
+            xs = [S[R][0]["posterior"][par]["median"] - S[R][1]["posterior"][par]["median"] for R in r12]
+            sh[par] = xs
+            m_, s_ = statistics.fmean(xs), statistics.stdev(xs)
+            cmp(f"SkyResAllMeanShift{q}", mac[f"SkyResAllMeanShift{q}"]["value"], m_, 1e-12, "mean shift of the summaries' medians")
+            cmp(f"SkyResAllSdShift{q}", mac[f"SkyResAllSdShift{q}"]["value"], s_, 1e-12, "standard deviation (ddof 1) of the shifts")
+            rend += [(f"SkyResAllMeanShift{q}", mac[f"SkyResAllMeanShift{q}"]["render"] == _own_fixed(m_, d)),
+                     (f"SkyResAllSdShift{q}", mac[f"SkyResAllSdShift{q}"]["render"] == _own_fixed(s_, d))]
+            ps = ((sq.get("paired_to_nside32") or {}).get(par) or {}).get("stats") or {}
+            if ps.get("n") == len(r12):
+                cmp(f"SkyResAllMeanShift{q}", mac[f"SkyResAllMeanShift{q}"]["value"], ps["mean"], 1e-9, "mean vs skyres_sequence.json")
+                cmp(f"SkyResAllSdShift{q}", mac[f"SkyResAllSdShift{q}"]["value"], ps["sd"], 1e-9, "sd vs skyres_sequence.json")
+            else:
+                bad.append(f"skyres_sequence.json KnownBoth_production_111_120 nside 64 has {ps.get('n')} paired {par} shifts")
+        rat = [hwd(S[R][0], "H0") / hwd(S[R][1], "H0") for R in r12]
+        nar = 100.0 * (1.0 - statistics.fmean(rat))
+        cmp("SkyResAllNarrowPct", mac["SkyResAllNarrowPct"]["value"], nar, 1e-9, "100 (1 - mean half-width ratio) of the summaries")
+        hr = ((sq.get("paired_to_nside32") or {}).get("H0") or {}).get("half_width_ratio_mean")
+        if hr is not None:
+            cmp("SkyResAllNarrowPct", mac["SkyResAllNarrowPct"]["value"], 100.0 * (1.0 - hr), 1e-9, "100 (1 - half_width_ratio_mean of skyres_sequence.json)")
+        hwm = statistics.fmean(hwd(S[R][1], "H0") for R in r12)
+        pct = 100.0 * abs(statistics.fmean(sh["H0"])) / hwm
+        cmp("SkyResAllShiftPctHalfWid", mac["SkyResAllShiftPctHalfWid"]["value"], pct, 1e-9, "100 |mean H0 shift| / mean nside-32 half-width of the summaries")
+        rend += [("SkyResAllNarrowPct", mac["SkyResAllNarrowPct"]["render"] == _own_fixed(nar, 0)),
+                 ("SkyResAllShiftPctHalfWid", mac["SkyResAllShiftPctHalfWid"]["render"] == _own_fixed(pct, 0))]
+        x0 = truth([a for a, _b in S.values()], "H0")
+        f0 = truth([a for a, _b in S.values()], "f_agn")
+        cmp("SkyResAllHzeroComb", float(x0 is None or f0 is None), 0.0, 0.0, "one input H0 and f_AGN in every summary's truth")
+        runs64 = [RUNS16 / n64[R] for R in r12]
+        _own_comb_rows(mac, cmp, rend, "SkyResAllHzeroComb", "SkyResAllHzeroCL", runs64, "H0", x0 or H0in)
+        _own_comb_rows(mac, cmp, rend, "SkyResAllfAGNComb", "SkyResAllfAGNCL", runs64, "f_agn", f0 if f0 is not None else 0.3)
+        sc = sq.get("combined") or {}
+        if sc.get("realizations") == r12 and all(sq["runs"][str(R)]["run"] == n64[R] for R in r12):
+            for q, par in (("Hzero", "H0"), ("fAGN", "f_agn")):
+                v, r_ = mac[f"SkyResAll{q}Comb"]["value"], sc[par]
+                for nm, a, b in (("median", v["median"], r_["median"]), ("lo", v["ci90"][0], r_["median"] - r_["minus"]), ("hi", v["ci90"][1], r_["median"] + r_["plus"])):
+                    cmp(f"SkyResAll{q}Comb", a, b, 1e-6, f"{nm} vs skyres_sequence.json")
+                cmp(f"SkyResAll{q}CL", mac[f"SkyResAll{q}CL"]["value"], r_["level_of_input"], 1e-6, "credible level vs skyres_sequence.json")
+        else:
+            bad.append(f"skyres_sequence.json KnownBoth_production_111_120 nside 64 combined over {sc.get('realizations')} or other runs")
+    black = all(mac[n]["class"] == "plain" for n in names12)
+    nb = len(bad) + len(lb) + sum(1 for _n, ok in rend if not ok)
+    check(black == have and ok_map and ok_n and not lb and not bad and all(ok for _n, ok in rend),
+          f"S12 SkyResAll... over the {len(r12)} realizations of key KnownBoth (own parser: stage 1 {s1}, stage X realization_NNN_nside32 {sorted(kx)}; "
+          f"the map's pair_twenty {m12.get('realizations')}): each nside-64 run in stage X with its partner's flags plus --nside 64 and the variant, "
+          f"configs equal but for the pixelization and survey files at nside 64 and 32 (h5py); SkyResAllNreal '{nr['render']}' ({nr['class']}); black "
+          f"exactly when every summary exists ({'black' if black else 'red'}); {len(rows)} numbers against the summaries, the own summed splines "
+          f"(_grid_comb_safe) and tests/results/skyres_sequence.json (KnownBoth_production_111_120, nside 64)"
+          + (f", largest deviation over tolerance {max(r[2] / r[3] if r[3] else (0 if r[2] == 0 else np.inf) for r in rows):.2g}" if rows else "")
+          + f"; renders by own formatting {sum(ok for _n, ok in rend)} of {len(rend)}"
+          + (f"; MISMATCH ({nb}): {'; '.join((lb + bad)[:4])} {[n for n, ok in rend if not ok][:4]}" if nb else ""))
+    # ---- S13: the paired shift of H0 with half of the mergers in AGN (host class unknown) and with every merger in AGN (AGN catalog alone)
+    rows.clear(), bad.clear(), rend.clear()
+    rx_ = yaml.safe_load((RUNS16 / "RUNLIST_experiment.yaml").read_text())
+    idx_e = {r["name"]: (str(st["stage"]), list(r["args"])) for st in rx_["stages"] for r in st["runs"]}
+    hb = "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}"
+    r13 = sorted(int(m.group(1)) for n, (s, _a) in idx_e.items() if s.startswith("E") for m in [re.fullmatch(hb.replace("{R}", r"(\d{3})"), n)] if m)
+    lb = []
+    for R in r13:
+        a, b = (hb + "_nside64").format(R=f"{R:03d}"), hb.format(R=f"{R:03d}")
+        if a not in idx:
+            lb.append(f"{a}: not in RUNLIST.yaml")
+            continue
+        (s64, a64), (_s32, a32) = idx[a], idx_e[b]
+        if not (s64 == "X" and flag(a64, "--nside") == "64" and strip(a64, ("--nside", "--variant")) == strip(a32, ())):
+            lb.append(f"{a}: stage {s64}, flags differ from its partner's by more than --nside 64 and the variant")
+    m13 = sk.get("pair_half") or {}
+    ok_map = m13.get("realizations") == r13 and m13.get("realizations_wanted") == r13
+    Sh = {R: tuple((lambda p: _jr(p) if p.exists() else None)(RUNS16 / n / "summary.json") for n in ((hb + "_nside64").format(R=f"{R:03d}"), hb.format(R=f"{R:03d}")))
+          for R in r13}
+    have_h = all(a and b for a, b in Sh.values()) and len(r13) >= 2 and not lb
+    out = []
+    if have_h:
+        lb += _own_pair_configs([((hb + "_nside64").format(R=f"{R:03d}"), hb.format(R=f"{R:03d}")) for R in r13])
+        xs = [Sh[R][0]["posterior"]["H0"]["median"] - Sh[R][1]["posterior"]["H0"]["median"] for R in r13]
+        m_, s_ = statistics.fmean(xs), statistics.stdev(xs)
+        cmp("SkyResHalfMeanShiftHzero", mac["SkyResHalfMeanShiftHzero"]["value"], m_, 1e-12, "mean shift of the summaries' medians")
+        cmp("SkyResHalfSdShiftHzero", mac["SkyResHalfSdShiftHzero"]["value"], s_, 1e-12, "standard deviation (ddof 1) of the shifts")
+        rend += [("SkyResHalfMeanShiftHzero", mac["SkyResHalfMeanShiftHzero"]["render"] == _own_fixed(m_, 2)),
+                 ("SkyResHalfSdShiftHzero", mac["SkyResHalfSdShiftHzero"]["render"] == _own_fixed(s_, 2))]
+        out.append(f"half of the mergers in AGN {m_:+.4f} (sd {s_:.4f}, {len(r13)} realizations)")
+    for tag, blk_, mm, ms in (("HostsUnknown_peak_f0p50_s0", seq.get("HostsUnknown_peak_f0p50_s0"), "SkyResHalfMeanShiftHzero", "SkyResHalfSdShiftHzero"),
+                              ("AGNhosted", seq.get("AGNhosted"), "SkyResAGNMeanShiftHzero", "SkyResAGNSdShiftHzero")):
+        ps = ((((blk_ or {}).get("nsides") or {}).get("64") or {}).get("paired_to_nside32") or {}).get("H0", {}).get("stats") or {}
+        if not ps.get("n"):
+            bad.append(f"skyres_sequence.json {tag}: no paired H0 shifts at nside 64")
+            continue
+        want_n = len(r13) if tag.startswith("Hosts") else len((sk.get("agn_pair") or {}).get("realizations") or [])
+        cmp(mm, float(ps["n"]), float(want_n), 0.0, f"number of pairs in skyres_sequence.json {tag}")
+        cmp(mm, mac[mm]["value"], ps["mean"], 1e-9, f"mean vs skyres_sequence.json {tag}")
+        cmp(ms, mac[ms]["value"], ps["sd"], 1e-9, f"sd vs skyres_sequence.json {tag}")
+        out.append(f"{tag}: {ps['mean']:+.4f} (sd {ps['sd']:.4f})")
+    black = all(mac[n]["class"] == "plain" for n in ("SkyResHalfMeanShiftHzero", "SkyResHalfSdShiftHzero"))
+    nb = len(bad) + len(lb) + sum(1 for _n, ok in rend if not ok)
+    check(black == have_h and ok_map and not lb and not bad and all(ok for _n, ok in rend),
+          f"S13 the paired shift of the H0 median, nside 64 minus 32, of two other sets: half of the mergers in AGN, host class unknown "
+          f"(SkyResHalf..., RUNLIST_experiment.yaml stage E1 {r13} against RUNLIST.yaml stage X, flags and configs as S12; the map's pair_half "
+          f"{m13.get('realizations')}) and every merger in AGN with the AGN catalog alone (SkyResAGN..., S11's runs); {len(rows)} numbers against the "
+          f"summaries and tests/results/skyres_sequence.json: {'; '.join(out)}; renders by own formatting {sum(ok for _n, ok in rend)} of {len(rend)}"
           + (f"; MISMATCH ({nb}): {'; '.join((lb + bad)[:4])} {[n for n, ok in rend if not ok][:4]}" if nb else ""))
 
 
@@ -2568,8 +2907,17 @@ def audit_density_phys(mac):
     rx = [re.compile("^" + re.escape(p).replace(re.escape("{R}"), r"\d{3}") + "$") for p in pats]
     nonprod = [n for n, (st, _a) in idx.items() if st.startswith(("X", "V"))]
     hit = [n for n in nonprod if any(r.match(n) for r in rx)]
-    check(not hit, f"L3 none of the {len(nonprod)} runs of the check and validation stages (X, V) of RUNLIST.yaml matches a run pattern of the "
-                   f"production map ({len(pats)} patterns: keys, experiment macros, density arms){': ' + ', '.join(hit[:4]) if hit else ''}")
+    # the runs the map names per realization (runs_by_realization): only the deliberate exception, KnownBoth's stage-X realization_NNN_nside32
+    # runs as the own parser finds them (_own_kb_stage_x)
+    named = {k: set((sp.get("runs_by_realization") or {}).values()) for k, sp in pm.get("keys", {}).items()}
+    allowed = set(_own_kb_stage_x({n: (st, a) for n, (st, a) in idx.items()})[1].values())
+    hit += sorted(n for k, ns in named.items() for n in ns if n in nonprod and not (k == "KnownBoth" and n in allowed))
+    exc = sorted(n for n in named.get("KnownBoth", ()) if n in allowed)
+    check(not hit and set(exc) == allowed,
+          f"L3 none of the {len(nonprod)} runs of the check and validation stages (X, V) of RUNLIST.yaml matches a run pattern of the "
+          f"production map ({len(pats)} patterns: keys, experiment macros, density arms) or is named by it per realization, but for the one "
+          f"deliberate exception: key KnownBoth's {len(exc)} stage-X runs realization_NNN_nside32 (stage 1's flags plus --variant nside32, own "
+          f"parser){': ' + ', '.join(hit[:4]) if hit else ''}{'; the map lacks some of them' if set(exc) != allowed else ''}")
 
 
 def _trap_median(x, L):

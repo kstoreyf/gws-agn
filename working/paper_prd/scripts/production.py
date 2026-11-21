@@ -13,6 +13,11 @@ the run pattern ('{R}' = three-digit realization), the realizations, realization
 summary field of realization A, the summaries combined, and the input whose credible level is quoted (see the
 map's "_schema"). Keys of the paper without a run in the lists are listed under "not_in_run_lists".
 
+A key's runs are the runs of its pattern in the production stages; stages V and X never feed a key, with one deliberate exception
+(21 Nov, build_values.STAGE_X_KEY_RUNS): KnownBoth also takes realizations 111-120, which exist only as stage-X runs
+known_population/both_catalogs/complete/equal_populations/realization_NNN_nside32 because they are the same analysis at the same
+settings as stage 1 (its arguments without --membership, plus --variant nside32); the map names them under runs_by_realization.
+
 A key turns REAL (final, black macros, final palette in the figures) only when every summary.json it names
 exists (all realizations, and the runs it depends on: the reference of its Bayes factor, the known-density run
 of its prior-induced region). A key with some but not all is PARTIAL: it stays exactly as its placeholder
@@ -174,12 +179,19 @@ def build_map():
     """The map from the run lists."""
     runs = runlist_runs()
     keys, missing = {}, {}
+    idx1 = bv.runlist_index(RUNS / RUNLISTS[0])
     for key, (pat, quants) in KEY_RUNS.items():
         rx = _pattern_re(pat)
         recs = {int(m.group(1)): r for n, r in runs.items() if (m := rx.match(n))}
         if not recs:
             missing[key] = f"no run named {pat} in {' or '.join(RUNLISTS)}"
             continue
+        # The one deliberate exception to "stages V and X never feed a key" (bv.STAGE_X_KEY_RUNS): KnownBoth also takes realizations
+        # 111-120, run in stage X as realization_NNN_nside32 because they are the same analysis at the same settings as stage 1 (stage
+        # 1's arguments without --membership, plus the variant tag); named per realization (runs_by_realization). Nothing else of stage X.
+        extra = bv.stage_x_key_runs(idx1, key)
+        for R, n in extra.items():
+            recs[R] = runs[n]
         reals = sorted(recs)
         rA = 100 if 100 in reals else reals[0]
         R0 = recs[rA]
@@ -206,8 +218,18 @@ def build_map():
             if conv:
                 Q[q]["units"] = "converted to Mpc^-3 per sample: log10 n + 3 log10(H0/100)"
                 Q[q]["Comb"]["combine"] = "product of the kernel densities of the converted samples"
+        if extra:
+            for qq in Q.values():
+                qq["Comb"]["summaries_by_realization"] = {str(R): f"{n}/summary.json" for R, n in sorted(extra.items())}
         E = {"run": pat, "runlist": sorted({r["runlist"] for r in recs.values()})[0], "stage": "/".join(sorted({r["stage"] for r in recs.values()})),
              "mode": mode, "realizations": reals, "realization_A": rA, "settings": _settings(key, list(recs.values())), "quantities": Q}
+        if extra:
+            E["runs_by_realization"] = {str(R): n for R, n in sorted(extra.items())}
+            E["stage_x_realizations"] = sorted(extra)
+            E["stage_x_why"] = ("the one deliberate exception to 'stages V and X never feed a key' (build_values.STAGE_X_KEY_RUNS): realizations "
+                                f"{sorted(extra)} exist only as stage-X runs {bv.STAGE_X_KEY_RUNS[key]['pattern']}, the same analysis at the same "
+                                "settings as stage 1 (stage 1's arguments without --membership, plus --variant "
+                                f"{bv.STAGE_X_KEY_RUNS[key]['variant']}), run to test whether the H0 offset of the first realizations is a fluctuation")
         if key in ("KnownBoth", "CtrlZero", "CtrlTenth"):
             E["joint"] = {"params": ["H0", "f_agn"], "parts": ["A", "Comb"], "how": "run_posteriors.grid_joint"}
             E["LB"] = {"kind": "savage_dickey_f0", "reference": "galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grids (Comb: ln L summed), f_AGN prior [0, 1]"}
@@ -232,8 +254,12 @@ def build_map():
     import classes
     import density
     import skyres
+    sky = skyres.map_block(runs)
+    # the sky-resolution pair over the twenty realizations takes exactly key KnownBoth's runs
+    tw, kb = sky.get("pair_twenty") or {}, keys.get("KnownBoth") or {}
+    assert not tw or (tw["realizations_wanted"] == kb.get("realizations") and tw.get("partners", {}) == kb.get("runs_by_realization", {})), (tw, kb)
     return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs),
-            "density_response": density.map_block(runs), "sky_resolution": skyres.map_block(runs)}
+            "density_response": density.map_block(runs), "sky_resolution": sky}
 
 
 SCHEMA = [
@@ -241,6 +267,9 @@ SCHEMA = [
     "Written by `scripts/production.py --write-map` from runs/RUNLIST.yaml and runs/RUNLIST_experiment.yaml; read by scripts/placeholder_results.py.",
     "keys.<Key>: run (pattern under runs_root, '{R}' = three-digit realization), runlist, stage, mode (grid | nested), realizations (all of them",
     "  are combined), realization_A, settings (how the runs differ from the key as the paper defines it, or 'as the key'), quantities, joint, LB.",
+    "  21 Nov: runs_by_realization {realization: run name} where a realization's run is not the pattern: KnownBoth's realizations 111-120,",
+    "  stage X's realization_NNN_nside32 (stage_x_realizations, stage_x_why; build_values.STAGE_X_KEY_RUNS, the one deliberate exception to",
+    "  'stages V and X never feed a key': the same analysis at the same settings as stage 1); quantities.<Q>.Comb.summaries_by_realization.",
     "quantities.<Q>: param (the run's parameter) or derived; A = the summary field of realization A (median and 90% interval printed as is);",
     "  Comb = the summaries of every realization, combined (grids: corrected ln L summed; nested: product of kernel densities);",
     "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
@@ -262,6 +291,9 @@ SCHEMA = [
     "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth; macros SkyResTen..., SkyResOffsetHzero...)",
     "  and agn_pair (key AGNhosted's runs against stage X's ..._nside64_s32000_inj6; macros SkyResAGN...): run, partner, partner_key,",
     "  realizations (whose nside-64 run is in stage X), realizations_wanted (those of the partner's production runs), stages.",
+    "  21 Nov, later: pair_twenty (the pair at the production settings on the twenty realizations of key KnownBoth; partners = the key's",
+    "  runs_by_realization; macros SkyResAll...) and pair_half (host class unknown, half of the mergers in AGN: RUNLIST_experiment.yaml's",
+    "  peak_f0p50_s0 runs of stage E1 against stage X's ..._nside64; partner_runlist; macros SkyResHalf...).",
     "classes (21 Nov): Cls...Comb/CL records have how 'comb' (the runs of the HW... macro named in runs_of); ClsDiff... records are derived",
     "  (fn paired_mean | paired_sd | paired_npos) from the two Cls...HzeroComb records of the same f.",
     "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
@@ -287,9 +319,19 @@ def run_dir(pat, r):
     return RUNS / pat.format(R=f"{r:03d}")
 
 
+def key_run(spec, r):
+    """The run name of realization r of a key: its pattern, or the name the map gives that realization (runs_by_realization: the
+    deliberate stage-X runs of KnownBoth, realizations 111-120, bv.STAGE_X_KEY_RUNS)."""
+    return (spec.get("runs_by_realization") or {}).get(str(r)) or spec["run"].format(R=f"{r:03d}")
+
+
+def key_dir(spec, r):
+    return RUNS / key_run(spec, r)
+
+
 def needed(spec, pm=None):
     """{run dir: role} of every run a key needs."""
-    out = {run_dir(spec["run"], r): "run" for r in spec["realizations"]}
+    out = {key_dir(spec, r): "run" for r in spec["realizations"]}
     lb = spec.get("LB") or {}
     if lb.get("reference_run"):
         for r in spec["realizations"]:
@@ -302,7 +344,7 @@ def needed(spec, pm=None):
 def key_status(key, spec):
     need = needed(spec)
     have = [d for d in need if (d / "summary.json").exists()]
-    own = [r for r in spec["realizations"] if (run_dir(spec["run"], r) / "summary.json").exists()]
+    own = [r for r in spec["realizations"] if (key_dir(spec, r) / "summary.json").exists()]
     st = "real" if len(have) == len(need) else ("partial" if have else "waiting")
     return {"state": st, "n_have": len(have), "n_need": len(need), "realizations_have": own, "realizations_want": spec["realizations"],
             "missing": sorted(bv.rel(d) for d in need if d not in have), "stage": spec["stage"], "runlist": spec["runlist"]}
@@ -350,7 +392,7 @@ def marg_A(dA, par):
 
 def comb(key, q, spec, par, x0="truth"):
     """One parameter combined over the key's realizations (run_posteriors.combined)."""
-    dirs = [run_dir(spec["run"], r) for r in spec["realizations"]]
+    dirs = [key_dir(spec, r) for r in spec["realizations"]]
     missing = [d for d in dirs if not (d / "summary.json").exists()]
     assert not missing, (key, q, missing)
     return rp().combined(dirs, par, x0="truth" if x0 == "truth" else x0)
@@ -469,7 +511,7 @@ def z_ratio(key, spec, r, sm=None):
         c = bv.survey_counts(r)
         return c["gal"] / c["agn"]
     rk = {f"Flux{w}": k for k, w, _ in bv.RUNGS}[key]
-    sm = sm or jread(run_dir(spec["run"], r) / "summary.json")
+    sm = sm or jread(key_dir(spec, r) / "summary.json")
     Z = {}
     for cls in ("gal", "agn"):
         d = sm["densities"][cls]
@@ -561,15 +603,21 @@ def build_entry(key, spec, ph, inputs):
     """The production entry of `key` (same schema as its placeholder entry `ph`)."""
     LR = rp()
     reals, rA = spec["realizations"], spec["realization_A"]
-    dirs = [run_dir(spec["run"], r) for r in reals]
-    dA = run_dir(spec["run"], rA)
+    dirs = [key_dir(spec, r) for r in reals]
+    dA = key_dir(spec, rA)
     sA = jread(dA / "summary.json")
     grid = spec["mode"] == "grid"
     files_comb = f"{bv.rel(RUNS)}/{spec['run']}/summary.json, realizations {reals}"
+    byR = spec.get("runs_by_realization") or {}
+    if byR:
+        files_comb += (f" (realizations {', '.join(byR)}: {bv.rel(RUNS)}/{bv.STAGE_X_KEY_RUNS[key]['pattern']}/summary.json, stage X, the same "
+                       "analysis and settings)")
     E = {k: ph[k] for k in ("events", "analysis", "catalogs", "free", "stage", "N_comb", "N_comb_source", "realizations") if k in ph}
     E.update({"final": True, "N_comb": len(reals), "realizations": reals, "comb_realizations_used": reals, "quantities": {}, "joint": {}, "LB": None,
               "production_file": bv.rel(dA / "summary.json"), "production_files": [bv.rel(d / "summary.json") for d in dirs],
               "production_settings": spec["settings"], "production_run": spec["run"]})
+    if byR:
+        E["production_runs_by_realization"] = dict(byR)
     note_set = None if spec["settings"].startswith("as the key") else spec["settings"]
     free = key.startswith("Free")
     cache = {}
@@ -691,7 +739,7 @@ def build_entry(key, spec, ph, inputs):
         else:
             per = {}
             for r in reals:
-                za = jread(run_dir(spec["run"], r) / "summary.json")["ln_evidence"]
+                za = jread(key_dir(spec, r) / "summary.json")["ln_evidence"]
                 zb = jread(run_dir(L["reference_run"], r) / "summary.json")["ln_evidence"]
                 per[r] = (za["value"] - zb["value"]) / LN10
             E["LB"] = {"reference": ph["LB"]["reference"] if ph.get("LB") else L["reference"], "source": "production", "file": bv.rel(dA / "summary.json"),

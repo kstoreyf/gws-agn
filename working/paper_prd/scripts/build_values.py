@@ -574,6 +574,64 @@ def production_stage(stage) -> bool:
     """A production stage of RUNLIST.yaml (1-5), not a validation (V...) or check (X...) stage."""
     return not str(stage).startswith(NONPRODUCTION_STAGE_PREFIXES)
 
+
+# The one deliberate exception to the rule above (21 Nov): key KnownBoth (population known, both catalogs complete, equal
+# populations) also combines realizations 111-120, which exist only as stage-X runs .../realization_NNN_nside32 (analysis_16
+# README, stage X, "21 Nov, third batch"). They are the same analysis at the same settings as stage 1: stage 1's arguments without
+# --membership plus the variant tag (8000 samples per merger, the realization's own injection set, catalogs at nside 32). They were
+# run to test whether the H0 offset of the first ten realizations is a fluctuation, so the key's combination takes all twenty.
+# Nothing else of stage X (or V) joins any key; the sky-resolution pairs (scripts/skyres.py) read their stage-X runs by name.
+STAGE_X_KEY_RUNS = {
+    "KnownBoth": {"base": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
+                  "pattern": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside32",
+                  "variant": "nside32", "realizations": tuple(range(111, 121))},
+}
+
+
+def _strip_membership(args):
+    return [a for a in args if a != "--membership"]
+
+
+def stage_x_key_runs(idx, key):
+    """{realization: run name} of the stage-X runs that deliberately join `key` (STAGE_X_KEY_RUNS; {} for every other key).
+    idx: {run name: (stage, args)} of RUNLIST.yaml. A run joins when its name is the key's stage-X pattern at one of the allowed
+    realizations, it sits in stage X, the key has no production-stage run of that realization, and its arguments are those of the
+    key's production-stage runs (all equal once --membership is dropped and the realization set aside) at its own realization,
+    followed by --variant <variant>, and nothing else."""
+    ext = STAGE_X_KEY_RUNS.get(key)
+    if not ext:
+        return {}
+    rx = re.compile("^" + re.escape(ext["base"]).replace(re.escape("{R}"), r"(\d{3})") + "$")
+    prod = {int(m.group(1)): list(a) for n, (st, a) in idx.items() if production_stage(st) for m in [rx.match(n)] if m}
+    if not prod:
+        return {}
+
+    def templ(a):
+        a = _strip_membership(a)
+        i = a.index("--realization")
+        return a[:i + 1] + ["{R}"] + a[i + 2:]
+    tmpl = {tuple(templ(a)) for a in prod.values()}
+    if len(tmpl) != 1:
+        return {}
+    tmpl = list(tmpl.pop())
+    out = {}
+    for R in ext["realizations"]:
+        n = ext["pattern"].format(R=f"{R:03d}")
+        if R in prod or n not in idx:
+            continue
+        st, a = idx[n]
+        want = [str(R) if x == "{R}" else x for x in tmpl] + ["--variant", ext["variant"]]
+        if str(st) == "X" and list(a) == want:
+            out[R] = n
+    return out
+
+
+def runlist_index(path=None):
+    """{run name: (stage, args)} of analysis_16's RUNLIST.yaml."""
+    import yaml
+    d = yaml.safe_load(Path(path or AN / "analysis_16_production_runs" / "runs" / "RUNLIST.yaml").read_text())
+    return {r["name"]: (str(st["stage"]), list(r["args"])) for st in d["stages"] for r in st["runs"]}
+
 # --------------------------------------------------------------------------------------------- #
 # loaders
 # --------------------------------------------------------------------------------------------- #
@@ -1448,6 +1506,16 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   the input lies in the combination. Pieces `Med`, `Lo`, `Hi`, `Wid` (full 90% width) after the quantity or after `Comb`.
   `UL`: 90% upper limit (90th percentile), for `CtrlZerofAGN` and the number densities; `PriorUL`: the limit the priors
   allow once the rate per host is measured (prior-induced density), beside `UL`, realization A, number densities inferred.
+  `\\HDNoneHzeroCombUL` (21 Nov): the 90th percentile of the combined H0 posterior with no catalog on host-dependent mergers
+  (single population; it leans on the lower prior edge of H0), printed at the decimals of `\\HDNoneHzeroComb`.
+- Realizations of `KnownBoth` (21 Nov): stage 1's realizations of RUNLIST.yaml plus 111-120, which exist only in stage X as
+  `known_population/both_catalogs/complete/equal_populations/realization_NNN_nside32`. This is the one deliberate exception
+  to "stages V and X never feed a key" (`build_values.STAGE_X_KEY_RUNS`, `stage_x_key_runs`): those ten runs are the same
+  analysis at the same settings as stage 1 (stage 1's arguments without `--membership`, plus `--variant nside32`: 8000
+  samples per merger, the realization's own injection set, catalogs at nside 32), run to test whether the H0 offset of the
+  first ten is a fluctuation. The map names them per realization (`keys.KnownBoth.runs_by_realization`); every combined
+  macro of the key (`Comb`, `CL`, `LBComb`, `CorrHzerofAGNComb`, `RateRatioComb`) and `\\NrealKnown` are over the twenty;
+  realization A's macros are unchanged. Nothing of the key needs the membership output the stage-X runs lack.
   Units of the number densities: `Free<limit>Logn<Gal|AGN>[Comb][...]`, `...UL`, `...PriorUL` are log10 of n in Mpc^-3, each
   posterior sample (and prior draw) converted with its own H0, log10 n + 3 log10(H0/100); `Free<limit>Logn<Gal|AGN>ULh` and
   `...PriorULh` (realization A) are the same two limits in h^3 Mpc^-3, the unit the production analyses sample and the text quotes
@@ -2554,6 +2622,12 @@ def build_keys():
                 if (q == "fAGN" and key == "CtrlZero") or (q in ("LognGal", "LognAGN")):
                     add(base + "UL", cls, wrap(fnum(sm["ul90"], max(d, 2))), sm["ul90"], Q["units"], f"90% upper limit (90th percentile) of {mean}", srcq, "skeleton,keys",
                         extra={"bounds": sm["bounds"]} if "bounds" in sm else None)
+                # 21 Nov: H0 with no catalog on host-dependent mergers, combined: the posterior leans on the lower prior edge of H0, so its 90%
+                # upper limit (the 90th percentile, as CtrlZerofAGNCombUL) beside the interval; printed at the interval's own decimals (an H0
+                # in km/s/Mpc; the two-decimal floor of the f_AGN and density limits is for numbers below one)
+                if q == "Hzero" and key == "HDNone" and part == "Comb":
+                    add(base + "UL", cls, wrap(fnum(sm["ul90"], d)), sm["ul90"], Q["units"], f"90% upper limit (90th percentile) of {mean}; the "
+                        f"combined posterior leans on the lower prior edge of H0", srcq, "skeleton,keys", extra={"decimals": d})
                 if part == "A" and q in ("LognGal", "LognAGN") and "prior_ul90" in sm:
                     add(base + "PriorUL", cls, wrap(fnum(sm["prior_ul90"], max(d, 2))), sm["prior_ul90"], Q["units"],
                         f"the 90% upper limit the priors allow once the rate per host is measured (prior-induced density), beside {base}UL; {desc}", srcq, "skeleton,keys")
@@ -2770,7 +2844,8 @@ def _gal_share(CL, f):
 # REQUESTS OF 17 NOV (paper_prd/notes/MACRO_REQUESTS.md A1-A3 and the requests of the archived first short draft) and the
 # observed-like mock family (data/obslike)
 # ============================================================================================= #
-NUM_WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
+NUM_WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve",
+            13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen", 17: "seventeen", 18: "eighteen", 19: "nineteen", 20: "twenty"}
 OBSJ = DATA / "obslike" / "results" / "obslike_paper_values.json"
 REQ_DEFINITIONS = """## Definitions of the macros added on 17 Nov (second round of requests)
 
@@ -2823,7 +2898,8 @@ def build_requests():
                {"file": "paper_prd/runs.txt", "computation": "; ".join(f"{k}: {PR.NREAL[k][1]}" for k in keys)})
         add(name, "plain", NUM_WORD.get(N, str(N)), N, "realizations", meaning, src, "design,realizations",
             extra={"keys": keys, "realizations": {k: PR.RUNREAL.get(k, PR.RUNREAL_EXP.get(k)) for k in keys}})
-    nreal("NrealKnown", ["KnownBoth"], "realizations combined, population known, both catalogs, complete (key KnownBoth)")
+    nreal("NrealKnown", ["KnownBoth"], "realizations combined, population known, both catalogs, complete (key KnownBoth; since 21 Nov stage 1's "
+          "realizations and 111-120 of stage X, realization_NNN_nside32, the same analysis at the same settings: STAGE_X_KEY_RUNS)")
     nreal("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"], "realizations combined, population known, galaxy catalog alone, AGN catalog alone, no catalog (keys KnownGal, KnownAGN, KnownNone)")
     nreal("NrealPure", ["AGNhosted", "Galhosted"], "realizations combined, all-AGN-hosted and all-galaxy-hosted sets (keys AGNhosted, Galhosted)")
     nreal("NrealFlux", [f"Flux{w}" for _, w, _ in RUNGS], "realizations combined, flux-limited catalogs, number densities from the catalog counts (keys Flux...)")
