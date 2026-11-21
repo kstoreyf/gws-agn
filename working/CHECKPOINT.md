@@ -54,6 +54,11 @@ this file holds the working state.
   spacing of the combined posterior); `\MockzHorizonMax` is now 0.49 (unused in the text).
   The catalogs of seeds 106 to 120 (5.4 G each, on phy230054p) can be deleted when no further
   pixel size is wanted.
+- NEXT JOB (not urgent; HDHost needs five realizations, about 24 Nov): Sec. 5 item 2 is now
+  unblocked (the pixel-size decision is made: production pixels stay): one Opus agent maps the
+  keys `HDHost`/`HWHost` to the `..._unif_then_rslice` runs, adds stage 5's eight-parameter
+  entries the same way and drops the unqueued pure-rslice entries; with it, prune the unused
+  macros named above. Then Sec. 5 items 3 to 5.
 - RUNS: lane 1 (job 1425268, successor 1494378) resumed the eight-parameter run of
   realization 101 at iteration 3288 at 12:34 UTC (ends about 04:00 UTC 22 Nov), then 102.
   Lane 2 (job 1454491) on realization 103, iteration 1704 at 12:33 UTC. No watcher is armed.
