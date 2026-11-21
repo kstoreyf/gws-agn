@@ -30,6 +30,15 @@ differences over all realizations present; in addition, at each nside, the poste
 (their list under "combined" "realizations"), and per group (100-105, 106-110) the paired differences and the combined posterior
 over the group's runs present.
 
+Block KnownBoth_production_111_120 (21 Nov, third batch; make_runlist.py build_checks (h)): the same analysis on ten NEW realizations,
+111-120, at nside 32 (stage X's realization_NNN_nside32: no stage-1 run exists for them) and 64 (realization_NNN_nside64), each pair
+differing only in the survey files. The offset was noticed in the first ten, so the new ten alone are the independent test: group
+"111-120" gives the per-realization shifts' mean, sd (ddof 1) and standard error and the posterior combined over the new ten at each
+nside; the block's own combination ("combined") is over all twenty present (the first ten are KnownBoth_production's runs, group
+"100-110"). Per realization: H0 and f_AGN medians, 90% intervals, the paired nside-64 minus nside-32 difference, the Monte Carlo
+variances at the peak (and their group means). Runs without a summary are listed as missing; any subset works. The survey files
+recorded in each run's config.json are checked against the nside (survey_files_ok).
+
 21 Nov, the mixture's offset (make_runlist.py build_checks (g)), realizations 100, 101, 102, 103, 105, nside 32 and 64, each with
 the same outputs (per realization, paired to nside 32, combined over the realizations present):
   HostsKnown_<set>    host class known, hosts_known .../<set>/realization_NNN[_nside64]_agn_s32000_inj1 (D1)
@@ -82,6 +91,22 @@ ANALYSES = {
         "realizations": (100, 101, 102, 103, 105, 106, 107, 108, 109, 110), "nsides": (32, 64), "combine_present": True,
         "groups": {"100-105": (100, 101, 102, 103, 105), "106-110": (106, 107, 108, 109, 110)}},
 }
+# 21 Nov, third batch (make_runlist.py build_checks (h)): the same analysis on ten NEW realizations, 111-120, which have no stage-1
+# run: nside 32 = stage X's realization_NNN_nside32 ("ref_tagged": the nside-32 name carries the tag), nside 64 = stage X's
+# realization_NNN_nside64. The offset was noticed in the first ten, so the new ten alone are the independent test (group
+# "111-120": per-realization shifts, their mean/sd/se, the combined posterior at each nside); the block's own combination is over
+# all twenty present, the first ten being KnownBoth_production's runs (group "100-110").
+FIRST_TEN = ANALYSES["KnownBoth_production"]["realizations"]
+NEW_TEN = (111, 112, 113, 114, 115, 116, 117, 118, 119, 120)
+ANALYSES["KnownBoth_production_111_120"] = {
+    "what": "mixed mergers, both catalogs, at the production Monte Carlo settings (8000 samples per merger, the realization's own "
+            "injection set) on the ten new realizations 111-120 (nside 32 = stage X's realization_NNN_nside32, nside 64 = "
+            "realization_NNN_nside64) and, pooled with them, the first ten (KnownBoth_production's runs)",
+    "base": "known_population/both_catalogs/complete/equal_populations/realization_{R}", "settings": "",
+    "realizations": FIRST_TEN + NEW_TEN, "nsides": (32, 64), "combine_present": True, "ref_tagged": NEW_TEN,
+    "check_survey_files": True, "group_variances": True,
+    "groups": {"111-120": NEW_TEN, "100-110": FIRST_TEN}}
+LIST_MISSING = ("KnownBoth_production_111_120",)     # blocks whose printout names the missing runs (the JSON always does)
 # 21 Nov (make_runlist.py build_checks (g)): the mixture's offset. The experiment's grids of the sets peak_f0p30_s0 and
 # peak_f0p50_s0 (E1 at nside 32, stage X at nside 64): host class known (hosts_known, D1; its AGN-hosted subset at 32000 samples
 # per merger) and unknown (two_tracers_one_population, D2, f_AGN free), on realizations 100, 101, 102, 103, 105.
@@ -109,8 +134,11 @@ PARAMS = ("H0", "f_agn")
 
 
 def run_name(key, real, nside):
+    """The run of `key` for one realization and nside: _nside<N> off nside 32, and at nside 32 for the realizations of the key's
+    "ref_tagged" (they have no stage-1 run: realization_NNN_nside32)."""
     a = ANALYSES[key]
-    return a["base"].format(R=f"{real:03d}") + ("" if nside == REF_NSIDE else f"_nside{nside}") + a["settings"]
+    tag = f"_nside{nside}" if (nside != REF_NSIDE or real in a.get("ref_tagged", ())) else ""
+    return a["base"].format(R=f"{real:03d}") + tag + a["settings"]
 
 
 def read(path):
@@ -120,8 +148,9 @@ def read(path):
         return None
 
 
-def one_run(name, nside):
-    """Per-run numbers from summary.json (None when missing)."""
+def one_run(name, nside, check_files=False):
+    """Per-run numbers from summary.json (None when missing). check_files: the survey files of config.json must also be the
+    nside's (file names ..._ns<nside>.h5)."""
     s = read(RUNS / name / "summary.json")
     if s is None:
         return None
@@ -130,6 +159,10 @@ def one_run(name, nside):
            "pe_var_at_peak": s["variance"]["pe_var_at_peak"], "sigma2_sel_at_peak": s["variance"]["sigma2_sel_at_peak"],
            "truth": s.get("truth", {})}
     row["survey_nside_ok"] = row["survey_nside"] == nside
+    if check_files:
+        sv = cfg.get("surveys") or {}
+        row["survey_files_ok"] = bool(sv) and all(str(p).endswith(f"_ns{nside}.h5") for p in sv.values())
+        row["survey_nside_ok"] = row["survey_nside_ok"] and row["survey_files_ok"]
     for p in PARAMS:
         if p in s.get("free", []):
             b = s["posterior"][p]
@@ -194,6 +227,9 @@ def groups_block(rp, key, rows, ns, params):
                                                                  for R, r in have.items() if ref.get(R)])} for p in params}
         if have:
             blk["combined"] = combined_over(rp, have, params)
+            if ANALYSES[key].get("group_variances"):
+                blk["variance_at_peak_mean"] = {v: statistics.fmean(r[v] for r in have.values())
+                                                for v in ("pe_var_at_peak", "sigma2_sel_at_peak")}
         out[g] = blk
     return out
 
@@ -204,7 +240,7 @@ def analysis_block(rp, key):
     out = {"what": a["what"], "nsides": {}}
     if "realizations" in a:
         out["realizations"] = list(reals)
-    rows = {ns: {R: one_run(run_name(key, R, ns), ns) for R in reals} for ns in nsides}
+    rows = {ns: {R: one_run(run_name(key, R, ns), ns, a.get("check_survey_files", False)) for R in reals} for ns in nsides}
     ref = rows[REF_NSIDE]
     for ns in nsides:
         have = {R: r for R, r in rows[ns].items() if r is not None}
@@ -500,6 +536,7 @@ def print_block(key, blk):
         n_have = len(b["runs"])
         print(f"  nside {ns}: {n_have} of {n_real} summaries"
               + (f"; missing {len(b['missing'])}" if b["missing"] else "")
+              + (f" ({', '.join(m.split('realization_')[1] for m in b['missing'])})" if b["missing"] and key in LIST_MISSING else "")
               + ("" if b.get("survey_nside_ok", True) else "  [config survey_nside differs from the name!]"))
         if not n_have:
             continue
@@ -535,6 +572,9 @@ def print_block(key, blk):
                           + (f", sd {s['sd']:.4f}, se {s['se']:.4f}" if s["sd"] is not None else ""))
             for p, c in (gb.get("combined") or {}).items():
                 print_combined(p, c, indent="      ")
+            if "variance_at_peak_mean" in gb:
+                print(f"      mean at the peak over the group: pe_var {gb['variance_at_peak_mean']['pe_var_at_peak']:.3f}  "
+                      f"sigma2_sel {gb['variance_at_peak_mean']['sigma2_sel_at_peak']:.3f}")
 
 
 def main():

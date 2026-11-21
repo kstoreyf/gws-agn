@@ -7,29 +7,35 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 this file holds the working state.
 
 ## RESUMED 21 Nov 09:25 UTC after the stop at the usage limit (read first)
-- TEN MORE REALIZATIONS (seeds 111 to 120), in two parts, both started 09:40 UTC:
-  (a) DATA, a plain script, no agent: background task `bloxcak5t` runs the stopped agent's
-  pipeline (`OLD/scripts/run_all.sh`, three streams, seeds 112 to 120; seed 111 was complete
-  and passed every bitwise gate; `OLD` = `/tmp/claude-88592/-hildafs-projects-phy230014p-magana-gws-agn/9afe9928-71f9-4164-9c5b-962ecc7a80a0/scratchpad/more_realizations_agent`;
-  per seed `OLD/results/sNNN/summary.json`, about 9 min each, done about 10:15 UTC; time limit
-  90 min, a failed seed stops its stream). The repo had no half-made change (HEAD clean).
-  (b) CODE, an Opus agent (brief: twenty stage-X entries `.../equal_populations/
-  realization_NNN_nside32` and `..._nside64` for 111 to 120 through `make_runlist.py`, proof,
-  CPU dry run of the pair of 111, a block of `tests/skyres_sequence.py` with the NEW ten alone
-  and all twenty, the launcher command with its dry run, README items). It installs the run
-  list and reports; I check its proof and queue.
-- THEN: `launch.py --lanes 2 stage X --only-lane 1 --match <its regex>` (dry run first), and
-  `scancel 1416219` (lane 1's RUNNING job ONLY): its successor 1425268 takes the twenty grids
-  (about 2.5 h) and resumes the eight-parameter run of realization 101 from its checkpoint.
-  Reason for interrupting: that run was at iteration 3195 at 09:16 UTC (124 per hour, about
-  5100 to 5300 needed), so it ends about 01:00 UTC 22 Nov, not 18:00 UTC; job 1416219 would
-  reach its two-day limit at 05:02 UTC 22 Nov in the next run anyway, so the restart costs
-  nothing extra, and the answer comes about ten hours sooner. Arm a watcher on the twenty
-  summaries (finished OR failed, time limit), then `tests/skyres_sequence.py`: the new ten
-  alone are the independent test. Lane 2 (job 1454491, since 07:13 UTC) resumed realization
-  103 at iteration 1190 as intended (checked in its log).
+- TEN MORE REALIZATIONS (111 to 120) ARE RUNNING. Data complete 09:50 UTC (all ten seeds: the
+  three legacy event files regenerated bit for bit, the AGN nside-32 survey file reproduced,
+  events validation, nside-64 survey files; smallest true m2 5.89, no merger with more than
+  0.74 of its samples below 5 Msun; `data/corepop/README.md`, "Third batch"; AGN-hosted counts
+  332, 258, 311, 283, 298, 287, 285, 303, 307, 306 of 1000, so realizations 111 and 112 are
+  +2.2 and -2.9 sd draws of the AGN share: read their f_AGN against the realized share).
+  Run list: twenty stage-X entries `known_population/both_catalogs/complete/equal_populations/
+  realization_NNN_nside32` and `..._nside64` (an Opus agent; I re-ran the proof: 237 old
+  entries identical and in order, 20 added, experiment list byte-identical; each pair differs
+  only in the survey files). QUEUED on lane 1 at 09:58 UTC; lane 1's job 1416219 CANCELLED by
+  me at 09:59:54 UTC, three seconds after a checkpoint save of the realization-101 run
+  (iteration about 3285); successor 1425268 started 10:00 UTC on the grids (nside 64 first,
+  then nside 32; 2.3 to 2.75 GPU-h, done about 12:30 UTC) and then RESUMES realization 101
+  from its checkpoint (check the line "resumed ... realization_101_unif_then_rslice" in
+  `logs/agn-prod-l1_1425268.out`; that run then ends about 04:00 UTC 22 Nov); its own
+  successor is 1494378.
+- WATCHER `b5sxsla63`: reports when the twenty summaries exist, or lane 1 has moved on to the
+  realization-101 run, or job 1425268 has left the queue, or at 13:45 UTC. THEN:
+  `JAX_PLATFORMS=cpu $PY tests/skyres_sequence.py` in the analysis-16 directory, block
+  `KnownBoth_production_111_120`: group `111-120` is the INDEPENDENT TEST (the offset was
+  noticed in the first ten): combined H0 of the new ten at nside 32 and 64 with the level of
+  the input, the paired shift over the new ten; `combined` = all twenty. Decide: input inside
+  the new ten at both pixel sizes and no common upward shift -> fluctuation of the first ten:
+  the Validation says so with twenty realizations (macros through an Opus agent, the paragraph
+  by me with the style skill), production pixels stay. Input outside again -> a property of
+  the analysis with the host class unknown: the Validation states it with twenty, the cause is
+  then the next job (Sec. 4, decomposition), and the owner is told with the options.
 - Watcher `bspxn2wfi` (16:15 UTC, or the end of the realization-101 run) will report without
-  context: no action.
+  context: no action. Lane 2 (job 1454491) is on realization 103 (resumed at iteration 1190).
 - PENDING WITH THE OWNER: push the corrected Validation paragraph (local commits 8ed540e,
   f1befea and this one; GitHub has 3e060b3, whose last Validation sentence is too general)?
   Options given: A push now (recommended), B after the twenty-realization result, C hold.

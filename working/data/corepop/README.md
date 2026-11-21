@@ -483,6 +483,60 @@ catalogs per seed in scratch, deleted. All 140 files written today across Tasks 
 checked to be new (nothing else under seed100-110 changed; META.json md5 of 100-105 equal
 to `cache/META_md5_before.txt`; META.json of 106-110 untouched since September).
 
+## Third batch (2026-11-21): seeds 111-120
+
+Ten further realisations, the next ten after 110, for Analysis 16's test of KnownBoth's H0 offset
+(`analyses/analysis_16_production_runs/README.md`, stage X, "21 Nov, third batch"). **Only the mixed
+kind was drawn**: `events/events_corepop.h5` (f_AGN 0.30, core population, `--population_code core
+--events_suffix _corepop`), the event set of stage 1's two-catalog analysis; no all-AGN, all-galaxy or
+host-dependent set. Like 106-110 the seeds' `catalogs/` had been pruned; the complete catalogs were
+**regenerated and are kept** (`catalogs/catalog_{gal,agn}_complete.h5`, 5.4 GB per seed; the
+regeneration's record `catalogs/regen_META.json`; the seed's `META.json` untouched, md5 equal before
+and after) with numpy's AVX-512 dispatch disabled: glass venv (numpy 2.4)
+`NPY_DISABLE_CPU_FEATURES="X86_V4 AVX512_ICL AVX512_SPR"`, and the jax env's steps (numpy 1.26) with
+its AVX-512 groups off, as `more_seeds_job.sh`. The node (miko) has AVX-512, the RM nodes that made the
+records do not; with AVX-512 on, 0.3% of the AGN `z_obs` differ from the record by one ulp (Analysis
+16 README, stage X (f)).
+
+`scripts/more_realizations_pipeline.sh` (8 threads per process; seed 111 first, then 112-114, 115-117
+and 118-120 in three parallel streams), per seed:
+1. `--stage catalogs` against a scratch outroot under the seed (`catalogs_regen_tmp/`: the stage
+   merges into META.json), then moved to `catalogs/` (205-258 s, median 210);
+2. **bitwise checks** (44-51 s): the three legacy files `events.h5`, `events_pureagn.h5`,
+   `events_puregal.h5` regenerated from the rebuilt catalogs into scratch and compared dataset by
+   dataset with the records: all 50 datasets of each of the 30 files identical (their metadata-JSON
+   attribute differs only in `generated_at_utc` and the three `branch_*` keys the present generator
+   records); and the AGN nside-32 survey file rebuilt from the catalog
+   (`make_survey_nside.py --nside 32 --tracers agn --reproduce`): `zgals`, `dzgals`, `wgals`, `ngals`
+   identical to `surveys/survey_agn_complete_ns32.h5`;
+3. the mixed set, written into the seed's `events/` through a scratch outroot whose `catalogs/`,
+   `events/` and `validation/` are symlinks to the seed's own (12-15 s), then the events-only
+   validation (6-10 s): all seven checks pass (V1 V2 V2b V3 V3c V5 V7);
+4. the nside-64 survey files of both complete catalogs, `surveys_ns64/survey_{gal,agn}_complete_ns64.h5`
+   (`make_survey_nside.py --seed S --nside 64`, 1.7 GB per seed), each with its passing
+   `<file>.check.json` (object counts, the four children of every nside-32 pixel, redshifts per
+   parent bit for bit).
+
+Steps 3-4 took 204-243 s; a seed 457-481 s in the three streams (552 s for 111). The pipeline's
+per-seed summaries are `results/more_realizations/sNNN/summary.json` (its logs, gate comparisons and
+scratch trees stayed in the run's scratch directory, `SCR`).
+
+| seed | gate (3 legacy files) | AGN nside-32 rebuilt | validation | nside-64 surveys | META.json | AGN-hosted of 1000 (pull) | catalogs | checks | events | validation | total (s) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 111 | PASS | PASS | PASS | PASS | unchanged | 332 (+2.21) | 258 | 51 | 15 | 8 | 552 |
+| 112 | PASS | PASS | PASS | PASS | unchanged | 258 (-2.90) | 211 | 45 | 12 | 6 | 460 |
+| 113 | PASS | PASS | PASS | PASS | unchanged | 311 (+0.76) | 209 | 47 | 12 | 6 | 469 |
+| 114 | PASS | PASS | PASS | PASS | unchanged | 283 (-1.17) | 208 | 48 | 12 | 10 | 465 |
+| 115 | PASS | PASS | PASS | PASS | unchanged | 298 (-0.14) | 225 | 46 | 12 | 6 | 481 |
+| 116 | PASS | PASS | PASS | PASS | unchanged | 287 (-0.90) | 205 | 45 | 12 | 6 | 464 |
+| 117 | PASS | PASS | PASS | PASS | unchanged | 285 (-1.04) | 206 | 44 | 13 | 6 | 457 |
+| 118 | PASS | PASS | PASS | PASS | unchanged | 303 (+0.21) | 211 | 44 | 12 | 6 | 461 |
+| 119 | PASS | PASS | PASS | PASS | unchanged | 307 (+0.48) | 205 | 47 | 12 | 7 | 467 |
+| 120 | PASS | PASS | PASS | PASS | unchanged | 306 (+0.41) | 222 | 44 | 13 | 6 | 474 |
+
+The AGN-hosted counts and binomial pulls against 0.30 are validation V5's (rule |pull| < 4). Disk
+added per seed: 5.4 GB of catalogs, 1.7 GB of nside-64 surveys and the mixed set.
+
 ## Reproduce
 
 ```bash
@@ -526,6 +580,7 @@ python generate_dataset.py --seed S --stage validation --events_suffix _<kind>_c
 | `scripts/more_seeds_job.sh`, `scripts/submit_more_seeds.sbatch` | second batch: catalogs in scratch, gate, four kinds, validation, cleanup (one seed) |
 | `scripts/summarize_more.py`, `results/more_summary.json`, `results/more_core_logp_truth.json` | second batch: one row per file; core ln p at truths |
 | `results/more_seeds/`, `logs/more_seeds/` | second batch: gate comparisons, per-seed summaries and logs |
+| `scripts/more_realizations_pipeline.sh`, `results/more_realizations/` | third batch (111-120): catalogs kept, gate, AGN nside-32 survey rebuilt, the mixed set, validation, nside-64 surveys (one seed); per-seed summaries |
 | `../obslike/scripts/` (`make_sets.sh`, `inj_make_peak.sh`, `inj_mix_opt_peak.py`, `inj_stress.py`, `v5_selection_corrected.py`, `write_experiment_sets.py`) | the experiment sets, the dedicated peak lane and their checks |
 | `results/*.json` | every number above |
 | `cache/`, `logs/` | regenerable intermediates (core tables, figure arrays), job logs |

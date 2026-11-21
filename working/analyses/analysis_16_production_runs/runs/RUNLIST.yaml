@@ -1,4 +1,4 @@
-generated_utc: '2026-11-21T07:05:22Z'
+generated_utc: '2026-11-21T09:52:16Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -5836,12 +5836,12 @@ stages:
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
     that value and at twice it; and the two-tracer grid at nside 32 and at nside 64 with Analysis 14''s Monte Carlo settings (32000 samples per
     merger, six pooled injection sets)'
-  n_runs: 97
-  n_tasks: 97
-  est_calls: 55434
-  est_gpu_hours: 23.93
-  est_gpu_hours_existing_data: 23.93
-  est_gpu_hours_ready: 23.77
+  n_runs: 117
+  n_tasks: 117
+  est_calls: 78374
+  est_gpu_hours: 26.21
+  est_gpu_hours_existing_data: 26.21
+  est_gpu_hours_ready: 26.05
   n_runs_held: 5
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
@@ -11430,3 +11430,993 @@ stages:
         64'
       partner: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_105
       differs_by: --nside 64
+  - name: known_population/both_catalogs/complete/equal_populations/realization_111_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '111'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_111_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_111_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '111'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_111_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_112_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '112'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_112_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_112_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '112'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_112_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_113_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '113'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_113_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_113_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '113'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_113_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_114_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '114'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_114_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_114_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '114'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_114_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_115_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '115'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_115_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_115_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '115'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_115_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_116_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '116'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_116_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_116_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '116'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed116/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_116_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_117_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '117'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_117_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_117_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '117'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed117/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_117_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_118_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '118'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_118_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_118_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '118'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed118/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_118_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_119_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '119'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_119_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_119_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '119'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed119/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_119_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: known_population/both_catalogs/complete/equal_populations/realization_120_nside32
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '120'
+    - --variant
+    - nside32
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.3823
+    est_gpu_hours: 0.144
+    est_gpu_hours_per_part: 0.144
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.3823) of the values measured (their sessions) on stage 1''s KnownBoth
+      grids (nside 32) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.3891, 0.3863, 0.3883, 0.3717, 0.3763)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/surveys/survey_agn_complete_ns32.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_120_nside64
+      differs_by: --nside 64 (the survey files)
+      arguments_of: stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of 106, 107, 108, 109, 110 (without --membership)
+        plus --variant nside32
+  - name: known_population/both_catalogs/complete/equal_populations/realization_120_nside64
+    analysis: known_population
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - known_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --realization
+    - '120'
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.1931
+    est_gpu_hours: 0.084
+    est_gpu_hours_per_part: 0.084
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/injections/injections_targeted.h5
+    data_exists: true
+    est_seconds_per_call_source: 'no partner run on record: the mean (0.1931) of the values measured (their sessions) on stage X''s KnownBoth
+      grids at nside 64 (realization_NNN_nside64) of realizations 106, 107, 108, 109, 110 (5 of 5: 0.1904, 0.1968, 0.1906, 0.1964, 0.1913)'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed120/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): both complete catalogs,
+        f_AGN free, 8000 samples per merger, the realization''s own injection set'
+      partner: known_population/both_catalogs/complete/equal_populations/realization_120_nside32
+      differs_by: --nside 64 (the survey files)
+      arguments_of: as realization_106_nside64 (_x_skyres)

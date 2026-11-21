@@ -64,6 +64,10 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   and peak_f0p50_s0 at nside 64 (build_checks (g)): two_tracers_one_population .../realization_NNN_nside64 and hosts_known
   .../realization_NNN_nside64_agn_s32000_inj1, the E1 partner's arguments plus --nside 64; seconds per call measured on the
   partner (nside 32; an upper bound).
+  And (21 Nov, third batch, appended after those) KnownBoth at the production settings of the first ten on ten NEW realizations
+  (111-120, X_SKYRES_MORE; build_checks (h)), per realization the nside-32 grid (stage 1's arguments plus --variant nside32: run
+  name realization_NNN_nside32, a stage-X run) and the nside-64 grid (realization_NNN_nside64, as realization 106's); seconds per
+  call: no partner on record, so the mean measured on 106-110 at the same nside (X_MORE_SPC_FROM).
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -549,6 +553,12 @@ X_SKYRES_REALIZATIONS = (100, 101, 102, 103, 105)
 # 21 Nov: (a) alone (the production Monte Carlo settings: 8000 samples, the realization's own injection set) on the five other
 # realizations of stage 1, which have one injection set each; appended after (e), the paper does not read them
 X_SKYRES_LATER = (106, 107, 108, 109, 110)
+# 21 Nov, third batch (build_checks (h)): KnownBoth at the production settings of the first ten (8000 samples, the realization's own
+# injection set, no pool) on ten NEW realizations (data/corepop/README.md "Third batch"), at nside 32 and 64; they have no stage-1
+# run, so the nside-32 grid is a stage-X run of its own (--variant nside32); appended after (g), the paper does not read them.
+# Seconds per call: the mean measured on X_MORE_SPC_FROM's runs at the same nside (no partner run is on record).
+X_SKYRES_MORE = (111, 112, 113, 114, 115, 116, 117, 118, 119, 120)
+X_MORE_SPC_FROM = X_SKYRES_LATER
 X_NSIDE = 64
 X_UNITS_LIMIT = "18"
 # (c) the cost of the sky-resolution pair at Analysis 14's Monte Carlo settings: the measured seconds per call of the experiment's
@@ -569,16 +579,21 @@ def _x_hold_if_missing(e, surveys, nside=X_NSIDE):
     return e
 
 
-def _x_skyres(real):
-    """(a) for one realization: stage 1's two-tracer grid with the survey files at nside 64."""
+def _x_skyres(real, spc_src=None):
+    """(a) for one realization: stage 1's two-tracer grid with the survey files at nside 64. spc_src: (seconds per call, source)
+    instead of the partner's measured value ((h): the realization has no stage-1 run on record); None keeps (a)'s rule."""
     partner = P.run_name("known_population", "both", "complete", "equal_populations", real)
     e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real,
               extra_args=["--nside", str(X_NSIDE)], name_variant=f"nside{X_NSIDE}")
     surveys = [P.survey_path(real, t, "complete", nside=X_NSIDE) for t in ("gal", "agn")]
-    spc = run_seconds_per_call(partner)
+    if spc_src is None:
+        spc = run_seconds_per_call(partner)
+        src = f"measured on {partner} (its sessions)"
+    else:
+        spc, src = spc_src
     if spc:
         e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"])
-        e["est_seconds_per_call_source"] = f"measured on {partner} (its sessions)"
+        e["est_seconds_per_call_source"] = src
     e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys))
     e["surveys"] = [str(p) for p in surveys]
     e["check"] = {"what": "sky resolution of the catalog term", "partner": partner, "differs_by": f"--nside {X_NSIDE}"}
@@ -798,7 +813,74 @@ def _x_seq_both(real, nside):
     return _x_hold_if_missing(e, surveys, nside)
 
 
-def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, later_realizations=X_SKYRES_LATER):
+def _x_mean_spc(names, what):
+    """(mean seconds per call over the finished runs `names` on record (their sessions), source text), or None if none is."""
+    got = {n: run_seconds_per_call(n) for n in names}
+    got = {n: v for n, v in got.items() if v}
+    if not got:
+        return None
+    m = statistics.fmean(got.values())
+    reals = ", ".join(n.split("realization_")[1][:3] for n in got)
+    return m, (f"no partner run on record: the mean ({m:.4f}) of the values measured (their sessions) on {what} of realizations "
+               f"{reals} ({len(got)} of {len(names)}: {', '.join(f'{v:.4f}' for v in got.values())})")
+
+
+def _x_more_pair(real):
+    """(h) one new realization (X_SKYRES_MORE): KnownBoth at the production settings at nside 32 and 64, in that order.
+    nside 32: stage 1's KnownBoth arguments (as build() makes them for realizations 106-110: 8000 samples, the realization's own
+    injection set, no pool, no --membership) plus --variant nside32 (run name realization_NNN_nside32: not a stage-1 name, so the run
+    stays in stage X and no paper selector reads it); the driver's default nside 32 reads data/seedNNN/surveys/.
+    nside 64: _x_skyres, as realization_106_nside64 (stage 1's arguments plus --nside 64 --variant nside64).
+    Checked here: each entry's arguments are stage 1's plus only those flags; stage 1's arguments are those of 106-110 with the
+    realization changed; both entries have the same events file, injection set and lane, samples, pool, parameters and grid cost
+    (the driver's resolved configurations differ only in run_name, variant, surveys and survey_nside: README, stage X, 21 Nov
+    third batch). Seconds per call: the means measured on
+    X_MORE_SPC_FROM's runs at the same nside (_x_mean_spc), as no partner run is on record. Held while a file is missing
+    (_x_hold_if_missing; a missing events file sets data_exists false, as everywhere)."""
+    v32, v64 = f"nside{P.SURVEY_NSIDE}", f"nside{X_NSIDE}"
+    p1 = entry(1, "grid", "known_population", "both", "complete", "equal_populations", real)   # as build() makes stage 1's
+    p1_args = [x for x in p1["args"] if x != "--membership"]
+    for t in X_MORE_SPC_FROM:
+        ta = entry(1, "grid", "known_population", "both", "complete", "equal_populations", t)["args"]
+        ta = [str(real) if (i > 0 and ta[i - 1] == "--realization") else x for i, x in enumerate(ta)]
+        if ta != p1_args:
+            sys.exit(f"[fatal] (h) realization {real}: stage 1's arguments differ from realization {t}'s by more than the realization")
+    s32 = _x_mean_spc([P.run_name("known_population", "both", "complete", "equal_populations", t) for t in X_MORE_SPC_FROM],
+                      f"stage 1's KnownBoth grids (nside {P.SURVEY_NSIDE})")
+    s64 = _x_mean_spc([P.run_name("known_population", "both", "complete", "equal_populations", t, variant=v64)
+                       for t in X_MORE_SPC_FROM], f"stage X's KnownBoth grids at nside {X_NSIDE} (realization_NNN_{v64})")
+    # nside 64: (a)'s entry with the mean seconds per call
+    e64 = _x_skyres(real, spc_src=s64 or (None, None))
+    if not s64:
+        e64["est_seconds_per_call_source"] = "cost model (no run of X_MORE_SPC_FROM on record at nside 64)"
+    # nside 32: built the way _x_skyres builds (a)'s entry, at the default nside
+    e = entry("X", "grid", "known_population", "both", "complete", "equal_populations", real, name_variant=v32)
+    surveys = [P.survey_path(real, t, "complete") for t in ("gal", "agn")]
+    if s32:
+        e = finish(e, "X", "grid", e["free"], s32[0], e["events_file"], e["injections_file"])
+        e["est_seconds_per_call_source"] = s32[1]
+    else:
+        e["est_seconds_per_call_source"] = "cost model (no run of X_MORE_SPC_FROM on record at nside 32)"
+    e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys))
+    e["surveys"] = [str(p) for p in surveys]
+    e32 = e
+    if e32["args"] != p1_args + ["--variant", v32] or e64["args"] != p1_args + ["--nside", str(X_NSIDE), "--variant", v64]:
+        sys.exit(f"[fatal] (h) realization {real}: arguments are not stage 1's plus the nside flags: {e32['args']} / {e64['args']}")
+    same = ("analysis", "injections_lane", "nsamp", "injection_pool", "mode", "free", "est_calls", "events_file", "injections_file")
+    if any(e32[k] != e64[k] for k in same) or any(e32[k] != p1[k] for k in same):
+        sys.exit(f"[fatal] (h) realization {real}: the pair differs in {[k for k in same if e32[k] != e64[k]]}")
+    what = ("KnownBoth at the production settings on a new realization (is the H0 offset over the first ten a fluctuation?): "
+            "both complete catalogs, f_AGN free, 8000 samples per merger, the realization's own injection set")
+    e32["check"] = {"what": what, "partner": e64["name"], "differs_by": f"--nside {X_NSIDE} (the survey files)",
+                    "arguments_of": "stage 1's known_population/both_catalogs/complete/equal_populations/realization_NNN of "
+                                    f"{', '.join(map(str, X_MORE_SPC_FROM))} (without --membership) plus --variant {v32}"}
+    e64["check"] = {"what": what, "partner": e32["name"], "differs_by": f"--nside {X_NSIDE} (the survey files)",
+                    "arguments_of": f"as realization_{X_MORE_SPC_FROM[0]}_{v64} (_x_skyres)"}
+    return [_x_hold_if_missing(e32, surveys, P.SURVEY_NSIDE), e64]
+
+
+def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, later_realizations=X_SKYRES_LATER,
+                 more_realizations=X_SKYRES_MORE):
     """Stage X.
     (a) Sky resolution: stage 1's known_population grid with both catalogs (realization 100, the redraw of index 0, 8000
         samples) with the survey files at nside 64 (data/seedNNN/surveys_ns64/, scripts/make_survey_nside.py): --nside 64,
@@ -844,7 +926,13 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         skyres_realizations: E1's arguments plus --nside 64, run names realization_NNN_nside64_agn_s32000_inj1 and
         realization_NNN_nside64 (_x_mix_nside); per set, per realization, hosts_known then two_tracers_one_population. Seconds
         per call: the E1 partner's measured value (nside 32, an upper bound). Priority X_MIX_PRIORITY (f = 0.3 first). Held while
-        a survey file is missing. Tabulated by tests/skyres_sequence.py (blocks HostsKnown_mix, HostsUnknown_mix)."""
+        a survey file is missing. Tabulated by tests/skyres_sequence.py (blocks HostsKnown_mix, HostsUnknown_mix).
+    (h) 21 Nov, third batch, appended after (g): KnownBoth at the production settings of the first ten on the new realizations of
+        more_realizations (111-120, data/corepop/README.md "Third batch"): per realization, in that order, realization_NNN_nside32
+        (stage 1's arguments plus --variant nside32; stage X, so no paper selector reads it) and realization_NNN_nside64 (as (f)),
+        a pair that differs only in the survey files (_x_more_pair). Seconds per call: the means measured on X_MORE_SPC_FROM at the
+        same nside. Held while a survey file or injection set is missing; data_exists false while the events file is. Tabulated by
+        tests/skyres_sequence.py (block KnownBoth_production_111_120); the paper does not read them."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -895,6 +983,9 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         for r in skyres_realizations:
             for analysis in X_MIX_ANALYSES:
                 out.append(_x_mix_nside(analysis, fam, f, s, r, smap))
+    # (h) the new realizations' pairs (nside 32, then 64), appended after (g)
+    for r in more_realizations:
+        out += _x_more_pair(r)
     return out
 
 

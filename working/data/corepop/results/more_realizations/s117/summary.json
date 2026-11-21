@@ -1,0 +1,3 @@
+{"seed": 117, "gate": "PASS", "agn_ns32_reproduce": "PASS", "generation_s": 13, "validation": "PASS",
+ "validation_s": 6, "surveys_ns64": "PASS", "META_json_md5": "unchanged",
+ "seconds": {"catalogs": 206, "checks": 44, "rest": 207, "total": 457}}

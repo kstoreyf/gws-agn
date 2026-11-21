@@ -370,6 +370,29 @@ with f_AGN held at 0.30 (D3) is not a run: the driver cannot hold f_AGN with bot
 [H0, fcat_2]; prod_model passes no `fcat_2` to core's `fixed_survey`); `tests/skyres_sequence.py` reads the f = 0.30 line of the stored
 2-D grids instead (block `KnownBoth_fheld`). Tables: `tests/skyres_sequence.py` (blocks `HostsKnown_mix`, `HostsUnknown_mix`, the paired
 comparisons in `comparisons`). Per-merger decomposition of the mixture on CPU: `tests/mixture_decomposition.py`.
+*21 Nov, third batch: ten new realizations (`make_runlist.build_checks` (h)):* combined over the ten realizations of stage 1,
+KnownBoth at the production settings puts the input H0 at the 79.6% level at nside 32 (median 68.20) and at the 97.8% level at
+nside 64 (68.54) (`tests/results/skyres_sequence.json`, `KnownBoth_production`). The offset was noticed in those ten, so ten NEW
+realizations, 111-120 (`X_SKYRES_MORE`; data: `data/corepop/README.md`, "Third batch"), decide between an offset of the analysis
+and a fluctuation. Twenty runs appended after (g), per realization in ascending order the nside-32 grid, then the nside-64 grid:
+`known_population/both_catalogs/complete/equal_populations/realization_NNN_nside32` (stage 1's KnownBoth arguments of 106-110,
+without `--membership`, plus `--variant nside32`: the driver's default nside 32 reads `data/seedNNN/surveys/`; the name is not a
+stage-1 name, so the run stays in stage X and no paper selector reads it) and `..._realization_NNN_nside64` (as realization 106's:
+`--nside 64 --variant nside64`). The pair differs only in the survey files: from the run list's arguments the driver's parsed
+options differ in `nside` and `variant` alone and its resolved configurations in `run_name`, `variant`, `surveys`, `survey_nside`
+alone (same events file, redraw key `[161002026, R, 2, 233592, 0]`, injection set, samples, grid, priors; checked for all ten pairs,
+and by `make_runlist._x_more_pair` on the arguments). CPU dry runs of realization 111's pair (20 events, 20,000 injections): both
+build and bind, ln L at the input (H0 67.74, f_AGN 0.30) 38.1890 at nside 32 and 37.5730 at nside 64, diagnostics = bound call.
+Rank 2.85, priority 0; seconds per call: no partner run is on record, so the mean measured on 106-110 at the same nside, 0.3823
+(stage 1's grids) and 0.1931 (the nside-64 grids), 0.144 and 0.084 GPU-h per run, 2.3 GPU-h for the twenty (a run whose fine grid
+is widened takes 2008 calls instead of 1147). Held while a survey file is missing; `data_exists` false while the events file is.
+Table: `tests/skyres_sequence.py`, block `KnownBoth_production_111_120`: per realization the H0 and f_AGN medians and 90% intervals
+at both nsides and the paired shift; group `111-120` (the independent test): mean, standard deviation and standard error of the
+shift over the new ten and the posterior combined over them at each nside with the level of the input; the block's `combined`:
+all twenty present at each nside (group `100-110`: the first ten); Monte Carlo variances at the peak per run and per group. Runs
+not yet finished are listed as missing. Queue (lane 1): `$PY scripts/launch.py --lanes 2 stage X --only-lane 1 --match
+'^known_population/both_catalogs/complete/equal_populations/realization_(11[1-9]|120)_nside(32|64)$'` (the regex leaves out the
+unqueued KnownBoth nside-16 runs and the held nside-128 grids).
 
 ## Tests
 
