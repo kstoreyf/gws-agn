@@ -29,6 +29,18 @@ own injection set) on realizations 100, 101, 102, 103, 105, 106, 107, 108, 109, 
 differences over all realizations present; in addition, at each nside, the posterior combined over the realizations present there
 (their list under "combined" "realizations"), and per group (100-105, 106-110) the paired differences and the combined posterior
 over the group's runs present.
+
+21 Nov, the mixture's offset (make_runlist.py build_checks (g)), realizations 100, 101, 102, 103, 105, nside 32 and 64, each with
+the same outputs (per realization, paired to nside 32, combined over the realizations present):
+  HostsKnown_<set>    host class known, hosts_known .../<set>/realization_NNN[_nside64]_agn_s32000_inj1 (D1)
+  HostsUnknown_<set>  host class unknown, two_tracers_one_population .../<set>/realization_NNN[_nside64] (D2)
+  for <set> = peak_f0p30_s0, peak_f0p50_s0 (nside 32: E1's runs; nside 64: stage X's).
+  KnownBoth_fheld     KnownBoth at the production settings with f_AGN held at 0.30 (D3): the driver cannot hold f_AGN with both
+                      catalogs, so the block reads the line f = 0.30 of KnownBoth_production's stored 2-D grids (the node, or the
+                      cubic spline across f where 0.30 is not a node of the fine f axis), summarised as the run summaries are
+                      (Akima, 16 times denser) and combined as the paper combines grids; with a check of the interpolation.
+  comparisons         unknown minus known on the same set at nside 32 and 64 (and that difference's change), nside 64 minus 32
+                      for the known and the unknown analysis, f held minus f free (KnownBoth_production) at each nside.
 """
 from __future__ import annotations
 
@@ -38,6 +50,8 @@ import math
 import statistics
 import sys
 from pathlib import Path
+
+import numpy as np
 
 HERE = Path(__file__).resolve().parent
 A16 = HERE.parent
@@ -68,6 +82,29 @@ ANALYSES = {
         "realizations": (100, 101, 102, 103, 105, 106, 107, 108, 109, 110), "nsides": (32, 64), "combine_present": True,
         "groups": {"100-105": (100, 101, 102, 103, 105), "106-110": (106, 107, 108, 109, 110)}},
 }
+# 21 Nov (make_runlist.py build_checks (g)): the mixture's offset. The experiment's grids of the sets peak_f0p30_s0 and
+# peak_f0p50_s0 (E1 at nside 32, stage X at nside 64): host class known (hosts_known, D1; its AGN-hosted subset at 32000 samples
+# per merger) and unknown (two_tracers_one_population, D2, f_AGN free), on realizations 100, 101, 102, 103, 105.
+MIX_SETS = ("peak_f0p30_s0", "peak_f0p50_s0")
+for _s in MIX_SETS:
+    ANALYSES[f"HostsKnown_{_s}"] = {
+        "what": f"host class known (hosts_known), set {_s}: AGN-hosted mergers with the AGN catalog (32000 samples per merger), "
+                "galaxy-hosted with the galaxy catalog (8000), the set's injection lane; nside 32 = E1, nside 64 = stage X (D1)",
+        "base": f"hosts_known/both_catalogs/complete/{_s}/realization_{{R}}", "settings": "_agn_s32000_inj1",
+        "nsides": (32, 64), "combine_present": True}
+    ANALYSES[f"HostsUnknown_{_s}"] = {
+        "what": f"host class unknown (two_tracers_one_population, f_AGN free), set {_s}: both catalogs, 8000 samples per merger, "
+                "the set's injection lane; nside 32 = E1, nside 64 = stage X (D2)",
+        "base": f"two_tracers_one_population/both_catalogs/complete/{_s}/realization_{{R}}", "settings": "",
+        "nsides": (32, 64), "combine_present": True}
+# D3: KnownBoth at the production settings with f_AGN held at its input. The driver cannot hold f_AGN with both catalogs, so
+# this block reads the line f = F_HELD of the stored 2-D grids of KnownBoth_production's runs (fine pass, coarse outside it): the
+# ln L values a one-dimensional run would evaluate at those H0 nodes. Where F_HELD is not a node of the fine f axis the line is
+# the cubic spline of the fine pass across f (run_posteriors._spline_parts, the paper's combination), and the error of that
+# interpolation is measured on the runs that have the node (the same spline with every other f column, F_HELD left out).
+F_HELD = 0.30
+FHELD_KEY = "KnownBoth_fheld"
+FHELD_OF = "KnownBoth_production"
 PARAMS = ("H0", "f_agn")
 
 
@@ -195,7 +232,8 @@ def analysis_block(rp, key):
         if a.get("combine_present"):
             # every realization present at this nside (the list is in the block), and per group
             blk["combined"] = combined_over(rp, have, params)
-            blk["groups"] = groups_block(rp, key, rows, ns, params)
+            if "groups" in a:
+                blk["groups"] = groups_block(rp, key, rows, ns, params)
         elif not missing:
             comb = {}
             for p in params:
@@ -210,6 +248,237 @@ def analysis_block(rp, key):
             blk["combined"] = comb
         out["nsides"][str(ns)] = blk
     return out
+
+
+# ---------------------------------------------------------------- D3: the f = F_HELD line of KnownBoth's 2-D grids
+def _slice_parts(rp, run_dir, f0=F_HELD, drop_node=False):
+    """The corrected ln L of a 2-D grid run on the line f = f0, as one-dimensional parts [(["H0"], [axis], lnc)] (fine pass
+    first, coarse outside it), and how the fine line was obtained. drop_node: the fine pass's f columns of one parity only (every
+    other column, the parity without f0), then the spline (the interpolation check)."""
+    parts2 = rp._grid_parts(run_dir)
+    out, how = [], {}
+    for i, (names, axes, lnc) in enumerate(parts2):
+        if names != ["H0", "f_agn"]:
+            raise ValueError(f"{run_dir}: free parameters {names}")
+        h, fa = axes
+        k = np.where(np.abs(fa - f0) < 1e-9)[0]
+        if i == 0:
+            if drop_node:
+                if not k.size:
+                    return None, None
+                keep = (np.arange(len(fa)) % 2 != k[0] % 2) & np.all(np.isfinite(lnc), axis=0)
+                sp = rp._spline_parts([(names, [h, fa[keep]], lnc[:, keep])])
+                line = sp[0](h, np.full_like(h, f0), grid=False)
+                how = {"fine": "cubic spline across f of every other column (f0 left out)", "f_step": float(fa[2] - fa[0])}
+            elif k.size:
+                line = lnc[:, k[0]]
+                how = {"fine": "node", "f_step": float(fa[1] - fa[0])}
+            else:
+                # the spline of the fine pass; where some cells are guarded (-inf, at large f), of the columns that are finite
+                # at every H0 (they must bracket f0)
+                cols = np.all(np.isfinite(lnc), axis=0)
+                if not (cols[fa < f0].any() and cols[fa > f0].any()):
+                    raise ValueError(f"{run_dir}: no finite fine columns on both sides of f = {f0}")
+                sp = rp._spline_parts([(names, [h, fa[cols]], lnc[:, cols])])
+                line = sp[0](h, np.full_like(h, f0), grid=False)
+                how = {"fine": "cubic spline across f (f0 is not a node)", "f_step": float(fa[1] - fa[0]),
+                       "nearest_nodes": [float(fa[fa < f0].max()), float(fa[fa > f0].min())],
+                       "columns_used": f"{int(cols.sum())} of {len(fa)} (the others hold guarded cells)" if not cols.all() else "all"}
+        else:
+            if not k.size:
+                continue          # the coarse pass only outside the fine one; f step 0.1 holds 0.30
+            line = lnc[:, k[0]]
+        out.append((["H0"], [h], np.asarray(line, float)))
+    return out, how
+
+
+def _line_summary(parts):
+    """Median and 90% interval of the fine line, as the run summaries do (prod_summary.refined_grid_summary: Akima onto a
+    lattice 16 times denser than the nodes, prod_common.summarize_1d)."""
+    from scipy.interpolate import Akima1DInterpolator
+    import prod_common as PC
+    names, (h,), l = parts[0]
+    ok = np.isfinite(l)
+    lf = np.where(ok, l, np.min(l[ok]) - 300.0)
+    lat = np.linspace(h[0], h[-1], (len(h) - 1) * 16 + 1)
+    s = PC.summarize_1d(lat, Akima1DInterpolator(h, lf)(lat))
+    return {"median": s["median"], "ci90": list(s["ci90"]), "half_width": 0.5 * (s["ci90"][1] - s["ci90"][0]),
+            "mass_at_edges": s["mass_at_edges"]}
+
+
+def _peak_variances(run_dir, f0=F_HELD):
+    """pe_var and N^2/N_eff of the fine pass at the line's peak (at the f node nearest f0)."""
+    import h5py
+    rp_fine = "fine_widened" if ((read(Path(run_dir) / "grid" / "result.json") or {}).get("outside_mass_check") or {}).get(
+        "widened") else "fine"
+    with h5py.File(Path(run_dir) / "grid" / f"{rp_fine}.h5", "r") as f:
+        fa = np.asarray(f["axis_f_agn"])
+        k = int(np.argmin(np.abs(fa - f0)))
+        lnL, pv, ne = (np.asarray(f[x])[:, k] for x in ("lnL", "pe_var", "n_eff"))
+        n = int(f.attrs["n_events"])
+    lc = lnL + 0.5 * pv - 0.5 * n / ne
+    j = int(np.nanargmax(lc))
+    return float(pv[j]), float(n ** 2 / ne[j]), float(fa[k])
+
+
+def combined_lines(rp, all_parts, x0=H0_IN):
+    """The H0 posterior from lines summed over realizations, as run_posteriors.grid_marginal sums grids (common mesh, cubic
+    spline of each fine line, linear in the coarse line), summarised by placeholder_results.summarize_xp."""
+    import placeholder_results as phr
+    names, axes = rp._common_axes(all_parts)
+    mesh = axes[0][:, None]
+    tot = sum(rp._eval_parts_spline(p, mesh) for p in all_parts)
+    w = np.exp(tot - np.max(tot[np.isfinite(tot)]))
+    x = axes[0]
+    s = phr.summarize_xp(x, w / np.trapz(w, x), x0)
+    lo, hi = s["ci90"]
+    return {"median": s["median"], "ci90": [lo, hi], "minus": s["median"] - lo, "plus": hi - s["median"],
+            "half_width": 0.5 * (hi - lo), "input": x0, "level_of_input": s["level_of_input"]}
+
+
+def fheld_block(rp):
+    """D3: per realization and nside the f = F_HELD line of KnownBoth_production's grid; paired nside 64 minus 32; combined over
+    the realizations present (and per group); the interpolation check."""
+    src = ANALYSES[FHELD_OF]
+    reals, nsides = src["realizations"], src["nsides"]
+    out = {"what": f"KnownBoth at the production settings with f_AGN held at {F_HELD}: the line f = {F_HELD} of the stored 2-D grids "
+                   f"of {FHELD_OF} (nside 32 = stage 1's realization_NNN, nside 64 = stage X's realization_NNN_nside64); fine line at "
+                   "the f node, else the cubic spline across f", "f_held": F_HELD, "realizations": list(reals), "nsides": {}}
+    parts, rows = {}, {}
+    checks = []
+    for ns in nsides:
+        rows[ns], parts[ns] = {}, {}
+        for R in reals:
+            name = run_name(FHELD_OF, R, ns)
+            d = RUNS / name
+            if read(d / "summary.json") is None or not (d / "grid" / "result.json").exists():
+                rows[ns][R] = None
+                continue
+            pp, how = _slice_parts(rp, d)
+            cfg = read(d / "config.json") or {}
+            pv, s2, fk = _peak_variances(d)
+            rows[ns][R] = {"run": name, "survey_nside": int(cfg.get("survey_nside", REF_NSIDE)), "line": how,
+                           "H0": _line_summary(pp), "pe_var_at_peak": pv, "sigma2_sel_at_peak": s2,
+                           "variances_at_f_node": fk}
+            rows[ns][R]["survey_nside_ok"] = rows[ns][R]["survey_nside"] == ns
+            parts[ns][R] = pp
+            if how["fine"] == "node":
+                pd, hd = _slice_parts(rp, d, drop_node=True)
+                l0, l1 = pp[0][2], pd[0][2]
+                near = l0 > np.nanmax(l0) - 10.0
+                checks.append({"run": name, "f_step_of_check": hd["f_step"],
+                               "max_abs_dlnL_where_within_10_nats": float(np.max(np.abs(l1 - l0)[near])),
+                               "median_shift": _line_summary(pd)["median"] - rows[ns][R]["H0"]["median"],
+                               "half_width_ratio": _line_summary(pd)["half_width"] / rows[ns][R]["H0"]["half_width"]})
+    ref = rows[REF_NSIDE]
+    for ns in nsides:
+        have = {R: r for R, r in rows[ns].items() if r is not None}
+        blk = {"runs": {str(R): r for R, r in have.items()}, "missing": [run_name(FHELD_OF, R, ns) for R in reals if rows[ns][R] is None],
+               "params": ["H0"], "complete": len(have) == len(reals)}
+        blk["interpolated"] = [R for R, r in have.items() if r["line"]["fine"] != "node"]
+        if ns != REF_NSIDE:
+            d = {str(R): r["H0"]["median"] - ref[R]["H0"]["median"] for R, r in have.items() if ref.get(R)}
+            q = {str(R): r["H0"]["half_width"] / ref[R]["H0"]["half_width"] for R, r in have.items() if ref.get(R)}
+            blk["paired_to_nside32"] = {"H0": {"median_minus_nside32": d, "stats": mean_sd_se(d.values()),
+                                               "half_width_over_nside32": q, "half_width_ratio_mean": mean_sd_se(q.values())["mean"]}}
+        blk["variance_at_peak_mean"] = {v: statistics.fmean(r[v] for r in have.values()) for v in ("pe_var_at_peak", "sigma2_sel_at_peak")} if have else {}
+        blk["survey_nside_ok"] = all(r["survey_nside_ok"] for r in have.values())
+        if have:
+            blk["combined"] = {"realizations": sorted(have), "H0": combined_lines(rp, [parts[ns][R] for R in sorted(have)])}
+        grp = {}
+        for g, gr in src["groups"].items():
+            gh = {R: have[R] for R in gr if R in have}
+            gb = {"realizations": list(gr), "present": sorted(gh), "missing": [run_name(FHELD_OF, R, ns) for R in gr if R not in gh]}
+            if ns != REF_NSIDE:
+                gb["paired_to_nside32"] = {"H0": {"stats": mean_sd_se([r["H0"]["median"] - ref[R]["H0"]["median"]
+                                                                       for R, r in gh.items() if ref.get(R)])}}
+            if gh:
+                gb["combined"] = {"H0": combined_lines(rp, [parts[ns][R] for R in sorted(gh)])}
+            grp[g] = gb
+        blk["groups"] = grp
+        out["nsides"][str(ns)] = blk
+    out["interpolation_check"] = {
+        "what": "on every run whose fine f axis has the node f0: the line from the spline of every other f column (f0 left out; "
+                "f step 0.04-0.06) against the node's own line",
+        "n_runs": len(checks), "max_abs_dlnL": max((c["max_abs_dlnL_where_within_10_nats"] for c in checks), default=None),
+        "max_abs_median_shift": max((abs(c["median_shift"]) for c in checks), default=None), "runs": checks}
+    return out, rows
+
+
+# ---------------------------------------------------------------- paired comparisons of the mixture's offset
+def _medians(blocks, key, ns):
+    b = blocks.get(key, {}).get("nsides", {}).get(str(ns), {})
+    return {int(R): r["H0"]["median"] for R, r in (b.get("runs") or {}).items()}, (b.get("combined") or {}).get("H0")
+
+
+def paired(a, b):
+    """a minus b over the realizations in both: per realization, mean/sd/se."""
+    d = {str(R): a[R] - b[R] for R in sorted(set(a) & set(b))}
+    return {"per_realization": d, "stats": mean_sd_se(d.values())}
+
+
+def comparisons(blocks):
+    """Unknown minus known on the same set (nside 32, 64, and the change of that difference); nside 64 minus 32 for the known
+    and the unknown analysis; f held minus f free (stage 1's KnownBoth) at each nside."""
+    out = {"unknown_minus_known": {}, "nside64_minus_32": {}, "fheld_minus_ffree": {}}
+    for s in MIX_SETS:
+        ku, kk = f"HostsUnknown_{s}", f"HostsKnown_{s}"
+        blk = {}
+        for ns in (32, 64):
+            mu, cu = _medians(blocks, ku, ns)
+            mk, ck = _medians(blocks, kk, ns)
+            p = paired(mu, mk)
+            if cu and ck:
+                p["combined_unknown"], p["combined_known"] = cu["median"], ck["median"]
+                p["combined_unknown_minus_known"] = cu["median"] - ck["median"]
+            blk[str(ns)] = p
+        d32, d64 = blk["32"]["per_realization"], blk["64"]["per_realization"]
+        dd = {R: d64[R] - d32[R] for R in d64 if R in d32}
+        blk["64_minus_32_of_the_difference"] = {"per_realization": dd, "stats": mean_sd_se(dd.values())}
+        out["unknown_minus_known"][s] = blk
+        for tag, key in (("known", kk), ("unknown", ku)):
+            m32, c32 = _medians(blocks, key, 32)
+            m64, c64 = _medians(blocks, key, 64)
+            p = paired(m64, m32)
+            if c32 and c64:
+                p["combined_64_minus_32"] = c64["median"] - c32["median"]
+            out["nside64_minus_32"].setdefault(tag, {})[s] = p
+    for ns in (32, 64):
+        mh, ch = _medians(blocks, FHELD_KEY, ns)
+        mf, cf = _medians(blocks, FHELD_OF, ns)
+        p = paired(mh, mf)
+        if ch and cf:
+            p["combined_held"], p["combined_free"] = ch["median"], cf["median"]
+            p["combined_held_minus_free"] = ch["median"] - cf["median"]
+        out["fheld_minus_ffree"][str(ns)] = p
+    return out
+
+
+def print_comparisons(c):
+    def line(lbl, p):
+        s = p["stats"]
+        txt = f"    {lbl}: " + (" ".join(f"{R} {v:+.3f}" for R, v in p["per_realization"].items()) or "no pair present yet")
+        if s["n"]:
+            txt += f"  | n {s['n']} mean {s['mean']:+.3f}" + (f" sd {s['sd']:.3f} se {s['se']:.3f}" if s["sd"] is not None else "")
+        print(txt)
+    print("\n=== comparisons (H0 medians)")
+    for s, blk in c["unknown_minus_known"].items():
+        for ns in ("32", "64"):
+            p = blk[ns]
+            line(f"unknown minus known, {s}, nside {ns}", p)
+            if "combined_unknown_minus_known" in p:
+                print(f"      combined: unknown {p['combined_unknown']:.3f} known {p['combined_known']:.3f} difference "
+                      f"{p['combined_unknown_minus_known']:+.3f}")
+        line(f"(unknown minus known) nside 64 minus 32, {s}", blk["64_minus_32_of_the_difference"])
+    for tag, d in c["nside64_minus_32"].items():
+        for s, p in d.items():
+            line(f"nside 64 minus 32, {tag}, {s}", p)
+            if "combined_64_minus_32" in p:
+                print(f"      combined 64 minus 32: {p['combined_64_minus_32']:+.3f}")
+    for ns, p in c["fheld_minus_ffree"].items():
+        line(f"f held at {F_HELD} minus f free (KnownBoth, production settings), nside {ns}", p)
+        if "combined_held_minus_free" in p:
+            print(f"      combined: held {p['combined_held']:.3f} free {p['combined_free']:.3f} difference {p['combined_held_minus_free']:+.3f}")
 
 
 def fmt_iv(b):
@@ -282,6 +551,13 @@ def main():
     for key in ANALYSES:
         doc["analyses"][key] = analysis_block(rp, key)
         print_block(key, doc["analyses"][key])
+    doc["analyses"][FHELD_KEY], _ = fheld_block(rp)
+    print_block(FHELD_KEY, doc["analyses"][FHELD_KEY])
+    ic = doc["analyses"][FHELD_KEY]["interpolation_check"]
+    print(f"    interpolation check ({ic['n_runs']} runs with the node; spline of every other f column): max |d lnL| "
+          f"{ic['max_abs_dlnL']:.2e} within 10 nats of the peak, max |median shift| {ic['max_abs_median_shift']:.2e}")
+    doc["comparisons"] = comparisons(doc["analyses"])
+    print_comparisons(doc["comparisons"])
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(doc, indent=1) + "\n")
     print(f"\n-> {a.out}")

@@ -261,8 +261,24 @@ this file holds the working state.
   Validation's last paragraph says exactly this since the local commit after 3e060b3 (the
   pushed 3e060b3 says "the analysis places H0 above its input ... origin not identified",
   which is too general: ASK THE OWNER before pushing the correction; asked 21 Nov 09:20 UTC).
-  NEXT: (1) the per-merger decomposition (diagnosis agent still running on CPU, realizations
-  103 and 100); (2) TEN MORE REALIZATIONS of the f = 0.3 two-catalog analysis at nside 32 and
+  PER-MERGER DECOMPOSITION (done 21 Nov 09:45 UTC; `tests/mixture_decomposition.py`,
+  `tests/results/mixture_decomposition_{103,100}.json`; f_AGN held at 0.30, set
+  `peak_f0p30_s0`, reproduces the stored grids to 1e-11). Going from host class known to the
+  mixture, change of the posterior mean of H0 (realization 103 at nside 32 / 64; 100 at 32 /
+  64): the galaxy-hosted mergers' term, sum of ln[(1 - f) + f A_i/G_i]: +0.50 / +1.26; +0.55 /
+  +0.95 (alone on the known posterior +0.18, +0.50, +0.26, +0.54); the AGN-hosted mergers'
+  term, sum of ln[f + (1 - f) G_i/A_i]: -0.47 / -0.80; +0.27 / -0.28; the selection term at
+  most +0.03; the Monte Carlo correction terms at most +0.14; AGN-hosted mergers at 8000
+  instead of 32,000 samples: +0.05 / +0.47; -0.32 / -0.20. Share f A/(f A + (1 - f) G) of
+  galaxy-hosted mergers 0.27 on average (AGN-hosted 0.36 to 0.37). READING (mine): no faulty
+  term was found. A correct mixture has exactly this structure: the galaxy-hosted mergers'
+  AGN term pulls H0 up, the AGN-hosted mergers' galaxy term pulls it down, and only their sum
+  over all mergers has zero mean at the input; finer pixels enlarge both pulls. The net left
+  over is of the size of the noise of the difference. So the decomposition does not decide
+  between a property of the analysis and a fluctuation; the twenty realizations do.
+  D3 as GPU runs would need `fixed_survey["fcat_2"] = f` in `prod_model.Model.build` when
+  f_AGN is not free (change only when no lane job imports the module).
+  NEXT: (1) done, above; (2) TEN MORE REALIZATIONS of the f = 0.3 two-catalog analysis at nside 32 and
   64 (corepop events for seeds 111 to 120 must be drawn: `data/corepop/README.md`; catalogs of
   those seeds were pruned and must be regenerated with
   NPY_DISABLE_CPU_FEATURES="X86_V4 AVX512_ICL AVX512_SPR" for bitwise agreement; survey files
