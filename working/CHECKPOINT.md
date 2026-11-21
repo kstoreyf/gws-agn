@@ -6,19 +6,30 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STOPPED AT THE USAGE LIMIT, 21 Nov about 09:50 UTC (read first)
-- The agent preparing TEN MORE REALIZATIONS (seeds 111 to 120: catalogs, corepop events, nside-64
-  survey files, twenty stage-X grids, table block) was STOPPED a few minutes after its start, so
-  that it would not be cut off mid-work. Whatever it wrote is new files only (under
-  `data/seed11N/`, the scratchpad `more_realizations_agent/`); check `git status` for
-  `make_runlist.py`, `RUNLIST.yaml`, `tests/skyres_sequence.py` and revert a half-made change
-  there before anything else (`git diff`). RE-LAUNCH it with the brief described in Sec. 4,
-  "NEXT (2)". The window "queue on lane 1 before its realization-101 run ends, about 18:00 UTC
-  21 Nov" will probably be missed: then either interrupt one lane as on 21 Nov 07:13 UTC
-  (scancel the RUNNING lane job only; its successor takes stage X first and resumes the long
-  run from its checkpoint) or wait for the next gap.
-- Watcher `bspxn2wfi` is still armed (fires at 16:15 UTC, or when the realization-101 run
-  ends): no action beyond the above.
+## RESUMED 21 Nov 09:25 UTC after the stop at the usage limit (read first)
+- TEN MORE REALIZATIONS (seeds 111 to 120), in two parts, both started 09:40 UTC:
+  (a) DATA, a plain script, no agent: background task `bloxcak5t` runs the stopped agent's
+  pipeline (`OLD/scripts/run_all.sh`, three streams, seeds 112 to 120; seed 111 was complete
+  and passed every bitwise gate; `OLD` = `/tmp/claude-88592/-hildafs-projects-phy230014p-magana-gws-agn/9afe9928-71f9-4164-9c5b-962ecc7a80a0/scratchpad/more_realizations_agent`;
+  per seed `OLD/results/sNNN/summary.json`, about 9 min each, done about 10:15 UTC; time limit
+  90 min, a failed seed stops its stream). The repo had no half-made change (HEAD clean).
+  (b) CODE, an Opus agent (brief: twenty stage-X entries `.../equal_populations/
+  realization_NNN_nside32` and `..._nside64` for 111 to 120 through `make_runlist.py`, proof,
+  CPU dry run of the pair of 111, a block of `tests/skyres_sequence.py` with the NEW ten alone
+  and all twenty, the launcher command with its dry run, README items). It installs the run
+  list and reports; I check its proof and queue.
+- THEN: `launch.py --lanes 2 stage X --only-lane 1 --match <its regex>` (dry run first), and
+  `scancel 1416219` (lane 1's RUNNING job ONLY): its successor 1425268 takes the twenty grids
+  (about 2.5 h) and resumes the eight-parameter run of realization 101 from its checkpoint.
+  Reason for interrupting: that run was at iteration 3195 at 09:16 UTC (124 per hour, about
+  5100 to 5300 needed), so it ends about 01:00 UTC 22 Nov, not 18:00 UTC; job 1416219 would
+  reach its two-day limit at 05:02 UTC 22 Nov in the next run anyway, so the restart costs
+  nothing extra, and the answer comes about ten hours sooner. Arm a watcher on the twenty
+  summaries (finished OR failed, time limit), then `tests/skyres_sequence.py`: the new ten
+  alone are the independent test. Lane 2 (job 1454491, since 07:13 UTC) resumed realization
+  103 at iteration 1190 as intended (checked in its log).
+- Watcher `bspxn2wfi` (16:15 UTC, or the end of the realization-101 run) will report without
+  context: no action.
 - PENDING WITH THE OWNER: push the corrected Validation paragraph (local commits 8ed540e,
   f1befea and this one; GitHub has 3e060b3, whose last Validation sentence is too general)?
   Options given: A push now (recommended), B after the twenty-realization result, C hold.
