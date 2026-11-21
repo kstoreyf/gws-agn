@@ -6,36 +6,66 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## RESUMED 21 Nov 09:25 UTC after the stop at the usage limit (read first)
-- TEN MORE REALIZATIONS (111 to 120) ARE RUNNING. Data complete 09:50 UTC (all ten seeds: the
-  three legacy event files regenerated bit for bit, the AGN nside-32 survey file reproduced,
-  events validation, nside-64 survey files; smallest true m2 5.89, no merger with more than
-  0.74 of its samples below 5 Msun; `data/corepop/README.md`, "Third batch"; AGN-hosted counts
-  332, 258, 311, 283, 298, 287, 285, 303, 307, 306 of 1000, so realizations 111 and 112 are
-  +2.2 and -2.9 sd draws of the AGN share: read their f_AGN against the realized share).
-  Run list: twenty stage-X entries `known_population/both_catalogs/complete/equal_populations/
-  realization_NNN_nside32` and `..._nside64` (an Opus agent; I re-ran the proof: 237 old
-  entries identical and in order, 20 added, experiment list byte-identical; each pair differs
-  only in the survey files). QUEUED on lane 1 at 09:58 UTC; lane 1's job 1416219 CANCELLED by
-  me at 09:59:54 UTC, three seconds after a checkpoint save of the realization-101 run
-  (iteration about 3285); successor 1425268 started 10:00 UTC on the grids (nside 64 first,
-  then nside 32; 2.3 to 2.75 GPU-h, done about 12:30 UTC) and then RESUMES realization 101
-  from its checkpoint (check the line "resumed ... realization_101_unif_then_rslice" in
-  `logs/agn-prod-l1_1425268.out`; that run then ends about 04:00 UTC 22 Nov); its own
-  successor is 1494378.
-- WATCHER `b5sxsla63`: reports when the twenty summaries exist, or lane 1 has moved on to the
-  realization-101 run, or job 1425268 has left the queue, or at 13:45 UTC. THEN:
-  `JAX_PLATFORMS=cpu $PY tests/skyres_sequence.py` in the analysis-16 directory, block
-  `KnownBoth_production_111_120`: group `111-120` is the INDEPENDENT TEST (the offset was
-  noticed in the first ten): combined H0 of the new ten at nside 32 and 64 with the level of
-  the input, the paired shift over the new ten; `combined` = all twenty. Decide: input inside
-  the new ten at both pixel sizes and no common upward shift -> fluctuation of the first ten:
-  the Validation says so with twenty realizations (macros through an Opus agent, the paragraph
-  by me with the style skill), production pixels stay. Input outside again -> a property of
-  the analysis with the host class unknown: the Validation states it with twenty, the cause is
-  then the next job (Sec. 4, decomposition), and the owner is told with the options.
-- Watcher `bspxn2wfi` (16:15 UTC, or the end of the realization-101 run) will report without
-  context: no action. Lane 2 (job 1454491) is on realization 103 (resumed at iteration 1190).
+## THE OFFSET IS A FLUCTUATION OF THE FIRST TEN (21 Nov 12:35 UTC; read first)
+- RESULT of the ten new realizations (111 to 120; twenty grids finished 12:33 UTC, none
+  failed; `tests/skyres_sequence.py`, block `KnownBoth_production_111_120`; printout in the
+  scratchpad `skyres_sequence_1121c.txt`). Two-catalog analysis, population known, combined
+  H0 with the level of the input 67.74:
+  NEW TEN ALONE (the independent test): nside 32 67.59 (+0.65, -0.63), 30%; nside 64 67.85
+  (+0.77, -0.73), 19%. f_AGN 0.282 +- 0.027 (74%) and 0.277 +- 0.026 (85%).
+  ALL TWENTY: nside 32 67.91 +- 0.45, 47%; f_AGN 0.294 +- 0.019, 40%. nside 64 68.27 (+0.46,
+  -0.48), 93%; f_AGN 0.297 (+0.020, -0.018), 17%.
+  FIRST TEN (as before): 68.20, 80%; 68.54, 98%.
+  Paired shift of the H0 median, nside 64 minus 32: new ten +0.36 (sd 0.87, se 0.27; seven of
+  ten positive: +1.22, +1.50, +1.53, -0.75, -0.27, -0.85, +0.43, +0.64, +0.08, +0.04); all
+  twenty +0.31 (sd 0.67, se 0.15); half-width ratio 0.90; f_AGN +0.007 (sd 0.014).
+  READING (mine): at the pixels used throughout the analysis recovers the input (twenty, 47%;
+  the independent ten, 30%): the +0.5 of the first ten was a fluctuation, and so was the
+  unknown-minus-known difference on the first five. With finer pixels the median of these
+  sets rises by about 0.3 on average (0.39 +- 0.08 on five at 32,000 samples and six
+  injection sets), 15% of one realization's half-width, while sets with half of the mergers
+  in AGN move by -0.25 and all-AGN sets by +0.08: no common sign. The twenty at the finer
+  pixels hold the input at the 93% level, the independent ten at 19%. Production pixels stay.
+  Realization 117: f_AGN 0.163 [0.081, 0.251] for a realized AGN share of 0.285 (outside its
+  90% interval; one of twenty). Realization 112: 0.187 for a realized share of 0.258.
+- DECIDED FOR THE PAPER (mine): the two-catalog result with the population known is quoted
+  over TWENTY realizations everywhere (key `KnownBoth` = stage 1's ten plus the stage-X
+  `_nside32` runs of 111 to 120; `\NrealKnown` = twenty; Sec. IV A, Table III, Figs. 2a, 9a,
+  summary). The Validation's last paragraph is rewritten: no more "we cannot yet say"; the
+  host-class-known comparison goes out of the text (it localized an offset that is not
+  there). An Opus agent (started 12:40 UTC) makes the key change, the macros
+  `\SkyResAll{Nreal,HzeroComb,HzeroCL,fAGNComb,fAGNCL,MeanShiftHzero,SdShiftHzero,
+  MeanShiftfAGN,SdShiftfAGN,NarrowPct,ShiftPctHalfWid}`, `\SkyResHalf{Mean,Sd}ShiftHzero`
+  (half of the mergers in AGN), `\SkyResAGN{Mean,Sd}ShiftHzero`, audit checks, figures, and
+  two leftovers (`\HDNoneHzeroCombUL`; the in-panel number of `fig8_summary`). It does not
+  touch `main.tex`.
+- WHEN IT REPORTS: check its changed-macro table against the numbers above; then edit
+  `main.tex` (style skill loaded): (1) Validation, first paragraph: drop "and at the
+  \SkyResTenHzeroCL\% level with finer sky pixels, a difference that we examine at the end of
+  this section"; (2) Validation, last paragraph, DRAFT: "Finally, we repeat the analysis with
+  pixels half as wide. [two sentences on the Monte Carlo variance, as now.] With the
+  population known and both catalogs, the 90% interval of H0 from one realization narrows by
+  \SkyResAllNarrowPct% and its median moves by \SkyResAllMeanShiftHzero on average over the
+  \NrealKnown realizations, with a standard deviation of \SkyResAllSdShiftHzero between
+  them, against a 90% half-width of \KnownBothHzeroHalfWid from one realization. With
+  \MCNsampHi posterior samples per merger and \SkyResMCNsets sets of simulated signals, on
+  \SkyResNreal of the realizations, the mean shift is \SkyResMCMeanShiftHzero. The median of
+  f_AGN moves by \SkyResAllMeanShiftfAGN on average, with a standard deviation of
+  \SkyResAllSdShiftfAGN. The shift has no common sign: with half of the mergers hosted by AGN
+  the median of H0 moves by \SkyResHalfMeanShiftHzero on average over \NrealClasses
+  realizations, and with all of them hosted by AGN by \SkyResAGNMeanShiftHzero. Combined over
+  the \NrealKnown realizations, the finer pixels give H0 = \SkyResAllHzeroComb with the input
+  at the \SkyResAllHzeroCL% credible level, where the pixels used throughout give
+  \KnownBothHzeroComb with the input at the \KnownBothHzeroCL% level. The pixel size thus
+  moves H0 by \SkyResAllShiftPctHalfWid% of the 90% half-width that \MockNev mergers give.";
+  (3) Table III, HDNone row: an upper limit, not an interval; Sec. IV F's sentence quoting
+  `\HDNoneHzero` (line ~1156): reword as an interval against the prior range, as Sec. IV E
+  does. Then `bash working/refresh_papers.sh` (exit 0), re-read the changed sentences and the
+  abstract's sentence on \NrealKnown, commit, PDF to the owner (named copy), and the push
+  question again.
+- RUNS: lane 1 (job 1425268, successor 1494378) resumed the eight-parameter run of
+  realization 101 at iteration 3288 at 12:34 UTC (ends about 04:00 UTC 22 Nov), then 102.
+  Lane 2 (job 1454491) on realization 103, iteration 1704 at 12:33 UTC. No watcher is armed.
 - PENDING WITH THE OWNER: push the corrected Validation paragraph (local commits 8ed540e,
   f1befea and this one; GitHub has 3e060b3, whose last Validation sentence is too general)?
   Options given: A push now (recommended), B after the twenty-realization result, C hold.
