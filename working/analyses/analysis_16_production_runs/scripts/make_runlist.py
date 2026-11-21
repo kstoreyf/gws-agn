@@ -60,6 +60,10 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   nside 128), times the ratio of the longest catalog rows below the reference's nside (_x_seq_cost; upper bounds).
   And (21 Nov, appended after those) realization_NNN_nside64 at the production settings on the five other realizations of
   stage 1 (106-110, X_SKYRES_LATER; build_checks (f)); the sequence's AGNhosted grids at nside 128 are held (X_SEQ_HOLD).
+  And (21 Nov, appended after those) the experiment's host-class-unknown and host-class-known grids of the sets peak_f0p30_s0
+  and peak_f0p50_s0 at nside 64 (build_checks (g)): two_tracers_one_population .../realization_NNN_nside64 and hosts_known
+  .../realization_NNN_nside64_agn_s32000_inj1, the E1 partner's arguments plus --nside 64; seconds per call measured on the
+  partner (nside 32; an upper bound).
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -635,6 +639,59 @@ X_SEQ_HOLD = {
 }
 
 
+# (g) 21 Nov: the mixture's H0 offset. With both complete catalogs and f_AGN free, the host-class-unknown analysis of the
+# experiment's sets (two_tracers_one_population) sits above the host-class-known analysis of the same mergers (hosts_known) in
+# all five realizations at nside 32; does the difference change at nside 64? The two analyses of E1 on the sets peak_f0p30_s0 and
+# peak_f0p50_s0 at nside 64 on X_SKYRES_REALIZATIONS, appended after (f): the E1 partner's arguments (its events, injection lane,
+# redraw, Monte Carlo settings) plus --nside 64, the variant nside64 before the settings tag (run names realization_NNN_nside64,
+# realization_NNN_nside64_agn_s32000_inj1). Rank 2.85; priority 0 for f = 0.3, 0.5 for f = 0.5 (a lane takes f = 0.3 first).
+# (KnownBoth with f_AGN held at 0.30 is not a run here: the driver cannot hold f_AGN with both catalogs; --free H0 stops at
+# the bind with core labels [H0, fcat_2]. tests/skyres_sequence.py reads the f = 0.30 line of the stored 2-D grids instead.)
+X_MIX_SETS = (("peak", 0.3, 0), ("peak", 0.5, 0))
+X_MIX_ANALYSES = ("hosts_known", "two_tracers_one_population")
+X_MIX_PRIORITY = {0.3: 0.0, 0.5: 0.5}
+
+
+def _x_mix_nside(analysis, fam, f, s, real, smap, nside=X_NSIDE):
+    """(g) one E1 grid of the set (fam, f, s) at another nside: exp_entry's run with --nside and the variant nside<N>
+    before the settings tag; checked against the partner (E1's entry, built here the way build_experiment builds it)."""
+    rec = smap.get((fam, round(f, 4), s)) or {}
+    lane = rec.get("lane") or P.default_injection_lane("corepop")
+    inj_ok = rec.get("injections_exist")
+    lane_ok = None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(real)))
+    prio = X_MIX_PRIORITY[round(f, 4)]
+    partner = exp_entry("E1", "grid", analysis, fam, f, s, real, rec.get("suffix"), prio, lane=lane, lane_ok=lane_ok)
+    e = exp_entry("X", "grid", analysis, fam, f, s, real, rec.get("suffix"), prio, lane=lane, lane_ok=lane_ok)
+    if not e.get("args"):
+        sys.exit(f"[fatal] (g) {partner['name']}: the set has no events file yet")
+    old = arg_of(e, "--variant") or ""
+    variant = f"nside{nside}" + (f"_{old}" if old else "")
+    args = list(e["args"])
+    if "--variant" in args:
+        args[args.index("--variant") + 1] = variant
+        args += ["--nside", str(nside)]
+    else:
+        args += ["--nside", str(nside), "--variant", variant]
+    e["args"] = args
+    e["name"] = P.run_name(analysis, P.EXPERIMENT_CATALOGS[analysis], "complete", "", real, set_label=e["set"]["label"],
+                           variant=variant)
+    if _x_strip_nside(e["args"]) != _x_strip_nside(partner["args"]) or arg_of(e, "--nside") != str(nside):
+        sys.exit(f"[fatal] {e['name']}: arguments differ from {partner['name']}'s by more than --nside {nside}")
+    spc = run_seconds_per_call(partner["name"])
+    if spc:
+        e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"], priority=prio)
+        e["est_seconds_per_call_source"] = f"measured on {partner['name']} (its sessions, nside {P.SURVEY_NSIDE}): an upper bound"
+    else:
+        e["est_seconds_per_call_source"] = "cost model (partner not on record)"
+    tracers = P.CATALOG_SETS["both"]
+    surveys = [P.survey_path(real, t, "complete", nside=nside) for t in tracers]
+    e["data_exists"] = bool(e["data_exists"] and all(p.exists() for p in surveys))
+    e["surveys"] = [str(p) for p in surveys]
+    e["check"] = {"what": "the mixture's H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) "
+                          "on the same mergers, at nside 64", "partner": partner["name"], "differs_by": f"--nside {nside}"}
+    return _x_hold_if_missing(e, surveys, nside)
+
+
 def _x_strip_nside(args):
     """args without the --nside and --variant pairs (what may differ between a sequence run and its nside-32 partner)."""
     out, i = [], 0
@@ -781,7 +838,13 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         (106-110, the other five of stage 1, one injection set each): run names realization_NNN_nside64, the arguments of the
         stage-1 KnownBoth run without --membership plus --nside 64 --variant nside64 (as realization 100's (a)). Does the
         nside-64 shift of the first five repeat on five more? Tabulated by tests/skyres_sequence.py (block KnownBoth at 8000
-        samples); the paper's skyres.py reads only skyres_realizations."""
+        samples); the paper's skyres.py reads only skyres_realizations.
+    (g) 21 Nov, appended after (f): the experiment's host-class-known (hosts_known, D1) and host-class-unknown
+        (two_tracers_one_population, D2) grids of the sets X_MIX_SETS (peak_f0p30_s0, peak_f0p50_s0) at nside 64 on
+        skyres_realizations: E1's arguments plus --nside 64, run names realization_NNN_nside64_agn_s32000_inj1 and
+        realization_NNN_nside64 (_x_mix_nside); per set, per realization, hosts_known then two_tracers_one_population. Seconds
+        per call: the E1 partner's measured value (nside 32, an upper bound). Priority X_MIX_PRIORITY (f = 0.3 first). Held while
+        a survey file is missing. Tabulated by tests/skyres_sequence.py (blocks HostsKnown_mix, HostsUnknown_mix)."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -826,6 +889,12 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         if _x_strip_nside(e["args"]) != p1_args or arg_of(e, "--nside") != str(X_NSIDE) or p1["name"] != partner:
             sys.exit(f"[fatal] {e['name']}: arguments differ from {partner}'s by more than --nside {X_NSIDE}")
         out.append(e)
+    # (g) the mixture's offset: E1's host-class-known and -unknown grids at nside 64, appended after (f)
+    smap, _ = experiment_set_map()
+    for fam, f, s in X_MIX_SETS:
+        for r in skyres_realizations:
+            for analysis in X_MIX_ANALYSES:
+                out.append(_x_mix_nside(analysis, fam, f, s, r, smap))
     return out
 
 

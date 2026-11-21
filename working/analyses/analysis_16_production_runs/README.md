@@ -360,6 +360,16 @@ with passing checks. These seeds' `catalogs/` had been pruned (`campaign_100seed
 bit); with it off they are equal bit for bit. The regeneration's record is `catalogs/regen_META.json`; the seeds' `META.json` is
 untouched. Held (`X_SEQ_HOLD`): (A)'s AGNhosted grids at nside 128 (`agn_catalog/.../realization_NNN_nside128_s32000_inj6`), whose
 Monte Carlo sum is -inf at every H0.
+*21 Nov, the mixture's offset (`make_runlist.build_checks` (g)):* with both complete catalogs, the host-class-unknown analysis
+(`two_tracers_one_population`, f_AGN free) of the experiment's sets sits above the host-class-known one (`hosts_known`) on the same
+mergers at nside 32. Both analyses of E1 on the sets `peak_f0p30_s0` and `peak_f0p50_s0` at nside 64 on realizations 100, 101, 102,
+103, 105 (20 runs, appended after (f)): `hosts_known/.../realization_NNN_nside64_agn_s32000_inj1` (D1) and
+`two_tracers_one_population/.../realization_NNN_nside64` (D2), E1's arguments plus `--nside 64` (checked by the generator), rank 2.85,
+priority 0 (f = 0.3) and 0.5 (f = 0.5); 2.0 GPU-h estimated (the E1 partner's measured seconds per call, an upper bound). KnownBoth
+with f_AGN held at 0.30 (D3) is not a run: the driver cannot hold f_AGN with both catalogs (`--free H0` stops at the bind, core labels
+[H0, fcat_2]; prod_model passes no `fcat_2` to core's `fixed_survey`); `tests/skyres_sequence.py` reads the f = 0.30 line of the stored
+2-D grids instead (block `KnownBoth_fheld`). Tables: `tests/skyres_sequence.py` (blocks `HostsKnown_mix`, `HostsUnknown_mix`, the paired
+comparisons in `comparisons`). Per-merger decomposition of the mixture on CPU: `tests/mixture_decomposition.py`.
 
 ## Tests
 

@@ -2691,6 +2691,18 @@ A macro prints black when every run summary it needs exists, red with the expect
 - **`\\NrealClasses`** (a word): the realizations of every experiment set above (each set has the same ones).
 - **`\\MockLognGalh`, `\\MockLognAGNh`**: the input number densities as log10 in h^3 Mpc^-3, the units in which the production
   analyses sample them (`\\MockLognGal` - 3 log10 h), beside the Mpc^-3 macros, for Table I.
+- **`\\Cls<Unknown|Known><f>HzeroComb`**, **`\\Cls<Unknown|Known><f>HzeroCL`** (21 Nov; f = `Thirty`, `Fifty`): H0 itself on the
+  runs of `\\HWUnknown<f>` and `\\HWKnown<f>` (the same mergers analysed with the host class unknown and known; the experiment's
+  realizations, nside 32): the posterior combined over the realizations by `run_posteriors.combined` (the corrected ln L of the
+  grids summed, as every `<Key>...Comb` of grid runs), printed as the key scheme prints a combination (median and 90% equal-tailed
+  interval, PDG decimals of the smaller side), and the two-sided credible level of the input H0 (the summaries' truth) in percent.
+  **`\\ClsDiff<f>HzeroMean`**, **`\\ClsDiff<f>HzeroSd`**: the mean and standard deviation (ddof 1) over the realizations of (the H0
+  median of the host-class-unknown run minus that of the host-class-known run of the same realization, `summary.json`), signed, two
+  decimals; **`\\ClsDiff<f>Npos`** (a word): the number of realizations in which that difference is positive. Map records:
+  `how` `comb` (with `runs_of`, the half-width macro whose runs they are) and `derived` with `fn` `paired_<mean|sd|npos>` from the two
+  combined macros. Red values: the combination = the input with a 90% half-width of the `\\HW...` macro over the square root of the
+  number of realizations, level 0; the difference invented, mean 0 and standard deviation 0.3 km/s/Mpc, positive in half the
+  realizations.
 """
 
 
@@ -2889,7 +2901,7 @@ def build_requests():
             {"file": rel(A14R / "plan_b.json"), "key": "seconds_per_call (the sample counts of the redraws)"}, "appendixA")
     # the sky resolution (SkyResShiftHzero, SkyResShiftfAGN): the nside-64 run of realization A against KnownBoth's (scripts/skyres.py)
     import skyres as SK
-    SK.build(add, add_ph)
+    SK.build(add, add_ph, REG)      # REG: the registry so far (21 Nov: SkyResOffsetHzeroProd reads KnownBothHzeroComb from it)
 
 
 # ============================================================================================= #

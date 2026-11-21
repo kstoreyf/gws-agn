@@ -22,6 +22,11 @@
   "  <pair>.realizations: every realization whose pair is in the run list (of realizations_wanted, the realizations with six injection",
   "  sets; stages per realization), for the means and scatters over them (SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal; real when every",
   "  wanted realization has both summaries); mc_pair.n_injection_sets_by_run: 1 + the --pool-injections of each run (SkyResMCNsets).",
+  "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth; macros SkyResTen..., SkyResOffsetHzero...)",
+  "  and agn_pair (key AGNhosted's runs against stage X's ..._nside64_s32000_inj6; macros SkyResAGN...): run, partner, partner_key,",
+  "  realizations (whose nside-64 run is in stage X), realizations_wanted (those of the partner's production runs), stages.",
+  "classes (21 Nov): Cls...Comb/CL records have how 'comb' (the runs of the HW... macro named in runs_of); ClsDiff... records are derived",
+  "  (fn paired_mean | paired_sd | paired_npos) from the two Cls...HzeroComb records of the same f.",
   "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
   "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
@@ -3597,6 +3602,174 @@
     ],
     "key": "KnownAGN",
     "how": "interior"
+   },
+   "ClsUnknownThirtyHzeroComb": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "Comb",
+    "runs_of": "HWUnknownThirty"
+   },
+   "ClsUnknownThirtyHzeroCL": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "CL",
+    "runs_of": "HWUnknownThirty"
+   },
+   "ClsKnownThirtyHzeroComb": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "Comb",
+    "runs_of": "HWKnownThirty"
+   },
+   "ClsKnownThirtyHzeroCL": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "CL",
+    "runs_of": "HWKnownThirty"
+   },
+   "ClsDiffThirtyHzeroMean": {
+    "how": "derived",
+    "fn": "paired_mean",
+    "from": [
+     "ClsUnknownThirtyHzeroComb",
+     "ClsKnownThirtyHzeroComb"
+    ]
+   },
+   "ClsDiffThirtyHzeroSd": {
+    "how": "derived",
+    "fn": "paired_sd",
+    "from": [
+     "ClsUnknownThirtyHzeroComb",
+     "ClsKnownThirtyHzeroComb"
+    ]
+   },
+   "ClsDiffThirtyNpos": {
+    "how": "derived",
+    "fn": "paired_npos",
+    "from": [
+     "ClsUnknownThirtyHzeroComb",
+     "ClsKnownThirtyHzeroComb"
+    ]
+   },
+   "ClsUnknownFiftyHzeroComb": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "Comb",
+    "runs_of": "HWUnknownFifty"
+   },
+   "ClsUnknownFiftyHzeroCL": {
+    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "CL",
+    "runs_of": "HWUnknownFifty"
+   },
+   "ClsKnownFiftyHzeroComb": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "Comb",
+    "runs_of": "HWKnownFifty"
+   },
+   "ClsKnownFiftyHzeroCL": {
+    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_{R}_agn_s32000_inj1",
+    "runlist": "RUNLIST_experiment.yaml",
+    "stage": "E1",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "how": "comb",
+    "part": "CL",
+    "runs_of": "HWKnownFifty"
+   },
+   "ClsDiffFiftyHzeroMean": {
+    "how": "derived",
+    "fn": "paired_mean",
+    "from": [
+     "ClsUnknownFiftyHzeroComb",
+     "ClsKnownFiftyHzeroComb"
+    ]
+   },
+   "ClsDiffFiftyHzeroSd": {
+    "how": "derived",
+    "fn": "paired_sd",
+    "from": [
+     "ClsUnknownFiftyHzeroComb",
+     "ClsKnownFiftyHzeroComb"
+    ]
+   },
+   "ClsDiffFiftyNpos": {
+    "how": "derived",
+    "fn": "paired_npos",
+    "from": [
+     "ClsUnknownFiftyHzeroComb",
+     "ClsKnownFiftyHzeroComb"
+    ]
    }
   },
   "not_in_run_lists": {}
@@ -3800,6 +3973,124 @@
     "known_population/both_catalogs/complete/equal_populations/realization_103_s32000_inj6": 6,
     "known_population/both_catalogs/complete/equal_populations/realization_105_nside64_s32000_inj6": 6,
     "known_population/both_catalogs/complete/equal_populations/realization_105_s32000_inj6": 6
+   }
+  },
+  "pair_all": {
+   "run": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside64",
+   "partner": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
+   "partner_key": "KnownBoth",
+   "nside": 64,
+   "runlist": "RUNLIST.yaml",
+   "macro_prefix": "SkyResTen",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+   ],
+   "realizations_wanted": [
+    100,
+    101,
+    102,
+    103,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+   ],
+   "stages": {
+    "100": [
+     "X",
+     "1"
+    ],
+    "101": [
+     "X",
+     "1"
+    ],
+    "102": [
+     "X",
+     "1"
+    ],
+    "103": [
+     "X",
+     "1"
+    ],
+    "105": [
+     "X",
+     "1"
+    ],
+    "106": [
+     "X",
+     "1"
+    ],
+    "107": [
+     "X",
+     "1"
+    ],
+    "108": [
+     "X",
+     "1"
+    ],
+    "109": [
+     "X",
+     "1"
+    ],
+    "110": [
+     "X",
+     "1"
+    ]
+   }
+  },
+  "agn_pair": {
+   "run": "known_population/agn_catalog/complete/agn_hosted/realization_{R}_nside64_s32000_inj6",
+   "partner": "known_population/agn_catalog/complete/agn_hosted/realization_{R}_s32000_inj6",
+   "partner_key": "AGNhosted",
+   "nside": 64,
+   "runlist": "RUNLIST.yaml",
+   "macro_prefix": "SkyResAGN",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realizations_wanted": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "stages": {
+    "100": [
+     "X",
+     "1"
+    ],
+    "101": [
+     "X",
+     "1"
+    ],
+    "102": [
+     "X",
+     "1"
+    ],
+    "103": [
+     "X",
+     "1"
+    ],
+    "105": [
+     "X",
+     "1"
+    ]
    }
   }
  }

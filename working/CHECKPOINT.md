@@ -1,4 +1,4 @@
-# Checkpoint, 21 Nov 2026, 00:30 UTC (read this first after a context clear)
+# Checkpoint, 21 Nov 2026, 07:15 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -17,11 +17,17 @@ this file holds the working state.
    size": read it before anything else is decided about H0 numbers.
 4. WATCHERS survive a context clear and report as background-task notifications that carry no
    context. Two are armed:
-   - task `bivtptl9p` (21 Nov, 00:42 UTC), "Wait until the five test runs have finished or
-     failed, or until 04:00 UTC": the five runs `realization_10[6-9]_nside64`,
-     `realization_110_nside64` were queued on lane 2 at 00:41 UTC and run after the task that
-     ends about 02:20 UTC; then do Sec. 5 item 1 from "When the five are in".
-     (`b05sjpfuu` is the deadline watcher of the same test; needs no action.)
+   - task `bxzjrwxqb` (21 Nov 07:16 UTC), "Wait until the twenty diagnostic grids have finished
+     or failed, or until 10:30 UTC": D1 and D2 (host class known and unknown at nside 64 on
+     `peak_f0p30_s0` and `peak_f0p50_s0`, five realizations) were queued on lane 2 at 07:13 UTC;
+     lane 2's job 1416415 was cancelled by me at 07:13 so that its successor 1454491 runs them
+     first and then RESUMES the eight-parameter run of realization 103 from its checkpoint
+     (check in `logs/agn-prod-l2_1454491.out` that it did). Then: `tests/skyres_sequence.py`
+     (new blocks by the diagnosis agent) and the agent's `tests/mixture_decomposition.py`.
+     D3 (f_AGN held) cannot be run: `prod_model.build` does not fix `fcat_2`; the agent reads
+     the f = 0.30 line of the stored two-dimensional grids instead.
+     (`b1oyi3kaz` is a timer for 08:30 UTC; no action. Two Opus agents are at work: the
+     diagnosis agent, Parts 2 and 3, and the macros agent for the Validation paragraph.)
      The agent's catalogs for seeds 106 to 110 (`data/seedNNN/catalogs`, 5.4 G each, regenerated
      to build the nside-64 survey files; the 100-seed campaign had pruned them) can be deleted
      again when no further pixel size is needed for those seeds.
@@ -230,6 +236,45 @@ this file holds the working state.
 - Number densities inferred (m < 18): rate ratio 41 (+18, -14) for an input of 42.8, f_AGN
   follows its prior, H0 68.1 (+2.3, -2.2), an upper limit on the galaxy density and none on the
   AGN density.
+- THE H0 OFFSET OF THE TWO-CATALOG ANALYSIS (21 Nov 07:00 UTC; THE OPEN PROBLEM). The pixel test
+  on realizations 106 to 110 confirmed it. KnownBoth over ten realizations at the production
+  settings: nside 32 68.20 (+0.58, -0.59), input at the 80% level; nside 64 68.54 (+0.53,
+  -0.57), input at the 98% level; paired shift +0.26 +- 0.14 over ten (+0.26 +- 0.20 and +0.26
+  +- 0.21 in the two groups of five); f_AGN 0.306 -> 0.319 (+-0.026; shift +0.015 +- 0.004 at
+  8000 samples, +0.005 +- 0.007 at 32,000). LOCALIZED from existing nside-32 grids of the
+  experiment (five realizations, same mergers analysed twice): host class unknown 68.46 (+0.81,
+  -0.89) against host class known 67.83 +- 0.61 at f = 0.3, unknown minus known positive in all
+  five (+0.49, +0.52, +0.61, +0.09, +1.07; mean +0.56); at f = 0.5 67.90 against 67.63 (+0.45
+  +- 0.27); at f = 0.1 no difference (noisy); f = 0: 67.83 (+1.7, -1.4); f = 1 with both
+  catalogs 67.68 +- 0.36. So the offset is in the mixture (host class unknown), absent when the
+  class is known, and grows with finer pixels; cause unknown. Not Monte Carlo (8000 -> 32,000
+  samples and one -> six injection sets change nothing).
+  OWNER, 21 Nov 07:00 UTC: "Diagnose, runs continue": interrupt ONE long run for about 4 GPU-h
+  of diagnostic grids, keep the production pixels until the cause is known (the switch to finer
+  pixels is OFF: I withdrew that recommendation); and "Push now, numbers as measured": write the
+  Validation paragraph stating the offset plainly, refresh, push today.
+  IN PROGRESS: an Opus agent prepares stage-X diagnostics (D1 host class known at nside 64 for
+  f = 0.3 and 0.5; D2 host class unknown at nside 64 on the same sets; D3 KnownBoth with f_AGN
+  held at its input, one-dimensional H0 grid, ten realizations, nside 32 and 64), new blocks of
+  `tests/skyres_sequence.py`, and a per-merger decomposition on CPU
+  (`tests/mixture_decomposition.py`: catalog terms A_i, G_i against H0 by true host class,
+  realization 103 then 100). It sends "ready to queue"; I check its proof, queue on lane 2, and
+  `scancel` lane 2's RUNNING job only (the successor takes the stage-X tasks first, then resumes
+  the eight-parameter run of realization 103 from its checkpoint). Then a second Opus agent
+  adds the macros of the Validation paragraph (draft and macro names in the session's notes
+  below), I edit `main.tex`, refresh, commit, push, PDF to the owner.
+  DRAFT of the Validation paragraph (replaces "Finally, we repeat the analysis with pixels half
+  as wide ..."): the variance sentence as now; the high-accuracy comparison on five (rises in
+  each, min to max, mean; interval narrower by 12%; f_AGN unmoved); combined over ten at the
+  finer pixels with the level of the input beside `\KnownBothHzeroComb` and its level; "The
+  offset is absent when the host class of each merger is given": host class known against
+  unknown on the same mergers (five realizations), AGN-hosted alone at both pixel sizes; last
+  sentence: the analysis with the host class unknown places H0 high by 0.5 (production pixels)
+  to 0.8 (finer), less than half of one realization's half-width, origin not identified.
+  New macros wanted: `\SkyResMCMinShiftHzero`, `\SkyResMCMaxShiftHzero`, `\SkyResMCNarrowPct`,
+  `\SkyResTenNreal`, `\SkyResTenHzeroComb`, `\SkyResTenHzeroCL`, `\SkyResOffsetHzeroProd`,
+  `\SkyResOffsetHzeroFine`, `\ClsKnownThirtyHzeroComb`, `\ClsUnknownThirtyHzeroComb`,
+  `\SkyResAGNHzeroCombSixtyFour`.
 - PIXEL SIZE, THE SEQUENCE (21 Nov, `tests/results/skyres_sequence.json`; paired H0 shift to
   nside 32, mean +- standard error over five; combined H0 with the level of the input):
   AGN-hosted, AGN catalog alone: nside 16 -0.21 +- 0.14 (67.47 +- 0.40, 73%), nside 32 (67.69

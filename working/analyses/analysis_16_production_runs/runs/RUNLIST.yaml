@@ -1,4 +1,4 @@
-generated_utc: '2026-11-21T00:36:42Z'
+generated_utc: '2026-11-21T07:05:22Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -5836,12 +5836,12 @@ stages:
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
     that value and at twice it; and the two-tracer grid at nside 32 and at nside 64 with Analysis 14''s Monte Carlo settings (32000 samples per
     merger, six pooled injection sets)'
-  n_runs: 77
-  n_tasks: 77
-  est_calls: 42644
-  est_gpu_hours: 21.92
-  est_gpu_hours_existing_data: 21.92
-  est_gpu_hours_ready: 21.76
+  n_runs: 97
+  n_tasks: 97
+  est_calls: 55434
+  est_gpu_hours: 23.93
+  est_gpu_hours_existing_data: 23.93
+  est_gpu_hours_ready: 23.77
   n_runs_held: 5
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
@@ -10139,4 +10139,1294 @@ stages:
     check:
       what: sky resolution of the catalog term
       partner: known_population/both_catalogs/complete/equal_populations/realization_110
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_100_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4344
+    est_gpu_hours: 0.039
+    est_gpu_hours_per_part: 0.039
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_100_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_100_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_100_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.44
+    est_gpu_hours: 0.163
+    est_gpu_hours_per_part: 0.163
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_100 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_100
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_101_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4243
+    est_gpu_hours: 0.038
+    est_gpu_hours_per_part: 0.038
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_101_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_101_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_101_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4455
+    est_gpu_hours: 0.165
+    est_gpu_hours_per_part: 0.165
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_101 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_101
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_102_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4343
+    est_gpu_hours: 0.039
+    est_gpu_hours_per_part: 0.039
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_102_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_102_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_102_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4432
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_102 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_102
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_103_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4367
+    est_gpu_hours: 0.039
+    est_gpu_hours_per_part: 0.039
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_103_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_103_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_103_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4501
+    est_gpu_hours: 0.166
+    est_gpu_hours_per_part: 0.166
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_103 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_103
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_105_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4235
+    est_gpu_hours: 0.038
+    est_gpu_hours_per_part: 0.038
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_105_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_105_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_105_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 0
+      label: peak_f0p30_s0
+      suffix: _corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - equal_populations
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s0
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4297
+    est_gpu_hours: 0.159
+    est_gpu_hours_per_part: 0.159
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_105 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_105
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_100_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4078
+    est_gpu_hours: 0.038
+    est_gpu_hours_per_part: 0.038
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_100_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_100_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_100_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4376
+    est_gpu_hours: 0.162
+    est_gpu_hours_per_part: 0.162
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_100 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_100
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_101_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3982
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_101_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_101_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_101_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '101'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4454
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_101 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_101
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_102_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4107
+    est_gpu_hours: 0.038
+    est_gpu_hours_per_part: 0.038
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_102_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_102_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_102_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '102'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4415
+    est_gpu_hours: 0.163
+    est_gpu_hours_per_part: 0.163
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_102 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_102
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_103_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.4042
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_103_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_103_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_103_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '103'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.449
+    est_gpu_hours: 0.166
+    est_gpu_hours_per_part: 0.166
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_103 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_103
+      differs_by: --nside 64
+  - name: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_105_nside64_agn_s32000_inj1
+    analysis: hosts_known
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - hosts_known
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --agn-subset-nsamp
+    - '32000'
+    - --variant
+    - nside64_agn_s32000_inj1
+    - --nside
+    - '64'
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    n_parameters: 1
+    parts:
+    - grid
+    est_calls: 132
+    est_seconds_per_call: 0.3931
+    est_gpu_hours: 0.037
+    est_gpu_hours_per_part: 0.037
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_105_agn_s32000_inj1 (its sessions,
+      nside 32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_105_agn_s32000_inj1
+      differs_by: --nside 64
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_105_nside64
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.5
+      s: 0
+      label: peak_f0p50_s0
+      suffix: _fagn0p50_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - set
+    - --events-suffix
+    - _fagn0p50_corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p50_s0
+    - --realization
+    - '105'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nside
+    - '64'
+    - --variant
+    - nside64
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4283
+    est_gpu_hours: 0.159
+    est_gpu_hours_per_part: 0.159
+    priority: 0.5
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_fagn0p50_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 'measured on two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_105 (its sessions, nside
+      32): an upper bound'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_gal_complete_ns64.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/surveys_ns64/survey_agn_complete_ns64.h5
+    check:
+      what: 'the mixture''s H0 offset: host class unknown (two_tracers_one_population) against known (hosts_known) on the same mergers, at nside
+        64'
+      partner: two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_105
       differs_by: --nside 64

@@ -259,6 +259,11 @@ SCHEMA = [
     "  <pair>.realizations: every realization whose pair is in the run list (of realizations_wanted, the realizations with six injection",
     "  sets; stages per realization), for the means and scatters over them (SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal; real when every",
     "  wanted realization has both summaries); mc_pair.n_injection_sets_by_run: 1 + the --pool-injections of each run (SkyResMCNsets).",
+    "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth; macros SkyResTen..., SkyResOffsetHzero...)",
+    "  and agn_pair (key AGNhosted's runs against stage X's ..._nside64_s32000_inj6; macros SkyResAGN...): run, partner, partner_key,",
+    "  realizations (whose nside-64 run is in stage X), realizations_wanted (those of the partner's production runs), stages.",
+    "classes (21 Nov): Cls...Comb/CL records have how 'comb' (the runs of the HW... macro named in runs_of); ClsDiff... records are derived",
+    "  (fn paired_mean | paired_sd | paired_npos) from the two Cls...HzeroComb records of the same f.",
     "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
     "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
@@ -881,6 +886,12 @@ def skyres_status_lines():
         out.append(f"    mean and scatter over the realizations (SkyRes{skyres.PAIRS[which]}Mean..., SkyRes{skyres.PAIRS[which]}Sd...): "
                    + ("real" if ok else f"waiting: {n_ok} of {len(skyres.REALIZATIONS)} pairs real"
                                                              + "".join(f"; {m}" for m in miss_all if not m.endswith("summary.json") and "(no posterior" not in m)))
+    # 21 Nov: the sets of pairs combined over their realizations (SkyResMC<Min|Max|Narrow|Hzero...>, SkyResTen..., SkyResAGN...)
+    for which in skyres.SETS:
+        E = skyres.evaluate_set(which)
+        out.append(f"  sky resolution combined over the realizations, set {which} (SkyRes{skyres.SETS[which][0]}...): "
+                   + (f"real ({len(E['realizations'])} realizations)" if E["real"] else
+                      f"waiting: {'; '.join(E['missing'][:3])}{' ...' if len(E['missing']) > 3 else ''}"))
     import density
     E = density.phys_evaluate()
     out.append("  densities given in Mpc^-3 (stage X; 'density_response.units_physical'): " + ("real" if E["real"] else f"waiting: {'; '.join(E['missing'])}"))
