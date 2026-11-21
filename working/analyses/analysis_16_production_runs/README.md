@@ -346,6 +346,20 @@ upper bound; CPU dry runs give 2.7 times the nside-32 time at nside 16, against 
 16 is checked against its four nside-32 children per pixel). Table: `tests/skyres_sequence.py` → `tests/results/skyres_sequence.json`
 (per realization and nside: medians, 90% intervals, paired shifts against nside 32, the combination over the realizations by
 `paper_prd/scripts/run_posteriors.combined`, the variances at the peak). The paper does not read these runs.
+*21 Nov (`make_runlist.build_checks` (f)):* is KnownBoth's nside-64 shift on the first five realizations a fluctuation or an
+offset? `known_population/both_catalogs/complete/equal_populations/realization_NNN_nside64` on the five other realizations of stage
+1, 106-110 (`X_SKYRES_LATER`; one injection set each, so the production settings: 8000 samples, the realization's own set), the
+arguments of the stage-1 KnownBoth run plus `--nside 64 --variant nside64` (as realization 100's), appended after (e), rank 2.85,
+0.14-0.15 GPU-h each. Table: `tests/skyres_sequence.py`, block `KnownBoth_production` (ten realizations at nside 32 and 64; paired
+shifts and combined posteriors over all present and per group 100-105, 106-110). The paper does not read them (`skyres.REALIZATIONS`;
+audit S4 selects the realizations by their nside-64 grid at 32000 samples and six sets). Survey files `data/seed{106..110}/surveys_ns64/`
+with passing checks. These seeds' `catalogs/` had been pruned (`campaign_100seeds/gen_one_seed.sh`) and were regenerated
+(`generate_dataset.py --stage catalogs`, same seed, darksirens pin) with the glass venv's numpy (2.4) AVX-512 dispatch off
+(`NPY_DISABLE_CPU_FEATURES="X86_V4 AVX512_ICL AVX512_SPR"`): the RM nodes that generated them have AVX2 only, and with AVX-512 on
+0.3% of the AGN `z_obs` differ from the record by one ulp (the checks compare every pixel's redshifts with the nside-32 file bit for
+bit); with it off they are equal bit for bit. The regeneration's record is `catalogs/regen_META.json`; the seeds' `META.json` is
+untouched. Held (`X_SEQ_HOLD`): (A)'s AGNhosted grids at nside 128 (`agn_catalog/.../realization_NNN_nside128_s32000_inj6`), whose
+Monte Carlo sum is -inf at every H0.
 
 ## Tests
 

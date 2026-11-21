@@ -58,6 +58,8 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   one-catalog grids of the keys AGNhosted, Galhosted, KnownGal at nside 16, 64, 128, and KnownBoth at Analysis 14's settings at
   nside 128 and 16 (build_checks (e)); seconds per call measured on the partner at nside 32 (or the nside-64 run of (c) for
   nside 128), times the ratio of the longest catalog rows below the reference's nside (_x_seq_cost; upper bounds).
+  And (21 Nov, appended after those) realization_NNN_nside64 at the production settings on the five other realizations of
+  stage 1 (106-110, X_SKYRES_LATER; build_checks (f)); the sequence's AGNhosted grids at nside 128 are held (X_SEQ_HOLD).
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -540,6 +542,9 @@ X_REALIZATION = 100
 # 19 Nov: the sky-resolution checks (a) and (c) also on the other realizations with six injection sets (the units check (b)
 # stays on realization 100 alone); realization 100's five entries come first and keep their order, the others are appended
 X_SKYRES_REALIZATIONS = (100, 101, 102, 103, 105)
+# 21 Nov: (a) alone (the production Monte Carlo settings: 8000 samples, the realization's own injection set) on the five other
+# realizations of stage 1, which have one injection set each; appended after (e), the paper does not read them
+X_SKYRES_LATER = (106, 107, 108, 109, 110)
 X_NSIDE = 64
 X_UNITS_LIMIT = "18"
 # (c) the cost of the sky-resolution pair at Analysis 14's Monte Carlo settings: the measured seconds per call of the experiment's
@@ -622,6 +627,12 @@ X_SEQ_ONE_CATALOG = (   # (paper key, catalogs, events kind, mergers all AGN-hos
 X_SEQ_ONE_NSIDES = (16, 64, 128)
 X_SEQ_BOTH_NSIDES = (128, 16)
 X_SEQ_PRIORITY = {"A": 0.0, ("B", 128): 1.0, ("B", 16): 2.0}
+# 21 Nov: sequence runs held after they failed (key, nside): launch.py does not queue them and the lane worker skips them
+X_SEQ_HOLD = {
+    ("AGNhosted", 128): ("held 21 Nov: the Monte Carlo sum is -inf at every H0 at nside 128 with 32000 samples per merger "
+                         "(ln L = -inf at every H0, 'diag vs bound ... -inf vs -inf', 'outside mass nan'; two attempts, jobs "
+                         "1415023 and 1416415, failed after about one minute each)"),
+}
 
 
 def _x_strip_nside(args):
@@ -704,7 +715,10 @@ def _x_seq_one(real, key, catalogs, kind, agn_only, nside):
     surveys = _x_seq_data(e, real, tracers, nside)
     e["check"] = {"what": "sky resolution of the catalog term, one catalog (the sequence nside 16, 32, 64, 128)", "key": key,
                   "partner": partner["name"], "differs_by": f"--nside {nside}"}
-    return _x_hold_if_missing(e, surveys, nside)
+    e = _x_hold_if_missing(e, surveys, nside)
+    if (key, nside) in X_SEQ_HOLD and not e.get("hold"):
+        e["hold"] = X_SEQ_HOLD[(key, nside)]
+    return e
 
 
 def _x_seq_both(real, nside):
@@ -727,7 +741,7 @@ def _x_seq_both(real, nside):
     return _x_hold_if_missing(e, surveys, nside)
 
 
-def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
+def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, later_realizations=X_SKYRES_LATER):
     """Stage X.
     (a) Sky resolution: stage 1's known_population grid with both catalogs (realization 100, the redraw of index 0, 8000
         samples) with the survey files at nside 64 (data/seedNNN/surveys_ns64/, scripts/make_survey_nside.py): --nside 64,
@@ -761,7 +775,13 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
         nside-64 run with the other nside). Every other argument is the partner's (checked here). Priority 0 (A), 1 (B, nside
         128), 2 (B, nside 16) orders them on the lane within rank 2.85; seconds per call: _x_seq_cost; held while a survey file
         or injection set is missing. Survey files: scripts/make_survey_nside.py --seed R --nside 16|128. Tabulated by
-        tests/skyres_sequence.py; the paper does not read them."""
+        tests/skyres_sequence.py; the paper does not read them. 21 Nov: A's AGNhosted grids at nside 128 are held
+        (X_SEQ_HOLD: ln L = -inf at every H0).
+    (f) 21 Nov, appended after (e): (a) alone, at the production Monte Carlo settings, on the realizations of later_realizations
+        (106-110, the other five of stage 1, one injection set each): run names realization_NNN_nside64, the arguments of the
+        stage-1 KnownBoth run without --membership plus --nside 64 --variant nside64 (as realization 100's (a)). Does the
+        nside-64 shift of the first five repeat on five more? Tabulated by tests/skyres_sequence.py (block KnownBoth at 8000
+        samples); the paper's skyres.py reads only skyres_realizations."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -796,6 +816,16 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS):
     for r in skyres_realizations:
         for nside in X_SEQ_BOTH_NSIDES:
             out.append(_x_seq_both(r, nside))
+    # (f) (a) on the later realizations, appended after (e)
+    for r in later_realizations:
+        e = _x_skyres(r)
+        partner = P.run_name("known_population", "both", "complete", "equal_populations", r)
+        p1 = entry(1, "grid", "known_population", "both", "complete", "equal_populations", r,       # as build() makes stage 1's
+                   extra_args=["--membership"] if r == MEMBERSHIP_REALIZATION else ())
+        p1_args = [x for x in p1["args"] if x != "--membership"]
+        if _x_strip_nside(e["args"]) != p1_args or arg_of(e, "--nside") != str(X_NSIDE) or p1["name"] != partner:
+            sys.exit(f"[fatal] {e['name']}: arguments differ from {partner}'s by more than --nside {X_NSIDE}")
+        out.append(e)
     return out
 
 

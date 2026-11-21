@@ -1,4 +1,4 @@
-# Checkpoint, 20 Nov 2026, 05:35 UTC (read this first after a context clear)
+# Checkpoint, 21 Nov 2026, 00:30 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -17,8 +17,18 @@ this file holds the working state.
    size": read it before anything else is decided about H0 numbers.
 4. WATCHERS survive a context clear and report as background-task notifications that carry no
    context. Two are armed:
-   - task `bq68ysl4k` (20 Nov, 05:20 UTC), "Wait until the fifty pixel-size sequence runs have
-     summaries" (about 10:30 UTC 20 Nov): then do Sec. 5 item 1.
+   - task `bivtptl9p` (21 Nov, 00:42 UTC), "Wait until the five test runs have finished or
+     failed, or until 04:00 UTC": the five runs `realization_10[6-9]_nside64`,
+     `realization_110_nside64` were queued on lane 2 at 00:41 UTC and run after the task that
+     ends about 02:20 UTC; then do Sec. 5 item 1 from "When the five are in".
+     (`b05sjpfuu` is the deadline watcher of the same test; needs no action.)
+     The agent's catalogs for seeds 106 to 110 (`data/seedNNN/catalogs`, 5.4 G each, regenerated
+     to build the nside-64 survey files; the 100-seed campaign had pruned them) can be deleted
+     again when no further pixel size is needed for those seeds.
+     LESSON of 20 Nov: a watcher that waits for "all N summaries" never fires when one run
+     fails; the decision point of 16:00 UTC passed unseen for that reason. Watchers must also
+     end when the lane has moved past the tasks (count finished OR failed OR errored attempts)
+     and must carry a time limit a little after the expected end.
    (`bue7u6pya`, both eight-parameter runs of realization 100, reported 20 Nov 07:12 UTC: the
    comparison is done, see Sec. 4; what is left of Sec. 5 item 2 is the agent's part.)
    (`bk2x1ic8d` and `bvv0w6obd`, the sky-resolution pairs of the five realizations, reported
@@ -64,7 +74,8 @@ this file holds the working state.
 - Commit locally on `main`. `origin` is K. Storey-Fisher's GitHub repository (she is second
   author); the owner approved one push on 18 Nov (up to ba8f91f); ask before each later push.
   Attribution lines: `Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>` and
-  `Claude-Session: https://claude.ai/code/session_01L6W2Gr2RxPuB4nQyh4gjGp`.
+  `Claude-Session: https://claude.ai/code/session_01L6W2GrLCXpR9r5AzCuhHp8` (changed 21 Nov;
+  use the one in the latest system reminder).
 - Private: never put the owner's name, the project name or local paths into outside requests
   (the owner did ask for the lookup of their own arXiv paper on 18 Nov).
 - Agents: no idle waiting; code watchers; fresh agents with short briefs; proportionate numbers.
@@ -91,9 +102,10 @@ this file holds the working state.
   population (IV D, stage 3), host-dependent populations (IV E, stage 4), observed-like (IV F,
   stage 5), the abstract's headline, Table III rows of those, Figs. 6 to 10 where they use them.
 - Front matter: authors I. Magana Hernandez (CMU) and K. Storey-Fisher (KIPAC, Stanford);
-  acknowledgments modeled on the owner's arXiv:2610.37617. The owner has been asked to confirm
-  (not blocking): that NASA Grant No. 22-LPS22-0025 covers this work; the AI sentence ("drafting
-  and editing", Claude models only); whether to push at each milestone.
+  acknowledgments modeled on the owner's arXiv:2610.37617. OWNER, 21 Nov: NASA Grant No.
+  22-LPS22-0025 does NOT cover this paper (funding sentence removed, uncommitted edit of
+  `main.tex` until the next refresh; the right grant is theirs to supply); the AI sentence stays
+  as written; ONE push after the pixel test, once the Validation says what the result means.
 - Sentences to revisit when their runs finish: Validation, sky resolution (its numbers are real
   since 20 Nov: H0 median +0.39 on average, sd 0.18, f_AGN +0.005, sd 0.017; the sentence still
   carries `% EXPECTED` because it does not yet say that the shift is common to the realizations
@@ -119,6 +131,12 @@ this file holds the working state.
   the sky-resolution pair of realization 100 at 32,000 samples and six injection sets); the
   mixed-sampler eight-parameter run of realization 100 (`..._unif_then_rslice`, 5293 iterations,
   200k calls, ln Z = -2899.18 +- 0.37; finished 19 Nov 20:44 UTC).
+- STATE 21 Nov 00:30 UTC: lane 1 (job 1416219, successor 1425268) on the mixed-sampler
+  eight-parameter run of realization 101 since 20 Nov 16:16 UTC (about 29 h, nside 32), then
+  that of 102. Lane 2 (job 1416415, successor 1454491) on HDSingle realization 105 (second
+  part ends about 02:20 UTC), then the mixed-sampler runs of 103 and 105. HDNone is done (nine
+  tasks), HDSingle 101 to 103 done. Both realization-100 eight-parameter runs finished.
+  The 20 Nov text follows.
 - STATE 20 Nov 05:35 UTC (the two bullets RUNNING and QUEUED below are the 18 Nov text, kept for
   the order of the queue): lane 1 on the rslice reference of realization 100 (iteration 4834 at
   04:35 UTC, about 126 per hour; the mixed run needed 5093: ends about 07:00 UTC; job 1416192
@@ -212,7 +230,25 @@ this file holds the working state.
 - Number densities inferred (m < 18): rate ratio 41 (+18, -14) for an input of 42.8, f_AGN
   follows its prior, H0 68.1 (+2.3, -2.2), an upper limit on the galaxy density and none on the
   AGN density.
-- PIXEL SIZE (open, 20 Nov). KnownBoth at 32,000 samples and six injection sets, nside 64 minus
+- PIXEL SIZE, THE SEQUENCE (21 Nov, `tests/results/skyres_sequence.json`; paired H0 shift to
+  nside 32, mean +- standard error over five; combined H0 with the level of the input):
+  AGN-hosted, AGN catalog alone: nside 16 -0.21 +- 0.14 (67.47 +- 0.40, 73%), nside 32 (67.69
+  +- 0.36, 18%), nside 64 +0.08 +- 0.13 (67.68 +- 0.37, 20%); nside 128 cannot be evaluated
+  (ln L = -inf at every H0 at 32,000 samples: a merger without Monte Carlo support; five tasks
+  that fail in a minute and are retried by every lane job until held). Galaxy-hosted, galaxy
+  catalog alone: -0.16 +- 0.36, -, -0.30 +- 0.47, -1.2 +- 0.9 (levels 2%, 24%, 9%, 80%).
+  Galaxy catalog alone on mixed mergers: -0.11 +- 1.07, -, +0.18 +- 0.89, +0.77 +- 1.48 (34%,
+  54%, 16%, 9%). Both catalogs: nside 64 +0.39 +- 0.08 (68.74, 96%), nside 128 +0.23 +- 0.26
+  (68.58 +0.83 -0.91, 87%); f_AGN unmoved at both. READING: no one-catalog analysis moves with
+  the pixel; the two-catalog analysis moves up by 0.2 to 0.4 and does not go on rising at
+  nside 128, where the Monte Carlo variance is three to four times larger (posterior samples
+  2.4 to 4.3, selection 1.1 to 1.4) and the scatter of the shift 0.58. So the fine-pixel
+  two-catalog posterior of five sits 0.8 to 1.0 above the input at the 87 to 96% level:
+  fluctuation of five or offset, not known. OWNER, 21 Nov: "Test first": nside 64 at the
+  production settings on realizations 106 to 110 (they have one injection set each), then I
+  decide; a switch of the two-catalog analyses to finer pixels is approved if the offset is
+  confirmed (about 3 days of both GPUs, headline about 26 Nov instead of 23).
+- PIXEL SIZE (state of 20 Nov). KnownBoth at 32,000 samples and six injection sets, nside 64 minus
   nside 32, realizations 100, 101, 102, 103, 105: H0 median +0.42, +0.18, +0.31, +0.67, +0.40
   (mean +0.39, sd 0.18, standard error 0.08: common to the realizations, not scatter); f_AGN
   +0.005 (standard error 0.007); the 90% half-width of H0 shrinks by 12% (mean 2.04 -> 1.80),
@@ -232,6 +268,33 @@ this file holds the working state.
   catalog, 3075). At nside 32 every combined posterior of stage 1 holds the input (AGN-hosted
   67.69 +- 0.36, input at 18%; galaxy-hosted 68.0, 24%; galaxy catalog alone on mixed mergers
   68.6, 54%). The sequence of Sec. 3 answers both.
+- THE EXPECTED HEADLINE OF SEC. IV E IS NOT SHOWING (21 Nov; 4 of 10 and 1 of 5 realizations, so
+  no rewrite yet, but word nothing more on the old expectation). Single population (six free
+  parameters), both catalogs, host-dependent mergers (HDSingle): H0 67.6 [65.9, 69.7], 66.7
+  [64.9, 68.8], 68.9 [66.7, 70.5], 70.5 [68.5, 72.5] for realizations 100 to 103; a rough
+  combination is 68.4 +- 1.0, the input inside; the red placeholder says 70.8 +- 0.8, a bias
+  of +3.1 (that number came from the exploratory Analysis 10, where the single population was
+  held at fixed parameters; with its mass peak and spin free it settles between the classes,
+  mu_G 36.2 to 36.8, mu_chi 0.04 to 0.05, and H0 is spared). f_AGN 0.34, 0.28, 0.42, 0.33.
+  The host-dependent analysis on realization 100 gives H0 67.5 +- 1.45 against 67.6 +- 1.9
+  for the single population (a quarter narrower) and ln B = +19.4 for it (-2899.2 against
+  -2918.6). So the section's result is likely: host-dependent masses and spins are detected
+  decisively and sharpen H0 by telling the host classes apart; a single population with free
+  parameters is not biased in H0 at these offsets. The abstract, the Conclusions' first
+  paragraph and Fig. 6's panel (a) are worded for the bias: rewrite them when HDSingle (ten)
+  and HDHost (five) are real, about 23 Nov. The owner was told on 21 Nov.
+- No catalog, single population, host-dependent mergers (HDNone, five realizations, real): H0
+  is barely measured: 78 [61, 94] on realization A, and the lower prior edge in three of the
+  other four (57.5 [50.8, 74.5], 59.7 [51, 76], 55 [50.4, 68]; 101: 70 [54.5, 88]). The text
+  of Sec. IV E now says so with realization A's interval against the prior range. LEFTOVER:
+  Table III prints the combined `\HDNoneHzeroComb` = 59 +8 -8, a posterior that leans on the
+  prior edge; by the style rule it gets no interval (needs a limit macro or another cell);
+  Sec. IV F's sentence still quotes `\HDNoneHzero` as a measurement beside `\ObsNoneHzero`.
+- The five AGN-catalog-alone grids at nside 128 are stopped by the variance guard, not by
+  empty pixels: the variance of ln L is 24 to 40 there against the limit of 20 (posterior
+  samples 18 to 32; 0.85, 2.2, 6.9, about 20 at nside 16, 32, 64, 128), every merger has
+  support. Held in the run list (hold text says "-inf", strictly the guard) and removed from
+  `lane2.txt` by hand (copy in the scratchpad) so that no empty successor jobs are chained.
 - THE TWO EIGHT-PARAMETER SAMPLERS AGREE (20 Nov, `tests/results/compare_r100_eight_parameter.json`):
   rslice reference against uniform-then-rslice on realization 100: every median within 0.08 of
   the 90% half-width (H0 67.46 against 67.53), ln Z -2899.47 +- 0.38 against -2899.18 +- 0.37,
@@ -254,7 +317,20 @@ this file holds the working state.
   normalization volume).
 
 ## 5. Do next, in order
-1. The pixel-size sequence (watcher `bq68ysl4k`, about 10:30 UTC 20 Nov): run
+1. THE PIXEL TEST (21 Nov; an Opus agent prepares survey files, five run-list entries, a hold
+   on the five failing nside-128 tasks and a new block of `tests/skyres_sequence.py`; it sends
+   "ready to queue"; check its proof, queue on lane 2 BEFORE lane 2's task ends at about 02:20
+   UTC, or the five wait behind a 29-hour run). When the five are in: `tests/skyres_sequence.py`,
+   block for the production settings over ten realizations: paired shift over ten, combined
+   posterior of ten at nside 32 and 64 with the level of the input. If the input is inside the
+   90% interval of the ten at nside 64 and the shift over 106 to 110 is not again positive in
+   all: fluctuation; production pixels stay; write the Validation paragraph (shift, lost
+   precision, the one-catalog analyses unmoved); refresh; commit; PUSH (owner approved one push
+   at that point); PDF to the owner. If the input is outside at nside 64 over ten: offset of the
+   two-catalog likelihood exposed by finer pixels: hold the eight-parameter runs (reorder lanes),
+   find the cause (mixture weight of the two catalogs; the in-pixel independence of sky and
+   redshift; the completion term), switch the two-catalog analyses to nside 64 with 16,000
+   samples (owner approved), tell the owner. (Old text of this item, for the reasoning:) run
    `tests/skyres_sequence.py` and read, per analysis, the paired shifts 16 -> 32 -> 64 -> 128
    and the level of the input in the combined posteriors. Questions in order: (a) does the
    AGN-hosted analysis (AGN catalog alone, combined half-width 0.36) move with the pixel, and
@@ -287,8 +363,8 @@ this file holds the working state.
    Monte Carlo error of about 0.01 dex in their second decimal.
 
 ## 6. Waiting for the owner (none blocks work)
-The three confirmations of Sec. 2 (grant, AI sentence, push policy). Ten local commits since the
-push (ba8f91f): ask before pushing.
+Answered 21 Nov (Sec. 2). Still theirs: the right grant number. Eleven local commits since the
+push (ba8f91f); one push is approved for after the pixel test, later ones are asked for again.
 
 ## 7. Other sessions
 `gaia`, `darksirens`: nothing owed. Never touch other sessions' jobs (anything not named `agn-*`).

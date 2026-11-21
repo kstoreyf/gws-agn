@@ -1052,11 +1052,11 @@ from realization A alone. % EXPECTED
 A correlation between $H_0$ and the fraction of a heavier formation channel
 has been reported without catalogs \cite{Scarpa:2026piy}; here the heavier
 population is also a different host class, and the catalogs see it. The
-catalogs reduce the bias and do not remove it: with no catalog the
-single-population analysis gives $H_0=\HDNoneHzeroComb\,\kms$ combined over
-\NrealHDNone{} realizations, against $\HDSingleHzeroComb\,\kms$ with both
-catalogs, where realization A alone has 90\% half-widths of
-\HDNoneHzeroHalfWid{} and $\HDSingleHzeroHalfWid\,\kms$. % EXPECTED
+catalogs also carry the measurement. With no catalog and the mass and spin
+distributions inferred, the posterior of $H_0$ on realization A extends from
+\HDNoneHzeroLo{} to $\HDNoneHzeroHi\,\kms$ at 90\% credibility, most of the
+prior range of \PriorHzeroLo{} to \PriorHzeroHi, against a 90\% half-width of
+$\HDSingleHzeroHalfWid\,\kms$ with both catalogs. % EXPECTED
 
 \begin{figure*}[t]
 \figslot{fig6_host_dependent}{2.6in}
@@ -1374,8 +1374,7 @@ How many AGN there are is for the surveys to measure.
 %% To confirm: that the award below covers this work; the wording of the sentence on AI assistance.
 %% Left out because they are not true of this paper: public LIGO-Virgo-KAGRA data products, Jetstream2 and its ACCESS allocation.
 \begin{acknowledgments}
-This material is based upon work supported by the National Aeronautics and
-Space Administration under Grant No.~22-LPS22-0025. Computations used the
+Computations used the
 Vera cluster at the Pittsburgh Supercomputing Center, dedicated to the
 McWilliams Center for Cosmology and Astrophysics at Carnegie Mellon
 University. Claude models (Anthropic), most recently Claude Fable~5.2 and

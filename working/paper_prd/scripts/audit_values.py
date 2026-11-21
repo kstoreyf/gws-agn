@@ -1903,8 +1903,9 @@ def audit_skyres_all(mac):
     ex = json.loads((B.W / "data" / "experiment_sets.json").read_text())["extra_record_lane_sets"]
     six = sorted(int(R) for R, v in ex.items() if len(set(v["files"])) == 5
                  and all((B.W / "data" / f"seed{R}" / f).exists() for f in list(v["files"]) + ["injections/injections_targeted.h5"]))
-    # the realizations with an nside-64 grid of the sky resolution in a check stage (X)
-    pat = re.compile(re.escape(base.replace("{R}", "@")).replace("@", r"(\d{3})") + "_nside64")
+    # the realizations with an nside-64 grid of the sky resolution at 32000 samples and six sets in a check stage (X); 21 Nov: stage X
+    # also holds nside-64 grids at 8000 samples on realizations with one set (106-110), which no macro reads
+    pat = re.compile(re.escape(base.replace("{R}", "@")).replace("@", r"(\d{3})") + "_nside64_s32000_inj6")
     xr = sorted(int(m.group(1)) for n, (s, _) in idx.items() if s.startswith("X") for m in [pat.fullmatch(n)] if m)
     bad = []
     for R in six:
@@ -1927,7 +1928,8 @@ def audit_skyres_all(mac):
     maps = {w: (sk.get(w) or {}).get("realizations") for w in ("pair", "mc_pair")}
     check(six == xr and len(six) >= 2 and not bad and all(v == six for v in maps.values()),
           f"S4 the sky-resolution grids over the realizations are RUNLIST.yaml's (own parser): the realizations with six injection sets "
-          f"(experiment_sets.json extra_record_lane_sets, files on disk) {six} = those with an nside-64 grid in stage X {xr}; each has its "
+          f"(experiment_sets.json extra_record_lane_sets, files on disk) {six} = those with an nside-64 grid at 32000 samples and six sets in "
+          f"stage X {xr}; each has its "
           f"three stage-X grids with stage 1's arguments of its KnownBoth run (without --membership) plus --nside 64 / --nsamp 32000 and its "
           f"five further sets pooled; the map lists the same realizations for both pairs ({maps})" + (f"; {'; '.join(bad[:4])}" if bad else ""))
     # S5: the two counts, words of the run list

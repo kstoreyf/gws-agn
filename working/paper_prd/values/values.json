@@ -19038,8 +19038,8 @@
    "value": {
     "median": 36.5085125159711,
     "ci68": [
-     27.131238776986667,
-     47.755641177646375
+     27.13123877698667,
+     47.75564117764638
     ],
     "ci90": [
      21.513313964785002,
@@ -36624,32 +36624,25 @@
    "extra": {}
   },
   "HDNoneHzero": {
-   "class": "ph",
-   "render": "\\ph{73^{+9}_{-9}}",
+   "class": "plain",
+   "render": "78^{+16}_{-17}",
    "value": {
-    "median": 73.00008735655088,
+    "median": 78.03829239995245,
     "ci68": [
-     67.55895433863002,
-     78.44133225487951
+     67.2385164120281,
+     88.83583717469874
     ],
     "ci90": [
-     64.00065605172688,
-     82.00001856149808
+     61.48870350854031,
+     94.45556063845369
     ],
-    "ul90": 80.01218546376211,
-    "level_of_input": 0.6636328154936204
+    "ul90": 91.74777725649339,
+    "level_of_input": 0.657140399487543
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36659,132 +36652,90 @@
    }
   },
   "HDNoneHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{73}",
-   "value": 73.00008735655088,
+   "class": "plain",
+   "render": "78",
+   "value": 78.03829239995245,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "median of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{64}",
-   "value": 64.00065605172688,
+   "class": "plain",
+   "render": "61",
+   "value": 61.48870350854031,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "lower end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{82}",
-   "value": 82.00001856149808,
+   "class": "plain",
+   "render": "94",
+   "value": 94.45556063845369,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "upper end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{18}",
-   "value": 17.999362509771203,
+   "class": "plain",
+   "render": "33",
+   "value": 32.96685712991338,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "full width of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{9}",
-   "value": 8.999681254885601,
+   "class": "plain",
+   "render": "16",
+   "value": 16.48342856495669,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (HDNoneHzeroWid) of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (HDNoneHzeroWid) of H0, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{73^{+4}_{-4}}",
+   "class": "plain",
+   "render": "59^{+8}_{-8}",
    "value": {
-    "median": 72.79201747131017,
+    "median": 59.4410359450921,
     "ci68": [
-     70.35867819839837,
-     75.22535674422197
+     54.10253560226882,
+     64.23498097359123
     ],
     "ci90": [
-     68.76722687164532,
-     76.81680807097499
+     51.42986843054319,
+     67.58851585488385
     ],
-    "ul90": 75.92784637890722,
-    "level_of_input": 0.9610449845523213
+    "ul90": 65.61358563661774,
+    "level_of_input": 0.9052628841596835
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36794,131 +36745,89 @@
    }
   },
   "HDNoneHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{73}",
-   "value": 72.79201747131017,
+   "class": "plain",
+   "render": "59",
+   "value": 59.4410359450921,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "median of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{69}",
-   "value": 68.76722687164532,
+   "class": "plain",
+   "render": "51",
+   "value": 51.42986843054319,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{77}",
-   "value": 76.81680807097499,
+   "class": "plain",
+   "render": "68",
+   "value": 67.58851585488385,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{8}",
-   "value": 8.049581199329666,
+   "class": "plain",
+   "render": "16",
+   "value": 16.158647424340664,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of H0, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{96}",
-   "value": 0.9610449845523213,
+   "class": "plain",
+   "render": "91",
+   "value": 0.9052628841596835,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in HDNoneHzeroComb (H0, [key HDNone] host-dependent populations; single population; no catalog)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuG": {
-   "class": "ph",
-   "render": "\\ph{36.4^{+1.6}_{-1.6}}",
+   "class": "plain",
+   "render": "36.3^{+1.0}_{-0.9}",
    "value": {
-    "median": 36.4,
+    "median": 36.310176390817674,
     "ci68": [
-     35.43265693573813,
-     37.36734306426187
+     35.72224134503248,
+     36.914698751759076
     ],
     "ci90": [
-     34.799995711640626,
-     38.00000428835937
+     35.43085093960522,
+     37.264544743605214
     ],
-    "ul90": 37.6466088795115
+    "ul90": 37.0908193605821
    },
    "units": "Msun",
-   "meaning": "mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36928,112 +36837,76 @@
    }
   },
   "HDNoneMuGMed": {
-   "class": "ph",
-   "render": "\\ph{36.4}",
-   "value": 36.4,
+   "class": "plain",
+   "render": "36.3",
+   "value": 36.310176390817674,
    "units": "Msun",
-   "meaning": "median of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "median of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGLo": {
-   "class": "ph",
-   "render": "\\ph{34.8}",
-   "value": 34.799995711640626,
+   "class": "plain",
+   "render": "35.4",
+   "value": 35.43085093960522,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "lower end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGHi": {
-   "class": "ph",
-   "render": "\\ph{38.0}",
-   "value": 38.00000428835937,
+   "class": "plain",
+   "render": "37.3",
+   "value": 37.264544743605214,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "upper end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGWid": {
-   "class": "ph",
-   "render": "\\ph{3.2}",
-   "value": 3.2000085767187443,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8336938039999922,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "full width of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGComb": {
-   "class": "ph",
-   "render": "\\ph{36.4^{+0.7}_{-0.7}}",
+   "class": "plain",
+   "render": "36.8^{+0.4}_{-0.4}",
    "value": {
-    "median": 36.4,
+    "median": 36.80389258892696,
     "ci68": [
-     35.96738987066029,
-     36.8326101293397
+     36.553577120102084,
+     37.03502996004042
     ],
     "ci90": [
-     35.684454411569696,
-     37.115545588430294
+     36.38175139011403,
+     37.183107214366366
     ],
-    "ul90": 36.9575019334149,
-    "level_of_input": 0.9987101776968317
+    "ul90": 37.10062216448226
    },
    "units": "Msun",
-   "meaning": "mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37043,111 +36916,76 @@
    }
   },
   "HDNoneMuGCombMed": {
-   "class": "ph",
-   "render": "\\ph{36.4}",
-   "value": 36.4,
+   "class": "plain",
+   "render": "36.8",
+   "value": 36.80389258892696,
    "units": "Msun",
-   "meaning": "median of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "median of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGCombLo": {
-   "class": "ph",
-   "render": "\\ph{35.7}",
-   "value": 35.684454411569696,
+   "class": "plain",
+   "render": "36.4",
+   "value": 36.38175139011403,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGCombHi": {
-   "class": "ph",
-   "render": "\\ph{37.1}",
-   "value": 37.115545588430294,
+   "class": "plain",
+   "render": "37.2",
+   "value": 37.183107214366366,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuGCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.4}",
-   "value": 1.4310911768605976,
+   "class": "plain",
+   "render": "0.8",
+   "value": 0.8013558242523331,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of mass-peak location, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaG": {
-   "class": "ph",
-   "render": "\\ph{5.6^{+0.5}_{-0.5}}",
+   "class": "plain",
+   "render": "4.8^{+0.5}_{-0.4}",
    "value": {
-    "median": 5.6,
+    "median": 4.831421596789062,
     "ci68": [
-     5.297705292418165,
-     5.9022947075818335
+     4.550101253468317,
+     5.132445821311953
     ],
     "ci90": [
-     5.099998659887697,
-     6.100001340112301
+     4.413655356814403,
+     5.311375447337188
     ],
-    "ul90": 5.98956527484734
+    "ul90": 5.218158108292118
    },
    "units": "Msun",
-   "meaning": "mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37157,112 +36995,76 @@
    }
   },
   "HDNoneSigmaGMed": {
-   "class": "ph",
-   "render": "\\ph{5.6}",
-   "value": 5.6,
+   "class": "plain",
+   "render": "4.8",
+   "value": 4.831421596789062,
    "units": "Msun",
-   "meaning": "median of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "median of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGLo": {
-   "class": "ph",
-   "render": "\\ph{5.1}",
-   "value": 5.099998659887697,
+   "class": "plain",
+   "render": "4.4",
+   "value": 4.413655356814403,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "lower end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGHi": {
-   "class": "ph",
-   "render": "\\ph{6.1}",
-   "value": 6.100001340112301,
+   "class": "plain",
+   "render": "5.3",
+   "value": 5.311375447337188,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "upper end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGWid": {
-   "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 1.000002680224604,
+   "class": "plain",
+   "render": "0.9",
+   "value": 0.8977200905227845,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "full width of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGComb": {
-   "class": "ph",
-   "render": "\\ph{5.60^{+0.22}_{-0.22}}",
+   "class": "plain",
+   "render": "5.58^{+0.22}_{-0.23}",
    "value": {
-    "median": 5.6,
+    "median": 5.582340701051453,
     "ci68": [
-     5.464809334581343,
-     5.735190665418657
+     5.4447614583090544,
+     5.715739262636358
     ],
     "ci90": [
-     5.376392003615532,
-     5.823607996384467
+     5.350407872691015,
+     5.805201774972969
     ],
-    "ul90": 5.774219354192157,
-    "level_of_input": 0.9999898324530799
+    "ul90": 5.754801293442105
    },
    "units": "Msun",
-   "meaning": "mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37272,111 +37074,76 @@
    }
   },
   "HDNoneSigmaGCombMed": {
-   "class": "ph",
-   "render": "\\ph{5.60}",
-   "value": 5.6,
+   "class": "plain",
+   "render": "5.58",
+   "value": 5.582340701051453,
    "units": "Msun",
-   "meaning": "median of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "median of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGCombLo": {
-   "class": "ph",
-   "render": "\\ph{5.38}",
-   "value": 5.376392003615532,
+   "class": "plain",
+   "render": "5.35",
+   "value": 5.350407872691015,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGCombHi": {
-   "class": "ph",
-   "render": "\\ph{5.82}",
-   "value": 5.823607996384467,
+   "class": "plain",
+   "render": "5.81",
+   "value": 5.805201774972969,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaGCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.45}",
-   "value": 0.4472159927689354,
+   "class": "plain",
+   "render": "0.45",
+   "value": 0.4547939022819536,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of mass-peak width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChi": {
-   "class": "ph",
-   "render": "\\ph{0.030^{+0.012}_{-0.012}}",
+   "class": "plain",
+   "render": "0.035^{+0.009}_{-0.010}",
    "value": {
-    "median": 0.030000000000000013,
+    "median": 0.035215492121966153,
     "ci68": [
-     0.022744927018035984,
-     0.037255072981964045
+     0.02911953993698159,
+     0.040957673313711467
     ],
     "ci90": [
-     0.01799996783730473,
-     0.042000032162695294
+     0.025656326251827354,
+     0.04451233761705533
     ],
-    "ul90": 0.039349566596336226
+    "ul90": 0.04268025217356412
    },
    "units": "",
-   "meaning": "spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A (median and 90% equal-tailed interval)",
+   "meaning": "spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37386,112 +37153,76 @@
    }
   },
   "HDNoneMuChiMed": {
-   "class": "ph",
-   "render": "\\ph{0.030}",
-   "value": 0.030000000000000013,
+   "class": "plain",
+   "render": "0.035",
+   "value": 0.035215492121966153,
    "units": "",
-   "meaning": "median of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "median of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiLo": {
-   "class": "ph",
-   "render": "\\ph{0.018}",
-   "value": 0.01799996783730473,
+   "class": "plain",
+   "render": "0.026",
+   "value": 0.025656326251827354,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiHi": {
-   "class": "ph",
-   "render": "\\ph{0.042}",
-   "value": 0.042000032162695294,
+   "class": "plain",
+   "render": "0.045",
+   "value": 0.04451233761705533,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiWid": {
-   "class": "ph",
-   "render": "\\ph{0.024}",
-   "value": 0.024000064325390563,
+   "class": "plain",
+   "render": "0.019",
+   "value": 0.018856011365227975,
    "units": "",
-   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiComb": {
-   "class": "ph",
-   "render": "\\ph{0.030^{+0.005}_{-0.005}}",
+   "class": "plain",
+   "render": "0.039^{+0.004}_{-0.004}",
    "value": {
-    "median": 0.03000000000000001,
+    "median": 0.038962453568423004,
     "ci68": [
-     0.026755424029952228,
-     0.03324457597004779
+     0.03632082323619614,
+     0.04137817085336049
     ],
     "ci90": [
-     0.02463340808677277,
-     0.03536659191322725
+     0.034571744638982244,
+     0.04300703406343008
     ],
-    "ul90": 0.0341812645006118,
-    "level_of_input": 1.0
+    "ul90": 0.04207537030162729
    },
    "units": "",
-   "meaning": "spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37501,111 +37232,76 @@
    }
   },
   "HDNoneMuChiCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.030}",
-   "value": 0.03000000000000001,
+   "class": "plain",
+   "render": "0.039",
+   "value": 0.038962453568423004,
    "units": "",
-   "meaning": "median of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "median of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.025}",
-   "value": 0.02463340808677277,
+   "class": "plain",
+   "render": "0.035",
+   "value": 0.034571744638982244,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.035}",
-   "value": 0.03536659191322725,
+   "class": "plain",
+   "render": "0.043",
+   "value": 0.04300703406343008,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneMuChiCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.011}",
-   "value": 0.010733183826454478,
+   "class": "plain",
+   "render": "0.008",
+   "value": 0.008435289424447837,
    "units": "",
-   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChi": {
-   "class": "ph",
-   "render": "\\ph{0.110^{+0.010}_{-0.010}}",
+   "class": "plain",
+   "render": "0.110^{+0.010}_{-0.010}",
    "value": {
-    "median": 0.10999999999999999,
+    "median": 0.10959657151077595,
     "ci68": [
-     0.10395410584836332,
-     0.11604589415163667
+     0.10356519657098273,
+     0.11615740933268011
     ],
     "ci90": [
-     0.09999997319775394,
-     0.12000002680224602
+     0.10004358281337611,
+     0.12001851568935645
     ],
-    "ul90": 0.11779130549694682
+    "ul90": 0.11807426924852552
    },
    "units": "",
-   "meaning": "spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A (median and 90% equal-tailed interval)",
+   "meaning": "spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37615,112 +37311,76 @@
    }
   },
   "HDNoneSigmaChiMed": {
-   "class": "ph",
-   "render": "\\ph{0.110}",
-   "value": 0.10999999999999999,
+   "class": "plain",
+   "render": "0.110",
+   "value": 0.10959657151077595,
    "units": "",
-   "meaning": "median of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "median of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiLo": {
-   "class": "ph",
-   "render": "\\ph{0.100}",
-   "value": 0.09999997319775394,
+   "class": "plain",
+   "render": "0.100",
+   "value": 0.10004358281337611,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "lower end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiHi": {
-   "class": "ph",
-   "render": "\\ph{0.120}",
-   "value": 0.12000002680224602,
+   "class": "plain",
+   "render": "0.120",
+   "value": 0.12001851568935645,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "upper end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiWid": {
-   "class": "ph",
-   "render": "\\ph{0.020}",
-   "value": 0.02000005360449207,
+   "class": "plain",
+   "render": "0.020",
+   "value": 0.019974932875980345,
    "units": "",
-   "meaning": "full width of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A",
+   "meaning": "full width of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiComb": {
-   "class": "ph",
-   "render": "\\ph{0.110^{+0.004}_{-0.004}}",
+   "class": "plain",
+   "render": "0.116^{+0.005}_{-0.005}",
    "value": {
-    "median": 0.11,
+    "median": 0.11617086923152149,
     "ci68": [
-     0.10729618669162685,
-     0.11270381330837315
+     0.11319377893229803,
+     0.11917620794597696
     ],
     "ci90": [
-     0.10552784007231066,
-     0.11447215992768936
+     0.11114103505117541,
+     0.1210569276885737
     ],
-    "ul90": 0.11348438708384315,
-    "level_of_input": 0.9997649138281799
+    "ul90": 0.12001657134693401
    },
    "units": "",
-   "meaning": "spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -37730,80 +37390,52 @@
    }
   },
   "HDNoneSigmaChiCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.110}",
-   "value": 0.11,
+   "class": "plain",
+   "render": "0.116",
+   "value": 0.11617086923152149,
    "units": "",
-   "meaning": "median of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "median of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.106}",
-   "value": 0.10552784007231066,
+   "class": "plain",
+   "render": "0.111",
+   "value": 0.11114103505117541,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.114}",
-   "value": 0.11447215992768936,
+   "class": "plain",
+   "render": "0.121",
+   "value": 0.1210569276885737,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDNoneSigmaChiCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.009}",
-   "value": 0.008944319855378705,
+   "class": "plain",
+   "render": "0.010",
+   "value": 0.009915892637398296,
    "units": "",
-   "meaning": "full width of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of spin width, [key HDNone] host-dependent populations; single population; no catalog, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, no catalog, 5 realizations",
-    "key": "HDNone",
-    "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
-    "placeholder_file": {
-     "A": null,
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -44477,7 +44109,7 @@
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations inferred with H0 (eight parameters; key HDHost), both catalogs, host-dependent mergers, input f_AGN = 0.3, peak-dominated spectrum; runs host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "letter macro IndTwoPopHW"
    },
    "claim": "classes",
@@ -44496,7 +44128,7 @@
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWHost",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "letter macro IndTwoPopHW"
    },
    "claim": "classes",
@@ -44513,7 +44145,7 @@
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWHost",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} (missing realizations 101,102,103,105)",
     "placeholder_source": "letter macro IndTwoPopHW"
    },
    "claim": "classes",
