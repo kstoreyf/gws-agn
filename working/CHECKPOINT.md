@@ -236,6 +236,41 @@ this file holds the working state.
 - Number densities inferred (m < 18): rate ratio 41 (+18, -14) for an input of 42.8, f_AGN
   follows its prior, H0 68.1 (+2.3, -2.2), an upper limit on the galaxy density and none on the
   AGN density.
+- THE OFFSET AFTER THE DIAGNOSTIC GRIDS (21 Nov 09:15 UTC; read this BEFORE the 07:00 entry
+  below, which it corrects). `tests/skyres_sequence.py` has blocks for all of it. Combined H0
+  over five realizations (100 to 105), host class unknown / known, level of the input:
+  f = 0.3 (set `peak_f0p30_s0`, the same mergers as stage 1's first five, another injection
+  set): nside 32 68.46 (82%) / 67.83 (19%); nside 64 68.53 (83%) / 67.77 (6%).
+  f = 0.5 (`peak_f0p50_s0`): nside 32 67.90 (35%) / 67.63 (30%); nside 64 67.55 (43%) / 67.33
+  (86%, low side). f = 0.1: 67.49; f = 0: 67.83; f = 1: 67.68 +- 0.36.
+  Unknown minus known on the same mergers: f = 0.3 +0.56 (nside 32) and +0.79 (nside 64), five
+  of five positive at both; f = 0.5 +0.45 and +0.50 (four and three of five). BUT the unknown
+  analysis is noisier than the known one, so the null scatter of that difference is about 0.8
+  per realization (0.35 for a mean of five): these are 1.5 to 2.5 sd, and the four numbers
+  share events or realizations. f_AGN held at its input changes nothing (-0.02, -0.06 over
+  ten): not an H0-f_AGN degeneracy.
+  The pixel shift is NOT uniform: +0.39 +- 0.08 on stage 1's five at 32,000 samples and six
+  sets, +0.26 +- 0.14 on ten at 8000, but +0.12 +- 0.36 on the same five with the other
+  injection set, and -0.25 +- 0.19 (unknown) and -0.30 +- 0.13 (known) at f = 0.5. With one
+  injection set the selection term at nside 64 (N^2/N_eff 2.5) moves single medians by about
+  0.5 between injection sets.
+  WHAT IS ESTABLISHED: the sets with f = 0.3 lie +0.5 (nside 32, ten realizations, 80%) to
+  +0.8 (nside 64, 98%) above the input; the analysis with the host class known, the AGN-only
+  analysis and the f = 0.5, 0.1, 0 sets do not. Property of the mixture analysis or fluctuation
+  of ten sets (the first five share events between "stage 1" and "E1"): NOT KNOWN. The
+  Validation's last paragraph says exactly this since the local commit after 3e060b3 (the
+  pushed 3e060b3 says "the analysis places H0 above its input ... origin not identified",
+  which is too general: ASK THE OWNER before pushing the correction; asked 21 Nov 09:20 UTC).
+  NEXT: (1) the per-merger decomposition (diagnosis agent still running on CPU, realizations
+  103 and 100); (2) TEN MORE REALIZATIONS of the f = 0.3 two-catalog analysis at nside 32 and
+  64 (corepop events for seeds 111 to 120 must be drawn: `data/corepop/README.md`; catalogs of
+  those seeds were pruned and must be regenerated with
+  NPY_DISABLE_CPU_FEATURES="X86_V4 AVX512_ICL AVX512_SPR" for bitwise agreement; survey files
+  at nside 64; about 2.5 GPU-h as stage-X grids): brief an Opus agent when the node is less
+  loaded (load 68 on 32 cores at 08:30 UTC) and queue on lane 1 with `--only-lane 1` BEFORE
+  its eight-parameter run of realization 101 ends (about 18:00 UTC 21 Nov), so that they run
+  ahead of realization 102 without interrupting anything. Twenty realizations give a combined
+  half-width of about 0.4: an offset of 0.8 would then be unmistakable.
 - THE H0 OFFSET OF THE TWO-CATALOG ANALYSIS (21 Nov 07:00 UTC; THE OPEN PROBLEM). The pixel test
   on realizations 106 to 110 confirmed it. KnownBoth over ten realizations at the production
   settings: nside 32 68.20 (+0.58, -0.59), input at the 80% level; nside 64 68.54 (+0.53,
@@ -408,8 +443,9 @@ this file holds the working state.
    Monte Carlo error of about 0.01 dex in their second decimal.
 
 ## 6. Waiting for the owner (none blocks work)
-Answered 21 Nov (Sec. 2). Still theirs: the right grant number. Eleven local commits since the
-push (ba8f91f); one push is approved for after the pixel test, later ones are asked for again.
+Answered 21 Nov (Sec. 2). Still theirs: the right grant number. PUSHED 21 Nov 07:54 UTC up to
+3e060b3 (owner: "Push now, numbers as measured"; the Validation's last paragraph states the
+offset; PDF `..._draft_2026-11-21a.pdf` sent). Each later push is asked for again.
 
 ## 7. Other sessions
 `gaia`, `darksirens`: nothing owed. Never touch other sessions' jobs (anything not named `agn-*`).
