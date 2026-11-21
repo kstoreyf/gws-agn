@@ -6,6 +6,23 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
+## STOPPED AT THE USAGE LIMIT, 21 Nov about 09:50 UTC (read first)
+- The agent preparing TEN MORE REALIZATIONS (seeds 111 to 120: catalogs, corepop events, nside-64
+  survey files, twenty stage-X grids, table block) was STOPPED a few minutes after its start, so
+  that it would not be cut off mid-work. Whatever it wrote is new files only (under
+  `data/seed11N/`, the scratchpad `more_realizations_agent/`); check `git status` for
+  `make_runlist.py`, `RUNLIST.yaml`, `tests/skyres_sequence.py` and revert a half-made change
+  there before anything else (`git diff`). RE-LAUNCH it with the brief described in Sec. 4,
+  "NEXT (2)". The window "queue on lane 1 before its realization-101 run ends, about 18:00 UTC
+  21 Nov" will probably be missed: then either interrupt one lane as on 21 Nov 07:13 UTC
+  (scancel the RUNNING lane job only; its successor takes stage X first and resumes the long
+  run from its checkpoint) or wait for the next gap.
+- Watcher `bspxn2wfi` is still armed (fires at 16:15 UTC, or when the realization-101 run
+  ends): no action beyond the above.
+- PENDING WITH THE OWNER: push the corrected Validation paragraph (local commits 8ed540e,
+  f1befea and this one; GitHub has 3e060b3, whose last Validation sentence is too general)?
+  Options given: A push now (recommended), B after the twenty-realization result, C hold.
+
 ## 0. How to resume (the owner clears the context and says "resume from the latest checkpoint")
 1. Read this file to the end. Do not re-read the paper or the scripts until a step needs them.
 2. Look at the state: `git -C /hildafs/projects/phy230014p/magana/gws-agn log --oneline | head -5`;
