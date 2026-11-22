@@ -62,10 +62,26 @@ this file holds the working state.
 - RUNS: lane 1 (job 1425268, successor 1494378) resumed the eight-parameter run of
   realization 101 at iteration 3288 at 12:34 UTC (ends about 04:00 UTC 22 Nov), then 102.
   Lane 2 (job 1454491) on realization 103, iteration 1704 at 12:33 UTC. No watcher is armed.
-- PENDING WITH THE OWNER: PUSH? GitHub has 3e060b3, whose Validation says the analysis places
-  H0 above its input with the origin not identified: now known to be a fluctuation of the
-  first ten. Asked again 21 Nov 12:40 and 13:50 UTC (recommended: push now). Do not push
-  without their word.
+- OWNER, 22 Nov 08:30 UTC (multiple choice): "Push now": PUSHED up to e6d5313 at 08:30 UTC
+  (GitHub now has the twenty-realization Validation); each later push is asked for again.
+  Funding: "Leave out for now" (no funding sentence; they supply the grant later; do not list
+  it as open at every status).
+- STATE 22 Nov 08:30 UTC: lane 1 (job 1425268, limit 10:00 UTC 23 Nov, successor 1494378)
+  finished the eight-parameter run of realization 101 at 23:56 UTC 21 Nov and is on
+  realization 102 (iteration 1983 at 08:12 UTC, ends about 09:00 UTC 23 Nov); lane 2 (job
+  1454491) on realization 103 at iteration 4088 (delta ln Z 2.4; ends about 16:30 UTC 22 Nov),
+  then 105 (about 29 h). All five late on 23 Nov. No watcher armed: check by hand.
+  REALIZATION 101, eight parameters: H0 66.84 [65.40, 68.44], f_AGN 0.306 [0.230, 0.383],
+  mu_G 35.12 [34.35, 35.86], sigma_G 5.24 [4.72, 5.76], mu_chi 0.005 [-0.016, 0.025],
+  sigma_chi 0.096 [0.078, 0.111], dmu_G 4.61 [2.80, 6.39], dmu_chi 0.127 [0.082, 0.168]: ALL
+  EIGHT INPUTS INSIDE (the spin offsets of realization 100 do not repeat); ln Z -3022.30 +-
+  0.35; single population on the same mergers H0 66.69 [64.94, 68.85], ln Z -3037.99: ln B
+  +15.7 (realization 100: +19.4); H0 half-width 1.52 against 1.95 (100: 1.45 against 1.93).
+  The reading of Sec. 4 ("the expected headline of Sec. IV E is not showing") holds on two of
+  five: host dependence detected decisively, H0 a quarter narrower, no H0 bias of the single
+  population. Rewrite Sec. IV E, abstract, Conclusions when the five are in.
+  COMING TO THE OWNER about 24 Nov: "5, then 10" (extend the eight-parameter model to
+  realizations 106 to 110, about 150 GPU-h), with the five results; multiple choice.
 
 ## 0. How to resume (the owner clears the context and says "resume from the latest checkpoint")
 1. Read this file to the end. Do not re-read the paper or the scripts until a step needs them.
