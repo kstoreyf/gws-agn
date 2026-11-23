@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 19:25 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 20:30 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 19:25 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 23 Nov 20:30 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
 ### The session is back; there was no gap
@@ -41,6 +41,26 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
    caption ("only the two with the population assumed have the input outside that of H0").
 2. The analysis-16 README describes the extension of stage E2 to realizations 106 to 115
    (paragraph after "Stage 5"; the stage table's E2 row is 95 runs, 11.4 GPU-h).
+3. THE FIVE EIGHT-PARAMETER RUNS ARE IN (step 2 of the old list). Realization 105 finished
+   20:09 UTC (204,953 calls, 29.2 GPU-h): H0 67.55 [65.69, 69.26], f_AGN 0.360 [0.280, 0.444],
+   mu_G 35.11, sigma_G 5.09, mu_chi -0.018 [-0.039, 0.002], sigma_chi 0.104, dmu_G 4.29 [2.28,
+   6.08], dmu_chi 0.098 [0.056, 0.137]: all eight inputs inside; ln Z -2947.33 +- 0.36 against
+   -2953.11 for the single population: ln B +5.8 (the lowest of the five), and NO gain in the
+   H0 half-width on this realization (1.79 against 1.75).
+   Refresh 20:20 UTC: exit 0, audit 94 of 94, 215 of 255 result macros of the text real. Key
+   HDHost over five: H0 67.9 (+0.9, -0.8), input at 26%; f_AGN 0.32 +- 0.04 (58%); dmu_G 4.6
+   +- 0.8 (59%); dmu_chi 0.126 (+0.020, -0.019), INPUT AT 98%, below the 90% interval; mu_chi
+   -0.010 (+0.008, -0.009), INPUT AT 95%, above it; mu_G 46%, sigma_G 3.7%, sigma_chi 16%.
+   log10 B 2.5 to 8.4 (combined 27). H0 half-width 1.6 [1.4, 1.8] against 1.9 [1.8, 2.0] for
+   the single population: 1.3 [1.0, 1.8] times the mergers. |rho(H0, other)| <= 0.10.
+   THE SPINS: galaxy-class spin mean low and AGN spin offset high, an anticorrelated pair
+   (realizations 100, 102, 105 have mu_chi near -0.019; 100 and 102 have dmu_chi 0.163 and
+   0.147). Two of eight inputs outside the 90% intervals over five: stated in the text as
+   measured (Sec. IV E third paragraph; Validation, new sentence "Two inputs lie outside the
+   90% intervals of these five realizations, both in the spins"), no hunt on five. It is the
+   strongest reason for "5, then 10" (the eight-parameter model on realizations 106 to 110).
+   `main.tex` also: abstract ("and in the mean over them the single population needs ...");
+   the `% EXPECTED` tags of the sentences that are now real are removed.
 
 ### OPEN: STEPS IN ln L OF THE OBSERVED-LIKE FAMILY (found 19:10 UTC; decide the wording of the
 ### level when the agent has reported)
@@ -91,22 +111,21 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   found either way; it bears on every observed-like number of the paper.
 
 ### Running now, and what each needs from you
-- LANE 2 (job 1482276): the eight-parameter run of realization 105, iteration 4619 at 18:57
-  UTC with delta ln Z 0.185 (stops at 0.1: between 20:00 and 21:30 UTC); then two E3 parts,
-  the second parts of HDSingle 106 to 110, stage 3, stage 5.
+- LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then one
+  more E3 part, the second parts of HDSingle 106 to 110, stage 3, stage 5.
 - LANE 1 (job 1494378): E3 (five parts, until about 05:00 UTC 24 Nov), the first parts of
   HDSingle 106 to 110, stage 3, stage 5. Everything Sec. IV E needs is in by about 06:00 UTC
   25 Nov.
-- WATCHER `bak0mne4n`: realization 105's `summary.json`, or an error outcome in its
-  `nested_1/attempts.json`, or 00:30 UTC 24 Nov.
+- WATCHER `bwyy2o0h3` (armed 20:35 UTC): the ten runs of step 3 (E3's five,
+  `single_population/both_catalogs/complete/peak_f0p30_s2/realization_{100,101,102,103,105}`,
+  of which 100 and 101 are done, and HDSingle 106 to 110): all ten summaries, or an error
+  outcome in one of their `nested_*/attempts.json`, or 09:00 UTC 25 Nov. Its list of runs is
+  `step3_runs.txt` in the session scratchpad; if the session restarted, check by hand.
 - THE AGENT above.
 
 ### Do next, in order
 1. The agent's report: as written under OPEN.
-2. When realization 105's summary exists: refresh. HDHost, HWHost, `\HDLBMin/Max`,
-   `\CostSingleHost`, `\HDHostMaxAbsCorrHzero` turn black. Re-read Sec. IV E's third
-   paragraph (the clause "the second with its input below the 90% interval" is about
-   realization A's spin offset, 0.163 [0.126, 0.194]) and the abstract. Commit.
+2. (done: realization 105, see above.)
 3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov; arm one watcher:
    loop over `runs/single_population/both_catalogs/complete/host_dependent/
    realization_1{06..10}/summary.json` and E3's five, `command grep` for `"outcome": "error"`

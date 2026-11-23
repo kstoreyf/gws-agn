@@ -66,9 +66,9 @@ $\HDHostHzeroComb\,\kms$ (90\% credible intervals of posteriors combined over
 \NrealHDAssumed, \NrealHDSingle{} and \NrealHD{} realizations; \MockPeakFrac{}
 of the mergers in the mass peak). % EXPECTED
 The host-dependent analysis is preferred to the single population with
-$\lB$ between \HDLBMin{} and \HDLBMax{} in each realization, and the single
-population needs \CostSingleHost{} times as many mergers for the same 90\%
-half-width of $H_0$. % EXPECTED
+$\lB$ between \HDLBMin{} and \HDLBMax{} in each realization, and in the mean
+over them the single population needs \CostSingleHost{} times as many mergers
+for the same 90\% half-width of $H_0$.
 With a mass spectrum like the observed one, in which \ObsPeakFrac{} of the
 mergers are in the peak, assuming the population moves the median of $H_0$
 by $\ObsAssumedShiftHzero\,\kms$, where the peak-dominated spectrum gave
@@ -1118,12 +1118,14 @@ returns the AGN share of the detected mergers in place of $\fagn$. % EXPECTED
 \end{figure*}
 
 The host-dependent analysis measures how the two classes differ
-[Fig.~\ref{fig:hd}(b)]. % EXPECTED
-We find $\dmuG=\HDHostDmuGComb\msun$ for an input of
-\MockDmuG{} and $\dmuchi=\HDHostDmuChiComb$ for an input of \MockDmuChi, with
-the inputs at the \HDHostDmuGCL\% and \HDHostDmuChiCL\% credible levels;
+[Fig.~\ref{fig:hd}(b)].
+We find $\dmuG=\HDHostDmuGComb\msun$ for an input of \MockDmuG, with the
+input at the \HDHostDmuGCL\% credible level, and
+$\dmuchi=\HDHostDmuChiComb$ for an input of \MockDmuChi, at the
+\HDHostDmuChiCL\% level and below the 90\% interval;
+% "below the 90% interval": \HDHostDmuChiCL is 98 over five realizations; re-read if realizations are added
 realization A alone gives $\HDHostDmuG\msun$ and $\HDHostDmuChi$, the
-second with its input below the 90\% interval. The Bayes
+second also with its input below the 90\% interval. The Bayes
 factor of the host-dependent analysis against the single-population analysis
 of the same mergers is $\lB=\HDLB$ on realization A and lies between
 \HDLBMin{} and \HDLBMax{} over the \NrealHD{} realizations, for priors
@@ -1138,7 +1140,7 @@ over the \NrealHD{} realizations, against \HWHDSingle{} [\HWHDSingleMin,
 therefore needs \CostSingleHost{} [\CostSingleHostMin, \CostSingleHostMax]
 times as many mergers for the same half-width; on realization A no
 correlation coefficient of $H_0$ with another parameter exceeds
-\HDHostMaxAbsCorrHzero{} in absolute value. % EXPECTED
+\HDHostMaxAbsCorrHzero{} in absolute value.
 
 Masses and spins that depend on the host add to what the positions say
 about the host class [Fig.~\ref{fig:classes}(c)]. From positions alone, that
@@ -1176,7 +1178,7 @@ With the populations inferred and not known, the mean half-width is
 $\HWHost\,\kms$ [open square in Fig.~\ref{fig:classes}(a)], against
 \HWPopsThirty{} with them known, a difference inside the range over the
 realizations: the two populations are inferred from the same mergers at no
-measured cost in $H_0$. % EXPECTED
+measured cost in $H_0$.
 
 \subsection{A mass spectrum like the observed one}
 \label{sec:obs}
@@ -1331,7 +1333,12 @@ level. The host-dependent analysis of mergers with host-dependent
 populations gives $\HDHostHzeroComb\,\kms$, with the input at the
 \HDHostHzeroCL\% level and those of $\mu_{\rm G}$, $\sigma_{\rm G}$,
 $\mu_\chi$ and $\sigma_\chi$ at the \HDHostMuGCL\%, \HDHostSigmaGCL\%,
-\HDHostMuChiCL\% and \HDHostSigmaChiCL\% levels.
+\HDHostMuChiCL\% and \HDHostSigmaChiCL\% levels. Two inputs lie outside the
+90\% intervals of these \NrealHD{} realizations, both in the spins: that of
+the spin mean of the galaxy class, above $\mu_\chi=\HDHostMuChiComb$, and
+that of the spin offset of the AGN class, below
+$\dmuchi=\HDHostDmuChiComb$ (Sec.~\ref{sec:hd}).
+% "Two inputs ... both in the spins": \HDHostMuChiCL 95 and \HDHostDmuChiCL 98; all other levels of key HDHost below 90; re-read if realizations are added
 
 Second, the analysis does not find AGN-hosted mergers where there are none,
 and it finds few where there are few [Fig.~\ref{fig:validation}(b)]. For

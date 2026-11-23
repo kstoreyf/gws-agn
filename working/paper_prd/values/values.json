@@ -34590,32 +34590,25 @@
    "extra": {}
   },
   "HDHostHzero": {
-   "class": "ph",
-   "render": "\\ph{67.4^{+1.7}_{-2.4}}",
+   "class": "plain",
+   "render": "67.5^{+1.5}_{-1.4}",
    "value": {
-    "median": 67.41629901092499,
+    "median": 67.53475422672643,
     "ci68": [
-     66.04550644424839,
-     68.53052162616508
+     66.66590964284269,
+     68.45738031875442
     ],
     "ci90": [
-     65.01603571802383,
-     69.16411797392875
+     66.09019483673603,
+     68.98771925854105
     ],
-    "ul90": 68.84013676223701,
-    "level_of_input": 0.23230844314299648
+    "ul90": 68.70808441667972,
+    "level_of_input": 0.1708022931082871
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (H0 prior [60, 76] in the exploratory run) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -34625,132 +34618,90 @@
    }
   },
   "HDHostHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{67.4}",
-   "value": 67.41629901092499,
+   "class": "plain",
+   "render": "67.5",
+   "value": 67.53475422672643,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "median of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{65.0}",
-   "value": 65.01603571802383,
+   "class": "plain",
+   "render": "66.1",
+   "value": 66.09019483673603,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "lower end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{69.2}",
-   "value": 69.16411797392875,
+   "class": "plain",
+   "render": "69.0",
+   "value": 68.98771925854105,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "upper end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{4.1}",
-   "value": 4.148082255904924,
+   "class": "plain",
+   "render": "2.9",
+   "value": 2.8975244218050165,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "full width of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{2.1}",
-   "value": 2.074041127952462,
+   "class": "plain",
+   "render": "1.4",
+   "value": 1.4487622109025082,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (HDHostHzeroWid) of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (H0 prior [60, 76] in the exploratory run): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (HDHostHzeroWid) of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.7^{+0.9}_{-0.9}}",
+   "class": "plain",
+   "render": "67.9^{+0.9}_{-0.8}",
    "value": {
-    "median": 67.675259802185,
+    "median": 67.89689551690745,
     "ci68": [
-     67.11447930481557,
-     68.23604029955442
+     67.41834370654583,
+     68.4331888228278
     ],
     "ci90": [
-     66.7477179261247,
-     68.60280167824529
+     67.07718062704579,
+     68.81155015477779
     ],
-    "ul90": 68.39793407701532,
-    "level_of_input": 0.09140174134223145
+    "ul90": 68.59993375742309,
+    "level_of_input": 0.257948997459557
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (H0 prior [60, 76] in the exploratory run) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -34760,132 +34711,90 @@
    }
   },
   "HDHostHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.7}",
-   "value": 67.675259802185,
+   "class": "plain",
+   "render": "67.9",
+   "value": 67.89689551690745,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "median of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{66.7}",
-   "value": 66.7477179261247,
+   "class": "plain",
+   "render": "67.1",
+   "value": 67.07718062704579,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "lower end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{68.6}",
-   "value": 68.60280167824529,
+   "class": "plain",
+   "render": "68.8",
+   "value": 68.81155015477779,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "upper end of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.9}",
-   "value": 1.855083752120592,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.7343695277319995,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (H0 prior [60, 76] in the exploratory run)",
+   "meaning": "full width of the 90% interval of H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{9.1}",
-   "value": 0.09140174134223145,
+   "class": "plain",
+   "render": "26",
+   "value": 0.257948997459557,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in HDHostHzeroComb (H0, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.26^{+0.07}_{-0.06}}",
+   "class": "plain",
+   "render": "0.29^{+0.07}_{-0.07}",
    "value": {
-    "median": 0.26325065795077857,
+    "median": 0.2879656049582589,
     "ci68": [
-     0.223629762783543,
-     0.3053157201077367
+     0.24493606339804813,
+     0.332878304553857
     ],
     "ci90": [
-     0.19913283398745704,
-     0.33287001722465304
+     0.22213401732704124,
+     0.3605080261207182
     ],
-    "ul90": 0.31746198997294545,
-    "level_of_input": 0.6095656417764763
+    "ul90": 0.3461915304456494,
+    "level_of_input": 0.21473865043146545
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -34895,267 +34804,183 @@
    }
   },
   "HDHostfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.26}",
-   "value": 0.26325065795077857,
+   "class": "plain",
+   "render": "0.29",
+   "value": 0.2879656049582589,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.20}",
-   "value": 0.19913283398745704,
+   "class": "plain",
+   "render": "0.22",
+   "value": 0.22213401732704124,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.33}",
-   "value": 0.33287001722465304,
+   "class": "plain",
+   "render": "0.36",
+   "value": 0.3605080261207182,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.13}",
-   "value": 0.133737183237196,
+   "class": "plain",
+   "render": "0.14",
+   "value": 0.13837400879367695,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.07}",
-   "value": 0.066868591618598,
+   "class": "plain",
+   "render": "0.07",
+   "value": 0.06918700439683848,
    "units": "",
-   "meaning": "half of the full 90% width (HDHostfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A: the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (HDHostfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.293^{+0.030}_{-0.030}}",
+   "class": "plain",
+   "render": "0.32^{+0.04}_{-0.04}",
    "value": {
-    "median": 0.2926501315901557,
+    "median": 0.3179015770702135,
     "ci68": [
-     0.2745701612554836,
-     0.3107301019248277
+     0.29575674302165,
+     0.3400147082951573
     ],
     "ci90": [
-     0.26274550815549136,
-     0.3225547550248199
+     0.28121275231403353,
+     0.3551232160050957
     ],
-    "ul90": 0.3159496748372091,
-    "level_of_input": 0.3139839922852177
+    "ul90": 0.3466326933227345,
+    "level_of_input": 0.579042067670138
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 3,
+    "decimals": 2,
     "input": 0.3
    }
   },
   "HDHostfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.293}",
-   "value": 0.2926501315901557,
+   "class": "plain",
+   "render": "0.32",
+   "value": 0.3179015770702135,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.263}",
-   "value": 0.26274550815549136,
+   "class": "plain",
+   "render": "0.28",
+   "value": 0.28121275231403353,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.323}",
-   "value": 0.3225547550248199,
+   "class": "plain",
+   "render": "0.36",
+   "value": 0.3551232160050957,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.060}",
-   "value": 0.059809246869328536,
+   "class": "plain",
+   "render": "0.07",
+   "value": 0.07391046369106219,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{31}",
-   "value": 0.3139839922852177,
+   "class": "plain",
+   "render": "58",
+   "value": 0.579042067670138,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in HDHostfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuG": {
-   "class": "ph",
-   "render": "\\ph{35.7^{+0.6}_{-0.6}}",
+   "class": "plain",
+   "render": "35.7^{+0.6}_{-0.6}",
    "value": {
-    "median": 35.65888669361412,
+    "median": 35.73276418926049,
     "ci68": [
-     35.27280453974772,
-     36.01638693149978
+     35.3427812674383,
+     36.12305306907726
     ],
     "ci90": [
-     35.02434112889748,
-     36.251655562119595
+     35.11978458893866,
+     36.31240151903335
     ],
-    "ul90": 36.10395734910683,
-    "level_of_input": 0.9092240117130308
+    "ul90": 36.222827403728616,
+    "level_of_input": 0.9454753451461044
    },
    "units": "Msun",
-   "meaning": "mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35165,112 +34990,77 @@
    }
   },
   "HDHostMuGMed": {
-   "class": "ph",
-   "render": "\\ph{35.7}",
-   "value": 35.65888669361412,
+   "class": "plain",
+   "render": "35.7",
+   "value": 35.73276418926049,
    "units": "Msun",
-   "meaning": "median of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGLo": {
-   "class": "ph",
-   "render": "\\ph{35.0}",
-   "value": 35.02434112889748,
+   "class": "plain",
+   "render": "35.1",
+   "value": 35.11978458893866,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGHi": {
-   "class": "ph",
-   "render": "\\ph{36.3}",
-   "value": 36.251655562119595,
+   "class": "plain",
+   "render": "36.3",
+   "value": 36.31240151903335,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGWid": {
-   "class": "ph",
-   "render": "\\ph{1.2}",
-   "value": 1.2273144332221122,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.1926169300946938,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGComb": {
-   "class": "ph",
-   "render": "\\ph{35.13^{+0.27}_{-0.27}}",
+   "class": "plain",
+   "render": "35.11^{+0.32}_{-0.33}",
    "value": {
-    "median": 35.13177733872283,
+    "median": 35.11163517201013,
     "ci68": [
-     34.96585632852318,
-     35.297698348922474
+     34.925444919921986,
+     35.29666695166554
     ],
     "ci90": [
-     34.85734075292798,
-     35.40621392451767
+     34.782792958332365,
+     35.43084729330738
     ],
-    "ul90": 35.34559869358024,
-    "level_of_input": 0.570364530428878
+    "ul90": 35.35446037406737,
+    "level_of_input": 0.45909373711081747
    },
    "units": "Msun",
-   "meaning": "mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35280,132 +35070,90 @@
    }
   },
   "HDHostMuGCombMed": {
-   "class": "ph",
-   "render": "\\ph{35.13}",
-   "value": 35.13177733872283,
+   "class": "plain",
+   "render": "35.11",
+   "value": 35.11163517201013,
    "units": "Msun",
-   "meaning": "median of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGCombLo": {
-   "class": "ph",
-   "render": "\\ph{34.86}",
-   "value": 34.85734075292798,
+   "class": "plain",
+   "render": "34.78",
+   "value": 34.782792958332365,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGCombHi": {
-   "class": "ph",
-   "render": "\\ph{35.41}",
-   "value": 35.40621392451767,
+   "class": "plain",
+   "render": "35.43",
+   "value": 35.43084729330738,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.55}",
-   "value": 0.5488731715896904,
+   "class": "plain",
+   "render": "0.65",
+   "value": 0.648054334975015,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuGCL": {
-   "class": "ph",
-   "render": "\\ph{57}",
-   "value": 0.570364530428878,
+   "class": "plain",
+   "render": "46",
+   "value": 0.45909373711081747,
    "units": "%",
    "meaning": "two-sided credible level at which the input 35 lies in HDHostMuGComb (mass-peak location, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaG": {
-   "class": "ph",
-   "render": "\\ph{4.8^{+0.4}_{-0.4}}",
+   "class": "plain",
+   "render": "4.7^{+0.4}_{-0.4}",
    "value": {
-    "median": 4.828853608888385,
+    "median": 4.6931063660839865,
     "ci68": [
-     4.581847279960564,
-     5.103220835369347
+     4.442501122482733,
+     4.941993899570875
     ],
     "ci90": [
-     4.412678914418188,
-     5.269658112946684
+     4.297741345748813,
+     5.09034360162915
     ],
-    "ul90": 5.182307003237383,
-    "level_of_input": 0.4807223035627135
+    "ul90": 5.011494430790866,
+    "level_of_input": 0.7828784718517849
    },
    "units": "Msun",
-   "meaning": "mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35415,112 +35163,77 @@
    }
   },
   "HDHostSigmaGMed": {
-   "class": "ph",
-   "render": "\\ph{4.8}",
-   "value": 4.828853608888385,
+   "class": "plain",
+   "render": "4.7",
+   "value": 4.6931063660839865,
    "units": "Msun",
-   "meaning": "median of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGLo": {
-   "class": "ph",
-   "render": "\\ph{4.4}",
-   "value": 4.412678914418188,
+   "class": "plain",
+   "render": "4.3",
+   "value": 4.297741345748813,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGHi": {
-   "class": "ph",
-   "render": "\\ph{5.3}",
-   "value": 5.269658112946684,
+   "class": "plain",
+   "render": "5.1",
+   "value": 5.09034360162915,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGWid": {
-   "class": "ph",
-   "render": "\\ph{0.9}",
-   "value": 0.8569791985284958,
+   "class": "plain",
+   "render": "0.8",
+   "value": 0.792602255880337,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGComb": {
-   "class": "ph",
-   "render": "\\ph{4.97^{+0.19}_{-0.19}}",
+   "class": "plain",
+   "render": "5.01^{+0.22}_{-0.23}",
    "value": {
-    "median": 4.965770721777678,
+    "median": 5.006684394427092,
     "ci68": [
-     4.849915444196828,
-     5.081625999358527
+     4.866429688934108,
+     5.14352254908713
     ],
     "ci90": [
-     4.774143833854653,
-     5.1573976097007055
+     4.777783013171613,
+     5.226363889197912
     ],
-    "ul90": 5.115072684138633,
-    "level_of_input": 0.23109778671156134
+    "ul90": 5.180074076169919,
+    "level_of_input": 0.03672919279193276
    },
    "units": "Msun",
-   "meaning": "mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35530,132 +35243,90 @@
    }
   },
   "HDHostSigmaGCombMed": {
-   "class": "ph",
-   "render": "\\ph{4.97}",
-   "value": 4.965770721777678,
+   "class": "plain",
+   "render": "5.01",
+   "value": 5.006684394427092,
    "units": "Msun",
-   "meaning": "median of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGCombLo": {
-   "class": "ph",
-   "render": "\\ph{4.77}",
-   "value": 4.774143833854653,
+   "class": "plain",
+   "render": "4.78",
+   "value": 4.777783013171613,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGCombHi": {
-   "class": "ph",
-   "render": "\\ph{5.16}",
-   "value": 5.1573976097007055,
+   "class": "plain",
+   "render": "5.23",
+   "value": 5.226363889197912,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.38}",
-   "value": 0.38325377584605214,
+   "class": "plain",
+   "render": "0.45",
+   "value": 0.44858087602629926,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaGCL": {
-   "class": "ph",
-   "render": "\\ph{23}",
-   "value": 0.23109778671156134,
+   "class": "plain",
+   "render": "3.7",
+   "value": 0.03672919279193276,
    "units": "%",
    "meaning": "two-sided credible level at which the input 5 lies in HDHostSigmaGComb (mass-peak width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChi": {
-   "class": "ph",
-   "render": "\\ph{-0.011^{+0.015}_{-0.015}}",
+   "class": "plain",
+   "render": "-0.019^{+0.015}_{-0.014}",
    "value": {
-    "median": -0.011323894248289584,
+    "median": -0.01892944500741575,
     "ci68": [
-     -0.02061433599405821,
-     -0.0022297577022233617
+     -0.02790767761102732,
+     -0.009480542121220098
     ],
     "ci90": [
-     -0.02593405269305174,
-     0.0032988871999978533
+     -0.032958734375342344,
+     -0.004210423583502616
     ],
-    "ul90": 9.579907365342422e-05,
-    "level_of_input": 0.7989263055148854
+    "ul90": -0.006836915238723872,
+    "level_of_input": 0.9568866115247889
    },
    "units": "",
-   "meaning": "spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35665,112 +35336,77 @@
    }
   },
   "HDHostMuChiMed": {
-   "class": "ph",
-   "render": "\\ph{-0.011}",
-   "value": -0.011323894248289584,
+   "class": "plain",
+   "render": "-0.019",
+   "value": -0.01892944500741575,
    "units": "",
-   "meaning": "median of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiLo": {
-   "class": "ph",
-   "render": "\\ph{-0.026}",
-   "value": -0.02593405269305174,
+   "class": "plain",
+   "render": "-0.033",
+   "value": -0.032958734375342344,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiHi": {
-   "class": "ph",
-   "render": "\\ph{0.003}",
-   "value": 0.0032988871999978533,
+   "class": "plain",
+   "render": "-0.004",
+   "value": -0.004210423583502616,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiWid": {
-   "class": "ph",
-   "render": "\\ph{0.029}",
-   "value": 0.029232939893049592,
+   "class": "plain",
+   "render": "0.029",
+   "value": 0.02874831079183973,
    "units": "",
-   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiComb": {
-   "class": "ph",
-   "render": "\\ph{-0.002^{+0.007}_{-0.007}}",
+   "class": "plain",
+   "render": "-0.010^{+0.008}_{-0.009}",
    "value": {
-    "median": -0.002264778849657921,
+    "median": -0.010041776506345827,
     "ci68": [
-     -0.006216788853668448,
-     0.0016872311543526038
+     -0.015539234165160069,
+     -0.0050260826946809225
     ],
     "ci90": [
-     -0.008801480447741856,
-     0.0042719227484259836
+     -0.018992310531497015,
+     -0.0017858010161198687
     ],
-    "ul90": 0.002828151409450323,
-    "level_of_input": 0.43125043351701886
+    "ul90": -0.0035970130757647647,
+    "level_of_input": 0.9548818240902859
    },
    "units": "",
-   "meaning": "spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35780,132 +35416,90 @@
    }
   },
   "HDHostMuChiCombMed": {
-   "class": "ph",
-   "render": "\\ph{-0.002}",
-   "value": -0.002264778849657921,
+   "class": "plain",
+   "render": "-0.010",
+   "value": -0.010041776506345827,
    "units": "",
-   "meaning": "median of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiCombLo": {
-   "class": "ph",
-   "render": "\\ph{-0.009}",
-   "value": -0.008801480447741856,
+   "class": "plain",
+   "render": "-0.019",
+   "value": -0.018992310531497015,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.004}",
-   "value": 0.0042719227484259836,
+   "class": "plain",
+   "render": "-0.002",
+   "value": -0.0017858010161198687,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.013}",
-   "value": 0.01307340319616784,
+   "class": "plain",
+   "render": "0.017",
+   "value": 0.017206509515377146,
    "units": "",
-   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostMuChiCL": {
-   "class": "ph",
-   "render": "\\ph{43}",
-   "value": 0.43125043351701886,
+   "class": "plain",
+   "render": "95",
+   "value": 0.9548818240902859,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0 lies in HDHostMuChiComb (spin mean (effective spin), [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChi": {
-   "class": "ph",
-   "render": "\\ph{0.082^{+0.014}_{-0.014}}",
+   "class": "plain",
+   "render": "0.078^{+0.015}_{-0.015}",
    "value": {
-    "median": 0.08219440122216812,
+    "median": 0.07841645973582331,
     "ci68": [
-     0.07351930243479377,
-     0.09023395555801556
+     0.06912094580125443,
+     0.0878928692283605
     ],
     "ci90": [
-     0.0685098791237167,
-     0.09617012813464333
+     0.06334025235238756,
+     0.09296016067219122
     ],
-    "ul90": 0.09253153495813293,
-    "level_of_input": 0.96730112249878
+    "ul90": 0.09055412654741153,
+    "level_of_input": 0.9699970853924589
    },
    "units": "",
-   "meaning": "spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -35915,112 +35509,77 @@
    }
   },
   "HDHostSigmaChiMed": {
-   "class": "ph",
-   "render": "\\ph{0.082}",
-   "value": 0.08219440122216812,
+   "class": "plain",
+   "render": "0.078",
+   "value": 0.07841645973582331,
    "units": "",
-   "meaning": "median of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiLo": {
-   "class": "ph",
-   "render": "\\ph{0.069}",
-   "value": 0.0685098791237167,
+   "class": "plain",
+   "render": "0.063",
+   "value": 0.06334025235238756,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiHi": {
-   "class": "ph",
-   "render": "\\ph{0.096}",
-   "value": 0.09617012813464333,
+   "class": "plain",
+   "render": "0.093",
+   "value": 0.09296016067219122,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiWid": {
-   "class": "ph",
-   "render": "\\ph{0.028}",
-   "value": 0.027660249010926632,
+   "class": "plain",
+   "render": "0.030",
+   "value": 0.029619908319803656,
    "units": "",
-   "meaning": "full width of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiComb": {
-   "class": "ph",
-   "render": "\\ph{0.096^{+0.006}_{-0.006}}",
+   "class": "plain",
+   "render": "0.099^{+0.007}_{-0.007}",
    "value": {
-    "median": 0.09643888024443363,
+    "median": 0.09908450344945834,
     "ci68": [
-     0.09269948279742575,
-     0.1001782776914415
+     0.09466927317362192,
+     0.10337691054499991
     ],
     "ci90": [
-     0.0902538439608913,
-     0.10262391652797598
+     0.09215047371087051,
+     0.10577872102326934
     ],
-    "ul90": 0.10125781804807586,
-    "level_of_input": 0.6563851775989198
+    "ul90": 0.10447749853211785,
+    "level_of_input": 0.15941990920162485
    },
    "units": "",
-   "meaning": "spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36030,132 +35589,90 @@
    }
   },
   "HDHostSigmaChiCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.096}",
-   "value": 0.09643888024443363,
+   "class": "plain",
+   "render": "0.099",
+   "value": 0.09908450344945834,
    "units": "",
-   "meaning": "median of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.090}",
-   "value": 0.0902538439608913,
+   "class": "plain",
+   "render": "0.092",
+   "value": 0.09215047371087051,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.103}",
-   "value": 0.10262391652797598,
+   "class": "plain",
+   "render": "0.106",
+   "value": 0.10577872102326934,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.012}",
-   "value": 0.01237007256708468,
+   "class": "plain",
+   "render": "0.014",
+   "value": 0.013628247312398825,
    "units": "",
-   "meaning": "full width of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostSigmaChiCL": {
-   "class": "ph",
-   "render": "\\ph{66}",
-   "value": 0.6563851775989198,
+   "class": "plain",
+   "render": "16",
+   "value": 0.15941990920162485,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.1 lies in HDHostSigmaChiComb (spin width, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuG": {
-   "class": "ph",
-   "render": "\\ph{4.2^{+1.4}_{-1.5}}",
+   "class": "plain",
+   "render": "3.8^{+1.4}_{-1.4}",
    "value": {
-    "median": 4.1715490747143775,
+    "median": 3.7961450418908456,
     "ci68": [
-     3.2814912980578104,
-     4.993923046486689
+     2.927699583225086,
+     4.676625010459698
     ],
     "ci90": [
-     2.6670562294693987,
-     5.569194976842866
+     2.4243821954907085,
+     5.154555178040953
     ],
-    "ul90": 5.299667051414256,
-    "level_of_input": 0.6817959980478283
+    "ul90": 4.920633159253264,
+    "level_of_input": 0.8319004317615029
    },
    "units": "Msun",
-   "meaning": "AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36165,112 +35682,77 @@
    }
   },
   "HDHostDmuGMed": {
-   "class": "ph",
-   "render": "\\ph{4.2}",
-   "value": 4.1715490747143775,
+   "class": "plain",
+   "render": "3.8",
+   "value": 3.7961450418908456,
    "units": "Msun",
-   "meaning": "median of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGLo": {
-   "class": "ph",
-   "render": "\\ph{2.7}",
-   "value": 2.6670562294693987,
+   "class": "plain",
+   "render": "2.4",
+   "value": 2.4243821954907085,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGHi": {
-   "class": "ph",
-   "render": "\\ph{5.6}",
-   "value": 5.569194976842866,
+   "class": "plain",
+   "render": "5.2",
+   "value": 5.154555178040953,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGWid": {
-   "class": "ph",
-   "render": "\\ph{2.9}",
-   "value": 2.902138747373467,
+   "class": "plain",
+   "render": "2.7",
+   "value": 2.7301729825502443,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGComb": {
-   "class": "ph",
-   "render": "\\ph{4.8^{+0.6}_{-0.6}}",
+   "class": "plain",
+   "render": "4.6^{+0.8}_{-0.8}",
    "value": {
-    "median": 4.834309814942874,
+    "median": 4.60011290747239,
     "ci68": [
-     4.441968798110234,
-     5.226650831775514
+     4.108161032424493,
+     5.078620049110563
     ],
     "ci90": [
-     4.185370123717092,
-     5.483249506168652
+     3.8130759378522927,
+     5.372212187467367
     ],
-    "ul90": 5.339917198144966,
-    "level_of_input": 0.32549403977058344
+    "ul90": 5.210709998068993,
+    "level_of_input": 0.5918463315939675
    },
    "units": "Msun",
-   "meaning": "AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36280,132 +35762,90 @@
    }
   },
   "HDHostDmuGCombMed": {
-   "class": "ph",
-   "render": "\\ph{4.8}",
-   "value": 4.834309814942874,
+   "class": "plain",
+   "render": "4.6",
+   "value": 4.60011290747239,
    "units": "Msun",
-   "meaning": "median of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGCombLo": {
-   "class": "ph",
-   "render": "\\ph{4.2}",
-   "value": 4.185370123717092,
+   "class": "plain",
+   "render": "3.8",
+   "value": 3.8130759378522927,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGCombHi": {
-   "class": "ph",
-   "render": "\\ph{5.5}",
-   "value": 5.483249506168652,
+   "class": "plain",
+   "render": "5.4",
+   "value": 5.372212187467367,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.2978793824515593,
+   "class": "plain",
+   "render": "1.6",
+   "value": 1.5591362496150745,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuGCL": {
-   "class": "ph",
-   "render": "\\ph{33}",
-   "value": 0.32549403977058344,
+   "class": "plain",
+   "render": "59",
+   "value": 0.5918463315939675,
    "units": "%",
    "meaning": "two-sided credible level at which the input 5 lies in HDHostDmuGComb (AGN offset of the mass peak, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChi": {
-   "class": "ph",
-   "render": "\\ph{0.158^{+0.033}_{-0.038}}",
+   "class": "plain",
+   "render": "0.163^{+0.031}_{-0.037}",
    "value": {
-    "median": 0.1581170275341755,
+    "median": 0.16293015418826312,
     "ci68": [
-     0.13500994402469785,
-     0.17971963754020273
+     0.14103956973911191,
+     0.18370619861316737
     ],
     "ci90": [
-     0.1205470183762781,
-     0.1914471861279693
+     0.12600931159478695,
+     0.19413422473208558
     ],
-    "ul90": 0.18480439321586378,
-    "level_of_input": 0.9926793557833089
+    "ul90": 0.1891590580322695,
+    "level_of_input": 0.9918461960109579
    },
    "units": "",
-   "meaning": "AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (median and 90% equal-tailed interval)",
+   "meaning": "AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36415,112 +35855,77 @@
    }
   },
   "HDHostDmuChiMed": {
-   "class": "ph",
-   "render": "\\ph{0.158}",
-   "value": 0.1581170275341755,
+   "class": "plain",
+   "render": "0.163",
+   "value": 0.16293015418826312,
    "units": "",
-   "meaning": "median of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "median of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiLo": {
-   "class": "ph",
-   "render": "\\ph{0.121}",
-   "value": 0.1205470183762781,
+   "class": "plain",
+   "render": "0.126",
+   "value": 0.12600931159478695,
    "units": "",
-   "meaning": "lower end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "lower end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiHi": {
-   "class": "ph",
-   "render": "\\ph{0.191}",
-   "value": 0.1914471861279693,
+   "class": "plain",
+   "render": "0.194",
+   "value": 0.19413422473208558,
    "units": "",
-   "meaning": "upper end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "upper end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiWid": {
-   "class": "ph",
-   "render": "\\ph{0.071}",
-   "value": 0.0709001677516912,
+   "class": "plain",
+   "render": "0.068",
+   "value": 0.06812491313729863,
    "units": "",
-   "meaning": "full width of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A",
+   "meaning": "full width of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, realization A (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiComb": {
-   "class": "ph",
-   "render": "\\ph{0.112^{+0.016}_{-0.016}}",
+   "class": "plain",
+   "render": "0.126^{+0.020}_{-0.019}",
    "value": {
-    "median": 0.11162340550683507,
+    "median": 0.12616293207052914,
     "ci68": [
-     0.10203839034018303,
-     0.12120842067348706
+     0.11429952257546784,
+     0.1382230232943986
     ],
     "ci90": [
-     0.09576960354430687,
-     0.1274772074693631
+     0.10741387896418587,
+     0.14586948192602814
     ],
-    "ul90": 0.12397555383811834,
-    "level_of_input": 0.7721606948873793
+    "ul90": 0.14163268915938979,
+    "level_of_input": 0.9804314768863361
    },
    "units": "",
-   "meaning": "AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (median and 90% equal-tailed interval)",
+   "meaning": "AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -36530,134 +35935,91 @@
    }
   },
   "HDHostDmuChiCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.112}",
-   "value": 0.11162340550683507,
+   "class": "plain",
+   "render": "0.126",
+   "value": 0.12616293207052914,
    "units": "",
-   "meaning": "median of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "median of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.096}",
-   "value": 0.09576960354430687,
+   "class": "plain",
+   "render": "0.107",
+   "value": 0.10741387896418587,
    "units": "",
-   "meaning": "lower end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "lower end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.127}",
-   "value": 0.1274772074693631,
+   "class": "plain",
+   "render": "0.146",
+   "value": 0.14586948192602814,
    "units": "",
-   "meaning": "upper end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "upper end of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.032}",
-   "value": 0.03170760392505624,
+   "class": "plain",
+   "render": "0.038",
+   "value": 0.038455602961842264,
    "units": "",
-   "meaning": "full width of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations",
+   "meaning": "full width of the 90% interval of AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, combined over 5 realizations (the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws, as the experiment of Sec. IV B) instead of the realization's record lane)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostDmuChiCL": {
-   "class": "ph",
-   "render": "\\ph{77}",
-   "value": 0.7721606948873793,
+   "class": "plain",
+   "render": "98",
+   "value": 0.9804314768863361,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.1 lies in HDHostDmuChiComb (AGN offset of the spin mean, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "A: exploratory; Comb: invented",
-    "placeholder_file": {
-     "A": "analyses/analysis_13_joint_shared_widths/results/a13core_e7c3007_rslice_cap20_historical_n200_s1.npz",
-     "Comb": null
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostLB": {
-   "class": "ph",
-   "render": "\\ph{8.4}",
-   "value": 8.4,
+   "class": "plain",
+   "render": "8.4",
+   "value": 8.430171084979266,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, against the single-population analysis of the same events, same priors (Table I), realization A",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "invented",
-    "placeholder_file": null,
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "HDHostLBComb": {
-   "class": "ph",
-   "render": "\\ph{31}",
-   "value": 31.0,
+   "class": "plain",
+   "render": "27",
+   "value": 27.275556933440996,
    "units": "log10",
    "meaning": "log10 Bayes factor, [key HDHost] host-dependent populations; host-dependent populations; both catalogs, complete, against the single-population analysis of the same events, same priors (Table I), combined over 5 realizations",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "invented",
-    "placeholder_file": null,
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45199,16 +44561,15 @@
    "extra": {}
   },
   "HDLB": {
-   "class": "ph",
-   "render": "\\ph{8.4}",
-   "value": 8.4,
+   "class": "plain",
+   "render": "8.4",
+   "value": 8.430171084979266,
    "units": "log10",
    "meaning": "log10 Bayes factor of the host-dependent populations against the single population, same events and priors, realization A (= HDHostLB; combined: HDHostLBComb)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "derived from the placeholder entries",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
+    ]
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45868,16 +45229,16 @@
    }
   },
   "HDLBMin": {
-   "class": "ph",
-   "render": "\\ph{3.9}",
-   "value": 3.8610753762625896,
+   "class": "plain",
+   "render": "2.5",
+   "value": 2.5118850873610934,
    "units": "log10",
    "meaning": "smallest over the realizations of the log10 Bayes factor of the host-dependent populations against the single population on the same mergers of the same realization (peak-dominated spectrum; the terms of HDHostLBComb)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "the realizations whose two summaries exist (100, 101, 102, 103; the key waits for the others)",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
+    ],
+    "computation": "(ln Z of HDHost - ln Z of HDSingle) / ln 10 per realization (summaries' ln_evidence); their smallest"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45886,21 +45247,22 @@
      "100": 8.430171084979266,
      "101": 6.812056664181588,
      "102": 3.8610753762625896,
-     "103": 5.660368720656456
+     "103": 5.660368720656456,
+     "105": 2.5118850873610934
     }
    }
   },
   "HDLBMax": {
-   "class": "ph",
-   "render": "\\ph{8.4}",
+   "class": "plain",
+   "render": "8.4",
    "value": 8.430171084979266,
    "units": "log10",
    "meaning": "largest over the realizations of the log10 Bayes factor of the host-dependent populations against the single population on the same mergers of the same realization (peak-dominated spectrum; the terms of HDHostLBComb)",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "the realizations whose two summaries exist (100, 101, 102, 103; the key waits for the others)",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json"
+    ],
+    "computation": "(ln Z of HDHost - ln Z of HDSingle) / ln 10 per realization (summaries' ln_evidence); their largest"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45909,7 +45271,8 @@
      "100": 8.430171084979266,
      "101": 6.812056664181588,
      "102": 3.8610753762625896,
-     "103": 5.660368720656456
+     "103": 5.660368720656456,
+     "105": 2.5118850873610934
     }
    }
   },
@@ -46288,16 +45651,16 @@
    }
   },
   "HDHostMaxAbsCorrHzero": {
-   "class": "ph",
-   "render": "\\ph{0.10}",
+   "class": "plain",
+   "render": "0.10",
    "value": 0.09743176168923509,
    "units": "",
    "meaning": "largest absolute correlation coefficient of H0 with the other seven parameters of the host-dependent analysis (f_AGN, mu_G, sigma_G, mu_chi, sigma_chi, dmu_G, dmu_chi), realization A, peak-dominated spectrum",
    "source": {
-    "missing": "Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the mixed sampler; build_values.STAGE_V_KEY_RUNS), 5 realizations",
-    "key": "HDHost",
-    "placeholder_source": "realization A's run while the key waits for its other realizations (equal-weight samples of analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice (run_posteriors.chain_samples), correlation coefficients of H0 with the other seven)",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/nested_1/samples.npz"
+    ],
+    "computation": "equal-weight samples of analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice (run_posteriors.chain_samples), correlation coefficients of H0 with the other seven"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -48196,33 +47559,51 @@
    }
   },
   "HWHost": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.6,
+   "class": "plain",
+   "render": "1.6",
+   "value": 1.641591048090676,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations inferred with H0 (eight parameters; key HDHost), both catalogs, host-dependent mergers, input f_AGN = 0.3, peak-dominated spectrum; runs host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (missing realization 105)",
-    "placeholder_source": "mean of the four finished realizations on 23 Nov 2026 (1.45, 1.52, 1.84, 1.62); was 2.1, the letter macro IndTwoPopHW"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.4487622109025082,
+     "101": 1.519609482513566,
+     "102": 1.8357358078940607,
+     "103": 1.6180599640662052,
+     "105": 1.78578777507704
+    },
     "kind": "mean_hw"
    }
   },
   "HWHostMin": {
-   "class": "ph",
-   "render": "\\ph{1.4}",
-   "value": 1.4400000000000002,
+   "class": "plain",
+   "render": "1.4",
+   "value": 1.4487622109025082,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWHost",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (missing realization 105)",
-    "placeholder_source": "mean of the four finished realizations on 23 Nov 2026 (1.45, 1.52, 1.84, 1.62); was 2.1, the letter macro IndTwoPopHW"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48232,14 +47613,20 @@
    }
   },
   "HWHostMax": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.7600000000000002,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8357358078940607,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWHost",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (missing realization 105)",
-    "placeholder_source": "mean of the four finished realizations on 23 Nov 2026 (1.45, 1.52, 1.84, 1.62); was 2.1, the letter macro IndTwoPopHW"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -50224,57 +49611,102 @@
    }
   },
   "CostSingleHost": {
-   "class": "ph",
-   "render": "\\ph{1.4}",
-   "value": 1.4080309193089597,
+   "class": "plain",
+   "render": "1.3",
+   "value": 1.337587515886705,
    "units": "",
    "meaning": "mergers needed with a single population inferred per merger with host-dependent populations inferred, for the same 90% half-width of H0, peak-dominated spectrum, the same mergers and realizations: (HWHDSingle / HWHost)^2 from the unrounded means",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (missing realization 105)",
-    "placeholder_source": "(HWHDSingle / HWHost)^2 of the unrounded values (some red)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_105/summary.json"
+    ],
+    "computation": "(HWHDSingle / HWHost)^2 of the unrounded values"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "from": {
      "HWHDSingle": 1.8985676583758972,
-     "HWHost": 1.6
+     "HWHost": 1.641591048090676
     },
     "decimals": 1
    }
   },
   "CostSingleHostMin": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.135213784011545,
+   "class": "plain",
+   "render": "1.0",
+   "value": 0.963225836337368,
    "units": "",
    "meaning": "smallest over the realizations of the same ratio computed per realization, (HWHDSingle[r] / HWHost[r])^2 (the central CostSingleHost is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (missing realization 105)",
-    "placeholder_source": "the central value times CostUnknownThirtyMin / CostUnknownThirty = 0.8062 and CostUnknownThirtyMax / CostUnknownThirty = 1.5001 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_105/summary.json"
+    ],
+    "computation": "(HWHDSingle[r] / HWHost[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.7694415742197316,
+     "101": 1.6526890582690152,
+     "102": 1.0446648317984717,
+     "103": 1.5022505699605297,
+     "105": 0.963225836337368
+    }
    }
   },
   "CostSingleHostMax": {
-   "class": "ph",
-   "render": "\\ph{2.1}",
-   "value": 2.1122430850407983,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.7694415742197316,
    "units": "",
    "meaning": "largest over the realizations of the same ratio computed per realization, (HWHDSingle[r] / HWHost[r])^2 (the central CostSingleHost is the ratio of the means)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (missing realization 105)",
-    "placeholder_source": "the central value times CostUnknownThirtyMin / CostUnknownThirty = 0.8062 and CostUnknownThirtyMax / CostUnknownThirty = 1.5001 (relative spread over the realizations of the finished equal-population cost at the same f)"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent/realization_105/summary.json"
+    ],
+    "computation": "(HWHDSingle[r] / HWHost[r])^2 per realization r, smallest and largest"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
-    "per_realization": null
+    "per_realization": {
+     "100": 1.7694415742197316,
+     "101": 1.6526890582690152,
+     "102": 1.0446648317984717,
+     "103": 1.5022505699605297,
+     "105": 0.963225836337368
+    }
    }
   },
   "CostObsSingleHost": {
