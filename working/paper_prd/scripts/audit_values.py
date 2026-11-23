@@ -741,7 +741,9 @@ def macro_keys(mac, doc):
     keys = sorted(doc, key=len, reverse=True)
     out = {}
     for n, v in mac.items():
-        if not v["claim"].startswith("skeleton"):
+        # 23 Nov: macros over a subset of a key's realizations (claim 'skeleton,subsets', Obs<Pops|Assumed><First|Later>...) follow their
+        # subset's summaries, not the key's state (audit J6)
+        if not v["claim"].startswith("skeleton") or v["claim"] == "skeleton,subsets":
             continue
         if n in FURTHER:
             out[n] = FURTHER[n]
@@ -800,7 +802,7 @@ def audit_requests(mac, doc):
                               n_exp("two_tracers_two_populations", "peak_f0p30_s1")}
     want["NrealHDSingleTwice"] = n_exp("single_population", "peak_f0p30_s2")
     want["NrealObsAssumed"] = {n_exp("two_tracers_one_population", "obslike_f0p30_s1"), n_exp("two_tracers_two_populations", "obslike_f0p30_s1")}
-    words = {3: "three", 5: "five", 10: "ten", 20: "twenty"}
+    words = {3: "three", 5: "five", 10: "ten", 15: "fifteen", 20: "twenty"}     # (15: the observed-like keys of Sec. IV F since 23 Nov)
     bad = []
     for k, w in want.items():
         w = w.pop() if isinstance(w, set) and len(w) == 1 else w
@@ -1537,6 +1539,97 @@ def audit_three_steps(mac, doc, specs, comb_cache):
           f"{worst[2]:.2g} ({worst[0]}, tolerance {worst[3]:.2g}); {'; '.join(out)}" + (f"; FAIL: {'; '.join((why + bad)[:5])}" if why or bad else ""))
 
 
+# J6 (23 Nov): the observed-like keys ObsPops and ObsAssumed over two subsets of their realizations (build_values.build_obslike_subsets), by
+# own code: the run lists parsed here (the two grids' realizations on obslike_f0p30_s1 in RUNLIST_experiment.yaml; stage 5's realizations in
+# RUNLIST.yaml), the summaries read directly, every combination by _grid_comb_safe (own summed splines, PCHIP where a pass has non-finite
+# cells) with own quantiles and levels, own formatting.
+_OBS_SUB = {"ObsPops": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
+            "ObsAssumed": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}"}
+
+
+def audit_obslike_subsets(mac, specs):
+    import statistics
+    import yaml
+    rows, bad, out = [], [], []
+    val = lambda n: mac[n]["value"]
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+    names = [f"{k}{t}Hzero{p}" for k in _OBS_SUB for t in ("First", "Later") for p in ("Comb", "CL")] + ["NrealObsFirst", "NrealObsLater", "ObsAssumedFirstShiftHzero"]
+    absent = [n for n in names if n not in mac]
+    if absent:
+        check(False, f"J6 values.json has the {len(names)} macros of the observed-like subsets ({', '.join(absent[:6])} missing)")
+        return
+    rxl = yaml.safe_load((RUNS16 / "RUNLIST_experiment.yaml").read_text())
+    own = {k: sorted(int(m.group(1)) for st in rxl["stages"] for r in st["runs"]
+                     for m in [re.fullmatch(re.escape(p).replace(re.escape("{R}"), r"(\d{3})"), r["name"])] if m) for k, p in _OBS_SUB.items()}
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    s5 = {int(m.group(1)) for st in rl["stages"] if str(st["stage"]) == "5" for r in st["runs"]
+          for m in [re.fullmatch(r"single_population/both_catalogs/complete/host_dependent_obslike/realization_(\d{3})", r["name"])] if m}
+    common = sorted(set(own["ObsPops"]) & set(own["ObsAssumed"]))
+    sub = {"First": [r for r in common if r in s5], "Later": [r for r in common if r not in s5]}
+    for nm, t in (("NrealObsFirst", "First"), ("NrealObsLater", "Later")):
+        n_ = len(sub[t])
+        if val(nm) != n_ or mac[nm]["render"] != _OWN_WORDS[n_] or mac[nm]["class"] != "plain":
+            bad.append(f"{nm} '{mac[nm]['render']}' vs own {n_}")
+    for k in _OBS_SUB:
+        if (specs.get(k) or {}).get("realizations") != own[k]:
+            bad.append(f"map {k} realizations {(specs.get(k) or {}).get('realizations')} vs own {own[k]}")
+    states = []
+    for k, pat in _OBS_SUB.items():
+        for t, rs in sub.items():
+            nc, nl = f"{k}{t}HzeroComb", f"{k}{t}HzeroCL"
+            runs = [RUNS16 / pat.format(R=f"{r:03d}") for r in rs]
+            have = bool(rs) and all((r_ / "summary.json").exists() for r_ in runs)
+            states.append((nc, (mac[nc]["class"] == "plain") == have and (mac[nl]["class"] == "plain") == have))
+            if (mac[nc].get("extra") or {}).get("realizations") != rs:
+                bad.append(f"{nc} realizations {(mac[nc].get('extra') or {}).get('realizations')} vs own {rs}")
+            if not have:
+                out.append(f"{nc} red ({sum((r_ / 'summary.json').exists() for r_ in runs)} of {len(rs)} summaries)")
+                continue
+            x0 = {float(_jr(r_ / "summary.json")["truth"]["H0"]) for r_ in runs}
+            cmp(nc, float(len(x0) != 1), 0.0, 0.0, "one input H0 in every summary's truth")
+            x0 = x0.pop()
+            nm_, ax_, tot_ = _grid_comb_safe(runs)
+            xo, po = _marg(nm_, ax_, tot_, "H0")
+            o = _quant(xo, po, x0)
+            v = val(nc)
+            hw = 0.5 * (v["ci90"][1] - v["ci90"][0])
+            tol = max(0.01 * hw, 0.005)
+            for w, a, b in (("median", v["median"], o["median"]), ("lo", v["ci90"][0], o["ci90"][0]), ("hi", v["ci90"][1], o["ci90"][1])):
+                cmp(nc, a, b, tol, f"{w} vs own summed splines (_grid_comb_safe)")
+            cmp(nl, val(nl), o["level"], max(0.01, 2.0 * float(np.interp(x0, xo, po)) * tol), "level of the input vs own")
+            if mac[nc]["render"] != _own_interval(v):
+                bad.append(f"{nc} render {mac[nc]['render']} vs {_own_interval(v)}")
+            pc = _own_pct(val(nl))
+            if (pc is not None and mac[nl]["render"] != pc) or (pc is None and "99" not in mac[nl]["render"]):
+                bad.append(f"{nl} render {mac[nl]['render']} vs {pc}")
+            out.append(f"{nc} {o['median']:.2f} [{o['ci90'][0]:.2f}, {o['ci90'][1]:.2f}], input at {100 * o['level']:.1f}% (own; {len(rs)} realizations)")
+    # the paired shift over the first realizations: the summaries' medians
+    rs = sub["First"]
+    pa = [(RUNS16 / _OBS_SUB["ObsAssumed"].format(R=f"{r:03d}") / "summary.json", RUNS16 / _OBS_SUB["ObsPops"].format(R=f"{r:03d}") / "summary.json")
+          for r in rs]
+    have = bool(rs) and all(a.exists() and b.exists() for a, b in pa)
+    states.append(("ObsAssumedFirstShiftHzero", (mac["ObsAssumedFirstShiftHzero"]["class"] == "plain") == have))
+    if have:
+        sh = [_jr(a)["posterior"]["H0"]["median"] - _jr(b)["posterior"]["H0"]["median"] for a, b in pa]
+        cmp("ObsAssumedFirstShiftHzero", val("ObsAssumedFirstShiftHzero"), statistics.median(sh), 1e-12, "median of the summaries' paired shifts")
+        if mac["ObsAssumedFirstShiftHzero"]["render"] != _own_fixed(statistics.median(sh), 1):
+            bad.append("ObsAssumedFirstShiftHzero render")
+        out.append(f"first-five shift {statistics.median(sh):+.2f}")
+    bad += [f"{n} black/red does not follow its subset's summaries" for n, ok in states if not ok]
+    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf)) if rows else ("-", "-", 0.0, 1.0)
+    check(not bad,
+          f"J6 the observed-like keys ObsPops and ObsAssumed over two subsets (own parser: realizations {common} of both grids on "
+          f"obslike_f0p30_s1, stage 5's {sorted(s5)}: First {sub['First']}, Later {sub['Later']}); black exactly when every summary of the "
+          f"subset exists ({sum(ok for _n, ok in states)} of {len(states)}); {len(rows)} numbers against the own summed splines and the "
+          f"summaries, largest deviation {worst[2]:.2g} ({worst[0]}, tolerance {worst[3]:.2g}); {'; '.join(out)}"
+          + (f"; FAIL: {'; '.join(bad[:5])}" if bad else ""))
+
+
 def _counts(run):
     cfg = _jr(run / "config.json")
     out = {}
@@ -1782,6 +1875,7 @@ def audit_production(mac, doc, owner):
     audit_knownboth_twenty(mac, doc, specs)
     audit_hdhost_mixed(mac, doc, specs)
     audit_three_steps(mac, doc, specs, comb_cache)
+    audit_obslike_subsets(mac, specs)
     # ---- J3 (21 Nov): HDNoneHzeroCombUL, the 90% upper limit of the combined H0 posterior with no catalog on host-dependent mergers (it
     # leans on the lower prior edge): own Scott-KDE product of the weighted samples (J1's), its 90th percentile, mode and density at the edge
     if "HDNone" in fin and ("HDNone", "Hzero") in comb_cache and "HDNoneHzeroCombUL" in mac:
@@ -1900,9 +1994,14 @@ def audit_classes(mac, doc):
     exp_idx = {}
     ev_idx = {}                      # run pattern -> {realization: events file of the run list}
     rx = yaml.safe_load((RUNS16 / "RUNLIST_experiment.yaml").read_text())
+    # 23 Nov: the experiment's macros are on the experiment's realizations (the header's 'realizations'); a set's further realizations
+    # (make_runlist.EXPERIMENT_EXTRA) feed the paper's keys only
+    xr_ = {int(x) for x in (rx.get("realizations") or [])}
     for st in rx["stages"]:
         for r in st["runs"]:
             pat_, rr_ = re.sub(r"realization_\d{3}", "realization_{R}", r["name"]), int(r["args"][r["args"].index("--realization") + 1])
+            if xr_ and rr_ not in xr_:
+                continue
             exp_idx.setdefault(pat_, set()).add(rr_)
             ev_idx.setdefault(pat_, {})[rr_] = r.get("events_file")
     for r in rx.get("reused_from_stage_1") or []:

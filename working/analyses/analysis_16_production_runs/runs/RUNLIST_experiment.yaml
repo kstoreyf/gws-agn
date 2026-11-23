@@ -1,4 +1,4 @@
-generated_utc: '2026-11-21T07:05:22Z'
+generated_utc: '2026-11-23T11:06:33Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -58,7 +58,45 @@ cost_model:
           105: 1.22
         numerator: mass_spectrum_alone/no_catalog/complete/obslike_f0p30_s0/realization_{R:03d}
         denominator: known_population/no_catalog/complete/equal_populations/realization_{R:03d}
+  eight_parameter_mixed_sampler_measured:
+    realizations:
+    - 100
+    - 101
+    - 102
+    - 103
+    calls_mean: 219540
+    seconds_per_call: 0.5087541079099449
+    per_run:
+      100:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice
+        calls: 230137
+        session_calls: 200035
+        seconds_in_likelihood: 99996.8
+        ncall_total: 233244
+        gpu_hours: 31.821
+      101:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+        calls: 207096
+        session_calls: 207096
+        seconds_in_likelihood: 103913.8
+        ncall_total: 212705
+        gpu_hours: 28.933
+      102:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+        calls: 214184
+        session_calls: 214184
+        seconds_in_likelihood: 108270.1
+        ncall_total: 219948
+        gpu_hours: 30.129
+      103:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+        calls: 226744
+        session_calls: 226744
+        seconds_in_likelihood: 119272.8
+        ncall_total: 237667
+        gpu_hours: 33.22
   measured:
+  - eight_parameter_mixed_sampler
   - lane_factor.obslike.both
   - lane_factor.obslike.none
   - overhead_hours_per_process
@@ -12041,12 +12079,12 @@ stages:
     data_exists: true
 - stage: E2
   title: experiment grids, observed-like mass spectrum
-  n_runs: 75
-  n_tasks: 75
-  est_calls: 40350
-  est_gpu_hours: 8.04
-  est_gpu_hours_existing_data: 8.04
-  est_gpu_hours_ready: 8.04
+  n_runs: 95
+  n_tasks: 95
+  est_calls: 63290
+  est_gpu_hours: 11.44
+  est_gpu_hours_existing_data: 11.44
+  est_gpu_hours_ready: 11.44
   n_runs_held: 0
   runs:
   - name: galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p30_s0/realization_100
@@ -15587,6 +15625,1226 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '111'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '112'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '113'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '114'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '115'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4453
+    est_gpu_hours: 0.164
+    est_gpu_hours_per_part: 0.164
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '111'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed111/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '112'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed112/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '113'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed113/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '114'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed114/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '115'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E2
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4825
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 101
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed115/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: the low H0 of the set's first realizations (more realizations decide whether it is a draw)
   - name: mass_spectrum_alone/no_catalog/complete/obslike_f0p30_s1/realization_100
     analysis: mass_spectrum_alone
     set:

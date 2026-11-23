@@ -60,7 +60,7 @@ from scipy.special import logsumexp
 W = Path("/hildafs/projects/phy230014p/magana/gws-agn/working")
 AN = W / "analyses"
 DATA = W / "data"
-OUT = W / "paper_prd"
+OUT = Path(__file__).resolve().parent.parent    # the paper's directory (working/paper_prd; 23 Nov: a copy of the chain writes beside itself)
 A0 = AN / "analysis_0_pure_tracer_H0" / "results"
 A1 = AN / "analysis_1_complete_catalog_H0" / "results"
 A2 = AN / "analysis_2_complete_catalog_H0_fagn" / "results"
@@ -2689,6 +2689,75 @@ def _signed(x, d):
     return f"\\ensuremath{{{s}}}" if s.startswith("-") else s
 
 
+OBS_SUBSET_KEYS = ("ObsPops", "ObsAssumed")
+SUBSET_PH_HW = 0.8       # 90% half-width (km/s/Mpc) of five realizations' combined H0 while a subset is red (scaled by sqrt(5/N))
+
+
+def obs_subsets(specs):
+    """23 Nov: {"First": [...], "Later": [...]} of the observed-like keys ObsPops and ObsAssumed (each over every realization of its runs,
+    RUNLIST_experiment.yaml): First = the realizations that also carry stage 5 (key ObsSingle's), Later = the others (the further
+    realizations of make_runlist.EXPERIMENT_EXTRA)."""
+    reals = sorted(set(specs.get("ObsAssumed", {}).get("realizations", [])) & set(specs.get("ObsPops", {}).get("realizations", [])))
+    s5 = set(specs.get("ObsSingle", {}).get("realizations", []))
+    return {"First": [r for r in reals if r in s5], "Later": [r for r in reals if r not in s5]}
+
+
+def build_obslike_subsets(K, specs, PRD_, RP, word):
+    """23 Nov: the observed-like keys ObsPops and ObsAssumed over two subsets of their realizations (obs_subsets: First, the realizations
+    that carry stage 5; Later, the further ones): <Key><First|Later>HzeroComb (run_posteriors.combined over the subset's grids, the corrected
+    ln L summed; printed as every Comb) and <Key><First|Later>HzeroCL (the level of the input, '>99.99' near 100%), and the paired shift over
+    the first realizations, ObsAssumedFirstShiftHzero (median over them of the H0 median of ObsAssumed minus that of ObsPops). Each is black
+    exactly when every summary of its subset exists (claim 'skeleton,subsets', audit J6), independently of the key's own state; red: the
+    input H0 with a 90% half-width of SUBSET_PH_HW sqrt(5/N), level 0 (the shift: realization A's placeholders)."""
+    sub = obs_subsets(specs)
+    for k in OBS_SUBSET_KEYS:
+        sp = specs.get(k) or {}
+        for tag, reals in sub.items():
+            dirs = [PRD_.key_dir(sp, r) for r in reals] if sp else []
+            have = bool(dirs) and all((d / "summary.json").exists() for d in dirs)
+            what = (f"H0, key {k} ({K[k]['analysis']}, {K[k]['events']}), combined over the {len(reals)} realizations "
+                    f"{'that carry stage 5' if tag == 'First' else 'added to them'} ({', '.join(map(str, reals)) or 'none in the run list'})")
+            if have:
+                s, _x, _p, x0 = RP.combined(dirs, "H0")
+                lev = float(s["level_of_input"])
+                src = {"files": [rel(d / "summary.json") for d in dirs], "computation": "run_posteriors.combined: the corrected ln L of the grids summed "
+                       "(cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"}
+                cls, wrap = "plain", (lambda t: t)
+            else:
+                hw = SUBSET_PH_HW * math.sqrt(5.0 / max(len(reals), 1))
+                x0 = IN["H0"]
+                s, lev = {"median": x0, "ci90": [x0 - hw, x0 + hw]}, 0.0
+                miss = [rel(d / "summary.json") for d in dirs if not (d / "summary.json").exists()] or ["no realization in the run list"]
+                src = {"missing": "; ".join(miss[:4]) + (" ..." if len(miss) > 4 else ""), "key": k,
+                       "placeholder_source": f"invented: the input {x0:g} with a 90% half-width of {hw:.3f} (0.8 km/s/Mpc for five, scaled by sqrt(5/N)), level 0"}
+                cls, wrap = "ph", (lambda t: f"\\ph{{{t}}}")
+            r_, d = fci(s["median"], s["ci90"][0], s["ci90"][1])
+            add(f"{k}{tag}HzeroComb", cls, wrap(r_), {kk: s[kk] for kk in ("median", "ci90") if kk in s}, "km/s/Mpc",
+                f"{what} (median and 90% equal-tailed interval)", src, "skeleton,subsets", extra={"decimals": d, "input": x0, "realizations": reals})
+            add(f"{k}{tag}HzeroCL", cls, wrap(fpct(min(lev, 1.0 - 1e-9))), lev, "%",
+                f"two-sided credible level at which the input {x0:g} lies in {k}{tag}HzeroComb ({what})", src, "skeleton,subsets",
+                extra={"input": x0, "realizations": reals})
+    # the paired shift over the first realizations
+    reals = sub["First"]
+    pairs = [(PRD_.key_dir(specs["ObsAssumed"], r) / "summary.json", PRD_.key_dir(specs["ObsPops"], r) / "summary.json") for r in reals] \
+        if all(k in specs for k in OBS_SUBSET_KEYS) else []
+    what = (f"median over the {len(reals)} realizations that carry stage 5 ({', '.join(map(str, reals))}) of the change of the H0 median when the "
+            f"galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent "
+            f"mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed")
+    if pairs and all(a.exists() and b.exists() for a, b in pairs):
+        per = {r: json.loads(a.read_text())["posterior"]["H0"]["median"] - json.loads(b.read_text())["posterior"]["H0"]["median"]
+               for r, (a, b) in zip(reals, pairs)}
+        v = float(np.median(list(per.values())))
+        add("ObsAssumedFirstShiftHzero", "plain", _signed(v, 1), v, "km/s/Mpc", what,
+            {"files": [rel(p) for ab in pairs for p in ab], "computation": "posterior.H0.median of each summary of ObsAssumed minus that of ObsPops, "
+             "the same realization; their median"}, "skeleton,subsets", extra={"decimals": 1, "per_realization": per})
+    else:
+        v = K["ObsAssumed"]["quantities"]["Hzero"]["A"]["median"] - K["ObsPops"]["quantities"]["Hzero"]["A"]["median"]
+        add("ObsAssumedFirstShiftHzero", "ph", f"\\ph{{{_signed(v, 1)}}}", v, "km/s/Mpc", what,
+            {"missing": "the summaries of ObsAssumed and ObsPops of the first realizations", "key": "ObsAssumed,ObsPops",
+             "placeholder_source": "realization A's placeholders: ObsAssumedHzero minus ObsPopsHzero"}, "skeleton,subsets", extra={"decimals": 1})
+
+
 def build_keys_three_steps(K, q, addf, srcf, fin):
     """23 Nov (notes/MACRO_REQUESTS.md G1, G2): the further macros of Sec. IV E on three steps, each black exactly when every key it is
     built from is a production result (claim 'skeleton,keys'; audit H1 and J4/J5):
@@ -2801,6 +2870,7 @@ def build_keys_three_steps(K, q, addf, srcf, fin):
     except (FileNotFoundError, TypeError):
         rho, how = {"invented": 0.10}, "invented: 0.10 (MACRO_REQUESTS G2, by hand)"
     v = max(abs(x) for x in rho.values())
+    build_obslike_subsets(K, specs, PRD_, RP, word)
     addk("HDHostMaxAbsCorrHzero", ["HDHost"], fnum(v, 2), v, "",
          "largest absolute correlation coefficient of H0 with the other seven parameters of the host-dependent analysis (f_AGN, mu_G, sigma_G, "
          "mu_chi, sigma_chi, dmu_G, dmu_chi), realization A, peak-dominated spectrum", files=[rel(dA / "nested_1" / "samples.npz")] if dA else None,
@@ -3157,6 +3227,17 @@ def build_requests():
           "offsets, both catalogs (key HDSingleTwice; RUNLIST_experiment.yaml stage E3)")
     nreal("NrealObsAssumed", ["ObsAssumed", "ObsPops"], "realizations combined, population assumed and the two populations at their inputs, "
           "host-dependent mergers, observed-like spectrum (keys ObsAssumed, ObsPops; RUNLIST_experiment.yaml stage E2)")
+    # 23 Nov: the two subsets of those realizations (build_obslike_subsets): the ones that carry stage 5 (key ObsSingle, RUNLIST.yaml) and the
+    # further ones (make_runlist.EXPERIMENT_EXTRA), from the run lists
+    ro = sorted(set(PR.RUNREAL_EXP.get("ObsAssumed", [])) & set(PR.RUNREAL_EXP.get("ObsPops", [])))
+    s5 = set(PR.RUNREAL.get("ObsSingle", []))
+    for nm, rs, what in (("NrealObsFirst", [r for r in ro if r in s5], "that also carry stage 5 (key ObsSingle)"),
+                         ("NrealObsLater", [r for r in ro if r not in s5], "added to them (realizations without stage 5)")):
+        add(nm, "plain", NUM_WORD.get(len(rs), str(len(rs))), len(rs), "realizations",
+            f"realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2) {what}: "
+            f"{', '.join(map(str, rs))} (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
+            {"file": rel(PR.RUNLIST_EXP), "computation": f"realizations of both keys' runs {'that' if nm.endswith('First') else 'that do not'} appear "
+             f"among key ObsSingle's in {rel(PR.RUNLIST)}"}, "design,realizations", extra={"realizations": rs})
     # 23 Nov (G2): the AGN-hosted share of the detected mergers of the host-dependent sets, the mean over the realizations of the single
     # population's key (realization A alone: MockHDfDet), from each realization's events metadata (realised.realised_f_agn, the number the
     # run summaries record as planted.truth_f_agn)

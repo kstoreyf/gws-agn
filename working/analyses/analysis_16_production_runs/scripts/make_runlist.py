@@ -16,6 +16,9 @@ them for its (obslike, f = 0.3, s = 1) set from data/experiment_sets.json.
 .../host_dependent_obslike/realization_NNN_unif_then_rslice, one part; cost measured on V8's finished runs times the
 observed-like lane factor, stage5_eight_parameter_cost; lane rank 10, after every six-parameter run); of stage 4's
 pure-rslice eight-parameter runs only realization 100's stays (STAGE4_RSLICE_KEPT, V8's sampler reference).
+23 Nov, later: the experiment's set obslike_f0p30_s1 also on realizations 106-115 for two analyses (two_tracers_two_populations,
+two_tracers_one_population; EXPERIMENT_EXTRA, build_experiment_extra): stage E2 entries with the arguments of the set's five but the
+realization, seconds per call measured on those five.
 
 Cost model (the brief's numbers until the tests measure them; --timing merges measured spc_* keys):
   seconds per call at 8,000 samples: 0.39 with the population fixed, 0.44 with it free (both catalogs,
@@ -1306,6 +1309,47 @@ def exp_entry(stage, mode, analysis, fam, f, s, r, suffix, priority, membership=
                   P.injections_path(r, popfam, lane), priority=priority)
 
 
+# 23 Nov: further realizations of some analyses of one experiment set. The observed-like host-dependent set (obslike_f0p30_s1) with both
+# populations at their inputs and with the population assumed sits low in H0 on the experiment's five realizations; seeds 106-115 of
+# this family were generated on 23 Nov (data/experiment_sets.json lists them for this set only) to decide whether that is a draw. The
+# grids are the same analyses of the same set (stage E2, the same arguments but the realization, the set's lane and redraw stream),
+# so the paper's keys (ObsPops, ObsAssumed) take them by their run pattern; scripts/classes.py keeps its experiment macros on the
+# experiment's realizations (the run list's header 'realizations'). Lane rank: E2's (1.5), ahead of E3 (4).
+EXPERIMENT_EXTRA = {("obslike", 0.3, 1): {"analyses": ("two_tracers_two_populations", "two_tracers_one_population"),
+                                          "realizations": tuple(range(106, 116))}}
+
+
+def build_experiment_extra(smap):
+    """The runs of EXPERIMENT_EXTRA: exp_entry's run of each analysis and realization, its arguments checked against the set's existing
+    runs of that analysis (equal but for the realization), seconds per call the mean measured on those runs (their sessions)."""
+    out = {}
+    for (fam, f, s), ext in EXPERIMENT_EXTRA.items():
+        rec = smap.get((fam, round(f, 4), s)) or {}
+        lane = rec.get("lane") or P.default_injection_lane("obslike" if fam == "obslike" else "corepop")
+        stage = "E1" if fam == "peak" else "E2"
+        inj_ok = rec.get("injections_exist")
+        prio = s * 100 + f_priority(f) * 10 + (0 if fam == "peak" else 1)       # as build_experiment
+        for a in ext["analyses"]:
+            assert a in experiment_analyses(f, s), (a, fam, f, s)
+            part = [exp_entry(stage, "grid", a, fam, f, s, r, rec.get("suffix"), prio, lane=lane, lane_ok=True) for r in EXPERIMENT_REALIZATIONS]
+            got = [x for x in (run_seconds_per_call(p["name"]) for p in part) if x]
+            for r in ext["realizations"]:
+                lane_ok = None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(r)))
+                e = exp_entry(stage, "grid", a, fam, f, s, r, rec.get("suffix"), prio, lane=lane, lane_ok=lane_ok)
+                ref = part[0]["args"]
+                want = [str(r) if (i > 0 and ref[i - 1] == "--realization") else x for i, x in enumerate(ref)]
+                if e["args"] != want:
+                    sys.exit(f"[fatal] {e['name']}: arguments differ from {part[0]['name']}'s by more than the realization")
+                if got:
+                    e = finish(e, stage, "grid", e["free"], statistics.fmean(got), e["events_file"], e["injections_file"], priority=prio)
+                    e["est_seconds_per_call_source"] = (f"mean measured on the set's runs of this analysis on realizations "
+                                                        f"{', '.join(map(str, EXPERIMENT_REALIZATIONS))} ({len(got)} of {len(part)}; their sessions)")
+                e["extends"] = {"set": P.set_name(fam, f, s), "analysis": a, "of_realizations": list(EXPERIMENT_REALIZATIONS),
+                                "why": "the low H0 of the set's first realizations (more realizations decide whether it is a draw)"}
+                out.setdefault(stage, []).append(e)
+    return out
+
+
 def build_experiment(realizations):
     smap, info = experiment_set_map()
     st = {"E1": [], "E2": [], "E3": []}
@@ -1333,6 +1377,10 @@ def build_experiment(realizations):
                 lane_ok = None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(r)))
                 st[stage].append(exp_entry(stage, "grid", a, fam, f, s, r, suffix, prio, membership=mem, lane=lane,
                                            lane_ok=lane_ok))
+    # 23 Nov: further realizations of some analyses of one set (EXPERIMENT_EXTRA), appended to the set's stage after its five
+    st_extra = build_experiment_extra(smap)
+    for k in st_extra:
+        st[k] += st_extra[k]
     # E3: the six-parameter single population on (f = 0.3, s = 2)
     rec = smap.get(("peak", 0.3, 2)) or {}
     for r in realizations:

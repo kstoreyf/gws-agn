@@ -11,6 +11,10 @@ from pathlib import Path
 
 DATA = Path("/hildafs/projects/phy230014p/magana/gws-agn/working/data")
 REALS = [100, 101, 102, 103, 105]
+# 23 Nov: further realizations of one set, after REALS (the observed-like host-dependent set: seeds 106-115 generated on 23 Nov to
+# decide whether the low H0 of its first five realizations is a draw; analysis_16 runs its two grids with both populations at their
+# inputs and with the population assumed on them). The set's entry lists REALS + these; every other set keeps REALS
+EXTRA_REALS = {("obslike", 0.3, 1): list(range(106, 116))}
 # (family, f_agn, s, suffix, sub-seed offset, note)
 SETS = [
     ("peak", 0.0, 0, "_puregal_corepop", 8, "all mergers in galaxies"),
@@ -81,16 +85,17 @@ def main():
     sup = fill_support()
     for fam, f, s, sfx, off, note in SETS:
         fname = f"events{sfx}.h5"
-        ex = {str(r): (DATA / f"seed{r}" / "events" / fname).exists() for r in REALS}
-        vj = {str(r): (DATA / f"seed{r}" / "validation" / f"validation_events{sfx}.json").exists() for r in REALS}
+        reals = REALS + EXTRA_REALS.get((fam, f, s), [])
+        ex = {str(r): (DATA / f"seed{r}" / "events" / fname).exists() for r in reals}
+        vj = {str(r): (DATA / f"seed{r}" / "validation" / f"validation_events{sfx}.json").exists() for r in reals}
         entries.append({
             "family": fam, "f_agn": f, "s": s, "dmu_mass": 5.0 * s, "dmu_spin": 0.10 * s,
-            "suffix": sfx, "file": f"seed<R>/events/{fname}", "realizations": REALS,
+            "suffix": sfx, "file": f"seed<R>/events/{fname}", "realizations": reals,
             "sub_seed": f"R*1000+{off}", "population_code": "core",
             "exists": ex, "all_exist": all(ex.values()), "validated": vj,
             "injections": INJ_OVERRIDE.get((fam, f, s), INJ[fam]), "note": note,
             "injections_exist": {str(r): (DATA / f"seed{r}" / INJ_OVERRIDE.get((fam, f, s), INJ[fam])).exists()
-                                 for r in REALS},
+                                 for r in reals},
             "injection_N2_over_Neff_R100_design_worst": (list(sup[(fam, f, s)]) if (fam, f, s) in sup else None),
             "status": ("complete" if all(ex.values()) else NOT_GENERATED.get((fam, s), "in progress"))})
     extra = {}

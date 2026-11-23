@@ -2353,7 +2353,17 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115
    ],
    "realization_A": 100,
    "settings": "the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations",
@@ -2371,7 +2381,17 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110,
+       111,
+       112,
+       113,
+       114,
+       115
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
@@ -2393,7 +2413,17 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110,
+       111,
+       112,
+       113,
+       114,
+       115
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
@@ -2414,7 +2444,17 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115
    ],
    "realization_A": 100,
    "settings": "the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations",
@@ -2432,7 +2472,17 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110,
+       111,
+       112,
+       113,
+       114,
+       115
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
@@ -2454,7 +2504,17 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110,
+       111,
+       112,
+       113,
+       114,
+       115
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },

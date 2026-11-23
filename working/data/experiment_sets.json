@@ -119,7 +119,7 @@
   }
  },
  "what": "event sets of the short paper's experiment (working/paper_short_independent/EXPERIMENT.md): family, planted f_AGN, size s of the AGN-class offset (mass peak +5 s Msun, mean chi_eff +0.10 s), and the file. 'suffix' is everything between 'events' and '.h5'; files live under working/data/seed<R>/events/; 'injections' is relative to working/data/seed<R>/. 'exists' is per realization at 'updated_utc'. 'injection_N2_over_Neff_R100_design_worst' is the selection-term variance of the set's own analysis on its lane (realization 100; design point, worst stressed point; obslike/README.md).",
- "updated_utc": "2026-11-17T10:37:09+00:00",
+ "updated_utc": "2026-11-23T11:06:08+00:00",
  "populations_galaxy_class": {
   "peak": {
    "v1": 0.1,
@@ -827,7 +827,17 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115
    ],
    "sub_seed": "R*1000+11",
    "population_code": "core",
@@ -836,7 +846,17 @@
     "101": true,
     "102": true,
     "103": true,
-    "105": true
+    "105": true,
+    "106": true,
+    "107": true,
+    "108": true,
+    "109": true,
+    "110": true,
+    "111": true,
+    "112": true,
+    "113": true,
+    "114": true,
+    "115": true
    },
    "all_exist": true,
    "validated": {
@@ -844,7 +864,17 @@
     "101": true,
     "102": true,
     "103": true,
-    "105": true
+    "105": true,
+    "106": true,
+    "107": true,
+    "108": true,
+    "109": true,
+    "110": true,
+    "111": true,
+    "112": true,
+    "113": true,
+    "114": true,
+    "115": true
    },
    "injections": "injections/injections_targeted_obslike.h5",
    "note": "",
@@ -853,7 +883,17 @@
     "101": true,
     "102": true,
     "103": true,
-    "105": true
+    "105": true,
+    "106": true,
+    "107": true,
+    "108": true,
+    "109": true,
+    "110": true,
+    "111": true,
+    "112": true,
+    "113": true,
+    "114": true,
+    "115": true
    },
    "injection_N2_over_Neff_R100_design_worst": [
     1.2905110045309947,

@@ -238,11 +238,17 @@ def _runlist_index():
     exp, prod = {}, {}
     if RUNLIST_EXP.exists():
         d = yaml.safe_load(RUNLIST_EXP.read_text())
+        # 23 Nov: the experiment's macros stay on the experiment's realizations (the run list's header 'realizations'); the further
+        # realizations of a set (make_runlist.EXPERIMENT_EXTRA: obslike_f0p30_s1, 106-115) feed the paper's keys, not these means
+        xr = {int(x) for x in (d.get("realizations") or [])}
         for st in d["stages"]:
             for r in st["runs"]:
+                R = int(re.search(r"realization_(\d{3})", r["name"]).group(1))
+                if xr and R not in xr:
+                    continue
                 rec = exp.setdefault((r["analysis"], r["set"]["label"]), {"run": _pattern(r["name"]), "runlist": RUNLIST_EXP.name,
                                                                           "stage": str(st["stage"]), "realizations": set()})
-                rec["realizations"].add(int(re.search(r"realization_(\d{3})", r["name"]).group(1)))
+                rec["realizations"].add(R)
         for r in d.get("reused_from_stage_1") or []:
             rec = exp.setdefault((r["analysis"], r["set"]), {"run": _pattern(r["run"]), "runlist": RUNLIST.name, "stage": "1 (reused by the experiment)",
                                                              "realizations": set()})
