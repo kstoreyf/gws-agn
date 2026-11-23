@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 07:50 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
+## STATE 23 Nov 08:05 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
 - THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS AT ITS 7-DAY LIMIT ABOUT 16:50 UTC 23 Nov; its
   successor 1494715 is pending. Background watchers and agents of this session die with it:
   after the restart check everything by hand.
@@ -54,14 +54,30 @@ this file holds the working state.
   single population on host-dependent mergers at both offsets: combined H0, level, realization
   A; E3; min and max of log10 B over realizations; mean half-widths and their ratio on the
   common realizations; mean detected AGN share): ONE Opus job AFTER the mapping agent below.
-- AGENT AT WORK (Opus, started 07:25 UTC; Sec. 5 item 2): keys HDHost/HWHost and their Bayes
-  factors read the `..._unif_then_rslice` runs (explicit stage-V8 exception); stage 5's five
-  eight-parameter runs become `host_dependent_obslike/realization_NNN_unif_then_rslice` with
-  the automatic switch, ranked after all six-parameter work; the never-queued pure-rslice
-  entries are dropped; the unused macro families are pruned; refresh at the end. It does not
-  queue and does not commit: check its run-list identity check, queue with its launcher line
-  (dry run first), commit. If the session died first: its edits are in the working tree
-  (`git status`, `git diff`); verify the same things and finish by hand or with a fresh agent.
+- DONE 07:55 UTC (commit 201a7e4): Sec. 5 item 2. Keys HDHost/HWHost and their Bayes factors
+  read the `..._unif_then_rslice` runs (explicit stage-V8 exception `build_values.
+  STAGE_V_KEY_RUNS`, audit check J4); stage 5's five eight-parameter runs are
+  `host_dependent_obslike/realization_NNN_unif_then_rslice` (automatic switch, lane rank 10,
+  35.8 GPU-h each by the measured cost, 179 in all) and are QUEUED last on the lanes (three on
+  lane 1, two on lane 2); the nine never-queued pure-rslice entries are gone; twenty unused
+  macros pruned. Checked by me: old against new run list (9 removed, 5 added, 0 changed, none
+  of the removed on a lane), the dry run, both lanes advancing after the queueing. Refresh
+  exit 0, audit 92 of 92, 163 of 218 real (HDHost turns real at the first refresh after
+  realization 105's summary; HDSingle needs all ten, 106 to 110).
+- THE THREE-STEP TEXT IS IN `main.tex` (installed 08:00 UTC, UNCOMMITTED until the macros
+  exist): abstract, the roadmap sentence, Table III (two rows "Population assumed"), Secs.
+  IV E, IV F, IV G, captions of Figs. 6 to 8, Conclusions. Its new macros are fallback macros
+  (red dots) until the agent delivers. Specification: `paper_prd/notes/MACRO_REQUESTS.md`
+  Sec. G (keys HDAssumed, HDAssumedTwice, HDPops, HDSingleTwice, ObsAssumed, ObsPops; paired
+  shifts; min and max of log10 B; `\HWHDSingle`, `\CostSingleHost`; third curve in Figs. 6
+  and 7, a row in Fig. 8).
+- AGENT AT WORK (the same Opus agent, resumed 08:00 UTC): Sec. G. It does not commit. When it
+  reports: check its macro table against the numbers of this block, view Figs. 6 to 8, re-read
+  every changed sentence against the rendered numbers (the sentence tagged `% REREAD` in Sec.
+  IV F first: the observed-like sets with the populations known combine to about 66.9 +- 0.7,
+  input near the 95% level, while the assumed population gives about 68.0; the paired shift
+  is +1.1 in all five), run the style self-check on the changed text, commit. If the session
+  died first: `git status`, `git diff`; finish by hand or with a fresh agent from Sec. G.
 - WATCHER: task `b3lcgarfp` (until 12:30 UTC): the first E3 run
   (`single_population/both_catalogs/complete/peak_f0p30_s2/realization_100`, both parts).
 - LANES 07:10 UTC (order is right, no reordering needed): lane 1 (job 1425268 until 10:00
@@ -71,13 +87,13 @@ this file holds the working state.
   then two E3 parts, the second parts of HDSingle 106 to 110 (until about 17:00 UTC 24 Nov),
   then stage 3 and stage 5. Six-parameter work left: about 137 GPU-h (until about 26 Nov);
   then stage 5's five eight-parameter runs, about 30 to 35 GPU-h each.
-- PLAN: (a) agent's report -> check, queue stage 5's eight-parameter runs, commit; (b) write
-  Sec. IV E, the abstract's headline and the Conclusions' first paragraph on the three steps
-  (draft in the scratchpad until the macros exist; `main.tex` must compile at every refresh);
-  (c) macros job (Opus); (d) when 105, E3 and HDSingle 106 to 110 are in (about 17:00 UTC
-  24 Nov): refresh, re-read, commit, PDF to the owner, and the multiple choice "5, then 10"
-  (eight-parameter model on realizations 106 to 110, about 150 GPU-h) with the five results;
-  ask for the push with it.
+- PLAN: (a) the agent's report -> check, re-read, commit; (b) when 105, E3 and HDSingle 106
+  to 110 are in (about 17:00 UTC 24 Nov): refresh, re-read the sentences that turned black
+  (E3 decides the sentence on a single population at twice the offsets), commit, PDF to the
+  owner, and the multiple choice "5, then 10" (eight-parameter model on realizations 106 to
+  110, about 150 GPU-h) with the five results; ask for the push with it. (c) Open, not urgent:
+  the observed-like sets with both populations known sit low (about 95% level over five);
+  if stage 5 repeats it, draw more realizations before any mechanism hunt.
 
 ## THE OFFSET IS A FLUCTUATION OF THE FIRST TEN (21 Nov 12:35 UTC; read first)
 - RESULT of the ten new realizations (111 to 120; twenty grids finished 12:33 UTC, none
