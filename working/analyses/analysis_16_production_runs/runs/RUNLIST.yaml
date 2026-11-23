@@ -1,4 +1,4 @@
-generated_utc: '2026-11-21T09:52:16Z'
+generated_utc: '2026-11-23T07:19:42Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -58,7 +58,45 @@ cost_model:
           105: 1.22
         numerator: mass_spectrum_alone/no_catalog/complete/obslike_f0p30_s0/realization_{R:03d}
         denominator: known_population/no_catalog/complete/equal_populations/realization_{R:03d}
+  eight_parameter_mixed_sampler_measured:
+    realizations:
+    - 100
+    - 101
+    - 102
+    - 103
+    calls_mean: 219540
+    seconds_per_call: 0.5087541079099449
+    per_run:
+      100:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice
+        calls: 230137
+        session_calls: 200035
+        seconds_in_likelihood: 99996.8
+        ncall_total: 233244
+        gpu_hours: 31.821
+      101:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+        calls: 207096
+        session_calls: 207096
+        seconds_in_likelihood: 103913.8
+        ncall_total: 212705
+        gpu_hours: 28.933
+      102:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+        calls: 214184
+        session_calls: 214184
+        seconds_in_likelihood: 108270.1
+        ncall_total: 219948
+        gpu_hours: 30.129
+      103:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+        calls: 226744
+        session_calls: 226744
+        seconds_in_likelihood: 119272.8
+        ncall_total: 237667
+        gpu_hours: 33.22
   measured:
+  - eight_parameter_mixed_sampler
   - lane_factor.obslike.both
   - lane_factor.obslike.none
   - overhead_hours_per_process
@@ -3897,12 +3935,12 @@ stages:
     data_exists: true
 - stage: 4
   title: host-dependent events
-  n_runs: 20
-  n_tasks: 35
-  est_calls: 1865000
-  est_gpu_hours: 215.29
-  est_gpu_hours_existing_data: 215.29
-  est_gpu_hours_ready: 215.29
+  n_runs: 16
+  n_tasks: 31
+  est_calls: 777000
+  est_gpu_hours: 83.59
+  est_gpu_hours_existing_data: 83.59
+  est_gpu_hours_ready: 83.59
   n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/host_dependent/realization_100
@@ -4368,178 +4406,6 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
     data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_101
-    analysis: host_dependent_populations
-    args:
-    - --mode
-    - nested
-    - --analysis
-    - host_dependent_populations
-    - --catalogs
-    - both
-    - --flux
-    - complete
-    - --events-kind
-    - host_dependent
-    - --realization
-    - '101'
-    - --injections-lane
-    - injections/injections_targeted_peak.h5
-    injections_lane: injections/injections_targeted_peak.h5
-    nsamp: 8000
-    injection_pool: []
-    stage: 4
-    mode: nested
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    - dmu_G
-    - dmu_chi
-    n_parameters: 8
-    parts:
-    - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 32.926
-    est_gpu_hours_per_part: 32.926
-    priority: 0.0
-    lane_rank: 3
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_peak.h5
-    data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_102
-    analysis: host_dependent_populations
-    args:
-    - --mode
-    - nested
-    - --analysis
-    - host_dependent_populations
-    - --catalogs
-    - both
-    - --flux
-    - complete
-    - --events-kind
-    - host_dependent
-    - --realization
-    - '102'
-    - --injections-lane
-    - injections/injections_targeted_peak.h5
-    injections_lane: injections/injections_targeted_peak.h5
-    nsamp: 8000
-    injection_pool: []
-    stage: 4
-    mode: nested
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    - dmu_G
-    - dmu_chi
-    n_parameters: 8
-    parts:
-    - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 32.926
-    est_gpu_hours_per_part: 32.926
-    priority: 0.0
-    lane_rank: 3
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_peak.h5
-    data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_103
-    analysis: host_dependent_populations
-    args:
-    - --mode
-    - nested
-    - --analysis
-    - host_dependent_populations
-    - --catalogs
-    - both
-    - --flux
-    - complete
-    - --events-kind
-    - host_dependent
-    - --realization
-    - '103'
-    - --injections-lane
-    - injections/injections_targeted_peak.h5
-    injections_lane: injections/injections_targeted_peak.h5
-    nsamp: 8000
-    injection_pool: []
-    stage: 4
-    mode: nested
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    - dmu_G
-    - dmu_chi
-    n_parameters: 8
-    parts:
-    - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 32.926
-    est_gpu_hours_per_part: 32.926
-    priority: 0.0
-    lane_rank: 3
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_peak.h5
-    data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
-    analysis: host_dependent_populations
-    args:
-    - --mode
-    - nested
-    - --analysis
-    - host_dependent_populations
-    - --catalogs
-    - both
-    - --flux
-    - complete
-    - --events-kind
-    - host_dependent
-    - --realization
-    - '105'
-    - --injections-lane
-    - injections/injections_targeted_peak.h5
-    injections_lane: injections/injections_targeted_peak.h5
-    nsamp: 8000
-    injection_pool: []
-    stage: 4
-    mode: nested
-    free:
-    - H0
-    - f_agn
-    - mu_G
-    - sigma_G
-    - mu_chi
-    - sigma_chi
-    - dmu_G
-    - dmu_chi
-    n_parameters: 8
-    parts:
-    - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.4355
-    est_gpu_hours: 32.926
-    est_gpu_hours_per_part: 32.926
-    priority: 0.0
-    lane_rank: 3
-    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
-    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
-    data_exists: true
   - name: single_population/no_catalog/complete/host_dependent/realization_100
     analysis: single_population
     args:
@@ -4749,10 +4615,10 @@ stages:
   title: observed-like mass spectrum, host-dependent events
   n_runs: 15
   n_tasks: 25
-  est_calls: 1685000
-  est_gpu_hours: 225.3
-  est_gpu_hours_existing_data: 225.3
-  est_gpu_hours_ready: 225.3
+  est_calls: 1422700
+  est_gpu_hours: 214.47
+  est_gpu_hours_existing_data: 214.47
+  est_gpu_hours_ready: 214.47
   n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_100
@@ -4995,7 +4861,7 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5018,6 +4884,14 @@ stages:
     - '100'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5035,16 +4909,23 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.502
-    est_gpu_hours: 37.954
-    est_gpu_hours_per_part: 37.954
+    est_calls: 219540
+    est_seconds_per_call: 0.5865
+    est_gpu_hours: 35.789
+    est_gpu_hours_per_part: 35.789
     priority: 0.0
-    lane_rank: 8
+    lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
     data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_101
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+      233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
+      realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
+    sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
+      against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_101_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5067,6 +4948,14 @@ stages:
     - '101'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5084,16 +4973,23 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.502
-    est_gpu_hours: 37.954
-    est_gpu_hours_per_part: 37.954
+    est_calls: 219540
+    est_seconds_per_call: 0.5865
+    est_gpu_hours: 35.789
+    est_gpu_hours_per_part: 35.789
     priority: 0.0
-    lane_rank: 8
+    lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
     data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_102
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+      233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
+      realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
+    sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
+      against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_102_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5116,6 +5012,14 @@ stages:
     - '102'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5133,16 +5037,23 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.502
-    est_gpu_hours: 37.954
-    est_gpu_hours_per_part: 37.954
+    est_calls: 219540
+    est_seconds_per_call: 0.5865
+    est_gpu_hours: 35.789
+    est_gpu_hours_per_part: 35.789
     priority: 0.0
-    lane_rank: 8
+    lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
     data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_103
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+      233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
+      realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
+    sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
+      against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_103_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5165,6 +5076,14 @@ stages:
     - '103'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5182,16 +5101,23 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.502
-    est_gpu_hours: 37.954
-    est_gpu_hours_per_part: 37.954
+    est_calls: 219540
+    est_seconds_per_call: 0.5865
+    est_gpu_hours: 35.789
+    est_gpu_hours_per_part: 35.789
     priority: 0.0
-    lane_rank: 8
+    lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
     data_exists: true
-  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_105
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+      233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
+      realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
+    sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
+      against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_105_unif_then_rslice
     analysis: host_dependent_populations
     args:
     - --mode
@@ -5214,6 +5140,14 @@ stages:
     - '105'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5231,15 +5165,22 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 272000
-    est_seconds_per_call: 0.502
-    est_gpu_hours: 37.954
-    est_gpu_hours_per_part: 37.954
+    est_calls: 219540
+    est_seconds_per_call: 0.5865
+    est_gpu_hours: 35.789
+    est_gpu_hours_per_part: 35.789
     priority: 0.0
-    lane_rank: 8
+    lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+      233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
+      realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
+    sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
+      against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
   - name: single_population/no_catalog/complete/host_dependent_obslike/realization_100
     analysis: single_population
     args:

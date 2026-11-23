@@ -71,29 +71,19 @@ Medians and half-widths of single runs from summary.json (posterior.<par>); comb
 function of the <Key>...Comb macros of grid runs: corrected ln L summed over the realizations), printed as the key scheme prints
 them (bv.fci: median and 90% interval, PDG decimals; CL = bv.fpct of the two-sided level of the input, the summaries' truth).
 Macros (claim 'validation'):
-  SkyResMCMinShiftHzero, SkyResMCMaxShiftHzero   smallest and largest over the realizations of (H0 median at nside 64 minus at
-                        nside 32), signed, two decimals (as SkyRes<P>Shift...)
-  SkyResMCNarrowPct     100 (1 - mean over the realizations of the ratio of the 90% half-widths of H0, nside 64 over nside 32),
-                        an integer (signed)
   SkyResMCHzeroComb<ThirtyTwo|SixtyFour>, SkyResMCHzeroCL<ThirtyTwo|SixtyFour>   H0 combined over the realizations at each nside,
                         and the credible level of the input
-  SkyResTenNreal        the number of realizations of pair_all (a word; black when every realization of key KnownBoth has its
-                        nside-64 run in stage X)
-  SkyResTenHzeroComb, SkyResTenHzeroCL, SkyResTenfAGNComb, SkyResTenfAGNCL   H0 and f_AGN combined over pair_all's nside-64 runs
-  SkyResTenMeanShiftHzero, SkyResTenSdShiftHzero   mean and standard deviation (ddof 1) over pair_all's realizations of the
+  SkyResAGNHzeroCombSixtyFour, SkyResAGNHzeroCLSixtyFour, SkyResAGNMeanShiftHzero, SkyResAGNSdShiftHzero   agn_pair's: H0
+                        combined over its nside-64 runs, and the mean and standard deviation (ddof 1) over its realizations of the
                         shift of the H0 median, signed, two decimals
-  SkyResOffsetHzeroProd median of KnownBothHzeroComb (the registered key macro, passed in by build_values) minus its input;
-  SkyResOffsetHzeroFine median of SkyResTenHzeroComb minus its input; both one decimal, signed (unsigned when positive)
-  SkyResAGNHzeroCombSixtyFour, SkyResAGNHzeroCLSixtyFour, SkyResAGNMeanShiftHzero, SkyResAGNSdShiftHzero   the same for agn_pair
+  (23 Nov: SkyResMCMinShiftHzero, SkyResMCMaxShiftHzero, SkyResMCNarrowPct and pair_all's SkyResTen..., SkyResOffsetHzero... are
+  removed: main.tex used none. pair_all stays in the map and registers nothing, SETS_WITHOUT_MACROS.)
 A set's macros are black when every realization it wants has its pair in the run list and both summaries with a posterior
 block (mc_pair: and a variance block, as its Mean/Sd macros). Red values while a set waits (also in DEFINITIONS):
-  Min/Max shift         the setting's own SkyResMCMeanShiftHzero minus / plus SkyResMCSdShiftHzero (real or red)
-  NarrowPct             invented: 10
+  NarrowPct             invented: 10 (SkyResAllNarrowPct below)
   Comb                  invented: the input (H0 67.74, f_AGN 0.30) with a 90% half-width of 0.8 km/s/Mpc (H0) or 0.03 (f_AGN);
   CL                    0 (the input at that median)
   MeanShift, SdShift    realization A's own shift of the set when its two summaries exist (else 0); 0.3 km/s/Mpc (SD_PH)
-  TenNreal              the number of realizations wanted
-  OffsetHzero...        from the red median of the combination it reads
 
 21 Nov, later: two more sets (DEFINITIONS, "Over the twenty realizations"):
   pair_twenty (prefix All)  the pair at the production settings on the twenty realizations of key KnownBoth: nside 32 = the key's runs
@@ -155,6 +145,9 @@ SETS = {"mc_pair": ("MC", MC_RUN, MC_PARTNER, None, ("H0",), (32, NSIDE)),
         "pair_twenty": ("All", RUN, PARTNER, "KnownBoth", ("H0", "f_agn"), (NSIDE,)),
         "pair_half": ("Half", HALF_BASE + f"_nside{NSIDE}", HALF_BASE, None, ("H0",), ())}
 NEW_SETS = ("pair_all", "agn_pair", "pair_twenty", "pair_half")   # map sub-blocks written by map_block since 21 Nov (mc_pair is older)
+# 23 Nov: sets that register no macro: pair_all's SkyResTen..., SkyResOffsetHzero... were removed (main.tex used none, the paragraph
+# they served was replaced by pair_twenty's); the set stays in the map ('sky_resolution.pair_all'), build_sets skips it
+SETS_WITHOUT_MACROS = ("pair_all",)
 PAR_Q = {"H0": ("Hzero", "H0", "km/s/Mpc"), "f_agn": ("fAGN", "f_AGN", "")}
 COMB_PH = {"H0": 0.8, "f_agn": 0.03}         # invented 90% half-widths of a combined posterior while a set waits
 NARROW_PH = 10.0                             # invented narrowing (percent) while mc_pair waits
@@ -460,7 +453,7 @@ def red_values(which, E0):
 def build(add, add_ph=None, reg=None):
     """Register the macros of both pairs with build_values' registry: realization A's (as before 19 Nov, first), then the means and
     scatters over the realizations, SkyResNreal and SkyResMCNsets (build_all), then (21 Nov) the sets of pairs combined over their
-    realizations (build_sets; reg = build_values' registry so far, for KnownBothHzeroComb)."""
+    realizations (build_sets; reg = build_values' registry so far, for KnownBothHzeroHalfWid)."""
     E0 = evaluate("pair")
     A = {}
     for which, P in PAIRS.items():
@@ -673,10 +666,12 @@ def _shiftA(which, par="H0"):
 
 def build_sets(add, reg=None):
     """The macros of the sets of pairs (module header, "Combined over the realizations"); reg: build_values' registry, for the red
-    rule of the Min/Max shifts (SkyResMCMeanShiftHzero, SkyResMCSdShiftHzero) and for KnownBothHzeroComb (SkyResOffsetHzeroProd)."""
+    rule of SkyResAllShiftPctHalfWid (KnownBothHzeroHalfWid). Sets of SETS_WITHOUT_MACROS are skipped."""
     import numpy as np
     look = {r["name"]: r for r in (reg or [])}
     for which in SETS:
+        if which in SETS_WITHOUT_MACROS:
+            continue
         E = evaluate_set(which)
         P, run_p, partner_p, key, pars, comb_ns = SETS[which]
         rec = E["rec"] or {}
@@ -733,80 +728,9 @@ def build_sets(add, reg=None):
                     sr, "validation", extra={"decimals": d})
 
         if which == "mc_pair":
-            # smallest and largest shift, the narrowing of the interval, H0 combined at each nside
-            for nm, fn, w in (("SkyResMCMinShiftHzero", min, "smallest"), ("SkyResMCMaxShiftHzero", max, "largest")):
-                meaning = f"{w} {over} of {shift_what}, signed"
-                if E["real"]:
-                    v = float(fn(E["shift"]["H0"].values()))
-                    add(nm, "plain", render(v, 2), v, "km/s/Mpc", meaning, src_shift(f"their {w}"), "validation",
-                        extra={"decimals": 2, "per_realization": dict(E["shift"]["H0"]), "realizations": reals})
-                else:
-                    m_, s_ = (float(look[n]["value"]) if n in look else ph for n, ph in (("SkyResMCMeanShiftHzero", 0.0), ("SkyResMCSdShiftHzero", SD_PH["Hzero"])))
-                    v = m_ - s_ if fn is min else m_ + s_
-                    add(nm, "ph", f"\\ph{{{render(v, 2)}}}", v, "km/s/Mpc", meaning,
-                        dict(srcR, placeholder_source=f"SkyResMCMeanShiftHzero {'minus' if fn is min else 'plus'} SkyResMCSdShiftHzero (real or red)"),
-                        "validation", extra={"decimals": 2})
-            meaning = (f"narrowing of the 90% interval of H0 when the sky pixels are half as wide, {sett}: 100 (1 - mean {over} of the ratio of the "
-                       f"90% half-widths of H0 (summary.json posterior.H0.ci90), nside 64 over nside 32), percent")
-            if E["real"]:
-                rat = E["hw_ratio"]["H0"]
-                v = 100.0 * (1.0 - float(np.mean([rat[R] for R in reals])))
-                add("SkyResMCNarrowPct", "plain", render(v, 0), v, "%", meaning,
-                    {"files": E["files"][NSIDE] + E["files"][32], "computation": "half of the 90% width of H0 of each nside-64 summary over that of its "
-                                                                                  "nside-32 summary; 100 (1 - their mean)"},
-                    "validation", extra={"decimals": 0, "per_realization_ratio": dict(rat), "realizations": reals})
-            else:
-                add("SkyResMCNarrowPct", "ph", f"\\ph{{{render(NARROW_PH, 0)}}}", NARROW_PH, "%", meaning,
-                    dict(srcR, placeholder_source=f"invented: {NARROW_PH:g}"), "validation", extra={"decimals": 0})
+            # H0 combined at each nside (23 Nov: SkyResMCMinShiftHzero, SkyResMCMaxShiftHzero, SkyResMCNarrowPct removed, main.tex used none)
             for ns in (32, NSIDE):
                 comb(f"SkyResMCHzeroComb{NS_WORD[ns]}", f"SkyResMCHzeroCL{NS_WORD[ns]}", ns, "H0", f"the nside-{ns} runs")
-        elif which == "pair_all":
-            wanted = list(rec.get("realizations_wanted") or [])
-            N = len(wanted)
-            meaning = ("number of realizations of key KnownBoth (population known, both catalogs complete, production settings) analysed also with "
-                       "the sky pixels half as wide (nside 64, stage X): the SkyResTen... macros")
-            if rec and wanted and list(rec["realizations"]) == wanted:
-                add("SkyResTenNreal", "plain", bv.NUM_WORD.get(N, str(N)), N, "realizations", meaning,
-                    {"file": bv.rel(RUNLIST), "computation": "realizations of values/production_map.json 'sky_resolution.pair_all' (key KnownBoth's "
-                                                             "stage-1 runs, each with its nside-64 run in stage X)"},
-                    "validation,realizations", extra={"realizations": wanted})
-            else:
-                n_ = N or len(REALIZATIONS)
-                add("SkyResTenNreal", "ph", f"\\ph{{{bv.NUM_WORD.get(n_, str(n_))}}}", n_, "realizations", meaning,
-                    {"missing": f"the nside-64 runs of every realization of key KnownBoth in stage X of RUNLIST.yaml (now {rec.get('realizations')} of {wanted})",
-                     "placeholder_source": "the number of realizations wanted"}, "validation,realizations")
-            sH = comb("SkyResTenHzeroComb", "SkyResTenHzeroCL", NSIDE, "H0", "the nside-64 runs")
-            comb("SkyResTenfAGNComb", "SkyResTenfAGNCL", NSIDE, "f_agn", "the nside-64 runs")
-            mean_sd("SkyResTenMeanShiftHzero", "SkyResTenSdShiftHzero")
-            # the offsets of the combined H0 from the input: the production pixels (KnownBothHzeroComb) and pixels half as wide
-            kb = look.get("KnownBothHzeroComb")
-            meaning = ("median of KnownBothHzeroComb (H0, population known, both catalogs complete, production settings and pixels, combined over the "
-                       "realizations of key KnownBoth) minus the input H0, km/s/Mpc, signed (unsigned when positive)")
-            if kb is not None:
-                x0 = float(kb["extra"].get("input") or bv.IN["H0"])
-                v = float(kb["value"]["median"]) - x0
-                ex = {"decimals": 1, "input": x0, "from": "KnownBothHzeroComb"}
-                if kb["class"] == "plain":
-                    src = {"computation": f"median of KnownBothHzeroComb ({kb['value']['median']:.4f}, its record in values.json) minus its input {x0:g}"}
-                    src.update({k: kb["source"][k] for k in ("file", "files") if k in kb["source"]})
-                    add("SkyResOffsetHzeroProd", "plain", render(v, 1), v, "km/s/Mpc", meaning, src, "validation", extra=ex)
-                else:
-                    add("SkyResOffsetHzeroProd", "ph", f"\\ph{{{render(v, 1)}}}", v, "km/s/Mpc", meaning,
-                        {"missing": f"KnownBothHzeroComb is red ({kb['source'].get('missing')})", "placeholder_source": "the red KnownBothHzeroComb"},
-                        "validation", extra=ex)
-            else:
-                add("SkyResOffsetHzeroProd", "ph", f"\\ph{{{render(0.0, 1)}}}", 0.0, "km/s/Mpc", meaning,
-                    {"missing": "KnownBothHzeroComb (not registered before the sky-resolution macros)", "placeholder_source": "invented: 0"}, "validation")
-            meaning = (f"median of SkyResTenHzeroComb (H0, {sett}, the nside-64 runs combined) minus the input H0, km/s/Mpc, signed (unsigned when positive)")
-            x0 = E["comb"][NSIDE]["H0"][1] if E["real"] else bv.IN["H0"]
-            v = float(sH["median"]) - x0
-            if E["real"]:
-                add("SkyResOffsetHzeroFine", "plain", render(v, 1), v, "km/s/Mpc", meaning,
-                    {"files": E["files"][NSIDE], "computation": "SkyResTenHzeroComb median (run_posteriors.combined of the nside-64 runs) minus its input"},
-                    "validation", extra={"decimals": 1, "input": x0, "from": "SkyResTenHzeroComb"})
-            else:
-                add("SkyResOffsetHzeroFine", "ph", f"\\ph{{{render(v, 1)}}}", v, "km/s/Mpc", meaning,
-                    dict(srcR, placeholder_source="from the red SkyResTenHzeroComb"), "validation", extra={"decimals": 1})
         elif which == "agn_pair":
             comb("SkyResAGNHzeroCombSixtyFour", "SkyResAGNHzeroCLSixtyFour", NSIDE, "H0", "the nside-64 runs")
             mean_sd("SkyResAGNMeanShiftHzero", "SkyResAGNSdShiftHzero")
@@ -831,7 +755,7 @@ def build_sets(add, reg=None):
             comb("SkyResAllfAGNComb", "SkyResAllfAGNCL", NSIDE, "f_agn", "the nside-64 runs")
             mean_sd("SkyResAllMeanShiftHzero", "SkyResAllSdShiftHzero", "H0")
             mean_sd("SkyResAllMeanShiftfAGN", "SkyResAllSdShiftfAGN", "f_agn")
-            # the narrowing of the 90% interval of H0 (as SkyResMCNarrowPct) and the mean shift against one realization's half-width
+            # the narrowing of the 90% interval of H0 and the mean shift against one realization's half-width
             meaning = (f"narrowing of the 90% interval of H0 when the sky pixels are half as wide, {sett}: 100 (1 - mean {over} of the ratio of the "
                        f"90% half-widths of H0 (summary.json posterior.H0.ci90), nside 64 over nside 32), percent")
             if E["real"]:
@@ -908,34 +832,26 @@ is black when both its summaries exist.
   `run_posteriors.combined` (the corrected ln L of the grids summed, as every `<Key>...Comb` of grid runs), printed as the key
   scheme prints them: `...Comb` = median with its 90% equal-tailed interval at the PDG decimals of the smaller side, `...CL` =
   the two-sided credible level of the input (the summaries' truth: H0 = 67.74, f_AGN = 0.30) in percent.
-  **`\\SkyResMCMinShiftHzero`**, **`\\SkyResMCMaxShiftHzero`**: the smallest and largest over the realizations of (H0 median at
-  nside 64 minus at nside 32), signed, two decimals. **`\\SkyResMCNarrowPct`**: 100 (1 - the mean over the realizations of the
-  ratio of the 90% half-widths of H0, nside 64 over nside 32), an integer. **`\\SkyResMCHzeroComb<ThirtyTwo|SixtyFour>`**,
+  **`\\SkyResMCHzeroComb<ThirtyTwo|SixtyFour>`**,
   **`\\SkyResMCHzeroCL<ThirtyTwo|SixtyFour>`**: H0 combined over the five realizations at each pixel size and the level of the
-  input. **`\\SkyResTenNreal`** (a word): the realizations of `pair_all` (black when every realization of key `KnownBoth` has its
-  nside-64 run in stage X). **`\\SkyResTenHzeroComb`**, **`\\SkyResTenHzeroCL`**, **`\\SkyResTenfAGNComb`**, **`\\SkyResTenfAGNCL`**:
-  combined over `pair_all`'s nside-64 runs. **`\\SkyResTenMeanShiftHzero`**, **`\\SkyResTenSdShiftHzero`**: mean and standard
-  deviation (ddof 1) over `pair_all`'s realizations of the shift of the H0 median, signed, two decimals.
-  **`\\SkyResOffsetHzeroProd`**: the median of `\\KnownBothHzeroComb` (its record, passed to `skyres.build` by build_values)
-  minus its input; **`\\SkyResOffsetHzeroFine`**: the median of `\\SkyResTenHzeroComb` minus the input; one decimal, signed
-  (unsigned when positive). **`\\SkyResAGNHzeroCombSixtyFour`**, **`\\SkyResAGNHzeroCLSixtyFour`**, **`\\SkyResAGNMeanShiftHzero`**,
-  **`\\SkyResAGNSdShiftHzero`**: the same for `agn_pair`. A set's macros are black when every realization it wants has its pair in
-  the run list and both summaries (with a posterior block; `mc_pair` also a variance block). Red values while a set waits: Min/Max =
-  `\\SkyResMCMeanShiftHzero` minus/plus `\\SkyResMCSdShiftHzero`; NarrowPct invented 10; Comb invented, the input with a 90%
-  half-width of 0.8 km/s/Mpc (H0) or 0.03 (f_AGN), CL 0; the mean shift realization A's own shift of the set (0 without its
-  summaries), the standard deviation 0.3 km/s/Mpc; TenNreal the number wanted; the offsets from the red median they read.
-  Since key `KnownBoth` combines twenty realizations (21 Nov, later), `\\SkyResOffsetHzeroProd` (its median minus the input)
-  is over the twenty, while `\\SkyResOffsetHzeroFine` and the other `SkyResTen...` macros stay over `pair_all`'s ten.
+  input. **`\\SkyResAGNHzeroCombSixtyFour`**, **`\\SkyResAGNHzeroCLSixtyFour`**: H0 combined over `agn_pair`'s nside-64 runs and
+  the level of the input; **`\\SkyResAGNMeanShiftHzero`**, **`\\SkyResAGNSdShiftHzero`**: mean and standard deviation (ddof 1) over
+  `agn_pair`'s realizations of the shift of the H0 median, signed, two decimals. A set's macros are black when every realization it
+  wants has its pair in the run list and both summaries (with a posterior block; `mc_pair` also a variance block). Red values while
+  a set waits: Comb invented, the input with a 90% half-width of 0.8 km/s/Mpc (H0) or 0.03 (f_AGN), CL 0; the mean shift
+  realization A's own shift of the set (0 without its summaries), the standard deviation 0.3 km/s/Mpc. (23 Nov: `mc_pair`'s
+  smallest and largest shift and narrowing, and every macro of `pair_all`, are removed: main.tex used none; `pair_all` stays in the
+  map and feeds no macro.)
 - **Over the twenty realizations** (21 Nov, later; sets `pair_twenty` and `pair_half`). `pair_twenty`: the pair at the
   production settings on every realization of key `KnownBoth` (`realizations_wanted` = the key's twenty): nside 32 = the key's
   runs (stage 1's `.../realization_NNN`, and for 111-120 stage X's `.../realization_NNN_nside32`, named under `partners`; the
   deliberate exception of `build_values.STAGE_X_KEY_RUNS`, the same analysis at the same settings), nside 64 = stage X's
   `.../realization_NNN_nside64`. **`\\SkyResAllNreal`** (a word): its realizations (black when every one has its nside-64 run in
   stage X). **`\\SkyResAllHzeroComb`**, **`\\SkyResAllHzeroCL`**, **`\\SkyResAllfAGNComb`**, **`\\SkyResAllfAGNCL`**: combined over the
-  nside-64 runs (as `SkyResTen...`). **`\\SkyResAllMeanShiftHzero`**, **`\\SkyResAllSdShiftHzero`**, **`\\SkyResAllMeanShiftfAGN`**,
+  nside-64 runs (as `\\SkyResAGNHzeroCombSixtyFour`). **`\\SkyResAllMeanShiftHzero`**, **`\\SkyResAllSdShiftHzero`**, **`\\SkyResAllMeanShiftfAGN`**,
   **`\\SkyResAllSdShiftfAGN`**: mean and standard deviation (ddof 1) over the twenty of (median at nside 64 minus median at nside
   32), signed, H0 two decimals, f_AGN three (as `\\SkyResMCMeanShift...`). **`\\SkyResAllNarrowPct`**: 100 (1 - the mean of the
-  ratio of the 90% half-widths of H0, nside 64 over nside 32), an integer (as `\\SkyResMCNarrowPct`).
+  ratio of the 90% half-widths of H0, nside 64 over nside 32), an integer; red: invented 10.
   **`\\SkyResAllShiftPctHalfWid`**: 100 |mean shift of the H0 median| / (the mean over the twenty of the 90% half-width of H0 at
   nside 32, one realization at the pixels used throughout), an integer. `pair_half`: the experiment's set with half of the
   mergers hosted by AGN, host class unknown (`two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_NNN`,

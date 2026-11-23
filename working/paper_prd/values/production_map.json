@@ -7,6 +7,8 @@
   "  21 Nov: runs_by_realization {realization: run name} where a realization's run is not the pattern: KnownBoth's realizations 111-120,",
   "  stage X's realization_NNN_nside32 (stage_x_realizations, stage_x_why; build_values.STAGE_X_KEY_RUNS, the one deliberate exception to",
   "  'stages V and X never feed a key': the same analysis at the same settings as stage 1); quantities.<Q>.Comb.summaries_by_realization.",
+  "  23 Nov: stage_v_realizations, stage_v_why (key HDHost; build_values.STAGE_V_KEY_RUNS, the second deliberate exception): the key's",
+  "  pattern is stage V8's realization_{R}_unif_then_rslice (the mixed sampler) for every realization; the key's stage is then V8.",
   "quantities.<Q>: param (the run's parameter) or derived; A = the summary field of realization A (median and 90% interval printed as is);",
   "  Comb = the summaries of every realization, combined (grids: corrected ln L summed; nested: product of kernel densities);",
   "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
@@ -25,14 +27,15 @@
   "  <pair>.realizations: every realization whose pair is in the run list (of realizations_wanted, the realizations with six injection",
   "  sets; stages per realization), for the means and scatters over them (SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal; real when every",
   "  wanted realization has both summaries); mc_pair.n_injection_sets_by_run: 1 + the --pool-injections of each run (SkyResMCNsets).",
-  "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth; macros SkyResTen..., SkyResOffsetHzero...)",
+  "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth in stage 1; its macros SkyResTen...,",
+  "  SkyResOffsetHzero... were removed on 23 Nov, main.tex used none: the record feeds no macro)",
   "  and agn_pair (key AGNhosted's runs against stage X's ..._nside64_s32000_inj6; macros SkyResAGN...): run, partner, partner_key,",
   "  realizations (whose nside-64 run is in stage X), realizations_wanted (those of the partner's production runs), stages.",
   "  21 Nov, later: pair_twenty (the pair at the production settings on the twenty realizations of key KnownBoth; partners = the key's",
   "  runs_by_realization; macros SkyResAll...) and pair_half (host class unknown, half of the mergers in AGN: RUNLIST_experiment.yaml's",
   "  peak_f0p50_s0 runs of stage E1 against stage X's ..._nside64; partner_runlist; macros SkyResHalf...).",
-  "classes (21 Nov): Cls...Comb/CL records have how 'comb' (the runs of the HW... macro named in runs_of); ClsDiff... records are derived",
-  "  (fn paired_mean | paired_sd | paired_npos) from the two Cls...HzeroComb records of the same f.",
+  "classes (21 Nov): ClsDiff... records are derived (fn paired_mean | paired_sd | paired_npos) from the two half-width records",
+  "  HWUnknown<f>, HWKnown<f> of the same f (23 Nov: the Cls...Comb/CL records of how 'comb' are removed with their macros).",
   "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
   "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
   "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry."
@@ -1158,9 +1161,9 @@
    }
   },
   "HDHost": {
-   "run": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}",
+   "run": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice",
    "runlist": "RUNLIST.yaml",
-   "stage": "4",
+   "stage": "V8",
    "mode": "nested",
    "realizations": [
     100,
@@ -1175,11 +1178,11 @@
     "Hzero": {
      "param": "H0",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.H0"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1197,11 +1200,11 @@
     "fAGN": {
      "param": "f_agn",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.f_agn"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1219,11 +1222,11 @@
     "MuG": {
      "param": "mu_G",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.mu_G"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1241,11 +1244,11 @@
     "SigmaG": {
      "param": "sigma_G",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.sigma_G"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1263,11 +1266,11 @@
     "MuChi": {
      "param": "mu_chi",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.mu_chi"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1285,11 +1288,11 @@
     "SigmaChi": {
      "param": "sigma_chi",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.sigma_chi"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1307,11 +1310,11 @@
     "DmuG": {
      "param": "dmu_G",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.dmu_G"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1329,11 +1332,11 @@
     "DmuChi": {
      "param": "dmu_chi",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.dmu_chi"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1349,6 +1352,14 @@
      }
     }
    },
+   "stage_v_realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "stage_v_why": "the second deliberate exception to 'stages V and X never feed a key' (build_values.STAGE_V_KEY_RUNS): every realization is read from stage V8's run host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice (the eight-parameter model sampled uniformly while that is cheap and by rslice after, the production sampler since its comparison with rslice on realization 100, analysis_16 tests/results/compare_r100_eight_parameter.json), with the arguments of stage 4's run host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R} plus only the sampler options and --variant unif_then_rslice; stage 4's pure-rslice run of realization 100 is the sampler reference and feeds no key",
    "joint": {
     "params": [
      "dmu_G",
@@ -1654,7 +1665,7 @@
    }
   },
   "ObsHost": {
-   "run": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+   "run": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice",
    "runlist": "RUNLIST.yaml",
    "stage": "5",
    "mode": "nested",
@@ -1671,11 +1682,11 @@
     "Hzero": {
      "param": "H0",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.H0"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1693,11 +1704,11 @@
     "fAGN": {
      "param": "f_agn",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.f_agn"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1715,11 +1726,11 @@
     "MuG": {
      "param": "mu_G",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.mu_G"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1737,11 +1748,11 @@
     "SigmaG": {
      "param": "sigma_G",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.sigma_G"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1759,11 +1770,11 @@
     "MuChi": {
      "param": "mu_chi",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.mu_chi"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1781,11 +1792,11 @@
     "SigmaChi": {
      "param": "sigma_chi",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.sigma_chi"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1803,11 +1814,11 @@
     "DmuG": {
      "param": "dmu_G",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.dmu_G"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -1825,11 +1836,11 @@
     "DmuChi": {
      "param": "dmu_chi",
      "A": {
-      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100/summary.json",
+      "summary": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice/summary.json",
       "field": "posterior.dmu_chi"
      },
      "Comb": {
-      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}/summary.json",
+      "summaries": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice/summary.json",
       "realizations": [
        100,
        101,
@@ -3156,9 +3167,9 @@
     "how": "mean_hw"
    },
    "HWHost": {
-    "run": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}",
+    "run": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice",
     "runlist": "RUNLIST.yaml",
-    "stage": "4",
+    "stage": "V8",
     "realizations": [
      100,
      101,
@@ -3287,7 +3298,7 @@
     "how": "mean_hw"
    },
    "HWObsHost": {
-    "run": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+    "run": "host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice",
     "runlist": "RUNLIST.yaml",
     "stage": "5",
     "realizations": [
@@ -3710,172 +3721,52 @@
     "key": "KnownAGN",
     "how": "interior"
    },
-   "ClsUnknownThirtyHzeroComb": {
-    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "Comb",
-    "runs_of": "HWUnknownThirty"
-   },
-   "ClsUnknownThirtyHzeroCL": {
-    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s0/realization_{R}",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "CL",
-    "runs_of": "HWUnknownThirty"
-   },
-   "ClsKnownThirtyHzeroComb": {
-    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "Comb",
-    "runs_of": "HWKnownThirty"
-   },
-   "ClsKnownThirtyHzeroCL": {
-    "run": "hosts_known/both_catalogs/complete/peak_f0p30_s0/realization_{R}_agn_s32000_inj1",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "CL",
-    "runs_of": "HWKnownThirty"
-   },
    "ClsDiffThirtyHzeroMean": {
     "how": "derived",
     "fn": "paired_mean",
     "from": [
-     "ClsUnknownThirtyHzeroComb",
-     "ClsKnownThirtyHzeroComb"
+     "HWUnknownThirty",
+     "HWKnownThirty"
     ]
    },
    "ClsDiffThirtyHzeroSd": {
     "how": "derived",
     "fn": "paired_sd",
     "from": [
-     "ClsUnknownThirtyHzeroComb",
-     "ClsKnownThirtyHzeroComb"
+     "HWUnknownThirty",
+     "HWKnownThirty"
     ]
    },
    "ClsDiffThirtyNpos": {
     "how": "derived",
     "fn": "paired_npos",
     "from": [
-     "ClsUnknownThirtyHzeroComb",
-     "ClsKnownThirtyHzeroComb"
+     "HWUnknownThirty",
+     "HWKnownThirty"
     ]
-   },
-   "ClsUnknownFiftyHzeroComb": {
-    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "Comb",
-    "runs_of": "HWUnknownFifty"
-   },
-   "ClsUnknownFiftyHzeroCL": {
-    "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p50_s0/realization_{R}",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "CL",
-    "runs_of": "HWUnknownFifty"
-   },
-   "ClsKnownFiftyHzeroComb": {
-    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_{R}_agn_s32000_inj1",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "Comb",
-    "runs_of": "HWKnownFifty"
-   },
-   "ClsKnownFiftyHzeroCL": {
-    "run": "hosts_known/both_catalogs/complete/peak_f0p50_s0/realization_{R}_agn_s32000_inj1",
-    "runlist": "RUNLIST_experiment.yaml",
-    "stage": "E1",
-    "realizations": [
-     100,
-     101,
-     102,
-     103,
-     105
-    ],
-    "how": "comb",
-    "part": "CL",
-    "runs_of": "HWKnownFifty"
    },
    "ClsDiffFiftyHzeroMean": {
     "how": "derived",
     "fn": "paired_mean",
     "from": [
-     "ClsUnknownFiftyHzeroComb",
-     "ClsKnownFiftyHzeroComb"
+     "HWUnknownFifty",
+     "HWKnownFifty"
     ]
    },
    "ClsDiffFiftyHzeroSd": {
     "how": "derived",
     "fn": "paired_sd",
     "from": [
-     "ClsUnknownFiftyHzeroComb",
-     "ClsKnownFiftyHzeroComb"
+     "HWUnknownFifty",
+     "HWKnownFifty"
     ]
    },
    "ClsDiffFiftyNpos": {
     "how": "derived",
     "fn": "paired_npos",
     "from": [
-     "ClsUnknownFiftyHzeroComb",
-     "ClsKnownFiftyHzeroComb"
+     "HWUnknownFifty",
+     "HWKnownFifty"
     ]
    }
   },

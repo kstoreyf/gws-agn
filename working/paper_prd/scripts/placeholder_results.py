@@ -162,13 +162,23 @@ def _runlist_realizations():
         extra = bv.stage_x_key_runs(idx, key)
         if extra:
             out.setdefault(key, set()).update(extra)
+    # the second deliberate exception (23 Nov, bv.STAGE_V_KEY_RUNS): HDHost's realizations are those of stage V8's runs
+    # realization_NNN_unif_then_rslice (the mixed sampler), which replace the key's production runs; stage 4's pure-rslice run of
+    # realization 100, which the selector above also finds, feeds no key
+    for key in bv.STAGE_V_KEY_RUNS:
+        vexc = bv.stage_v_key_runs(idx, key)
+        if vexc:
+            out[key] = set(vexc)
     return {k: sorted(v) for k, v in out.items()}
 
 
 RUNREAL = _runlist_realizations()
 STAGE_X_REAL = {k: sorted(bv.stage_x_key_runs(bv.runlist_index(RUNLIST), k)) for k in bv.STAGE_X_KEY_RUNS}
+STAGE_V_REAL = {k: sorted(bv.stage_v_key_runs(bv.runlist_index(RUNLIST), k)) for k in bv.STAGE_V_KEY_RUNS}
 NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizations {v}"
-             + (f" (of which {STAGE_X_REAL[k]} the stage-X runs realization_NNN_nside32, the same analysis at the same settings)" if STAGE_X_REAL.get(k) else ""))
+             + (f" (of which {STAGE_X_REAL[k]} the stage-X runs realization_NNN_nside32, the same analysis at the same settings)" if STAGE_X_REAL.get(k) else "")
+             + (f" (all of them stage {bv.STAGE_V_KEY_RUNS[k]['stage']}'s runs realization_NNN_{bv.STAGE_V_KEY_RUNS[k]['variant']}, the mixed sampler; "
+                "build_values.STAGE_V_KEY_RUNS)" if STAGE_V_REAL.get(k) else ""))
          for k, v in RUNREAL.items()}
 NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items() if k not in RUNREAL_EXP})
 NREAL.update({k: (len(v), f"RUNLIST_experiment.yaml: {len(v)} runs of {EXP_SELECTOR[k][0]} on the experiment's set {EXP_SELECTOR[k][1]}, realizations {v}")
@@ -178,7 +188,9 @@ STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": 
                "ctrl": ("experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs" if RUNREAL_EXP else
                         "run R4 of runs.txt (not yet in the run list)"), "flux": "Stage 2: flux-limited catalogs, densities from catalog counts",
                "free": "Stage 2: number densities inferred", "single": "Stage 3: single population, equal populations",
-               "hdsingle": "Stage 4: host-dependent events, single population", "hdhost": "Stage 4: host-dependent events, host-dependent populations",
+               "hdsingle": "Stage 4: host-dependent events, single population",
+               "hdhost": ("Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the "
+                          "mixed sampler; build_values.STAGE_V_KEY_RUNS)"),
                "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events"}
 PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "SigmaG": (1.0, 10.0), "MuChi": (-0.2, 0.3), "SigmaChi": (0.01, 1.0),
          "DmuG": (-10.0, 10.0), "DmuChi": (-0.05, 0.30), "LognGal": (-4.0, -1.0), "LognAGN": (-6.0, -4.0), "RateRatio": (0.0, 400.0)}

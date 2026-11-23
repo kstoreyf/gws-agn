@@ -48,13 +48,10 @@ Macros (all half-widths are of H0 in km/s/Mpc; "realizations" = the experiment's
                  range, and for each one that has (n = One, Two, ...) its median and 90% interval (summary.json) and
                  the credible level of the input
   NrealClasses   the number of realizations of every experiment set above (printed as a word)
-  Cls<Unknown|Known><f>HzeroComb, ...HzeroCL   (21 Nov; f = Thirty, Fifty) H0 itself on the runs of HWUnknown<f> and HWKnown<f>
-                 (the same mergers, host class unknown and known): combined over the realizations by run_posteriors.combined (the
-                 corrected ln L summed, as every <Key>...Comb of grid runs; bv.fci, PDG decimals) and the two-sided credible level of
-                 the input (bv.fpct); red: the input with a 90% half-width of HW...<f> / sqrt(N), level 0
-  ClsDiff<f>HzeroMean, ClsDiff<f>HzeroSd   mean and standard deviation (ddof 1) over the realizations of (H0 median of the
-                 host-class-unknown run minus that of the host-class-known run of the same realization; summary.json), signed, two
-                 decimals; red: invented 0 and 0.3
+  ClsDiff<f>HzeroMean, ClsDiff<f>HzeroSd   (21 Nov; f = Thirty, Fifty) mean and standard deviation (ddof 1) over the realizations of
+                 (H0 median of the host-class-unknown run minus that of the host-class-known run of the same realization; summary.json;
+                 the runs of HWUnknown<f> and HWKnown<f>, the same mergers), signed, two decimals; red: invented 0 and 0.3. (23 Nov: the
+                 combinations Cls<Unknown|Known><f>Hzero<Comb|CL> of the same runs are removed; main.tex used none.)
   ClsDiff<f>Npos the number of realizations in which that difference is positive (a word); red: half the realizations
 
 A macro is real (black) when every summary.json it names exists; otherwise it is red and prints the expected value
@@ -192,15 +189,12 @@ def _table():
     T["KnownAGNNoPeak"] = {"kind": "interior", "select": ("key", "KnownAGN"),
                            "what": "number of realizations in which the H0 posterior of the AGN catalog alone (equal populations, three in ten "
                                    "mergers AGN-hosted, population known) has no interior maximum in the prior range [50, 100]"}
-    # 21 Nov: H0 itself with the host class unknown and known on the same mergers (the runs of HWUnknown<f> and HWKnown<f>): combined
-    # over the realizations, and the paired difference of the medians
+    # 21 Nov: the paired difference of the H0 medians with the host class unknown and known on the same mergers (the runs of
+    # HWUnknown<f> and HWKnown<f>). (23 Nov: the combined Cls<Unknown|Known><f>Hzero<Comb|CL> are removed, main.tex uses none; the
+    # differences read the two half-width macros' records, the same runs and realizations)
     for f in (0.3, 0.5):
         w = F_WORD[f]
-        for tag, src in (("Unknown", f"HWUnknown{w}"), ("Known", f"HWKnown{w}")):
-            for part in ("Comb", "CL"):
-                T[f"Cls{tag}{w}Hzero{part}"] = {"kind": "comb", "part": part, "select": T[src]["select"], "runs_of": src, "f": f,
-                                                "what": f"H0 with the {T[src]['what']}, combined over the realizations (the runs of {src})"}
-        deps = [f"ClsUnknown{w}HzeroComb", f"ClsKnown{w}HzeroComb"]
+        deps = [f"HWUnknown{w}", f"HWKnown{w}"]
         for nm, stat in ((f"ClsDiff{w}HzeroMean", "mean"), (f"ClsDiff{w}HzeroSd", "sd"), (f"ClsDiff{w}Npos", "npos")):
             T[nm] = {"kind": "paired", "stat": stat, "deps": deps, "f": f,
                      "what": f"the H0 median (summary.json) with the host class unknown minus with it known, on the same mergers (the runs of "
@@ -263,23 +257,34 @@ def map_block(_runs=None, keys=None):
             out[name] = {"how": "derived", "fn": e["fn"], "from": e["deps"]}
             continue
         if e["kind"] == "paired":
-            # 21 Nov: from the runs of its two combined macros (the same mergers, realization by realization)
+            # 21 Nov: from the runs of its two half-width macros (the same mergers, realization by realization)
             out[name] = {"how": "derived", "fn": f"paired_{e['stat']}", "from": e["deps"]}
             continue
         sel = e["select"]
         if sel[0] == "exp":
             rec = exp.get((sel[1], sel[2]))
+        elif sel[1] in bv.STAGE_V_KEY_RUNS:
+            # the second deliberate exception (23 Nov, bv.STAGE_V_KEY_RUNS): HWHost takes key HDHost's runs, stage V8's
+            # realization_NNN_unif_then_rslice (the mixed sampler), which the production index above skips; stage 4's pure-rslice run of
+            # realization 100 (the only one of its prefix in a production stage) feeds no macro
+            vexc = bv.stage_v_key_runs(bv.runlist_index(RUNLIST), sel[1]) if RUNLIST.exists() else {}
+            V = bv.STAGE_V_KEY_RUNS[sel[1]]
+            rec = ({"run": V["pattern"], "runlist": RUNLIST.name, "stage": V["stage"], "realizations": sorted(vexc), "key": sel[1]}
+                   if vexc else None)
         else:
             pat = keys[sel[1]]["run"]
             rec = prod.get(pat.rsplit("/realization_", 1)[0])
+            if rec is not None and rec["run"] != pat:
+                # 23 Nov: the prefix's first run must be the key's own pattern (e.g. ObsHost's ..._unif_then_rslice), never another run of it
+                missing[name] = f"the production runs of {pat.rsplit('/realization_', 1)[0]} in {RUNLIST.name} are {rec['run']}, not key {sel[1]}'s {pat}"
+                continue
             if rec is not None:
                 rec = dict(rec, key=sel[1])
         if rec is None:
             missing[name] = f"no run of {sel[1:]} in {RUNLIST_EXP.name} or {RUNLIST.name}"
             continue
         out[name] = dict(rec, how=e["kind"], **({"factor": e["factor"]} if "factor" in e else {}),
-                         **({"realization_A": REAL_A} if e["kind"] == "membership" else {}),
-                         **({"part": e["part"], "runs_of": e["runs_of"]} if e["kind"] == "comb" else {}))
+                         **({"realization_A": REAL_A} if e["kind"] == "membership" else {}))
     return {"macros": out, "not_in_run_lists": missing}
 
 
@@ -400,8 +405,6 @@ def evaluate(name):
     kind = e["kind"]
     if kind == "paired":
         return _paired(name, e, blk)
-    if kind == "comb":
-        return _comb(name, e, blk)
     if kind == "derived":
         deps = [evaluate(d) for d in e["deps"]]
         a, b = deps[0].value, deps[1].value
@@ -480,45 +483,13 @@ def evaluate(name):
     raise ValueError(kind)
 
 
-# ---- 21 Nov: H0 combined over the realizations (kind 'comb') and the paired difference of the medians (kind 'paired')
-COMB_INPUT_H0 = 67.74                    # the red median of a combination (the input H0)
+# ---- 21 Nov: the paired difference of the medians (kind 'paired'; 23 Nov: the combinations of kind 'comb', Cls...Hzero<Comb|CL>, removed)
 PAIRED_PH = {"mean": 0.0, "sd": 0.3}     # invented values of the paired difference while red (km/s/Mpc); npos: half the realizations
-
-
-@lru_cache(None)
-def _combined(run, reals):
-    """run_posteriors.combined of H0 over the realizations `reals` (a tuple) of a run pattern: (summary, input); the input is the
-    summaries' truth, equal in every realization."""
-    import run_posteriors as RP
-    dirs = [run_dir(run, r) for r in reals]
-    ins = {RP.input_of(_jr(d / "summary.json"), "H0") for d in dirs}
-    assert len(ins) == 1, (run, ins)
-    s, _x, _p, x0 = RP.combined(dirs, "H0")
-    return {k: s[k] for k in ("median", "ci68", "ci90", "ul90", "level_of_input")}, x0
-
-
-def _comb(name, e, blk):
-    """Res of a combined posterior of H0 ('Comb': the summary dict) or of the credible level of its input ('CL')."""
-    rec = blk.get(name)
-    paths, miss = _need(rec) if rec is not None else ([], ["not in the run lists"])
-    if miss:
-        hw = evaluate(e["runs_of"]).value / math.sqrt(len(rec["realizations"]) if rec else 5)
-        s = {"median": COMB_INPUT_H0, "ci90": [COMB_INPUT_H0 - hw, COMB_INPUT_H0 + hw], "level_of_input": 0.0}
-        how = (f"placeholder: the input H0 {COMB_INPUT_H0:g} with a 90% half-width of {e['runs_of']} over the square root of the number of "
-               f"realizations ({hw:.3f})" + ("" if e["part"] == "Comb" else "; level 0 (the input at that median)"))
-        return Res(name, False, s if e["part"] == "Comb" else 0.0, files=[str(p) for p in paths], missing=[str(p) for p in miss], how=how,
-                   extra={"run": rec["run"] if rec else None, "realizations": rec["realizations"] if rec else None, "input": COMB_INPUT_H0})
-    s, x0 = _combined(rec["run"], tuple(rec["realizations"]))
-    how = (f"run_posteriors.combined: the corrected ln L of the {len(rec['realizations'])} grids summed on a common mesh (cubic splines of each fine "
-           f"pass, linear in the coarse pass), H0 marginal; placeholder_results.summarize_xp" + ("" if e["part"] == "Comb" else
-                                                                                                f": |2 F({x0:g}) - 1|"))
-    return Res(name, True, s if e["part"] == "Comb" else float(s["level_of_input"]), files=[str(p) for p in paths], how=how,
-               extra={"run": rec["run"], "realizations": rec["realizations"], "input": x0, "summary": s})
 
 
 def _paired(name, e, blk):
     """Res of a statistic over the realizations of (H0 median with the host class unknown minus with it known), from the summaries
-    of the runs of the two combined macros e['deps'] (the same realizations)."""
+    of the runs of the two half-width macros e['deps'] (HWUnknown<f>, HWKnown<f>: the same mergers, the same realizations)."""
     st = e["stat"]
     recs = [blk.get(d) for d in e["deps"]]
     if all(r is not None for r in recs):
@@ -718,18 +689,6 @@ def build(add, fnum, fci, fpct, num_word):
             n_real += res.real
         elif e["kind"] == "membership":
             add(name, cls, wrap(fnum(res.value, 2)), res.value, "", what + _runs_text(res), _src(res), "classes", extra={"decimals": 2})
-            n_real += res.real
-        elif e["kind"] == "comb":
-            # 21 Nov: printed as the key scheme prints a combination (median and 90% interval at PDG decimals; level in percent)
-            x0 = res.extra.get("input")
-            if e["part"] == "Comb":
-                s = res.value
-                r_, d = fci(s["median"], s["ci90"][0], s["ci90"][1])
-                add(name, cls, wrap(r_), s, "km/s/Mpc", f"{what}{_runs_text(res)} (median and 90% equal-tailed interval)", _src(res), "classes",
-                    extra={"decimals": d, "input": x0})
-            else:
-                add(name, cls, wrap(fpct(res.value)), res.value, "%",
-                    f"two-sided credible level at which the input {x0:g} lies in {name[:-2]}Comb ({what})", _src(res), "classes", extra={"input": x0})
             n_real += res.real
         elif e["kind"] == "paired":
             ex = {"per_realization": res.extra.get("per_realization"), "realizations": res.extra.get("realizations")}

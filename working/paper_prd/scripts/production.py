@@ -13,10 +13,14 @@ the run pattern ('{R}' = three-digit realization), the realizations, realization
 summary field of realization A, the summaries combined, and the input whose credible level is quoted (see the
 map's "_schema"). Keys of the paper without a run in the lists are listed under "not_in_run_lists".
 
-A key's runs are the runs of its pattern in the production stages; stages V and X never feed a key, with one deliberate exception
+A key's runs are the runs of its pattern in the production stages; stages V and X never feed a key, with two deliberate exceptions.
 (21 Nov, build_values.STAGE_X_KEY_RUNS): KnownBoth also takes realizations 111-120, which exist only as stage-X runs
 known_population/both_catalogs/complete/equal_populations/realization_NNN_nside32 because they are the same analysis at the same
 settings as stage 1 (its arguments without --membership, plus --variant nside32); the map names them under runs_by_realization.
+(23 Nov, build_values.STAGE_V_KEY_RUNS): HDHost reads stage V8's host_dependent_populations/both_catalogs/complete/host_dependent/
+realization_NNN_unif_then_rslice for every realization (100, 101, 102, 103, 105): the eight-parameter model with the mixed sampler,
+stage 4's arguments plus the sampler options and the variant only; its pattern is that one (stage_v_realizations, stage_v_why), and
+stage 4's pure-rslice run of realization 100 feeds no key. ObsHost reads stage 5's own .../realization_NNN_unif_then_rslice runs.
 
 A key turns REAL (final, black macros, final palette in the figures) only when every summary.json it names
 exists (all realizations, and the runs it depends on: the reference of its Bayes factor, the known-density run
@@ -97,10 +101,12 @@ def _key_table():
         "SingleBoth": ("single_population/both_catalogs/complete/equal_populations/realization_{R}", SIX),
         "SingleNone": ("single_population/no_catalog/complete/equal_populations/realization_{R}", FIVE),
         "HDSingle": ("single_population/both_catalogs/complete/host_dependent/realization_{R}", SIX),
-        "HDHost": ("host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}", SIX + ["DmuG", "DmuChi"]),
+        # 23 Nov: the eight-parameter keys read the runs of the mixed sampler (unif, then rslice; the production sampler since 20 Nov).
+        # HDHost's are stage V8's, the deliberate exception bv.STAGE_V_KEY_RUNS (see build_map); ObsHost's are stage 5's own
+        "HDHost": ("host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice", SIX + ["DmuG", "DmuChi"]),
         "HDNone": ("single_population/no_catalog/complete/host_dependent/realization_{R}", FIVE),
         "ObsSingle": ("single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}", SIX),
-        "ObsHost": ("host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}", SIX + ["DmuG", "DmuChi"]),
+        "ObsHost": ("host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice", SIX + ["DmuG", "DmuChi"]),
         "ObsNone": ("single_population/no_catalog/complete/host_dependent_obslike/realization_{R}", FIVE),
     }
     for rk, w, m in bv.RUNGS:
@@ -182,7 +188,15 @@ def build_map():
     idx1 = bv.runlist_index(RUNS / RUNLISTS[0])
     for key, (pat, quants) in KEY_RUNS.items():
         rx = _pattern_re(pat)
-        recs = {int(m.group(1)): r for n, r in runs.items() if (m := rx.match(n))}
+        # the runs of the key's pattern in the production stages (23 Nov: explicit; stages V and X never feed a key, bv.production_stage)
+        recs = {int(m.group(1)): r for n, r in runs.items() if bv.production_stage(r["stage"]) and (m := rx.match(n))}
+        # The second deliberate exception (23 Nov, bv.STAGE_V_KEY_RUNS): key HDHost reads stage V8's runs realization_NNN_unif_then_rslice
+        # for every realization (the mixed sampler, the production sampler of the eight-parameter model since its comparison with rslice
+        # on realization 100), each with stage 4's arguments plus the sampler options and the variant only; stage 4's pure-rslice run of
+        # realization 100 feeds no key. The pattern is the V8 one, so the realizations come from the exception alone.
+        vexc = bv.stage_v_key_runs(idx1, key)
+        for R, n in vexc.items():
+            recs[R] = runs[n]
         if not recs:
             missing[key] = f"no run named {pat} in {' or '.join(RUNLISTS)}"
             continue
@@ -230,6 +244,15 @@ def build_map():
                                 f"{sorted(extra)} exist only as stage-X runs {bv.STAGE_X_KEY_RUNS[key]['pattern']}, the same analysis at the same "
                                 "settings as stage 1 (stage 1's arguments without --membership, plus --variant "
                                 f"{bv.STAGE_X_KEY_RUNS[key]['variant']}), run to test whether the H0 offset of the first realizations is a fluctuation")
+        if vexc:
+            V = bv.STAGE_V_KEY_RUNS[key]
+            E["stage_v_realizations"] = sorted(vexc)
+            E["stage_v_why"] = ("the second deliberate exception to 'stages V and X never feed a key' (build_values.STAGE_V_KEY_RUNS): every "
+                                f"realization is read from stage {V['stage']}'s run {V['pattern']} (the eight-parameter model sampled uniformly while "
+                                "that is cheap and by rslice after, the production sampler since its comparison with rslice on realization 100, "
+                                "analysis_16 tests/results/compare_r100_eight_parameter.json), with the arguments of stage 4's run "
+                                f"{V['base']} plus only the sampler options and --variant {V['variant']}; stage 4's pure-rslice run of realization "
+                                "100 is the sampler reference and feeds no key")
         if key in ("KnownBoth", "CtrlZero", "CtrlTenth"):
             E["joint"] = {"params": ["H0", "f_agn"], "parts": ["A", "Comb"], "how": "run_posteriors.grid_joint"}
             E["LB"] = {"kind": "savage_dickey_f0", "reference": "galaxy hosts only (f_AGN = 0), Savage-Dickey on the same grids (Comb: ln L summed), f_AGN prior [0, 1]"}
@@ -270,6 +293,8 @@ SCHEMA = [
     "  21 Nov: runs_by_realization {realization: run name} where a realization's run is not the pattern: KnownBoth's realizations 111-120,",
     "  stage X's realization_NNN_nside32 (stage_x_realizations, stage_x_why; build_values.STAGE_X_KEY_RUNS, the one deliberate exception to",
     "  'stages V and X never feed a key': the same analysis at the same settings as stage 1); quantities.<Q>.Comb.summaries_by_realization.",
+    "  23 Nov: stage_v_realizations, stage_v_why (key HDHost; build_values.STAGE_V_KEY_RUNS, the second deliberate exception): the key's",
+    "  pattern is stage V8's realization_{R}_unif_then_rslice (the mixed sampler) for every realization; the key's stage is then V8.",
     "quantities.<Q>: param (the run's parameter) or derived; A = the summary field of realization A (median and 90% interval printed as is);",
     "  Comb = the summaries of every realization, combined (grids: corrected ln L summed; nested: product of kernel densities);",
     "  CL = the credible level of the input in Comb (input: the summaries' truth, or null when the paper quotes none).",
@@ -288,14 +313,15 @@ SCHEMA = [
     "  <pair>.realizations: every realization whose pair is in the run list (of realizations_wanted, the realizations with six injection",
     "  sets; stages per realization), for the means and scatters over them (SkyRes<P>Mean..., SkyRes<P>Sd..., SkyResNreal; real when every",
     "  wanted realization has both summaries); mc_pair.n_injection_sets_by_run: 1 + the --pool-injections of each run (SkyResMCNsets).",
-    "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth; macros SkyResTen..., SkyResOffsetHzero...)",
+    "  21 Nov: pair_all (the pair at the production settings on every realization of key KnownBoth in stage 1; its macros SkyResTen...,",
+    "  SkyResOffsetHzero... were removed on 23 Nov, main.tex used none: the record feeds no macro)",
     "  and agn_pair (key AGNhosted's runs against stage X's ..._nside64_s32000_inj6; macros SkyResAGN...): run, partner, partner_key,",
     "  realizations (whose nside-64 run is in stage X), realizations_wanted (those of the partner's production runs), stages.",
     "  21 Nov, later: pair_twenty (the pair at the production settings on the twenty realizations of key KnownBoth; partners = the key's",
     "  runs_by_realization; macros SkyResAll...) and pair_half (host class unknown, half of the mergers in AGN: RUNLIST_experiment.yaml's",
     "  peak_f0p50_s0 runs of stage E1 against stage X's ..._nside64; partner_runlist; macros SkyResHalf...).",
-    "classes (21 Nov): Cls...Comb/CL records have how 'comb' (the runs of the HW... macro named in runs_of); ClsDiff... records are derived",
-    "  (fn paired_mean | paired_sd | paired_npos) from the two Cls...HzeroComb records of the same f.",
+    "classes (21 Nov): ClsDiff... records are derived (fn paired_mean | paired_sd | paired_npos) from the two half-width records",
+    "  HWUnknown<f>, HWKnown<f> of the same f (23 Nov: the Cls...Comb/CL records of how 'comb' are removed with their macros).",
     "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
     "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
@@ -934,8 +960,12 @@ def skyres_status_lines():
         out.append(f"    mean and scatter over the realizations (SkyRes{skyres.PAIRS[which]}Mean..., SkyRes{skyres.PAIRS[which]}Sd...): "
                    + ("real" if ok else f"waiting: {n_ok} of {len(skyres.REALIZATIONS)} pairs real"
                                                              + "".join(f"; {m}" for m in miss_all if not m.endswith("summary.json") and "(no posterior" not in m)))
-    # 21 Nov: the sets of pairs combined over their realizations (SkyResMC<Min|Max|Narrow|Hzero...>, SkyResTen..., SkyResAGN...)
+    # 21 Nov: the sets of pairs combined over their realizations (SkyResMCHzero..., SkyResAGN..., SkyResAll..., SkyResHalf...); 23 Nov:
+    # a set without macros (skyres.SETS_WITHOUT_MACROS: pair_all, whose SkyResTen... and SkyResOffsetHzero... were removed) is only named
     for which in skyres.SETS:
+        if which in skyres.SETS_WITHOUT_MACROS:
+            out.append(f"  sky resolution combined over the realizations, set {which}: no macros (removed 23 Nov; the map keeps the set)")
+            continue
         E = skyres.evaluate_set(which)
         out.append(f"  sky resolution combined over the realizations, set {which} (SkyRes{skyres.SETS[which][0]}...): "
                    + (f"real ({len(E['realizations'])} realizations)" if E["real"] else

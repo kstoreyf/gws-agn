@@ -566,7 +566,8 @@ CAT_LETTERS = "ABCDEFGHI"
 RUNGS = [("m21", "TwentyOne", 21), ("m20", "Twenty", 20), ("m19", "Nineteen", 19), ("m18", "Eighteen", 18)]
 # Stages of analysis_16's RUNLIST.yaml that never feed the paper's selectors (placeholder_results._runlist_realizations,
 # classes._runlist_index, density._runlist_index): validation of the sampler (V8, ...) and checks of analysis settings (X:
-# catalogs at nside 64, densities in Mpc^-3). Their runs reach the paper only by name (scripts/skyres.py).
+# catalogs at nside 64, densities in Mpc^-3). Their runs reach the paper only by name (scripts/skyres.py), except for the two
+# deliberate exceptions below (STAGE_X_KEY_RUNS, STAGE_V_KEY_RUNS).
 NONPRODUCTION_STAGE_PREFIXES = ("V", "X")
 
 
@@ -575,12 +576,13 @@ def production_stage(stage) -> bool:
     return not str(stage).startswith(NONPRODUCTION_STAGE_PREFIXES)
 
 
-# The one deliberate exception to the rule above (21 Nov): key KnownBoth (population known, both catalogs complete, equal
+# The first deliberate exception to the rule above (21 Nov): key KnownBoth (population known, both catalogs complete, equal
 # populations) also combines realizations 111-120, which exist only as stage-X runs .../realization_NNN_nside32 (analysis_16
 # README, stage X, "21 Nov, third batch"). They are the same analysis at the same settings as stage 1: stage 1's arguments without
 # --membership plus the variant tag (8000 samples per merger, the realization's own injection set, catalogs at nside 32). They were
 # run to test whether the H0 offset of the first ten realizations is a fluctuation, so the key's combination takes all twenty.
-# Nothing else of stage X (or V) joins any key; the sky-resolution pairs (scripts/skyres.py) read their stage-X runs by name.
+# Nothing else of stage X joins any key (stage V: STAGE_V_KEY_RUNS below); the sky-resolution pairs (scripts/skyres.py) read their
+# stage-X runs by name.
 STAGE_X_KEY_RUNS = {
     "KnownBoth": {"base": "known_population/both_catalogs/complete/equal_populations/realization_{R}",
                   "pattern": "known_population/both_catalogs/complete/equal_populations/realization_{R}_nside32",
@@ -622,6 +624,69 @@ def stage_x_key_runs(idx, key):
         st, a = idx[n]
         want = [str(R) if x == "{R}" else x for x in tmpl] + ["--variant", ext["variant"]]
         if str(st) == "X" and list(a) == want:
+            out[R] = n
+    return out
+
+
+# The second deliberate exception (23 Nov): key HDHost (host-dependent mergers, host-dependent populations, both catalogs complete,
+# the eight-parameter model) reads stage V8's runs .../realization_NNN_unif_then_rslice for every one of its realizations, and never
+# stage 4's pure-rslice runs .../realization_NNN. The eight-parameter model is sampled uniformly while that is cheap and by rslice after
+# (analysis_16 make_runlist.py, stage V8); on realization 100 that mixed sampler agrees with rslice from the start (analysis_16
+# tests/results/compare_r100_eight_parameter.json, 20 Nov), so it is the production sampler of every eight-parameter run: stage 4's
+# pure-rslice runs of 101-105 are not run (no longer in the run list), and its run of realization 100 stays on disk as the sampler
+# reference and feeds no key. A V8 run joins when it sits in stage V8 under the pattern and its arguments are those of stage 4's
+# run of the key (the base pattern; all of them equal once the realization is set aside) at its own realization, plus only the sampler
+# options (SAMPLER_FLAGS, each with its value) and --variant <variant>. Every macro of the key and the ones derived from its runs
+# (HWHost, HDLB, HDHostLB..., NrealHD, Fig. 6, the open square of fig_classes) follow. Stage 5's eight-parameter runs (key ObsHost) use
+# the same sampler but sit in stage 5 itself (.../host_dependent_obslike/realization_NNN_unif_then_rslice): no exception.
+STAGE_V_KEY_RUNS = {
+    "HDHost": {"base": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}",
+               "pattern": "host_dependent_populations/both_catalogs/complete/host_dependent/realization_{R}_unif_then_rslice",
+               "stage": "V8", "variant": "unif_then_rslice", "realizations": (100, 101, 102, 103, 105)},
+}
+SAMPLER_FLAGS = ("--sample", "--auto-switch-sample", "--auto-switch-cpi", "--init-from", "--switch-sample")
+
+
+def stage_v_key_runs(idx, key):
+    """{realization: run name} of the stage-V runs that deliberately replace `key`'s production runs (STAGE_V_KEY_RUNS; {} for every
+    other key). idx: {run name: (stage, args)} of RUNLIST.yaml. A run joins when its name is the key's pattern at one of the allowed
+    realizations, it sits in the named stage, and its arguments with the sampler options and --variant <variant> set aside are those
+    of the key's production-stage runs (the base pattern; one template once the realization is set aside) at its own realization,
+    and the variant is given once, as the last pair."""
+    ext = STAGE_V_KEY_RUNS.get(key)
+    if not ext:
+        return {}
+    rx = re.compile("^" + re.escape(ext["base"]).replace(re.escape("{R}"), r"(\d{3})") + "$")
+    prod = {int(m.group(1)): list(a) for n, (st, a) in idx.items() if production_stage(st) for m in [rx.match(n)] if m}
+    if not prod:
+        return {}
+
+    def templ(a):
+        i = a.index("--realization")
+        return a[:i + 1] + ["{R}"] + a[i + 2:]
+
+    def strip(a):
+        out, i = [], 0
+        while i < len(a):
+            if a[i] in SAMPLER_FLAGS:
+                i += 2
+            else:
+                out.append(a[i])
+                i += 1
+        return out
+    tmpl = {tuple(templ(a)) for a in prod.values()}
+    if len(tmpl) != 1:
+        return {}
+    tmpl = list(tmpl.pop())
+    out = {}
+    for R in ext["realizations"]:
+        n = ext["pattern"].format(R=f"{R:03d}")
+        if n not in idx:
+            continue
+        st, a = idx[n]
+        a = list(a)
+        want = [str(R) if x == "{R}" else x for x in tmpl] + ["--variant", ext["variant"]]
+        if str(st) == ext["stage"] and a[-2:] == ["--variant", ext["variant"]] and a.count("--variant") == 1 and strip(a) == want:
             out[R] = n
     return out
 
@@ -2765,18 +2830,14 @@ A macro prints black when every run summary it needs exists, red with the expect
 - **`\\NrealClasses`** (a word): the realizations of every experiment set above (each set has the same ones).
 - **`\\MockLognGalh`, `\\MockLognAGNh`**: the input number densities as log10 in h^3 Mpc^-3, the units in which the production
   analyses sample them (`\\MockLognGal` - 3 log10 h), beside the Mpc^-3 macros, for Table I.
-- **`\\Cls<Unknown|Known><f>HzeroComb`**, **`\\Cls<Unknown|Known><f>HzeroCL`** (21 Nov; f = `Thirty`, `Fifty`): H0 itself on the
-  runs of `\\HWUnknown<f>` and `\\HWKnown<f>` (the same mergers analysed with the host class unknown and known; the experiment's
-  realizations, nside 32): the posterior combined over the realizations by `run_posteriors.combined` (the corrected ln L of the
-  grids summed, as every `<Key>...Comb` of grid runs), printed as the key scheme prints a combination (median and 90% equal-tailed
-  interval, PDG decimals of the smaller side), and the two-sided credible level of the input H0 (the summaries' truth) in percent.
-  **`\\ClsDiff<f>HzeroMean`**, **`\\ClsDiff<f>HzeroSd`**: the mean and standard deviation (ddof 1) over the realizations of (the H0
-  median of the host-class-unknown run minus that of the host-class-known run of the same realization, `summary.json`), signed, two
-  decimals; **`\\ClsDiff<f>Npos`** (a word): the number of realizations in which that difference is positive. Map records:
-  `how` `comb` (with `runs_of`, the half-width macro whose runs they are) and `derived` with `fn` `paired_<mean|sd|npos>` from the two
-  combined macros. Red values: the combination = the input with a 90% half-width of the `\\HW...` macro over the square root of the
-  number of realizations, level 0; the difference invented, mean 0 and standard deviation 0.3 km/s/Mpc, positive in half the
-  realizations.
+- **`\\ClsDiff<f>HzeroMean`**, **`\\ClsDiff<f>HzeroSd`** (21 Nov; f = `Thirty`, `Fifty`): on the runs of `\\HWUnknown<f>` and
+  `\\HWKnown<f>` (the same mergers analysed with the host class unknown and known; the experiment's realizations, nside 32), the
+  mean and standard deviation (ddof 1) over the realizations of (the H0 median of the host-class-unknown run minus that of the
+  host-class-known run of the same realization, `summary.json`), signed, two decimals; **`\\ClsDiff<f>Npos`** (a word): the number
+  of realizations in which that difference is positive. Map records: `how` `derived` with `fn` `paired_<mean|sd|npos>` from the two
+  half-width macros (`from`: `HWUnknown<f>`, `HWKnown<f>`). Red values: invented, mean 0 and standard deviation 0.3 km/s/Mpc,
+  positive in half the realizations. (23 Nov: the combinations of the same runs, `Cls<Unknown|Known><f>Hzero<Comb|CL>`, are
+  removed; main.tex used none.)
 """
 
 
@@ -2893,7 +2954,9 @@ def build_requests():
         N = Ns.pop()
         inlist = all(k in PR.RUNREAL for k in keys)
         inexp = all(k in PR.RUNREAL_EXP for k in keys)
-        src = ({"file": rel(PR.RUNLIST), "computation": "realizations of the runs of " + "; ".join(f"{k} {PR.KEY_SELECTOR[k]}" for k in keys)} if inlist else
+        src = ({"file": rel(PR.RUNLIST), "computation": "realizations of the runs of " + "; ".join(f"{k} {PR.KEY_SELECTOR[k]}" for k in keys)
+                + "".join(f"; {k}: stage {STAGE_V_KEY_RUNS[k]['stage']}'s runs {STAGE_V_KEY_RUNS[k]['pattern']} (the mixed sampler; the second "
+                          f"deliberate exception, STAGE_V_KEY_RUNS), realizations {PR.RUNREAL.get(k)}" for k in keys if k in STAGE_V_KEY_RUNS)} if inlist else
                {"file": rel(PR.RUNLIST_EXP), "computation": "; ".join(f"{k}: {PR.NREAL[k][1]}" for k in keys)} if inexp else
                {"file": "paper_prd/runs.txt", "computation": "; ".join(f"{k}: {PR.NREAL[k][1]}" for k in keys)})
         add(name, "plain", NUM_WORD.get(N, str(N)), N, "realizations", meaning, src, "design,realizations",
@@ -2977,7 +3040,7 @@ def build_requests():
             {"file": rel(A14R / "plan_b.json"), "key": "seconds_per_call (the sample counts of the redraws)"}, "appendixA")
     # the sky resolution (SkyResShiftHzero, SkyResShiftfAGN): the nside-64 run of realization A against KnownBoth's (scripts/skyres.py)
     import skyres as SK
-    SK.build(add, add_ph, REG)      # REG: the registry so far (21 Nov: SkyResOffsetHzeroProd reads KnownBothHzeroComb from it)
+    SK.build(add, add_ph, REG)      # REG: the registry so far (SkyResAllShiftPctHalfWid's red rule reads KnownBothHzeroHalfWid from it)
 
 
 # ============================================================================================= #

@@ -163,3 +163,85 @@ Panel (a) of `fig4_densities` has its axis, its prior box (Table I) and its inpu
 - Fractions of mergers hosted by AGN other than `\MockfAGN` and `\MockfAGNTenth` are written in words (none, one in
   ten, three in ten, half, all), like "seven mergers in ten" in Sec. D; `\fagn=0` and `\fagn=1` appear as the limits of
   the likelihood.
+
+## G. Sec. IV E on three steps (23 Nov 2026)
+
+Why. On the mergers with host-dependent populations the single-population analysis with its mass and spin
+parameters inferred is NOT biased in H0 (five realizations: 67.6, 66.7, 68.9, 70.5, 67.6; host-dependent on the same
+mergers 67.5, 66.8, 68.5, 70.6). The bias the section was written for belongs to the analysis that takes the
+population as known and holds the galaxy class's mass and spin distribution for both host classes (the analysis of
+Sec. IV A applied to these mergers): stored grids give H0 70.9, 86.9, 71.1, 73.2, 69.9, and the upper prior edge in
+all five realizations at twice the offsets. Secs. IV E, IV F, IV G, the abstract and the Conclusions are rewritten on
+three steps: (1) population assumed, (2) single population inferred, (3) host-dependent populations inferred.
+Reader-facing name of step 1: "population assumed" (legend, table row); never "fixed", never "held" in a legend.
+
+### G1. New keys (same conventions as the existing keys: `<Key><Quantity>`, `Comb`, `CL`, `HalfWid`, `Med/Lo/Hi`)
+
+| Key | Runs (pattern, `{R}` = realization) | Realizations | State |
+|---|---|---|---|
+| `HDAssumed` | `two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}` (grid) | 100, 101, 102, 103, 105 | exist |
+| `HDAssumedTwice` | `.../two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}` (grid) | same five | exist |
+| `HDPops` | `two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}` (grid; the two populations at their inputs) | same five | exist |
+| `HDSingleTwice` | `single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}` (nested, six parameters; stage E3) | same five | running (first on 23 Nov) |
+| `ObsAssumed` | `two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}` (grid) | same five | exist |
+| `ObsPops` | `two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}` (grid) | same five | exist |
+
+These are experiment runs (stages E1 to E3), the same runs that `classes.py` already reads for `Pos`, `Pops`,
+`PosTwice`; the keys above add the posteriors of H0 and f_AGN of those runs.
+
+Macros wanted:
+
+- `HDAssumed`: `\HDAssumedHzero` (realization A, median and 90% interval), `\HDAssumedHzeroHalfWid`,
+  `\HDAssumedHzeroComb`, `\HDAssumedHzeroCL`, `\HDAssumedBiasHzero` (combined median minus the input, as
+  `\HDBiasHzero` is defined now), `\HDAssumedfAGNComb`, `\HDAssumedfAGNCL`, `\NrealHDAssumed`,
+  `\HDAssumedNoPeak` (number of realizations, in words, whose posterior of H0 has no interior maximum by the rule
+  already used for `\KnownAGNNoPeak`; say in the report which realizations and what realization 101, 86.9
+  [71.5, 97.4] with f_AGN 0.07, is by that rule). If the level of the input is 100% to the printed precision, say
+  what the macro prints.
+- `HDAssumedTwice`: `\HDAssumedTwiceNoPeak` (count in words, as above; expected five), `\HDAssumedTwiceHzeroMed`
+  (realization A's median, to be quoted against `\PriorHzeroHi`), `\HDAssumedTwicefAGNUL` (realization A, 90% upper
+  limit). No interval and no combined posterior for this key (posteriors at the prior edge).
+- `HDPops`: `\HDPopsHzeroComb`, `\HDPopsHzeroCL`, `\HDPopsfAGNComb`, `\HDPopsfAGNCL`.
+- `HDSingleTwice`: `\HDSingleTwiceHzero` (realization A), `\HDSingleTwiceHzeroComb`, `\HDSingleTwiceHzeroCL`,
+  `\HDSingleTwiceBiasHzero`, `\HDSingleTwiceMuG`, `\HDSingleTwiceMuChi` (realization A), `\HDSingleTwicefAGNComb`,
+  `\NrealHDSingleTwice`. Red until the runs exist; placeholder values: H0 combined 68.6 (+0.9, -0.9), level 80%,
+  bias +0.9, realization A 68.4 (+1.9, -1.9), mu_G 38.3 (+0.6, -0.6), mu_chi 0.08 (+0.01, -0.01), f_AGN 0.41
+  (+0.04, -0.04).
+- `ObsAssumed`: `\ObsAssumedHzero`, `\ObsAssumedHzeroComb`, `\ObsAssumedHzeroCL`, `\ObsAssumedBiasHzero`,
+  `\ObsAssumedfAGNComb`, `\ObsAssumedNoPeak`, `\NrealObsAssumed`. `ObsPops`: `\ObsPopsHzeroComb`, `\ObsPopsHzeroCL`.
+- Shift of the assumed-population analysis against the analysis of the SAME mergers with the two populations at
+  their inputs (posterior median of H0, `HDAssumed` minus `HDPops`, per realization): `\HDAssumedShiftHzero` (median
+  over the realizations, signed), `\HDAssumedShiftHzeroMin`, `\HDAssumedShiftHzeroMax`; the same for the
+  observed-like family, `\ObsAssumedShiftHzero`, `Min`, `Max`. By hand: 3.72, 20.2, 2.65, 3.20, 2.19 (median 3.2)
+  and 1.31, 0.67, 1.07, 1.42, 1.11 (median 1.1).
+
+### G2. Additions to existing keys
+
+- Bayes factor of host-dependent against single population per realization: `\HDLBMin`, `\HDLBMax` (log10, over
+  the realizations common to `HDHost` and `HDSingle`; by hand 3.9 and 8.4 on four), and the same for the
+  observed-like family, `\ObsLBMin`, `\ObsLBMax` (red).
+- Half-width of H0 of the single-population analysis on the realizations of `\HWHost`: `\HWHDSingle`, `Min`, `Max`
+  (by hand 1.93, 1.95, 1.88, 1.98, 1.75), and the factor in the number of mergers between the two,
+  `\CostSingleHost`, `Min`, `Max`, defined as `\CostPopsThirty` is (per realization, then the summary used there).
+  Same for the observed-like family: `\HWObsSingle`, `\CostObsSingleHost` (red).
+- `\MockHDfDetMean`: mean over the realizations of `HDSingle` of the AGN share of the detected mergers (`planted.
+  truth_f_agn` of the summaries; `\MockHDfDet` is realization A's), and `\ObsHDfDetMean`.
+- `\HDHostMaxAbsCorrHzero`: realization A, the largest absolute correlation coefficient of H0 with the other seven
+  parameters of the host-dependent analysis (by hand 0.10).
+- `\HDSinglefAGNCL` exists: check that it is the level of the INPUT fraction `\MockfAGN` in the combined posterior.
+
+### G3. Figures
+
+- `fig6_host_dependent` and `fig7_observed_like` (one function, `fig_host`): panels (a) and (c) gain a third curve,
+  the assumed-population analysis combined over its realizations (`HDAssumed`, `ObsAssumed`), dotted; legend entries
+  exactly "population assumed", "single population", "host-dependent populations". Posterior densities stay
+  normalized with units on the y axis; if the dotted curve of panel (a) falls outside the present x range, widen the
+  range, do not crop the curve.
+- `fig8_summary`: one new row "Population assumed, both catalogs" at the top of the block "Populations that depend
+  on the host" (`HDAssumed`) and of the block "A mass spectrum like the observed one" (`ObsAssumed`), H0 and f_AGN.
+- `figures/CAPTION_FACTS.md`: the facts of the new curves and rows (line styles, counts of realizations).
+
+### G4. Not wanted any more (leave defined; the text stops using them)
+
+`\HDBiasHzero`, `\ObsBiasHzero` as "the bias of the single population" (the text will quote `\HDSingleHzeroComb`
+with its level).

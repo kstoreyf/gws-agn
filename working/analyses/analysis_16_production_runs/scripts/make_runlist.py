@@ -12,6 +12,10 @@ Stage 5 (paper_prd/runs.txt): the observed-like mass spectrum (data/obslike/READ
 events, on the "5" realizations: stage 4's three classes with the family in the run name
 (host_dependent_obslike), the family's events suffix, population inputs and injection lane as E2 takes
 them for its (obslike, f = 0.3, s = 1) set from data/experiment_sets.json.
+23 Nov: the eight-parameter runs of stage 5 sample with stage V8's mixed sampler (V8_AUTO_ARGS, run names
+.../host_dependent_obslike/realization_NNN_unif_then_rslice, one part; cost measured on V8's finished runs times the
+observed-like lane factor, stage5_eight_parameter_cost; lane rank 10, after every six-parameter run); of stage 4's
+pure-rslice eight-parameter runs only realization 100's stays (STAGE4_RSLICE_KEPT, V8's sampler reference).
 
 Cost model (the brief's numbers until the tests measure them; --timing merges measured spc_* keys):
   seconds per call at 8,000 samples: 0.39 with the population fixed, 0.44 with it free (both catalogs,
@@ -109,9 +113,15 @@ LANE_RANKS = [
     (4, "E3", {}),
     (5, 4, {"analysis": "single_population", "catalogs": "both", "realizations": R_LATER}),
     (7, 3, {"realizations": R_FIRST}),
+    (10, 5, {"analysis": "host_dependent_populations"}),              # 23 Nov: stage 5's eight-parameter runs (mixed sampler), after
+                                                                       # every six-parameter run (the lanes reach them last)
     (8, 5, {}),
     (9, 3, {"realizations": R_LATER}),
 ]
+# 23 Nov: of stage 4's pure-rslice host_dependent_populations runs only realization 100's stays in the run list (finished 20 Nov: the
+# sampler reference of stage V8, tests/results/compare_r100_eight_parameter.json); the mixed sampler of stage V8 (unif, then rslice) is
+# the production sampler of every eight-parameter run, so the pure-rslice runs of 101, 102, 103, 105 are never run and are not listed
+STAGE4_RSLICE_KEPT = (100,)
 
 COST = {"spc_fixed": 0.39, "spc_free": 0.44, "spc_none_fixed": 0.39, "spc_none_free": 0.44,
         "spc_one_fixed": 0.39, "spc_free_hostdep": 0.44, "spc_flux_free_densities": 0.44,
@@ -440,6 +450,8 @@ def build(r5, r10, r3, hd_lane=None):
     for r in r10:
         st[4].append(entry(4, "nested", "single_population", "both", "complete", "host_dependent", r, lane=hd_lane))
     for r in r5:
+        if r not in STAGE4_RSLICE_KEPT:       # 23 Nov: the others are stage V8's realization_NNN_unif_then_rslice (never run with rslice)
+            continue
         st[4].append(entry(4, "nested", "host_dependent_populations", "both", "complete", "host_dependent", r,
                            lane=hd_lane))
     for r in r5:
@@ -542,6 +554,37 @@ def build_v8(realizations, hd_lane=None):
         e["validates"] = stage4
         out.append(e)
     return out
+
+
+def v8_measured_cost(realizations=R_FIRST):
+    """23 Nov: the cost of one eight-parameter run with the mixed sampler (unif, then rslice), measured on stage V8's finished runs
+    realization_NNN_unif_then_rslice (peak family, its injection lane): calls per run = the mean over those runs of their summaries'
+    likelihood calls (realization 100's including the 30,102 of the stopped uniform run it continues, calls_including_init_state);
+    seconds per call = their seconds in the likelihood over their calls, pooled (nested_1/result.json, every session). These are the
+    driver's own counts, the ones the summaries' gpu_hours come from (dynesty's ncall_total, also listed, counts a few percent more).
+    None while no such run has finished."""
+    rows = {}
+    for r in realizations:
+        n = P.run_name("host_dependent_populations", "both", "complete", "host_dependent", r, variant=V8_UNIF_THEN_RSLICE)
+        sp, rj = P.RUNS / n / "summary.json", P.RUNS / n / "nested_1" / "result.json"
+        if not (sp.exists() and rj.exists()):
+            continue
+        try:
+            s, res = json.loads(sp.read_text()), json.loads(rj.read_text())
+        except json.JSONDecodeError:
+            continue
+        ses = res.get("sessions") or []
+        c, t = sum(x.get("calls", 0) for x in ses), sum(x.get("seconds_in_likelihood", 0.0) for x in ses)
+        if not (res.get("finished") and c):
+            continue
+        rows[r] = {"run": n, "calls": int(s.get("calls_including_init_state") or s["calls"]), "session_calls": c,
+                   "seconds_in_likelihood": round(t, 1), "ncall_total": res.get("ncall_total"),
+                   "gpu_hours": round(float(s.get("gpu_hours_including_init_source") or s.get("gpu_hours") or 0.0), 3)}
+    if not rows:
+        return None
+    spc = sum(v["seconds_in_likelihood"] for v in rows.values()) / sum(v["session_calls"] for v in rows.values())
+    return {"realizations": sorted(rows), "calls_mean": int(round(statistics.fmean(v["calls"] for v in rows.values()))),
+            "seconds_per_call": spc, "per_run": rows}
 
 
 # stage X (18 Nov): checks of two analysis settings on realization 100; the paper's number chain reads the nside-64 run by
@@ -989,12 +1032,41 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
     return out
 
 
+def stage5_eight_parameter_cost(popfam, catalogs="both"):
+    """23 Nov: {calls, seconds_per_call, calls_source, seconds_per_call_source} of one stage-5 eight-parameter run (mixed sampler, one
+    part): the calls per run and seconds per call measured on stage V8's finished runs (v8_measured_cost: peak family, its lane), the
+    seconds per call times the factor the cost model applies between the observed-like family and the peak family (lane_factor: the
+    observed-like family's lane over the record lane, measured on population-fixed grids; the peak family's runs take 1, as every run of
+    stage 4). Before any V8 run has finished: build_v8's estimate for the automatic switch at spc_free_hostdep."""
+    f = lane_factor(popfam, catalogs)
+    m = v8_measured_cost()
+    if m:
+        per = "; ".join(f"{r}: {v['calls']:,} (dynesty ncall_total {v['ncall_total']:,})" if v.get("ncall_total") else f"{r}: {v['calls']:,}"
+                        for r, v in m["per_run"].items())
+        return {"calls": m["calls_mean"], "seconds_per_call": m["seconds_per_call"] * f,
+                "calls_source": (f"mean of the likelihood calls of stage V8's finished runs realization_NNN_unif_then_rslice "
+                                 f"({len(m['realizations'])}: {per}; realization 100 with its stopped uniform run's 30,102)"),
+                "seconds_per_call_source": (f"{m['seconds_per_call']:.4f} s per call measured on the same runs (seconds in the likelihood over "
+                                            f"calls, pooled over their sessions) x {f} (lane_factor of the {popfam} family, catalogs {catalogs}: "
+                                            "its lane over the record lane; the peak family's runs take 1)"),
+                "measured": m}
+    sw, cpi = V8_COST["auto_switch_at"], V8_COST["rslice_calls_per_iteration"]
+    n_it = COST["calls_by_ndim"][8] / V8_COST["a13_calls_per_iteration"]
+    calls = int(round(sw["ncall"] + max(n_it - sw["iterations"], 0) * cpi))
+    return {"calls": calls, "seconds_per_call": COST["spc_free_hostdep"] * f,
+            "calls_source": "no stage-V8 run finished: build_v8's estimate for the automatic switch",
+            "seconds_per_call_source": f"spc_free_hostdep x {f} (lane_factor of the {popfam} family)", "measured": None}
+
+
 def build_stage5(realizations, rec):
     """Stage 5: stage 4's three classes (single population with both catalogs, host-dependent populations
-    with the eight-parameter sampler setting, single population without a catalog) on the observed-like
+    with the eight-parameter model, single population without a catalog) on the observed-like
     host-dependent set, which E2 runs as obslike_f0p30_s1: its events suffix and injection lane from
     data/experiment_sets.json, its population inputs POPULATION_INPUTS["obslike"]. The redraw stream is
-    E2's on that set (same kind and suffix), so a merger has the same samples in both."""
+    E2's on that set (same kind and suffix), so a merger has the same samples in both.
+    23 Nov: the eight-parameter runs sample with stage V8's mixed sampler (V8_AUTO_ARGS: unif, then rslice), one part, run names
+    .../host_dependent_obslike/realization_NNN_unif_then_rslice (the pure-rslice entries .../realization_NNN, never queued, are gone);
+    cost from V8's finished runs (stage5_eight_parameter_cost); lane rank 10, after every six-parameter run (LANE_RANKS)."""
     label = P.set_name(*STAGE5_SET)
     if not rec or not rec.get("suffix"):
         sys.exit(f"[fatal] stage 5: no {label} set in {SETS_JSON}")
@@ -1006,10 +1078,23 @@ def build_stage5(realizations, rec):
     family = {"name": STAGE5_SET[0], "suffix": sfx, "population_family": popfam}
     lane = rec.get("lane") or P.default_injection_lane(popfam)
     out = []
+    hd = stage5_eight_parameter_cost(popfam)
     for analysis, catalogs in (("single_population", "both"), ("host_dependent_populations", "both"),
                                ("single_population", "none")):
         for r in realizations:
-            out.append(entry(5, "nested", analysis, catalogs, "complete", kind, r, lane=lane, family=family))
+            if analysis != "host_dependent_populations":
+                out.append(entry(5, "nested", analysis, catalogs, "complete", kind, r, lane=lane, family=family))
+                continue
+            # 23 Nov: the eight-parameter model with the mixed sampler of stage V8 (the production sampler since 20 Nov), one part,
+            # run name .../host_dependent_obslike/realization_NNN_unif_then_rslice; arguments, events and injections as before
+            e = entry(5, "nested", analysis, catalogs, "complete", kind, r, lane=lane, family=family, sampler_args=V8_AUTO_ARGS,
+                      name_variant=V8_UNIF_THEN_RSLICE, n_parts=1, calls_per_part=hd["calls"])
+            e = finish(e, 5, "nested", e["free"], hd["seconds_per_call"], e["events_file"], e["injections_file"], n_parts=1,
+                       calls_per_part=hd["calls"])
+            e["est_calls_source"], e["est_seconds_per_call_source"] = hd["calls_source"], hd["seconds_per_call_source"]
+            e["sampler"] = ("unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8's "
+                            "mixed sampler, compared against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)")
+            out.append(e)
     inj_ok = rec.get("injections_exist")
     if isinstance(inj_ok, dict):
         for e in out:
@@ -1321,6 +1406,10 @@ def main():
             COST["lane_factor"][fam][cat] = v["factor"]
             measured[f"lane_factor.{fam}.{cat}"] = v["factor"]
     COST["lane_factor_measured"] = lf
+    m8 = v8_measured_cost()            # 23 Nov: stage 5's eight-parameter runs take their cost from these (stage5_eight_parameter_cost)
+    if m8:
+        COST["eight_parameter_mixed_sampler_measured"] = m8
+        measured["eight_parameter_mixed_sampler"] = m8["calls_mean"]
     COST["measured"] = sorted(measured)
     r5 = [int(x) for x in a.realizations_5.split(",")]
     r10 = [int(x) for x in a.realizations_10.split(",")]

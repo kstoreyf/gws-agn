@@ -205,8 +205,9 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 | 4 | E3 |
 | 5 | stage 4, single population with both catalogs, realizations 106-110 |
 | 7 | stage 3 on realizations 100, 101, 102, 103, 105 |
-| 8 | stage 5 |
+| 8 | stage 5, the six- and five-parameter runs |
 | 9 | stage 3 on realizations 106-110 |
+| 10 | stage 5, the eight-parameter runs (mixed sampler; 23 Nov): after every six-parameter run |
 
 **One lane** (default; this project may run one job at a time on RITA-GPU): every job the launcher
 submits, and every successor a lane job submits, depends (afterany) on all of the user's pending or running
@@ -264,8 +265,8 @@ lane has 2.9e6 detected injections against the record's 2.2e6.
 | 1 population known, complete catalogs (grids) | 35 | 35 | 14,770 | 2.7 | 2.7 |
 | 2 flux-limited catalogs (grids; free densities nested) | 44 | 56 | 216,704 | 10.0 | 10.0 |
 | 3 equal-population events, single population | 20 | 40 | 650,000 | 60.4 | 60.4 |
-| 4 host-dependent events (peak lane) | 20 | 35 | 1,865,000 | 215.3 | 215.3 |
-| 5 observed-like spectrum, host-dependent events (obslike lane) | 15 | 25 | 1,685,000 | 225.3 | 225.3 |
+| 4 host-dependent events (peak lane; 23 Nov: one eight-parameter run left, realization 100) | 16 | 31 | 777,000 | 83.6 | 83.6 |
+| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler) | 15 | 25 | 1,422,700 | 214.5 | 214.5 |
 | E1 experiment grids, peak family | 235 | 235 | 147,745 | 28.5 | 28.5 |
 | E2 experiment grids, observed-like family | 75 | 75 | 40,350 | 8.0 | 8.0 |
 | E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 20.5 | 20.5 |
@@ -281,8 +282,19 @@ dmu_G 5, dmu_chi 0.10) are inside every prior (checked by `make_runlist.py` and 
 | class | runs | parts | calls per part | s per call | GPU-h |
 |---|---|---|---|---|---|
 | single population, both catalogs (6 parameters) | 5 | 2 | 18,000 | 0.467 = 0.405 x 1.153 | 23.6 |
-| host-dependent populations, both catalogs (8; rslice, the `--sampler-8` setting) | 5 | 1 | 272,000 | 0.502 = 0.435 x 1.153 | 189.8 |
+| host-dependent populations, both catalogs (8; rslice, the `--sampler-8` setting; replaced 23 Nov, below) | 5 | 1 | 272,000 | 0.502 = 0.435 x 1.153 | 189.8 |
 | single population, no catalog (5) | 5 | 2 | 14,500 | 0.291 = 0.235 x 1.237 | 12.0 |
+
+*23 Nov:* the eight-parameter runs of stage 5 sample with stage V8's mixed sampler (`--sample unif --auto-switch-sample rslice
+--auto-switch-cpi 60`, `make_runlist.V8_AUTO_ARGS`), one part, run names
+`host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_NNN_unif_then_rslice`, the same arguments,
+events and injections otherwise (the driver's resolved configurations differ from the old entries' only in `nested.sample`,
+`nested.auto_switch`, `run_name`, `variant`). Cost (`make_runlist.stage5_eight_parameter_cost`): V8's finished runs, realizations
+100-103, used 219,540 likelihood calls on average (230,137 with realization 100's stopped uniform run, 207,096, 214,184, 226,744;
+dynesty's `ncall_total` 233,244, 212,705, 219,948, 237,667) at 0.5088 s per call, times the observed-like lane factor 1.153: 0.587 s
+per call, 35.8 GPU-h per run, 178.9 for the five. Lane rank 10, after every six-parameter run. The pure-rslice entries
+`.../host_dependent_obslike/realization_NNN` (never queued) and stage 4's pure-rslice `.../host_dependent/realization_{101,102,103,105}`
+(never queued) are gone from the run list; stage 4's `realization_100` (finished, V8's sampler reference) stays.
 
 Queued 17 Nov (one chain, job agn-prod-l1 1414946 and its successors): stage 1, then E1 and E2 in the
 order s = 0, 1, 2 and within each f = 0.3, then 0.1 and 0.5, then 0 and 1. Nested stages (2-4, E3) wait
@@ -306,7 +318,10 @@ every 4,400 calls). Estimates (`make_runlist.py`): 4,690 iterations per run (272
 the stopped run's ln L(X) extrapolated as an 8-D Gaussian gives 4,970-5,100), 60 calls per iteration with rslice, 0.497 s per
 call: the continuation 186k calls, 25.6 GPU-h; each automatic run 213k calls, 29.4 GPU-h (rslice from the start: 272k, 37.5).
 The paper's selectors skip stage V8. Checks: `tests/test_unif_then_rslice.py` (`tests/results/unif_then_rslice_checks.json`,
-below).
+below). *23 Nov:* the mixed sampler agrees with rslice from the start on realization 100
+(`tests/results/compare_r100_eight_parameter.json`), so it is the production sampler of every eight-parameter run: the paper's key
+`HDHost` reads these five V8 runs (a deliberate, named exception: `paper_prd/scripts/build_values.STAGE_V_KEY_RUNS`), stage 4's
+pure-rslice runs of 101-105 are dropped, and stage 5's eight-parameter runs use the same sampler (above).
 
 **Stage X (18 Nov, checks of two analysis settings, realization 100; not production results).** Three grids, last in
 RUNLIST.yaml, 0.25 GPU-h in all (seconds per call: the measured value of the production run each one varies):
