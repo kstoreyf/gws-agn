@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 21:05 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 21:50 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 21:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 23 Nov 21:50 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
 ### The session is back; there was no gap
@@ -144,17 +144,53 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   number below 5 (number 494), and its stored grids show no step above 0.5 nat near the
   peak. When stage 5's posteriors of realization 100 come in, look at its H0 marginal for a
   wall or shoulder before quoting it.
-- THE HALF-WIDTH MEANS (in progress, 21:15 UTC): six of the twelve stepped runs feed means
-  of H0 half-widths over five realizations (Sec. IV F, Fig. 3(b)): realization 105 of
-  `obslike_f0p00_s0` in `mass_spectrum_alone` (HWObsNone 8.4), `galaxy_catalog_alone`
-  (HWObsKnownZero 3.5) and `two_tracers_one_population` (HWObsUnknownZero 3.5); realization
-  101 of `obslike_f0p30_s0` (HWObsUnknownThirty 2.0); realization 103 of `obslike_f1p00_s0`
-  (HWObsKnownHundred 0.83, HWObsUnknownHundred 0.84, already at 32,000 samples). An Opus
-  agent (id `ac5d8b7c802d4d6c9`, CPU, about 60 min) sizes each with the hybrid line at four
-  times the samples for the poorly resolved mergers and reports the change of each mean.
-  EXPECT changes below one unit of the last printed digit; if one is larger, re-run that
-  realization at 32,000 samples as a stage-X check and decide whether the macro's realization
-  set changes (mine). Results: `tests/results/obslike_steps_halfwidth_*.json`.
+- THE HALF-WIDTH MEANS ARE AFFECTED TOO (agent report 21:40 UTC; `tests/obslike_steps_halfwidth.py`,
+  results `tests/results/obslike_steps_halfwidth_*.json`; every stored line reproduced to
+  4e-12). Six stepped runs feed means of H0 half-widths over five realizations (Sec. IV F,
+  Fig. 3(b)). Half-width of the realization, stored -> hybrid at four times the samples
+  (-> with the step merger at 256,000 or more), and the printed mean:
+  1 `mass_spectrum_alone` on `obslike_f0p00_s0` realization 105 (merger 999, 7 to 21 of 8000
+    samples below the edge): 7.15 -> 8.14 (-> 8.52): HWObsNone 8.4 -> 8.6 (8.7);
+  2 `galaxy_catalog_alone`, same realization: 3.69 -> 4.10 (4.17): HWObsKnownZero 3.5 -> 3.6;
+  3 `two_tracers_one_population`, same: 3.65 -> 4.08 (4.12): HWObsUnknownZero 3.5 -> 3.6;
+  4 `two_tracers_one_population` on `obslike_f0p30_s0` realization 101 (mergers 872, 142):
+    2.03 -> 1.87 (1.91): HWObsUnknownThirty 2.0 -> 2.0;
+  5, 6 `hosts_known` and `two_tracers_one_population` on `obslike_f1p00_s0` realization 103,
+    already at 32,000 samples (merger 553: 6 of 32,000 samples below the edge, effective
+    number 29 even at 1,024,000): 1.06 -> 0.77: HWObsKnownHundred 0.83 -> 0.77,
+    HWObsUnknownHundred 0.84 -> 0.78.
+  So my expectation was wrong: four of six means move in their second digit, single
+  realizations by 10 to 30%, and MORE SAMPLES DO NOT CONVERGE for such mergers.
+- DECIDED 21:45 UTC (mine): FIX IT AT THE ROOT BEFORE STAGE 5 RUNS (stage 5 is about 210
+  GPU-h on this family and starts about 26 Nov). A DEFENSIVE MIXTURE PROPOSAL: half of each
+  merger's samples from its posterior as now, half from the posterior restricted to the
+  region A where the spectrum's sharp mass edges can hold for some H0 of the prior range
+  (primary source mass below m_max at H0 = 100, and the lower edge at H0 = 50), with the
+  exact weight 1 / [(1 - a) + a 1_A / P_A] entering through the PE-prior column. Exact for
+  any population (the Gaussian tail above the edge included), no change of the likelihood
+  code, no effect where a family has no sharp edge.
+  STEP A (running since 21:45 UTC): an Opus agent (id `ad1681bf099f53a74`, CPU, about 2 h)
+  implements it in COPIES under `tests/mixture_redraw/` as a driver option
+  `--redraw-mixture {off,support}` (default off) and validates at 8000 samples against the
+  converged references (mergers 691, 999, 553; whole realizations 106, 105 of f0p00_s0, 103
+  of f1p00_s0), unbiasedness on non-edge mergers and on a peak-dominated realization, cost,
+  off-identity. It installs nothing.
+  STEP B (after you have checked A: read the diff of each copy against its original, rerun
+  one of its validation numbers yourself): install into `scripts/` by atomic `mv` when the
+  option-off identity is shown (the lanes import the files fresh; check that the next task on
+  each lane starts normally), then one Opus agent for the run lists and the chain: variants
+  of the observed-like grids that feed the paper with the option on (E2's 95 observed-like
+  runs, about 11.4 GPU-h, lane rank after HDSingle 106 to 110 and before stage 3, so the Sec.
+  IV E milestone is not delayed), stage 5's entries with the option BEFORE they start, the
+  paper's observed-like keys and `classes` macros re-pointed to the variants, audit checks.
+  Then `main.tex`: one sentence in Appendix A "Monte Carlo sums" on the sampling of the
+  observed-like sets; the sentences on the 32,000-sample check in "Accuracy" and the pointer
+  in Sec. IV F are rewritten or removed (the two 32,000-sample grids of realization 106,
+  queued, become a cross-check of the mixture).
+  IF STEP A FAILS (the mixture does not reproduce the references): fall back to stating the
+  Monte Carlo accuracy of the observed-like numbers with the sizes above, and tell the owner.
+  THE OWNER HAS BEEN TOLD of the finding and of this plan (my message of 21:50 UTC), not
+  asked: technical decision, about 11 GPU-h of re-runs.
 
 ### Running now, and what each needs from you
 - LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then the
@@ -167,11 +203,14 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   of which 100 and 101 are done, and HDSingle 106 to 110): all ten summaries, or an error
   outcome in one of their `nested_*/attempts.json`, or 09:00 UTC 25 Nov. Its list of runs is
   `step3_runs.txt` in the session scratchpad; if the session restarted, check by hand.
-- WATCHER `bniuy3n5w` on the two grids of "THE STEPS" above, and the half-width agent there.
+- WATCHER `bniuy3n5w` on the two grids of "THE STEPS" above, and the mixture agent there
+  (step A). Clock note: the times written in this block before 21:40 UTC run about 15 min
+  ahead of the true clock.
 
 ### Do next, in order
 1. The two 32,000-sample grids of realization 106 (watcher `bniuy3n5w`): as written under
    "THE STEPS", "WHEN THE WATCHER FIRES".
+1b. The mixture agent's report: step B under "THE STEPS", "DECIDED 21:45 UTC".
 2. (done: realization 105, see above.)
 3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov; arm one watcher:
    loop over `runs/single_population/both_catalogs/complete/host_dependent/
