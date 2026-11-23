@@ -58,14 +58,21 @@ assigning each merger to a galaxy catalog or to an AGN catalog that trace one
 density field and letting the mass and spin distributions depend on the host.
 In simulations of \MockNev{} detected mergers in which AGN-hosted mergers have
 a mass peak $\MockDmuG\msun$ higher and a mean effective spin \MockDmuChi{}
-higher, an analysis that assumes a single population returns
-$H_0=\HDSingleHzeroComb\,\kms$ for an input of \MockHzero, and the
-host-dependent analysis returns $\HDHostHzeroComb\,\kms$ (90\% credible
-intervals of posteriors combined over \NrealHDSingle{} and \NrealHD{}
-realizations; \MockPeakFrac{} of the mergers in the mass peak). % EXPECTED
+higher, an analysis that assumes the population of the galaxy-hosted mergers
+for all of them returns $H_0=\HDAssumedHzeroComb\,\kms$ for an input of
+\MockHzero, one that infers a single population returns
+$\HDSingleHzeroComb\,\kms$, and the host-dependent analysis returns
+$\HDHostHzeroComb\,\kms$ (90\% credible intervals of posteriors combined over
+\NrealHDAssumed, \NrealHDSingle{} and \NrealHD{} realizations; \MockPeakFrac{}
+of the mergers in the mass peak). % EXPECTED
+The host-dependent analysis is preferred to the single population with
+$\lB$ between \HDLBMin{} and \HDLBMax{} in each realization, and the single
+population needs \CostSingleHost{} times as many mergers for the same 90\%
+half-width of $H_0$. % EXPECTED
 With a mass spectrum like the observed one, in which \ObsPeakFrac{} of the
-mergers are in the peak, the bias of the single-population analysis falls to
-$\ObsBiasHzero\,\kms$ and the input lies inside its 90\% interval. % EXPECTED
+mergers are in the peak, assuming the population moves the median of $H_0$
+by $\ObsAssumedShiftHzero\,\kms$, where the peak-dominated spectrum gave
+$\HDAssumedShiftHzero\,\kms$.
 With flux-limited catalogs the mergers measure the merger rate per AGN
 relative to that per galaxy, and $\fagn$ follows only once the number of AGN
 is given: with catalogs that hold the hosts of \MockEventCompTwenty\% of
@@ -179,8 +186,9 @@ not known (Sec.~\ref{sec:classes}); flux-limited catalogs, where the mergers
 constrain the merger rate per host of one class relative to the other; an
 inferred population, where the mass scale gives back part of its $H_0$
 information; populations that differ between the host classes, where an
-analysis with one population is biased in $H_0$ and the host-dependent
-analysis is not; and a mass spectrum like the observed one. % EXPECTED
+analysis that assumes one population is biased in $H_0$, one that infers a
+single population is not, and the host-dependent analysis measures the
+difference; and a mass spectrum like the observed one. % EXPECTED
 All results concern simulated mergers and catalogs: we make no statement
 about the observed BBHs and no forecast for a given observing run.
 
@@ -614,7 +622,9 @@ peak and in the spin mean. $\lB$ is the Bayes factor of the host-dependent
 analysis against the single-population analysis of the same mergers with
 both catalogs, for the priors of Table~\ref{tab:priors}. The inputs are
 $H_0=\MockHzero\,\kms$ and $\fagn=\MockfAGN$, and for host-dependent
-populations $\dmuG=\MockDmuG\msun$ and $\dmuchi=\MockDmuChi$. Medians and
+populations $\dmuG=\MockDmuG\msun$ and $\dmuchi=\MockDmuChi$. For those
+mergers ``population assumed'' is the analysis that takes the population of
+the galaxy-hosted mergers for both host classes. Medians and
 90\% intervals, except for the single population with no catalog on mergers
 with host-dependent populations, whose posterior of $H_0$ extends to the
 lower edge of the prior and is given as a 90\% upper limit. With the number
@@ -635,11 +645,13 @@ Single population, both catalogs & \NrealSingle & $\SingleBothHzeroComb$ & $\Sin
 Single population, no catalog & \NrealSingle & $\SingleNoneHzeroComb$ & & & & \\
 \hline
 \multicolumn{7}{l}{Host-dependent populations, peak-dominated spectrum}\\
+Population assumed, both catalogs & \NrealHDAssumed & $\HDAssumedHzeroComb$ & $\HDAssumedfAGNComb$ & & & \\
 Single population, both catalogs & \NrealHDSingle & $\HDSingleHzeroComb$ & $\HDSinglefAGNComb$ & & & \\
 Host-dependent populations, both catalogs & \NrealHD & $\HDHostHzeroComb$ & $\HDHostfAGNComb$ & $\HDHostDmuGComb$ & $\HDHostDmuChiComb$ & $\HDHostLBComb$\\
 Single population, no catalog & \NrealHDNone & $<\HDNoneHzeroCombUL$ & & & & \\
 \hline
 \multicolumn{7}{l}{Host-dependent populations, observed-like spectrum}\\
+Population assumed, both catalogs & \NrealObsAssumed & $\ObsAssumedHzeroComb$ & $\ObsAssumedfAGNComb$ & & & \\
 Single population, both catalogs & \NrealObs & $\ObsSingleHzeroComb$ & $\ObsSinglefAGNComb$ & & & \\
 Host-dependent populations, both catalogs & \NrealObs & $\ObsHostHzeroComb$ & $\ObsHostfAGNComb$ & $\ObsHostDmuGComb$ & $\ObsHostDmuChiComb$ & $\ObsHostLBComb$\\
 Single population, no catalog & \NrealObs & $\ObsNoneHzeroComb$ & & & & \\
@@ -1026,53 +1038,81 @@ The catalogs break the degeneracy between $H_0$ and the mass scale. % EXPECTED
 \label{sec:hd}
 
 If AGN-hosted mergers are heavier and spin faster, an analysis that assumes
-a single population is biased in $H_0$, and the host-dependent analysis is
-not [Fig.~\ref{fig:hd}(a), Table~\ref{tab:results}]. % EXPECTED
-For mergers with host-dependent populations and both catalogs, the
-single-population analysis combined over \NrealHDSingle{} realizations gives
-$H_0=\HDSingleHzeroComb\,\kms$, a median $\HDBiasHzero\,\kms$ above the
-input \MockHzero, to be compared with a 90\% half-width of
-$\HDSingleHzeroHalfWid\,\kms$ from realization A alone, and the input lies at
-the \HDSingleHzeroCL\% credible level. The host-dependent analysis, combined
-over \NrealHD{} of these realizations, gives
-$H_0=\HDHostHzeroComb\,\kms$, with the input at the \HDHostHzeroCL\% level.
-
-A single population cannot place its mass peak for both host classes. It
-settles at $\mu_{\rm G}=\HDSingleMuG\msun$, between the $\MockMuG\msun$ of
-the galaxy class and the $\MockMuGAGN\msun$ of the AGN class, and at a spin
-mean of $\HDSingleMuChi$. % EXPECTED
+one known population for both host classes is biased in $H_0$. Inferring a
+single population removes the bias, and inferring one for each host class
+measures how the classes differ and narrows $H_0$ (Fig.~\ref{fig:hd},
+Table~\ref{tab:results}). % EXPECTED
+For mergers with host-dependent populations and both catalogs, the analysis
+of Sec.~\ref{sec:anchor} with the mass and spin distribution of the
+galaxy-hosted mergers assumed for both classes gives
+$H_0=\HDAssumedHzeroComb\,\kms$ combined over \NrealHDAssumed{} realizations,
+with the input \MockHzero{} at the \HDAssumedHzeroCL\% credible level, where
+the same mergers with the two populations at their inputs give
+$\HDPopsHzeroComb\,\kms$, with the input at the \HDPopsHzeroCL\% level.
+Realization by realization the median of $H_0$ moves by
+$\HDAssumedShiftHzero\,\kms$ between the two analyses (the median of the
+\NrealHDAssumed{} shifts, which run from \HDAssumedShiftHzeroMin{} to
+\HDAssumedShiftHzeroMax); the largest belongs to a realization whose
+posterior favors few mergers in AGN and extends to the upper edge of the
+prior on $H_0$.
 We read the bias as the mass-scale error of a
 spectral siren measurement \cite{Mastrogiovanni:2021wsd,Pierra:2023deu}
 acting on one host class: the AGN-hosted mergers arrive heavier than the
-fitted peak, the model accounts for them with larger redshifts at their
+assumed peak, the model accounts for them with larger redshifts at their
 measured distances, and they are the mergers whose few candidate hosts weigh
-most on $H_0$ (Sec.~\ref{sec:classes}). % EXPECTED
-The fraction is pulled as well, to $\fagn=\HDSinglefAGNComb$ against
-$\HDHostfAGNComb$ for the host-dependent analysis
-[Fig.~\ref{fig:hd}(c)], beside a 90\% half-width of \HDSinglefAGNHalfWid{}
-from realization A alone. % EXPECTED
+most on $H_0$ (Sec.~\ref{sec:classes}).
 A correlation between $H_0$ and the fraction of a heavier formation channel
 has been reported without catalogs \cite{Scarpa:2026piy}; here the heavier
-population is also a different host class, and the catalogs see it. The
-catalogs also carry the measurement. With no catalog and the mass and spin
-distributions inferred, the posterior of $H_0$ on realization A extends from
-\HDNoneHzeroLo{} to $\HDNoneHzeroHi\,\kms$ at 90\% credibility, most of the
-prior range of \PriorHzeroLo{} to \PriorHzeroHi, against a 90\% half-width of
-$\HDSingleHzeroHalfWid\,\kms$ with both catalogs. % EXPECTED
+population is also a different host class, and the catalogs see it.
+With offsets twice as large the posterior of $H_0$ has no interior maximum
+in any of the \NrealHDAssumed{} realizations: on
+% "any": \HDAssumedTwiceNoPeak equals \NrealHDAssumed (audit check J5); re-read if either changes
+realization A its median is \HDAssumedTwiceHzeroMed{} against the upper
+prior edge of \PriorHzeroHi, with $\fagn<\HDAssumedTwicefAGNUL$ at 90\%
+credibility.
+
+A single population with its mass and spin parameters inferred
+(Sec.~\ref{sec:single}) is not biased in $H_0$ at these offsets. % EXPECTED
+Combined over \NrealHDSingle{} realizations it gives
+$H_0=\HDSingleHzeroComb\,\kms$, with the input at the \HDSingleHzeroCL\%
+credible level, and realization A alone has a 90\% half-width of
+$\HDSingleHzeroHalfWid\,\kms$. % EXPECTED
+Its mass peak settles at $\mu_{\rm G}=\HDSingleMuG\msun$, between the
+$\MockMuG\msun$ of the galaxy class and the $\MockMuGAGN\msun$ of the AGN
+class, and its spin mean at $\HDSingleMuChi$. We read the absence of a bias
+as the inferred peak following the mass scale of the detected mergers as a
+whole, which an assumed peak cannot do. With offsets twice as large the
+single population gives $H_0=\HDSingleTwiceHzeroComb\,\kms$ over
+\NrealHDSingleTwice{} realizations, with the input at the
+\HDSingleTwiceHzeroCL\% credible level and a peak at
+$\HDSingleTwiceMuG\msun$ on realization A. % EXPECTED
+The fraction that the single population returns is not the input:
+$\fagn=\HDSinglefAGNComb$, with \MockfAGN{} at the \HDSinglefAGNCL\% credible
+level. Heavier mergers are detected to larger distances, so that
+\MockHDfDetMean{} of the detected mergers are AGN-hosted in the mean over
+the realizations, and a single population, with one detection probability
+for both classes, returns that share. % EXPECTED
+The catalogs carry the measurement of $H_0$: with no catalog and the mass
+and spin distributions inferred, the posterior of $H_0$ on realization A
+extends from \HDNoneHzeroLo{} to $\HDNoneHzeroHi\,\kms$ at 90\% credibility,
+most of the prior range of \PriorHzeroLo{} to \PriorHzeroHi, against a 90\%
+half-width of $\HDSingleHzeroHalfWid\,\kms$ with both catalogs.
 
 \begin{figure*}[t]
 \figslot{fig6_host_dependent}{2.6in}
 \caption{Mergers with host-dependent populations and the peak-dominated
-spectrum, both catalogs, posteriors combined over \NrealHDSingle{}
-realizations with a single population and over \NrealHD{} with host-dependent
-populations. (a)
-Posterior density of $H_0$ with a single population (dashed) and with
-host-dependent populations (solid); the black dashed line is the input. (b)
+spectrum, both catalogs, posteriors combined over \NrealHDAssumed{}
+realizations with the population assumed, over \NrealHDSingle{} with a
+single population and over \NrealHD{} with host-dependent populations. (a)
+Posterior density of $H_0$ with the population assumed (dotted), with a
+single population (dashed) and with host-dependent populations (solid); the
+black dashed line is the input. (b)
 Joint posterior of the AGN offsets of the mass peak and of the spin mean
 with host-dependent populations (90\% highest-density region), with the
 input (black plus sign) and no offset (black cross). (c) Posterior density
-of $\fagn$ for the two analyses. A single population is biased in $H_0$ and
-in $\fagn$. % EXPECTED
+of $\fagn$ for the three analyses. Assuming the population of the
+galaxy-hosted mergers biases $H_0$; a single population does not, and it
+returns the AGN share of the detected mergers in place of $\fagn$. % EXPECTED
 }
 \label{fig:hd}
 \end{figure*}
@@ -1082,15 +1122,23 @@ The host-dependent analysis measures how the two classes differ
 We find $\dmuG=\HDHostDmuGComb\msun$ for an input of
 \MockDmuG{} and $\dmuchi=\HDHostDmuChiComb$ for an input of \MockDmuChi, with
 the inputs at the \HDHostDmuGCL\% and \HDHostDmuChiCL\% credible levels;
-realization A alone gives $\HDHostDmuG\msun$ and $\HDHostDmuChi$. The Bayes
+realization A alone gives $\HDHostDmuG\msun$ and $\HDHostDmuChi$, the
+second with its input below the 90\% interval. The Bayes
 factor of the host-dependent analysis against the single-population analysis
-of the same mergers is $\lB=\HDHostLBComb$ for the combined realizations and
-\HDLB{} on realization A, for priors uniform on
-$[\PriorDmuGLo,\PriorDmuGHi]\msun$ in $\dmuG$ and on
-$[\PriorDmuChiLo,\PriorDmuChiHi]$ in $\dmuchi$. The offsets are not paid for
-in $H_0$: on realization A its 90\% half-width is
-$\HDHostHzeroHalfWid\,\kms$, against $\HDSingleHzeroHalfWid\,\kms$ for the
-single population. % EXPECTED
+of the same mergers is $\lB=\HDLB$ on realization A and lies between
+\HDLBMin{} and \HDLBMax{} over the \NrealHD{} realizations, for priors
+uniform on $[\PriorDmuGLo,\PriorDmuGHi]\msun$ in $\dmuG$ and on
+$[\PriorDmuChiLo,\PriorDmuChiHi]$ in $\dmuchi$. The analysis returns the
+input fraction, $\fagn=\HDHostfAGNComb$ with \MockfAGN{} at the
+\HDHostfAGNCL\% credible level, and $H_0=\HDHostHzeroComb\,\kms$ with the
+input at the \HDHostHzeroCL\% level. The offsets are not paid for in $H_0$.
+Its 90\% half-width is $\HWHost\,\kms$ [\HWHostMin, \HWHostMax] in the mean
+over the \NrealHD{} realizations, against \HWHDSingle{} [\HWHDSingleMin,
+\HWHDSingleMax] for the single population on the same mergers, which
+therefore needs \CostSingleHost{} [\CostSingleHostMin, \CostSingleHostMax]
+times as many mergers for the same half-width; on realization A no
+correlation coefficient of $H_0$ with another parameter exceeds
+\HDHostMaxAbsCorrHzero{} in absolute value. % EXPECTED
 
 Masses and spins that depend on the host add to what the positions say
 about the host class [Fig.~\ref{fig:classes}(c)]. From positions alone, that
@@ -1125,8 +1173,10 @@ With offsets twice as large the two means move to \ProbAGNPopsTwice{} and
 [\CostPopsTwiceThirtyMin, \CostPopsTwiceThirtyMax], a range that contains
 one, the value at which the unknown host class costs nothing.
 With the populations inferred and not known, the mean half-width is
-$\HWHost\,\kms$ [open square in Fig.~\ref{fig:classes}(a)], so that inferring
-the populations takes back what their difference gave. % EXPECTED
+$\HWHost\,\kms$ [open square in Fig.~\ref{fig:classes}(a)], against
+\HWPopsThirty{} with them known, a difference inside the range over the
+realizations: the two populations are inferred from the same mergers at no
+measured cost in $H_0$. % EXPECTED
 
 \subsection{A mass spectrum like the observed one}
 \label{sec:obs}
@@ -1149,36 +1199,44 @@ mergers of the observed-like spectrum are also nearer, with a median
 redshift of \ObsDetzMedian{} against \MockzMedian{} on realization A, which
 we have not separated from the form of the spectrum.
 
-The bias of a single population acts through the mass scale, and with this
-spectrum it is smaller (Fig.~\ref{fig:obs}). % EXPECTED
+The bias of an assumed population acts through the mass scale, and with
+this spectrum it is smaller (Fig.~\ref{fig:obs}).
 In the observed-like spectrum \ObsPeakFrac{} of the mergers and
 \ObsHDDetPeakShare{} of the detected ones are in the peak, against
-\MockPeakFrac{} and \MockHDDetPeakShare, and with no catalog
+\MockPeakFrac{} and \MockHDDetPeakShare. With both catalogs and the
+population of the galaxy-hosted mergers assumed, the median of $H_0$ moves
+by $\ObsAssumedShiftHzero\,\kms$ [\ObsAssumedShiftHzeroMin,
+\ObsAssumedShiftHzeroMax] from that of the same mergers with the two
+populations at their inputs, where the peak-dominated spectrum gave
+$\HDAssumedShiftHzero\,\kms$. A shift of this size is not resolved against
+the input by \NrealObsAssumed{} realizations: the combined posterior is
+$H_0=\ObsAssumedHzeroComb\,\kms$ with the population assumed, the input at
+the \ObsAssumedHzeroCL\% credible level, and $\ObsPopsHzeroComb\,\kms$ with
+the two populations at their inputs, the input at the \ObsPopsHzeroCL\%
+level and outside the 90\% interval. % REREAD
+With no catalog
 the single-population analysis gives $H_0=\ObsNoneHzero\,\kms$ on
 realization A, against $\HDNoneHzero\,\kms$ for the peak-dominated spectrum.
 With both catalogs the single-population analysis combined over \NrealObs{}
-realizations gives $H_0=\ObsSingleHzeroComb\,\kms$, a median
-$\ObsBiasHzero\,\kms$ above the input, where the peak-dominated spectrum
-gave $\HDBiasHzero\,\kms$; the 90\% half-width of realization A alone is
-$\ObsSingleHzeroHalfWid\,\kms$. The input lies at the \ObsSingleHzeroCL\%
-credible level, so with this many mergers the bias is in the median and
-inside the interval. % EXPECTED
+realizations gives $H_0=\ObsSingleHzeroComb\,\kms$, with the input at the
+\ObsSingleHzeroCL\% credible level; the 90\% half-width of realization A
+alone is $\ObsSingleHzeroHalfWid\,\kms$. % EXPECTED
 The host-dependent analysis gives $H_0=\ObsHostHzeroComb\,\kms$, with the
 input at the \ObsHostHzeroCL\% level, and $\fagn=\ObsHostfAGNComb$ against
 $\ObsSinglefAGNComb$ for the single population.
 Its 90\% half-width is $\HWObsHost\,\kms$ in the mean over \NrealObs{}
 realizations, against \HWObsPopsThirty{} with the populations known
-[Fig.~\ref{fig:classes}(b)].
+[Fig.~\ref{fig:classes}(b)] and \HWObsSingle{} for the single population.
 
 \begin{figure*}[t]
 \figslot{fig7_observed_like}{2.6in}
 \caption{As Fig.~\ref{fig:hd}, for the observed-like mass spectrum:
-(a) $H_0$, (b) the two AGN offsets and (c) $\fagn$, with a single population
-(dashed) and with host-dependent populations (solid), combined over
-realizations. With \ObsPeakFrac{} of the mergers in the peak, and
-\ObsHDDetPeakShare{} of the detected ones, the bias of the single population
-is smaller and the mass offset is less well measured, while the spin offset
-is measured as before. % EXPECTED
+(a) $H_0$, (b) the two AGN offsets and (c) $\fagn$, with the population
+assumed (dotted), with a single population (dashed) and with host-dependent
+populations (solid), combined over realizations. With \ObsPeakFrac{} of the
+mergers in the peak, and \ObsHDDetPeakShare{} of the detected ones, the
+bias of the assumed population is smaller and the mass offset is less well
+measured, while the spin offset is measured as before. % EXPECTED
 }
 \label{fig:obs}
 \end{figure*}
@@ -1196,8 +1254,9 @@ realizations, against \HDHostLBComb{} for the peak-dominated spectrum and
 the same priors; we read what remains of the preference as owed mostly to
 the spins. % EXPECTED
 An analysis of this kind therefore learns of a second host class from the
-positions and the spins first, and its $H_0$ is exposed to the masses in
-proportion to how sharp a feature the two classes do not share. % EXPECTED
+positions and the spins first, and an assumed population exposes its $H_0$
+to the masses in proportion to how sharp a feature the two classes do not
+share. % EXPECTED
 
 \subsection{One assumption at a time}
 \label{sec:summary}
@@ -1206,8 +1265,11 @@ Figure~\ref{fig:summary} and Table~\ref{tab:results} collect $H_0$ and
 $\fagn$ under each set of assumptions. $H_0$ leaves the input in two cases,
 and in both the analysis lacks something that the mergers have: the AGN
 catalog alone lacks the galaxies that host seven mergers in ten
-(Sec.~\ref{sec:anchor}), and a single population lacks the heavier,
-faster-spinning mergers that AGN host (Sec.~\ref{sec:hd}). % EXPECTED
+(Sec.~\ref{sec:anchor}), and an assumed population lacks the heavier,
+faster-spinning mergers that AGN host (Sec.~\ref{sec:hd}). With the
+observed-like spectrum the second moves the median by
+$\ObsAssumedShiftHzero\,\kms$ and the input stays inside the 90\% interval
+(Sec.~\ref{sec:obs}).
 The galaxy catalog alone also lacks the hosts of three mergers in ten and
 stays on the input, $H_0=\KnownGalHzeroComb\,\kms$ with the input at the
 \KnownGalHzeroCL\% credible level. We read this as the galaxies tracing the
@@ -1215,8 +1277,12 @@ density field of the AGN that they do not hold; the known mass scale, which
 alone gives $\KnownNoneHzeroComb\,\kms$, also holds $H_0$ in place, and we
 have not separated the two.
 The fraction $\fagn$ keeps its interval from the first row to the last, with
-two exceptions: it is biased with $H_0$ under a single population, and it
-follows its prior when the number densities are inferred. % EXPECTED
+two exceptions. On mergers with host-dependent populations an analysis with
+one population for both classes, assumed or inferred, has one detection
+probability for both and returns the AGN share of the detected mergers,
+$\HDAssumedfAGNComb$ with the population assumed and \MockfAGN{} at the
+\HDAssumedfAGNCL\% credible level; and $\fagn$ follows its prior when the
+number densities are inferred. % EXPECTED
 No row uses the host class of a merger; what that costs is measured where
 the populations are known (Secs.~\ref{sec:classes} and \ref{sec:hd}).
 
@@ -1233,9 +1299,11 @@ analyses without $\fagn$, and the arrow labeled ``at the prior edge,
 maximum and lies at the upper edge of the prior on $H_0$. The cap with an
 arrow pointing left is a 90\% upper limit: with no catalog, the posterior of
 the single population on mergers with host-dependent populations extends to
-the lower edge of the prior. Among the other
-rows, only a single population for mergers with host-dependent populations
-moves $H_0$ away from the input. % EXPECTED
+the lower edge of the prior. The rows labeled ``population assumed'' take
+the population of the galaxy-hosted mergers for both host classes. Among
+the rows with an interval, only the assumed population for mergers with
+host-dependent populations and the peak-dominated spectrum has the input
+outside it. % EXPECTED
 }
 \label{fig:summary}
 \end{figure*}
@@ -1343,7 +1411,9 @@ On simulated mergers,
 one likelihood with a galaxy catalog, an AGN catalog and a mass and spin
 distribution for each host class returns $H_0$, the fraction of mergers
 hosted by AGN and the differences in mass and spin between the classes,
-where a single population returns a biased $H_0$. % EXPECTED
+where an assumed population returns a biased $H_0$ and a single inferred
+population returns the AGN share of the detected mergers in place of the
+fraction. % EXPECTED
 This is the inference that the analyses of
 Refs.~\cite{Bom:2023zgw,Cross-Parkin:2026pua,Pouw:2026lar} leave to future
 work. With the host class known, most of the constraint on $H_0$ comes from
@@ -1357,7 +1427,7 @@ association
 studies adopt $10^{-4.75}\,{\rm Mpc^{-3}}$ for luminous AGN
 \cite{Veronesi:2022hql,Bom:2023zgw} and the current limits on $\fagn$ do not
 cover obscured AGN \cite{Pouw:2026lar}. The second is the form of the mass
-spectrum: the bias of a single population and the precision of the mass
+spectrum: the bias of an assumed population and the precision of the mass
 offset scale with how many mergers sit in a feature that the two classes do
 not share, \ObsPeakFrac{} of the mergers and \ObsHDDetPeakShare{} of the
 detected ones for the peak fitted to the third catalog

@@ -204,6 +204,21 @@ def grid_marginal(run_dirs, param, factor=None):
     return x, p / np.trapz(p, x)
 
 
+def interior_maximum(run_dir, param="H0"):
+    """The rule of \\KnownAGNNoPeak (classes.interior), for a grid run of one or two parameters: the node with the largest corrected
+    ln L over the fine and the coarse pass (every parameter; for two, the joint maximum) lies at a prior edge of `param` (PRIORS) -> the
+    posterior of `param` has no interior maximum in the prior range. -> {"argmax": {name: value}, "lnL", "at_edge", "edges"}."""
+    lo_p, hi_p = P.PRIORS[param]
+    best = (-np.inf, None)
+    for names, axes, lnc in _grid_parts(run_dir):
+        ok = np.isfinite(lnc)
+        idx = np.unravel_index(int(np.argmax(np.where(ok, lnc, -np.inf))), lnc.shape)
+        if lnc[idx] > best[0]:
+            best = (float(lnc[idx]), {n: float(a[i]) for n, a, i in zip(names, axes, idx)})
+    v = best[1][param]
+    return {"argmax": best[1], "lnL": best[0], "at_edge": bool(abs(v - lo_p) < 1e-9 or abs(v - hi_p) < 1e-9), "edges": [float(lo_p), float(hi_p)]}
+
+
 def factor_summary(run_dir, factor):
     """Median and 90% interval of H0 from one host class's factor (lnL_<factor>) of a host-class-known grid run, by
     the method of the run summaries (prod_summary.refined_grid_summary): the corrected factor (its own pe_var,

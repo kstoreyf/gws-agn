@@ -729,7 +729,11 @@ def audit_keys(mac):
 # the further macros of PAPER_SKELETON.md Sec. 6 and the keys they are built from
 FURTHER = {"HDBiasHzero": ["HDSingle"], "ObsBiasHzero": ["ObsSingle"], "HDLB": ["HDHost"], "ObsLB": ["ObsHost"], "WidthRatioAGNGal": ["Galhosted", "AGNhosted"],
            "MassScaleShareKnown": ["KnownNone", "KnownBoth"], "MassScaleShareSingle": ["SingleNone", "SingleBoth"], "CorrHzeroMuGNone": ["SingleNone"],
-           "CorrHzeroMuGBoth": ["SingleBoth"]}
+           "CorrHzeroMuGBoth": ["SingleBoth"],
+           # 23 Nov (Sec. IV E on three steps): the shift of the assumed population against the two populations at their inputs needs both keys;
+           # the per-realization Bayes factors are those of the host-dependent key (its reference runs are part of it)
+           **{f"{pre}AssumedShiftHzero{s}": [f"{pre}Assumed", f"{pre}Pops"] for pre in ("HD", "Obs") for s in ("", "Min", "Max")},
+           **{f"{pre}LB{s}": [f"{pre}Host"] for pre in ("HD", "Obs") for s in ("Min", "Max")}}
 
 
 def macro_keys(mac, doc):
@@ -789,6 +793,13 @@ def audit_requests(mac, doc):
     ctrl = {lab: {r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
                   if r["analysis"] == "two_tracers_one_population" and r["set"]["label"] == lab} for lab in ("peak_f0p00_s0", "peak_f0p10_s0")}
     want["NrealCtrl"] = {len(v) for v in ctrl.values()} if all(ctrl.values()) else (5 if "five for the others" in runs_txt else -1)
+    # 23 Nov: the experiment's keys of Sec. IV E (own parser of RUNLIST_experiment.yaml: analysis and set label of every run)
+    n_exp = lambda an, lab: len({r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
+                                 if r["analysis"] == an and r["set"]["label"] == lab})
+    want["NrealHDAssumed"] = {n_exp("two_tracers_one_population", "peak_f0p30_s1"), n_exp("two_tracers_one_population", "peak_f0p30_s2"),
+                              n_exp("two_tracers_two_populations", "peak_f0p30_s1")}
+    want["NrealHDSingleTwice"] = n_exp("single_population", "peak_f0p30_s2")
+    want["NrealObsAssumed"] = {n_exp("two_tracers_one_population", "obslike_f0p30_s1"), n_exp("two_tracers_two_populations", "obslike_f0p30_s1")}
     words = {3: "three", 5: "five", 10: "ten", 20: "twenty"}
     bad = []
     for k, w in want.items():
@@ -798,8 +809,11 @@ def audit_requests(mac, doc):
     bad += [f"{k} N_comb {E['N_comb']} vs macro" for k, E in doc.items()
             for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
                           ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
-                          ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"])) if k in ks and E["N_comb"] != val(m)]
-    check(not bad, f"I0 the eleven numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs; "
+                          ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"]),
+                          ("NrealHDAssumed", ["HDAssumed", "HDAssumedTwice", "HDPops"]), ("NrealHDSingleTwice", ["HDSingleTwice"]),
+                          ("NrealObsAssumed", ["ObsAssumed", "ObsPops"])) if k in ks and E["N_comb"] != val(m)]
+    check(not bad, f"I0 the {len(want)} numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs; "
+                   f"the keys of Sec. IV E on three steps: RUNLIST_experiment.yaml's runs on the host-dependent sets; "
                    f"KnownBoth: stage 1 and the {len(_xr)} stage-X runs realization_NNN_nside32 {sorted(_xr)}; HDHost: stage V8's "
                    f"realization_NNN_unif_then_rslice {sorted(_own_hd_stage_v()[1])}), "
                    f"print as words, and equal N_comb of their keys{': ' + '; '.join(bad) if bad else ''}")
@@ -858,7 +872,8 @@ def audit_requests(mac, doc):
     hb = [k for k in mac if k.endswith("HalfWid") and k not in not_hw and abs(val(k) - 0.5 * val(k[:-7] + "Wid")) > 1e-12]
     nh = sum(1 for k in mac if k.endswith("HalfWid") and mac[k]["claim"].startswith("skeleton"))
     nh_other = sum(1 for k in mac if k.endswith("HalfWid") and k not in not_hw and not mac[k]["claim"].startswith("skeleton"))
-    keys_hf = sum(1 for k, E_ in doc.items() for q in ("Hzero", "fAGN") if q in E_["quantities"])
+    # (a key that prints only a few macros, build_values.KEY_MACROS_ONLY, has no HalfWid)
+    keys_hf = sum(1 for k, E_ in doc.items() if k not in B.KEY_MACROS_ONLY for q in ("Hzero", "fAGN") if q in E_["quantities"])
     check(abs(wr - val("WidthRatioAGNGal")) < 1e-12 and not hb and nh == keys_hf,
           f"I5 WidthRatioAGNGal = GalhostedHzeroWid / AGNhostedHzeroWid ({wr:.3f}); {nh} HalfWid macros of the key scheme, one per key with Hzero or "
           f"fAGN ({keys_hf}), and {nh_other} others (the stage-X checks), each half its Wid{': NOT ' + ', '.join(hb[:4]) if hb else ''}")
@@ -1370,6 +1385,158 @@ def audit_hdhost_mixed(mac, doc, specs):
           f"({sum(p.exists() for p in sums.values())} of {len(sums)} summaries)" + (f"; FAIL: {'; '.join(why[:5])}" if why else ""))
 
 
+# J5 (23 Nov): the keys and further macros of Sec. IV E on three steps (notes/MACRO_REQUESTS.md G1, G2), by own code: RUNLIST_experiment.yaml
+# parsed here (key -> analysis, set label, stage), summaries read directly, the grids' corrected ln L read with h5py (_corrected) for the
+# interior maxima and the 90% upper limit of HDAssumedTwice (own PCHIP marginal), weighted samples for the correlation, the events files'
+# truth/host_type for the detected AGN shares. The combined posteriors of the new keys are J1's (own summed splines, own levels of the input).
+_EXP_KEYS = {"HDAssumed": ("two_tracers_one_population", "peak_f0p30_s1", "E1"), "HDAssumedTwice": ("two_tracers_one_population", "peak_f0p30_s2", "E1"),
+             "HDPops": ("two_tracers_two_populations", "peak_f0p30_s1", "E1"), "HDSingleTwice": ("single_population", "peak_f0p30_s2", "E3"),
+             "ObsAssumed": ("two_tracers_one_population", "obslike_f0p30_s1", "E2"), "ObsPops": ("two_tracers_two_populations", "obslike_f0p30_s1", "E2")}
+_SAME_MERGERS = (("HDAssumed", "HDPops"), ("HDAssumedTwice", "HDSingleTwice"), ("ObsAssumed", "ObsPops"))
+
+
+def _own_pchip_marg(names, ax, l, par, refine=8):
+    """Marginal of `par` of a 1-D or 2-D grid by PCHIP of ln L along each axis onto a lattice `refine` times denser: (x, p)."""
+    from scipy.interpolate import PchipInterpolator
+    ok = np.isfinite(l)
+    l = np.where(ok, l, np.min(l[ok]) - 300.0)
+    lat = [np.linspace(a[0], a[-1], (len(a) - 1) * refine + 1) for a in ax]
+    for i, (a, an) in enumerate(zip(ax, lat)):
+        l = PchipInterpolator(a, l, axis=i)(an)
+    pp = np.exp(l - l.max())
+    i = names.index(par)
+    for j in sorted((j for j in range(len(names)) if j != i), reverse=True):
+        pp = _simpson(pp, lat[j], axis=j)
+    return lat[i], pp
+
+
+def audit_three_steps(mac, doc, specs, comb_cache):
+    import statistics
+    import yaml
+    rows, bad, why, out = [], [], [], []
+    val = lambda n: mac[n]["value"]
+
+    def cmp(name, got, want, tol, what):
+        d = abs(got - want)
+        rows.append((name, what, d, tol))
+        if not d <= tol:
+            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
+    fin = {k for k, E in doc.items() if E.get("final")}
+    # (a) the keys' runs: RUNLIST_experiment.yaml parsed here; the map, placeholder_results.json and the stages; the same mergers of each pair
+    rxl = yaml.safe_load((RUNS16 / "RUNLIST_experiment.yaml").read_text())
+    own, evf = {}, {}
+    for k, (an, lab, stg) in _EXP_KEYS.items():
+        got = {int(r["args"][r["args"].index("--realization") + 1]): (str(st["stage"]), r["name"], r.get("events_file"))
+               for st in rxl["stages"] for r in st["runs"] if r["analysis"] == an and r["set"]["label"] == lab}
+        own[k], evf[k] = got, {R: v[2] for R, v in got.items()}
+        sp, E = specs.get(k) or {}, doc.get(k) or {}
+        pats = {re.sub(r"realization_\d{3}", "realization_{R}", v[1]) for v in got.values()}
+        if pats != {sp.get("run")} or sp.get("realizations") != sorted(got) or sp.get("stage") != stg or {v[0] for v in got.values()} != {stg}:
+            why.append(f"{k}: map {sp.get('run')} {sp.get('realizations')} stage {sp.get('stage')} vs own {sorted(pats)} {sorted(got)} {stg}")
+        if E.get("N_comb") != len(got):
+            why.append(f"{k}: N_comb {E.get('N_comb')} vs {len(got)}")
+    for a, b in _SAME_MERGERS:
+        if sorted(evf[a]) != sorted(evf[b]) or any(not evf[a][R] or evf[a][R] != evf[b][R] for R in evf[a]):
+            why.append(f"{a} and {b} not on the same events files")
+    # (b) HDAssumedTwice: only realization A's median of H0 and 90% upper limit of f_AGN (and its NoPeak)
+    k = "HDAssumedTwice"
+    extra_m = [n for n in mac if n.startswith(k) and n not in (f"{k}HzeroMed", f"{k}fAGNUL", f"{k}NoPeak")]
+    if extra_m:
+        why.append(f"{k} has macros beyond its three: {extra_m[:4]}")
+    if k in fin:
+        rA = RUNS16 / _key_run(specs[k], specs[k]["realization_A"])
+        cmp(f"{k}HzeroMed", val(f"{k}HzeroMed"), _jr(rA / "summary.json")["posterior"]["H0"]["median"], 1e-12, "realization A's median = summary.json")
+        nm_, ax_, l_ = _corrected(rA, _pass_file(rA)[0])
+        qf = _quant(*_own_pchip_marg(nm_, ax_, l_, "f_agn"))
+        cmp(f"{k}fAGNUL", val(f"{k}fAGNUL"), qf["ul90"], max(0.05 * 0.5 * (qf["ci90"][1] - qf["ci90"][0]), 2e-3),
+            "realization A's 90th percentile of f_AGN vs own PCHIP marginal of the fine pass")
+        out.append(f"{k}: H0 median {val(k + 'HzeroMed'):.3f}, f_AGN < {val(k + 'fAGNUL'):.4f} (own {qf['ul90']:.4f})")
+    # (c) no interior maximum: the node with the largest corrected ln L over the fine and coarse passes (own reading) at 50 or 100
+    for k in ("HDAssumed", "HDAssumedTwice", "ObsAssumed"):
+        if k not in fin:
+            continue
+        per = {}
+        for R in specs[k]["realizations"]:
+            run = RUNS16 / _key_run(specs[k], R)
+            best = (-np.inf, None)
+            for nm in (_pass_file(run)[0], "coarse.h5"):
+                names_, ax_, l_ = _corrected(run, nm)
+                i = np.unravel_index(int(np.argmax(np.where(np.isfinite(l_), l_, -np.inf))), l_.shape)
+                if l_[i] > best[0]:
+                    best = (float(l_[i]), float(ax_[names_.index("H0")][i[names_.index("H0")]]))
+            per[R] = best[1]
+        n_no = sum(1 for v in per.values() if v in (50.0, 100.0))
+        cmp(f"{k}NoPeak", float(val(f"{k}NoPeak")), float(n_no), 0.0, "count of realizations whose largest ln L node lies at H0 = 50 or 100 (own)")
+        if mac[f"{k}NoPeak"]["render"] != _OWN_WORDS[n_no]:
+            bad.append(f"{k}NoPeak render {mac[k + 'NoPeak']['render']}")
+        out.append(f"{k}NoPeak {n_no} (argmax H0 by realization: {', '.join(f'{R}: {v:g}' for R, v in per.items())})")
+    # (d) the shift of the H0 median of the assumed population against the two populations at their inputs, per realization (summaries)
+    for ka, kp in (("HDAssumed", "HDPops"), ("ObsAssumed", "ObsPops")):
+        if not {ka, kp} <= fin:
+            continue
+        rs = [R for R in specs[ka]["realizations"] if R in specs[kp]["realizations"]]
+        sh = [_jr(RUNS16 / _key_run(specs[ka], R) / "summary.json")["posterior"]["H0"]["median"] -
+              _jr(RUNS16 / _key_run(specs[kp], R) / "summary.json")["posterior"]["H0"]["median"] for R in rs]
+        for suf, v in (("", statistics.median(sh)), ("Min", min(sh)), ("Max", max(sh))):
+            cmp(f"{ka}ShiftHzero{suf}", val(f"{ka}ShiftHzero{suf}"), v, 1e-12, "median / smallest / largest of the summaries' paired shifts")
+            if mac[f"{ka}ShiftHzero{suf}"]["render"] != _own_fixed(v, 1):
+                bad.append(f"{ka}ShiftHzero{suf} render {mac[ka + 'ShiftHzero' + suf]['render']} vs {_own_fixed(v, 1)}")
+        out.append(f"{ka} - {kp}: {', '.join(f'{x:+.2f}' for x in sh)}")
+    # (e) the biases of the combined medians: J1's own combination (summed splines / Scott-KDE product) minus the input
+    for k in ("HDAssumed", "ObsAssumed", "HDSingleTwice"):
+        if k in fin and (k, "Hzero") in comb_cache:
+            o = _quant(*comb_cache[(k, "Hzero")])
+            cmp(f"{k}BiasHzero", val(f"{k}BiasHzero"), o["median"] - B.IN["H0"], 0.01 * 0.5 * (o["ci90"][1] - o["ci90"][0]) + 1e-9,
+                "own Comb median minus the input")
+        cmp(f"{k}BiasHzero", val(f"{k}BiasHzero"), val(f"{k}HzeroComb")["median"] - B.IN["H0"], 1e-12, f"= {k}HzeroComb's median minus the input")
+    # (f) the per-realization Bayes factors of the host-dependent analyses: own from the summaries' ln_evidence (red: the realizations whose two
+    # summaries exist, the red rule)
+    for pre in ("HD", "Obs"):
+        sp = specs.get(f"{pre}Host") or {}
+        ref = (sp.get("LB") or {}).get("reference_run")
+        per = []
+        for R in sp.get("realizations", []):
+            pa, pb = RUNS16 / _key_run(sp, R) / "summary.json", RUNS16 / ref.format(R=f"{R:03d}") / "summary.json"
+            if pa.exists() and pb.exists():
+                per.append((_jr(pa)["ln_evidence"]["value"] - _jr(pb)["ln_evidence"]["value"]) / math.log(10))
+        if per:
+            cmp(f"{pre}LBMin", val(f"{pre}LBMin"), min(per), 1e-9, f"smallest per-realization log10 B of the summaries ({len(per)} realizations)")
+            cmp(f"{pre}LBMax", val(f"{pre}LBMax"), max(per), 1e-9, f"largest per-realization log10 B of the summaries ({len(per)} realizations)")
+            out.append(f"{pre}LB per realization ({len(per)}): {', '.join(f'{x:.2f}' for x in per)}")
+        if (mac[f"{pre}LBMin"]["class"] == "plain") != (f"{pre}Host" in fin):
+            bad.append(f"{pre}LBMin black/red does not follow key {pre}Host")
+    # (g) the largest correlation of H0 with another parameter, realization A of key HDHost: own weighted samples
+    sp = specs.get("HDHost") or {}
+    rA = RUNS16 / _key_run(sp, sp["realization_A"])
+    if (rA / "nested_1" / "samples.npz").exists():
+        pars = ["H0", "f_agn", "mu_G", "sigma_G", "mu_chi", "sigma_chi", "dmu_G", "dmu_chi"]
+        s, w = _nested_w(rA, pars)
+        m = np.sum(w[:, None] * s, axis=0)
+        C = np.einsum("n,ni,nj->ij", w, s - m, s - m)
+        r = C[0, 1:] / np.sqrt(C[0, 0] * np.diag(C)[1:])
+        cmp("HDHostMaxAbsCorrHzero", val("HDHostMaxAbsCorrHzero"), float(np.max(np.abs(r))), 0.02, "largest |correlation| of H0, own weighted samples")
+        out.append(f"HDHost A: |rho(H0, .)| max {float(np.max(np.abs(r))):.3f} ({pars[1 + int(np.argmax(np.abs(r)))]})")
+    # (h) the AGN-hosted share of the detected mergers: own from the events files' truth/host_type, and the summaries' planted.truth_f_agn
+    for nm, key, stem in (("MockHDfDetMean", "HDSingle", "marked_dmu0p10_dmuG5_corepop"), ("ObsHDfDetMean", "ObsSingle", "marked_dmu0p10_dmuG5_obslike")):
+        sp = specs.get(key) or {}
+        fr = []
+        for R in sp.get("realizations", []):
+            with h5py.File(B.DATA / f"seed{R}" / "events" / f"events{('_' + stem)}.h5", "r") as h:
+                ht = np.asarray(h["truth/host_type"][()], int)
+            fr.append(float(np.mean(ht == 1)))
+            ps = RUNS16 / _key_run(sp, R) / "summary.json"
+            if ps.exists():
+                cmp(f"{nm}[{R}]", float(_jr(ps)["planted"]["truth_f_agn"]), fr[-1], 1e-9, "summary planted.truth_f_agn = events file truth/host_type")
+        cmp(nm, val(nm), float(np.mean(fr)), 1e-9, f"mean over the {len(fr)} realizations of key {key} of the events files' AGN-hosted share")
+        out.append(f"{nm} {np.mean(fr):.4f} over {len(fr)}")
+    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf)) if rows else ("-", "-", 0.0, 1.0)
+    check(not why and not bad,
+          f"J5 Sec. IV E on three steps: the keys {', '.join(_EXP_KEYS)} name RUNLIST_experiment.yaml's runs (own parser; stages E1-E3; the same "
+          f"events files within each pair); {len(rows)} numbers by own code (HDAssumedTwice's median and upper limit, the interior maxima, the "
+          f"shifts, the biases, the per-realization Bayes factors, the correlation of H0, the detected AGN shares); largest deviation "
+          f"{worst[2]:.2g} ({worst[0]}, tolerance {worst[3]:.2g}); {'; '.join(out)}" + (f"; FAIL: {'; '.join((why + bad)[:5])}" if why or bad else ""))
+
+
 def _counts(run):
     cfg = _jr(run / "config.json")
     out = {}
@@ -1405,6 +1572,8 @@ def audit_production(mac, doc, owner):
     comb_cache = {}
     edge_rows, prior_own = [], {}
     for k in sorted(final):
+        if k in B.KEY_MACROS_ONLY:           # 23 Nov: a key that prints only a few macros (HDAssumedTwice): checked in J5
+            continue
         sp = specs[k]
         runs = [RUNS16 / _key_run(sp, r) for r in sp["realizations"]]
         rA = RUNS16 / _key_run(sp, sp["realization_A"])
@@ -1612,6 +1781,7 @@ def audit_production(mac, doc, owner):
                    f"{'; MISMATCH: ' + '; '.join(bad[:6]) if bad else ''}")
     audit_knownboth_twenty(mac, doc, specs)
     audit_hdhost_mixed(mac, doc, specs)
+    audit_three_steps(mac, doc, specs, comb_cache)
     # ---- J3 (21 Nov): HDNoneHzeroCombUL, the 90% upper limit of the combined H0 posterior with no catalog on host-dependent mergers (it
     # leans on the lower prior edge): own Scott-KDE product of the weighted samples (J1's), its 90th percentile, mode and density at the edge
     if "HDNone" in fin and ("HDNone", "Hzero") in comb_cache and "HDNoneHzeroCombUL" in mac:
@@ -1748,7 +1918,12 @@ def audit_classes(mac, doc):
     for name, rec in blk.items():
         if rec.get("how") == "derived":
             continue
-        if sorted(exp_idx.get(rec["run"], ())) != sorted(rec["realizations"]):
+        if rec.get("realizations_of"):
+            # 23 Nov (HW<pre>Single): the realizations of another macro's record, all of which the run list holds for this run
+            ref_ = blk.get(rec["realizations_of"]) or {}
+            if rec["realizations"] != ref_.get("realizations") or not set(rec["realizations"]) <= set(exp_idx.get(rec["run"], ())):
+                notlisted.append(name)
+        elif sorted(exp_idx.get(rec["run"], ())) != sorted(rec["realizations"]):
             notlisted.append(name)
         reals = [rec["realization_A"]] if rec["how"] == "membership" else rec["realizations"]
         have[name] = all((RUNS16 / rec["run"].format(R=f"{r:03d}") / "summary.json").exists() for r in reals)
@@ -1848,7 +2023,9 @@ def audit_classes(mac, doc):
     same_m = [n for n in blk if re.fullmatch(r"HW(Obs)?KnownPops(Twice)?(Ten|Thirty|Fifty)", n)]
     pairs += [(n, n.replace("Known", "", 1), n) for n in same_m]
     for n, a_, b_ in pairs:
-        ea, eb = ev_idx.get(blk[a_]["run"], {}), ev_idx.get(blk[b_]["run"], {})
+        # each record's own realizations (23 Nov: HW<pre>Single holds those of HWHost / HWObsHost only)
+        ea = {r: v for r, v in ev_idx.get(blk[a_]["run"], {}).items() if r in blk[a_]["realizations"]}
+        eb = {r: v for r, v in ev_idx.get(blk[b_]["run"], {}).items() if r in blk[b_]["realizations"]}
         ok_ = bool(ea) and sorted(ea) == sorted(eb) and all(ea[r] and ea[r] == eb[r] for r in ea)
         cmp(f"{n} mergers", float(not ok_), 0.0, 0.0, f"{a_} and {b_} on the same events files in every realization (run lists)")
     for n in same_m:

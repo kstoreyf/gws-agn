@@ -1689,45 +1689,54 @@ def fig5_population():
 
 
 # ---------------------------------------------------------------- Figs. 6 and 7: host-dependent populations
-def host_labels(ax, cur, kS, kH, cS, cH, q):
-    """Labels above the two curves, the one with the lower median to the left."""
-    mS = PHJ[kS]["quantities"][q]["Comb"]["median"]
-    mH = PHJ[kH]["quantities"][q]["Comb"]["median"]
-    y = 0.74 * ax.get_ylim()[1]
-    span = ax.get_xlim()[1] - ax.get_xlim()[0]
-    separated = abs(mS - mH) > 0.25 * span
-    for k, m, c, lab in ((kS, mS, cS, "single\npopulation"), (kH, mH, cH, "host-dependent\npopulations")):
-        if separated:                                   # each label centred above its own curve
-            fs.label(ax, m, y, lab, c, ha="center", va="bottom")
-            continue
-        left = m < (mH if k == kS else mS)
-        fs.label(ax, m + (-0.02 if left else 0.02) * span, y, lab, c, ha="right" if left else "left", va="bottom")
+ASSUMED_C = "#56B4E9"          # final colour of "population assumed" (sky blue; 23 Nov, Sec. IV E on three steps)
+PRIOR_RANGE = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0)}
+HOST_LEGEND = ("population assumed", "single population", "host-dependent populations")   # legend wording (MACRO_REQUESTS G3)
+
+
+def host_curves(pre):
+    """The three analyses of Figs. 6 and 7 in legend order: (key, colour, line style, legend text)."""
+    kA, kS, kH = f"{pre}Assumed", f"{pre}Single", f"{pre}Host"
+    return [(kA, kcol(kA, ASSUMED_C, 2), ":", HOST_LEGEND[0]), (kS, kcol(kS, SINGLE_C, 1), "--", HOST_LEGEND[1]),
+            (kH, kcol(kH, fs.BOTH, 0), "-", HOST_LEGEND[2])]
+
+
+def curve_range(curves, lo_p, hi_p, tail=5e-4, pad=0.08):
+    """x range holding every drawn curve: from the smallest `tail` quantile to the largest 1 - `tail` quantile over the curves (the drawn
+    arrays, normalised), widened by `pad` of that span, cut at the prior range; no curve is cropped beyond its `tail` quantiles."""
+    lo, hi = np.inf, -np.inf
+    for x, p in curves:
+        c = np.concatenate([[0.0], np.cumsum(0.5 * (p[1:] + p[:-1]) * np.diff(x))])
+        c /= c[-1]
+        lo, hi = min(lo, float(np.interp(tail, c, x))), max(hi, float(np.interp(1 - tail, c, x)))
+    w = hi - lo
+    return max(lo_p, lo - pad * w), min(hi_p, hi + pad * w)
 
 
 def fig_host(pre, name, outdir=None):
     fig, axs = plt.subplots(1, 3, figsize=(fs.PAGE, 2.6), layout="constrained", gridspec_kw=dict(width_ratios=[1.1, 1.0, 1.0]))
+    curves = host_curves(pre)
     kS, kH = f"{pre}Single", f"{pre}Host"
-    cS, cH = kcol(kS, SINGLE_C, 1), kcol(kH, fs.BOTH, 0)
-    # (a) H0
+    cH = curves[2][1]
+    # (a) H0: the three analyses combined over their realizations (23 Nov: population assumed, dotted), one legend
     ax = axs[0]
     top = 0.0
     cur = {}
-    for k, c, ls in ((kS, cS, "--"), (kH, cH, "-")):
-        x, p, s = draw_1d(ax, k, "Hzero", "Comb", c, ls, shade=False)
+    for k, c, ls, _lab in curves:
+        x, p, s = draw_1d(ax, k, "Hzero", "Comb", c, ls, lw=fs.LW + (0.4 if ls == ":" else 0.0), shade=False)
         chk_key(name, k, "Hzero", "Comb")
         top = max(top, float(p.max()))
         cur[k] = (x, p)
     fs.input_vline(ax, IN_H0, ymax=0.68)
-    lo = min(cur[kH][0][0], cur[kS][0][0])
-    hi = max(cur[kH][0][-1], cur[kS][0][-1])
-    pad = 0.05 * (hi - lo)
-    ax.set_xlim(lo + pad, hi - pad)
+    ax.set_xlim(*curve_range(cur.values(), *PRIOR_RANGE["Hzero"]))
     ax.set_ylim(0, 1.55 * top)
-    host_labels(ax, cur, kS, kH, cS, cH, "Hzero")
+    ax.legend(handles=[Line2D([], [], color=c, ls=ls, lw=fs.LW + (0.4 if ls == ":" else 0.0)) for _k, c, ls, _l in curves],
+              labels=[lab for *_r, lab in curves], loc="upper right", fontsize=fs.FS_TEXT - 0.5, frameon=False, handlelength=2.2,
+              borderaxespad=0.3, labelspacing=0.25)
     ax.set_xlabel(fs.H0_LABEL)
     ax.set_ylabel(fs.H0_DENS)
     fs.panel_label(ax, "(a)")
-    if not (fin(kS) and fin(kH)):
+    if not all(fin(k) for k, *_r in curves):
         ph_word(ax)
     # (b) the two offsets
     ax = axs[1]
@@ -1749,32 +1758,67 @@ def fig_host(pre, name, outdir=None):
     fs.panel_label(ax, "(b)")
     if not fin(kH):
         ph_word(ax)
-    # (c) f_AGN
+    # (c) f_AGN: the same three analyses and line styles (the legend of (a))
     ax = axs[2]
     top = 0.0
-    for k, c, ls in ((kS, cS, "--"), (kH, cH, "-")):
-        x, p, s = draw_1d(ax, k, "fAGN", "Comb", c, ls)
+    curf = {}
+    for k, c, ls, _lab in curves:
+        x, p, s = draw_1d(ax, k, "fAGN", "Comb", c, ls, lw=fs.LW + (0.4 if ls == ":" else 0.0))
         chk_key(name, k, "fAGN", "Comb")
         top = max(top, float(p.max()))
-        cur[k] = (x, p)
+        curf[k] = (x, p)
     fs.input_vline(ax, IN_F, ymax=0.68)
-    ax.set_xlim(0.12, 0.45)
+    ax.set_xlim(*curve_range(curf.values(), *PRIOR_RANGE["fAGN"]))
     ax.set_ylim(0, 1.55 * top)
-    host_labels(ax, cur, kS, kH, cS, cH, "fAGN")
     ax.set_xlabel(r"$f_{\rm AGN}$")
     ax.set_ylabel(r"$p(f_{\rm AGN})$")
     fs.panel_label(ax, "(c)")
-    if not (fin(kS) and fin(kH)):
+    if not all(fin(k) for k, *_r in curves):
         ph_word(ax)
     fs.save(fig, outdir or FIGDIR, name)
+    return {"curves": [(k, ls, lab, fin(k), PHJ[k]["N_comb"]) for k, _c, ls, lab in curves], "xlim_a": axs[0].get_xlim(), "xlim_c": axs[2].get_xlim()}
+
+
+HOST_DRAWN = {}       # pre -> what fig_host drew (for the caption facts of Figs. 6 and 7)
 
 
 def fig6_host_dependent():
-    fig_host("HD", "fig6_host_dependent")
+    HOST_DRAWN["HD"] = fig_host("HD", "fig6_host_dependent")
+    write_fig67_facts()
 
 
 def fig7_observed_like():
-    fig_host("Obs", "fig7_observed_like")
+    HOST_DRAWN["Obs"] = fig_host("Obs", "fig7_observed_like")
+    write_fig67_facts()
+
+
+def write_fig67_facts():
+    """The generated block of Figs. 6 and 7 in figures/CAPTION_FACTS.md (23 Nov: three analyses in panels (a) and (c)), from values.json and
+    placeholder_results.json; the figure not drawn in this call is described from the same files."""
+    L = ["## Fig. 6 `fig6_host_dependent` and Fig. 7 `fig7_observed_like` (written by the figure script from values.json and placeholder_results.json)", "",
+         "- Mergers with host-dependent populations (AGN-hosted mergers: mass peak +5 Msun, spin mean +0.10), both catalogs; Fig. 6 the",
+         "  peak-dominated spectrum (keys `HD...`), Fig. 7 the observed-like spectrum (keys `Obs...`). Every curve is combined over the",
+         "  realizations of its key (each its own number, below); posterior densities normalized, units on the y axis.",
+         "- Line styles and legend (panel (a); panel (c) the same): \"population assumed\" dotted (the galaxy class's mass and spin",
+         "  distribution assumed for both classes, f_AGN inferred: keys `HDAssumed`, `ObsAssumed`, the experiment's sets peak_f0p30_s1 and",
+         "  obslike_f0p30_s1), \"single population\" dashed (`HDSingle`, `ObsSingle`), \"host-dependent populations\" solid (`HDHost`,",
+         "  `ObsHost`). Final colours: sky blue, reddish purple, bluish green; red tones while a key is a placeholder."]
+    for pre, fig in (("HD", "Fig. 6"), ("Obs", "Fig. 7")):
+        parts = []
+        for k, ls, lab in ((f"{pre}Assumed", "dotted", HOST_LEGEND[0]), (f"{pre}Single", "dashed", HOST_LEGEND[1]), (f"{pre}Host", "solid", HOST_LEGEND[2])):
+            E = PHJ[k]
+            parts.append(f"{lab} ({ls}; {mfmt(k + 'HzeroComb')}, {mfmt(k + 'fAGNComb')}; "
+                         f"{E['N_comb']} realizations; {'real' if E.get('final') else 'red placeholder'})")
+        d = HOST_DRAWN.get(pre)
+        xr = (f" Axes: (a) H0 [{d['xlim_a'][0]:.1f}, {d['xlim_a'][1]:.1f}], (c) f_AGN [{d['xlim_c'][0]:.3f}, {d['xlim_c'][1]:.3f}], each holding every "
+              "curve to its 0.05% and 99.95% quantiles (no curve cropped).") if d else ""
+        L.append(f"- {fig}: " + "; ".join(parts) + "." + xr)
+    L += ["- (b) Joint posterior of the AGN offsets of the mass peak and of the spin mean, host-dependent populations, combined over",
+          "  realizations, 90% highest-density region (`\\HDHostDmuGComb`, `\\HDHostDmuChiComb` / `\\ObsHost...`). Black \"+\": input (5, 0.10);",
+          "  black \"x\": no offset (0, 0); gray dotted lines at zero.",
+          "- Input lines (black dashed) stop below the legend. The observed-like spectrum has `\\ObsPeakFrac` of the mergers in its Gaussian",
+          "  peak but `\\ObsHDDetPeakShare` of the detected ones (`\\MockHDDetPeakShare` for the peak-dominated spectrum)."]
+    write_facts_block("fig6_fig7_host_dependent", "## Fig. 6 `fig6_host_dependent` and Fig. 7 `fig7_observed_like`", L)
 
 
 # ---------------------------------------------------------------- Fig. 8: the summary
@@ -1798,8 +1842,11 @@ SUMMARY_ROWS = [(h, {
     "Flux-limited catalogs": [("FluxTwentyOne", "$m<21$, number densities known"), ("FluxTwenty", "$m<20$, number densities known"), ("FluxNineteen", "$m<19$, number densities known"),
                               ("FluxEighteen", "$m<18$, number densities known"), ("FreeEighteen", "$m<18$, number densities inferred")],
     "An unknown population": [("SingleBoth", "single population, both catalogs"), ("SingleNone", "single population, no catalog")],
-    "Populations that depend on the host": [("HDSingle", "single population, both catalogs"), ("HDHost", "host-dependent populations, both catalogs"), ("HDNone", "single population, no catalog")],
-    "A mass spectrum like the observed one": [("ObsSingle", "single population, both catalogs"), ("ObsHost", "host-dependent populations, both catalogs"), ("ObsNone", "single population, no catalog")],
+    # 23 Nov: the population assumed (the galaxy class's for both classes) heads both host-dependent blocks (MACRO_REQUESTS G3)
+    "Populations that depend on the host": [("HDAssumed", "population assumed, both catalogs"), ("HDSingle", "single population, both catalogs"),
+                                            ("HDHost", "host-dependent populations, both catalogs"), ("HDNone", "single population, no catalog")],
+    "A mass spectrum like the observed one": [("ObsAssumed", "population assumed, both catalogs"), ("ObsSingle", "single population, both catalogs"),
+                                              ("ObsHost", "host-dependent populations, both catalogs"), ("ObsNone", "single population, no catalog")],
 }[h]) for h in _HEADS]
 assert all(lab.lower() != head.lower() for head, items in SUMMARY_ROWS for _, lab in items)
 # rows whose combined H0 is drawn as a 90% upper limit (a cap at the limit with an arrow to the left; no median, no interval), the
@@ -1880,7 +1927,36 @@ def draw_summary(name, groups, outdir=None, fs_lab=10.0, row_h=0.255, left=0.40,
 
 
 def fig8_summary():
-    draw_summary("fig8_summary", SUMMARY_ROWS)
+    fig = draw_summary("fig8_summary", SUMMARY_ROWS)
+    write_fig8_facts(fig)
+
+
+def write_fig8_facts(fig):
+    """The generated block of Fig. 8 in figures/CAPTION_FACTS.md (23 Nov; until then hand-written): every row with its key, state and number of
+    realizations, from placeholder_results.json and values.json."""
+    w, h = fig.get_size_inches()
+    L = ["## Fig. 8 `fig8_summary` (written by the figure script from values.json and placeholder_results.json)", "",
+         "- One row per analysis in the order of Sec. IV, grouped under the subsection titles of Sec. IV read from `main.tex` (bold). Each row: the",
+         "  median (marker) and 90% interval (bar) of the posterior combined over the realizations of its key (`\\<Key>HzeroComb`,",
+         "  `\\<Key>fAGNComb`); black when the key is a production result, red while a placeholder. Realization A is not drawn. Black dashed:",
+         "  inputs. \"not inferred\": f_AGN is not a parameter of that analysis. The last two groups use mergers with host-dependent populations,",
+         "  the others mergers with equal populations; no row label repeats its heading."]
+    for head, items in SUMMARY_ROWS:
+        rows = []
+        for k, lab in items:
+            E = PHJ[k]
+            st = "real" if E.get("final") else "red placeholder"
+            what = f"\"{lab}\" (`{k}`, {E['N_comb']} realizations, {st}"
+            if k in SUMMARY_UL:
+                what += f"; H0 drawn as a 90% upper limit, {mfmt(SUMMARY_UL[k])}: a cap with an arrow pointing left, {UL_ARROW:g} km/s/Mpc long"
+            rows.append(what + ")")
+        L.append(f"- \"{head}\": " + "; ".join(rows) + ".")
+    L += ["- \"population assumed, both catalogs\" (23 Nov, heading both host-dependent groups): the galaxy class's mass and spin distribution",
+          "  assumed for both host classes, f_AGN inferred (the experiment's sets peak_f0p30_s1 and obslike_f0p30_s1).",
+          f"- The AGN catalog alone lies at the upper prior edge (`\\KnownAGNHzeroComb`) and is marked by an arrow and the text \"at the prior edge,",
+          "  100\" (the number is `\\PriorHzeroHi`, read by the figure script; the figure check confirms that the interval's upper end rounds to it).",
+          f"- Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size. Size {w:.2f} x {h:.2f} in."]
+    write_facts_block("fig8_summary", "## Fig. 8 `fig8_summary`", L)
 
 
 # ---------------------------------------------------------------- Fig. 9: validation

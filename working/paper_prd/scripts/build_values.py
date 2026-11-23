@@ -1626,6 +1626,30 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   5 Msun, spin mean 0 and width 0.10, offsets +5 Msun and +0.10, log10 n = -3 and -5, rate-per-host ratio `\\MockRateRatio`;
   for the `Obs...` keys the mass peak and width of the observed-like spectrum, `\\ObsMuG` and `\\ObsSigmaG`.
   The single-population analysis of host-dependent events has no single input for its population parameters (no `CL`).
+- A credible level that rounds to 100% prints as `>99.99` (23 Nov; as `\\KnownAGNPeakOneHzeroCL`): the input lies outside the
+  support of the posterior on its lattice, not at an edge.
+- Sec. IV E on three steps (23 Nov; notes/MACRO_REQUESTS.md G1, G2). Keys from the experiment's runs on the host-dependent sets
+  (RUNLIST_experiment.yaml, stages E1 to E3; `scripts/production.py` admits every stage but V and X): `HDAssumed` (set
+  `peak_f0p30_s1`, both catalogs, f_AGN inferred, the galaxy class's mass and spin distribution assumed for both classes:
+  "population assumed"), `HDAssumedTwice` (the same on `peak_f0p30_s2`, twice the offsets), `HDPops` (`peak_f0p30_s1`, the two
+  populations at their inputs), `HDSingleTwice` (`peak_f0p30_s2`, single population inferred, nested, stage E3), `ObsAssumed` and
+  `ObsPops` (`obslike_f0p30_s1`). Each has the key scheme's macros (H0 and f_AGN; `HDSingleTwice` also the population) except
+  `HDAssumedTwice`, whose posteriors lie at the upper prior edge of H0: only **`\\HDAssumedTwiceHzeroMed`** (realization A's median)
+  and **`\\HDAssumedTwicefAGNUL`** (realization A's 90% upper limit on f_AGN). Further: **`\\HDAssumedBiasHzero`**,
+  **`\\ObsAssumedBiasHzero`**, **`\\HDSingleTwiceBiasHzero`** (combined median minus the input, as `\\HDBiasHzero`);
+  **`\\HDAssumedShiftHzero[Min|Max]`**, **`\\ObsAssumedShiftHzero[Min|Max]`** (per realization the H0 median of the population assumed
+  minus that of the two populations at their inputs on the same mergers, `summary.json`; the median over the realizations, the
+  smallest and the largest; signed, one decimal); **`\\HDAssumedNoPeak`**, **`\\HDAssumedTwiceNoPeak`**, **`\\ObsAssumedNoPeak`**
+  (a word: realizations whose H0 posterior has no interior maximum, the rule of `\\KnownAGNNoPeak` applied to the 2-D grid: the
+  node with the largest corrected ln L over the fine and coarse passes at a prior edge of H0; `run_posteriors.interior_maximum`);
+  **`\\HDLBMin`**, **`\\HDLBMax`**, **`\\ObsLBMin`**, **`\\ObsLBMax`** (the smallest and largest per-realization log10 Bayes factor
+  of `<pre>HostLBComb`; red while the key waits: the realizations whose two summaries exist); **`\\HDHostMaxAbsCorrHzero`** (realization
+  A: the largest |correlation| of H0 with the other seven parameters, two decimals). Numbers of realizations: `\\NrealHDAssumed`
+  (keys HDAssumed, HDAssumedTwice, HDPops), `\\NrealHDSingleTwice`, `\\NrealObsAssumed` (ObsAssumed, ObsPops); the AGN-hosted
+  share of the detected mergers in the mean over the realizations of HDSingle and ObsSingle, `\\MockHDfDetMean`, `\\ObsHDfDetMean`
+  (events metadata `realised.realised_f_agn`, the summaries' `planted.truth_f_agn`). Half-widths of the single population on the
+  realizations of `\\HWHost` and the factor in mergers: `\\HWHDSingle`, `\\HWObsSingle`, `\\CostSingleHost`, `\\CostObsSingleHost`
+  (scripts/classes.py).
 """
 R2_DEFINITIONS = """## Definitions of the revision-2 macros (17 Nov 2026)
 
@@ -2650,6 +2674,139 @@ Q_DESC = {"Hzero": "H0", "fAGN": "f_AGN (fraction of mergers hosted by AGN)", "M
           "LognGal": "log10 n_gal", "LognAGN": "log10 n_AGN", "RateRatio": "merger rate per AGN over merger rate per galaxy"}
 
 
+# 23 Nov: keys whose posteriors lie at a prior edge print only these macros (no interval, no combined posterior): key -> {macro suffix:
+# (quantity, part, statistic)}. HDAssumedTwice (population assumed, twice the offsets): realization A's median of H0, to be quoted against
+# the upper prior edge, and its 90% upper limit on f_AGN (notes/MACRO_REQUESTS.md G1)
+KEY_MACROS_ONLY = {"HDAssumedTwice": {"HzeroMed": ("Hzero", "A", "median"), "fAGNUL": ("fAGN", "A", "ul90")}}
+# the expected count of realizations without an interior maximum while a key is red (MACRO_REQUESTS G1: five at twice the offsets)
+NOPEAK_EXPECTED = {"HDAssumed": 0, "HDAssumedTwice": 5, "ObsAssumed": 0}
+HD_EIGHT = ["H0", "f_agn", "mu_G", "sigma_G", "mu_chi", "sigma_chi", "dmu_G", "dmu_chi"]
+
+
+def _signed(x, d):
+    """x to d decimals, a negative value wrapped in \\ensuremath (it reads right in text and in math)."""
+    s = fnum(x, d)
+    return f"\\ensuremath{{{s}}}" if s.startswith("-") else s
+
+
+def build_keys_three_steps(K, q, addf, srcf, fin):
+    """23 Nov (notes/MACRO_REQUESTS.md G1, G2): the further macros of Sec. IV E on three steps, each black exactly when every key it is
+    built from is a production result (claim 'skeleton,keys'; audit H1 and J4/J5):
+      <Key>BiasHzero      HDAssumed, ObsAssumed, HDSingleTwice: median of <Key>HzeroComb minus the input H0 (as HDBiasHzero), one decimal
+      <A>ShiftHzero[Min|Max]   HDAssumed against HDPops, ObsAssumed against ObsPops (the same mergers): per realization the H0 median of the
+                          population assumed minus that of the two populations at their inputs (summary.json posterior.H0.median); the
+                          median over the realizations and the smallest and largest, signed, one decimal
+      <Key>NoPeak         HDAssumed, HDAssumedTwice, ObsAssumed: the number of realizations (a word) whose H0 posterior has no interior
+                          maximum by the rule of KnownAGNNoPeak (run_posteriors.interior_maximum: the node with the largest corrected ln L over
+                          the fine and coarse passes, both parameters, at a prior edge of H0)
+      <pre>LB<Min|Max>   HD, Obs: the smallest and largest over the key's realizations of (ln Z of <pre>Host - ln Z of <pre>Single of the same
+                          realization) / ln 10 (the per-realization terms of <pre>HostLBComb); red while the key waits: the realizations whose two
+                          summaries exist, else the placeholder of realization A
+      HDHostMaxAbsCorrHzero   realization A of key HDHost: the largest |correlation coefficient| of H0 with the other seven parameters
+                          (equal-weight samples of the run, run_posteriors.chain_samples), two decimals"""
+    import production as PRD_
+    import run_posteriors as RP
+    pm = PRD_.load_map()
+    specs = pm.get("keys", {})
+    pj = OUT / "values" / "placeholder_results.json"
+    word = lambda n: NUM_WORD.get(n, "zero" if n == 0 else str(n))
+
+    def summ(key, r):
+        return json.loads((PRD_.key_dir(specs[key], r) / "summary.json").read_text())
+
+    def addk(name, keys, render, value, units, meaning, files=None, computation=None, extra=None, ph_source=None):
+        f_ = fin(keys)
+        if f_:
+            src = {"files": files or [K[k]["production_file"] for k in keys], "computation": computation}
+        else:
+            src = dict(srcf(keys), **({"placeholder_source": ph_source} if ph_source else {}))
+        add(name, "plain" if f_ else "ph", render if f_ else f"\\ph{{{render}}}", value, units, meaning, src, "skeleton,keys", extra=extra)
+
+    # (1) the bias of the combined median
+    for k, what in (("HDAssumed", "population assumed (the galaxy class's for both classes), host-dependent mergers, peak-dominated spectrum"),
+                    ("ObsAssumed", "population assumed (the galaxy class's for both classes), host-dependent mergers, observed-like spectrum"),
+                    ("HDSingleTwice", "single population inferred, host-dependent mergers with twice the offsets, peak-dominated spectrum")):
+        b = q(k, "Hzero")["median"] - IN["H0"]
+        addk(f"{k}BiasHzero", [k], fnum(b, 1), b, "km/s/Mpc", f"median of {k}HzeroComb minus the input H0 ({what}, combined over "
+             f"{K[k]['N_comb']} realizations)", computation=f"median of {k}HzeroComb minus {IN['H0']:g}")
+    # (2) the shift of the H0 median: population assumed minus the two populations at their inputs, the same mergers, per realization
+    for ka, kp, spec in (("HDAssumed", "HDPops", "peak-dominated"), ("ObsAssumed", "ObsPops", "observed-like")):
+        keys = [ka, kp]
+        if fin(keys):
+            reals = [r for r in K[ka]["realizations"] if r in K[kp]["realizations"]]
+            per = {r: summ(ka, r)["posterior"]["H0"]["median"] - summ(kp, r)["posterior"]["H0"]["median"] for r in reals}
+            files = [rel(PRD_.key_dir(specs[k], r) / "summary.json") for r in reals for k in keys]
+        else:
+            per, files = {"A": q(ka, "Hzero", "A")["median"] - q(kp, "Hzero", "A")["median"]}, None
+        vals = list(per.values())
+        what = (f"change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at "
+                f"their inputs, on the same host-dependent mergers (key {ka} minus key {kp}, {spec} spectrum, per realization)")
+        for suf, v, w in (("", float(np.median(vals)), "median"), ("Min", float(min(vals)), "smallest"), ("Max", float(max(vals)), "largest")):
+            addk(f"{ka}ShiftHzero{suf}", keys, _signed(v, 1), v, "km/s/Mpc", f"{w} over the realizations of the {what}, signed", files=files,
+                 computation=f"posterior.H0.median of each summary of key {ka} minus that of the same realization of key {kp}; their {w}",
+                 extra={"decimals": 1, "per_realization": per},
+                 ph_source=f"realization A's placeholders: {ka}Hzero minus {kp}Hzero")
+    # (3) realizations without an interior maximum of the H0 posterior (the rule of KnownAGNNoPeak)
+    for k, what in (("HDAssumed", "population assumed, host-dependent mergers, peak-dominated spectrum"),
+                    ("HDAssumedTwice", "population assumed, host-dependent mergers with twice the offsets, peak-dominated spectrum"),
+                    ("ObsAssumed", "population assumed, host-dependent mergers, observed-like spectrum")):
+        rows, files = None, None
+        if fin([k]):
+            rows = {}
+            for r in K[k]["realizations"]:
+                im = RP.interior_maximum(PRD_.key_dir(specs[k], r), "H0")
+                rows[r] = {"argmax": im["argmax"], "at_edge": im["at_edge"], "lnL": im["lnL"]}
+            n = sum(1 for v in rows.values() if v["at_edge"])
+            files = [rel(PRD_.key_dir(specs[k], r) / "grid") for r in K[k]["realizations"]]
+        else:
+            n = NOPEAK_EXPECTED[k]
+        addk(f"{k}NoPeak", [k], word(n), n, "realizations",
+             f"number of realizations of key {k} ({what}) whose H0 posterior has no interior maximum in the prior range [50, 100]: the node with "
+             f"the largest corrected ln L over the fine and coarse passes (both parameters) lies at a prior edge of H0 (the rule of KnownAGNNoPeak)",
+             files=files, computation="run_posteriors.interior_maximum of each realization's grid (fine and coarse passes)", extra={"rows": rows},
+             ph_source=f"expected: {n}")
+    # (4) the Bayes factor per realization: smallest and largest
+    for pre in ("HD", "Obs"):
+        kH = f"{pre}Host"
+        L = K[kH]["LB"]
+        if fin([kH]):
+            per, ph_src = {str(r): float(v) for r, v in L["per_realization"].items()}, None
+        else:
+            sp = specs.get(kH) or {}
+            ref = (sp.get("LB") or {}).get("reference_run")
+            per = {}
+            for r in sp.get("realizations", []):
+                pa, pb = PRD_.key_dir(sp, r) / "summary.json", PRD_.run_dir(ref, r) / "summary.json"
+                if ref and pa.exists() and pb.exists():
+                    per[str(r)] = (json.loads(pa.read_text())["ln_evidence"]["value"] - json.loads(pb.read_text())["ln_evidence"]["value"]) / LN10
+            ph_src = (f"the realizations whose two summaries exist ({', '.join(per)}; the key waits for the others)" if per else
+                      f"the placeholder of realization A ({L['A']:g})")
+            if not per:
+                per = {"A": float(L["A"])}
+        for suf, fn, w in (("Min", min, "smallest"), ("Max", max, "largest")):
+            v = float(fn(per.values()))
+            addk(f"{pre}LB{suf}", [kH], flb(v), v, "log10",
+                 f"{w} over the realizations of the log10 Bayes factor of the host-dependent populations against the single population on the "
+                 f"same mergers of the same realization ({'peak-dominated' if pre == 'HD' else 'observed-like'} spectrum; the terms of {kH}LBComb)",
+                 computation=f"(ln Z of {kH} - ln Z of {pre}Single) / ln 10 per realization (summaries' ln_evidence); their {w}",
+                 extra={"per_realization": per}, ph_source=ph_src)
+    # (5) the largest correlation of H0 with another parameter, host-dependent populations, realization A
+    sp = specs.get("HDHost") or {}
+    dA = PRD_.key_dir(sp, sp["realization_A"]) if sp else None
+    try:
+        S = RP.chain_samples(dA, HD_EIGHT)
+        C = np.corrcoef(S.T)
+        rho = {p: float(C[0, i]) for i, p in enumerate(HD_EIGHT) if i > 0}
+        how = f"equal-weight samples of {rel(dA)} (run_posteriors.chain_samples), correlation coefficients of H0 with the other seven"
+    except (FileNotFoundError, TypeError):
+        rho, how = {"invented": 0.10}, "invented: 0.10 (MACRO_REQUESTS G2, by hand)"
+    v = max(abs(x) for x in rho.values())
+    addk("HDHostMaxAbsCorrHzero", ["HDHost"], fnum(v, 2), v, "",
+         "largest absolute correlation coefficient of H0 with the other seven parameters of the host-dependent analysis (f_AGN, mu_G, sigma_G, "
+         "mu_chi, sigma_chi, dmu_G, dmu_chi), realization A, peak-dominated spectrum", files=[rel(dA / "nested_1" / "samples.npz")] if dA else None,
+         computation=how, extra={"correlations": rho, "decimals": 2}, ph_source=f"realization A's run while the key waits for its other realizations ({how})")
+
+
 def build_keys():
     import placeholder_results as PR
     doc = PR.main()
@@ -2660,6 +2817,20 @@ def build_keys():
         cls = "plain" if final else "ph"
         wrap = (lambda r: r) if final else (lambda r: f"\\ph{{{r}}}")
         desc = f"[key {key}] {E['events']}; {E['analysis']}; {E['catalogs']}"
+        if key in KEY_MACROS_ONLY:
+            for suf, (q, part, stat) in KEY_MACROS_ONLY[key].items():
+                Q = E["quantities"][q]
+                sm = Q[part]
+                srcq = {"file": E["production_file"]} if final else {"missing": E["stage"], "key": key, "placeholder_source": f"A: {Q['source']}",
+                                                                      "placeholder_file": {"A": Q.get("file")}, "json": rel(pj)}
+                _, d = fci(sm["median"], sm["ci90"][0], sm["ci90"][1])
+                if stat == "ul90":
+                    d = max(d, 2)
+                w = {"median": "median", "ul90": "90% upper limit (90th percentile)"}[stat]
+                add(f"{key}{suf}", cls, wrap(fnum(sm[stat], d)), sm[stat], Q["units"],
+                    f"{w} of {Q_DESC[q]}, {desc}, realization A (the posterior lies at the upper prior edge of H0: no interval and no combined "
+                    f"posterior are printed for this key)", srcq, "skeleton,keys", extra={"decimals": d})
+            continue
         for q, Q in E["quantities"].items():
             srcq = {"file": E["production_file"]} if final else {"missing": E["stage"], "key": key, "placeholder_source": f"A: {Q['source']}; Comb: {Q['comb_source']}",
                                                                   "placeholder_file": {"A": Q.get("file"), "Comb": Q.get("comb_file")}, "json": rel(pj)}
@@ -2713,8 +2884,10 @@ def build_keys():
                     add(f"{key}{q}CL", cls, wrap("--"), None, "%", f"credible level of the input in {key}{q}Comb: not defined, the input lies at the prior edge (use {key}{q}CombUL)",
                         srcq, "skeleton,keys")
                 else:
-                    add(f"{key}{q}CL", cls, wrap(fpct(lev)), lev, "%", f"two-sided credible level at which the input {Q['input']:g} lies in {key}{q}Comb ({Q_DESC[q]}, {desc})",
-                        srcq, "skeleton,keys")
+                    # 23 Nov: a level that rounds to 1 prints as '>99.99' (fpct prints exactly 1 as '100'), as KnownAGNPeak<n>HzeroCL: the input
+                    # lies outside the posterior's support on the lattice, not at an edge
+                    add(f"{key}{q}CL", cls, wrap(fpct(min(lev, 1.0 - 1e-9))), lev, "%",
+                        f"two-sided credible level at which the input {Q['input']:g} lies in {key}{q}Comb ({Q_DESC[q]}, {desc})", srcq, "skeleton,keys")
         if E.get("LB"):
             L = E["LB"]
             srcl = {"file": E["production_file"]} if final else {"missing": E["stage"], "key": key, "placeholder_source": L["source"], "placeholder_file": L.get("file"), "json": rel(pj)}
@@ -2738,6 +2911,7 @@ def build_keys():
         addf(f"{pre}BiasHzero", [f"{pre}Single"], fnum(b, 1), b, "km/s/Mpc", f"median of {pre}SingleHzeroComb minus the input H0 (bias of the single-population analysis of host-dependent events, {'peak-dominated' if pre == 'HD' else 'observed-like'} spectrum, combined)")
         L = K[f"{pre}Host"]["LB"]["A"]
         addf(f"{pre}LB", [f"{pre}Host"], flb(L), L, "log10", f"log10 Bayes factor of the host-dependent populations against the single population, same events and priors, realization A (= {pre}HostLB; combined: {pre}HostLBComb)")
+    build_keys_three_steps(K, q, addf, srcf, fin)
     # one definition (17 Nov): the ratio of the two printed widths, GalhostedHzeroWid / AGNhostedHzeroWid (realization A, full 90%
     # widths, unrounded). The earlier value was PureRatioNinety (ratio of the mean half-widths over 93 exploratory realizations).
     wg, wa = q("Galhosted", "Hzero", "A"), q("AGNhosted", "Hzero", "A")
@@ -2974,6 +3148,29 @@ def build_requests():
     nreal("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"], "realizations combined, observed-like spectrum, all three analyses (keys ObsSingle, ObsHost, ObsNone; Stage 5 of RUNLIST.yaml)")
     nreal("NrealCtrl", ["CtrlZero", "CtrlTenth"], "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; the experiment's f = 0 and f = 0.1 "
           "sets with both catalogs, RUNLIST_experiment.yaml" + ("" if all(k in PR.RUNREAL_EXP for k in ("CtrlZero", "CtrlTenth")) else "; run R4 of runs.txt, not yet in a run list") + ")")
+    # 23 Nov (notes/MACRO_REQUESTS.md G1): the experiment's keys of Sec. IV E (RUNLIST_experiment.yaml); one number for the keys the text
+    # quotes together (nreal asserts that they agree)
+    nreal("NrealHDAssumed", ["HDAssumed", "HDAssumedTwice", "HDPops"], "realizations combined, population assumed (the galaxy class's for both "
+          "classes) and the two populations at their inputs, host-dependent mergers (offsets as given and twice those), peak-dominated spectrum "
+          "(keys HDAssumed, HDAssumedTwice, HDPops; RUNLIST_experiment.yaml stage E1)")
+    nreal("NrealHDSingleTwice", ["HDSingleTwice"], "realizations combined, single population inferred on host-dependent mergers with twice the "
+          "offsets, both catalogs (key HDSingleTwice; RUNLIST_experiment.yaml stage E3)")
+    nreal("NrealObsAssumed", ["ObsAssumed", "ObsPops"], "realizations combined, population assumed and the two populations at their inputs, "
+          "host-dependent mergers, observed-like spectrum (keys ObsAssumed, ObsPops; RUNLIST_experiment.yaml stage E2)")
+    # 23 Nov (G2): the AGN-hosted share of the detected mergers of the host-dependent sets, the mean over the realizations of the single
+    # population's key (realization A alone: MockHDfDet), from each realization's events metadata (realised.realised_f_agn, the number the
+    # run summaries record as planted.truth_f_agn)
+    for nm, key, stem, what in (("MockHDfDetMean", "HDSingle", "marked_dmu0p10_dmuG5_corepop", "peak-dominated"),
+                                ("ObsHDfDetMean", "ObsSingle", "marked_dmu0p10_dmuG5_obslike", "observed-like")):
+        reals = PR.RUNREAL[key]
+        files = {r: DATA / f"seed{r}" / "events" / f"events_meta_{stem}.json" for r in reals}
+        per = {r: float(jload(p)["realised"]["realised_f_agn"]) for r, p in files.items()}
+        m = float(np.mean(list(per.values())))
+        add(nm, "plain", fnum(m, 3), m, "", f"AGN-hosted fraction of the detected mergers of the host-dependent sets ({what} spectrum; input 0.30), the "
+            f"mean over the {len(reals)} realizations of key {key} ({', '.join(map(str, reals))}); realization A alone: "
+            f"{'MockHDfDet' if key == 'HDSingle' else 'the same file of realization 100'}",
+            {"files": [rel(p) for p in files.values()], "key": "realised.realised_f_agn", "computation": "mean over the realizations"}, "mock,C7",
+            extra={"per_realization": per, "decimals": 3})
     # ---- A2: the observed-like spectrum (design, GWTC-3 medians mapped onto core's power law + peak)
     O = jload(OBSJ)
     th, gw = O["design"]["core_theta"], O["design"]["design_gwtc3_parameters"]

@@ -47,6 +47,10 @@ Macros (all half-widths are of H0 in km/s/Mpc; "realizations" = the experiment's
                  (key KnownAGN): the number of realizations whose H0 posterior has no interior maximum in the prior
                  range, and for each one that has (n = One, Two, ...) its median and 90% interval (summary.json) and
                  the credible level of the input
+  HWHDSingle, HWObsSingle   (23 Nov) as HW...: the single population inferred (keys HDSingle, ObsSingle) on the realizations of
+                 HWHost / HWObsHost (map record field realizations_of); not drawn in fig_classes
+  CostSingleHost, CostObsSingleHost   (23 Nov) (HW<pre>Single / HW[Obs]Host)^2 from the unrounded means, Min and Max per realization,
+                 as CostPopsThirty: the single population's factor in mergers against the host-dependent populations, both inferred
   NrealClasses   the number of realizations of every experiment set above (printed as a word)
   ClsDiff<f>HzeroMean, ClsDiff<f>HzeroSd   (21 Nov; f = Thirty, Fifty) mean and standard deviation (ddof 1) over the realizations of
                  (H0 median of the host-class-unknown run minus that of the host-class-known run of the same realization; summary.json;
@@ -144,6 +148,14 @@ def _table():
         hw(f"HW{pre}Host", ("key", "HDHost" if spec == "peak" else "ObsHost"), spec, "host", 0.3,
            f"host-dependent populations inferred with H0 (eight parameters; key {'HDHost' if spec == 'peak' else 'ObsHost'}), both catalogs, "
            f"host-dependent mergers, input f_AGN = 0.3, {SPEC_W[spec]}")
+    # 23 Nov (notes/MACRO_REQUESTS.md G2): the single population inferred on the same mergers and realizations as the host-dependent
+    # populations inferred (HWHost, HWObsHost): its runs are those of key HDSingle / ObsSingle restricted to the realizations of that
+    # macro ("realizations_of"); not drawn in fig_classes
+    for spec, pre, kS, kH, host in (("peak", "HD", "HDSingle", "HDHost", "HWHost"), ("obslike", "Obs", "ObsSingle", "ObsHost", "HWObsHost")):
+        T[f"HW{pre}Single"] = {"kind": "mean_hw", "select": ("key", kS), "realizations_of": host, "spectrum": spec, "series": "single", "f": 0.3,
+                               "fig": False,
+                               "what": f"single population inferred with H0 (six parameters; key {kS}), both catalogs, host-dependent mergers, input "
+                                       f"f_AGN = 0.3, {SPEC_W[spec]}, on the realizations of {host}"}
     for f in (0.1, 0.3):
         T[f"HWKnownAGN{F_WORD[f]}"] = {"kind": "factor_hw", "select": ("exp", "hosts_known", f"peak_{F_LAB[f]}_s0"), "factor": "agn",
                                        "spectrum": "peak", "series": None, "f": f,
@@ -164,6 +176,14 @@ def _table():
             T[f"Cost{tag}{F_WORD[f]}"] = {"kind": "derived", "deps": [f"HW{tag}{F_WORD[f]}", den], "fn": "cost", "f": f,
                                          "what": f"mergers needed with the {nm} per merger with the host class known, input f_AGN = {f:g}: "
                                                  f"(HW{tag}{F_WORD[f]} / {den})^2 from the unrounded means (denominator: {which})"}
+    # 23 Nov (G2): the factor in the number of mergers between the single population and the host-dependent populations, both inferred,
+    # on the same mergers and realizations, defined as CostPopsThirty is (the ratio of the means squared; Min, Max per realization)
+    for pre, host in (("HD", "HWHost"), ("Obs", "HWObsHost")):
+        nm = "CostSingleHost" if pre == "HD" else "CostObsSingleHost"
+        T[nm] = {"kind": "derived", "deps": [f"HW{pre}Single", host], "fn": "cost", "f": 0.3,
+                 "what": f"mergers needed with a single population inferred per merger with host-dependent populations inferred, for the same 90% "
+                         f"half-width of H0, {'peak-dominated' if pre == 'HD' else 'observed-like'} spectrum, the same mergers and realizations: "
+                         f"(HW{pre}Single / {host})^2 from the unrounded means"}
     for info, sel, what in (("Equal", ("exp", "two_tracers_one_population", "peak_f0p30_s0"), "equal populations, positions alone"),
                             ("Pos", ("exp", "two_tracers_one_population", "peak_f0p30_s1"), "host-dependent populations (5 Msun, 0.10), positions alone "
                                                                                              "(one population for both classes, held at its input)"),
@@ -280,6 +300,15 @@ def map_block(_runs=None, keys=None):
                 continue
             if rec is not None:
                 rec = dict(rec, key=sel[1])
+        if rec is not None and e.get("realizations_of"):
+            # 23 Nov: restricted to the realizations of another macro's record (HW<pre>Single: those of HWHost / HWObsHost), all of which the
+            # key's runs must have
+            ref = out.get(e["realizations_of"])
+            if ref is None or not set(ref["realizations"]) <= set(rec["realizations"]):
+                missing[name] = (f"the runs of {sel[1:]} lack realizations of {e['realizations_of']} "
+                                 f"({None if ref is None else ref['realizations']} against {rec['realizations']})")
+                continue
+            rec = dict(rec, realizations=list(ref["realizations"]), realizations_of=e["realizations_of"])
         if rec is None:
             missing[name] = f"no run of {sel[1:]} in {RUNLIST_EXP.name} or {RUNLIST.name}"
             continue
@@ -337,8 +366,10 @@ def _jr(p):
 def expected(name):
     import placeholder_results as PR
     v, src = PR.CLASS_EXPECTED[name]
-    if name == "HWObsHost":
-        doc = json.loads((PRD / "values" / "placeholder_results.json").read_text())["keys"]["ObsHost"]["quantities"]["Hzero"]["A"]
+    # the half-width of a key's placeholder of realization A (placeholder_results.json); HWHDSingle, HWObsSingle since 23 Nov
+    from_key = {"HWObsHost": "ObsHost", "HWObsSingle": "ObsSingle", "HWHDSingle": "HDSingle"}
+    if name in from_key:
+        doc = json.loads((PRD / "values" / "placeholder_results.json").read_text())["keys"][from_key[name]]["quantities"]["Hzero"]["A"]
         v = 0.5 * (doc["ci90"][1] - doc["ci90"][0])
     elif isinstance(v, str) and v.startswith("Prob"):
         v = evaluate(v).value
@@ -564,14 +595,9 @@ def interior(rec, paths):
     rows = []
     for r, p in zip(rec["realizations"], paths):
         d = p.parent
-        parts = RP._grid_parts(d)                       # [(names, axes, lnc)] fine first, coarse last
-        best = (-np.inf, None)
-        for names, axes, lnc in parts:
-            ok = np.isfinite(lnc)
-            i = int(np.argmax(np.where(ok, lnc, -np.inf)))
-            if lnc[i] > best[0]:
-                best = (float(lnc[i]), float(axes[0][i]))
-        at_edge = abs(best[1] - lo_p) < 1e-9 or abs(best[1] - hi_p) < 1e-9
+        im = RP.interior_maximum(d, "H0")               # the rule, shared since 23 Nov (run_posteriors.interior_maximum; 1-D unchanged)
+        best = (im["lnL"], im["argmax"]["H0"])
+        at_edge = im["at_edge"]
         sm = _jr(p)["posterior"]["H0"]
         row = {"realization": r, "argmax_H0": best[1], "interior": not at_edge, "median": sm["median"], "ci90": sm["ci90"]}
         if not at_edge:

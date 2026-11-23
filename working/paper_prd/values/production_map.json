@@ -2007,6 +2007,464 @@
     }
    }
   },
+  "HDAssumed": {
+   "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   }
+  },
+  "HDAssumedTwice": {
+   "run": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's set peak_f0p30_s2 (AGN offsets 10 Msun and 0.20) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   }
+  },
+  "HDPops": {
+   "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E1",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   }
+  },
+  "HDSingleTwice": {
+   "run": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E3",
+   "mode": "nested",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's set peak_f0p30_s2 (AGN offsets 10 Msun and 0.20) analysed with both catalogs and one population inferred for both classes (single_population, stage E3), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    },
+    "MuG": {
+     "param": "mu_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.mu_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaG": {
+     "param": "sigma_G",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.sigma_G"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "MuChi": {
+     "param": "mu_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.mu_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    },
+    "SigmaChi": {
+     "param": "sigma_chi",
+     "A": {
+      "summary": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_100/summary.json",
+      "field": "posterior.sigma_chi"
+     },
+     "Comb": {
+      "summaries": "single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": null,
+      "why": "one population for a mixture: no single input (as the placeholder)"
+     }
+    }
+   }
+  },
+  "ObsAssumed": {
+   "run": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E2",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   }
+  },
+  "ObsPops": {
+   "run": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
+   "runlist": "RUNLIST_experiment.yaml",
+   "stage": "E2",
+   "mode": "grid",
+   "realizations": [
+    100,
+    101,
+    102,
+    103,
+    105
+   ],
+   "realization_A": 100,
+   "settings": "the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations",
+   "quantities": {
+    "Hzero": {
+     "param": "H0",
+     "A": {
+      "summary": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.H0"
+     },
+     "Comb": {
+      "summaries": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.H0 of the summaries"
+     }
+    },
+    "fAGN": {
+     "param": "f_agn",
+     "A": {
+      "summary": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+      "field": "posterior.f_agn"
+     },
+     "Comb": {
+      "summaries": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json",
+      "realizations": [
+       100,
+       101,
+       102,
+       103,
+       105
+      ],
+      "combine": "grid ln L summed (run_posteriors.grid_marginal)"
+     },
+     "CL": {
+      "of": "Comb",
+      "input": "truth.f_agn of the summaries"
+     }
+    }
+   }
+  },
   "FluxTwentyOne": {
    "run": "known_population/both_catalogs/flux_limit_21_densities_from_counts/equal_populations/realization_{R}",
    "runlist": "RUNLIST.yaml",
@@ -3311,6 +3769,36 @@
     "key": "ObsHost",
     "how": "mean_hw"
    },
+   "HWHDSingle": {
+    "run": "single_population/both_catalogs/complete/host_dependent/realization_{R}",
+    "runlist": "RUNLIST.yaml",
+    "stage": "4",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "key": "HDSingle",
+    "realizations_of": "HWHost",
+    "how": "mean_hw"
+   },
+   "HWObsSingle": {
+    "run": "single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}",
+    "runlist": "RUNLIST.yaml",
+    "stage": "5",
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ],
+    "key": "ObsSingle",
+    "realizations_of": "HWObsHost",
+    "how": "mean_hw"
+   },
    "HWKnownAGNTen": {
     "run": "hosts_known/both_catalogs/complete/peak_f0p10_s0/realization_{R}_agn_s32000_inj1",
     "runlist": "RUNLIST_experiment.yaml",
@@ -3425,6 +3913,22 @@
     "from": [
      "HWPopsTwiceFifty",
      "HWKnownPopsTwiceFifty"
+    ]
+   },
+   "CostSingleHost": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWHDSingle",
+     "HWHost"
+    ]
+   },
+   "CostObsSingleHost": {
+    "how": "derived",
+    "fn": "cost",
+    "from": [
+     "HWObsSingle",
+     "HWObsHost"
     ]
    },
    "ProbAGNEqual": {

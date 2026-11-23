@@ -108,6 +108,16 @@ def _key_table():
         "ObsSingle": ("single_population/both_catalogs/complete/host_dependent_obslike/realization_{R}", SIX),
         "ObsHost": ("host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_{R}_unif_then_rslice", SIX + ["DmuG", "DmuChi"]),
         "ObsNone": ("single_population/no_catalog/complete/host_dependent_obslike/realization_{R}", FIVE),
+        # 23 Nov (notes/MACRO_REQUESTS.md G1): the experiment's runs on the host-dependent sets (RUNLIST_experiment.yaml, stages E1-E3, which
+        # build_map admits as it admits the control keys': only stages V and X are not production stages). Population assumed = the galaxy
+        # class's mass and spin distribution for both classes, f_AGN inferred (two_tracers_one_population); the two populations at their
+        # inputs (two_tracers_two_populations); the single population inferred on the set with twice the offsets (stage E3, nested)
+        "HDAssumed": ("two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
+        "HDAssumedTwice": ("two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}", ["Hzero", "fAGN"]),
+        "HDPops": ("two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
+        "HDSingleTwice": ("single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}", SIX),
+        "ObsAssumed": ("two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
+        "ObsPops": ("two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
     }
     for rk, w, m in bv.RUNGS:
         T[f"Flux{w}"] = (f"known_population/both_catalogs/flux_limit_{m}_densities_from_counts/equal_populations/realization_{{R}}", ["Hzero", "fAGN", "RateRatio"])
@@ -127,6 +137,15 @@ SET_NOTES = {
     "CtrlTenth": "the experiment's f = 0.10 set (peak_f0p10_s0, events_fagn0p10_corepop.h5) analysed with both catalogs and f_AGN "
                  "free (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5, 2.5e8 draws); "
                  "the experiment's five realizations",
+    # 23 Nov: the host-dependent sets of the experiment
+    **{k: (f"the experiment's set {lab} ({ev}) analysed {how}, on the {fam} family's injection lane ({lane}); the experiment's five realizations")
+       for k, lab, ev, how, fam, lane in (
+           ("HDAssumed", "peak_f0p30_s1", "the events of stage 4, AGN offsets 5 Msun and 0.10", "with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population)", "peak", "injections_targeted_peak.h5"),
+           ("HDAssumedTwice", "peak_f0p30_s2", "AGN offsets 10 Msun and 0.20", "with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population)", "peak", "injections_targeted_peak.h5"),
+           ("HDPops", "peak_f0p30_s1", "the events of stage 4, AGN offsets 5 Msun and 0.10", "with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations)", "peak", "injections_targeted_peak.h5"),
+           ("HDSingleTwice", "peak_f0p30_s2", "AGN offsets 10 Msun and 0.20", "with both catalogs and one population inferred for both classes (single_population, stage E3)", "peak", "injections_targeted_peak.h5"),
+           ("ObsAssumed", "obslike_f0p30_s1", "the events of stage 5", "with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population)", "observed-like", "injections_targeted_obslike.h5"),
+           ("ObsPops", "obslike_f0p30_s1", "the events of stage 5", "with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations)", "observed-like", "injections_targeted_obslike.h5"))},
 }
 FREE_UNITS_NOTE = ("the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] "
                    "are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the "
@@ -221,7 +240,7 @@ def build_map():
                         "CL": {"of": "Comb", "input": "paper: MockRateRatio = [0.30/0.70] N_gal/N_AGN of realization A"}}
                 continue
             par = PARAM[q]
-            no_input = key in ("HDSingle", "HDNone", "ObsSingle", "ObsNone") and q in ("MuG", "SigmaG", "MuChi", "SigmaChi")
+            no_input = key in ("HDSingle", "HDNone", "ObsSingle", "ObsNone", "HDSingleTwice") and q in ("MuG", "SigmaG", "MuChi", "SigmaChi")
             conv = key.startswith("Free") and q in ("LognGal", "LognAGN")
             Q[q] = {"param": par, "A": {"summary": A, "field": f"posterior.{par}"},
                     "Comb": {"summaries": sumpat, "realizations": reals,

@@ -109,6 +109,14 @@ for _k, _w, _m in bv.RUNGS:
 # peak-dominated family, both catalogs, f_AGN free (two_tracers_one_population = population known, both catalogs)
 RUNLIST_EXP = RUNLIST.parent / "RUNLIST_experiment.yaml"
 EXP_SELECTOR = {"CtrlZero": ("two_tracers_one_population", "peak_f0p00_s0"), "CtrlTenth": ("two_tracers_one_population", "peak_f0p10_s0")}
+# 23 Nov (Sec. IV E on three steps, notes/MACRO_REQUESTS.md G1): the experiment's runs on the host-dependent sets as keys of their own
+# (the same runs that scripts/classes.py reads for Pos, Pops, PosTwice): the population assumed (the galaxy class's mass and spin
+# distribution for both classes: two_tracers_one_population), the two populations at their inputs (two_tracers_two_populations) and the
+# single population inferred on the set with twice the offsets (stage E3)
+EXP_SELECTOR.update({
+    "HDAssumed": ("two_tracers_one_population", "peak_f0p30_s1"), "HDAssumedTwice": ("two_tracers_one_population", "peak_f0p30_s2"),
+    "HDPops": ("two_tracers_two_populations", "peak_f0p30_s1"), "HDSingleTwice": ("single_population", "peak_f0p30_s2"),
+    "ObsAssumed": ("two_tracers_one_population", "obslike_f0p30_s1"), "ObsPops": ("two_tracers_two_populations", "obslike_f0p30_s1")})
 
 
 def _experiment_realizations():
@@ -183,7 +191,7 @@ NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizatio
 NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items() if k not in RUNREAL_EXP})
 NREAL.update({k: (len(v), f"RUNLIST_experiment.yaml: {len(v)} runs of {EXP_SELECTOR[k][0]} on the experiment's set {EXP_SELECTOR[k][1]}, realizations {v}")
               for k, v in RUNREAL_EXP.items()})
-assert set(NREAL) == set(KEY_SELECTOR) | set(NOT_IN_RUNLIST), sorted(set(KEY_SELECTOR) - set(NREAL))
+assert set(NREAL) == set(KEY_SELECTOR) | set(NOT_IN_RUNLIST) | set(EXP_SELECTOR), sorted((set(KEY_SELECTOR) | set(EXP_SELECTOR)) - set(NREAL))
 STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": "Stage 1: all-AGN and all-galaxy event sets",
                "ctrl": ("experiment stage E1 (RUNLIST_experiment.yaml): the f = 0 and f = 0.1 sets, both catalogs" if RUNREAL_EXP else
                         "run R4 of runs.txt (not yet in the run list)"), "flux": "Stage 2: flux-limited catalogs, densities from catalog counts",
@@ -191,7 +199,14 @@ STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": 
                "hdsingle": "Stage 4: host-dependent events, single population",
                "hdhost": ("Stage 4: host-dependent events, host-dependent populations, run as stage V8's realization_NNN_unif_then_rslice (the "
                           "mixed sampler; build_values.STAGE_V_KEY_RUNS)"),
-               "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events"}
+               "hdnone": "Stage 4: host-dependent events, no catalog", "obs": "Stage 5: observed-like spectrum, host-dependent events",
+               # 23 Nov: the experiment's runs on the host-dependent sets (RUNLIST_experiment.yaml)
+               "hdassumed": "experiment stage E1 (RUNLIST_experiment.yaml), set peak_f0p30_s1: population assumed (the galaxy class's), both catalogs",
+               "hdassumedtwice": "experiment stage E1 (RUNLIST_experiment.yaml), set peak_f0p30_s2 (twice the offsets): population assumed, both catalogs",
+               "hdpops": "experiment stage E1 (RUNLIST_experiment.yaml), set peak_f0p30_s1: the two populations at their inputs, both catalogs",
+               "hdsingletwice": "experiment stage E3 (RUNLIST_experiment.yaml), set peak_f0p30_s2 (twice the offsets): single population, both catalogs",
+               "obsassumed": "experiment stage E2 (RUNLIST_experiment.yaml), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs",
+               "obspops": "experiment stage E2 (RUNLIST_experiment.yaml), set obslike_f0p30_s1: the two populations at their inputs, both catalogs"}
 PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "SigmaG": (1.0, 10.0), "MuChi": (-0.2, 0.3), "SigmaChi": (0.01, 1.0),
          "DmuG": (-10.0, 10.0), "DmuChi": (-0.05, 0.30), "LognGal": (-4.0, -1.0), "LognAGN": (-6.0, -4.0), "RateRatio": (0.0, 400.0)}
 UNIT = {"Hzero": "km/s/Mpc", "fAGN": "", "MuG": "Msun", "SigmaG": "Msun", "MuChi": "", "SigmaChi": "", "DmuG": "Msun", "DmuChi": "",
@@ -250,7 +265,7 @@ CLASS_EXPECTED = {
                                  "host-dependent events (events_meta realised_f_agn, mean over the realizations; classes.same_mergers_expected)")
        for pre, tag, w in (("", "Pops", "Ten"), ("", "Pops", "Thirty"), ("", "Pops", "Fifty"), ("", "PopsTwice", "Ten"),
                            ("", "PopsTwice", "Thirty"), ("", "PopsTwice", "Fifty"), ("Obs", "Pops", "Thirty"))},
-    "HWHost": (2.1, "letter macro IndTwoPopHW"),
+    "HWHost": (1.6, "mean of the four finished realizations on 23 Nov 2026 (1.45, 1.52, 1.84, 1.62); was 2.1, the letter macro IndTwoPopHW"),
     "HWObsNone": (10.0, "letter macro IndObsHWSpec"),
     "HWObsUnknownZero": (8.21, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWObsUnknownThirty": (2.1, "letter macro IndObsHWMix"),
     "HWObsUnknownHundred": (0.84, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
@@ -258,6 +273,8 @@ CLASS_EXPECTED = {
     "HWObsKnownThirty": (1.37, "letter Fig. 3 point, " + LETTER_FIG3_RULE), "HWObsKnownHundred": (0.8, "letter macro IndObsHWAGN"),
     "HWObsPopsThirty": (1.62, "letter Fig. 3 point, " + LETTER_FIG3_RULE),
     "HWObsHost": (None, "the paper's placeholder of key ObsHost: half the 90% width of H0 of realization A (placeholder_results.json keys.ObsHost)"),
+    "HWHDSingle": (None, "the paper's placeholder of key HDSingle: half the 90% width of H0 of realization A (placeholder_results.json keys.HDSingle)"),
+    "HWObsSingle": (None, "the paper's placeholder of key ObsSingle: half the 90% width of H0 of realization A (placeholder_results.json keys.ObsSingle)"),
     "ProbAGNEqual": (0.33, "invented: positions alone, equal populations, as the letter's IndProbAGNPos less the effect of the heavier AGN-hosted mergers"),
     "ProbGalEqual": (0.25, "invented: as ProbAGNEqual"),
     "ProbAGNPos": (0.36, "letter macro IndProbAGNPos"), "ProbGalPos": (0.27, "letter macro IndProbGalPos"),
@@ -685,12 +702,16 @@ def build():
         # the H0 shift of ObsNone kept in the combination, the correlation of the offsets) is kept from the earlier placeholder
         sec7_note = "PAPER_SKELETON Sec. 7, revised 17 Nov evening"
         qnote = lambda q: (sec7_note if q in ("Hzero", "fAGN", "DmuG", "DmuChi") else inv_note) if pre == "Obs" else None
-        # single population (biased); the observed-like medians sit at the same offsets from the observed-like inputs
+        # single population with its parameters inferred. Expectation of 23 Nov 2026, from the five finished runs of the peak-dominated
+        # family (realizations 100 to 105: H0 67.6, 66.7, 68.9, 70.5, 67.6 with half-widths 1.75 to 1.98; f_AGN 0.34, 0.28, 0.42, 0.33,
+        # 0.41, the AGN share of the DETECTED mergers and not the input; mass peak 36.2 to 36.8, spin mean 0.02 to 0.05): no bias in H0
+        # beyond the scatter of the realizations, f_AGN above the input. The earlier placeholder (H0 70.9, f_AGN 0.24) was the bias of
+        # the exploratory analysis with the population held, which is now the key HDAssumed. Observed-like: the same expectation.
         E = entry(ev, "single population", "both catalogs, complete", "six", stage_s, f"{pre}Single")
         if pre == "HD":
-            spec = {"Hzero": (70.9, 2.6, 3.0), "fAGN": (0.24, 0.09, -0.05), "MuG": (36.4, 0.6, 1.4), "SigmaG": (5.6, 0.4, 0.6), "MuChi": (0.030, 0.010, 0.03), "SigmaChi": (0.110, 0.008, 0.01)}
+            spec = {"Hzero": (67.6, 1.9, 0.4), "fAGN": (0.34, 0.085, 0.055), "MuG": (36.8, 0.5, 1.6), "SigmaG": (5.0, 0.4, 0.5), "MuChi": (0.036, 0.010, 0.04), "SigmaChi": (0.109, 0.010, 0.015)}
         else:
-            spec = {"Hzero": (68.4, 2.4, 0.7), "fAGN": (0.27, 0.09, -0.03), "MuG": (INP["MuG"] + 0.4, 1.2, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 0.8, 0.3),
+            spec = {"Hzero": (68.0, 2.4, 0.2), "fAGN": (0.34, 0.09, 0.04), "MuG": (INP["MuG"] + 0.4, 1.2, 0.4), "SigmaG": (INP["SigmaG"] + 0.3, 0.8, 0.3),
                     "MuChi": (0.030, 0.014, 0.03), "SigmaChi": (0.110, 0.012, 0.01)}
         for q, (m, hw, b) in spec.items():
             x0 = INP[q] if q in ("Hzero", "fAGN") else None
@@ -717,9 +738,11 @@ def build():
             E["joint"]["A"] = joint_gauss(E["quantities"]["DmuG"]["A"], E["quantities"]["DmuChi"]["A"], "DmuG", "DmuChi", rho13)
         E["joint"]["Comb"] = joint_gauss(E["quantities"]["DmuG"]["Comb"], E["quantities"]["DmuChi"]["Comb"], "DmuG", "DmuChi", rho13) | {
             "correlation_from": rel(p13)}
-        lb = 9.0 if pre == "HD" else 3.0
+        # log10 Bayes factors. Peak-dominated, 23 Nov 2026: realization A 8.4 and 6.8, 3.9, 5.7 on realizations 101 to 103, so about 31
+        # for the five combined (the sum); observed-like: invented.
+        lb_a, lb_comb = (8.4, 31.0) if pre == "HD" else (3.0, 3.0 * E["N_comb"])
         E["LB"] = {"reference": "the single-population analysis of the same events, same priors (Table I)", "source": "invented", "file": None,
-                   "A": lb, "Comb": lb * E["N_comb"]}
+                   "A": lb_a, "Comb": lb_comb}
         K[f"{pre}Host"] = E
         # no catalog
         E = entry(ev, "single population", "no catalog", "five", stage_n, f"{pre}None")
@@ -734,6 +757,41 @@ def build():
             q_put(E, q, A, invented_comb(A, E["N_comb"], INP[q], bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
                   note=qnote(q))
         K[f"{pre}None"] = E
+    # ======== 23 Nov: the experiment's runs on the host-dependent sets as keys (notes/MACRO_REQUESTS.md G1; invented placeholders) ========
+    # (median, 90% half-width) of realization A and the shift of the combination from the input that survives it (header rule)
+    ev_hd, ev_hd2, ev_obs = ("host-dependent populations", "host-dependent populations, twice the offsets (10 Msun, 0.20)",
+                             "host-dependent populations, observed-like spectrum")
+    for key, ev, an, stage, spec in (
+            ("HDAssumed", ev_hd, "population assumed (the galaxy class's mass and spin distribution for both classes)", "hdassumed",
+             {"Hzero": (70.9, 2.2, 3.2), "fAGN": (0.32, 0.09, 0.05)}),
+            ("HDAssumedTwice", ev_hd2, "population assumed (the galaxy class's mass and spin distribution for both classes)", "hdassumedtwice",
+             {"Hzero": (99.7, 0.7, 32.0), "fAGN": (0.05, 0.08, -0.25)}),
+            ("HDPops", ev_hd, "the two populations at their inputs", "hdpops", {"Hzero": (67.2, 1.45, 0.0), "fAGN": (0.30, 0.05, 0.0)}),
+            ("ObsAssumed", ev_obs, "population assumed (the galaxy class's mass and spin distribution for both classes)", "obsassumed",
+             {"Hzero": (68.1, 1.7, 0.9), "fAGN": (0.35, 0.07, 0.05)}),
+            ("ObsPops", ev_obs, "the two populations at their inputs", "obspops", {"Hzero": (67.0, 1.6, 0.0), "fAGN": (0.33, 0.05, 0.0)})):
+        E = entry(ev, an, "both catalogs, complete", "H0, f_AGN", stage, key)
+        for q, (m, hw, b) in spec.items():
+            A = gauss_xp(m, hw, PRIOR[q], INPUT[q])
+            q_put(E, q, A, invented_comb(A, E["N_comb"], INPUT[q], bias=b, rng=PRIOR[q]), "invented", "invented (the shift survives the combination)")
+        K[key] = E
+    # the single population on the set with twice the offsets (stage E3): MACRO_REQUESTS G1's placeholder values (H0 combined 68.6 +- 0.9
+    # at the 80% level, realization A 68.4 +- 1.9, mu_G 38.3 +- 0.6, mu_chi 0.08 +- 0.01, f_AGN combined 0.41 +- 0.04); the widths of the
+    # population (not requested) invented
+    E = entry(ev_hd2, "single population", "both catalogs, complete", "six", "hdsingletwice", "HDSingleTwice")
+    g = "MACRO_REQUESTS.md G1 placeholder"
+    for q, (m, hw, mc, hwc) in {"Hzero": (68.4, 1.9, 68.6, 0.9), "fAGN": (0.41, 0.09, 0.41, 0.04), "MuG": (38.3, 0.6, 38.3, 0.6 / math.sqrt(5)),
+                                "SigmaG": (6.5, 0.5, 6.5, 0.5 / math.sqrt(5)), "MuChi": (0.08, 0.01, 0.08, 0.01 / math.sqrt(5)),
+                                "SigmaChi": (0.12, 0.01, 0.12, 0.01 / math.sqrt(5))}.items():
+        x0 = INPUT[q] if q in ("Hzero", "fAGN") else None
+        A, C = gauss_xp(m, hw, PRIOR[q], x0), gauss_xp(mc, hwc, PRIOR[q], x0)
+        if q == "Hzero":
+            C["level_of_input"] = 0.80                     # the requested placeholder level (G1)
+        # the requested combinations (H0, f_AGN) are given, not invented from realization A by the header rule (audit H3 checks that rule)
+        q_put(E, q, A, C, "invented", g + " (requested values)" if q in ("Hzero", "fAGN") else "invented", x0=x0,
+              note=None if x0 is not None else "one population for a mixture: no single input")
+        E["quantities"][q]["placeholder_rule"] = g if q in ("Hzero", "fAGN", "MuG", "MuChi") else "invented (not requested)"
+    K["HDSingleTwice"] = E
     # Bayes factors of the anchor from the stored grids (exploratory)
     vals = {}
     for g, key in ((gA, "A"), (gC, "Comb")):

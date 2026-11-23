@@ -92,7 +92,7 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
 - (a) host-dependent populations, $\Delta\mu_{\rm G}=5\,M_\odot$, $\Delta\mu_\chi=0.10$: 3 points (3 real, 0 red): f=0.1 `\HWPopsTen` = 2.6 (real) [2.1, 3.0]; f=0.3 `\HWPopsThirty` = 1.6 (real) [1.4, 1.9]; f=0.5 `\HWPopsFifty` = 1.1 (real) [0.97, 1.2]
 - (a) host-dependent populations, twice those offsets: 3 points (3 real, 0 red): f=0.1 `\HWPopsTwiceTen` = 2.1 (real) [1.8, 2.3]; f=0.3 `\HWPopsTwiceThirty` = 1.4 (real) [1.2, 1.5]; f=0.5 `\HWPopsTwiceFifty` = 1.0 (real) [0.81, 1.6]
 - (a) host class known: 5 points (5 real, 0 red): f=0 `\HWKnownZero` = 3.5 (real) [3.0, 4.6]; f=0.1 `\HWKnownTen` = 1.9 (real) [1.4, 2.1]; f=0.3 `\HWKnownThirty` = 1.3 (real) [1.3, 1.4]; f=0.5 `\HWKnownFifty` = 1.1 (real) [0.98, 1.2]; f=1 `\HWKnownHundred` = 0.81 (real) [0.80, 0.83]
-- (a) host-dependent populations inferred with $H_0$: 1 point (0 real, 1 red): f=0.3 `\HWHost` = 2.1 (red) [1.9, 2.3]
+- (a) host-dependent populations inferred with $H_0$: 1 point (0 real, 1 red): f=0.3 `\HWHost` = 1.6 (red) [1.4, 1.8]
 - (a) no catalog (horizontal line): 1 point (1 real, 0 red): `\HWNone` = 5.6 (real) (range over the realizations 4.0 to 6.1, not drawn)
 - (a) galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (1 real, 0 red): `\HWKnownZero` = 3.5 (real) (range over the realizations 3.0 to 4.6, not drawn)
 - (b) host class unknown: 3 points (3 real, 0 red): f=0 `\HWObsUnknownZero` = 3.5 (real) [2.6, 4.7]; f=0.3 `\HWObsUnknownThirty` = 2.0 (real) [1.8, 2.3]; f=1 `\HWObsUnknownHundred` = 0.84 (real) [0.70, 1.1]
@@ -141,65 +141,44 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
   region H0 57.3 to 80.7, mass peak 32.5 to 36.7 Msun). Axes fitted to the two regions. "both catalogs" is
   attached to its region by a thin line. Black "+": input (67.74, 35).
 
-## Fig. 6 `fig6_host_dependent` and Fig. 7 `fig7_observed_like` (placeholders)
+<!-- fig6_fig7_host_dependent: written by scripts/make_figures.py; do not edit -->
+## Fig. 6 `fig6_host_dependent` and Fig. 7 `fig7_observed_like` (written by the figure script from values.json and placeholder_results.json)
 
-- Host-dependent events (AGN-hosted mergers: mass peak +5 Msun, spin mean +0.10), both catalogs; Fig. 6
-  peak-dominated spectrum (keys `HD...`), Fig. 7 observed-like spectrum (keys `Obs...`). All curves
-  combined over realizations.
-- (a) H0: single population (dashed, `\HDSingleHzeroComb` / `\ObsSingleHzeroComb`; bias of the median
-  `\HDBiasHzero` / `\ObsBiasHzero`) and host-dependent populations (solid, `\HDHostHzeroComb` /
-  `\ObsHostHzeroComb`). Log10 Bayes factor of the second against the first: `\HDLB` / `\ObsLB` for
-  realization A, `\HDHostLBComb` / `\ObsHostLBComb` combined.
-- (b) Joint posterior of the AGN offsets of the mass peak and of the spin mean, host-dependent
-  populations, combined over realizations like (a) and (c), 90% region (`\HDHostDmuGComb`,
-  `\HDHostDmuChiComb` / `\ObsHost...`); a 2-D Gaussian with these combined summaries and the correlation of
-  the two offsets in the exploratory eight-parameter run (r = -0.13). Black "+": input (5, 0.10), inside the
-  region in both figures; black "x": no offset (0, 0); gray dotted lines at zero.
-- (c) f_AGN: the same two analyses and line styles (`\HDSinglefAGNComb`,
-  `\HDHostfAGNComb`, `\ObsSinglefAGNComb`, `\ObsHostfAGNComb`).
-- Sources. Fig. 6: single population invented (Sec. 7: H0 70.9 +- 2.6 for realization A, bias kept in the
-  combination, N = 10); host-dependent populations combined (N = 5) invented from the exploratory
-  eight-parameter run of realization A (its offsets: `\HDHostDmuG`, `\HDHostDmuChi`; H0 prior [60, 76] in that
-  run) by the rule of the conventions above. Fig. 7: all invented (Sec. 7 as revised on 17 Nov evening, N = 5:
-  realization A H0 68.4 +- 2.4 single population, bias 0.7 kept in the combination, 67.9 +- 2.3 host-dependent
-  populations; f_AGN 0.27 +- 0.09 and 0.30 +- 0.08; offsets 4.5 +- 3.5 Msun and 0.10 +- 0.04); population quantities of
-  the `Obs...` keys are now centred on the observed-like inputs (mass peak `\ObsMuG` = 34, width
-  `\ObsSigmaG` = 3.6 Msun; not drawn in this figure).
-- Input lines stop below the labels. The observed-like spectrum has `\ObsPeakFrac` = 0.092 of the mergers in
-  its Gaussian peak, but `\ObsDetPeakShare` = 0.42 of the detected mergers (`\MockDetPeakShare` = 0.97 for
-  the peak-dominated spectrum): "few mergers in the peak" holds for the population, not for the detections.
+- Mergers with host-dependent populations (AGN-hosted mergers: mass peak +5 Msun, spin mean +0.10), both catalogs; Fig. 6 the
+  peak-dominated spectrum (keys `HD...`), Fig. 7 the observed-like spectrum (keys `Obs...`). Every curve is combined over the
+  realizations of its key (each its own number, below); posterior densities normalized, units on the y axis.
+- Line styles and legend (panel (a); panel (c) the same): "population assumed" dotted (the galaxy class's mass and spin
+  distribution assumed for both classes, f_AGN inferred: keys `HDAssumed`, `ObsAssumed`, the experiment's sets peak_f0p30_s1 and
+  obslike_f0p30_s1), "single population" dashed (`HDSingle`, `ObsSingle`), "host-dependent populations" solid (`HDHost`,
+  `ObsHost`). Final colours: sky blue, reddish purple, bluish green; red tones while a key is a placeholder.
+- Fig. 6: population assumed (dotted; `\HDAssumedHzeroComb` = 71.2^{+0.8}_{-0.8} (real), `\HDAssumedfAGNComb` = 0.35^{+0.04}_{-0.04} (real); 5 realizations; real); single population (dashed; `\HDSingleHzeroComb` = 68.1^{+0.6}_{-0.6} (red), `\HDSinglefAGNComb` = 0.354^{+0.027}_{-0.027} (red); 10 realizations; red placeholder); host-dependent populations (solid; `\HDHostHzeroComb` = 67.7^{+0.9}_{-0.9} (red), `\HDHostfAGNComb` = 0.293^{+0.030}_{-0.030} (red); 5 realizations; red placeholder). Axes: (a) H0 [65.2, 73.5], (c) f_AGN [0.217, 0.453], each holding every curve to its 0.05% and 99.95% quantiles (no curve cropped).
+- Fig. 7: population assumed (dotted; `\ObsAssumedHzeroComb` = 67.8^{+0.8}_{-0.8} (real), `\ObsAssumedfAGNComb` = 0.345^{+0.030}_{-0.030} (real); 5 realizations; real); single population (dashed; `\ObsSingleHzeroComb` = 68.0^{+1.1}_{-1.1} (red), `\ObsSinglefAGNComb` = 0.34^{+0.04}_{-0.04} (red); 5 realizations; red placeholder); host-dependent populations (solid; `\ObsHostHzeroComb` = 67.8^{+1.0}_{-1.0} (red), `\ObsHostfAGNComb` = 0.30^{+0.04}_{-0.04} (red); 5 realizations; red placeholder). Axes: (a) H0 [65.4, 70.5], (c) f_AGN [0.213, 0.436], each holding every curve to its 0.05% and 99.95% quantiles (no curve cropped).
+- (b) Joint posterior of the AGN offsets of the mass peak and of the spin mean, host-dependent populations, combined over
+  realizations, 90% highest-density region (`\HDHostDmuGComb`, `\HDHostDmuChiComb` / `\ObsHost...`). Black "+": input (5, 0.10);
+  black "x": no offset (0, 0); gray dotted lines at zero.
+- Input lines (black dashed) stop below the legend. The observed-like spectrum has `\ObsPeakFrac` of the mergers in its Gaussian
+  peak but `\ObsHDDetPeakShare` of the detected ones (`\MockHDDetPeakShare` for the peak-dominated spectrum).
+<!-- end fig6_fig7_host_dependent -->
 
-## Fig. 8 `fig8_summary` (the four rows of the population known with complete catalogs final; the other rows placeholders)
+<!-- fig8_summary: written by scripts/make_figures.py; do not edit -->
+## Fig. 8 `fig8_summary` (written by the figure script from values.json and placeholder_results.json)
 
-- Final (production, final palette): both catalogs, galaxy catalog alone, AGN catalog alone, no catalog under "Known
-  population and complete catalogs" (keys `KnownBoth`, `KnownGal`, `KnownAGN`, `KnownNone`). Red placeholders: the
-  flux-limited rows (exploratory, re-anchored to the finished complete-catalog result; the row with the number
-  densities inferred also reweighted to the prior of Table I; header of `scripts/placeholder_results.py`) and every
-  row of "An unknown population", "Populations that depend on the host" and "A mass spectrum like the observed one"
-  (invented; host-dependent populations of the peak-dominated spectrum from the exploratory eight-parameter run).
-
-- One row per analysis in the order of Sec. IV, grouped under the subsection titles of Sec. IV, read from
-  `main.tex` when the figure is drawn (bold): "Known population and complete catalogs" (both catalogs, galaxy
-  catalog alone, AGN catalog alone, no catalog); "Flux-limited catalogs" (m < 21, 20, 19, 18, number
-  densities known; m < 18, number densities inferred); "An unknown population" (single population, both
-  catalogs; single population, no catalog); "Populations that depend on the host" and "A mass spectrum like
-  the observed one" (each: single population, both catalogs; host-dependent populations, both catalogs;
-  single population, no catalog). The last two groups use mergers with host-dependent populations, the
-  others mergers with equal populations. No row label repeats its heading.
-- Intervals, uniformly for every row and both panels: median (marker) and 90% interval (bar) of the
-  posterior combined over realizations (`\<Key>HzeroComb`, `\<Key>fAGNComb`; N per row as in the conventions
-  above). For "m < 18, number densities inferred" the f_AGN placeholder of the combination is taken equal to
-  realization A (it follows its prior along the curve of constant rate per host). Realization A is not drawn
-  in this figure. Black dashed: inputs. "not inferred": f_AGN is not a parameter of that analysis. The
-  AGN-catalog-alone interval lies at the upper prior edge (`\KnownAGNHzeroComb`, 99.8 to 100) and is marked by an
-  arrow and the text "at the prior edge, 100" (the number is `\PriorHzeroHi`, read by the figure script; the figure
-  check confirms that the interval's upper end rounds to it). The row "both catalogs" combines the `\NrealKnown`
-  (twenty) realizations of key `KnownBoth`. The row "single population, no catalog" under "Populations that depend
-  on the host" (key `HDNone`) is a 90% upper limit on H0, `\HDNoneHzeroCombUL` (65.61, drawn at the unrounded value of
-  values.json): a short vertical cap at the limit with an arrow pointing left (2.5 km/s/Mpc long), black, no median and
-  no interval (its combined posterior reaches the lower prior edge, 50, with 0.45 of its peak density; the table prints
-  "< `\HDNoneHzeroCombUL`"). Rows drawn this way: `SUMMARY_UL` in `scripts/make_figures.py`.
-  Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size.
+- One row per analysis in the order of Sec. IV, grouped under the subsection titles of Sec. IV read from `main.tex` (bold). Each row: the
+  median (marker) and 90% interval (bar) of the posterior combined over the realizations of its key (`\<Key>HzeroComb`,
+  `\<Key>fAGNComb`); black when the key is a production result, red while a placeholder. Realization A is not drawn. Black dashed:
+  inputs. "not inferred": f_AGN is not a parameter of that analysis. The last two groups use mergers with host-dependent populations,
+  the others mergers with equal populations; no row label repeats its heading.
+- "Known population and complete catalogs": "both catalogs" (`KnownBoth`, 20 realizations, real); "galaxy catalog alone" (`KnownGal`, 5 realizations, real); "AGN catalog alone" (`KnownAGN`, 5 realizations, real); "no catalog" (`KnownNone`, 5 realizations, real).
+- "Flux-limited catalogs": "$m<21$, number densities known" (`FluxTwentyOne`, 5 realizations, real); "$m<20$, number densities known" (`FluxTwenty`, 5 realizations, real); "$m<19$, number densities known" (`FluxNineteen`, 5 realizations, real); "$m<18$, number densities known" (`FluxEighteen`, 5 realizations, real); "$m<18$, number densities inferred" (`FreeEighteen`, 3 realizations, real).
+- "An unknown population": "single population, both catalogs" (`SingleBoth`, 10 realizations, red placeholder); "single population, no catalog" (`SingleNone`, 10 realizations, red placeholder).
+- "Populations that depend on the host": "population assumed, both catalogs" (`HDAssumed`, 5 realizations, real); "single population, both catalogs" (`HDSingle`, 10 realizations, red placeholder); "host-dependent populations, both catalogs" (`HDHost`, 5 realizations, red placeholder); "single population, no catalog" (`HDNone`, 5 realizations, real; H0 drawn as a 90% upper limit, `\HDNoneHzeroCombUL` = 66 (real): a cap with an arrow pointing left, 2.5 km/s/Mpc long).
+- "A mass spectrum like the observed one": "population assumed, both catalogs" (`ObsAssumed`, 5 realizations, real); "single population, both catalogs" (`ObsSingle`, 5 realizations, red placeholder); "host-dependent populations, both catalogs" (`ObsHost`, 5 realizations, red placeholder); "single population, no catalog" (`ObsNone`, 5 realizations, red placeholder).
+- "population assumed, both catalogs" (23 Nov, heading both host-dependent groups): the galaxy class's mass and spin distribution
+  assumed for both host classes, f_AGN inferred (the experiment's sets peak_f0p30_s1 and obslike_f0p30_s1).
+- The AGN catalog alone lies at the upper prior edge (`\KnownAGNHzeroComb`) and is marked by an arrow and the text "at the prior edge,
+  100" (the number is `\PriorHzeroHi`, read by the figure script; the figure check confirms that the interval's upper end rounds to it).
+- Axes H0 [60, 84], f_AGN [0, 1]. Text 10 pt at print size. Size 7.00 x 6.87 in.
+<!-- end fig8_summary -->
 
 <!-- fig9_validation: written by scripts/make_figures.py; do not edit -->
 ## Fig. 9 `fig9_validation` (3 of 5 keys real; written by the figure script from values.json and placeholder_results.json)
