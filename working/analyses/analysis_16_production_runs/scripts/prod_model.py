@@ -38,6 +38,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import prod_common as P  # noqa: E402
+import redraw_mixture as RM  # noqa: E402  (--redraw-mixture; nothing of it runs with the option off)
 
 P.ensure_paths()
 
@@ -223,7 +224,11 @@ class Model:
                 p = g.posterior_samples_v3(rng, obs, P.REDRAW_BLOCK)
                 blocks.append({k: v.reshape(nobs, P.REDRAW_BLOCK) for k, v in p.items()})
             post = {k: np.concatenate([bl[k] for bl in blocks], axis=1).ravel() for k in blocks[0]}
+            if RM.mode_of(cfg) != "off":
+                post = self.redraw_mixture(g, obs, np.arange(nobs), post, nobs, ns)
             post = M.postprocess(post, nobs, ns)
+            if RM.mode_of(cfg) != "off":
+                post["p_pe"] = RM.corrected_p_pe(post["p_pe"], self.mixture_r, nobs, ns)
             if select is not None:
                 select = np.asarray(select, bool)
                 if select.shape != (nobs,):
@@ -235,6 +240,14 @@ class Model:
             del post, blocks
         self.info["events_load_seconds"] = time.time() - t0
         return store
+
+    def redraw_mixture(self, g, obs, index, post, nrows, ns):
+        """--redraw-mixture support: the restricted share of the samples refilled (redraw_mixture.mixture_redraw); the
+        per-sample mixture density kept for the p_pe correction, the record in self.mixture_record."""
+        raw = {k: v.reshape(nrows, -1) for k, v in post.items()}
+        raw, self.mixture_r, self.mixture_record = RM.mixture_redraw(self.cfg, g, obs, index, raw, ns)
+        self.info["redraw_mixture"] = self.mixture_record["summary"]
+        return {k: v.ravel() for k, v in raw.items()}
 
     def load_injections(self):
         """The run's injection store: the realization's lane, or several of its injection sets pooled
@@ -576,6 +589,8 @@ class HostsKnownModel:
             p = g.posterior_samples_v3(rng, obs, P.REDRAW_BLOCK)
             blocks.append({k: v.reshape(nobs, P.REDRAW_BLOCK) for k, v in p.items()})
         raw = {k: np.concatenate([bl[k] for bl in blocks], axis=1) for k in blocks[0]}
+        if RM.mode_of(cfg) != "off":
+            self.redraw_obs = obs
         return raw, attrs, nobs, ns
 
     def _subset_store(self, m, events_all, mask, ns):
@@ -585,7 +600,11 @@ class HostsKnownModel:
         raw, attrs, nobs, ns_max = events_all
         n_sub = int(mask.sum())
         post = {k: np.ascontiguousarray(v[mask, :ns]).ravel() for k, v in raw.items()}
+        if RM.mode_of(m.cfg) != "off":
+            post = m.redraw_mixture(M.generator(), self.redraw_obs, np.where(mask)[0], post, n_sub, ns)
         post = M.postprocess(post, n_sub, ns)
+        if RM.mode_of(m.cfg) != "off":
+            post["p_pe"] = RM.corrected_p_pe(post["p_pe"], m.mixture_r, n_sub, ns)
         sub = {k: v for k, v in post.items() if k in M.STORE_COLUMNS}
         m.info["events_samples"] = f"redrawn (whole set at {ns_max}, then subset at {ns})"
         return M.load_store(self.ds, sub, attrs, n_sub, ns)

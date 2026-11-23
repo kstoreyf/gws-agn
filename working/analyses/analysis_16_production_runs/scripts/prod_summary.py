@@ -296,6 +296,8 @@ def summarize(name, root=None):
            "free": cfg["free"], "truth": truth(cfg), "nsamp": cfg["nsamp"], "max_var": cfg["max_var"],
            "half_variance_correction": cfg["half_variance_correction"], "zmax": cfg["zmax"], "core": cfg["core"],
            **body, "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    if cfg.get("redraw_mixture"):            # recorded only when on (default summaries unchanged)
+        out["redraw_mixture"] = cfg["redraw_mixture"]
     (run_dir / "summary.json").write_text(json.dumps(out, indent=1, default=float))
     return out
 

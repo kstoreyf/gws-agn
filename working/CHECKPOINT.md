@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 21:50 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 23:25 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 21:50 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 23 Nov 23:25 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
 ### The session is back; there was no gap
@@ -169,28 +169,72 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   exact weight 1 / [(1 - a) + a 1_A / P_A] entering through the PE-prior column. Exact for
   any population (the Gaussian tail above the edge included), no change of the likelihood
   code, no effect where a family has no sharp edge.
-  STEP A (running since 21:45 UTC): an Opus agent (id `ad1681bf099f53a74`, CPU, about 2 h)
-  implements it in COPIES under `tests/mixture_redraw/` as a driver option
-  `--redraw-mixture {off,support}` (default off) and validates at 8000 samples against the
-  converged references (mergers 691, 999, 553; whole realizations 106, 105 of f0p00_s0, 103
-  of f1p00_s0), unbiasedness on non-edge mergers and on a peak-dominated realization, cost,
-  off-identity. It installs nothing.
-  STEP B (after you have checked A: read the diff of each copy against its original, rerun
-  one of its validation numbers yourself): install into `scripts/` by atomic `mv` when the
-  option-off identity is shown (the lanes import the files fresh; check that the next task on
-  each lane starts normally), then one Opus agent for the run lists and the chain: variants
-  of the observed-like grids that feed the paper with the option on (E2's 95 observed-like
-  runs, about 11.4 GPU-h, lane rank after HDSingle 106 to 110 and before stage 3, so the Sec.
-  IV E milestone is not delayed), stage 5's entries with the option BEFORE they start, the
-  paper's observed-like keys and `classes` macros re-pointed to the variants, audit checks.
-  Then `main.tex`: one sentence in Appendix A "Monte Carlo sums" on the sampling of the
-  observed-like sets; the sentences on the 32,000-sample check in "Accuracy" and the pointer
-  in Sec. IV F are rewritten or removed (the two 32,000-sample grids of realization 106,
-  queued, become a cross-check of the mixture).
-  IF STEP A FAILS (the mixture does not reproduce the references): fall back to stating the
-  Monte Carlo accuracy of the observed-like numbers with the sizes above, and tell the owner.
-  THE OWNER HAS BEEN TOLD of the finding and of this plan (my message of 21:50 UTC), not
-  asked: technical decision, about 11 GPU-h of re-runs.
+  STEP A DONE (report 23:05 UTC; `tests/mixture_redraw/`: `redraw_mixture.py`, the tools
+  `mix_eval.py`, `mix_scan.py`, `mix_item3*.py`, `mix_summary.py`, results in its git-ignored
+  `results/`). Driver option `--redraw-mixture {off,support}`, default off; when on the run
+  needs a `--variant` with the token `mix` or an explicit `--run-name`; config.json and
+  summary.json record it only when on; `<part>/redraw_mixture.json` holds the region and the
+  per-merger P_A. Region for the observed-like family: m1det / (1 + z(dL; H0 = 100)) < 87.05
+  (the lower edge has a taper of 4.9 and adds nothing); for the peak family the region is
+  everything and the redraw is bitwise production's. A merger is refilled when a pilot of
+  2e5 draws puts less than 99% of its posterior inside (about 190 of 1000 per realization;
+  the others keep production's samples bitwise).
+  VALIDATION at 8000 samples, eight streams, off -> on against the converged references:
+  merger 691: effective number 2.1 -> 17.5, largest step 0.31 (up to 1.48) -> 0.07, preference
+  over 66 to 72 1.02 +- 0.91 -> 0.556 +- 0.087 (reference 0.584); merger 999: 7.4 -> 75.8,
+  4.23 +- 1.28 -> 3.44 +- 0.23 (3.54); merger 553 (AGN-only): 1.0 -> 3.8 at 8000 and 2.2 -> 18
+  at 32,000, 27 +- 46 -> 1.55 +- 0.51 and 1.65 +- 0.35 (1.61). Whole realizations (90% interval,
+  half-width; stored / hybrid / mixture): 106 one population [69.06, 71.74] 1.34 / [68.41,
+  71.68] 1.64 / [68.33, 71.59] 1.63 (streams 1.82, 1.66); 106 two populations 1.32 / 1.47 /
+  1.49; 105 of f0p00_s0 no catalog 7.15 / 8.52 / 8.50 (streams 8.3 to 8.8); 103 of f1p00_s0
+  AGN-only at 32,000 1.06 / 0.77 / 0.82 (streams 0.79, 0.76). No steps left. Non-refilled and
+  mildly refilled mergers: on minus off is a constant per merger (the p_pe normalisation,
+  about 1.1 nats summed for realization 106: COMPARE EVIDENCES ONLY WITHIN ONE SETTING) with
+  no H0 dependence (-0.00007 +- 0.00044 per merger across the interval). Cost: 17 to 23 s
+  more setup per run, per-call cost unchanged, cap never reached in 25 realizations.
+  LIMITS: the gain is bounded by about 1/(2 P_A) (merger 553 stays at an effective number of
+  18 at 32,000); mergers poorly resolved for other reasons (narrow spin population, light
+  mergers) are untouched: the all-AGN observed-like set at 8000 samples is NOT fixed by it
+  (58 mergers below 20) and keeps its 32,000 samples.
+  CHECKED BY ME: the copies' diffs against the originals add lines only, all behind the
+  option; `redraw_mixture.py` read in full (stratified halves with balance weights
+  1 / [(1 - a) + a 1_A / P_A]: unbiased); the copy with the option off reproduces the stored
+  grid of realization 106 (two_tracers_one_population, three nodes) to 3.6e-12 in ln L.
+  INSTALLED 23:18:48 UTC into `scripts/` by atomic `mv` (order `redraw_mixture.py`,
+  `prod_summary.py`, `prod_model.py`, `prod_driver.py`; `prod_common.py` unchanged; md5 of the
+  old files in the scratchpad `md5_before_install.txt`, and git has them). Imports checked
+  in the core venv. STILL TO CHECK: that the next task each lane STARTS after 23:19 UTC runs
+  normally (lane 1's about 00:30 UTC, lane 2's about 01:20 UTC: look for "built + bound" in
+  `logs/agn-prod-l{1,2}_*.out`).
+  THE TWO 32,000-SAMPLE GRIDS OF REALIZATION 106 finished (22:51 and 23:16 UTC): assumed
+  population 69.67 [67.89, 71.40] (8000: 70.11 [69.07, 71.73]); two populations 69.12
+  [67.39, 70.72] (8000: 69.70 [68.37, 71.06]). All mergers at four times the samples move the
+  medians by -0.4 and -0.6, beyond the edge merger's part (hybrid: 70.00 and 69.36): the
+  general redraw scatter of 0.28 per realization that the appendix already states. They are
+  a cross-check now; no macro reads them.
+  STEP B (running since 23:25 UTC): an Opus agent (id `a837ed8ad3a2d1687`) (1) adds stage
+  E2M: a `_mix` partner with the option on for each of E2's 95 observed-like grids, lane rank
+  1.5; (2) adds the option to stage 5's fifteen entries, names unchanged (they are queued by
+  those names); (3) re-points every observed-like key and macro of the paper to the `_mix`
+  runs (red until they exist, with today's values as placeholders), removes the block
+  `obslike_mc`, its nine macros and audit J7, adds an audit check that observed-like runs
+  carry the option and no other run does; (4) one refresh; (5) returns the launcher command
+  for E2M with its dry run. THEN (you): check its proofs (run lists: only E2M added and stage
+  5's option; macros: only observed-like ones changed state, old value = placeholder), queue
+  E2M on both lanes (about 11.4 GPU-h; it runs ahead of E3 and HDSingle, so the Sec. IV E
+  milestone moves from about 06:00 to about 12:00 UTC 25 Nov), commit, arm a watcher on the
+  E2M summaries. When they are in: refresh; re-read EVERY observed-like sentence (Sec. IV F
+  whole, Sec. IV G's sentence, the abstract's sentence, Table III's observed-like rows,
+  Fig. 3(b), Fig. 7, Fig. 8, their captions) against the black numbers, redo the leave-one-out
+  of the fifteen and the step scan on the new grids, remove the `% REREAD` tags.
+  `main.tex` (uncommitted until the agent's refresh): the sentences on the 32,000-sample check
+  and the pointer in Sec. IV F are removed; Appendix A "Monte Carlo sums" has the sentence on
+  the mixture sampling with `\cite{Hesterberg:1995,Owen:2000}` (both verified by web search,
+  recorded in `notes/CITATION_CHECKS.md`, entries in `refs.bib`).
+  IF STEP B's agent died: its edits are in the working tree (`scripts/make_runlist.py`, run
+  lists, README; `paper_prd/scripts`, `values/`); resume it with SendMessage.
+  THE OWNER HAS BEEN TOLD of the finding and of the plan (messages of 21:50 and 23:20 UTC),
+  not asked: technical decision, about 11 GPU-h of re-runs.
 
 ### Running now, and what each needs from you
 - LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then the
@@ -203,14 +247,13 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   of which 100 and 101 are done, and HDSingle 106 to 110): all ten summaries, or an error
   outcome in one of their `nested_*/attempts.json`, or 09:00 UTC 25 Nov. Its list of runs is
   `step3_runs.txt` in the session scratchpad; if the session restarted, check by hand.
-- WATCHER `bniuy3n5w` on the two grids of "THE STEPS" above, and the mixture agent there
-  (step A). Clock note: the times written in this block before 21:40 UTC run about 15 min
+- The run-list and chain agent of step B ("THE STEPS" above). Watcher `bniuy3n5w` has fired
+  (the two 32,000-sample grids are in). Clock note: the times written in this block before 21:40 UTC run about 15 min
   ahead of the true clock.
 
 ### Do next, in order
-1. The two 32,000-sample grids of realization 106 (watcher `bniuy3n5w`): as written under
-   "THE STEPS", "WHEN THE WATCHER FIRES".
-1b. The mixture agent's report: step B under "THE STEPS", "DECIDED 21:45 UTC".
+1. Step B's agent: as written under "THE STEPS", "STEP B". (The block "WHEN THE WATCHER
+   FIRES" there is superseded: the 32,000-sample check is no longer in the paper.)
 2. (done: realization 105, see above.)
 3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov; arm one watcher:
    loop over `runs/single_population/both_catalogs/complete/host_dependent/

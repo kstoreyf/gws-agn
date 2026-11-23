@@ -85,6 +85,11 @@ def parse_args(argv=None):
     a("--nsamp", type=int, default=8000, help="posterior samples per event (redrawn); 0 = the file's own")
     a("--redraw-index", type=int, default=0)
     a("--redraw-key", default=None, help="override the redraw SeedSequence prefix (comma ints)")
+    a("--redraw-mixture", choices=["off", "support"], default="off",
+      help="support: half of every merger's samples from its posterior restricted to the region where the "
+           "population's sharp mass edges can be met for some H0 of the prior (redraw_mixture.py), the mixture "
+           "density corrected in p_pe; recorded in config.json only when on, the region and per-merger P_A in "
+           "<part>/redraw_mixture.json. Default off (the production redraw)")
     a("--half-variance-correction", choices=["on", "off"], default="on")
     a("--max-var", type=float, default=20.0, help="max_likelihood_variance (the variance guard)")
     a("--pe-event-block", type=int, default=5)
@@ -323,6 +328,13 @@ def resolve(args):
     }
     if args.nside != P.SURVEY_NSIDE:
         cfg["survey_nside"] = int(args.nside)      # recorded only off the default (default configs unchanged)
+    if args.redraw_mixture != "off":               # recorded only when on (default configs unchanged)
+        if not args.nsamp:
+            sys.exit("[fatal] --redraw-mixture needs redrawn samples (--nsamp > 0)")
+        if "mix" not in args.variant.split("_") and not args.run_name:
+            sys.exit("[fatal] --redraw-mixture needs a --variant containing mix (the run name carries the setting, so a "
+                     "production run's grid or nested state is never resumed with the other estimator)")
+        cfg["redraw_mixture"] = args.redraw_mixture
     if args.mode == "nested":
         cfg["nested"] = {"index": args.nested_index, "seed": seed, "nlive": args.nlive, "dlogz": args.dlogz,
                          "bound": "multi", "sample": sample, "bootstrap": args.bootstrap, "enlarge": args.enlarge,
@@ -416,6 +428,28 @@ def setup_model(cfg):
     log(f"built + bound in {time.time() - t0:.0f}s; labels {m.labels}; n_events {m.n_events}; nsamp {m.nsamp}; "
         f"n_draw {m.n_draw:g}; devices {jax.devices()}")
     return m
+
+
+def mixture_records(m):
+    """--redraw-mixture: the record of every bound model of a run (Model; the subsets of hosts_known; the galaxy-class
+    model of the spectral mixture, whose store the AGN class shares)."""
+    if hasattr(m, "subs"):
+        return {c: sm.mixture_record for c, sm in m.subs.items() if hasattr(sm, "mixture_record")}
+    if hasattr(m, "base"):
+        return {"gal": m.base["gal"].mixture_record} if hasattr(m.base["gal"], "mixture_record") else {}
+    return {"all": m.mixture_record} if hasattr(m, "mixture_record") else {}
+
+
+def write_mixture_record(m, cfg, part_dir):
+    """<part>/redraw_mixture.json: the region A (edges, H0 range), per refilled merger P_A, raw draws, realised
+    fraction a, cap; written only with --redraw-mixture on."""
+    if (cfg.get("redraw_mixture") or "off") == "off":
+        return None
+    recs = mixture_records(m)
+    write_json(Path(part_dir) / "redraw_mixture.json", {"redraw_mixture": cfg["redraw_mixture"], "models": recs})
+    summ = {k: r["summary"] for k, r in recs.items()}
+    log(f"redraw mixture: {summ}")
+    return summ
 
 
 def truth_coords(cfg):
@@ -619,6 +653,7 @@ def run_grid(args, cfg, run_dir):
     sess = Session(gdir)
     deadline = deadline_of(args)
     m = setup_model(cfg)
+    write_mixture_record(m, cfg, gdir)
     cfg_info = dict(m.info)
     checks = m.check_diag_equals_bound(validation_points(cfg))
     free = cfg["free"]
@@ -868,6 +903,7 @@ def run_nested(args, cfg, run_dir):
     sess = Session(ndir)
     deadline = deadline_of(args)
     m = setup_model(cfg)
+    write_mixture_record(m, cfg, ndir)
     checks = m.check_diag_equals_bound(validation_points(cfg))
     free = cfg["free"]
     lo = np.array([cfg["priors"][p][0] for p in free], float)
