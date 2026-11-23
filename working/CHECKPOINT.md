@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 08:05 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
+## STATE 23 Nov 08:40 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
 - THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS AT ITS 7-DAY LIMIT ABOUT 16:50 UTC 23 Nov; its
   successor 1494715 is pending. Background watchers and agents of this session die with it:
   after the restart check everything by hand.
@@ -64,20 +64,40 @@ this file holds the working state.
   of the removed on a lane), the dry run, both lanes advancing after the queueing. Refresh
   exit 0, audit 92 of 92, 163 of 218 real (HDHost turns real at the first refresh after
   realization 105's summary; HDSingle needs all ten, 106 to 110).
-- THE THREE-STEP TEXT IS IN `main.tex` (installed 08:00 UTC, UNCOMMITTED until the macros
-  exist): abstract, the roadmap sentence, Table III (two rows "Population assumed"), Secs.
-  IV E, IV F, IV G, captions of Figs. 6 to 8, Conclusions. Its new macros are fallback macros
-  (red dots) until the agent delivers. Specification: `paper_prd/notes/MACRO_REQUESTS.md`
-  Sec. G (keys HDAssumed, HDAssumedTwice, HDPops, HDSingleTwice, ObsAssumed, ObsPops; paired
-  shifts; min and max of log10 B; `\HWHDSingle`, `\CostSingleHost`; third curve in Figs. 6
-  and 7, a row in Fig. 8).
-- AGENT AT WORK (the same Opus agent, resumed 08:00 UTC): Sec. G. It does not commit. When it
-  reports: check its macro table against the numbers of this block, view Figs. 6 to 8, re-read
-  every changed sentence against the rendered numbers (the sentence tagged `% REREAD` in Sec.
-  IV F first: the observed-like sets with the populations known combine to about 66.9 +- 0.7,
-  input near the 95% level, while the assumed population gives about 68.0; the paired shift
-  is +1.1 in all five), run the style self-check on the changed text, commit. If the session
-  died first: `git status`, `git diff`; finish by hand or with a fresh agent from Sec. G.
+- DONE 08:35 UTC (commit bfd84d4): THE THREE-STEP SECTION, text, numbers and figures. Refresh
+  exit 0, audit 93 of 93, figure check 515 with 0 mismatches, 186 of 251 result macros of the
+  text real, no fallback macros, 19 pp. Real now: population assumed 71.2 +- 0.8 over five
+  (input beyond the 99.99% level), the same mergers with both populations at their inputs
+  67.7 +- 0.8 (7.9%); paired shift of the median 3.2 [2.2, 20.2] (the 20 is realization 101,
+  whose posterior favors few mergers in AGN and reaches the upper prior edge); twice the
+  offsets: no interior maximum in any of five, realization A's median 99.66, f_AGN < 0.10;
+  f_AGN with the population assumed 0.35 +- 0.04 (input at 97%): the detected share, as for
+  the single population. Observed-like: assumed 67.8 +- 0.8 (9%), both populations at their
+  inputs 67.0 +0.7 -0.6 (94%, OUTSIDE the 90% interval), paired shift 1.1 [0.7, 1.4]. Red until
+  realization 105: HDHost, HWHost, `\HDLBMin/Max` (3.9, 8.4 on four), `\CostSingleHost`; until
+  HDSingle 106 to 110: all HDSingle macros; until E3: HDSingleTwice. The red values of the
+  single population are now the measured expectation (68.1 +- 0.6, f_AGN 0.354; I edited
+  `placeholder_results.py`: HDSingle and ObsSingle specs, the log10 B values, HWHost 1.6).
+  The sentence tagged `% REREAD` in Sec. IV F states the 94% plainly; it depends on the
+  diagnosis below. Abstract 420 words in the rendered PDF.
+- OPEN, BEING DIAGNOSED: THE OBSERVED-LIKE HOST-DEPENDENT SETS LIE LOW (`obslike_f0p30_s1`,
+  realizations 100 to 105, the sets of ALL of stage 5). With the host class AND both
+  populations known: H0 66.4, 66.1, 68.4, 65.8, 66.6, Gaussian combination 66.62 +- 0.55
+  (3.4 sigma below the input); host class unknown 66.91 +- 0.70; the same analysis on the
+  equal-population observed-like sets 68.17 +- 0.59 and on the peak-dominated host-dependent
+  sets 67.41 +- 0.57. Configs and event attributes agree on the populations (power-law weight
+  0.908, peak 34 and 39, width 3.6), N^2/N_eff about 1.6. Fluctuation of five sets or a
+  generation/analysis mismatch for that family: NOT KNOWN. An Opus agent (started 08:15 UTC,
+  CPU only, writes only `tests/obslike_offset_*.py` and `tests/results/`) recomputes the
+  combinations with the paper chain's function, splits the likelihood by host class, and
+  compares the detected mergers of each class with what the population and the injection set
+  predict; verdict "fluctuation supported" / "inconsistency found" / "undecided + cheapest
+  decisive test". DECIDE BEFORE the lanes reach stage 5 (six-parameter runs about 25 Nov,
+  eight-parameter runs about 26 Nov): if an inconsistency is found, hold stage 5 in the run
+  list (make_runlist `hold`, through an agent) and regenerate; if undecided, hosts-known
+  grids on more realizations of this family first (cheap). Lesson of 21 Nov applies: more
+  realizations before a mechanism hunt, but 3.4 sigma on the best-informed analysis is not
+  waved through.
 - WATCHER: task `b3lcgarfp` (until 12:30 UTC): the first E3 run
   (`single_population/both_catalogs/complete/peak_f0p30_s2/realization_100`, both parts).
 - LANES 07:10 UTC (order is right, no reordering needed): lane 1 (job 1425268 until 10:00
@@ -87,13 +107,13 @@ this file holds the working state.
   then two E3 parts, the second parts of HDSingle 106 to 110 (until about 17:00 UTC 24 Nov),
   then stage 3 and stage 5. Six-parameter work left: about 137 GPU-h (until about 26 Nov);
   then stage 5's five eight-parameter runs, about 30 to 35 GPU-h each.
-- PLAN: (a) the agent's report -> check, re-read, commit; (b) when 105, E3 and HDSingle 106
-  to 110 are in (about 17:00 UTC 24 Nov): refresh, re-read the sentences that turned black
-  (E3 decides the sentence on a single population at twice the offsets), commit, PDF to the
-  owner, and the multiple choice "5, then 10" (eight-parameter model on realizations 106 to
-  110, about 150 GPU-h) with the five results; ask for the push with it. (c) Open, not urgent:
-  the observed-like sets with both populations known sit low (about 95% level over five);
-  if stage 5 repeats it, draw more realizations before any mechanism hunt.
+- PLAN: (a) the diagnosis agent's verdict -> act as above, tell the owner; (b) when 105, E3
+  and HDSingle 106 to 110 are in (about 17:00 UTC 24 Nov): refresh, re-read the sentences that
+  turned black (E3 decides the sentence on a single population at twice the offsets; the
+  clause "the second with its input below the 90% interval" for realization A's spin offset),
+  commit, PDF to the owner, and the multiple choice "5, then 10" (eight-parameter model on
+  realizations 106 to 110, about 150 GPU-h) with the five results; ask for the push with it.
+  PDF of the three-step draft sent 23 Nov (`..._draft_2026-11-23a.pdf`).
 
 ## THE OFFSET IS A FLUCTUATION OF THE FIRST TEN (21 Nov 12:35 UTC; read first)
 - RESULT of the ten new realizations (111 to 120; twenty grids finished 12:33 UTC, none
