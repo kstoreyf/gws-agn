@@ -144,11 +144,17 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   number below 5 (number 494), and its stored grids show no step above 0.5 nat near the
   peak. When stage 5's posteriors of realization 100 come in, look at its H0 marginal for a
   wall or shoulder before quoting it.
-- STILL OPEN, not urgent: the stepped all-AGN and no-catalog observed-like grids feed
-  `\HWObsNone` and Fig. 3(b)'s observed-like half-widths (means over five); a merger with no
-  sample below the edge cuts a posterior off at some H0. Check which of the twelve flagged
-  runs a paper macro reads and whether its half-width moves at 32,000 samples (one small
-  agent job after the two grids).
+- THE HALF-WIDTH MEANS (in progress, 21:15 UTC): six of the twelve stepped runs feed means
+  of H0 half-widths over five realizations (Sec. IV F, Fig. 3(b)): realization 105 of
+  `obslike_f0p00_s0` in `mass_spectrum_alone` (HWObsNone 8.4), `galaxy_catalog_alone`
+  (HWObsKnownZero 3.5) and `two_tracers_one_population` (HWObsUnknownZero 3.5); realization
+  101 of `obslike_f0p30_s0` (HWObsUnknownThirty 2.0); realization 103 of `obslike_f1p00_s0`
+  (HWObsKnownHundred 0.83, HWObsUnknownHundred 0.84, already at 32,000 samples). An Opus
+  agent (id `ac5d8b7c802d4d6c9`, CPU, about 60 min) sizes each with the hybrid line at four
+  times the samples for the poorly resolved mergers and reports the change of each mean.
+  EXPECT changes below one unit of the last printed digit; if one is larger, re-run that
+  realization at 32,000 samples as a stage-X check and decide whether the macro's realization
+  set changes (mine). Results: `tests/results/obslike_steps_halfwidth_*.json`.
 
 ### Running now, and what each needs from you
 - LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then the
@@ -161,7 +167,7 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   of which 100 and 101 are done, and HDSingle 106 to 110): all ten summaries, or an error
   outcome in one of their `nested_*/attempts.json`, or 09:00 UTC 25 Nov. Its list of runs is
   `step3_runs.txt` in the session scratchpad; if the session restarted, check by hand.
-- WATCHER `bniuy3n5w` on the two grids of "THE STEPS" above. No agent is running.
+- WATCHER `bniuy3n5w` on the two grids of "THE STEPS" above, and the half-width agent there.
 
 ### Do next, in order
 1. The two 32,000-sample grids of realization 106 (watcher `bniuy3n5w`): as written under
