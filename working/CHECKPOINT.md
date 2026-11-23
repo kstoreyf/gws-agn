@@ -1,10 +1,83 @@
-# Checkpoint, 21 Nov 2026, 07:15 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 07:50 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
 you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
+
+## STATE 23 Nov 07:50 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
+- THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS AT ITS 7-DAY LIMIT ABOUT 16:50 UTC 23 Nov; its
+  successor 1494715 is pending. Background watchers and agents of this session die with it:
+  after the restart check everything by hand.
+- EIGHT-PARAMETER RUNS (host-dependent populations, mixed sampler, `..._unif_then_rslice`):
+  100, 101, 102, 103 finished; 105 on lane 2 (job 1482276; iteration 3149 at 06:49 UTC, 122
+  iterations per hour, delta ln Z 8; the others needed 4681 to 5293 iterations: ends between
+  19:30 UTC 23 Nov and 00:30 UTC 24 Nov). Per realization, host-dependent / single population
+  on the same mergers (H0 median [90%], half-width; ln Z):
+  100: 67.53 [66.09, 68.99], 1.45 / 67.65 [65.86, 69.72], 1.93; ln B +19.4
+  101: 66.84 [65.40, 68.44], 1.52 / 66.69 [64.94, 68.85], 1.95; ln B +15.7
+  102: 68.47 [66.70, 70.37], 1.84 / 68.87 [66.73, 70.48], 1.88; ln B +8.9 (ln Z -2990.23, -2999.12)
+  103: 70.59 [68.80, 72.04], 1.62 / 70.55 [68.49, 72.46], 1.98; ln B +13.0 (ln Z -2961.44, -2974.48)
+  105: (running) / 67.57 [65.74, 69.25], 1.75 (ln Z -2953.11)
+  Offsets (inputs 5 and 0.10): dmu_G 3.80, 4.61, 4.49, 5.71; dmu_chi 0.163, 0.127, 0.147, 0.104;
+  inputs inside every 90% interval except dmu_chi of realization 100. f_AGN 0.288, 0.306, 0.327,
+  0.323 (input 0.30 inside all); single population 0.336, 0.277, 0.418, 0.328, 0.411, mean 0.354,
+  which is the AGN share of the DETECTED mergers (0.36, 0.38, 0.364, 0.346, 0.351; heavier
+  mergers are louder), not the input 0.30. Single population's peak 36.2 to 36.8 Msun, spin
+  mean 0.02 to 0.05. Rough combinations (Gaussian, mine; the paper chain will give the real
+  ones): single population over five 68.2 +- 0.85; on the common four host-dependent 68.25 +-
+  0.79 against single 68.43 +- 0.97. Mean half-width 1.61 against 1.94 (17% narrower; a single
+  population needs 1.45 times the mergers).
+  Realization 103 is high in EVERY analysis of these mergers (host class known and populations
+  known: 69.88 [68.39, 71.34]; populations known 70.03 [67.90, 71.62]): the draw of that event
+  set, not the eight-parameter inference. Realization 105 with the host class known is 66.55
+  [65.46, 67.68]. Five host-class-known posteriors about their mean: chi^2 9.9 on 4. No hunt.
+- FOUND 23 Nov IN THE STORED GRIDS (decides how Sec. IV E reads). The analysis that holds ONE
+  population for both classes at the galaxy class's inputs (`two_tracers_one_population`, free
+  H0 and f_AGN only) on the host-dependent mergers (`peak_f0p30_s1`): H0 70.92 [68.81, 73.17],
+  86.89 [71.49, 97.40] (f_AGN 0.07: it drops the AGN catalog), 71.11 [69.73, 72.59], 73.23
+  [70.86, 76.25], 69.93 [68.40, 71.71] for 100, 101, 102, 103, 105: biased by about +3, the
+  exploratory Analysis 10's number. With twice the offsets (`peak_f0p30_s2`): the upper prior
+  edge (99.7) in all five, f_AGN 0.03 to 0.09. With the two populations held at their inputs
+  (`two_tracers_two_populations`): 67.20, 66.70, 68.46, 70.03, 67.74 and at twice the offsets
+  66.80, 68.05, 67.93, 68.86, 66.94. On equal populations the same analysis is KnownBoth
+  (68.5, 67.9, 68.1, 69.2, 68.1).
+  SO SEC. IV E BECOMES THREE STEPS (mine; coherent with "slowly relaxing assumptions"):
+  (1) population held at the galaxy class's values: H0 biased by +3 (prior edge at twice the
+  offsets); (2) a single population with its mass and spin parameters inferred: no H0 bias at
+  these offsets (peak settles between the classes), f_AGN is the detected share, and it is
+  disfavored at ln B +9 to +19 (log10: 3.9 to 8.4); (3) host-dependent populations inferred:
+  offsets measured, H0 17% narrower, f_AGN the input. E3 (single population inferred at twice
+  the offsets; on the lanes now) says whether step 2 holds there. The abstract's headline and
+  the Conclusions' first paragraph follow the same three steps. New macros are needed (fixed
+  single population on host-dependent mergers at both offsets: combined H0, level, realization
+  A; E3; min and max of log10 B over realizations; mean half-widths and their ratio on the
+  common realizations; mean detected AGN share): ONE Opus job AFTER the mapping agent below.
+- AGENT AT WORK (Opus, started 07:25 UTC; Sec. 5 item 2): keys HDHost/HWHost and their Bayes
+  factors read the `..._unif_then_rslice` runs (explicit stage-V8 exception); stage 5's five
+  eight-parameter runs become `host_dependent_obslike/realization_NNN_unif_then_rslice` with
+  the automatic switch, ranked after all six-parameter work; the never-queued pure-rslice
+  entries are dropped; the unused macro families are pruned; refresh at the end. It does not
+  queue and does not commit: check its run-list identity check, queue with its launcher line
+  (dry run first), commit. If the session died first: its edits are in the working tree
+  (`git status`, `git diff`); verify the same things and finish by hand or with a fresh agent.
+- WATCHER: task `b3lcgarfp` (until 12:30 UTC): the first E3 run
+  (`single_population/both_catalogs/complete/peak_f0p30_s2/realization_100`, both parts).
+- LANES 07:10 UTC (order is right, no reordering needed): lane 1 (job 1425268 until 10:00
+  UTC, successor 1494378) on E3 (eight parts, about 2.3 h each, until about 00:30 UTC 24 Nov),
+  then the first parts of HDSingle 106 to 110 (until about 12:00 UTC 24 Nov), then stage 3,
+  stage 5's six-parameter runs. Lane 2 (job 1482276, successor 1495021) on realization 105,
+  then two E3 parts, the second parts of HDSingle 106 to 110 (until about 17:00 UTC 24 Nov),
+  then stage 3 and stage 5. Six-parameter work left: about 137 GPU-h (until about 26 Nov);
+  then stage 5's five eight-parameter runs, about 30 to 35 GPU-h each.
+- PLAN: (a) agent's report -> check, queue stage 5's eight-parameter runs, commit; (b) write
+  Sec. IV E, the abstract's headline and the Conclusions' first paragraph on the three steps
+  (draft in the scratchpad until the macros exist; `main.tex` must compile at every refresh);
+  (c) macros job (Opus); (d) when 105, E3 and HDSingle 106 to 110 are in (about 17:00 UTC
+  24 Nov): refresh, re-read, commit, PDF to the owner, and the multiple choice "5, then 10"
+  (eight-parameter model on realizations 106 to 110, about 150 GPU-h) with the five results;
+  ask for the push with it.
 
 ## THE OFFSET IS A FLUCTUATION OF THE FIRST TEN (21 Nov 12:35 UTC; read first)
 - RESULT of the ten new realizations (111 to 120; twenty grids finished 12:33 UTC, none
