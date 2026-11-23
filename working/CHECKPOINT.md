@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 07:50 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 11:30 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,132 +6,127 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 11:10 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
-- THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS AT ITS 7-DAY LIMIT ABOUT 16:50 UTC 23 Nov; its
-  successor 1494715 is pending. Background watchers and agents of this session die with it:
-  after the restart check everything by hand.
-- EIGHT-PARAMETER RUNS (host-dependent populations, mixed sampler, `..._unif_then_rslice`):
-  100, 101, 102, 103 finished; 105 on lane 2 (job 1482276; iteration 3149 at 06:49 UTC, 122
-  iterations per hour, delta ln Z 8; the others needed 4681 to 5293 iterations: ends between
-  19:30 UTC 23 Nov and 00:30 UTC 24 Nov). Per realization, host-dependent / single population
-  on the same mergers (H0 median [90%], half-width; ln Z):
-  100: 67.53 [66.09, 68.99], 1.45 / 67.65 [65.86, 69.72], 1.93; ln B +19.4
-  101: 66.84 [65.40, 68.44], 1.52 / 66.69 [64.94, 68.85], 1.95; ln B +15.7
-  102: 68.47 [66.70, 70.37], 1.84 / 68.87 [66.73, 70.48], 1.88; ln B +8.9 (ln Z -2990.23, -2999.12)
-  103: 70.59 [68.80, 72.04], 1.62 / 70.55 [68.49, 72.46], 1.98; ln B +13.0 (ln Z -2961.44, -2974.48)
-  105: (running) / 67.57 [65.74, 69.25], 1.75 (ln Z -2953.11)
-  Offsets (inputs 5 and 0.10): dmu_G 3.80, 4.61, 4.49, 5.71; dmu_chi 0.163, 0.127, 0.147, 0.104;
-  inputs inside every 90% interval except dmu_chi of realization 100. f_AGN 0.288, 0.306, 0.327,
-  0.323 (input 0.30 inside all); single population 0.336, 0.277, 0.418, 0.328, 0.411, mean 0.354,
-  which is the AGN share of the DETECTED mergers (0.36, 0.38, 0.364, 0.346, 0.351; heavier
-  mergers are louder), not the input 0.30. Single population's peak 36.2 to 36.8 Msun, spin
-  mean 0.02 to 0.05. Rough combinations (Gaussian, mine; the paper chain will give the real
-  ones): single population over five 68.2 +- 0.85; on the common four host-dependent 68.25 +-
-  0.79 against single 68.43 +- 0.97. Mean half-width 1.61 against 1.94 (17% narrower; a single
-  population needs 1.45 times the mergers).
-  Realization 103 is high in EVERY analysis of these mergers (host class known and populations
-  known: 69.88 [68.39, 71.34]; populations known 70.03 [67.90, 71.62]): the draw of that event
-  set, not the eight-parameter inference. Realization 105 with the host class known is 66.55
-  [65.46, 67.68]. Five host-class-known posteriors about their mean: chi^2 9.9 on 4. No hunt.
-- FOUND 23 Nov IN THE STORED GRIDS (decides how Sec. IV E reads). The analysis that holds ONE
-  population for both classes at the galaxy class's inputs (`two_tracers_one_population`, free
-  H0 and f_AGN only) on the host-dependent mergers (`peak_f0p30_s1`): H0 70.92 [68.81, 73.17],
-  86.89 [71.49, 97.40] (f_AGN 0.07: it drops the AGN catalog), 71.11 [69.73, 72.59], 73.23
-  [70.86, 76.25], 69.93 [68.40, 71.71] for 100, 101, 102, 103, 105: biased by about +3, the
-  exploratory Analysis 10's number. With twice the offsets (`peak_f0p30_s2`): the upper prior
-  edge (99.7) in all five, f_AGN 0.03 to 0.09. With the two populations held at their inputs
-  (`two_tracers_two_populations`): 67.20, 66.70, 68.46, 70.03, 67.74 and at twice the offsets
-  66.80, 68.05, 67.93, 68.86, 66.94. On equal populations the same analysis is KnownBoth
-  (68.5, 67.9, 68.1, 69.2, 68.1).
-  SO SEC. IV E BECOMES THREE STEPS (mine; coherent with "slowly relaxing assumptions"):
-  (1) population held at the galaxy class's values: H0 biased by +3 (prior edge at twice the
-  offsets); (2) a single population with its mass and spin parameters inferred: no H0 bias at
-  these offsets (peak settles between the classes), f_AGN is the detected share, and it is
-  disfavored at ln B +9 to +19 (log10: 3.9 to 8.4); (3) host-dependent populations inferred:
-  offsets measured, H0 17% narrower, f_AGN the input. E3 (single population inferred at twice
-  the offsets; on the lanes now) says whether step 2 holds there. The abstract's headline and
-  the Conclusions' first paragraph follow the same three steps. New macros are needed (fixed
-  single population on host-dependent mergers at both offsets: combined H0, level, realization
-  A; E3; min and max of log10 B over realizations; mean half-widths and their ratio on the
-  common realizations; mean detected AGN share): ONE Opus job AFTER the mapping agent below.
-- DONE 07:55 UTC (commit 201a7e4): Sec. 5 item 2. Keys HDHost/HWHost and their Bayes factors
-  read the `..._unif_then_rslice` runs (explicit stage-V8 exception `build_values.
-  STAGE_V_KEY_RUNS`, audit check J4); stage 5's five eight-parameter runs are
-  `host_dependent_obslike/realization_NNN_unif_then_rslice` (automatic switch, lane rank 10,
-  35.8 GPU-h each by the measured cost, 179 in all) and are QUEUED last on the lanes (three on
-  lane 1, two on lane 2); the nine never-queued pure-rslice entries are gone; twenty unused
-  macros pruned. Checked by me: old against new run list (9 removed, 5 added, 0 changed, none
-  of the removed on a lane), the dry run, both lanes advancing after the queueing. Refresh
-  exit 0, audit 92 of 92, 163 of 218 real (HDHost turns real at the first refresh after
-  realization 105's summary; HDSingle needs all ten, 106 to 110).
-- DONE 08:35 UTC (commit bfd84d4): THE THREE-STEP SECTION, text, numbers and figures. Refresh
-  exit 0, audit 93 of 93, figure check 515 with 0 mismatches, 186 of 251 result macros of the
-  text real, no fallback macros, 19 pp. Real now: population assumed 71.2 +- 0.8 over five
-  (input beyond the 99.99% level), the same mergers with both populations at their inputs
-  67.7 +- 0.8 (7.9%); paired shift of the median 3.2 [2.2, 20.2] (the 20 is realization 101,
-  whose posterior favors few mergers in AGN and reaches the upper prior edge); twice the
-  offsets: no interior maximum in any of five, realization A's median 99.66, f_AGN < 0.10;
-  f_AGN with the population assumed 0.35 +- 0.04 (input at 97%): the detected share, as for
-  the single population. Observed-like: assumed 67.8 +- 0.8 (9%), both populations at their
-  inputs 67.0 +0.7 -0.6 (94%, OUTSIDE the 90% interval), paired shift 1.1 [0.7, 1.4]. Red until
-  realization 105: HDHost, HWHost, `\HDLBMin/Max` (3.9, 8.4 on four), `\CostSingleHost`; until
-  HDSingle 106 to 110: all HDSingle macros; until E3: HDSingleTwice. The red values of the
-  single population are now the measured expectation (68.1 +- 0.6, f_AGN 0.354; I edited
-  `placeholder_results.py`: HDSingle and ObsSingle specs, the log10 B values, HWHost 1.6).
-  The sentence tagged `% REREAD` in Sec. IV F states the 94% plainly; it depends on the
-  diagnosis below. Abstract 420 words in the rendered PDF.
-- RESOLVED 11:00 UTC: THE LOW H0 OF THE OBSERVED-LIKE HOST-DEPENDENT SETS IS THE DRAW OF THE
-  FIRST FIVE (`obslike_f0p30_s1`, realizations 100 to 105; the sets of all of stage 5).
-  The five, host class and both populations known (paper chain's combination): 66.64 [66.12,
-  67.17], input at the 99.91% level; carried by the AGN-hosted mergers on the AGN catalog
-  (66.58 [66.04, 67.14]); diagnosis (Opus agent, `tests/obslike_offset_step*.py`, results
-  `tests/results/obslike_offset_*`) found NO inconsistency between generation and analysis
-  (selection term, Monte Carlo, detected populations against reweighted injections, noise
-  draws, generator code path all checked). TEN NEW REALIZATIONS (seeds 106 to 115, events and
-  injection sets generated today on CPU, all ten injection checks pass; files
-  `seedNNN/events/events_marked_dmu0p10_dmuG5_obslike.h5`, `seedNNN/injections/
-  injections_targeted_obslike.h5`), AGN-hosted mergers with the host class known, on CPU
-  (`tests/obslike_offset_step2b_per_merger.py`, log `tests/results/obslike_offset_new_ten.log`):
-  69.4, 67.9, 67.0, 67.1, 68.1, 67.7, 67.8, 68.7, 68.2, 67.2; combined 67.87 [67.45, 68.29],
-  input at the 38% level. By the rule fixed beforehand (>= 67.2: fluctuation) STAGE 5 RUNS AS
-  QUEUED. Old five against new ten differ by 1.3 (3 sigma); all fifteen about 67.4 +- 0.34
-  (Gaussian, mine). CONSEQUENCE FOR THE PAPER: stage 5's keys (ObsSingle, ObsHost, ObsNone)
-  use the low five and will sit about 1 low; the text must say so with the fifteen beside
-  them. Not followed up: `mass_spectrum_alone` on the five is low too (61.4 [57.9, 65.9]);
-  the combined `mass_spectrum_alone` posterior of `obslike_f1p00_s0` looks pathological
-  (median 56.5, interval [56.4, 67.7]); the diagnosis agent's remark that the score variance
-  of the observed-like AGN class exceeds its curvature by 18 to 25% (3% for the peak family),
-  i.e. intervals perhaps 10% too narrow there (inferred, not proven).
-- AGENT AT WORK (the paper-chain Opus agent, resumed 11:05 UTC, third job): Part A, run-list
-  entries for the grids `two_tracers_two_populations` and `two_tracers_one_population` on
-  `obslike_f0p30_s1`, realizations 106 to 115 (twenty runs, about 1 GPU-h), ranked next on a
-  lane; it gives the launcher line for LANE 1 ONLY with its dry run; I check and queue.
-  Part B, paper chain: keys ObsPops and ObsAssumed over fifteen, `\NrealObsAssumed` fifteen,
-  subset macros `\ObsPopsFirst...`, `\ObsPopsLater...`, `\ObsAssumedFirst...`,
-  `\ObsAssumedLater...`, `\NrealObsFirst`, `\NrealObsLater`, `\ObsAssumedFirstShiftHzero`;
-  half-width means of the classes block stay at five. It does not refresh and does not commit.
-  THEN (me): when the twenty summaries exist, refresh, rewrite the sentence tagged `% REREAD`
-  in Sec. IV F on the fifteen (first five and added ten named), one Validation sentence if
-  it reads better there, commit. If the session died: `git status`/`git diff` show the
-  agent's uncommitted edits; the keys are red until the grids have run.
-- E3, FIRST RESULT 10:55 UTC (single population inferred, TWICE the offsets, realization 100):
-  H0 68.17 [66.12, 70.65], mu_G 38.05 [37.46, 38.59], sigma_G 6.76, mu_chi 0.080, sigma_chi
-  0.138, f_AGN 0.358 [0.270, 0.448] (detected share 0.408): no H0 bias on this realization,
-  where the assumed population is at the prior edge. The other four by about 05:00 UTC 24 Nov.
-- LANES 07:10 UTC (order is right, no reordering needed): lane 1 (job 1425268 until 10:00
-  UTC, successor 1494378) on E3 (eight parts, about 2.3 h each, until about 00:30 UTC 24 Nov),
-  then the first parts of HDSingle 106 to 110 (until about 12:00 UTC 24 Nov), then stage 3,
-  stage 5's six-parameter runs. Lane 2 (job 1482276, successor 1495021) on realization 105,
-  then two E3 parts, the second parts of HDSingle 106 to 110 (until about 17:00 UTC 24 Nov),
-  then stage 3 and stage 5. Six-parameter work left: about 137 GPU-h (until about 26 Nov);
-  then stage 5's five eight-parameter runs, about 30 to 35 GPU-h each.
-- PLAN: (a) the diagnosis agent's verdict -> act as above, tell the owner; (b) when 105, E3
-  and HDSingle 106 to 110 are in (about 17:00 UTC 24 Nov): refresh, re-read the sentences that
-  turned black (E3 decides the sentence on a single population at twice the offsets; the
-  clause "the second with its input below the 90% interval" for realization A's spin offset),
-  commit, PDF to the owner, and the multiple choice "5, then 10" (eight-parameter model on
-  realizations 106 to 110, about 150 GPU-h) with the five results; ask for the push with it.
-  PDF of the three-step draft sent 23 Nov (`..._draft_2026-11-23a.pdf`).
+## STATE 23 Nov 11:30 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+Local commits up to 34d85b1 plus this file's; GitHub has e6d5313 (ask before any push).
+
+### What happened on 23 Nov (all committed)
+1. EIGHT-PARAMETER RUNS (host-dependent populations, `..._unif_then_rslice`): realizations 100
+   to 103 finished; 105 on lane 2 (iteration 3634 at 10:51 UTC, delta ln Z 4.5; ends between
+   19:30 UTC 23 Nov and 00:30 UTC 24 Nov). Host-dependent / single population on the same
+   mergers, H0 median [90%] and half-width, ln B:
+   100: 67.53 [66.09, 68.99], 1.45 / 67.65 [65.86, 69.72], 1.93; +19.4
+   101: 66.84 [65.40, 68.44], 1.52 / 66.69 [64.94, 68.85], 1.95; +15.7
+   102: 68.47 [66.70, 70.37], 1.84 / 68.87 [66.73, 70.48], 1.88; +8.9
+   103: 70.59 [68.80, 72.04], 1.62 / 70.55 [68.49, 72.46], 1.98; +13.0
+   105: (running) / 67.57 [65.74, 69.25], 1.75
+   log10 B 8.4, 6.8, 3.9, 5.7. Offsets (inputs 5, 0.10): dmu_G 3.80, 4.61, 4.49, 5.71; dmu_chi
+   0.163, 0.127, 0.147, 0.104 (only realization 100's dmu_chi has its input outside the 90%
+   interval). f_AGN 0.288, 0.306, 0.327, 0.323; single population 0.336, 0.277, 0.418, 0.328,
+   0.411 = the AGN share of the DETECTED mergers (0.36, 0.38, 0.364, 0.346, 0.351). Realization
+   103 is high in every analysis of those mergers (host class and populations known: 69.88
+   [68.39, 71.34]): the draw of that event set.
+2. SEC. IV E IS REWRITTEN ON THREE STEPS (commit bfd84d4; PDF `..._draft_2026-11-23a.pdf` sent
+   to the owner): (a) population ASSUMED, the galaxy class's mass and spin distribution for
+   both host classes (stored grids `two_tracers_one_population`): H0 71.2 +- 0.8 over five,
+   input beyond the 99.99% level; the same mergers with both populations at their inputs
+   67.7 +- 0.8 (7.9%); paired shift 3.2 [2.2, 20.2] (the 20 is realization 101, whose posterior
+   favors few mergers in AGN and reaches the upper prior edge); at twice the offsets no
+   interior maximum in any of five (realization A's median 99.66, f_AGN < 0.10). (b) SINGLE
+   population with inferred parameters: no H0 bias (five finished: 67.6, 66.7, 68.9, 70.5,
+   67.6), peak between the classes (36.2 to 36.8), f_AGN the detected share. (c) HOST-DEPENDENT
+   populations inferred: offsets measured, log10 B 3.9 to 8.4, H0 half-width 1.61 against 1.94
+   in the mean (a single population needs about 1.4 times the mergers), f_AGN the input.
+   With one population for both classes, assumed or inferred, f_AGN is the detected share
+   (assumed: 0.35 +- 0.04, input at 97%). Abstract, roadmap sentence, Table III (rows
+   "Population assumed"), Secs. IV E, F, G, captions of Figs. 6 to 8 (third curve "population
+   assumed", dotted; new rows), Conclusions all follow. Keys HDAssumed, HDAssumedTwice, HDPops,
+   HDSingleTwice, ObsAssumed, ObsPops; audit checks J4 to J6; spec in
+   `paper_prd/notes/MACRO_REQUESTS.md` Sec. G. Last refresh (08:34 UTC): exit 0, audit 93 of
+   93, figures 515 with 0 mismatches, 186 of 251 result macros of the text real, 19 pp,
+   abstract 420 words rendered.
+3. RUN LIST (commit 201a7e4): keys HDHost/HWHost read the `..._unif_then_rslice` runs (stage-V8
+   exception `build_values.STAGE_V_KEY_RUNS`); stage 5's five eight-parameter runs are
+   `host_dependent_obslike/realization_NNN_unif_then_rslice` (lane rank 10, 35.8 GPU-h each),
+   QUEUED last on the lanes (three on lane 1, two on lane 2); nine never-queued pure-rslice
+   entries dropped; twenty unused macros pruned.
+4. E3, FIRST RESULT (single population inferred, TWICE the offsets, realization 100): H0 68.17
+   [66.12, 70.65], mu_G 38.05, sigma_G 6.76, mu_chi 0.080, f_AGN 0.358 [0.270, 0.448]
+   (detected share 0.408): no H0 bias where the assumed population is at the prior edge.
+5. THE OBSERVED-LIKE HOST-DEPENDENT SETS (`obslike_f0p30_s1`, realizations 100 to 105, the sets
+   of ALL of stage 5) LIE LOW, AND IT IS THEIR DRAW. Host class and both populations known:
+   66.64 [66.12, 67.17], input at the 99.91% level, all of it in the AGN-hosted mergers; an
+   Opus diagnosis (`tests/obslike_offset_step*.py`, results in the git-ignored
+   `tests/results/obslike_offset_*`) found no inconsistency between generation and analysis.
+   Ten NEW realizations (seeds 106 to 115, events and injection sets generated on CPU today;
+   recipe in the memory `gw-agn-h0-offset-is-seed-scatter`), AGN-hosted mergers with the host
+   class known, on CPU: 69.4, 67.9, 67.0, 67.1, 68.1, 67.7, 67.8, 68.7, 68.2, 67.2; combined
+   67.87 [67.45, 68.29], input at the 38% level. Rule fixed beforehand (>= 67.2: fluctuation):
+   STAGE 5 RUNS AS QUEUED. Stage 5's keys use the low five and will sit about 1 low: the text
+   must say so with the fifteen beside them.
+
+### Running now, and what each needs from you
+- LANE 1 (job 1494378, successor 1496542): E3 realization 101 first part until about 13:10
+  UTC; then the TWENTY OBSERVED-LIKE GRIDS queued 11:22 UTC (`two_tracers_two_populations` and
+  `two_tracers_one_population` on `obslike_f0p30_s1`, realizations 106 to 115, stage E2 of the
+  experiment run list, about 3.4 to 3.9 GPU-h: done about 17:00 UTC); then the other E3 parts
+  (about 14 h), the first parts of HDSingle 106 to 110, stage 3, stage 5.
+- LANE 2 (job 1482276, successor 1495021): the eight-parameter run of realization 105; then
+  two E3 parts, the second parts of HDSingle 106 to 110, stage 3, stage 5.
+  Everything Sec. IV E needs (105, E3, HDSingle 106 to 110) is in by about 06:00 UTC 25 Nov
+  (the twenty grids pushed lane 1 back by 4 h).
+- WATCHER `bdwp1qpxs`: the twenty grids (all summaries, or an error outcome, or 18:30 UTC).
+  It dies with the session.
+- COMMITTED BUT NOT YET REBUILT (commit 34d85b1): the paper chain reads ObsPops and ObsAssumed
+  over FIFTEEN realizations and has `\ObsPopsFirst...`, `\ObsPopsLater...`,
+  `\ObsAssumedFirst...`, `\ObsAssumedLater...` (HzeroComb, HzeroCL), `\NrealObsFirst` (five),
+  `\NrealObsLater` (ten), `\ObsAssumedFirstShiftHzero`; `values/production_map.json` already
+  lists fifteen while values, figures and PDF are the five-realization state. A refresh BEFORE
+  all twenty summaries exist prints those two keys red with invented values: do not commit
+  such a refresh.
+
+### Do next, in order
+1. When the twenty grids are in (check `ls runs/two_tracers_*/both_catalogs/complete/
+   obslike_f0p30_s1/realization_1{06..15}/summary.json | wc -l` = 20): `bash
+   working/refresh_papers.sh` (exit 0), then rewrite the sentence tagged `% REREAD` in Sec.
+   IV F on the fifteen: the paired shift over fifteen, the combined posteriors over fifteen
+   with their levels, and one clause that the first five, which carry the single-population
+   and host-dependent analyses of this spectrum, lie low (`\ObsPopsFirstHzeroComb`,
+   `\ObsPopsFirstHzeroCL` against `\ObsPopsLaterHzeroComb`, `\ObsPopsLaterHzeroCL`). Re-read
+   Sec. IV G's sentence "With the observed-like spectrum the second moves the median by ...
+   and the input stays inside the 90% interval" and Table III's observed-like "Population
+   assumed" row (its count macro becomes fifteen). Refresh, commit.
+2. When realization 105's summary exists: refresh. HDHost, HWHost, `\HDLBMin/Max`,
+   `\CostSingleHost`, `\HDHostMaxAbsCorrHzero` turn black. Re-read Sec. IV E's third paragraph
+   (the clause "the second with its input below the 90% interval" is about realization A's
+   spin offset, 0.163 [0.126, 0.194]) and the abstract. Commit.
+3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov): refresh; the
+   single-population sentences and the twice-offset sentence turn black; re-read them (the
+   wording "is not biased" must match the level the combined posteriors print). Commit, PDF to
+   the owner (`..._draft_2026-11-2Xa.pdf`), and the multiple choice "5, then 10" (eight-
+   parameter model on realizations 106 to 110, about 150 GPU-h; say what the five gave), with
+   the push request. Worth offering in the same question: stage 5's six-parameter runs on
+   106 to 110 as well (cheap), since its first five are the low draw.
+4. Then Sec. 5 items 3 to 5 of this file (stage 3 and stage 5 subsections as they turn black,
+   the independent Fable review against the style skill's self-check, small leftovers).
+
+### Facts worth knowing
+- THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS ABOUT 16:50 UTC 23 Nov (7-day limit; successor
+  1494715 pending). Background tasks and agents die with it.
+- In the session shell `grep` is a function: in watcher tests use `command grep` and test for
+  `"outcome": "error"` positively (attempt outcomes: finished, deadline, running, error).
+- `tests/results/` and `working/data/` are git-ignored; tracked files under `working/data`
+  are staged with `git add -u`.
+- The agent that knows the paper chain and the run-list builder (three jobs today) is
+  `a3140b9762ce96e03`; a fresh agent needs `notes/MACRO_REQUESTS.md` Sec. G and the docstrings
+  of `production.py` / `make_runlist.py`.
+- Not followed up: `mass_spectrum_alone` on the observed-like first five is low too (61.4
+  [57.9, 65.9]); the combined `mass_spectrum_alone` posterior of `obslike_f1p00_s0` looks
+  pathological (median 56.5, interval [56.4, 67.7]); the diagnosis agent's inference that the
+  observed-like AGN-class intervals are about 10% too narrow (score variance 18 to 25% above
+  the curvature; 3% for the peak family); the analysis-16 README does not yet describe the E2
+  extension to 106 to 115; `\ObsAssumedHzeroCL`-type levels that round to 100 print ">99.99".
+- The five host-class-known posteriors of the peak-dominated host-dependent sets scatter a
+  little more than their widths (chi^2 9.9 on 4): no hunt.
 
 ## THE OFFSET IS A FLUCTUATION OF THE FIRST TEN (21 Nov 12:35 UTC; read first)
 - RESULT of the ten new realizations (111 to 120; twenty grids finished 12:33 UTC, none
