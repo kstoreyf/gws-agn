@@ -198,7 +198,7 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 | 2 | stage 2, the grids (known population, flux-limited) |
 | 2.5 | stage V8 (eight-parameter sampler, below), realization 100: the rslice continuation |
 | 2.8 | stage 2, the nested runs (free densities; rank 6 until 18 Nov) |
-| 2.85 | stage X (checks of two settings on realization 100, below) |
+| 2.85 | stage X (checks of two settings on realization 100, below; 23 Nov: realization 106's two observed-like grids at 32000 samples) |
 | 2.9 | stage 4, host-dependent populations (rslice), realization 100: V8's reference |
 | 3 | stage 4 on realizations 100, 101, 102, 103, 105: all three classes |
 | 3.5 | stage V8, realizations 101, 102, 103, 105 (unif, then rslice automatically) |
@@ -266,7 +266,8 @@ lane has 2.9e6 detected injections against the record's 2.2e6.
 | 2 flux-limited catalogs (grids; free densities nested) | 44 | 56 | 216,704 | 10.0 | 10.0 |
 | 3 equal-population events, single population | 20 | 40 | 650,000 | 60.4 | 60.4 |
 | 4 host-dependent events (peak lane; 23 Nov: one eight-parameter run left, realization 100) | 16 | 31 | 777,000 | 83.6 | 83.6 |
-| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler) | 15 | 25 | 1,422,700 | 214.5 | 214.5 |
+| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler; cost from V8's five finished runs) | 15 | 25 | 1,408,115 | 212.3 | 212.3 |
+| X checks of analysis settings, not production (23 Nov: with realization 106's two observed-like grids at 32000 samples) | 119 | 119 | 82,390 | 27.5 | 27.4 |
 | E1 experiment grids, peak family | 235 | 235 | 147,745 | 28.5 | 28.5 |
 | E2 experiment grids, observed-like family (23 Nov: with the twenty grids of realizations 106-115, below) | 95 | 95 | 63,290 | 11.4 | 11.4 |
 | E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 20.5 | 20.5 |
@@ -422,6 +423,15 @@ all twenty present at each nside (group `100-110`: the first ten); Monte Carlo v
 not yet finished are listed as missing. Queue (lane 1): `$PY scripts/launch.py --lanes 2 stage X --only-lane 1 --match
 '^known_population/both_catalogs/complete/equal_populations/realization_(11[1-9]|120)_nside(32|64)$'` (the regex leaves out the
 unqueued KnownBoth nside-16 runs and the held nside-128 grids).
+*23 Nov (`make_runlist.build_checks` (i), `X_OBS_MC`):* in realization 106 of `obslike_f0p30_s1` one merger above the power law's
+upper mass edge is carried by one or two of its 8000 samples (steps of about 1.2 nats in ln L(H0); gone at 32000 on CPU,
+`tests/obslike_steps_merger.py`). Its two E2 grids again at 32000 samples: `two_tracers_{one_population,two_populations}/both_catalogs/
+complete/obslike_f0p30_s1/realization_106_s32000`, the E2 entry's arguments plus `--nsamp 32000 --variant s32000` only (checked by the
+builder; resolved configurations differ in `nsamp`, `variant`, `run_name` alone: same redraw key and injection set), the driver's own
+grid passes, rank 2.85, 2008 calls each (the partners'), 0.64 + 0.69 GPU-h (the partners' seconds per call x 2.409, the median 32000/8000
+ratio of E2's `obslike_f1p00_s0/..._s32000_inj1` over `obslike_f0p30_s0` grids). No key reads them; the paper's `Obs<Assumed|Pops>MC...`
+macros use them in place of realization 106's production grids (`paper_prd/scripts/build_values.STAGE_X_MC_RUNS`). Queue (lane 2):
+`$PY scripts/launch.py --lanes 2 stage X --only-lane 2 --match '^two_tracers_(one_population|two_populations)/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000$'`.
 
 ## Tests
 

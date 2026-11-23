@@ -1,4 +1,4 @@
-generated_utc: '2026-11-23T07:19:42Z'
+generated_utc: '2026-11-23T20:31:42Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -64,8 +64,9 @@ cost_model:
     - 101
     - 102
     - 103
-    calls_mean: 219540
-    seconds_per_call: 0.5087541079099449
+    - 105
+    calls_mean: 216623
+    seconds_per_call: 0.50921262055893
     per_run:
       100:
         run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice
@@ -95,6 +96,13 @@ cost_model:
         seconds_in_likelihood: 119272.8
         ncall_total: 237667
         gpu_hours: 33.22
+      105:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+        calls: 204953
+        session_calls: 204953
+        seconds_in_likelihood: 104753.5
+        ncall_total: 207695
+        gpu_hours: 29.178
   measured:
   - eight_parameter_mixed_sampler
   - lane_factor.obslike.both
@@ -4615,10 +4623,10 @@ stages:
   title: observed-like mass spectrum, host-dependent events
   n_runs: 15
   n_tasks: 25
-  est_calls: 1422700
-  est_gpu_hours: 214.47
-  est_gpu_hours_existing_data: 214.47
-  est_gpu_hours_ready: 214.47
+  est_calls: 1408115
+  est_gpu_hours: 212.25
+  est_gpu_hours_existing_data: 212.25
+  est_gpu_hours_ready: 212.25
   n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_100
@@ -4909,19 +4917,19 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 219540
-    est_seconds_per_call: 0.5865
-    est_gpu_hours: 35.789
-    est_gpu_hours_per_part: 35.789
+    est_calls: 216623
+    est_seconds_per_call: 0.587
+    est_gpu_hours: 35.345
+    est_gpu_hours_per_part: 35.345
     priority: 0.0
     lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
     data_exists: true
-    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137 (dynesty ncall_total
       233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
-      realization 100 with its stopped uniform run''s 30,102)'
-    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      105: 204,953 (dynesty ncall_total 207,695); realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
@@ -4973,19 +4981,19 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 219540
-    est_seconds_per_call: 0.5865
-    est_gpu_hours: 35.789
-    est_gpu_hours_per_part: 35.789
+    est_calls: 216623
+    est_seconds_per_call: 0.587
+    est_gpu_hours: 35.345
+    est_gpu_hours_per_part: 35.345
     priority: 0.0
     lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
     data_exists: true
-    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137 (dynesty ncall_total
       233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
-      realization 100 with its stopped uniform run''s 30,102)'
-    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      105: 204,953 (dynesty ncall_total 207,695); realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
@@ -5037,19 +5045,19 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 219540
-    est_seconds_per_call: 0.5865
-    est_gpu_hours: 35.789
-    est_gpu_hours_per_part: 35.789
+    est_calls: 216623
+    est_seconds_per_call: 0.587
+    est_gpu_hours: 35.345
+    est_gpu_hours_per_part: 35.345
     priority: 0.0
     lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
     data_exists: true
-    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137 (dynesty ncall_total
       233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
-      realization 100 with its stopped uniform run''s 30,102)'
-    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      105: 204,953 (dynesty ncall_total 207,695); realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
@@ -5101,19 +5109,19 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 219540
-    est_seconds_per_call: 0.5865
-    est_gpu_hours: 35.789
-    est_gpu_hours_per_part: 35.789
+    est_calls: 216623
+    est_seconds_per_call: 0.587
+    est_gpu_hours: 35.345
+    est_gpu_hours_per_part: 35.345
     priority: 0.0
     lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
     data_exists: true
-    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137 (dynesty ncall_total
       233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
-      realization 100 with its stopped uniform run''s 30,102)'
-    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      105: 204,953 (dynesty ncall_total 207,695); realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
@@ -5165,19 +5173,19 @@ stages:
     n_parameters: 8
     parts:
     - nested_1
-    est_calls: 219540
-    est_seconds_per_call: 0.5865
-    est_gpu_hours: 35.789
-    est_gpu_hours_per_part: 35.789
+    est_calls: 216623
+    est_seconds_per_call: 0.587
+    est_gpu_hours: 35.345
+    est_gpu_hours_per_part: 35.345
     priority: 0.0
     lane_rank: 10
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
-    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (4: 100: 230,137 (dynesty ncall_total
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137 (dynesty ncall_total
       233,244); 101: 207,096 (dynesty ncall_total 212,705); 102: 214,184 (dynesty ncall_total 219,948); 103: 226,744 (dynesty ncall_total 237,667);
-      realization 100 with its stopped uniform run''s 30,102)'
-    est_seconds_per_call_source: '0.5088 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
+      105: 204,953 (dynesty ncall_total 207,695); realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: '0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions)
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
@@ -5777,12 +5785,12 @@ stages:
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
     that value and at twice it; and the two-tracer grid at nside 32 and at nside 64 with Analysis 14''s Monte Carlo settings (32000 samples per
     merger, six pooled injection sets)'
-  n_runs: 117
-  n_tasks: 117
-  est_calls: 78374
-  est_gpu_hours: 26.21
-  est_gpu_hours_existing_data: 26.21
-  est_gpu_hours_ready: 26.05
+  n_runs: 119
+  n_tasks: 119
+  est_calls: 82390
+  est_gpu_hours: 27.54
+  est_gpu_hours_existing_data: 27.54
+  est_gpu_hours_ready: 27.37
   n_runs_held: 5
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
@@ -12361,3 +12369,149 @@ stages:
       partner: known_population/both_catalogs/complete/equal_populations/realization_120_nside32
       differs_by: --nside 64 (the survey files)
       arguments_of: as realization_106_nside64 (_x_skyres)
+  - name: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000
+    analysis: two_tracers_one_population
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 1.1006
+    est_gpu_hours: 0.636
+    est_gpu_hours_per_part: 0.636
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4569 measured on two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106 (its sessions,
+      8000 samples) x 2.4089, the median over realizations 100, 101, 102, 103, 105 of the ratio measured (their sessions) on the _s32000 precedents
+      with one injection set on this lane, two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_NNN_s32000_inj1 over
+      two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_NNN (2.418, 2.345, 2.417, 2.347, 2.409)
+    est_calls_source: measured on two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106 (its sessions; its fine grid
+      was widened)
+    check:
+      what: 'the Monte Carlo sums of realization 106''s mergers at 32000 samples per merger (one merger above the power law''s upper mass edge
+        is carried by one or two of its 8000 samples: steps of about 1.2 nats in ln L(H0))'
+      partner: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106
+      differs_by: --nsamp 32000 --variant s32000
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 106
+      partner: two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106
+      nsamp: 32000
+      why: 'the steps of ln L(H0) in realization 106 (tests/obslike_steps_merger.py): their size in the combination'
+  - name: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000
+    analysis: two_tracers_two_populations
+    set:
+      family: obslike
+      f: 0.3
+      s: 1
+      label: obslike_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_obslike
+      population_family: obslike
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --population-family
+    - obslike
+    - --set-label
+    - obslike_f0p30_s1
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --nsamp
+    - '32000'
+    - --variant
+    - s32000
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 1.1929
+    est_gpu_hours: 0.688
+    est_gpu_hours_per_part: 0.688
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_obslike.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4952 measured on two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106 (its sessions,
+      8000 samples) x 2.4089, the median over realizations 100, 101, 102, 103, 105 of the ratio measured (their sessions) on the _s32000 precedents
+      with one injection set on this lane, two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_NNN_s32000_inj1 over
+      two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_NNN (2.418, 2.345, 2.417, 2.347, 2.409)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106 (its sessions; its fine
+      grid was widened)
+    check:
+      what: 'the Monte Carlo sums of realization 106''s mergers at 32000 samples per merger (one merger above the power law''s upper mass edge
+        is carried by one or two of its 8000 samples: steps of about 1.2 nats in ln L(H0))'
+      partner: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106
+      differs_by: --nsamp 32000 --variant s32000
+    extends:
+      set: obslike_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 106
+      partner: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106
+      nsamp: 32000
+      why: 'the steps of ln L(H0) in realization 106 (tests/obslike_steps_merger.py): their size in the combination'

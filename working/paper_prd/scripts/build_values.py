@@ -691,6 +691,41 @@ def stage_v_key_runs(idx, key):
     return out
 
 
+# A third deliberate use of stage-X runs (23 Nov), which feeds NO key: keys ObsAssumed and ObsPops keep their production runs (stage
+# E2, 8000 samples per merger) and every one of their macros. In realization 106 one merger whose posterior lies almost wholly above the
+# power law's upper mass edge is carried by one or two of its 8000 samples, and its Monte Carlo sum puts two steps of about 1.2 nats
+# into ln L(H0) (analysis_16 tests/obslike_steps_merger.py). Analysis 16 runs that realization's two grids again at 32000 samples per
+# merger in stage X (make_runlist.X_OBS_MC): run names <base>_s32000, the E2 run's arguments plus --nsamp 32000 --variant s32000 and
+# nothing else. The macros Obs<Assumed|Pops>MC..., ObsAssumedMCShiftHzero[Min|Max], ObsMCOneHzero[Prod] (build_obslike_mc) combine the
+# keys' realizations with realization 106's production grid replaced by that run; black when every summary they name exists (both
+# 32000-sample runs and the keys' production runs), else red (claim 'skeleton,mc', audit J7). The map names the runs (block obslike_mc).
+STAGE_X_MC_RUNS = {
+    "ObsAssumed": {"base": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
+                   "pattern": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_s32000"},
+    "ObsPops": {"base": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
+                "pattern": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_s32000"},
+}
+STAGE_X_MC = {"realization": 106, "nsamp": 32000, "variant": "s32000", "stage": "X"}
+
+
+def stage_x_mc_runs(idx1, idx_exp):
+    """{key: (run name, partner name)} of STAGE_X_MC_RUNS ({} for a key whose run does not qualify). idx1, idx_exp: {run name:
+    (stage, args)} of RUNLIST.yaml and RUNLIST_experiment.yaml. A run qualifies when it sits in stage X of RUNLIST.yaml under the key's
+    pattern at STAGE_X_MC's realization, the key's own run of that realization (the base pattern) sits in a production stage of either
+    list, and the run's arguments are exactly the partner's followed by --nsamp <nsamp> --variant <variant>."""
+    R = STAGE_X_MC["realization"]
+    out = {}
+    for key, ext in STAGE_X_MC_RUNS.items():
+        n, p = ext["pattern"].format(R=f"{R:03d}"), ext["base"].format(R=f"{R:03d}")
+        part = idx_exp.get(p) or idx1.get(p)
+        if n not in idx1 or part is None or not production_stage(part[0]):
+            continue
+        st, a = idx1[n]
+        if str(st) == STAGE_X_MC["stage"] and list(a) == list(part[1]) + ["--nsamp", str(STAGE_X_MC["nsamp"]), "--variant", STAGE_X_MC["variant"]]:
+            out[key] = (n, p)
+    return out
+
+
 def runlist_index(path=None):
     """{run name: (stage, args)} of analysis_16's RUNLIST.yaml."""
     import yaml
@@ -1650,6 +1685,15 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   (events metadata `realised.realised_f_agn`, the summaries' `planted.truth_f_agn`). Half-widths of the single population on the
   realizations of `\\HWHost` and the factor in mergers: `\\HWHDSingle`, `\\HWObsSingle`, `\\CostSingleHost`, `\\CostObsSingleHost`
   (scripts/classes.py).
+- Realization 106 at 32000 samples per merger (23 Nov; notes/MACRO_REQUESTS.md H; `build_values.STAGE_X_MC_RUNS`, `build_obslike_mc`,
+  map block `obslike_mc`, audit J7). In realization 106 of `obslike_f0p30_s1` one merger above the power law's upper mass edge is
+  carried by one or two of its 8000 samples (steps of about 1.2 nats in ln L(H0)); its two grids run again at 32000 samples in stage X
+  (`.../obslike_f0p30_s1/realization_106_s32000`: the E2 arguments plus `--nsamp 32000 --variant s32000`). Keys `ObsAssumed`, `ObsPops`
+  keep their production runs and macros; beside them **`\\ObsAssumedMCHzeroComb`**, **`\\ObsAssumedMCHzeroCL`**, **`\\ObsPopsMCHzeroComb`**,
+  **`\\ObsPopsMCHzeroCL`** (the key's realizations combined with realization 106's grid replaced; printed as `<Key>HzeroComb`, `<Key>HzeroCL`),
+  **`\\ObsAssumedMCShiftHzero[Min|Max]`** (as `\\ObsAssumedShiftHzero`, realization 106 from the two 32000-sample runs), **`\\ObsMCOneHzero`**,
+  **`\\ObsMCOneHzeroProd`** (realization 106 alone, key ObsAssumed, at 32000 and at 8000 samples; printed as `\\ObsAssumedHzero`). The sample
+  number is `\\MCNsampHi`. One state for all: black when both 32000-sample summaries and the keys' production summaries exist, red before.
 """
 R2_DEFINITIONS = """## Definitions of the revision-2 macros (17 Nov 2026)
 
@@ -2758,6 +2802,109 @@ def build_obslike_subsets(K, specs, PRD_, RP, word):
              "placeholder_source": "realization A's placeholders: ObsAssumedHzero minus ObsPopsHzero"}, "skeleton,subsets", extra={"decimals": 1})
 
 
+# 23 Nov (notes/MACRO_REQUESTS.md H): the invented values of the Obs...MC... macros while they are red
+OBS_MC_PH = {"ObsAssumed": {"median": 68.4, "ci90": [67.9, 68.9], "level": 0.98},
+             "ObsPops": {"median": 67.4, "ci90": [67.0, 67.8], "level": 0.80},
+             "shift": {"": 1.0, "Min": 0.4, "Max": 1.8},
+             "one": {"median": 70.0, "ci90": [68.4, 71.7]}}
+OBS_MC_KEYS = ("ObsAssumed", "ObsPops")
+
+
+def build_obslike_mc(K, specs, pm, PRD_, RP):
+    """23 Nov (notes/MACRO_REQUESTS.md H; STAGE_X_MC_RUNS, map block obslike_mc): keys ObsAssumed and ObsPops with realization 106's
+    production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger (stage X). The keys' own macros and
+    runs are untouched.
+      <Key>MCHzeroComb, <Key>MCHzeroCL   run_posteriors.combined over the key's realizations (map keys.<Key>.realizations) with the
+                                         replacement; printed as <Key>HzeroComb (PDG decimals) and <Key>HzeroCL (fpct)
+      ObsAssumedMCShiftHzero[Min|Max]    as ObsAssumedShiftHzero (per realization the H0 median of ObsAssumed minus that of ObsPops,
+                                         summary.json; median, smallest, largest; signed, one decimal), realization 106 from its two
+                                         32000-sample summaries
+      ObsMCOneHzero, ObsMCOneHzeroProd   realization 106 alone, key ObsAssumed: summary.json posterior.H0 (median, 90% interval) of the
+                                         32000-sample run and of the production run, printed as ObsAssumedHzero
+    One state for all: black when the block names both runs and every summary it needs exists (the two 32000-sample runs and the keys'
+    production runs; claim 'skeleton,mc', audit J7), red otherwise with OBS_MC_PH (ObsMCOneHzeroProd: the production run's own value).
+    The replacement runs' sample number is printed by \\MCNsampHi (audit J7 checks their --nsamp against it)."""
+    blk = (pm or {}).get("obslike_mc") or {}
+    R = STAGE_X_MC["realization"]
+    mc = {k: v["run"] for k, v in (blk.get("runs") or {}).items()}
+    reals = {k: list((specs.get(k) or {}).get("realizations", [])) for k in OBS_MC_KEYS}
+    ok = all(k in mc and specs.get(k) and R in reals[k] for k in OBS_MC_KEYS)
+    D = {k: [(PRD_.RUNS / mc[k]) if r == R else PRD_.key_dir(specs[k], r) for r in reals[k]] for k in OBS_MC_KEYS} if ok else {}
+    # every summary the block names: the combinations' (realization R from stage X) and realization R's production run of ObsAssumed
+    need = [d / "summary.json" for k in D for d in D[k]] + ([PRD_.key_dir(specs["ObsAssumed"], R) / "summary.json"] if ok else [])
+    have = ok and all(p.exists() for p in need)
+    pat = {k: STAGE_X_MC_RUNS[k]["pattern"].format(R=f"{R:03d}") for k in OBS_MC_KEYS}
+    if ok:
+        miss = [rel(p) for p in need if not p.exists()]
+        missing = "; ".join(miss[:4]) + (" ..." if len(miss) > 4 else "")
+    else:
+        missing = (f"stage-X runs {', '.join(pat.values())} not in RUNLIST.yaml as STAGE_X_MC_RUNS requires (map block obslike_mc: "
+                   f"{blk.get('not_in_run_lists') or 'absent'})")
+    cls, wrap = ("plain", (lambda t: t)) if have else ("ph", (lambda t: f"\\ph{{{t}}}"))
+    repl = f"realization {R}'s production grid (8000 samples per merger) replaced by the same grid at {STAGE_X_MC['nsamp']} samples per merger"
+    for k in OBS_MC_KEYS:
+        what = (f"H0, key {k} ({K[k]['analysis']}, {K[k]['events']}), combined over its {len(reals[k])} realizations with {repl} "
+                f"({pat[k]}, stage X)")
+        if have:
+            s, _x, _p, x0 = RP.combined(D[k], "H0")
+            lev = float(s["level_of_input"])
+            src = {"files": [rel(d / "summary.json") for d in D[k]], "computation": "run_posteriors.combined: the corrected ln L of the grids "
+                   f"summed (cubic splines of each fine pass, linear in the coarse pass), realization {R} from {pat[k]}; placeholder_results.summarize_xp"}
+        else:
+            ph = OBS_MC_PH[k]
+            s, lev, x0 = {"median": ph["median"], "ci90": list(ph["ci90"])}, ph["level"], IN["H0"]
+            src = {"missing": missing, "key": k, "placeholder_source": (f"invented (notes/MACRO_REQUESTS.md H): {ph['median']:g} "
+                   f"(+{ph['ci90'][1] - ph['median']:.1f}, -{ph['median'] - ph['ci90'][0]:.1f}), level {100 * ph['level']:g}%")}
+        r_, d = fci(s["median"], s["ci90"][0], s["ci90"][1])
+        ex = {"input": x0, "realizations": reals[k], "replaced": {str(R): pat[k]}}
+        add(f"{k}MCHzeroComb", cls, wrap(r_), {kk: s[kk] for kk in ("median", "ci68", "ci90", "ul90", "level_of_input") if kk in s}, "km/s/Mpc",
+            f"{what} (median and 90% equal-tailed interval)", src, "skeleton,mc", extra=dict(ex, decimals=d))
+        add(f"{k}MCHzeroCL", cls, wrap(fpct(min(lev, 1.0 - 1e-9))), lev, "%",
+            f"two-sided credible level at which the input {x0:g} lies in {k}MCHzeroComb ({what})", src, "skeleton,mc", extra=ex)
+    # the paired shift, ObsAssumed minus ObsPops per realization (as ObsAssumedShiftHzero), realization R from the two 32000-sample runs
+    what = (f"over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against "
+            f"the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, "
+            f"per realization; as ObsAssumedShiftHzero) with {repl} in both keys, signed")
+    per, src = None, None
+    if have:
+        sa, sp = dict(zip(reals["ObsAssumed"], D["ObsAssumed"])), dict(zip(reals["ObsPops"], D["ObsPops"]))
+        common = [r for r in reals["ObsAssumed"] if r in sp]
+        per = {r: json.loads((sa[r] / "summary.json").read_text())["posterior"]["H0"]["median"]
+               - json.loads((sp[r] / "summary.json").read_text())["posterior"]["H0"]["median"] for r in common}
+        src = {"files": [rel(x / "summary.json") for r in common for x in (sa[r], sp[r])],
+               "computation": f"posterior.H0.median of each summary of ObsAssumed minus that of ObsPops, the same realization ({R}: the stage-X runs)"}
+    for suf, fn, w in (("", lambda v: float(np.median(v)), "median"), ("Min", min, "smallest"), ("Max", max, "largest")):
+        if have:
+            v, s_ = float(fn(list(per.values()))), dict(src, computation=src["computation"] + f"; their {w}")
+        else:
+            v = OBS_MC_PH["shift"][suf]
+            s_ = {"missing": missing, "key": "ObsAssumed,ObsPops", "placeholder_source": f"invented (notes/MACRO_REQUESTS.md H): {v:g}"}
+        add(f"ObsAssumedMCShiftHzero{suf}", cls, wrap(_signed(v, 1)), v, "km/s/Mpc", f"{w} {what}", s_, "skeleton,mc",
+            extra={"decimals": 1, "per_realization": per, "replaced": {str(R): [pat["ObsAssumed"], pat["ObsPops"]]}})
+    # realization R alone, key ObsAssumed: the 32000-sample run and the production run (summary.json posterior.H0, as ObsAssumedHzero)
+    prod = PRD_.key_dir(specs["ObsAssumed"], R) / "summary.json" if specs.get("ObsAssumed") else None
+    for nm, p, n_, ph in (("ObsMCOneHzero", (PRD_.RUNS / mc["ObsAssumed"] / "summary.json") if "ObsAssumed" in mc else None,
+                           STAGE_X_MC["nsamp"], OBS_MC_PH["one"]),
+                          ("ObsMCOneHzeroProd", prod, 8000, None)):
+        mean = (f"H0, key ObsAssumed ({K['ObsAssumed']['analysis']}, {K['ObsAssumed']['events']}), realization {R} alone at {n_} samples per "
+                f"merger ({pat['ObsAssumed'] if n_ != 8000 else (specs.get('ObsAssumed') or {}).get('run', '?').format(R=f'{R:03d}')}) "
+                "(median and 90% equal-tailed interval)")
+        if have:
+            s = json.loads(p.read_text())["posterior"]["H0"]
+            s_ = {"file": rel(p), "computation": "summary.json posterior.H0 (median and 90% interval), as ObsAssumedHzero"}
+        elif ph is None and p is not None and p.exists():
+            s = json.loads(p.read_text())["posterior"]["H0"]
+            s_ = {"missing": missing, "key": "ObsAssumed", "placeholder_source": f"the production run's own value ({rel(p)}), red with the block"}
+        else:
+            ph = ph or K["ObsAssumed"]["quantities"]["Hzero"]["A"]
+            s = {"median": ph["median"], "ci90": list(ph["ci90"])}
+            s_ = {"missing": missing, "key": "ObsAssumed", "placeholder_source": ("invented (notes/MACRO_REQUESTS.md H)" if nm == "ObsMCOneHzero"
+                                                                                  else "realization A's placeholder of key ObsAssumed")}
+        r_, d = fci(s["median"], s["ci90"][0], s["ci90"][1])
+        add(nm, cls, wrap(r_), {"median": float(s["median"]), "ci90": [float(x) for x in s["ci90"]]}, "km/s/Mpc", mean, s_, "skeleton,mc",
+            extra={"decimals": d, "input": IN["H0"], "realization": R, "nsamp": n_})
+
+
 def build_keys_three_steps(K, q, addf, srcf, fin):
     """23 Nov (notes/MACRO_REQUESTS.md G1, G2): the further macros of Sec. IV E on three steps, each black exactly when every key it is
     built from is a production result (claim 'skeleton,keys'; audit H1 and J4/J5):
@@ -2871,6 +3018,7 @@ def build_keys_three_steps(K, q, addf, srcf, fin):
         rho, how = {"invented": 0.10}, "invented: 0.10 (MACRO_REQUESTS G2, by hand)"
     v = max(abs(x) for x in rho.values())
     build_obslike_subsets(K, specs, PRD_, RP, word)
+    build_obslike_mc(K, specs, pm, PRD_, RP)
     addk("HDHostMaxAbsCorrHzero", ["HDHost"], fnum(v, 2), v, "",
          "largest absolute correlation coefficient of H0 with the other seven parameters of the host-dependent analysis (f_AGN, mu_G, sigma_G, "
          "mu_chi, sigma_chi, dmu_G, dmu_chi), realization A, peak-dominated spectrum", files=[rel(dA / "nested_1" / "samples.npz")] if dA else None,

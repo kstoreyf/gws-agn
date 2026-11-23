@@ -1,4 +1,4 @@
-generated_utc: '2026-11-23T11:06:33Z'
+generated_utc: '2026-11-23T20:31:42Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -64,8 +64,9 @@ cost_model:
     - 101
     - 102
     - 103
-    calls_mean: 219540
-    seconds_per_call: 0.5087541079099449
+    - 105
+    calls_mean: 216623
+    seconds_per_call: 0.50921262055893
     per_run:
       100:
         run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_then_rslice
@@ -95,6 +96,13 @@ cost_model:
         seconds_in_likelihood: 119272.8
         ncall_total: 237667
         gpu_hours: 33.22
+      105:
+        run: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+        calls: 204953
+        session_calls: 204953
+        seconds_in_likelihood: 104753.5
+        ncall_total: 207695
+        gpu_hours: 29.178
   measured:
   - eight_parameter_mixed_sampler
   - lane_factor.obslike.both

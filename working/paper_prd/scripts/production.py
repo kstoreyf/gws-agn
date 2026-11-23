@@ -301,7 +301,32 @@ def build_map():
     tw, kb = sky.get("pair_twenty") or {}, keys.get("KnownBoth") or {}
     assert not tw or (tw["realizations_wanted"] == kb.get("realizations") and tw.get("partners", {}) == kb.get("runs_by_realization", {})), (tw, kb)
     return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs),
-            "density_response": density.map_block(runs), "sky_resolution": sky}
+            "density_response": density.map_block(runs), "sky_resolution": sky, "obslike_mc": obslike_mc_block(idx1, keys)}
+
+
+def obslike_mc_block(idx1, keys):
+    """23 Nov (bv.STAGE_X_MC_RUNS; the macros Obs<Assumed|Pops>MC..., ObsAssumedMCShiftHzero..., ObsMCOneHzero[Prod]): realization 106's
+    grids of keys ObsAssumed and ObsPops at 32000 samples per merger (stage X of RUNLIST.yaml), each with its production partner (the
+    key's own run of that realization), for a combination over the key's realizations with that one grid replaced. Feeds no key."""
+    idx_exp = bv.runlist_index(RUNS / RUNLISTS[1]) if (RUNS / RUNLISTS[1]).exists() else {}
+    sel = bv.stage_x_mc_runs(idx1, idx_exp)
+    R = bv.STAGE_X_MC["realization"]
+    out = {"_what": ("the runs of the Obs<Assumed|Pops>MC... macros (build_values.build_obslike_mc): per key, realization "
+                     f"{R}'s grid at {bv.STAGE_X_MC['nsamp']} samples per merger (run, stage X) in place of its production run (partner) "
+                     "in a combination over the key's realizations (keys.<Key>.realizations); feeds no key"),
+           "realization": R, "nsamp": bv.STAGE_X_MC["nsamp"], "variant": bv.STAGE_X_MC["variant"], "stage": bv.STAGE_X_MC["stage"],
+           "runlist": RUNLISTS[0], "runs": {}}
+    why = {}
+    for k in bv.STAGE_X_MC_RUNS:
+        if k in sel and k in keys and R in keys[k]["realizations"] and sel[k][1] == key_run(keys[k], R):
+            out["runs"][k] = {"run": sel[k][0], "partner": sel[k][1], "differs_by": f"--nsamp {bv.STAGE_X_MC['nsamp']} --variant {bv.STAGE_X_MC['variant']}",
+                              "realizations": keys[k]["realizations"]}
+        else:
+            why[k] = (f"no stage-X run {bv.STAGE_X_MC_RUNS[k]['pattern'].format(R=f'{R:03d}')} with the arguments of the key's run of realization "
+                      f"{R} plus --nsamp {bv.STAGE_X_MC['nsamp']} --variant {bv.STAGE_X_MC['variant']} only, or the key lacks realization {R}")
+    if why:
+        out["not_in_run_lists"] = why
+    return out
 
 
 SCHEMA = [
@@ -343,6 +368,10 @@ SCHEMA = [
     "  HWUnknown<f>, HWKnown<f> of the same f (23 Nov: the Cls...Comb/CL records of how 'comb' are removed with their macros).",
     "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
     "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
+    "obslike_mc (23 Nov; build_values.STAGE_X_MC_RUNS): runs.<Key> (ObsAssumed, ObsPops): run (realization 106 at 32000 samples per",
+    "  merger, stage X), partner (the key's production run of that realization; the run's arguments are the partner's plus --nsamp 32000",
+    "  --variant s32000 only), realizations (the key's); macros Obs<Assumed|Pops>MC..., ObsAssumedMCShiftHzero..., ObsMCOneHzero[Prod]",
+    "  combine the key's realizations with that grid replaced. Feeds no key; real when every summary named exists.",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
 ]
 
@@ -992,6 +1021,17 @@ def skyres_status_lines():
     import density
     E = density.phys_evaluate()
     out.append("  densities given in Mpc^-3 (stage X; 'density_response.units_physical'): " + ("real" if E["real"] else f"waiting: {'; '.join(E['missing'])}"))
+    # 23 Nov: realization 106 of keys ObsAssumed and ObsPops at 32000 samples per merger (map block 'obslike_mc'; Obs...MC... macros)
+    pm = load_map()
+    blk, keys = pm.get("obslike_mc") or {}, pm.get("keys") or {}
+    runs = blk.get("runs") or {}
+    if not runs or any(k not in runs for k in bv.STAGE_X_MC_RUNS):
+        out.append(f"  realization 106 at 32000 samples ('obslike_mc'; Obs...MC... macros): not in the map ({blk.get('not_in_run_lists') or 'no block'})")
+    else:
+        need = [RUNS / v["run"] for v in runs.values()] + [key_dir(keys[k], r) for k in runs for r in keys[k]["realizations"]]
+        miss = [bv.rel(d / "summary.json") for d in need if not (d / "summary.json").exists()]
+        out.append("  realization 106 at 32000 samples (stage X; 'obslike_mc'; Obs...MC... macros): "
+                   + ("real" if not miss else f"waiting: {'; '.join(miss[:3])}{' ...' if len(miss) > 3 else ''}"))
     return out
 
 

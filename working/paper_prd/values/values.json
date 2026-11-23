@@ -19044,14 +19044,14 @@
    "class": "anc",
    "render": "49^{+22}_{-17}",
    "value": {
-    "median": 49.35532207979034,
+    "median": 49.35532207979035,
     "ci68": [
      38.80511504902779,
-     61.62880047720121
+     61.62880047720122
     ],
     "ci90": [
      32.6173257650206,
-     70.94144852801101
+     70.94144852801104
     ]
    },
    "units": "",
@@ -28390,8 +28390,8 @@
      46.0252819473382
     ],
     "ci90": [
-     23.396557651899943,
-     52.89555073036185
+     23.39655765189994,
+     52.89555073036184
     ],
     "ul90": 48.81947908234363,
     "level_of_input": 0.4953000000000001
@@ -28424,7 +28424,7 @@
   "FreeTwentyRateRatioLo": {
    "class": "plain",
    "render": "23",
-   "value": 23.396557651899943,
+   "value": 23.39655765189994,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28437,7 +28437,7 @@
   "FreeTwentyRateRatioHi": {
    "class": "plain",
    "render": "53",
-   "value": 52.89555073036185,
+   "value": 52.89555073036184,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28450,7 +28450,7 @@
   "FreeTwentyRateRatioWid": {
    "class": "plain",
    "render": "29",
-   "value": 29.498993078461904,
+   "value": 29.4989930784619,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28464,17 +28464,17 @@
    "class": "plain",
    "render": "39^{+10}_{-9}",
    "value": {
-    "median": 38.744486674826945,
+    "median": 38.74448667482695,
     "ci68": [
      33.13521903046602,
-     44.889184992480686
+     44.8891849924807
     ],
     "ci90": [
      29.703449577389932,
-     49.22998647773951
+     49.22998647773953
     ],
-    "ul90": 46.78970924295588,
-    "level_of_input": 0.49517074902572045
+    "ul90": 46.789709242955894,
+    "level_of_input": 0.49517074902571934
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10)) (median and 90% equal-tailed interval)",
@@ -28491,7 +28491,7 @@
   "FreeTwentyRateRatioCombMed": {
    "class": "plain",
    "render": "39",
-   "value": 38.744486674826945,
+   "value": 38.74448667482695,
    "units": "",
    "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28517,7 +28517,7 @@
   "FreeTwentyRateRatioCombHi": {
    "class": "plain",
    "render": "49",
-   "value": 49.22998647773951,
+   "value": 49.22998647773953,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28530,7 +28530,7 @@
   "FreeTwentyRateRatioCombWid": {
    "class": "plain",
    "render": "20",
-   "value": 19.526536900349576,
+   "value": 19.526536900349598,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28543,7 +28543,7 @@
   "FreeTwentyRateRatioCL": {
    "class": "plain",
    "render": "50",
-   "value": 0.49517074902572045,
+   "value": 0.49517074902571934,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeTwentyRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20)",
    "source": {
@@ -29271,8 +29271,8 @@
    "value": {
     "median": 36.61426633095006,
     "ci68": [
-     28.81512391388183,
-     46.361704556803105
+     28.815123913881823,
+     46.3617045568031
     ],
     "ci90": [
      24.247667453822032,
@@ -30157,13 +30157,13 @@
     "median": 40.65140232422645,
     "ci68": [
      31.55730518897457,
-     50.865960643929476
+     50.86596064392949
     ],
     "ci90": [
-     26.238423535252128,
+     26.238423535252124,
      58.20829895640491
     ],
-    "ul90": 53.45971701540504,
+    "ul90": 53.45971701540503,
     "level_of_input": 0.1847000000000001
    },
    "units": "",
@@ -30194,7 +30194,7 @@
   "FreeEighteenRateRatioLo": {
    "class": "plain",
    "render": "26",
-   "value": 26.238423535252128,
+   "value": 26.238423535252124,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -30220,7 +30220,7 @@
   "FreeEighteenRateRatioWid": {
    "class": "plain",
    "render": "32",
-   "value": 31.969875421152782,
+   "value": 31.969875421152786,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -45648,6 +45648,292 @@
      "103": 1.4150509550056114,
      "105": 1.1104498903209645
     }
+   }
+  },
+  "ObsAssumedMCHzeroComb": {
+   "class": "ph",
+   "render": "\\ph{68.4^{+0.5}_{-0.5}}",
+   "value": {
+    "median": 68.4,
+    "ci90": [
+     67.9,
+     68.9
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over its 15 realizations with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger (two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000, stage X) (median and 90% equal-tailed interval)",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 68.4 (+0.5, -0.5), level 98%"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ],
+    "replaced": {
+     "106": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+    },
+    "decimals": 1
+   }
+  },
+  "ObsAssumedMCHzeroCL": {
+   "class": "ph",
+   "render": "\\ph{98}",
+   "value": 0.98,
+   "units": "%",
+   "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedMCHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over its 15 realizations with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger (two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000, stage X))",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 68.4 (+0.5, -0.5), level 98%"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ],
+    "replaced": {
+     "106": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+    }
+   }
+  },
+  "ObsPopsMCHzeroComb": {
+   "class": "ph",
+   "render": "\\ph{67.4^{+0.4}_{-0.4}}",
+   "value": {
+    "median": 67.4,
+    "ci90": [
+     67.0,
+     67.8
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over its 15 realizations with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger (two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000, stage X) (median and 90% equal-tailed interval)",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsPops",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 67.4 (+0.4, -0.4), level 80%"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ],
+    "replaced": {
+     "106": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+    },
+    "decimals": 1
+   }
+  },
+  "ObsPopsMCHzeroCL": {
+   "class": "ph",
+   "render": "\\ph{80}",
+   "value": 0.8,
+   "units": "%",
+   "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsMCHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over its 15 realizations with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger (two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000, stage X))",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsPops",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 67.4 (+0.4, -0.4), level 80%"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ],
+    "replaced": {
+     "106": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+    }
+   }
+  },
+  "ObsAssumedMCShiftHzero": {
+   "class": "ph",
+   "render": "\\ph{1.0}",
+   "value": 1.0,
+   "units": "km/s/Mpc",
+   "meaning": "median over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization; as ObsAssumedShiftHzero) with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger in both keys, signed",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed,ObsPops",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 1"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "per_realization": null,
+    "replaced": {
+     "106": [
+      "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000",
+      "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+     ]
+    }
+   }
+  },
+  "ObsAssumedMCShiftHzeroMin": {
+   "class": "ph",
+   "render": "\\ph{0.4}",
+   "value": 0.4,
+   "units": "km/s/Mpc",
+   "meaning": "smallest over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization; as ObsAssumedShiftHzero) with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger in both keys, signed",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed,ObsPops",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 0.4"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "per_realization": null,
+    "replaced": {
+     "106": [
+      "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000",
+      "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+     ]
+    }
+   }
+  },
+  "ObsAssumedMCShiftHzeroMax": {
+   "class": "ph",
+   "render": "\\ph{1.8}",
+   "value": 1.8,
+   "units": "km/s/Mpc",
+   "meaning": "largest over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization; as ObsAssumedShiftHzero) with realization 106's production grid (8000 samples per merger) replaced by the same grid at 32000 samples per merger in both keys, signed",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed,ObsPops",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H): 1.8"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "per_realization": null,
+    "replaced": {
+     "106": [
+      "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000",
+      "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000"
+     ]
+    }
+   }
+  },
+  "ObsMCOneHzero": {
+   "class": "ph",
+   "render": "\\ph{70.0^{+1.7}_{-1.6}}",
+   "value": {
+    "median": 70.0,
+    "ci90": [
+     68.4,
+     71.7
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), realization 106 alone at 32000 samples per merger (two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000) (median and 90% equal-tailed interval)",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md H)"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "input": 67.74,
+    "realization": 106,
+    "nsamp": 32000
+   }
+  },
+  "ObsMCOneHzeroProd": {
+   "class": "ph",
+   "render": "\\ph{70.1^{+1.6}_{-1.0}}",
+   "value": {
+    "median": 70.11145275543834,
+    "ci90": [
+     69.06501832179664,
+     71.7299047956749
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), realization 106 alone at 8000 samples per merger (two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106) (median and 90% equal-tailed interval)",
+   "source": {
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000/summary.json",
+    "key": "ObsAssumed",
+    "placeholder_source": "the production run's own value (analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json), red with the block"
+   },
+   "claim": "skeleton,mc",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "input": 67.74,
+    "realization": 106,
+    "nsamp": 8000
    }
   },
   "HDHostMaxAbsCorrHzero": {

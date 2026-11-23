@@ -75,6 +75,10 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   (111-120, X_SKYRES_MORE; build_checks (h)), per realization the nside-32 grid (stage 1's arguments plus --variant nside32: run
   name realization_NNN_nside32, a stage-X run) and the nside-64 grid (realization_NNN_nside64, as realization 106's); seconds per
   call: no partner on record, so the mean measured on 106-110 at the same nside (X_MORE_SPC_FROM).
+  And (23 Nov, appended after those) realization 106's two E2 grids of obslike_f0p30_s1 at 32000 samples per merger (X_OBS_MC;
+  build_checks (i)): the E2 entry's arguments plus --nsamp 32000 --variant s32000 (run names realization_106_s32000); seconds per call
+  the partner's measured value times the 32000/8000 ratio measured on the _s32000 precedents of the observed-like lane with one
+  injection set, calls the partner's measured calls.
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -712,6 +716,22 @@ X_MIX_SETS = (("peak", 0.3, 0), ("peak", 0.5, 0))
 X_MIX_ANALYSES = ("hosts_known", "two_tracers_one_population")
 X_MIX_PRIORITY = {0.3: 0.0, 0.5: 0.5}
 
+# (i) 23 Nov: the Monte Carlo sums of one merger. In realization 106 of the observed-like host-dependent set obslike_f0p30_s1 (stage E2,
+# keys ObsAssumed and ObsPops of the paper) one merger whose posterior lies almost wholly above the power law's upper mass edge is
+# carried by one or two of its 8000 samples, and its sum puts two steps of about 1.2 nats into ln L(H0); on CPU the steps vanish at
+# 32000 samples (tests/obslike_steps_merger.py, tests/results/obslike_steps_hybrid_*_r106.json). The two E2 grids of that realization
+# again at 32000 samples per merger: the E2 entry's arguments plus --nsamp 32000 --variant s32000 and nothing else (run names
+# realization_106_s32000; the same events, injection set (one, the set's lane; no pool), redraw key, priors and grid passes: the 32000-
+# sample redraw holds the 8000 production samples first). Stage X: no key reads them; the paper's macros Obs<Assumed|Pops>MC... put
+# them in place of realization 106's production grids (paper_prd/scripts/build_values.STAGE_X_MC_RUNS). Seconds per call: the partner's
+# measured value times the ratio the _s32000 precedents measured with one injection set on this lane (X_OBS_MC["spc_ratio"]: the
+# experiment's f = 1 grids at 32000 samples over its f = 0.3 grids at 8000, the same analysis class and realization); calls: the
+# partner's measured calls (its fine grid was widened: 2008, not 1147).
+X_OBS_MC = {"set": ("obslike", 0.3, 1), "analyses": ("two_tracers_one_population", "two_tracers_two_populations"), "realization": 106,
+            "nsamp": 32000, "variant": "s32000", "priority": 0.0,
+            "spc_ratio": ("two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R:03d}_s32000_inj1",
+                          "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R:03d}")}
+
 
 def _x_mix_nside(analysis, fam, f, s, real, smap, nside=X_NSIDE):
     """(g) one E1 grid of the set (fam, f, s) at another nside: exp_entry's run with --nside and the variant nside<N>
@@ -925,6 +945,89 @@ def _x_more_pair(real):
     return [_x_hold_if_missing(e32, surveys, P.SURVEY_NSIDE), e64]
 
 
+def run_calls(name, part="grid"):
+    """Likelihood calls of a finished part on record (sum over its sessions), else None."""
+    rj = P.RUNS / name / part / "result.json"
+    if not rj.exists():
+        return None
+    try:
+        r = json.loads(rj.read_text())
+    except json.JSONDecodeError:
+        return None
+    return sum(s.get("calls", 0) for s in r.get("sessions") or []) if r.get("finished") else None
+
+
+def _x_obs_mc_ratio():
+    """(median ratio, source) of seconds per call at X_OBS_MC's samples over 8000 on the observed-like lane with one injection set:
+    X_OBS_MC["spc_ratio"] numerator over denominator per realization of EXPERIMENT_REALIZATIONS (their sessions); the cost model's
+    ratio (spc_mc) when none is on record."""
+    num, den = X_OBS_MC["spc_ratio"]
+    rat = {}
+    for R in EXPERIMENT_REALIZATIONS:
+        a, b = run_seconds_per_call(num.format(R=R)), run_seconds_per_call(den.format(R=R))
+        if a and b:
+            rat[R] = a / b
+    if not rat:
+        base = COST["spc_fixed"]
+        return spc_mc(base, X_OBS_MC["nsamp"]) / base, "cost model (spc_mc at spc_fixed; no _s32000 precedent on record)"
+    m = statistics.median(rat.values())
+    return m, (f"x {m:.4f}, the median over realizations {', '.join(map(str, rat))} of the ratio measured (their sessions) on the _s32000 "
+               f"precedents with one injection set on this lane, {num.replace('{R:03d}', 'NNN')} over {den.replace('{R:03d}', 'NNN')} "
+               f"({', '.join(f'{v:.3f}' for v in rat.values())})")
+
+
+def _x_obs_mc(smap):
+    """(i) X_OBS_MC: for each analysis, the stage-E2 entry of the realization (as build_experiment_extra makes it, the partner) again
+    with --nsamp N --variant sN appended and nothing else (checked here), run name realization_NNN_sN; one injection set (the set's
+    lane; no pool), the driver's own grid passes (coarse, fine, widening: no --grid or --coarse, as the _s32000_inj6 entries). Seconds
+    per call: the partner's measured value x _x_obs_mc_ratio(); calls: the partner's measured calls (else the cost model's)."""
+    fam, f, s = X_OBS_MC["set"]
+    R, ns, var = X_OBS_MC["realization"], X_OBS_MC["nsamp"], X_OBS_MC["variant"]
+    label = P.set_name(fam, f, s)
+    ext = {e["name"]: e for st_ in build_experiment_extra(smap).values() for e in st_}
+    rec = smap.get((fam, round(f, 4), s)) or {}
+    lane = rec.get("lane") or P.default_injection_lane("obslike" if fam == "obslike" else "corepop")
+    inj_ok = rec.get("injections_exist")
+    lane_ok = None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(R)))
+    extra = ["--nsamp", str(ns), "--variant", var]
+    ratio, ratio_src = _x_obs_mc_ratio()
+    out = []
+    for a in X_OBS_MC["analyses"]:
+        pname = P.run_name(a, P.EXPERIMENT_CATALOGS[a], "complete", "", R, set_label=label)
+        partner = ext.get(pname)
+        if partner is None or partner["stage"] != "E2" or not partner.get("args"):
+            sys.exit(f"[fatal] (i) no stage-E2 entry {pname} with arguments (EXPERIMENT_EXTRA)")
+        e = exp_entry("X", "grid", a, fam, f, s, R, rec.get("suffix"), X_OBS_MC["priority"], lane=lane, lane_ok=lane_ok)
+        if e["args"] != partner["args"]:
+            sys.exit(f"[fatal] (i) {pname}: exp_entry's arguments differ from the E2 entry's")
+        e["args"] = list(partner["args"]) + extra
+        e["name"] = P.run_name(a, P.EXPERIMENT_CATALOGS[a], "complete", "", R, set_label=label, variant=var)
+        e["nsamp"] = ns
+        if (e["args"][:len(partner["args"])] != partner["args"] or e["args"][len(partner["args"]):] != extra
+                or e["injection_pool"] or partner["injection_pool"] or partner["nsamp"] != 8000 or "--nsamp" in partner["args"]
+                or "--variant" in partner["args"] or e["injections_lane"] != partner["injections_lane"]
+                or e["events_file"] != partner["events_file"] or e["injections_file"] != partner["injections_file"]):
+            sys.exit(f"[fatal] {e['name']}: arguments differ from {pname}'s by more than {' '.join(extra)}")
+        spc0, calls = run_seconds_per_call(pname), run_calls(pname)
+        spc = (spc0 or spc_mc(spc_of(a, "both", e["free"]), 8000)) * ratio
+        e = finish(e, "X", "grid", e["free"], spc, e["events_file"], e["injections_file"], priority=X_OBS_MC["priority"])
+        if calls:     # the partner's measured calls (finish() takes the cost model's 1147 grid cells)
+            e["est_calls"] = int(calls)
+            e["est_gpu_hours"] = round(calls * spc / 3600 + COST["overhead_hours_per_process"], 3)
+            e["est_gpu_hours_per_part"] = e["est_gpu_hours"]
+        e["est_seconds_per_call_source"] = (f"{spc0:.4f} measured on {pname} (its sessions, 8000 samples) " if spc0 else
+                                            "cost model at 8000 samples (partner not on record) ") + ratio_src
+        e["est_calls_source"] = (f"measured on {pname} (its sessions; its fine grid was widened)" if calls and calls != COST["grid_2d_cells"]
+                                 else (f"measured on {pname}" if calls else "cost model (partner not on record)"))
+        e["check"] = {"what": (f"the Monte Carlo sums of realization {R}'s mergers at {ns} samples per merger (one merger above the power "
+                               "law's upper mass edge is carried by one or two of its 8000 samples: steps of about 1.2 nats in ln L(H0))"),
+                      "partner": pname, "differs_by": " ".join(extra)}
+        e["extends"] = {"set": label, "analysis": a, "of_realizations": [R], "partner": pname, "nsamp": ns,
+                        "why": "the steps of ln L(H0) in realization 106 (tests/obslike_steps_merger.py): their size in the combination"}
+        out.append(e)
+    return out
+
+
 def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, later_realizations=X_SKYRES_LATER,
                  more_realizations=X_SKYRES_MORE):
     """Stage X.
@@ -978,7 +1081,13 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         (stage 1's arguments plus --variant nside32; stage X, so no paper selector reads it) and realization_NNN_nside64 (as (f)),
         a pair that differs only in the survey files (_x_more_pair). Seconds per call: the means measured on X_MORE_SPC_FROM at the
         same nside. Held while a survey file or injection set is missing; data_exists false while the events file is. Tabulated by
-        tests/skyres_sequence.py (block KnownBoth_production_111_120); the paper does not read them."""
+        tests/skyres_sequence.py (block KnownBoth_production_111_120); the paper does not read them.
+    (i) 23 Nov, appended after (h): realization 106's two stage-E2 grids of the set obslike_f0p30_s1 (two_tracers_one_population,
+        two_tracers_two_populations) at 32000 samples per merger (X_OBS_MC, _x_obs_mc): the E2 entry's arguments plus --nsamp 32000
+        --variant s32000 and nothing else (checked), run names .../obslike_f0p30_s1/realization_106_s32000, one injection set, the
+        driver's own grid passes. Seconds per call: the partner's measured value times the ratio measured on the _s32000 precedents of
+        this lane (_x_obs_mc_ratio); calls: the partner's. No key reads them; the paper's Obs<Assumed|Pops>MC... macros put them in place
+        of realization 106's production grids (paper_prd/scripts/build_values.STAGE_X_MC_RUNS)."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -1032,6 +1141,8 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
     # (h) the new realizations' pairs (nside 32, then 64), appended after (g)
     for r in more_realizations:
         out += _x_more_pair(r)
+    # (i) realization 106's two E2 grids of obslike_f0p30_s1 at 32000 samples per merger, appended after (h)
+    out += _x_obs_mc(smap)
     return out
 
 

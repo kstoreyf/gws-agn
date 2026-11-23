@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 20:30 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 21:05 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 20:30 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 23 Nov 21:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
 ### The session is back; there was no gap
@@ -62,57 +62,97 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
    `main.tex` also: abstract ("and in the mean over them the single population needs ...");
    the `% EXPECTED` tags of the sentences that are now real are removed.
 
-### OPEN: STEPS IN ln L OF THE OBSERVED-LIKE FAMILY (found 19:10 UTC; decide the wording of the
-### level when the agent has reported)
-- Fig. 7(a)'s curve for the assumed population has a shoulder at 69.2. Its source: realization
-  106's stored ln L along H0 at f_AGN = 0.30 has two upward STEPS, +1.2 nats between 68.2 and
-  68.4 and +1.3 between 69.0 and 69.2 (summed `pe_var` changes by -0.31 and +0.12 there), in
-  `two_tracers_one_population` and, at the same H0, in `two_tracers_two_populations` (+0.8,
-  +1.0). Every other realization of the set is smooth.
-- A scan of all 504 stored grids (first differences of ln L along H0 against their
-  neighbours, steps above 0.5 nat within 12 nats of the peak) flags 12 runs, ALL of the
-  observed-like family and none of the peak-dominated one, runs without a catalog included:
-  `mass_spectrum_alone` on `obslike_f0p00_s0` realization 105 and on `obslike_f1p00_s0`
-  realizations 101 (many steps, one of 102 nats) and 103 (104 nats), `galaxy_catalog_alone`
-  and `two_tracers_one_population` on `obslike_f0p00_s0` realization 105, both on
-  `obslike_f0p30_s0` realization 101, `hosts_known` and `two_tracers_one_population` on
-  `obslike_f1p00_s0` realization 103, and the two grids of realization 106 above. All real
-  steps go up with increasing H0. So the cause sits in the mass-spectrum term, not in the
-  catalogs. It very likely also explains two items "not followed up" below (the pathological
-  combined `mass_spectrum_alone` posterior of `obslike_f1p00_s0`; the score variance of the
-  observed-like AGN class 18 to 25% above the curvature).
-- WHY IT MATTERS: the level of the input in the assumed population's posterior over fifteen
-  is 98.5% with realization 106 and 89.5% without it (median 68.24 [67.73, 68.72]); without
-  114: 93.5%; without any other: 95.5 to 99.5%. Half of realization 106's exclusion of low H0
-  between 67 and 70 (6 nats) sits in the two steps. The two-population posterior does not
-  hang on one realization (leave-one-out levels 70 to 95%). The paired shift does not depend
-  on any of this. The mean of the fifteen medians gives 68.50 +- 0.28 (assumed) and 67.51 +-
-  0.29 (inputs), so the 99% is not an artefact of the product; what is uncertain is how much
-  one merger of realization 106 should weigh.
-- MY CANDIDATE (not established): a merger with very few posterior samples inside a hard edge
-  of the population's mass support; as H0 rises its samples' source-frame masses fall into
-  the support one by one. Real information of an edge, resolved by a handful of samples.
-- AN OPUS AGENT (started 19:12 UTC, id `a5bbdef572eacb36d`, CPU only, at most about 90 min)
-  finds the merger and the term, measures how well its likelihood is resolved (8000 against
-  16,000, 32,000 samples if the event file holds them), makes a census of poorly resolved
-  mergers over the fifteen realizations with two peak-dominated realizations as contrast,
-  and if cheap the H0 line of realization 106 at 32,000 samples. It writes only
-  `tests/obslike_steps_*.py` and `tests/results/obslike_steps_*.json`, submits nothing.
-- WHEN IT REPORTS: check one of its numbers yourself (the per-merger sum against the stored
-  ln L at one node). Then decide: (a) if more samples smooth the steps and the trend stays,
-  the level statement stands, perhaps with the realization re-evaluated at 32,000 samples
-  (two grids, about 2.5 GPU-h as stage-X runs; queue with `--only-lane`, dry run first);
-  (b) if the merger's weight is not determined by the samples at hand, the text quotes the
-  paired shift as the evidence of the bias and gives the level with the realization named or
-  re-evaluated; (c) if it is a fault (a merger outside the analysis population's support,
-  as on 17 Nov for the peak family: memory `gw-agn-core-vs-mock-population`), the affected
-  event sets are regenerated or the merger's treatment fixed BEFORE stage 5 starts on those
-  sets (stage 5 is last on both lanes, not before about 25 Nov). Tell the owner what was
-  found either way; it bears on every observed-like number of the paper.
+### THE STEPS IN ln L OF THE OBSERVED-LIKE FAMILY: DIAGNOSED (20:25 UTC), two grids queued to size it
+- FOUND 19:10 UTC: Fig. 7(a)'s curve for the assumed population has a shoulder at 69.2.
+  Realization 106's stored ln L along H0 at f_AGN = 0.30 has two upward STEPS, +1.2 nats
+  between 68.2 and 68.4 and +1.3 between 69.0 and 69.2, in `two_tracers_one_population` and
+  at the same H0 in `two_tracers_two_populations` (+0.8, +1.0). A scan of all 504 stored
+  grids flags 12 runs with steps above 0.5 nat within 12 nats of the peak, ALL of the
+  observed-like family, runs without a catalog included (`mass_spectrum_alone` on
+  `obslike_f0p00_s0` realization 105 and `obslike_f1p00_s0` realizations 101 and 103, about
+  100 nats there; `galaxy_catalog_alone` and `two_tracers_one_population` on `obslike_f0p00_s0`
+  realization 105 and on `obslike_f0p30_s0` realization 101; `hosts_known` and
+  `two_tracers_one_population` on `obslike_f1p00_s0` realization 103). All go up with H0.
+- CAUSE (Opus agent, CPU, `tests/obslike_steps_merger.py`, results `tests/results/
+  obslike_steps_*`; its per-merger sum reproduces the stored ln L to 4e-12; I checked its
+  8000-sample line and intervals against the stored grid): ONE merger, number 691 of
+  realization 106 (galaxy-hosted, power law, true m1 80.6 and m2 74.2 in the source frame,
+  z 0.35; observed with a low mass ratio, so its posterior has m1 104/171/297 at 5/50/95%).
+  The power law of the observed-like spectrum ends at m_max = 87 with a taper of 0.01, a hard
+  edge (`sfilter_high` in core): 42 of the merger's 8000 samples lie below it at the input
+  H0, and among those the narrow spin population gives nearly all the weight to one or two
+  (effective sample number 1.1 to 2.2 over H0 66 to 72). As H0 rises, single samples cross
+  below 87 and each adds a step. NOT a fault: Monte Carlo resolution of a real, small
+  feature. Merger 691's ln L(70) - ln L(67): +2.20 at 8000 samples (the largest of 32
+  independent subsets of 8000: mean 0.42, sd 0.50), +0.49 at 32,000, 0.37 +- 0.05 converged
+  (256,000). About one redraw in four at 8000 shows a step above 0.5 nat for this merger.
+  The 100-nat steps of the all-AGN no-catalog runs are mergers with NO sample below the edge
+  under some H0 (inferred from the crossings, not evaluated).
+- CENSUS at the input, fifteen realizations: mergers with effective sample number below 5:
+  0 to 2 per realization (16 in all), below 20: 4 to 13, below 100: 45 to 76; only 2 of the
+  16 are edge mergers (106's number 691, 100's number 494), the others are light mergers of
+  the steep low-mass end and show no steps. The peak-dominated family has as many poorly
+  resolved mergers (0 and 2 below 5 on two realizations) and no edge (its taper is 10).
+- SIZE (hybrid on CPU: the 18 mergers of realization 106 with effective number below 50 at
+  32,000 samples, the rest as stored; line at f_AGN = 0.30): realization 106 alone, assumed
+  population, 90% interval [69.06, 71.74] -> [68.41, 71.68]; two populations [68.43, 71.07]
+  -> [67.87, 70.81]. Applied to the stored marginals (my estimate): the fifteen with the
+  population assumed 68.50 [68.06, 69.05], level 98.9% -> 68.42 [67.94, 68.89], level 97.8%;
+  both populations at their inputs 67.37, 86% -> 67.41, 80%. SO THE STATEMENTS OF SEC. IV F
+  STAND (input outside the 90% interval with the population assumed, inside with both
+  populations at their inputs); the printed 99% carries one merger's Monte Carlo excess of
+  about one point. The paired shift is unaffected in substance (106's is the smallest).
+- DECIDED (mine): production keys stay at 8000 samples for all fifteen. The Validation's
+  Monte Carlo paragraph gets one or two sentences giving the size: the mechanism in physics
+  words (a merger whose posterior lies almost wholly above the upper edge of the power law is
+  carried by a few samples) and the combination with that realization evaluated at 32,000
+  samples beside the production one. For that: realization 106's two grids are re-run at
+  32,000 samples as stage-X runs (`.../obslike_f0p30_s1/realization_106_s32000`, same redraw
+  key and injection set; about 1 to 2 GPU-h), and the chain gets macros
+  `\ObsAssumedMCHzeroComb`, `\ObsAssumedMCHzeroCL`, `\ObsPopsMCHzeroComb`, `\ObsPopsMCHzeroCL`,
+  `\ObsAssumedMCShiftHzero[Min|Max]`, `\ObsMCNsamp`, `\ObsMCOneHzero`, `\ObsMCOneHzeroProd`
+  (red until the two runs exist).
+- DONE 21:05 UTC: an Opus agent added the two stage-X entries (`make_runlist.X_OBS_MC`; run
+  lists regenerated: two runs added, none removed, no arguments changed, checked by me from
+  the YAML against HEAD; stage 5's eight-parameter estimates moved to 35.35 GPU-h each because
+  realization 105 of stage V8 finished) and the macros (`build_values.build_obslike_mc`, map
+  block `obslike_mc`, audit J7, `notes/MACRO_REQUESTS.md` Sec. H; no existing macro value
+  changed, nine added, red). `\ObsMCNsamp` does not exist: `\MCNsampHi` prints 32000.
+  QUEUED by me on lane 2 (rank 2.85, first in its file): the two grids
+  `two_tracers_{one_population,two_populations}/both_catalogs/complete/obslike_f0p30_s1/
+  realization_106_s32000`, 2008 calls each, 1.3 GPU-h together; they start when lane 2's
+  E3 part ends (about 22:35 UTC) and end about 00:00 UTC 24 Nov. WATCHER `bniuy3n5w`: both
+  summaries, or an error outcome, or 03:30 UTC 24 Nov.
+  `main.tex`: Appendix A's paragraph "Accuracy" has the new sentences ("The observed-like
+  spectrum ends sharply at 87 Msun ... One of the fifteen realizations of Sec. IV F holds such
+  a merger. With 32000 samples per merger that realization gives ... and the combined
+  posterior becomes ..., with the input at the ...% credible level where Sec. IV F quotes
+  ...%"), tagged `% EXPECTED`, red until the runs exist; Sec. IV F points to the appendix.
+  Refresh 21:03 UTC: exit 0, audit 95 of 95, 216 of 262 result macros of the text real.
+- WHEN THE WATCHER FIRES: refresh (exit 0; J7 black). Compare with my estimate (assumed
+  population over fifteen 68.42 [67.94, 68.89], level 97.8%; both populations 67.41, 80%;
+  realization 106 alone [68.41, 71.68] and [67.87, 70.81]). Read the appendix sentences
+  against the black numbers ("where 8000 give" must show a real difference; if the level
+  after replacement is still above 90% the wording "outside the 90% interval" of Sec. IV F
+  stands), remove their `% EXPECTED` and the three `% REREAD` tags of Secs. IV F and IV G,
+  look at the combined curve of Fig. 7(a) (it stays the production one, with its shoulder:
+  decide whether the figure should draw the 32,000-sample combination instead; mine).
+  Commit. If a run errored: read its log (GPU memory at 32,000 samples with both catalogs is
+  the likely cause; the `_s32000_inj6` precedents of the peak family ran).
+- FOR STAGE 5 (observed-like nested runs on realizations 100 to 105, 8000 samples, last on
+  the lanes): of those sets only realization 100 holds an edge merger with an effective
+  number below 5 (number 494), and its stored grids show no step above 0.5 nat near the
+  peak. When stage 5's posteriors of realization 100 come in, look at its H0 marginal for a
+  wall or shoulder before quoting it.
+- STILL OPEN, not urgent: the stepped all-AGN and no-catalog observed-like grids feed
+  `\HWObsNone` and Fig. 3(b)'s observed-like half-widths (means over five); a merger with no
+  sample below the edge cuts a posterior off at some H0. Check which of the twelve flagged
+  runs a paper macro reads and whether its half-width moves at 32,000 samples (one small
+  agent job after the two grids).
 
 ### Running now, and what each needs from you
-- LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then one
-  more E3 part, the second parts of HDSingle 106 to 110, stage 3, stage 5.
+- LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then the
+  two 32,000-sample grids of realization 106, one more E3 part, the second parts of HDSingle 106 to 110, stage 3, stage 5.
 - LANE 1 (job 1494378): E3 (five parts, until about 05:00 UTC 24 Nov), the first parts of
   HDSingle 106 to 110, stage 3, stage 5. Everything Sec. IV E needs is in by about 06:00 UTC
   25 Nov.
@@ -121,10 +161,11 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   of which 100 and 101 are done, and HDSingle 106 to 110): all ten summaries, or an error
   outcome in one of their `nested_*/attempts.json`, or 09:00 UTC 25 Nov. Its list of runs is
   `step3_runs.txt` in the session scratchpad; if the session restarted, check by hand.
-- THE AGENT above.
+- WATCHER `bniuy3n5w` on the two grids of "THE STEPS" above. No agent is running.
 
 ### Do next, in order
-1. The agent's report: as written under OPEN.
+1. The two 32,000-sample grids of realization 106 (watcher `bniuy3n5w`): as written under
+   "THE STEPS", "WHEN THE WATCHER FIRES".
 2. (done: realization 105, see above.)
 3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov; arm one watcher:
    loop over `runs/single_population/both_catalogs/complete/host_dependent/
