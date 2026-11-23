@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 09:45 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
+## STATE 23 Nov 11:10 UTC (read first; resumed after a context clear, the owner had hit a usage limit)
 - THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS AT ITS 7-DAY LIMIT ABOUT 16:50 UTC 23 Nov; its
   successor 1494715 is pending. Background watchers and agents of this session die with it:
   after the restart check everything by hand.
@@ -80,45 +80,44 @@ this file holds the working state.
   `placeholder_results.py`: HDSingle and ObsSingle specs, the log10 B values, HWHost 1.6).
   The sentence tagged `% REREAD` in Sec. IV F states the 94% plainly; it depends on the
   diagnosis below. Abstract 420 words in the rendered PDF.
-- OPEN: THE OBSERVED-LIKE HOST-DEPENDENT SETS LIE LOW (`obslike_f0p30_s1`, realizations 100
-  to 105, the sets of ALL of stage 5). DIAGNOSIS DONE 09:35 UTC (Opus agent; scripts
-  `tests/obslike_offset_step*.py`, results `tests/results/obslike_offset_*`): VERDICT
-  UNDECIDED. With the paper chain's combination, host class and both populations known: H0
-  66.64 [66.12, 67.17], the input at the 99.91% level (3.3 sigma); the same analysis on the
-  equal-population observed-like sets 68.19 (77.5%), on the peak-dominated host-dependent
-  sets 67.41 (65.3%), on all-AGN observed-like sets 67.48 (78.3%). It sits ENTIRELY IN THE
-  AGN-HOSTED MERGERS on the AGN catalog (66.58 [66.04, 67.14], z -3.46; per realization
-  -1.20, -3.14, +0.85, -2.36, -2.07; galaxy-hosted 67.21 [65.55, 68.86]), in the bulk of the
-  mergers and not in outliers, uncorrelated with z, m1, SNR, q, chi_eff (|r| < 0.08); not the
-  selection term (each branch of the injection mixture alone reproduces its slope; the deficit
-  would need 50 times their disagreement); not Monte Carlo (an independent 32,000-sample
-  redraw gives z -3.77). NO INCONSISTENCY FOUND between generation and analysis: detected
-  populations of each class against the reweighted injections all within 2.1 sigma, noise
-  draws as predicted, same generator code path and detection rule as the other families
-  (only population values, seeds, number proposed differ). Chance of a fluctuation this large
-  after counting comparable combinations: 0.35% to 5%. The agent also notes that the score
-  variance of the observed-like AGN class is 18 to 25% above its curvature (3% for the peak
-  family): its intervals may be about 10% too narrow (inferred, not proven).
-  DECISIVE TEST RUNNING (mine, 09:38 UTC; CPU only, about 30 core-hours on RM, account
-  phy220048p): ten NEW realizations of this family, seeds 106 to 115: events (jobs 1496612,
-  1496613, `agn-obsmarked`) and injection sets (jobs 1496614 to 1496623, `agn-inj-obslike`;
-  about 21 min each), files `seedNNN/events/events_marked_dmu0p10_dmuG5_obslike.h5` and
-  `seedNNN/injections/injections_targeted_obslike.h5` under
-  /hildafs/projects/phy230054p/magana/gws-agn-data-v3. Background task `bh39ldaew` waits for
-  the jobs (limit 13:30 UTC), then runs on this node `tests/obslike_offset_step2b_per_merger.py
-  grid|combine obslike_f0p30_s1 <seeds> --classes agn` (core venv python, JAX on CPU, 8
-  threads, 6 min per realization) with the log `tests/results/obslike_offset_new_ten.log`.
-  If the session died: run those two commands by hand (they are in the agent's report copied
-  below in this bullet's rule). DECISION RULE (fixed before the result): AGN-hosted factor
-  combined over the new ten, median >= 67.2: fluctuation, stage 5 runs as queued, the paper
-  quotes the family over fifteen; <= 66.9: the offset repeats, HOLD stage 5 in the run list
-  (through an agent) and hunt the mechanism in the AGN-catalog term for this spectrum;
-  between: add seeds 116 to 120. The lanes reach stage 5 about 25 Nov, so nothing is held now.
-  Side observations not followed up: `mass_spectrum_alone` on these sets is low too (61.4
-  [57.9, 65.9], 98%); the combined `mass_spectrum_alone` posterior of `obslike_f1p00_s0`
-  looks pathological (median 56.5, interval [56.4, 67.7]).
-- WATCHER: task `b3lcgarfp` (until 12:30 UTC): the first E3 run
-  (`single_population/both_catalogs/complete/peak_f0p30_s2/realization_100`, both parts).
+- RESOLVED 11:00 UTC: THE LOW H0 OF THE OBSERVED-LIKE HOST-DEPENDENT SETS IS THE DRAW OF THE
+  FIRST FIVE (`obslike_f0p30_s1`, realizations 100 to 105; the sets of all of stage 5).
+  The five, host class and both populations known (paper chain's combination): 66.64 [66.12,
+  67.17], input at the 99.91% level; carried by the AGN-hosted mergers on the AGN catalog
+  (66.58 [66.04, 67.14]); diagnosis (Opus agent, `tests/obslike_offset_step*.py`, results
+  `tests/results/obslike_offset_*`) found NO inconsistency between generation and analysis
+  (selection term, Monte Carlo, detected populations against reweighted injections, noise
+  draws, generator code path all checked). TEN NEW REALIZATIONS (seeds 106 to 115, events and
+  injection sets generated today on CPU, all ten injection checks pass; files
+  `seedNNN/events/events_marked_dmu0p10_dmuG5_obslike.h5`, `seedNNN/injections/
+  injections_targeted_obslike.h5`), AGN-hosted mergers with the host class known, on CPU
+  (`tests/obslike_offset_step2b_per_merger.py`, log `tests/results/obslike_offset_new_ten.log`):
+  69.4, 67.9, 67.0, 67.1, 68.1, 67.7, 67.8, 68.7, 68.2, 67.2; combined 67.87 [67.45, 68.29],
+  input at the 38% level. By the rule fixed beforehand (>= 67.2: fluctuation) STAGE 5 RUNS AS
+  QUEUED. Old five against new ten differ by 1.3 (3 sigma); all fifteen about 67.4 +- 0.34
+  (Gaussian, mine). CONSEQUENCE FOR THE PAPER: stage 5's keys (ObsSingle, ObsHost, ObsNone)
+  use the low five and will sit about 1 low; the text must say so with the fifteen beside
+  them. Not followed up: `mass_spectrum_alone` on the five is low too (61.4 [57.9, 65.9]);
+  the combined `mass_spectrum_alone` posterior of `obslike_f1p00_s0` looks pathological
+  (median 56.5, interval [56.4, 67.7]); the diagnosis agent's remark that the score variance
+  of the observed-like AGN class exceeds its curvature by 18 to 25% (3% for the peak family),
+  i.e. intervals perhaps 10% too narrow there (inferred, not proven).
+- AGENT AT WORK (the paper-chain Opus agent, resumed 11:05 UTC, third job): Part A, run-list
+  entries for the grids `two_tracers_two_populations` and `two_tracers_one_population` on
+  `obslike_f0p30_s1`, realizations 106 to 115 (twenty runs, about 1 GPU-h), ranked next on a
+  lane; it gives the launcher line for LANE 1 ONLY with its dry run; I check and queue.
+  Part B, paper chain: keys ObsPops and ObsAssumed over fifteen, `\NrealObsAssumed` fifteen,
+  subset macros `\ObsPopsFirst...`, `\ObsPopsLater...`, `\ObsAssumedFirst...`,
+  `\ObsAssumedLater...`, `\NrealObsFirst`, `\NrealObsLater`, `\ObsAssumedFirstShiftHzero`;
+  half-width means of the classes block stay at five. It does not refresh and does not commit.
+  THEN (me): when the twenty summaries exist, refresh, rewrite the sentence tagged `% REREAD`
+  in Sec. IV F on the fifteen (first five and added ten named), one Validation sentence if
+  it reads better there, commit. If the session died: `git status`/`git diff` show the
+  agent's uncommitted edits; the keys are red until the grids have run.
+- E3, FIRST RESULT 10:55 UTC (single population inferred, TWICE the offsets, realization 100):
+  H0 68.17 [66.12, 70.65], mu_G 38.05 [37.46, 38.59], sigma_G 6.76, mu_chi 0.080, sigma_chi
+  0.138, f_AGN 0.358 [0.270, 0.448] (detected share 0.408): no H0 bias on this realization,
+  where the assumed population is at the prior edge. The other four by about 05:00 UTC 24 Nov.
 - LANES 07:10 UTC (order is right, no reordering needed): lane 1 (job 1425268 until 10:00
   UTC, successor 1494378) on E3 (eight parts, about 2.3 h each, until about 00:30 UTC 24 Nov),
   then the first parts of HDSingle 106 to 110 (until about 12:00 UTC 24 Nov), then stage 3,
