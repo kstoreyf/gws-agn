@@ -268,7 +268,7 @@ lane has 2.9e6 detected injections against the record's 2.2e6.
 | 4 host-dependent events (peak lane; 23 Nov: one eight-parameter run left, realization 100) | 16 | 31 | 777,000 | 83.6 | 83.6 |
 | 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler) | 15 | 25 | 1,422,700 | 214.5 | 214.5 |
 | E1 experiment grids, peak family | 235 | 235 | 147,745 | 28.5 | 28.5 |
-| E2 experiment grids, observed-like family | 75 | 75 | 40,350 | 8.0 | 8.0 |
+| E2 experiment grids, observed-like family (23 Nov: with the twenty grids of realizations 106-115, below) | 95 | 95 | 63,290 | 11.4 | 11.4 |
 | E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 20.5 | 20.5 |
 
 **Stage 5** (`paper_prd/runs.txt`, approved): stage 4's three classes on the observed-like host-dependent
@@ -295,6 +295,20 @@ dynesty's `ncall_total` 233,244, 212,705, 219,948, 237,667) at 0.5088 s per call
 per call, 35.8 GPU-h per run, 178.9 for the five. Lane rank 10, after every six-parameter run. The pure-rslice entries
 `.../host_dependent_obslike/realization_NNN` (never queued) and stage 4's pure-rslice `.../host_dependent/realization_{101,102,103,105}`
 (never queued) are gone from the run list; stage 4's `realization_100` (finished, V8's sampler reference) stays.
+
+**E2 on realizations 106-115** (23 Nov; `make_runlist.EXPERIMENT_EXTRA`, `build_experiment_extra`): the set `obslike_f0p30_s1` (the
+events of stage 5) sits low in H0 on the experiment's five realizations with the host class and both populations known (66.64 [66.12,
+67.17], the input at the 99.91% level, carried by the AGN-hosted mergers; `tests/obslike_offset_step*.py`). Ten further realizations
+of this family (seeds 106-115; events and injection sets generated on CPU, `data/experiment_sets.json` lists them for this set only)
+hold the input in the analysis that carried the offset, the AGN-hosted mergers with the host class known (67.87 [67.45, 68.29], 38%
+level): the five are a low draw. Twenty stage-E2 grids analyse the ten
+with both catalogs, `two_tracers_two_populations` (both populations at their inputs) and `two_tracers_one_population` (the galaxy
+class's population assumed for both classes), run names `<analysis>/both_catalogs/complete/obslike_f0p30_s1/realization_1{06..15}`,
+the arguments of the set's five but for the realization (checked by the builder), 1147 calls each, seconds per call the mean measured
+on the five (0.445 and 0.483), 3.4 GPU-h estimated and 3.7 h measured; lane rank 1.5 (E2's). Each entry carries `extends`. The
+paper's keys `ObsPops` and `ObsAssumed` read all fifteen by their run pattern (`paper_prd/values/production_map.json`);
+`paper_prd/scripts/classes.py` keeps the experiment's macros on the experiment's five. Stage 5's nested runs stay on realizations
+100-105.
 
 Queued 17 Nov (one chain, job agn-prod-l1 1414946 and its successors): stage 1, then E1 and E2 in the
 order s = 0, 1, 2 and within each f = 0.3, then 0.1 and 0.5, then 0 and 1. Nested stages (2-4, E3) wait

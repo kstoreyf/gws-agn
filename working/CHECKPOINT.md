@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 15:10 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 19:25 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,48 +6,127 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 15:10 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
-Local commits up to 34d85b1 plus this file's; GitHub has e6d5313 (ask before any push).
+## STATE 23 Nov 19:25 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
-### The holder gap (owner's decision, relayed 15:00 UTC 23 Nov by the darksirens session)
-- The MIKO holder job 1412516 ends 16:50 UTC 23 Nov. The new holder 1494715 is pending behind
-  another user's job; Slurm estimates its start at about 16:00 UTC 24 Nov. The owner waits for
-  it and sets it up; nothing is moved elsewhere. Owner: "message me directly if any decisions
-  need to be made before the checkpoint is made": none was needed.
-- DIES with the holder: this Claude session and its watcher `bdwp1qpxs`. Nothing else of this
-  project runs on miko (no driver, no sampler; the morning's CPU analysis and the twelve RM
-  data jobs have finished and their outputs are on disk).
-- SURVIVES, untouched: the two lane chains on RITA-GPU. Lane 1: job 1494378 (limit 09:32 UTC
+### The session is back; there was no gap
+- The new MIKO holder 1494715 started 16:57 UTC 23 Nov, a day before Slurm's estimate; its limit
+  is 11:56 UTC 30 Nov. This session runs inside it: never cancel it. The owner said "continue
+  from the latest checkpoint" at 18:55 UTC. The session link for commit messages changed again:
+  use the one in the latest system reminder.
+- The two lane chains on RITA-GPU ran through untouched. Lane 1: job 1494378 (limit 09:32 UTC
   25 Nov), successor 1496542. Lane 2: job 1482276 (limit 06:30 UTC 25 Nov), successor 1495021.
-  Each job chains its own successor and every nested task resumes from its `state.save`, so
-  nothing has to be restarted. Check at restart, in the analysis-16 directory:
-  `PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python`
-  `$PY scripts/launch.py --lanes 2 status` (each lane with tasks to do must show a RUNNING or
-  PENDING `agn-prod-lK` job; if one shows none, a `launch.py --lanes 2 stage 5 --dry-run` says
-  what it would submit; run it without `--dry-run` only after reading that output).
-- STATE AT 15:01 UTC: ten of the twenty observed-like grids done (the assumed-population ten;
-  the two-population ten end about 17:00 UTC); realization 105 at iteration 4128, delta ln Z
-  1.2 (ends about 19:00 UTC); lane 1 then E3 (five parts, until about 04:30 UTC 24 Nov) and
-  the first parts of HDSingle 106 to 110 (until about 16:00 UTC 24 Nov); lane 2 after 105 two
-  E3 parts and the second parts of HDSingle 106 to 110 (until about 16:00 UTC 24 Nov).
-  SO AT THE RESTART (about 16:00 UTC 24 Nov) steps 1 to 3 of "Do next" below fall together:
-  one refresh, then the re-reading of all three steps, then the PDF and the questions to the
-  owner. If HDSingle 106 to 110 are not all in, do steps 1 and 2 and arm one watcher for the
-  rest (loop over the ten `runs/single_population/both_catalogs/complete/host_dependent/
-  realization_1{06..10}/summary.json` with both parts in each; `command grep` for
-  `"outcome": "error"` in their `nested_*/attempts.json`; a time limit).
-- EXPECT AT THAT REFRESH: the assumed population on the observed-like spectrum over FIFTEEN
-  is about 68.5 +- 0.5 with the input near the 99% level (assumed-population medians: first
-  five 67.6, 67.3, 70.1, 67.0, 68.6, Gaussian combination 67.96 +- 0.80; new ten 70.1, 70.1,
-  67.7, 67.7, 69.1, 67.7, 68.0, 68.3, 69.7, 68.4, combination 68.77 +- 0.59). So over fifteen
-  the bias of the assumed population IS resolved for this spectrum too, and three sentences
-  written for five must change: Sec. IV F's sentence tagged `% REREAD` ("A shift of this size
-  is not resolved against the input by ... realizations"), Sec. IV G's "With the observed-like
-  spectrum the second moves the median by ... and the input stays inside the 90% interval",
-  and Fig. 8's caption ("only the assumed population ... and the peak-dominated spectrum has
-  the input outside it"). Word them from the printed levels, not from this forecast.
-- OWED TO THE OWNER: nothing blocks. Coming after that refresh: the PDF, the multiple choice
-  "5, then 10", the push request.
+  At 18:55 UTC: 43 and 40 tasks to do, none failed. Check as before, in the analysis-16
+  directory: `$PY scripts/launch.py --lanes 2 status` (Sec. 3 has `PY`).
+
+### Done since 15:10 UTC
+1. THE FIFTEEN OBSERVED-LIKE REALIZATIONS ARE IN THE PAPER (step 1 of the old list). All twenty
+   grids of realizations 106 to 115 finished (none failed). Refresh 19:03 UTC and again 19:21
+   UTC after the edits: exit 0, audit 94 of 94, figures 515 with 0 mismatches, 190 of 255
+   result macros of the text real, 19 pp. Both catalogs, set `obslike_f0p30_s1`, H0 combined
+   with the level of the input 67.74:
+   population assumed, fifteen: 68.5 (+0.5, -0.4), 99% (outside the 90% interval);
+   both populations at their inputs, fifteen: 67.4 +- 0.4, 86%; first five 67.0 (+0.7, -0.6),
+   94%; later ten 67.6 (+0.7, -0.5), 32%; assumed on the first five 67.8 +- 0.8 (9%), on the
+   later ten 69.0 (+0.5, -0.6), 99.8%. f_AGN with the population assumed 0.306 +- 0.017 (43%).
+   PAIRED SHIFT, assumed minus inputs, per realization (100, 101, 102, 103, 105, 106 to 115):
+   +1.30 +0.68 +1.08 +1.42 +1.11 +0.41 +1.77 +0.88 +1.39 +0.86 +0.54 +0.70 +0.52 +1.24 +0.97:
+   mean 0.99, sd 0.39, standard error 0.10, positive in fifteen of fifteen. This is the robust
+   statement of the bias for this spectrum (macros: median 1.0, range 0.4 to 1.8).
+   `main.tex`: Sec. IV F's sentence is rewritten as two (shift over fifteen with its range; the
+   two combined posteriors with their levels; then "The five realizations that carry the
+   analyses with inferred populations below lie low ... which we read as the draw of those
+   five"), both tagged `% REREAD`; Sec. IV G ("... by 1.0 instead of 3.2, and fifteen combined
+   realizations place the input at the 99% credible level", tagged `% REREAD`); Fig. 8's
+   caption ("only the two with the population assumed have the input outside that of H0").
+2. The analysis-16 README describes the extension of stage E2 to realizations 106 to 115
+   (paragraph after "Stage 5"; the stage table's E2 row is 95 runs, 11.4 GPU-h).
+
+### OPEN: STEPS IN ln L OF THE OBSERVED-LIKE FAMILY (found 19:10 UTC; decide the wording of the
+### level when the agent has reported)
+- Fig. 7(a)'s curve for the assumed population has a shoulder at 69.2. Its source: realization
+  106's stored ln L along H0 at f_AGN = 0.30 has two upward STEPS, +1.2 nats between 68.2 and
+  68.4 and +1.3 between 69.0 and 69.2 (summed `pe_var` changes by -0.31 and +0.12 there), in
+  `two_tracers_one_population` and, at the same H0, in `two_tracers_two_populations` (+0.8,
+  +1.0). Every other realization of the set is smooth.
+- A scan of all 504 stored grids (first differences of ln L along H0 against their
+  neighbours, steps above 0.5 nat within 12 nats of the peak) flags 12 runs, ALL of the
+  observed-like family and none of the peak-dominated one, runs without a catalog included:
+  `mass_spectrum_alone` on `obslike_f0p00_s0` realization 105 and on `obslike_f1p00_s0`
+  realizations 101 (many steps, one of 102 nats) and 103 (104 nats), `galaxy_catalog_alone`
+  and `two_tracers_one_population` on `obslike_f0p00_s0` realization 105, both on
+  `obslike_f0p30_s0` realization 101, `hosts_known` and `two_tracers_one_population` on
+  `obslike_f1p00_s0` realization 103, and the two grids of realization 106 above. All real
+  steps go up with increasing H0. So the cause sits in the mass-spectrum term, not in the
+  catalogs. It very likely also explains two items "not followed up" below (the pathological
+  combined `mass_spectrum_alone` posterior of `obslike_f1p00_s0`; the score variance of the
+  observed-like AGN class 18 to 25% above the curvature).
+- WHY IT MATTERS: the level of the input in the assumed population's posterior over fifteen
+  is 98.5% with realization 106 and 89.5% without it (median 68.24 [67.73, 68.72]); without
+  114: 93.5%; without any other: 95.5 to 99.5%. Half of realization 106's exclusion of low H0
+  between 67 and 70 (6 nats) sits in the two steps. The two-population posterior does not
+  hang on one realization (leave-one-out levels 70 to 95%). The paired shift does not depend
+  on any of this. The mean of the fifteen medians gives 68.50 +- 0.28 (assumed) and 67.51 +-
+  0.29 (inputs), so the 99% is not an artefact of the product; what is uncertain is how much
+  one merger of realization 106 should weigh.
+- MY CANDIDATE (not established): a merger with very few posterior samples inside a hard edge
+  of the population's mass support; as H0 rises its samples' source-frame masses fall into
+  the support one by one. Real information of an edge, resolved by a handful of samples.
+- AN OPUS AGENT (started 19:12 UTC, id `a5bbdef572eacb36d`, CPU only, at most about 90 min)
+  finds the merger and the term, measures how well its likelihood is resolved (8000 against
+  16,000, 32,000 samples if the event file holds them), makes a census of poorly resolved
+  mergers over the fifteen realizations with two peak-dominated realizations as contrast,
+  and if cheap the H0 line of realization 106 at 32,000 samples. It writes only
+  `tests/obslike_steps_*.py` and `tests/results/obslike_steps_*.json`, submits nothing.
+- WHEN IT REPORTS: check one of its numbers yourself (the per-merger sum against the stored
+  ln L at one node). Then decide: (a) if more samples smooth the steps and the trend stays,
+  the level statement stands, perhaps with the realization re-evaluated at 32,000 samples
+  (two grids, about 2.5 GPU-h as stage-X runs; queue with `--only-lane`, dry run first);
+  (b) if the merger's weight is not determined by the samples at hand, the text quotes the
+  paired shift as the evidence of the bias and gives the level with the realization named or
+  re-evaluated; (c) if it is a fault (a merger outside the analysis population's support,
+  as on 17 Nov for the peak family: memory `gw-agn-core-vs-mock-population`), the affected
+  event sets are regenerated or the merger's treatment fixed BEFORE stage 5 starts on those
+  sets (stage 5 is last on both lanes, not before about 25 Nov). Tell the owner what was
+  found either way; it bears on every observed-like number of the paper.
+
+### Running now, and what each needs from you
+- LANE 2 (job 1482276): the eight-parameter run of realization 105, iteration 4619 at 18:57
+  UTC with delta ln Z 0.185 (stops at 0.1: between 20:00 and 21:30 UTC); then two E3 parts,
+  the second parts of HDSingle 106 to 110, stage 3, stage 5.
+- LANE 1 (job 1494378): E3 (five parts, until about 05:00 UTC 24 Nov), the first parts of
+  HDSingle 106 to 110, stage 3, stage 5. Everything Sec. IV E needs is in by about 06:00 UTC
+  25 Nov.
+- WATCHER `bak0mne4n`: realization 105's `summary.json`, or an error outcome in its
+  `nested_1/attempts.json`, or 00:30 UTC 24 Nov.
+- THE AGENT above.
+
+### Do next, in order
+1. The agent's report: as written under OPEN.
+2. When realization 105's summary exists: refresh. HDHost, HWHost, `\HDLBMin/Max`,
+   `\CostSingleHost`, `\HDHostMaxAbsCorrHzero` turn black. Re-read Sec. IV E's third
+   paragraph (the clause "the second with its input below the 90% interval" is about
+   realization A's spin offset, 0.163 [0.126, 0.194]) and the abstract. Commit.
+3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov; arm one watcher:
+   loop over `runs/single_population/both_catalogs/complete/host_dependent/
+   realization_1{06..10}/summary.json` and E3's five, `command grep` for `"outcome": "error"`
+   in their `nested_*/attempts.json`, a time limit): refresh; the single-population sentences
+   and the twice-offset sentence turn black; re-read them (the wording "is not biased" must
+   match the level the combined posteriors print). Commit, PDF to the owner
+   (`..._draft_2026-11-2Xa.pdf`), and the multiple choice "5, then 10" (eight-parameter model
+   on realizations 106 to 110, about 150 GPU-h; say what the five gave), with the push
+   request. Worth offering in the same question: stage 5's six-parameter runs on 106 to 110
+   as well (about 36 GPU-h), since its first five are the low draw.
+4. FIG. 7 WHEN STAGE 5 IS REAL (decide then, mine): its dotted curve (population assumed) is
+   combined over fifteen while the single-population and host-dependent curves will be the
+   low five; on the same five the assumed population gives 67.8 +- 0.8. Either draw all three
+   on the five (the paired comparison, with the fifteen in the text) or say in the caption
+   which curve uses which realizations. Table III states the counts per row already.
+5. Then Sec. 5 items 3 to 5 of this file (stage 3 and stage 5 subsections as they turn black,
+   the independent Fable review against the style skill's self-check, small leftovers).
+- OWED TO THE OWNER: nothing blocks. They get a short account of the steps once the agent
+  has reported, then (step 3) the PDF, the multiple choice and the push request.
+
 
 ### What happened on 23 Nov (all committed)
 1. EIGHT-PARAMETER RUNS (host-dependent populations, `..._unif_then_rslice`): realizations 100
@@ -104,54 +183,9 @@ Local commits up to 34d85b1 plus this file's; GitHub has e6d5313 (ask before any
    STAGE 5 RUNS AS QUEUED. Stage 5's keys use the low five and will sit about 1 low: the text
    must say so with the fifteen beside them.
 
-### Running now, and what each needs from you
-- LANE 1 (job 1494378, successor 1496542): E3 realization 101 first part until about 13:10
-  UTC; then the TWENTY OBSERVED-LIKE GRIDS queued 11:22 UTC (`two_tracers_two_populations` and
-  `two_tracers_one_population` on `obslike_f0p30_s1`, realizations 106 to 115, stage E2 of the
-  experiment run list, about 3.4 to 3.9 GPU-h: done about 17:00 UTC); then the other E3 parts
-  (about 14 h), the first parts of HDSingle 106 to 110, stage 3, stage 5.
-- LANE 2 (job 1482276, successor 1495021): the eight-parameter run of realization 105; then
-  two E3 parts, the second parts of HDSingle 106 to 110, stage 3, stage 5.
-  Everything Sec. IV E needs (105, E3, HDSingle 106 to 110) is in by about 06:00 UTC 25 Nov
-  (the twenty grids pushed lane 1 back by 4 h).
-- WATCHER `bdwp1qpxs`: the twenty grids (all summaries, or an error outcome, or 18:30 UTC).
-  It dies with the session.
-- COMMITTED BUT NOT YET REBUILT (commit 34d85b1): the paper chain reads ObsPops and ObsAssumed
-  over FIFTEEN realizations and has `\ObsPopsFirst...`, `\ObsPopsLater...`,
-  `\ObsAssumedFirst...`, `\ObsAssumedLater...` (HzeroComb, HzeroCL), `\NrealObsFirst` (five),
-  `\NrealObsLater` (ten), `\ObsAssumedFirstShiftHzero`; `values/production_map.json` already
-  lists fifteen while values, figures and PDF are the five-realization state. A refresh BEFORE
-  all twenty summaries exist prints those two keys red with invented values: do not commit
-  such a refresh.
-
-### Do next, in order
-1. When the twenty grids are in (check `ls runs/two_tracers_*/both_catalogs/complete/
-   obslike_f0p30_s1/realization_1{06..15}/summary.json | wc -l` = 20): `bash
-   working/refresh_papers.sh` (exit 0), then rewrite the sentence tagged `% REREAD` in Sec.
-   IV F on the fifteen: the paired shift over fifteen, the combined posteriors over fifteen
-   with their levels, and one clause that the first five, which carry the single-population
-   and host-dependent analyses of this spectrum, lie low (`\ObsPopsFirstHzeroComb`,
-   `\ObsPopsFirstHzeroCL` against `\ObsPopsLaterHzeroComb`, `\ObsPopsLaterHzeroCL`). Re-read
-   Sec. IV G's sentence "With the observed-like spectrum the second moves the median by ...
-   and the input stays inside the 90% interval" and Table III's observed-like "Population
-   assumed" row (its count macro becomes fifteen). Refresh, commit.
-2. When realization 105's summary exists: refresh. HDHost, HWHost, `\HDLBMin/Max`,
-   `\CostSingleHost`, `\HDHostMaxAbsCorrHzero` turn black. Re-read Sec. IV E's third paragraph
-   (the clause "the second with its input below the 90% interval" is about realization A's
-   spin offset, 0.163 [0.126, 0.194]) and the abstract. Commit.
-3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov): refresh; the
-   single-population sentences and the twice-offset sentence turn black; re-read them (the
-   wording "is not biased" must match the level the combined posteriors print). Commit, PDF to
-   the owner (`..._draft_2026-11-2Xa.pdf`), and the multiple choice "5, then 10" (eight-
-   parameter model on realizations 106 to 110, about 150 GPU-h; say what the five gave), with
-   the push request. Worth offering in the same question: stage 5's six-parameter runs on
-   106 to 110 as well (cheap), since its first five are the low draw.
-4. Then Sec. 5 items 3 to 5 of this file (stage 3 and stage 5 subsections as they turn black,
-   the independent Fable review against the style skill's self-check, small leftovers).
-
 ### Facts worth knowing
-- THIS SESSION'S SLURM JOB 1412516 (MIKO) ENDS ABOUT 16:50 UTC 23 Nov (7-day limit; successor
-  1494715 pending). Background tasks and agents die with it.
+- THIS SESSION'S SLURM JOB is 1494715 on MIKO (limit 11:56 UTC 30 Nov). Background tasks and
+  agents die with it.
 - In the session shell `grep` is a function: in watcher tests use `command grep` and test for
   `"outcome": "error"` positively (attempt outcomes: finished, deadline, running, error).
 - `tests/results/` and `working/data/` are git-ignored; tracked files under `working/data`

@@ -19044,14 +19044,14 @@
    "class": "anc",
    "render": "49^{+22}_{-17}",
    "value": {
-    "median": 49.35532207979035,
+    "median": 49.35532207979034,
     "ci68": [
      38.80511504902779,
-     61.62880047720122
+     61.62880047720121
     ],
     "ci90": [
      32.6173257650206,
-     70.94144852801104
+     70.94144852801101
     ]
    },
    "units": "",
@@ -28390,8 +28390,8 @@
      46.0252819473382
     ],
     "ci90": [
-     23.39655765189994,
-     52.89555073036184
+     23.396557651899943,
+     52.89555073036185
     ],
     "ul90": 48.81947908234363,
     "level_of_input": 0.4953000000000001
@@ -28424,7 +28424,7 @@
   "FreeTwentyRateRatioLo": {
    "class": "plain",
    "render": "23",
-   "value": 23.39655765189994,
+   "value": 23.396557651899943,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28437,7 +28437,7 @@
   "FreeTwentyRateRatioHi": {
    "class": "plain",
    "render": "53",
-   "value": 52.89555073036184,
+   "value": 52.89555073036185,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28450,7 +28450,7 @@
   "FreeTwentyRateRatioWid": {
    "class": "plain",
    "render": "29",
-   "value": 29.4989930784619,
+   "value": 29.498993078461904,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28464,17 +28464,17 @@
    "class": "plain",
    "render": "39^{+10}_{-9}",
    "value": {
-    "median": 38.74448667482695,
+    "median": 38.744486674826945,
     "ci68": [
      33.13521903046602,
-     44.8891849924807
+     44.889184992480686
     ],
     "ci90": [
      29.703449577389932,
-     49.22998647773953
+     49.22998647773951
     ],
-    "ul90": 46.789709242955894,
-    "level_of_input": 0.49517074902571934
+    "ul90": 46.78970924295588,
+    "level_of_input": 0.49517074902572045
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10)) (median and 90% equal-tailed interval)",
@@ -28491,7 +28491,7 @@
   "FreeTwentyRateRatioCombMed": {
    "class": "plain",
    "render": "39",
-   "value": 38.74448667482695,
+   "value": 38.744486674826945,
    "units": "",
    "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28517,7 +28517,7 @@
   "FreeTwentyRateRatioCombHi": {
    "class": "plain",
    "render": "49",
-   "value": 49.22998647773953,
+   "value": 49.22998647773951,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28530,7 +28530,7 @@
   "FreeTwentyRateRatioCombWid": {
    "class": "plain",
    "render": "20",
-   "value": 19.526536900349598,
+   "value": 19.526536900349576,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28543,7 +28543,7 @@
   "FreeTwentyRateRatioCL": {
    "class": "plain",
    "render": "50",
-   "value": 0.49517074902571934,
+   "value": 0.49517074902572045,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeTwentyRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20)",
    "source": {
@@ -30157,13 +30157,13 @@
     "median": 40.65140232422645,
     "ci68": [
      31.55730518897457,
-     50.86596064392949
+     50.865960643929476
     ],
     "ci90": [
-     26.238423535252124,
+     26.238423535252128,
      58.20829895640491
     ],
-    "ul90": 53.45971701540503,
+    "ul90": 53.45971701540504,
     "level_of_input": 0.1847000000000001
    },
    "units": "",
@@ -30194,7 +30194,7 @@
   "FreeEighteenRateRatioLo": {
    "class": "plain",
    "render": "26",
-   "value": 26.238423535252124,
+   "value": 26.238423535252128,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -30220,7 +30220,7 @@
   "FreeEighteenRateRatioWid": {
    "class": "plain",
    "render": "32",
-   "value": 31.969875421152786,
+   "value": 31.969875421152782,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeEighteen] equal populations; number densities inferred; both catalogs, m < 18, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -43081,22 +43081,22 @@
   },
   "ObsAssumedHzeroComb": {
    "class": "plain",
-   "render": "67.8^{+0.8}_{-0.8}",
+   "render": "68.5^{+0.5}_{-0.4}",
    "value": {
-    "median": 67.79459679360691,
+    "median": 68.50234422813895,
     "ci68": [
-     67.32763596185242,
-     68.26646026393585
+     68.2883397432749,
+     68.77047542115983
     ],
     "ci90": [
-     67.03061862214427,
-     68.56733255399944
+     68.06309650536356,
+     69.05199441796115
     ],
-    "ul90": 68.39973808132105,
-    "level_of_input": 0.08959677669891941
+    "ul90": 68.8751437296783,
+    "level_of_input": 0.9886031143740075
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43109,10 +43109,10 @@
   },
   "ObsAssumedHzeroCombMed": {
    "class": "plain",
-   "render": "67.8",
-   "value": 67.79459679360691,
+   "render": "68.5",
+   "value": 68.50234422813895,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43122,10 +43122,10 @@
   },
   "ObsAssumedHzeroCombLo": {
    "class": "plain",
-   "render": "67.0",
-   "value": 67.03061862214427,
+   "render": "68.1",
+   "value": 68.06309650536356,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43135,10 +43135,10 @@
   },
   "ObsAssumedHzeroCombHi": {
    "class": "plain",
-   "render": "68.6",
-   "value": 68.56733255399944,
+   "render": "69.1",
+   "value": 69.05199441796115,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43148,10 +43148,10 @@
   },
   "ObsAssumedHzeroCombWid": {
    "class": "plain",
-   "render": "1.5",
-   "value": 1.5367139318551608,
+   "render": "1.0",
+   "value": 0.9888979125975936,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43161,8 +43161,8 @@
   },
   "ObsAssumedHzeroCL": {
    "class": "plain",
-   "render": "9.0",
-   "value": 0.08959677669891941,
+   "render": "99",
+   "value": 0.9886031143740075,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedHzeroComb (H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete)",
    "source": {
@@ -43267,22 +43267,22 @@
   },
   "ObsAssumedfAGNComb": {
    "class": "plain",
-   "render": "0.345^{+0.030}_{-0.030}",
+   "render": "0.306^{+0.017}_{-0.017}",
    "value": {
-    "median": 0.34491082000743883,
+    "median": 0.306037091025169,
     "ci68": [
-     0.3268797166587458,
-     0.3630515227244577
+     0.2955719030785895,
+     0.3165590245333682
     ],
     "ci90": [
-     0.31515776186506633,
-     0.3749539790909494
+     0.28875761668197014,
+     0.32346457071777707
     ],
-    "ul90": 0.3682989383570697,
-    "level_of_input": 0.9872631058580892
+    "ul90": 0.3196025854647196,
+    "level_of_input": 0.4332382669196039
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43295,10 +43295,10 @@
   },
   "ObsAssumedfAGNCombMed": {
    "class": "plain",
-   "render": "0.345",
-   "value": 0.34491082000743883,
+   "render": "0.306",
+   "value": 0.306037091025169,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43308,10 +43308,10 @@
   },
   "ObsAssumedfAGNCombLo": {
    "class": "plain",
-   "render": "0.315",
-   "value": 0.31515776186506633,
+   "render": "0.289",
+   "value": 0.28875761668197014,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43321,10 +43321,10 @@
   },
   "ObsAssumedfAGNCombHi": {
    "class": "plain",
-   "render": "0.375",
-   "value": 0.3749539790909494,
+   "render": "0.323",
+   "value": 0.32346457071777707,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43334,10 +43334,10 @@
   },
   "ObsAssumedfAGNCombWid": {
    "class": "plain",
-   "render": "0.060",
-   "value": 0.059796217225883075,
+   "render": "0.035",
+   "value": 0.034706954035806925,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43347,8 +43347,8 @@
   },
   "ObsAssumedfAGNCL": {
    "class": "plain",
-   "render": "99",
-   "value": 0.9872631058580892,
+   "render": "43",
+   "value": 0.4332382669196039,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in ObsAssumedfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete)",
    "source": {
@@ -43453,22 +43453,22 @@
   },
   "ObsPopsHzeroComb": {
    "class": "plain",
-   "render": "67.0^{+0.7}_{-0.6}",
+   "render": "67.4^{+0.4}_{-0.4}",
    "value": {
-    "median": 66.95534284594726,
+    "median": 67.37079345545664,
     "ci68": [
-     66.56837826176715,
-     67.36262109364527
+     67.11070178668791,
+     67.61953415644365
     ],
     "ci90": [
-     66.31636555667203,
-     67.63673839913267
+     66.95162232112004,
+     67.78260763154329
     ],
-    "ul90": 67.48197299173573,
-    "level_of_input": 0.9409578473625733
+    "ul90": 67.69208771431249,
+    "level_of_input": 0.8591576332542805
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43481,10 +43481,10 @@
   },
   "ObsPopsHzeroCombMed": {
    "class": "plain",
-   "render": "67.0",
-   "value": 66.95534284594726,
+   "render": "67.4",
+   "value": 67.37079345545664,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43494,10 +43494,10 @@
   },
   "ObsPopsHzeroCombLo": {
    "class": "plain",
-   "render": "66.3",
-   "value": 66.31636555667203,
+   "render": "67.0",
+   "value": 66.95162232112004,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43507,10 +43507,10 @@
   },
   "ObsPopsHzeroCombHi": {
    "class": "plain",
-   "render": "67.6",
-   "value": 67.63673839913267,
+   "render": "67.8",
+   "value": 67.78260763154329,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43520,10 +43520,10 @@
   },
   "ObsPopsHzeroCombWid": {
    "class": "plain",
-   "render": "1.3",
-   "value": 1.3203728424606425,
+   "render": "0.8",
+   "value": 0.8309853104232445,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43533,8 +43533,8 @@
   },
   "ObsPopsHzeroCL": {
    "class": "plain",
-   "render": "94",
-   "value": 0.9409578473625733,
+   "render": "86",
+   "value": 0.8591576332542805,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsHzeroComb (H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete)",
    "source": {
@@ -43639,22 +43639,22 @@
   },
   "ObsPopsfAGNComb": {
    "class": "plain",
-   "render": "0.325^{+0.023}_{-0.022}",
+   "render": "0.301^{+0.013}_{-0.013}",
    "value": {
-    "median": 0.32477020714180266,
+    "median": 0.300827368934214,
     "ci68": [
-     0.3112666249120464,
-     0.3383950731686295
+     0.2931173839197502,
+     0.308582511253954
     ],
     "ci90": [
-     0.302514145818862,
-     0.3473690699520185
+     0.28808755102109196,
+     0.31368830497144234
     ],
-    "ul90": 0.34235179980898434,
-    "level_of_input": 0.9330723054686898
+    "ul90": 0.31083989495355097,
+    "level_of_input": 0.08467754039560094
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43667,10 +43667,10 @@
   },
   "ObsPopsfAGNCombMed": {
    "class": "plain",
-   "render": "0.325",
-   "value": 0.32477020714180266,
+   "render": "0.301",
+   "value": 0.300827368934214,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43680,10 +43680,10 @@
   },
   "ObsPopsfAGNCombLo": {
    "class": "plain",
-   "render": "0.303",
-   "value": 0.302514145818862,
+   "render": "0.288",
+   "value": 0.28808755102109196,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43693,10 +43693,10 @@
   },
   "ObsPopsfAGNCombHi": {
    "class": "plain",
-   "render": "0.347",
-   "value": 0.3473690699520185,
+   "render": "0.314",
+   "value": 0.31368830497144234,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43706,10 +43706,10 @@
   },
   "ObsPopsfAGNCombWid": {
    "class": "plain",
-   "render": "0.045",
-   "value": 0.044854924133156504,
+   "render": "0.026",
+   "value": 0.025600753950350386,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
    },
@@ -43719,8 +43719,8 @@
   },
   "ObsPopsfAGNCL": {
    "class": "plain",
-   "render": "93",
-   "value": 0.9330723054686898,
+   "render": "8.5",
+   "value": 0.08467754039560094,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in ObsPopsfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete)",
    "source": {
@@ -45264,10 +45264,10 @@
   },
   "ObsAssumedBiasHzero": {
    "class": "plain",
-   "render": "0.1",
-   "value": 0.054596793606918936,
+   "render": "0.8",
+   "value": 0.7623442281389572,
    "units": "km/s/Mpc",
-   "meaning": "median of ObsAssumedHzeroComb minus the input H0 (population assumed (the galaxy class's for both classes), host-dependent mergers, observed-like spectrum, combined over 5 realizations)",
+   "meaning": "median of ObsAssumedHzeroComb minus the input H0 (population assumed (the galaxy class's for both classes), host-dependent mergers, observed-like spectrum, combined over 15 realizations)",
    "source": {
     "files": [
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json"
@@ -45398,8 +45398,8 @@
   },
   "ObsAssumedShiftHzero": {
    "class": "plain",
-   "render": "1.1",
-   "value": 1.1104498903209645,
+   "render": "1.0",
+   "value": 0.9699541274386547,
    "units": "km/s/Mpc",
    "meaning": "median over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
@@ -45413,7 +45413,27 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
     ],
     "computation": "posterior.H0.median of each summary of key ObsAssumed minus that of the same realization of key ObsPops; their median"
    },
@@ -45426,14 +45446,24 @@
      "101": 0.6756585692188395,
      "102": 1.0773662298953752,
      "103": 1.4150509550056114,
-     "105": 1.1104498903209645
+     "105": 1.1104498903209645,
+     "106": 0.4112417372802213,
+     "107": 1.7731337455625038,
+     "108": 0.8805740650657583,
+     "109": 1.3940212234792284,
+     "110": 0.8604618501865389,
+     "111": 0.5421177024657595,
+     "112": 0.6975266485464999,
+     "113": 0.5155395117452457,
+     "114": 1.2391907560758568,
+     "115": 0.9699541274386547
     }
    }
   },
   "ObsAssumedShiftHzeroMin": {
    "class": "plain",
-   "render": "0.7",
-   "value": 0.6756585692188395,
+   "render": "0.4",
+   "value": 0.4112417372802213,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
@@ -45447,7 +45477,27 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
     ],
     "computation": "posterior.H0.median of each summary of key ObsAssumed minus that of the same realization of key ObsPops; their smallest"
    },
@@ -45460,14 +45510,24 @@
      "101": 0.6756585692188395,
      "102": 1.0773662298953752,
      "103": 1.4150509550056114,
-     "105": 1.1104498903209645
+     "105": 1.1104498903209645,
+     "106": 0.4112417372802213,
+     "107": 1.7731337455625038,
+     "108": 0.8805740650657583,
+     "109": 1.3940212234792284,
+     "110": 0.8604618501865389,
+     "111": 0.5421177024657595,
+     "112": 0.6975266485464999,
+     "113": 0.5155395117452457,
+     "114": 1.2391907560758568,
+     "115": 0.9699541274386547
     }
    }
   },
   "ObsAssumedShiftHzeroMax": {
    "class": "plain",
-   "render": "1.4",
-   "value": 1.4150509550056114,
+   "render": "1.8",
+   "value": 1.7731337455625038,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
@@ -45481,7 +45541,27 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
     ],
     "computation": "posterior.H0.median of each summary of key ObsAssumed minus that of the same realization of key ObsPops; their largest"
    },
@@ -45494,7 +45574,17 @@
      "101": 0.6756585692188395,
      "102": 1.0773662298953752,
      "103": 1.4150509550056114,
-     "105": 1.1104498903209645
+     "105": 1.1104498903209645,
+     "106": 0.4112417372802213,
+     "107": 1.7731337455625038,
+     "108": 0.8805740650657583,
+     "109": 1.3940212234792284,
+     "110": 0.8604618501865389,
+     "111": 0.5421177024657595,
+     "112": 0.6975266485464999,
+     "113": 0.5155395117452457,
+     "114": 1.2391907560758568,
+     "115": 0.9699541274386547
     }
    }
   },
@@ -45636,7 +45726,17 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101/grid",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102/grid",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/grid",
-     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/grid"
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/grid"
     ],
     "computation": "run_posteriors.interior_maximum of each realization's grid (fine and coarse passes)"
    },
@@ -45683,6 +45783,86 @@
       },
       "at_edge": false,
       "lnL": -3179.036771796843
+     },
+     "106": {
+      "argmax": {
+       "H0": 70.0,
+       "f_agn": 0.3
+      },
+      "at_edge": false,
+      "lnL": -3181.5763729825553
+     },
+     "107": {
+      "argmax": {
+       "H0": 69.6,
+       "f_agn": 0.27
+      },
+      "at_edge": false,
+      "lnL": -3191.597794677866
+     },
+     "108": {
+      "argmax": {
+       "H0": 67.8,
+       "f_agn": 0.285
+      },
+      "at_edge": false,
+      "lnL": -3084.6197621728165
+     },
+     "109": {
+      "argmax": {
+       "H0": 67.5,
+       "f_agn": 0.285
+      },
+      "at_edge": false,
+      "lnL": -3162.7637587163063
+     },
+     "110": {
+      "argmax": {
+       "H0": 68.8,
+       "f_agn": 0.25
+      },
+      "at_edge": false,
+      "lnL": -3077.344110542405
+     },
+     "111": {
+      "argmax": {
+       "H0": 67.5,
+       "f_agn": 0.34
+      },
+      "at_edge": false,
+      "lnL": -3088.0909604697135
+     },
+     "112": {
+      "argmax": {
+       "H0": 68.2,
+       "f_agn": 0.34
+      },
+      "at_edge": false,
+      "lnL": -3192.2150944662703
+     },
+     "113": {
+      "argmax": {
+       "H0": 68.0,
+       "f_agn": 0.25
+      },
+      "at_edge": false,
+      "lnL": -3112.600624967947
+     },
+     "114": {
+      "argmax": {
+       "H0": 69.5,
+       "f_agn": 0.26
+      },
+      "at_edge": false,
+      "lnL": -3072.9863937219657
+     },
+     "115": {
+      "argmax": {
+       "H0": 68.1,
+       "f_agn": 0.285
+      },
+      "at_edge": false,
+      "lnL": -3243.647060219617
      }
     }
    }
@@ -45770,6 +45950,340 @@
    "extra": {
     "per_realization": {
      "A": 3.0
+    }
+   }
+  },
+  "ObsPopsFirstHzeroComb": {
+   "class": "plain",
+   "render": "67.0^{+0.7}_{-0.6}",
+   "value": {
+    "median": 66.95534284594726,
+    "ci90": [
+     66.31636555667203,
+     67.63673839913267
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) (median and 90% equal-tailed interval)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ]
+   }
+  },
+  "ObsPopsFirstHzeroCL": {
+   "class": "plain",
+   "render": "94",
+   "value": 0.9409578473625733,
+   "units": "%",
+   "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsFirstHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105))",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ]
+   }
+  },
+  "ObsPopsLaterHzeroComb": {
+   "class": "plain",
+   "render": "67.6^{+0.7}_{-0.5}",
+   "value": {
+    "median": 67.60723051508201,
+    "ci90": [
+     67.07805134432469,
+     68.27012734512084
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115) (median and 90% equal-tailed interval)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "input": 67.74,
+    "realizations": [
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   }
+  },
+  "ObsPopsLaterHzeroCL": {
+   "class": "plain",
+   "render": "32",
+   "value": 0.31634203043364395,
+   "units": "%",
+   "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsLaterHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115))",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   }
+  },
+  "ObsAssumedFirstHzeroComb": {
+   "class": "plain",
+   "render": "67.8^{+0.8}_{-0.8}",
+   "value": {
+    "median": 67.79459679360691,
+    "ci90": [
+     67.03061862214427,
+     68.56733255399944
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) (median and 90% equal-tailed interval)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ]
+   }
+  },
+  "ObsAssumedFirstHzeroCL": {
+   "class": "plain",
+   "render": "9.0",
+   "value": 0.08959677669891941,
+   "units": "%",
+   "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedFirstHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105))",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ]
+   }
+  },
+  "ObsAssumedLaterHzeroComb": {
+   "class": "plain",
+   "render": "69.0^{+0.5}_{-0.6}",
+   "value": {
+    "median": 68.95129966399101,
+    "ci90": [
+     68.34086583114228,
+     69.49434005846076
+    ]
+   },
+   "units": "km/s/Mpc",
+   "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115) (median and 90% equal-tailed interval)",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "input": 67.74,
+    "realizations": [
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   }
+  },
+  "ObsAssumedLaterHzeroCL": {
+   "class": "plain",
+   "render": "99.8",
+   "value": 0.9976208935946893,
+   "units": "%",
+   "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedLaterHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115))",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "input": 67.74,
+    "realizations": [
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   }
+  },
+  "ObsAssumedFirstShiftHzero": {
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.1104498903209645,
+   "units": "km/s/Mpc",
+   "meaning": "median over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
+   "source": {
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105/summary.json"
+    ],
+    "computation": "posterior.H0.median of each summary of ObsAssumed minus that of ObsPops, the same realization; their median"
+   },
+   "claim": "skeleton,subsets",
+   "containment": null,
+   "extra": {
+    "decimals": 1,
+    "per_realization": {
+     "100": 1.301832773699644,
+     "101": 0.6756585692188395,
+     "102": 1.0773662298953752,
+     "103": 1.4150509550056114,
+     "105": 1.1104498903209645
     }
    }
   },
@@ -54493,13 +55007,13 @@
   },
   "NrealObsAssumed": {
    "class": "plain",
-   "render": "five",
-   "value": 5,
+   "render": "fifteen",
+   "value": 15,
    "units": "realizations",
    "meaning": "realizations combined, population assumed and the two populations at their inputs, host-dependent mergers, observed-like spectrum (keys ObsAssumed, ObsPops; RUNLIST_experiment.yaml stage E2)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
-    "computation": "ObsAssumed: RUNLIST_experiment.yaml: 5 runs of two_tracers_one_population on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105]; ObsPops: RUNLIST_experiment.yaml: 5 runs of two_tracers_two_populations on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105]"
+    "computation": "ObsAssumed: RUNLIST_experiment.yaml: 15 runs of two_tracers_one_population on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]; ObsPops: RUNLIST_experiment.yaml: 15 runs of two_tracers_two_populations on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
    },
    "claim": "design,realizations",
    "containment": null,
@@ -54514,16 +55028,85 @@
       101,
       102,
       103,
-      105
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115
      ],
      "ObsPops": [
       100,
       101,
       102,
       103,
-      105
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115
      ]
     }
+   }
+  },
+  "NrealObsFirst": {
+   "class": "plain",
+   "render": "five",
+   "value": 5,
+   "units": "realizations",
+   "meaning": "realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2) that also carry stage 5 (key ObsSingle): 100, 101, 102, 103, 105 (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
+    "computation": "realizations of both keys' runs that appear among key ObsSingle's in analyses/analysis_16_production_runs/runs/RUNLIST.yaml"
+   },
+   "claim": "design,realizations",
+   "containment": null,
+   "extra": {
+    "realizations": [
+     100,
+     101,
+     102,
+     103,
+     105
+    ]
+   }
+  },
+  "NrealObsLater": {
+   "class": "plain",
+   "render": "ten",
+   "value": 10,
+   "units": "realizations",
+   "meaning": "realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2) added to them (realizations without stage 5): 106, 107, 108, 109, 110, 111, 112, 113, 114, 115 (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
+    "computation": "realizations of both keys' runs that do not appear among key ObsSingle's in analyses/analysis_16_production_runs/runs/RUNLIST.yaml"
+   },
+   "claim": "design,realizations",
+   "containment": null,
+   "extra": {
+    "realizations": [
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
    }
   },
   "MockHDfDetMean": {

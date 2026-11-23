@@ -1204,16 +1204,22 @@ this spectrum it is smaller (Fig.~\ref{fig:obs}).
 In the observed-like spectrum \ObsPeakFrac{} of the mergers and
 \ObsHDDetPeakShare{} of the detected ones are in the peak, against
 \MockPeakFrac{} and \MockHDDetPeakShare. With both catalogs and the
-population of the galaxy-hosted mergers assumed, the median of $H_0$ moves
-by $\ObsAssumedShiftHzero\,\kms$ [\ObsAssumedShiftHzeroMin,
-\ObsAssumedShiftHzeroMax] from that of the same mergers with the two
-populations at their inputs, where the peak-dominated spectrum gave
-$\HDAssumedShiftHzero\,\kms$. A shift of this size is not resolved against
-the input by \NrealObsAssumed{} realizations: the combined posterior is
-$H_0=\ObsAssumedHzeroComb\,\kms$ with the population assumed, the input at
-the \ObsAssumedHzeroCL\% credible level, and $\ObsPopsHzeroComb\,\kms$ with
-the two populations at their inputs, the input at the \ObsPopsHzeroCL\%
-level and outside the 90\% interval. % REREAD
+population of the galaxy-hosted mergers assumed, the median of $H_0$ rises
+by $\ObsAssumedShiftHzero\,\kms$ from that of the same mergers with the two
+populations at their inputs (the median of \NrealObsAssumed{} shifts, which
+run from \ObsAssumedShiftHzeroMin{} to \ObsAssumedShiftHzeroMax), where the
+peak-dominated spectrum gave $\HDAssumedShiftHzero\,\kms$. Combined over the
+\NrealObsAssumed{} realizations the assumed population gives
+$H_0=\ObsAssumedHzeroComb\,\kms$, with the input at the
+\ObsAssumedHzeroCL\% credible level and outside the 90\% interval, and the
+two populations at their inputs give $\ObsPopsHzeroComb\,\kms$, with the
+input at the \ObsPopsHzeroCL\% level. % REREAD
+The \NrealObsFirst{} realizations that carry the analyses with inferred
+populations below lie low: with the two populations at their inputs they
+combine to $\ObsPopsFirstHzeroComb\,\kms$, the input at the
+\ObsPopsFirstHzeroCL\% level, against $\ObsPopsLaterHzeroComb\,\kms$ and the
+\ObsPopsLaterHzeroCL\% level for the other \NrealObsLater, which we read as
+the draw of those \NrealObsFirst. % REREAD
 With no catalog
 the single-population analysis gives $H_0=\ObsNoneHzero\,\kms$ on
 realization A, against $\HDNoneHzero\,\kms$ for the peak-dominated spectrum.
@@ -1268,8 +1274,9 @@ catalog alone lacks the galaxies that host seven mergers in ten
 (Sec.~\ref{sec:anchor}), and an assumed population lacks the heavier,
 faster-spinning mergers that AGN host (Sec.~\ref{sec:hd}). With the
 observed-like spectrum the second moves the median by
-$\ObsAssumedShiftHzero\,\kms$ and the input stays inside the 90\% interval
-(Sec.~\ref{sec:obs}).
+$\ObsAssumedShiftHzero\,\kms$ instead of \HDAssumedShiftHzero, and
+\NrealObsAssumed{} combined realizations place the input at the
+\ObsAssumedHzeroCL\% credible level (Sec.~\ref{sec:obs}). % REREAD
 The galaxy catalog alone also lacks the hosts of three mergers in ten and
 stays on the input, $H_0=\KnownGalHzeroComb\,\kms$ with the input at the
 \KnownGalHzeroCL\% credible level. We read this as the galaxies tracing the
@@ -1301,9 +1308,8 @@ arrow pointing left is a 90\% upper limit: with no catalog, the posterior of
 the single population on mergers with host-dependent populations extends to
 the lower edge of the prior. The rows labeled ``population assumed'' take
 the population of the galaxy-hosted mergers for both host classes. Among
-the rows with an interval, only the assumed population for mergers with
-host-dependent populations and the peak-dominated spectrum has the input
-outside it. % EXPECTED
+the rows with an interval, only the two with the population assumed have
+the input outside that of $H_0$. % EXPECTED
 }
 \label{fig:summary}
 \end{figure*}
