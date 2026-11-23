@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 11:30 UTC (read this first after a context clear)
+# Checkpoint, 23 Nov 2026, 15:10 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,8 +6,48 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 11:30 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 23 Nov 15:10 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 Local commits up to 34d85b1 plus this file's; GitHub has e6d5313 (ask before any push).
+
+### The holder gap (owner's decision, relayed 15:00 UTC 23 Nov by the darksirens session)
+- The MIKO holder job 1412516 ends 16:50 UTC 23 Nov. The new holder 1494715 is pending behind
+  another user's job; Slurm estimates its start at about 16:00 UTC 24 Nov. The owner waits for
+  it and sets it up; nothing is moved elsewhere. Owner: "message me directly if any decisions
+  need to be made before the checkpoint is made": none was needed.
+- DIES with the holder: this Claude session and its watcher `bdwp1qpxs`. Nothing else of this
+  project runs on miko (no driver, no sampler; the morning's CPU analysis and the twelve RM
+  data jobs have finished and their outputs are on disk).
+- SURVIVES, untouched: the two lane chains on RITA-GPU. Lane 1: job 1494378 (limit 09:32 UTC
+  25 Nov), successor 1496542. Lane 2: job 1482276 (limit 06:30 UTC 25 Nov), successor 1495021.
+  Each job chains its own successor and every nested task resumes from its `state.save`, so
+  nothing has to be restarted. Check at restart, in the analysis-16 directory:
+  `PY=/hildafs/home/magana/tmp_ondemand_hildafs_phy230014p_symlink/magana/.conda/envs/jax/bin/python`
+  `$PY scripts/launch.py --lanes 2 status` (each lane with tasks to do must show a RUNNING or
+  PENDING `agn-prod-lK` job; if one shows none, a `launch.py --lanes 2 stage 5 --dry-run` says
+  what it would submit; run it without `--dry-run` only after reading that output).
+- STATE AT 15:01 UTC: ten of the twenty observed-like grids done (the assumed-population ten;
+  the two-population ten end about 17:00 UTC); realization 105 at iteration 4128, delta ln Z
+  1.2 (ends about 19:00 UTC); lane 1 then E3 (five parts, until about 04:30 UTC 24 Nov) and
+  the first parts of HDSingle 106 to 110 (until about 16:00 UTC 24 Nov); lane 2 after 105 two
+  E3 parts and the second parts of HDSingle 106 to 110 (until about 16:00 UTC 24 Nov).
+  SO AT THE RESTART (about 16:00 UTC 24 Nov) steps 1 to 3 of "Do next" below fall together:
+  one refresh, then the re-reading of all three steps, then the PDF and the questions to the
+  owner. If HDSingle 106 to 110 are not all in, do steps 1 and 2 and arm one watcher for the
+  rest (loop over the ten `runs/single_population/both_catalogs/complete/host_dependent/
+  realization_1{06..10}/summary.json` with both parts in each; `command grep` for
+  `"outcome": "error"` in their `nested_*/attempts.json`; a time limit).
+- EXPECT AT THAT REFRESH: the assumed population on the observed-like spectrum over FIFTEEN
+  is about 68.5 +- 0.5 with the input near the 99% level (assumed-population medians: first
+  five 67.6, 67.3, 70.1, 67.0, 68.6, Gaussian combination 67.96 +- 0.80; new ten 70.1, 70.1,
+  67.7, 67.7, 69.1, 67.7, 68.0, 68.3, 69.7, 68.4, combination 68.77 +- 0.59). So over fifteen
+  the bias of the assumed population IS resolved for this spectrum too, and three sentences
+  written for five must change: Sec. IV F's sentence tagged `% REREAD` ("A shift of this size
+  is not resolved against the input by ... realizations"), Sec. IV G's "With the observed-like
+  spectrum the second moves the median by ... and the input stays inside the 90% interval",
+  and Fig. 8's caption ("only the assumed population ... and the peak-dominated spectrum has
+  the input outside it"). Word them from the printed levels, not from this forecast.
+- OWED TO THE OWNER: nothing blocks. Coming after that refresh: the PDF, the multiple choice
+  "5, then 10", the push request.
 
 ### What happened on 23 Nov (all committed)
 1. EIGHT-PARAMETER RUNS (host-dependent populations, `..._unif_then_rslice`): realizations 100
