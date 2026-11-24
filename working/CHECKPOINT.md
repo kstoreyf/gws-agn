@@ -1,4 +1,4 @@
-# Checkpoint, 23 Nov 2026, 23:25 UTC (read this first after a context clear)
+# Checkpoint, 24 Nov 2026, 00:05 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,7 +6,7 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 23 Nov 23:25 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 24 Nov 00:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
 ### The session is back; there was no gap
@@ -203,78 +203,110 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   INSTALLED 23:18:48 UTC into `scripts/` by atomic `mv` (order `redraw_mixture.py`,
   `prod_summary.py`, `prod_model.py`, `prod_driver.py`; `prod_common.py` unchanged; md5 of the
   old files in the scratchpad `md5_before_install.txt`, and git has them). Imports checked
-  in the core venv. STILL TO CHECK: that the next task each lane STARTS after 23:19 UTC runs
-  normally (lane 1's about 00:30 UTC, lane 2's about 01:20 UTC: look for "built + bound" in
-  `logs/agn-prod-l{1,2}_*.out`).
+  in the core venv. CHECKED 00:00 UTC 24 Nov: lane 1's next task (E3 realization 103, part 1) started
+  23:49:57 UTC with the installed scripts and runs normally; the summary step before it
+  exited 0.
   THE TWO 32,000-SAMPLE GRIDS OF REALIZATION 106 finished (22:51 and 23:16 UTC): assumed
   population 69.67 [67.89, 71.40] (8000: 70.11 [69.07, 71.73]); two populations 69.12
   [67.39, 70.72] (8000: 69.70 [68.37, 71.06]). All mergers at four times the samples move the
   medians by -0.4 and -0.6, beyond the edge merger's part (hybrid: 70.00 and 69.36): the
   general redraw scatter of 0.28 per realization that the appendix already states. They are
   a cross-check now; no macro reads them.
-  STEP B (running since 23:25 UTC): an Opus agent (id `a837ed8ad3a2d1687`) (1) adds stage
-  E2M: a `_mix` partner with the option on for each of E2's 95 observed-like grids, lane rank
-  1.5; (2) adds the option to stage 5's fifteen entries, names unchanged (they are queued by
-  those names); (3) re-points every observed-like key and macro of the paper to the `_mix`
-  runs (red until they exist, with today's values as placeholders), removes the block
-  `obslike_mc`, its nine macros and audit J7, adds an audit check that observed-like runs
-  carry the option and no other run does; (4) one refresh; (5) returns the launcher command
-  for E2M with its dry run. THEN (you): check its proofs (run lists: only E2M added and stage
-  5's option; macros: only observed-like ones changed state, old value = placeholder), queue
-  E2M on both lanes (about 11.4 GPU-h; it runs ahead of E3 and HDSingle, so the Sec. IV E
-  milestone moves from about 06:00 to about 12:00 UTC 25 Nov), commit, arm a watcher on the
-  E2M summaries. When they are in: refresh; re-read EVERY observed-like sentence (Sec. IV F
-  whole, Sec. IV G's sentence, the abstract's sentence, Table III's observed-like rows,
-  Fig. 3(b), Fig. 7, Fig. 8, their captions) against the black numbers, redo the leave-one-out
-  of the fifteen and the step scan on the new grids, remove the `% REREAD` tags.
-  `main.tex` (uncommitted until the agent's refresh): the sentences on the 32,000-sample check
-  and the pointer in Sec. IV F are removed; Appendix A "Monte Carlo sums" has the sentence on
-  the mixture sampling with `\cite{Hesterberg:1995,Owen:2000}` (both verified by web search,
-  recorded in `notes/CITATION_CHECKS.md`, entries in `refs.bib`).
-  IF STEP B's agent died: its edits are in the working tree (`scripts/make_runlist.py`, run
-  lists, README; `paper_prd/scripts`, `values/`); resume it with SendMessage.
-  THE OWNER HAS BEEN TOLD of the finding and of the plan (messages of 21:50 and 23:20 UTC),
-  not asked: technical decision, about 11 GPU-h of re-runs.
+  STEP B DONE AND QUEUED (00:01 UTC 24 Nov). The Opus agent's work, checked by me from the
+  YAML and the macros file against the commit before: `RUNLIST_experiment.yaml` has 95 new
+  runs, all stage E2M (`<partner>_mix`: 75 `_mix`, 15 `_agn_s32000_inj1_mix`, 5
+  `_s32000_inj1_mix`; arguments = the partner's + the `mix` token in the variant +
+  `--redraw-mixture support`, all 95; field `mix_partner`; 12.0 GPU-h); `RUNLIST.yaml`:
+  stage 5's fifteen entries are exactly the old arguments + `--redraw-mixture support
+  --run-name <their name>` (names, part directories and nested state paths unchanged; no
+  stage-5 directory existed), nothing else changed anywhere. `launch.py` has an opt-in
+  `--spread` (new tasks balanced among themselves over the lanes) and knows stage E2M.
+  Paper chain: keys `ObsAssumed`, `ObsPops` and the classes macros `HWObs{Unknown,Known}
+  {Zero,Thirty,Hundred}`, `HWObsNone`, `HWObsPopsThirty`, `HWObsKnownPopsThirty` (with Min,
+  Max) read the E2M runs; 89 macros went real -> red, each printing its old value
+  (`values/obslike_e2_frozen.json`); the nine `...MC...` macros, the block `obslike_mc` and
+  audit J7 are gone; audit J8 (every observed-like run a key reads records
+  `redraw_mixture == "support"`, no other run does, stage 5 carries the option, red macros
+  equal the frozen values). Refresh 23:55 UTC: exit 0, audit 95 of 95, figures 515 with 0
+  mismatches, 19 pp, 201 of 256 result macros of the text real (15 of the re-pointed ones
+  are in the text). Figs. 3(b), 7 and 8 draw the observed-like quantities in placeholder
+  style with the same values. Committed 6e4cfbf.
+  QUEUED by me: `launch.py --lanes 2 stage E2M --spread`: 51 tasks on lane 1 (6.1 h), 44 on
+  lane 2 (5.9 h), rank 1.5, at the front of both lanes: they start when each lane's present
+  E3 part ends (lane 2 about 01:20 UTC, lane 1 about 01:50 UTC) and end about 07:30 and
+  08:00 UTC 24 Nov. Queueing them also makes each lane job re-read the run lists at its
+  next task, so stage 5 will run WITH the option (a lane job reads the lists at its start
+  and again only when it meets a task it does not know: remember this whenever arguments of
+  queued runs are changed).
+  WATCHER `bqb11jb9l` (armed 00:02 UTC): all 95 E2M summaries, or an error outcome, or 11:30
+  UTC 24 Nov; its list is `tests/results/e2m_runs.txt`.
+  WHEN IT FIRES: (1) `bash working/refresh_papers.sh` (exit 0; J8 now compares summaries).
+  (2) Repeat on the new grids what found the problem: the step scan (first differences of
+  ln L along H0 against the median of their four neighbours, flag above 0.5 nat within 12
+  nats of the peak, over `runs/*/*/*/*/realization_*_mix/grid/`: expect none), the
+  leave-one-out of the fifteen for `ObsAssumed` (it was 98.5% with realization 106, 89.5%
+  without), and a look at Fig. 7(a)'s dotted curve (the shoulder at 69.2 should be gone).
+  (3) Re-read EVERY observed-like sentence against the black numbers: Sec. IV F whole (the
+  half-widths 8.4, 2.0, 1.6 and "each difference between the spectra is inside the range
+  over the realizations"; the shift over fifteen and the two combined levels with "outside
+  the 90% interval"; the sentence on the five that lie low), Sec. IV G's sentence, the
+  abstract's sentence on this spectrum, Table III's observed-like rows, Fig. 3(b), Fig. 7,
+  Fig. 8 and their captions; remove the three `% REREAD` tags and the `% EXPECTED` of the
+  Appendix A sentence. EXPECT from the CPU hybrids: HWObsNone 8.4 -> about 8.7,
+  HWObsKnownZero and HWObsUnknownZero 3.5 -> 3.6, HWObsUnknownThirty 2.0, the all-AGN pair
+  0.83 and 0.84 -> about 0.78; the assumed population over fifteen about 68.4 with the
+  input near the 98% level; both populations about 67.4, 80%. Word from the printed values.
+  (4) Commit; no PDF to the owner yet (it goes at the Sec. IV E milestone).
+  `main.tex` (committed 6e4cfbf): the sentences on the 32,000-sample check and the pointer
+  in Sec. IV F are gone; Appendix A "Monte Carlo sums" has the sentence on the mixture
+  sampling with `\cite{Hesterberg:1995,Owen:2000}` (verified by web search, recorded in
+  `notes/CITATION_CHECKS.md`, entries in `refs.bib`), tagged `% EXPECTED` until the runs exist.
+  THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
 
 ### Running now, and what each needs from you
-- LANE 2 (job 1482276): since 20:10 UTC on its first E3 part (started normally); then the
-  two 32,000-sample grids of realization 106, one more E3 part, the second parts of HDSingle 106 to 110, stage 3, stage 5.
-- LANE 1 (job 1494378): E3 (five parts, until about 05:00 UTC 24 Nov), the first parts of
-  HDSingle 106 to 110, stage 3, stage 5. Everything Sec. IV E needs is in by about 06:00 UTC
-  25 Nov.
-- WATCHER `bwyy2o0h3` (armed 20:35 UTC): the ten runs of step 3 (E3's five,
-  `single_population/both_catalogs/complete/peak_f0p30_s2/realization_{100,101,102,103,105}`,
-  of which 100 and 101 are done, and HDSingle 106 to 110): all ten summaries, or an error
-  outcome in one of their `nested_*/attempts.json`, or 09:00 UTC 25 Nov. Its list of runs is
-  `step3_runs.txt` in the session scratchpad; if the session restarted, check by hand.
-- The run-list and chain agent of step B ("THE STEPS" above). Watcher `bniuy3n5w` has fired
-  (the two 32,000-sample grids are in). Clock note: the times written in this block before 21:40 UTC run about 15 min
-  ahead of the true clock.
+- LANE 1 (job 1494378, limit 09:32 UTC 25 Nov, successor 1496542): E3 realization 103 part 1
+  (since 23:50 UTC), then 51 E2M grids, E3 (2 parts), HDSingle 106 to 110 first parts,
+  stage 3, stage 5.
+- LANE 2 (job 1482276, limit 06:30 UTC 25 Nov, successor 1495021): E3 realization 105 part 2
+  (since 23:17 UTC), then 44 E2M grids, E3 (1 part), HDSingle 106 to 110 second parts,
+  stage 3, stage 5.
+- WATCHER `bqb11jb9l`: the 95 E2M summaries (see "THE STEPS", "WHEN IT FIRES").
+- WATCHER `bwyy2o0h3`: the ten runs of the Sec. IV E milestone (E3's five and HDSingle 106 to
+  110; all summaries, or an error outcome, or 09:00 UTC 25 Nov). The milestone moved to
+  about 12:00 UTC 25 Nov, so this watcher will fire at its limit with some runs open: re-arm
+  one then for the rest (list `step3_runs.txt` in the session scratchpad, or rebuild it:
+  E3's five are `single_population/both_catalogs/complete/peak_f0p30_s2/realization_{100,
+  101,102,103,105}`).
+- No agent is running. If the session restarted, the watchers are gone: check by hand.
 
 ### Do next, in order
-1. Step B's agent: as written under "THE STEPS", "STEP B". (The block "WHEN THE WATCHER
-   FIRES" there is superseded: the 32,000-sample check is no longer in the paper.)
-2. (done: realization 105, see above.)
-3. When E3's five and HDSingle 106 to 110 are in (about 06:00 UTC 25 Nov; arm one watcher:
-   loop over `runs/single_population/both_catalogs/complete/host_dependent/
-   realization_1{06..10}/summary.json` and E3's five, `command grep` for `"outcome": "error"`
-   in their `nested_*/attempts.json`, a time limit): refresh; the single-population sentences
-   and the twice-offset sentence turn black; re-read them (the wording "is not biased" must
-   match the level the combined posteriors print). Commit, PDF to the owner
-   (`..._draft_2026-11-2Xa.pdf`), and the multiple choice "5, then 10" (eight-parameter model
-   on realizations 106 to 110, about 150 GPU-h; say what the five gave), with the push
-   request. Worth offering in the same question: stage 5's six-parameter runs on 106 to 110
-   as well (about 36 GPU-h), since its first five are the low draw.
-4. FIG. 7 WHEN STAGE 5 IS REAL (decide then, mine): its dotted curve (population assumed) is
+1. The E2M watcher: "THE STEPS", "WHEN IT FIRES".
+2. THE SEC. IV E MILESTONE (about 12:00 UTC 25 Nov): when E3's five and HDSingle 106 to 110
+   are in: refresh; the single-population sentences and the twice-offset sentence turn
+   black; re-read them (the wording "is not biased" must match the level the combined
+   posteriors print). Commit, PDF to the owner with SendUserFile
+   (`dark_sirens_galaxies_and_AGN_draft_2026-11-25a.pdf`, a named copy in the scratchpad),
+   and ONE multiple choice with the push request: "5, then 10" (the eight-parameter model on
+   realizations 106 to 110, about 150 GPU-h; say what the five gave: H0 67.9 (+0.9, -0.8) at
+   26%, log10 B 2.5 to 8.4, 1.3 [1.0, 1.8] times the mergers, and the two spin inputs outside
+   their 90% intervals at 95% and 98%, which is the reason to run it), and stage 5's
+   six-parameter runs on realizations 106 to 110 as well (about 36 GPU-h; its first five are
+   the low draw). Tell them in the same message what the mixture sampling changed.
+3. FIG. 7 WHEN STAGE 5 IS REAL (decide then, mine): its dotted curve (population assumed) is
    combined over fifteen while the single-population and host-dependent curves will be the
-   low five; on the same five the assumed population gives 67.8 +- 0.8. Either draw all three
-   on the five (the paired comparison, with the fifteen in the text) or say in the caption
-   which curve uses which realizations. Table III states the counts per row already.
+   low five; on the same five the assumed population gives 67.8 +- 0.8 (before the mixture
+   re-runs). Either draw all three on the five, with the fifteen in the text, or say in the
+   caption which curve uses which realizations. Table III states the counts per row already.
+4. STAGE 5 (starts about 26 Nov): when realization 100's posteriors come in, look at its H0
+   marginal (edge merger 494; with the mixture 1069 of its 8000 samples lie below the edge
+   at the input H0, where production had 6).
 5. Then Sec. 5 items 3 to 5 of this file (stage 3 and stage 5 subsections as they turn black,
    the independent Fable review against the style skill's self-check, small leftovers).
-- OWED TO THE OWNER: nothing blocks. They get a short account of the steps once the agent
-  has reported, then (step 3) the PDF, the multiple choice and the push request.
-
+- OWED TO THE OWNER: nothing blocks. At the milestone: the PDF, the multiple choice, the
+  push request (GitHub has e6d5313).
+- CONTEXT: this session's context is long (resumed 18:55 UTC 23 Nov, five agents, eight
+  refreshes). This block is a complete resume document; a `/clear` and "continue from the
+  latest checkpoint" loses nothing.
 
 ### What happened on 23 Nov (all committed)
 1. EIGHT-PARAMETER RUNS (host-dependent populations, `..._unif_then_rslice`): realizations 100
