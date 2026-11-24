@@ -1,4 +1,4 @@
-# Checkpoint, 24 Nov 2026, 07:15 UTC (read this first after a context clear)
+# Checkpoint, 24 Nov 2026, 07:35 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -8,7 +8,35 @@ this file holds the working state.
 
 ## STATE 24 Nov 07:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 
-### THE LANES RUN AGAIN SINCE 07:07 UTC 24 Nov (read this first; it supersedes the block below)
+### ALL JOBS OF THIS PROJECT ARE STOPPED (owner, 24 Nov 07:30 UTC: "Stop your jobs."; READ FIRST)
+- DONE 07:30:50 UTC, in this order: `scontrol hold 1534275 1534274` (the two pending lane
+  jobs, lane 1 and lane 2; now PENDING, JobHeldUser), then `scancel 1496542 1495021` (the two
+  running lane jobs). Nothing of this project runs or can start on RITA-GPU; both GPUs are
+  free. The two watchers on run results (`bqb11jb9l`, `bwyy2o0h3`) were stopped too: no
+  background task and no agent is alive.
+- DO NOT RESUME WITHOUT THE OWNER'S WORD. When they say so: `scontrol release 1534275
+  1534274` (each then starts when a GPU is free, takes its lane file up where it stopped
+  and chains its own successor); check with `$PY scripts/launch.py --lanes 2 status` in the
+  analysis-16 directory. If the two held jobs are gone by then: `launch.py --lanes 2 stage
+  E2M --spread --dry-run` shows what would be submitted (a lane with tasks to do and no job
+  gets one); read it before running without `--dry-run`. Then re-arm the two watchers (lists
+  `tests/results/e2m_runs.txt`; E3's five `single_population/both_catalogs/complete/
+  peak_f0p30_s2/realization_{100,101,102,103,105}` and HDSingle `single_population/
+  both_catalogs/complete/host_dependent/realization_1{06..10}`; summaries, an error outcome,
+  a time limit).
+- STATE ON DISK: nothing lost (grids save every 60 s, nested parts resume from `state.save`).
+  E2M: 88 of 95 done; open: `two_tracers_one_population/.../obslike_f0p30_s1/realization_
+  {100,105,106}_mix` and `two_tracers_two_populations/.../realization_{103,106,108,111}_mix`
+  (1.7 GPU-h; interrupted in 111 on lane 1 and at the start of 105 on lane 2). Lanes: 44 and
+  39 tasks to do, none failed. After E2M: E3 (3 parts), HDSingle 106 to 110, stage 3,
+  stage 5 (about 310 GPU-h in all). The Sec. IV E milestone needs about 16 h of lane time
+  after a restart.
+- WHAT CAN GO ON WITHOUT THE GPUs (none of it urgent): the keys `ObsAssumed` and `ObsPops`
+  stay red until the seven grids exist; the half-width means are real (block "THE MIXTURE
+  RE-RUNS SO FAR"); the independent Fable review of the paper against the style skill
+  (Sec. 5 item 4) does not need runs but is better done when Sec. IV E is black.
+
+### (history) THE LANES RAN AGAIN FROM 07:07 TO 07:30 UTC 24 Nov
 - The massgap test job `lh100-tc5` (1534267) FAILED after 17 min (07:07:26 UTC); `lh100-tc17`
   completed; the array 1534269 was cancelled at the same second (its `afterok` could not be
   met). That fulfilled the `afterany` of my lane jobs, and they started by themselves: lane 2
@@ -338,20 +366,15 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
 
 ### Running now, and what each needs from you
-- LANE 1 (job 1496542, limit 07:08 UTC 26 Nov, successor 1534275): its 6 open E2M grids, then
-  E3 (2 parts), HDSingle 106 to 110 first parts, stage 3, stage 5.
-- LANE 2 (job 1495021, limit 07:07 UTC 26 Nov, successor 1534274): its 5 open E2M grids, then
-  E3 (1 part), HDSingle 106 to 110 second parts, stage 3, stage 5.
-- WATCHER `bqb11jb9l`: all 95 E2M summaries, or an error outcome, or 11:30 UTC 24 Nov.
-- WATCHER `bwyy2o0h3`: the ten runs of the Sec. IV E milestone, or an error outcome, or 09:00
-  UTC 25 Nov.
-- No agent is running. If the session restarted, the watchers are gone: check by hand.
+- NOTHING (top block). Held: 1534275 (lane 1), 1534274 (lane 2). No watcher, no agent.
 
 ### Do next, in order
-1. When the eleven open E2M grids are in (about 08:30 UTC 24 Nov, watcher `bqb11jb9l`):
+0. WAIT FOR THE OWNER'S WORD TO RESUME (top block).
+1. When the seven open E2M grids are in (about 50 min after a restart):
    "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done on the
    84, see "THE MIXTURE RE-RUNS SO FAR").
-2. THE SEC. IV E MILESTONE (about 23:00 UTC 24 Nov): when E3's five and HDSingle 106 to 110
+2. THE SEC. IV E MILESTONE (about 16 h of lane time after the owner lets the lanes run
+   again): when E3's five and HDSingle 106 to 110
    are in: refresh; the single-population sentences and the twice-offset sentence turn
    black; re-read them (the wording "is not biased" must match the level the combined
    posteriors print). Commit, PDF to the owner with SendUserFile
