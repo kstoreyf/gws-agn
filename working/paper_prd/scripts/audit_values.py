@@ -717,6 +717,7 @@ def audit_keys(mac):
     check(max(rat) < 0.05, f"H3 every invented combination is narrower than realization A by sqrt(N) to {100 * max(rat):.1f}% ({len(rat)} key-quantities; truncation at prior edges allowed for)")
     audit_requests(mac, doc)
     audit_production(mac, doc, owner)
+    audit_obslike_mixture(mac, doc)
     audit_classes(mac, doc)
     audit_density(mac)
     audit_density_phys(mac)
@@ -742,9 +743,8 @@ def macro_keys(mac, doc):
     out = {}
     for n, v in mac.items():
         # 23 Nov: macros over a subset of a key's realizations (claim 'skeleton,subsets', Obs<Pops|Assumed><First|Later>...) follow their
-        # subset's summaries, not the key's state (audit J6); so do the macros with realization 106 at 32000 samples (claim 'skeleton,mc',
-        # Obs<Assumed|Pops>MC..., ObsMCOne...; audit J7)
-        if not v["claim"].startswith("skeleton") or v["claim"] in ("skeleton,subsets", "skeleton,mc"):
+        # subset's summaries, not the key's state (audit J6)
+        if not v["claim"].startswith("skeleton") or v["claim"] == "skeleton,subsets":
             continue
         if n in FURTHER:
             out[n] = FURTHER[n]
@@ -797,8 +797,9 @@ def audit_requests(mac, doc):
                   if r["analysis"] == "two_tracers_one_population" and r["set"]["label"] == lab} for lab in ("peak_f0p00_s0", "peak_f0p10_s0")}
     want["NrealCtrl"] = {len(v) for v in ctrl.values()} if all(ctrl.values()) else (5 if "five for the others" in runs_txt else -1)
     # 23 Nov: the experiment's keys of Sec. IV E (own parser of RUNLIST_experiment.yaml: analysis and set label of every run)
+    # (23 Nov, 23:30 UTC: the observed-like sets' runs of the keys are stage E2M's, E2's grids with the mixture redraw)
     n_exp = lambda an, lab: len({r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
-                                 if r["analysis"] == an and r["set"]["label"] == lab})
+                                 if r["analysis"] == an and r["set"]["label"] == lab and (not lab.startswith("obslike_") or str(st["stage"]) == "E2M")})
     want["NrealHDAssumed"] = {n_exp("two_tracers_one_population", "peak_f0p30_s1"), n_exp("two_tracers_one_population", "peak_f0p30_s2"),
                               n_exp("two_tracers_two_populations", "peak_f0p30_s1")}
     want["NrealHDSingleTwice"] = n_exp("single_population", "peak_f0p30_s2")
@@ -1394,7 +1395,8 @@ def audit_hdhost_mixed(mac, doc, specs):
 # truth/host_type for the detected AGN shares. The combined posteriors of the new keys are J1's (own summed splines, own levels of the input).
 _EXP_KEYS = {"HDAssumed": ("two_tracers_one_population", "peak_f0p30_s1", "E1"), "HDAssumedTwice": ("two_tracers_one_population", "peak_f0p30_s2", "E1"),
              "HDPops": ("two_tracers_two_populations", "peak_f0p30_s1", "E1"), "HDSingleTwice": ("single_population", "peak_f0p30_s2", "E3"),
-             "ObsAssumed": ("two_tracers_one_population", "obslike_f0p30_s1", "E2"), "ObsPops": ("two_tracers_two_populations", "obslike_f0p30_s1", "E2")}
+             # 23 Nov, 23:30 UTC: the observed-like keys read stage E2M (E2's grids with the mixture redraw, <E2 name>_mix)
+             "ObsAssumed": ("two_tracers_one_population", "obslike_f0p30_s1", "E2M"), "ObsPops": ("two_tracers_two_populations", "obslike_f0p30_s1", "E2M")}
 _SAME_MERGERS = (("HDAssumed", "HDPops"), ("HDAssumedTwice", "HDSingleTwice"), ("ObsAssumed", "ObsPops"))
 
 
@@ -1430,7 +1432,7 @@ def audit_three_steps(mac, doc, specs, comb_cache):
     own, evf = {}, {}
     for k, (an, lab, stg) in _EXP_KEYS.items():
         got = {int(r["args"][r["args"].index("--realization") + 1]): (str(st["stage"]), r["name"], r.get("events_file"))
-               for st in rxl["stages"] for r in st["runs"] if r["analysis"] == an and r["set"]["label"] == lab}
+               for st in rxl["stages"] if str(st["stage"]) == stg for r in st["runs"] if r["analysis"] == an and r["set"]["label"] == lab}
         own[k], evf[k] = got, {R: v[2] for R, v in got.items()}
         sp, E = specs.get(k) or {}, doc.get(k) or {}
         pats = {re.sub(r"realization_\d{3}", "realization_{R}", v[1]) for v in got.values()}
@@ -1534,7 +1536,7 @@ def audit_three_steps(mac, doc, specs, comb_cache):
         out.append(f"{nm} {np.mean(fr):.4f} over {len(fr)}")
     worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf)) if rows else ("-", "-", 0.0, 1.0)
     check(not why and not bad,
-          f"J5 Sec. IV E on three steps: the keys {', '.join(_EXP_KEYS)} name RUNLIST_experiment.yaml's runs (own parser; stages E1-E3; the same "
+          f"J5 Sec. IV E on three steps: the keys {', '.join(_EXP_KEYS)} name RUNLIST_experiment.yaml's runs (own parser; stages E1-E3, E2M; the same "
           f"events files within each pair); {len(rows)} numbers by own code (HDAssumedTwice's median and upper limit, the interior maxima, the "
           f"shifts, the biases, the per-realization Bayes factors, the correlation of H0, the detected AGN shares); largest deviation "
           f"{worst[2]:.2g} ({worst[0]}, tolerance {worst[3]:.2g}); {'; '.join(out)}" + (f"; FAIL: {'; '.join((why + bad)[:5])}" if why or bad else ""))
@@ -1544,8 +1546,9 @@ def audit_three_steps(mac, doc, specs, comb_cache):
 # own code: the run lists parsed here (the two grids' realizations on obslike_f0p30_s1 in RUNLIST_experiment.yaml; stage 5's realizations in
 # RUNLIST.yaml), the summaries read directly, every combination by _grid_comb_safe (own summed splines, PCHIP where a pass has non-finite
 # cells) with own quantiles and levels, own formatting.
-_OBS_SUB = {"ObsPops": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
-            "ObsAssumed": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}"}
+# (23 Nov, 23:30 UTC: the runs of stage E2M, E2's grids with the mixture redraw)
+_OBS_SUB = {"ObsPops": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix",
+            "ObsAssumed": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix"}
 
 
 def audit_obslike_subsets(mac, specs):
@@ -1631,134 +1634,137 @@ def audit_obslike_subsets(mac, specs):
           + (f"; FAIL: {'; '.join(bad[:5])}" if bad else ""))
 
 
-# J7 (23 Nov): realization 106 of keys ObsAssumed and ObsPops at 32000 samples per merger (build_values.build_obslike_mc, STAGE_X_MC_RUNS;
-# notes/MACRO_REQUESTS.md H), by own code: both run lists parsed here (the stage-X runs and their stage-E2 partners, argument by argument,
-# the sample number against \MCNsampHi; the configs once written: samples, redraw key, events and injection files), the keys' realizations
-# from RUNLIST_experiment.yaml, the summaries read directly, every combination by _grid_comb_safe (own summed splines) with own quantiles and
-# levels, the paired shifts by the statistics module, own formatting; red: the request's placeholder values written out here.
-_OBS_MC_R = 106
-_OBS_MC_RUN = {k: p.replace("{R}", f"{_OBS_MC_R:03d}") + "_s{N}" for k, p in _OBS_SUB.items()}
-_OBS_MC_PH_OWN = {"ObsAssumedMCHzeroComb": (68.4, 67.9, 68.9), "ObsAssumedMCHzeroCL": 0.98, "ObsPopsMCHzeroComb": (67.4, 67.0, 67.8),
-                  "ObsPopsMCHzeroCL": 0.80, "ObsAssumedMCShiftHzero": 1.0, "ObsAssumedMCShiftHzeroMin": 0.4, "ObsAssumedMCShiftHzeroMax": 1.8,
-                  "ObsMCOneHzero": (70.0, 68.4, 71.7)}
+# J8 (23 Nov, 23:30 UTC): the observed-like family on the mixture redraw (build_values.OBS_MIX), by own code: both run lists parsed here
+# (stage E2M against stage E2 argument by argument; stage 5's arguments), every run the map names collected here from the map itself (its
+# patterns expanded with the realizations of the record that holds them), the summaries and configs read directly, the frozen record and
+# values.json compared field by field. Observed-like runs: names with /obslike_f.. (the experiment's sets) or /host_dependent_obslike/
+# (stage 5). It compares now: the run lists, the map (no stage-E2 grid; every observed-like experiment run of stage E2M), the red
+# observed-like macros against their frozen values, and every summary and config that exists; later, as the E2M and stage-5 runs finish,
+# the same rule on each new summary and config: redraw_mixture = support on every observed-like run, absent on every other run of the paper.
+_MIX_STAGE, _MIX_OLD = "E2M", "E2"
+_MIX_FROZEN = OUT / "values" / "obslike_e2_frozen.json"
+_MIX_RUN_RX = re.compile(r"^((?:[a-z_]+)/(?:both_catalogs|galaxy_catalog|agn_catalog|no_catalog)/[a-z0-9_]+/[a-z0-9_]+/realization_(?:\{R\}|\d{3})[a-z0-9_]*)(?:/summary\.json)?$")
+_MIX_OBS_RX = re.compile(r"/(?:obslike_f\d|host_dependent_obslike/)")
 
 
-def audit_obslike_mc(mac, specs):
-    import statistics
-    import yaml
-    rows, bad, out = [], [], []
-    val = lambda n: mac[n]["value"]
-
-    def cmp(name, got, want, tol, what):
-        d = abs(got - want)
-        rows.append((name, what, d, tol))
-        if not d <= tol:
-            bad.append(f"{name} {what}: {got:.6g} vs {want:.6g} (tol {tol:.2g})")
-    names = [f"{k}MCHzero{p}" for k in _OBS_SUB for p in ("Comb", "CL")] + [f"ObsAssumedMCShiftHzero{s}" for s in ("", "Min", "Max")] + \
-        ["ObsMCOneHzero", "ObsMCOneHzeroProd", "MCNsampHi"]
-    absent = [n for n in names if n not in mac]
-    if absent:
-        check(False, f"J7 values.json has the macros of realization 106 at 32000 samples ({', '.join(absent[:6])} missing)")
-        return
-    N = int(val("MCNsampHi"))
-    run = {k: v.format(N=N) for k, v in _OBS_MC_RUN.items()}
-    # (a) the run lists, own parser: each stage-X run is its stage-E2 partner's arguments plus --nsamp N --variant sN, nothing else
-    rl, rx = (yaml.safe_load((RUNS16 / f).read_text()) for f in ("RUNLIST.yaml", "RUNLIST_experiment.yaml"))
-    i1 = {r["name"]: (str(st["stage"]), r) for st in rl["stages"] for r in st["runs"]}
-    ix = {r["name"]: (str(st["stage"]), r) for st in rx["stages"] for r in st["runs"]}
-    for k, n in run.items():
-        p = _OBS_SUB[k].format(R=f"{_OBS_MC_R:03d}")
-        if n not in i1 or i1[n][0] != "X" or p not in ix or ix[p][0] != "E2":
-            bad.append(f"{n}: not in stage X of RUNLIST.yaml, or its partner {p} not in stage E2")
-            continue
-        a, b = i1[n][1], ix[p][1]
-        if list(a["args"]) != list(b["args"]) + ["--nsamp", str(N), "--variant", f"s{N}"] or "--nsamp" in b["args"]:
-            bad.append(f"{n}: arguments are not {p}'s plus --nsamp {N} --variant s{N}")
-        if a.get("nsamp") != N or a.get("injection_pool") or a.get("injections_file") != b.get("injections_file") or a.get("events_file") != b.get("events_file"):
-            bad.append(f"{n}: run-list nsamp {a.get('nsamp')} (\\MCNsampHi {N}), pool {a.get('injection_pool')}, or files differ from {p}'s")
-        if (RUNS16 / n / "config.json").exists() and (RUNS16 / p / "config.json").exists():
-            ca, cb = _jr(RUNS16 / n / "config.json"), _jr(RUNS16 / p / "config.json")
-            inj = lambda c: [str(Path(f).resolve()) for f in (c.get("injections_files") or [c["injections_file"]])]
-            if int(ca["nsamp"]) != N or ca["redraw_key"] != cb["redraw_key"] or ca["events_file"] != cb["events_file"] or inj(ca) != inj(cb):
-                bad.append(f"{n}: config.json nsamp {ca['nsamp']}, redraw key, events or injection files differ from {p}'s")
-            out.append(f"{k}: config of the 32000-sample run checked against its partner's")
-    # (b) the keys' realizations (own parser of RUNLIST_experiment.yaml) and the map's keys untouched (realization 106 = the production run)
-    own = {k: sorted(int(m.group(1)) for st in rx["stages"] for r in st["runs"]
-                     for m in [re.fullmatch(re.escape(p).replace(re.escape("{R}"), r"(\d{3})"), r["name"])] if m) for k, p in _OBS_SUB.items()}
-    for k in _OBS_SUB:
-        sp = specs.get(k) or {}
-        if sp.get("realizations") != own[k] or sp.get("run") != _OBS_SUB[k] or str(_OBS_MC_R) in (sp.get("runs_by_realization") or {}):
-            bad.append(f"map key {k}: realizations {sp.get('realizations')} vs own {own[k]}, or its runs are not the production pattern")
-        if (mac[f"{k}MCHzeroComb"].get("extra") or {}).get("realizations") != own[k]:
-            bad.append(f"{k}MCHzeroComb realizations {(mac[f'{k}MCHzeroComb'].get('extra') or {}).get('realizations')} vs own {own[k]}")
-    dirs = {k: [RUNS16 / (run[k] if r == _OBS_MC_R else _OBS_SUB[k].format(R=f"{r:03d}")) for r in own[k]] for k in _OBS_SUB}
-    prodA = RUNS16 / _OBS_SUB["ObsAssumed"].format(R=f"{_OBS_MC_R:03d}") / "summary.json"
-    need = [d / "summary.json" for k in dirs for d in dirs[k]] + [prodA]
-    have = all(_OBS_MC_R in own[k] for k in own) and all(p.exists() for p in need)
-    states = [(n, (mac[n]["class"] == "plain") == have and (mac[n]["class"] == "ph") == (not have)) for n in names if n != "MCNsampHi"]
-    if have:
-        for k in _OBS_SUB:
-            nc, nl = f"{k}MCHzeroComb", f"{k}MCHzeroCL"
-            x0 = {float(_jr(d / "summary.json")["truth"]["H0"]) for d in dirs[k]}
-            cmp(nc, float(len(x0) != 1), 0.0, 0.0, "one input H0 in every summary's truth")
-            x0 = x0.pop()
-            nm_, ax_, tot_ = _grid_comb_safe(dirs[k])
-            xo, po = _marg(nm_, ax_, tot_, "H0")
-            o = _quant(xo, po, x0)
-            v = val(nc)
-            tol = max(0.01 * 0.5 * (v["ci90"][1] - v["ci90"][0]), 0.005)
-            for w, a_, b_ in (("median", v["median"], o["median"]), ("lo", v["ci90"][0], o["ci90"][0]), ("hi", v["ci90"][1], o["ci90"][1])):
-                cmp(nc, a_, b_, tol, f"{w} vs own summed splines (_grid_comb_safe)")
-            cmp(nl, val(nl), o["level"], max(0.01, 2.0 * float(np.interp(x0, xo, po)) * tol), "level of the input vs own")
-            if mac[nc]["render"] != _own_interval(v):
-                bad.append(f"{nc} render {mac[nc]['render']} vs {_own_interval(v)}")
-            pc = _own_pct(val(nl))
-            if (pc is not None and mac[nl]["render"] != pc) or (pc is None and "99" not in mac[nl]["render"]):
-                bad.append(f"{nl} render {mac[nl]['render']} vs {pc}")
-            out.append(f"{nc} {o['median']:.2f} [{o['ci90'][0]:.2f}, {o['ci90'][1]:.2f}], input at {100 * o['level']:.1f}% (own)")
-        common = [r for r in own["ObsAssumed"] if r in own["ObsPops"]]
-        da, dp = dict(zip(own["ObsAssumed"], dirs["ObsAssumed"])), dict(zip(own["ObsPops"], dirs["ObsPops"]))
-        sh = [_jr(da[r] / "summary.json")["posterior"]["H0"]["median"] - _jr(dp[r] / "summary.json")["posterior"]["H0"]["median"] for r in common]
-        for s, fn in (("", statistics.median), ("Min", min), ("Max", max)):
-            n = f"ObsAssumedMCShiftHzero{s}"
-            cmp(n, val(n), fn(sh), 1e-12, "the summaries' paired shifts")
-            if mac[n]["render"] != _own_fixed(fn(sh), 1):
-                bad.append(f"{n} render {mac[n]['render']} vs {_own_fixed(fn(sh), 1)}")
-        out.append(f"shift median {statistics.median(sh):+.2f} [{min(sh):+.2f}, {max(sh):+.2f}] over {len(sh)}")
-        for n, p in (("ObsMCOneHzero", RUNS16 / run["ObsAssumed"] / "summary.json"), ("ObsMCOneHzeroProd", prodA)):
-            s = _jr(p)["posterior"]["H0"]
-            cmp(n, val(n)["median"], s["median"], 1e-12, "median = summary.json")
-            cmp(n, max(abs(val(n)["ci90"][i] - s["ci90"][i]) for i in (0, 1)), 0.0, 1e-12, "90% interval = summary.json")
-            if mac[n]["render"] != _own_interval(s):
-                bad.append(f"{n} render {mac[n]['render']} vs {_own_interval(s)}")
+def _own_map_runs(o, reals=None, out=None):
+    """Every run name the map names: concrete names, and '{R}' patterns expanded with the realizations of the nearest record holding them."""
+    out = set() if out is None else out
+    if isinstance(o, dict):
+        rs = o["realizations"] if isinstance(o.get("realizations"), list) and o["realizations"] and all(isinstance(x, int) for x in o["realizations"]) else reals
+        items = list(o.items())
+    elif isinstance(o, list):
+        rs, items = reals, [(None, v) for v in o]
     else:
-        # red: the request's placeholder values (notes/MACRO_REQUESTS.md H); ObsMCOneHzeroProd the production run's own value
-        for n, w in _OBS_MC_PH_OWN.items():
-            if isinstance(w, tuple):
-                v = val(n)
-                cmp(n, max(abs(v["median"] - w[0]), abs(v["ci90"][0] - w[1]), abs(v["ci90"][1] - w[2])), 0.0, 1e-9, "placeholder")
-                want_r = "\\ph{" + _own_interval({"median": w[0], "ci90": [w[1], w[2]]}) + "}"
-            else:
-                cmp(n, val(n), w, 1e-9, "placeholder")
-                want_r = "\\ph{" + (_own_pct(w) if n.endswith("CL") else _own_fixed(w, 1)) + "}"
-            if mac[n]["render"] != want_r:
-                bad.append(f"{n} render {mac[n]['render']} vs {want_r}")
-        if prodA.exists():
-            s = _jr(prodA)["posterior"]["H0"]
-            cmp("ObsMCOneHzeroProd", abs(val("ObsMCOneHzeroProd")["median"] - s["median"]) + max(abs(val("ObsMCOneHzeroProd")["ci90"][i] - s["ci90"][i])
-                                                                                                    for i in (0, 1)), 0.0, 1e-12, "placeholder = the production summary")
-            if mac["ObsMCOneHzeroProd"]["render"] != "\\ph{" + _own_interval(s) + "}":
-                bad.append(f"ObsMCOneHzeroProd render {mac['ObsMCOneHzeroProd']['render']}")
-            out.append(f"red; ObsMCOneHzeroProd = the production run's {s['median']:.2f} [{s['ci90'][0]:.2f}, {s['ci90'][1]:.2f}]")
-        miss = [str(p.relative_to(RUNS16)) for p in need if not p.exists()]
-        out.append(f"waiting for {len(miss)} summaries ({', '.join(m.split('/')[0] + '/.../' + m.split('/')[-2] for m in miss[:3])})")
-    bad += [f"{n} black/red does not follow the summaries" for n, ok in states if not ok]
-    worst = max(rows, key=lambda r: r[2] / r[3] if r[3] > 0 else (0 if r[2] == 0 else np.inf)) if rows else ("-", "-", 0.0, 1.0)
-    check(not bad,
-          f"J7 keys ObsAssumed and ObsPops with realization {_OBS_MC_R} at {N} samples per merger (\\MCNsampHi; own parser: stage-X runs "
-          f"{', '.join(run.values())} = their stage-E2 partners' arguments plus --nsamp {N} --variant s{N}; keys' realizations {own['ObsAssumed']}); "
-          f"{'black' if have else 'red'} as their summaries say ({sum(ok for _n, ok in states)} of {len(states)}); {len(rows)} numbers against own code, "
-          f"largest deviation {worst[2]:.2g} ({worst[0]}, tolerance {worst[3]:.2g}); {'; '.join(out)}" + (f"; FAIL: {'; '.join(bad[:5])}" if bad else ""))
+        return out
+    for k, v in items:
+        for x in ([k] if isinstance(k, str) else []) + ([v] if isinstance(v, str) else []):
+            m = _MIX_RUN_RX.match(x)
+            if m and "{R}" in m.group(1):
+                out.update(m.group(1).replace("{R}", f"{r:03d}") for r in (rs or []))
+            elif m:
+                out.add(m.group(1))
+        if isinstance(v, (dict, list)):
+            _own_map_runs(v, rs, out)
+    return out
+
+
+def audit_obslike_mixture(mac, doc):
+    import yaml
+    bad, out = [], []
+    rl, rx = (yaml.safe_load((RUNS16 / f).read_text()) for f in ("RUNLIST.yaml", "RUNLIST_experiment.yaml"))
+    stg = {str(st["stage"]): {r["name"]: r for r in st["runs"]} for d in (rl, rx) for st in d["stages"]}
+    e2, e2m, s5 = stg.get(_MIX_OLD, {}), stg.get(_MIX_STAGE, {}), stg.get("5", {})
+    # (a) stage E2M: one partner per stage-E2 grid, its arguments the partner's with the variant + '_mix' and --redraw-mixture support only
+    part = {}
+    for n, r in e2m.items():
+        p = e2.get(r.get("mix_partner"))
+        if p is None:
+            bad.append(f"{n}: mix_partner {r.get('mix_partner')} is not a stage-E2 run")
+            continue
+        part[p["name"]] = n
+        f0, f1 = _own_flags(p["args"]), _own_flags(r["args"])
+        v0 = f0.get("--variant")
+        want = dict(f0, **{"--variant": f"{v0}_mix" if v0 else "mix", "--redraw-mixture": "support"})
+        if (f1 != want or len(r["args"]) != len(p["args"]) + (2 if v0 else 4) or n != p["name"] + "_mix"
+                or (p.get("set") or {}).get("family") != "obslike" or r.get("parts") != p.get("parts")):
+            bad.append(f"{n}: not {p['name']}'s arguments with --variant ..._mix and --redraw-mixture support only")
+    if set(part) != set(e2):
+        bad.append(f"stage E2 grids without one E2M partner: {sorted(set(e2) - set(part))[:3]}")
+    # (b) stage 5: the option and its own name (--run-name), no mix token
+    for n, r in s5.items():
+        f = _own_flags(r["args"])
+        if f.get("--redraw-mixture") != "support" or f.get("--run-name") != n or r["args"].count("--redraw-mixture") != 1 or "_mix" in n:
+            bad.append(f"stage 5 {n}: --redraw-mixture support / --run-name {n} missing")
+    # (c) the map: no stage-E2 grid; every observed-like experiment run is stage E2M's
+    pm = _jr(OUT / "values" / "production_map.json")
+    runs = _own_map_runs(pm)
+    obs = {n for n in runs if _MIX_OBS_RX.search(n)}
+    other = runs - obs
+    read_e2 = sorted(runs & set(e2))
+    obs_exp = {n for n in obs if "/obslike_f" in n}
+    if read_e2:
+        bad.append(f"the map names {len(read_e2)} stage-E2 grids ({read_e2[:2]})")
+    if not obs_exp <= set(e2m):
+        bad.append(f"observed-like experiment runs of the map outside stage E2M: {sorted(obs_exp - set(e2m))[:3]}")
+    if not {n for n in obs if "host_dependent_obslike/" in n} <= set(s5):
+        bad.append("observed-like stage-5 runs of the map outside stage 5")
+    # (d) every summary and config that exists: the option on every observed-like run, absent on every other run of the paper
+    n_obs_s = n_obs_c = n_oth_s = 0
+    for n in sorted(runs):
+        d_ = RUNS16 / n
+        for fn in ("summary.json", "config.json"):
+            if not (d_ / fn).exists():
+                continue
+            rm = _jr(d_ / fn).get("redraw_mixture")
+            if n in obs:
+                n_obs_s += fn == "summary.json"
+                n_obs_c += fn == "config.json"
+                if rm != "support":
+                    bad.append(f"{n}/{fn}: redraw_mixture {rm!r} (an observed-like run without the option)")
+            elif fn == "summary.json":
+                n_oth_s += 1
+                if rm is not None:
+                    bad.append(f"{n}/{fn}: redraw_mixture {rm!r} (not an observed-like run)")
+    # (e) the frozen record: its macros exist; a red one prints exactly its frozen value (\ph of the frozen render); the red keys' entries are
+    # the frozen entries (realization A and the combination, every quantity)
+    fz = _jr(_MIX_FROZEN) if _MIX_FROZEN.exists() else {}
+    fm = fz.get("macros") or {}
+    if not fm:
+        bad.append(f"no frozen record {_MIX_FROZEN.name}")
+    n_red = n_black = 0
+    for n, f in fm.items():
+        m = mac.get(n)
+        if m is None:
+            bad.append(f"frozen macro {n} not in values.json")
+            continue
+        if m["class"] == "ph":
+            n_red += 1
+            if m["render"] != "\\ph{" + f["render"] + "}" or json.dumps(m["value"], sort_keys=True) != json.dumps(f["value"], sort_keys=True):
+                bad.append(f"{n}: red {m['render']} {m['value']!r} vs frozen {f['render']} {f['value']!r}")
+        else:
+            n_black += 1
+            named = set(re.findall(r"[a-z_]+/(?:both_catalogs|galaxy_catalog|agn_catalog|no_catalog)/[a-z0-9_]+/[a-z0-9_]+/realization_\d{3}[a-z0-9_]*",
+                                   json.dumps(m.get("source"))))
+            if named & set(e2):
+                bad.append(f"{n}: black but its source names stage-E2 grids ({sorted(named & set(e2))[:2]})")
+    for k, E in (fz.get("keys") or {}).items():
+        D = doc.get(k) or {}
+        if D.get("final"):
+            continue
+        for q, Q in E["quantities"].items():
+            for part_ in ("A", "Comb"):
+                a_, b_ = (D.get("quantities") or {}).get(q, {}).get(part_) or {}, Q[part_]
+                if any(json.dumps(a_.get(x)) != json.dumps(b_.get(x)) for x in ("median", "ci90", "level_of_input", "x", "p")):
+                    bad.append(f"key {k} {q} {part_}: the red entry is not the frozen one")
+    out.append(f"E2M {len(e2m)} runs = E2's {len(e2)} with --redraw-mixture support (own flags); stage 5 {len(s5)} entries with the option and "
+               f"their own names; the map names {len(runs)} runs ({len(obs)} observed-like: {len(obs_exp)} of stage E2M, {len(obs) - len(obs_exp)} "
+               f"of stage 5; none of stage E2); summaries read: {n_obs_s} observed-like (configs {n_obs_c}), {n_oth_s} others; frozen macros "
+               f"{len(fm)} ({n_red} red at their frozen values, {n_black} black)")
+    check(not bad, "J8 the observed-like family on the mixture redraw (own parser of both run lists and of the map; summaries and configs read "
+                   "directly): " + "; ".join(out) + "; later, as each E2M or stage-5 summary appears, redraw_mixture = support is required in it "
+                   "(and absent from every other run of the paper), and its macros leave their frozen values"
+                   + (f"; FAIL: {'; '.join(bad[:5])}" if bad else ""))
 
 
 def _counts(run):
@@ -2007,7 +2013,6 @@ def audit_production(mac, doc, owner):
     audit_hdhost_mixed(mac, doc, specs)
     audit_three_steps(mac, doc, specs, comb_cache)
     audit_obslike_subsets(mac, specs)
-    audit_obslike_mc(mac, specs)
     # ---- J3 (21 Nov): HDNoneHzeroCombUL, the 90% upper limit of the combined H0 posterior with no catalog on host-dependent mergers (it
     # leans on the lower prior edge): own Scott-KDE product of the weighted samples (J1's), its 90th percentile, mode and density at the edge
     if "HDNone" in fin and ("HDNone", "Hzero") in comb_cache and "HDNoneHzeroCombUL" in mac:

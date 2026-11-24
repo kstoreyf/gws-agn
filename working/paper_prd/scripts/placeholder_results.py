@@ -119,6 +119,10 @@ EXP_SELECTOR.update({
     "ObsAssumed": ("two_tracers_one_population", "obslike_f0p30_s1"), "ObsPops": ("two_tracers_two_populations", "obslike_f0p30_s1")})
 
 
+# 23 Nov, 23:30 UTC (bv.OBS_MIX): the observed-like keys' runs are those of stage E2M (E2's grids with the mixture redraw)
+EXP_STAGE = {k: bv.OBS_MIX["stage"] for k in bv.OBS_MIX["keys"]}
+
+
 def _experiment_realizations():
     import yaml
     out = {}
@@ -127,6 +131,8 @@ def _experiment_realizations():
     for st in yaml.safe_load(RUNLIST_EXP.read_text())["stages"]:
         for r in st["runs"]:
             for key, (an, lab) in EXP_SELECTOR.items():
+                if key in EXP_STAGE and str(st["stage"]) != EXP_STAGE[key]:
+                    continue
                 if r["analysis"] == an and r["set"]["label"] == lab:
                     a = r["args"]
                     out.setdefault(key, set()).add(int(a[a.index("--realization") + 1]))
@@ -189,7 +195,8 @@ NREAL = {k: (len(v), f"RUNLIST.yaml: {len(v)} runs {KEY_SELECTOR[k]}, realizatio
                 "build_values.STAGE_V_KEY_RUNS)" if STAGE_V_REAL.get(k) else ""))
          for k, v in RUNREAL.items()}
 NREAL.update({k: v for k, v in NOT_IN_RUNLIST.items() if k not in RUNREAL_EXP})
-NREAL.update({k: (len(v), f"RUNLIST_experiment.yaml: {len(v)} runs of {EXP_SELECTOR[k][0]} on the experiment's set {EXP_SELECTOR[k][1]}, realizations {v}")
+NREAL.update({k: (len(v), f"RUNLIST_experiment.yaml: {len(v)} runs of {EXP_SELECTOR[k][0]} on the experiment's set {EXP_SELECTOR[k][1]}"
+                         + (f" in stage {EXP_STAGE[k]} (the mixture redraw)" if k in EXP_STAGE else "") + f", realizations {v}")
               for k, v in RUNREAL_EXP.items()})
 assert set(NREAL) == set(KEY_SELECTOR) | set(NOT_IN_RUNLIST) | set(EXP_SELECTOR), sorted((set(KEY_SELECTOR) | set(EXP_SELECTOR)) - set(NREAL))
 STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": "Stage 1: all-AGN and all-galaxy event sets",
@@ -205,8 +212,9 @@ STAGE_TITLE = {"known": "Stage 1: population known, complete catalogs", "pure": 
                "hdassumedtwice": "experiment stage E1 (RUNLIST_experiment.yaml), set peak_f0p30_s2 (twice the offsets): population assumed, both catalogs",
                "hdpops": "experiment stage E1 (RUNLIST_experiment.yaml), set peak_f0p30_s1: the two populations at their inputs, both catalogs",
                "hdsingletwice": "experiment stage E3 (RUNLIST_experiment.yaml), set peak_f0p30_s2 (twice the offsets): single population, both catalogs",
-               "obsassumed": "experiment stage E2 (RUNLIST_experiment.yaml), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs",
-               "obspops": "experiment stage E2 (RUNLIST_experiment.yaml), set obslike_f0p30_s1: the two populations at their inputs, both catalogs"}
+               # 23 Nov, 23:30 UTC: stage E2M, E2's grids with the mixture redraw (bv.OBS_MIX)
+               "obsassumed": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs",
+               "obspops": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs"}
 PRIOR = {"Hzero": (50.0, 100.0), "fAGN": (0.0, 1.0), "MuG": (20.0, 50.0), "SigmaG": (1.0, 10.0), "MuChi": (-0.2, 0.3), "SigmaChi": (0.01, 1.0),
          "DmuG": (-10.0, 10.0), "DmuChi": (-0.05, 0.30), "LognGal": (-4.0, -1.0), "LognAGN": (-6.0, -4.0), "RateRatio": (0.0, 400.0)}
 UNIT = {"Hzero": "km/s/Mpc", "fAGN": "", "MuG": "Msun", "SigmaG": "Msun", "MuChi": "", "SigmaChi": "", "DmuG": "Msun", "DmuChi": "",
@@ -774,7 +782,7 @@ def build():
         for q, (m, hw, b) in spec.items():
             A = gauss_xp(m, hw, PRIOR[q], INPUT[q])
             q_put(E, q, A, invented_comb(A, E["N_comb"], INPUT[q], bias=b, rng=PRIOR[q]), "invented", "invented (the shift survives the combination)")
-        K[key] = E
+        K[key] = frozen_entry(key, E) if key in bv.OBS_MIX["keys"] else E
     # the single population on the set with twice the offsets (stage E3): MACRO_REQUESTS G1's placeholder values (H0 combined 68.6 +- 0.9
     # at the 80% level, realization A 68.4 +- 1.9, mu_G 38.3 +- 0.6, mu_chi 0.08 +- 0.01, f_AGN combined 0.41 +- 0.04); the widths of the
     # population (not requested) invented
@@ -800,6 +808,23 @@ def build():
         vals[key] = (tot - col) / bv.LN10
     K["KnownBoth"]["LB"].update(vals)
     return K
+
+
+def frozen_entry(key, E):
+    """23 Nov, 23:30 UTC (bv.OBS_MIX): the placeholder of an observed-like key (ObsAssumed, ObsPops), whose runs are stage E2M's (the mixture
+    redraw): the entry it had from stage E2's grids on 23 Nov, whole (realization A, the combination, its shapes), from
+    values/obslike_e2_frozen.json, marked not final; E (the invented entry) only where the frozen file has none."""
+    fz = (bv.obs_frozen().get("keys") or {}).get(key)
+    if not fz:
+        return E
+    import copy
+    F = copy.deepcopy(fz)
+    prov = {k: F.pop(k) for k in ("production_file", "production_files", "production_run", "production_settings", "comb_realizations_used") if k in F}
+    F.update({"final": False, "stage": E["stage"], "N_comb_source": E["N_comb_source"] + f" (the frozen values: {F['N_comb']} realizations)",
+              "frozen_from": dict(prov, note=bv.frozen_note(), commit=(bv.obs_frozen().get("_from") or {}).get("commit"))})
+    for Q in F["quantities"].values():
+        Q["source"] = Q["comb_source"] = bv.frozen_note()
+    return F
 
 
 def production_override(K):

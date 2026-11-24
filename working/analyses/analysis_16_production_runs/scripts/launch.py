@@ -2,17 +2,19 @@
 """Analysis 16 launcher: put a stage (or one run) on the GPU lane, or show where things stand.
 
     python scripts/launch.py status [--stage S] [-v]       runs, tasks, states, estimates, lane jobs
-    python scripts/launch.py stage S [S ...] [--match REGEX] [--only-lane K] [--dry-run [--show N]]
+    python scripts/launch.py stage S [S ...] [--match REGEX] [--only-lane K | --spread] [--dry-run [--show N]]
                                                             queue the stages' unfinished tasks whose data
                                                             exist and start a lane job where none is queued
     python scripts/launch.py run NAME [--part P] [--dry-run] [--hours H]
                                                             one-off job for one run (chained like the lane)
 
-Stages: 1-5 (runs/RUNLIST.yaml, production) and E1, E2, E3 (runs/RUNLIST_experiment.yaml, the short
-paper's experiment); both lists are written by make_runlist.py.
+Stages: 1-5 (runs/RUNLIST.yaml, production) and E1, E2, E3, E2M (runs/RUNLIST_experiment.yaml, the short
+paper's experiment; E2M, 23 Nov: E2's grids with the mixture redraw); both lists are written by make_runlist.py.
   --match REGEX   queue only the named stages' runs whose name matches (re.search; anchor with ^ $)
   --only-lane K   put every new task on lane K instead of balancing the lanes; only lane K's file is
                   rewritten and only lane K gets a job (the other lanes are left as they are)
+  --spread        (23 Nov) balance the new tasks among themselves over the lanes (by default each goes to the lane
+                  with less work to do in all, which sends a whole stage to one lane when the lanes are uneven)
 
 ONE LANE (default since 17 Nov: this project may run one job at a time on RITA-GPU). The lane is
 runs/_lanes/lane1.txt, run by scripts/submit_prod.sbatch as job agn-prod-l1. Every job this launcher
@@ -45,7 +47,7 @@ import prod_common as P  # noqa: E402
 import lane_worker as W  # noqa: E402
 
 # the fallback order of runs without a lane_rank (and the order of `status`)
-STAGE_ORDER = {1: 1.0, "E1": 1.5, "E2": 1.5, "E3": 1.7, 2: 2.0, 3: 3.0, 4: 4.0, 5: 5.0}
+STAGE_ORDER = {1: 1.0, "E1": 1.5, "E2": 1.5, "E2M": 1.6, "E3": 1.7, 2: 2.0, 3: 3.0, 4: 4.0, 5: 5.0}   # E2M (23 Nov): after E2 in `status`
 
 
 def norm_stage(s):
@@ -175,14 +177,17 @@ def cmd_stage(a):
     load = {k: lane_load(k, est) for k in lanes}
     added = {k: 0.0 for k in lanes}
     for t in new:
-        k = a.only_lane if a.only_lane is not None else min(load, key=load.get)
+        # --spread (23 Nov): each new task to the lane with less NEW work so far (the work already queued set aside), so a stage
+        # queued behind uneven lanes still lands on every lane; default: the lane with less work to do in all
+        k = a.only_lane if a.only_lane is not None else (min(added, key=added.get) if a.spread else min(load, key=load.get))
         lanes[k].append(t)
         load[k] += est[t]
         added[k] += est[t]
     print(f"stages {stages}{f' matching {a.match!r}' if rx else ''}: {n_matched} runs; {len(new)} new tasks "
           f"({sum(est[t] for t in new):.1f} est GPU-h); {len(missing)} runs wait for data; {len(held)} runs held "
           f"(see 'hold' in the run list); {n_lanes} lane(s)"
-          + (f"; every new task on lane {a.only_lane}" if a.only_lane is not None else ""))
+          + (f"; every new task on lane {a.only_lane}" if a.only_lane is not None else "")
+          + ("; new tasks spread over the lanes by their own hours (--spread)" if a.spread and a.only_lane is None else ""))
     for k in lanes:
         print(f"  lane {k}: {sum(1 for t in lanes[k] if W.task_state(*t) == 'todo')} tasks to do, "
               f"{load[k]:.1f} est GPU-h ({added[k]:.1f} of them new)")
@@ -250,6 +255,8 @@ def main():
                    help="queue only the runs of these stages whose name matches (re.search)")
     s.add_argument("--only-lane", type=int, default=None, metavar="K",
                    help="every new task on lane K (no balancing); start a job for lane K only")
+    s.add_argument("--spread", action="store_true",
+                   help="balance only the new tasks over the lanes (each to the lane with less new work so far), not the lanes' totals")
     s.add_argument("--dry-run", action="store_true")
     s.add_argument("--show", type=int, default=30, help="dry run: tasks shown per lane (default 30)")
     s = sub.add_parser("run")

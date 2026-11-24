@@ -349,9 +349,20 @@
 105
 ]
 },
+"HDSingleTwice": {
+"N": 5,
+"source": "RUNLIST_experiment.yaml: 5 runs of single_population on the experiment's set peak_f0p30_s2, realizations [100, 101, 102, 103, 105]",
+"realizations": [
+100,
+101,
+102,
+103,
+105
+]
+},
 "ObsAssumed": {
 "N": 15,
-"source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_one_population on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
+"source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_one_population on the experiment's set obslike_f0p30_s1 in stage E2M (the mixture redraw), realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
 "realizations": [
 100,
 101,
@@ -372,7 +383,7 @@
 },
 "ObsPops": {
 "N": 15,
-"source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_two_populations on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
+"source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_two_populations on the experiment's set obslike_f0p30_s1 in stage E2M (the mixture redraw), realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
 "realizations": [
 100,
 101,
@@ -389,17 +400,6 @@
 113,
 114,
 115
-]
-},
-"HDSingleTwice": {
-"N": 5,
-"source": "RUNLIST_experiment.yaml: 5 runs of single_population on the experiment's set peak_f0p30_s2, realizations [100, 101, 102, 103, 105]",
-"realizations": [
-100,
-101,
-102,
-103,
-105
 ]
 }
 },
@@ -904,11 +904,12 @@
 },
 "HDSingleTwice": {
 "state": "partial",
-"n_have": 2,
+"n_have": 3,
 "n_need": 5,
 "realizations_have": [
 100,
-101
+101,
+102
 ],
 "realizations_want": [
 100,
@@ -918,7 +919,6 @@
 105
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_102",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_103",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_105"
 ],
@@ -926,26 +926,10 @@
 "runlist": "RUNLIST_experiment.yaml"
 },
 "ObsAssumed": {
-"state": "real",
-"n_have": 15,
+"state": "waiting",
+"n_have": 0,
 "n_need": 15,
-"realizations_have": [
-100,
-101,
-102,
-103,
-105,
-106,
-107,
-108,
-109,
-110,
-111,
-112,
-113,
-114,
-115
-],
+"realizations_have": [],
 "realizations_want": [
 100,
 101,
@@ -963,32 +947,31 @@
 114,
 115
 ],
-"missing": [],
-"stage": "E2",
-"runlist": "RUNLIST_experiment.yaml",
-"cached": true
+"missing": [
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
+],
+"stage": "E2M",
+"runlist": "RUNLIST_experiment.yaml"
 },
 "ObsPops": {
-"state": "real",
-"n_have": 15,
+"state": "waiting",
+"n_have": 0,
 "n_need": 15,
-"realizations_have": [
-100,
-101,
-102,
-103,
-105,
-106,
-107,
-108,
-109,
-110,
-111,
-112,
-113,
-114,
-115
-],
+"realizations_have": [],
 "realizations_want": [
 100,
 101,
@@ -1006,10 +989,25 @@
 114,
 115
 ],
-"missing": [],
-"stage": "E2",
-"runlist": "RUNLIST_experiment.yaml",
-"cached": true
+"missing": [
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
+],
+"stage": "E2M",
+"runlist": "RUNLIST_experiment.yaml"
 },
 "FluxTwentyOne": {
 "state": "real",
@@ -164119,16 +164117,16 @@
 "n_samples": 20000
 },
 "Comb": {
-"median": 38.74448667482695,
+"median": 38.744486674826945,
 "ci68": [
 33.13521903046602,
-44.8891849924807
+44.889184992480686
 ],
 "ci90": [
-29.703449577389932,
-49.22998647773953
+29.70344957738993,
+49.22998647773951
 ],
-"ul90": 46.789709242955894,
+"ul90": 46.78970924295588,
 "x": [
 6.640969,
 6.829933,
@@ -164933,7 +164931,7 @@
 5.36002e-09,
 4.69352e-09
 ],
-"level_of_input": 0.49517074902571934,
+"level_of_input": 0.49517074902572045,
 "input": 42.778809294764024
 },
 "source": "production",
@@ -770391,9 +770389,9 @@
 "analysis": "population assumed (the galaxy class's mass and spin distribution for both classes)",
 "catalogs": "both catalogs, complete",
 "free": "H0, f_AGN",
-"stage": "experiment stage E2 (RUNLIST_experiment.yaml), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
+"stage": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
 "N_comb": 15,
-"N_comb_source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_one_population on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
+"N_comb_source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_one_population on the experiment's set obslike_f0p30_s1 in stage E2M (the mixture redraw), realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115] (the frozen values: 15 realizations)",
 "realizations": [
 100,
 101,
@@ -770411,24 +770409,7 @@
 114,
 115
 ],
-"final": true,
-"comb_realizations_used": [
-100,
-101,
-102,
-103,
-105,
-106,
-107,
-108,
-109,
-110,
-111,
-112,
-113,
-114,
-115
-],
+"final": false,
 "quantities": {
 "Hzero": {
 "A": {
@@ -772074,8 +772055,8 @@
 "level_of_input": 0.9886031143740075,
 "input": 67.74
 },
-"source": "production",
-"comb_source": "production",
+"source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
+"comb_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
 "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
 "comb_file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
 "input": 67.74,
@@ -773726,8 +773707,8 @@
 "level_of_input": 0.4332382669196039,
 "input": 0.3
 },
-"source": "production",
-"comb_source": "production",
+"source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
+"comb_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
 "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
 "comb_file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
 "input": 0.3,
@@ -773737,6 +773718,7 @@
 },
 "joint": {},
 "LB": null,
+"frozen_from": {
 "production_file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
 "production_files": [
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
@@ -773755,35 +773737,8 @@
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
 ],
+"production_run": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
 "production_settings": "the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations",
-"production_run": "two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}"
-},
-"ObsPops": {
-"events": "host-dependent populations, observed-like spectrum",
-"analysis": "the two populations at their inputs",
-"catalogs": "both catalogs, complete",
-"free": "H0, f_AGN",
-"stage": "experiment stage E2 (RUNLIST_experiment.yaml), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-"N_comb": 15,
-"N_comb_source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_two_populations on the experiment's set obslike_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
-"realizations": [
-100,
-101,
-102,
-103,
-105,
-106,
-107,
-108,
-109,
-110,
-111,
-112,
-113,
-114,
-115
-],
-"final": true,
 "comb_realizations_used": [
 100,
 101,
@@ -773801,6 +773756,78 @@
 114,
 115
 ],
+"note": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
+"commit": "3a36d4c82b72532391aff636783f3f1e8f28d24f"
+},
+"production_status": {
+"state": "waiting",
+"n_have": 0,
+"n_need": 15,
+"realizations_have": [],
+"realizations_want": [
+100,
+101,
+102,
+103,
+105,
+106,
+107,
+108,
+109,
+110,
+111,
+112,
+113,
+114,
+115
+],
+"missing": [
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
+],
+"stage": "E2M",
+"runlist": "RUNLIST_experiment.yaml"
+}
+},
+"ObsPops": {
+"events": "host-dependent populations, observed-like spectrum",
+"analysis": "the two populations at their inputs",
+"catalogs": "both catalogs, complete",
+"free": "H0, f_AGN",
+"stage": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
+"N_comb": 15,
+"N_comb_source": "RUNLIST_experiment.yaml: 15 runs of two_tracers_two_populations on the experiment's set obslike_f0p30_s1 in stage E2M (the mixture redraw), realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115] (the frozen values: 15 realizations)",
+"realizations": [
+100,
+101,
+102,
+103,
+105,
+106,
+107,
+108,
+109,
+110,
+111,
+112,
+113,
+114,
+115
+],
+"final": false,
 "quantities": {
 "Hzero": {
 "A": {
@@ -775446,8 +775473,8 @@
 "level_of_input": 0.8591576332542805,
 "input": 67.74
 },
-"source": "production",
-"comb_source": "production",
+"source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
+"comb_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
 "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
 "comb_file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
 "input": 67.74,
@@ -777098,8 +777125,8 @@
 "level_of_input": 0.08467754039560094,
 "input": 0.3
 },
-"source": "production",
-"comb_source": "production",
+"source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
+"comb_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
 "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
 "comb_file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]",
 "input": 0.3,
@@ -777109,6 +777136,7 @@
 },
 "joint": {},
 "LB": null,
+"frozen_from": {
 "production_file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
 "production_files": [
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
@@ -777127,8 +777155,70 @@
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114/summary.json",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115/summary.json"
 ],
+"production_run": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}",
 "production_settings": "the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations",
-"production_run": "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}"
+"comb_realizations_used": [
+100,
+101,
+102,
+103,
+105,
+106,
+107,
+108,
+109,
+110,
+111,
+112,
+113,
+114,
+115
+],
+"note": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
+"commit": "3a36d4c82b72532391aff636783f3f1e8f28d24f"
+},
+"production_status": {
+"state": "waiting",
+"n_have": 0,
+"n_need": 15,
+"realizations_have": [],
+"realizations_want": [
+100,
+101,
+102,
+103,
+105,
+106,
+107,
+108,
+109,
+110,
+111,
+112,
+113,
+114,
+115
+],
+"missing": [
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
+"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
+],
+"stage": "E2M",
+"runlist": "RUNLIST_experiment.yaml"
+}
 },
 "HDSingleTwice": {
 "events": "host-dependent populations, twice the offsets (10 Msun, 0.20)",
@@ -787012,11 +787102,12 @@
 "LB": null,
 "production_status": {
 "state": "partial",
-"n_have": 2,
+"n_have": 3,
 "n_need": 5,
 "realizations_have": [
 100,
-101
+101,
+102
 ],
 "realizations_want": [
 100,
@@ -787026,7 +787117,6 @@
 105
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_102",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_103",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_105"
 ],

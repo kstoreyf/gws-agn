@@ -17,6 +17,8 @@ A key's runs are the runs of its pattern in the production stages; stages V and 
 (21 Nov, build_values.STAGE_X_KEY_RUNS): KnownBoth also takes realizations 111-120, which exist only as stage-X runs
 known_population/both_catalogs/complete/equal_populations/realization_NNN_nside32 because they are the same analysis at the same
 settings as stage 1 (its arguments without --membership, plus --variant nside32); the map names them under runs_by_realization.
+(23 Nov, 23:30 UTC, build_values.OBS_MIX): ObsAssumed and ObsPops read stage E2M's runs (E2's grids with the mixture redraw, names
+<E2 name>_mix), a production stage; no key reads a stage-E2 grid any more.
 (23 Nov, build_values.STAGE_V_KEY_RUNS): HDHost reads stage V8's host_dependent_populations/both_catalogs/complete/host_dependent/
 realization_NNN_unif_then_rslice for every realization (100, 101, 102, 103, 105): the eight-parameter model with the mixed sampler,
 stage 4's arguments plus the sampler options and the variant only; its pattern is that one (stage_v_realizations, stage_v_why), and
@@ -116,8 +118,9 @@ def _key_table():
         "HDAssumedTwice": ("two_tracers_one_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}", ["Hzero", "fAGN"]),
         "HDPops": ("two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
         "HDSingleTwice": ("single_population/both_catalogs/complete/peak_f0p30_s2/realization_{R}", SIX),
-        "ObsAssumed": ("two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
-        "ObsPops": ("two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}", ["Hzero", "fAGN"]),
+        # 23 Nov, 23:30 UTC (bv.OBS_MIX): the observed-like keys read stage E2M's runs, E2's grids with the mixture redraw (<E2 name>_mix)
+        "ObsAssumed": ("two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix", ["Hzero", "fAGN"]),
+        "ObsPops": ("two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix", ["Hzero", "fAGN"]),
     }
     for rk, w, m in bv.RUNGS:
         T[f"Flux{w}"] = (f"known_population/both_catalogs/flux_limit_{m}_densities_from_counts/equal_populations/realization_{{R}}", ["Hzero", "fAGN", "RateRatio"])
@@ -147,6 +150,10 @@ SET_NOTES = {
            ("ObsAssumed", "obslike_f0p30_s1", "the events of stage 5", "with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population)", "observed-like", "injections_targeted_obslike.h5"),
            ("ObsPops", "obslike_f0p30_s1", "the events of stage 5", "with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations)", "observed-like", "injections_targeted_obslike.h5"))},
 }
+# 23 Nov, 23:30 UTC (bv.OBS_MIX): the observed-like keys' runs are stage E2M's, the E2 grids with the mixture redraw
+for _k in bv.OBS_MIX["keys"]:
+    SET_NOTES[_k] += ("; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names "
+                      "<E2 name>_mix); fifteen realizations")
 FREE_UNITS_NOTE = ("the run samples log10 n in h^3 Mpc^-3 (prior U[-4, -1] and U[-6, -4] in those units); the macros <Key>Logn...[Comb][...] "
                    "are in Mpc^-3, converted per sample with its own H0 (log10 n + 3 log10 h); <Key>Logn...ULh, ...PriorULh and the "
                    "joint posterior of Fig. 4(a) are in h^3 Mpc^-3, the sampled parameter itself")
@@ -301,32 +308,7 @@ def build_map():
     tw, kb = sky.get("pair_twenty") or {}, keys.get("KnownBoth") or {}
     assert not tw or (tw["realizations_wanted"] == kb.get("realizations") and tw.get("partners", {}) == kb.get("runs_by_realization", {})), (tw, kb)
     return {"_schema": SCHEMA, "runs_root": bv.rel(RUNS), "keys": keys, "not_in_run_lists": missing, "classes": classes.map_block(runs),
-            "density_response": density.map_block(runs), "sky_resolution": sky, "obslike_mc": obslike_mc_block(idx1, keys)}
-
-
-def obslike_mc_block(idx1, keys):
-    """23 Nov (bv.STAGE_X_MC_RUNS; the macros Obs<Assumed|Pops>MC..., ObsAssumedMCShiftHzero..., ObsMCOneHzero[Prod]): realization 106's
-    grids of keys ObsAssumed and ObsPops at 32000 samples per merger (stage X of RUNLIST.yaml), each with its production partner (the
-    key's own run of that realization), for a combination over the key's realizations with that one grid replaced. Feeds no key."""
-    idx_exp = bv.runlist_index(RUNS / RUNLISTS[1]) if (RUNS / RUNLISTS[1]).exists() else {}
-    sel = bv.stage_x_mc_runs(idx1, idx_exp)
-    R = bv.STAGE_X_MC["realization"]
-    out = {"_what": ("the runs of the Obs<Assumed|Pops>MC... macros (build_values.build_obslike_mc): per key, realization "
-                     f"{R}'s grid at {bv.STAGE_X_MC['nsamp']} samples per merger (run, stage X) in place of its production run (partner) "
-                     "in a combination over the key's realizations (keys.<Key>.realizations); feeds no key"),
-           "realization": R, "nsamp": bv.STAGE_X_MC["nsamp"], "variant": bv.STAGE_X_MC["variant"], "stage": bv.STAGE_X_MC["stage"],
-           "runlist": RUNLISTS[0], "runs": {}}
-    why = {}
-    for k in bv.STAGE_X_MC_RUNS:
-        if k in sel and k in keys and R in keys[k]["realizations"] and sel[k][1] == key_run(keys[k], R):
-            out["runs"][k] = {"run": sel[k][0], "partner": sel[k][1], "differs_by": f"--nsamp {bv.STAGE_X_MC['nsamp']} --variant {bv.STAGE_X_MC['variant']}",
-                              "realizations": keys[k]["realizations"]}
-        else:
-            why[k] = (f"no stage-X run {bv.STAGE_X_MC_RUNS[k]['pattern'].format(R=f'{R:03d}')} with the arguments of the key's run of realization "
-                      f"{R} plus --nsamp {bv.STAGE_X_MC['nsamp']} --variant {bv.STAGE_X_MC['variant']} only, or the key lacks realization {R}")
-    if why:
-        out["not_in_run_lists"] = why
-    return out
+            "density_response": density.map_block(runs), "sky_resolution": sky}
 
 
 SCHEMA = [
@@ -368,10 +350,9 @@ SCHEMA = [
     "  HWUnknown<f>, HWKnown<f> of the same f (23 Nov: the Cls...Comb/CL records of how 'comb' are removed with their macros).",
     "density_response.units_physical: the two stage-X runs of realization A with both densities given in Mpc^-3 (macros",
     "  FluxEighteenPhys..., scripts/density.py); never a production run of any key.",
-    "obslike_mc (23 Nov; build_values.STAGE_X_MC_RUNS): runs.<Key> (ObsAssumed, ObsPops): run (realization 106 at 32000 samples per",
-    "  merger, stage X), partner (the key's production run of that realization; the run's arguments are the partner's plus --nsamp 32000",
-    "  --variant s32000 only), realizations (the key's); macros Obs<Assumed|Pops>MC..., ObsAssumedMCShiftHzero..., ObsMCOneHzero[Prod]",
-    "  combine the key's realizations with that grid replaced. Feeds no key; real when every summary named exists.",
+    "23 Nov, 23:30 UTC (build_values.OBS_MIX): keys ObsAssumed, ObsPops and the classes macros of the observed-like sets name stage E2M's",
+    "  runs (analysis_16: E2's grids with --redraw-mixture support, run names <E2 name>_mix); no record names a stage-E2 grid (the block",
+    "  obslike_mc of 23 Nov, realization 106 at 32000 samples, is removed with its macros).",
     "Old form (still read): <Key>: path of a JSON file with the schema of one placeholder entry.",
 ]
 
@@ -1021,17 +1002,14 @@ def skyres_status_lines():
     import density
     E = density.phys_evaluate()
     out.append("  densities given in Mpc^-3 (stage X; 'density_response.units_physical'): " + ("real" if E["real"] else f"waiting: {'; '.join(E['missing'])}"))
-    # 23 Nov: realization 106 of keys ObsAssumed and ObsPops at 32000 samples per merger (map block 'obslike_mc'; Obs...MC... macros)
+    # 23 Nov, 23:30 UTC (bv.OBS_MIX): the observed-like family on the mixture redraw: the stage-E2M summaries the paper waits for
     pm = load_map()
-    blk, keys = pm.get("obslike_mc") or {}, pm.get("keys") or {}
-    runs = blk.get("runs") or {}
-    if not runs or any(k not in runs for k in bv.STAGE_X_MC_RUNS):
-        out.append(f"  realization 106 at 32000 samples ('obslike_mc'; Obs...MC... macros): not in the map ({blk.get('not_in_run_lists') or 'no block'})")
-    else:
-        need = [RUNS / v["run"] for v in runs.values()] + [key_dir(keys[k], r) for k in runs for r in keys[k]["realizations"]]
-        miss = [bv.rel(d / "summary.json") for d in need if not (d / "summary.json").exists()]
-        out.append("  realization 106 at 32000 samples (stage X; 'obslike_mc'; Obs...MC... macros): "
-                   + ("real" if not miss else f"waiting: {'; '.join(miss[:3])}{' ...' if len(miss) > 3 else ''}"))
+    obs = sorted({key_dir(sp, r) for k, sp in (pm.get("keys") or {}).items() if k in bv.OBS_MIX["keys"] for r in sp["realizations"]}
+                 | {RUNS / rec["run"].format(R=f"{r:03d}") for rec in ((pm.get("classes") or {}).get("macros") or {}).values()
+                    if rec.get("stage") == bv.OBS_MIX["stage"] for r in rec["realizations"]}, key=str)
+    n_have = sum(1 for d in obs if (d / "summary.json").exists())
+    out.append(f"  observed-like family on the mixture redraw (stage {bv.OBS_MIX['stage']}; keys {', '.join(bv.OBS_MIX['keys'])} and the classes "
+               f"macros of the observed-like sets): {n_have} of {len(obs)} summaries")
     return out
 
 

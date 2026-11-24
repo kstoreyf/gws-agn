@@ -1,4 +1,4 @@
-generated_utc: '2026-11-23T20:31:42Z'
+generated_utc: '2026-11-23T23:30:00Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -4652,6 +4652,10 @@ stages:
     - '100'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_100
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4677,6 +4681,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_101
     analysis: single_population
     args:
@@ -4700,6 +4707,10 @@ stages:
     - '101'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_101
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4725,6 +4736,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_102
     analysis: single_population
     args:
@@ -4748,6 +4762,10 @@ stages:
     - '102'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_102
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4773,6 +4791,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_103
     analysis: single_population
     args:
@@ -4796,6 +4817,10 @@ stages:
     - '103'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_103
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4821,6 +4846,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_105
     analysis: single_population
     args:
@@ -4844,6 +4872,10 @@ stages:
     - '105'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_105
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4869,6 +4901,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice
     analysis: host_dependent_populations
     args:
@@ -4900,6 +4935,10 @@ stages:
     - '60'
     - --variant
     - unif_then_rslice
+    - --redraw-mixture
+    - support
+    - --run-name
+    - host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_100_unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4933,6 +4972,9 @@ stages:
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_101_unif_then_rslice
     analysis: host_dependent_populations
     args:
@@ -4964,6 +5006,10 @@ stages:
     - '60'
     - --variant
     - unif_then_rslice
+    - --redraw-mixture
+    - support
+    - --run-name
+    - host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_101_unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -4997,6 +5043,9 @@ stages:
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_102_unif_then_rslice
     analysis: host_dependent_populations
     args:
@@ -5028,6 +5077,10 @@ stages:
     - '60'
     - --variant
     - unif_then_rslice
+    - --redraw-mixture
+    - support
+    - --run-name
+    - host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_102_unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5061,6 +5114,9 @@ stages:
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_103_unif_then_rslice
     analysis: host_dependent_populations
     args:
@@ -5092,6 +5148,10 @@ stages:
     - '60'
     - --variant
     - unif_then_rslice
+    - --redraw-mixture
+    - support
+    - --run-name
+    - host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_103_unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5125,6 +5185,9 @@ stages:
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_105_unif_then_rslice
     analysis: host_dependent_populations
     args:
@@ -5156,6 +5219,10 @@ stages:
     - '60'
     - --variant
     - unif_then_rslice
+    - --redraw-mixture
+    - support
+    - --run-name
+    - host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_105_unif_then_rslice
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5189,6 +5256,9 @@ stages:
       x 1.1528 (lane_factor of the obslike family, catalogs both: its lane over the record lane; the peak family''s runs take 1)'
     sampler: 'unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8''s mixed sampler, compared
       against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)'
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/no_catalog/complete/host_dependent_obslike/realization_100
     analysis: single_population
     args:
@@ -5212,6 +5282,10 @@ stages:
     - '100'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_100
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5236,6 +5310,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/no_catalog/complete/host_dependent_obslike/realization_101
     analysis: single_population
     args:
@@ -5259,6 +5336,10 @@ stages:
     - '101'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_101
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5283,6 +5364,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed101/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/no_catalog/complete/host_dependent_obslike/realization_102
     analysis: single_population
     args:
@@ -5306,6 +5390,10 @@ stages:
     - '102'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_102
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5330,6 +5418,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed102/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/no_catalog/complete/host_dependent_obslike/realization_103
     analysis: single_population
     args:
@@ -5353,6 +5444,10 @@ stages:
     - '103'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_103
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5377,6 +5472,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed103/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
   - name: single_population/no_catalog/complete/host_dependent_obslike/realization_105
     analysis: single_population
     args:
@@ -5400,6 +5498,10 @@ stages:
     - '105'
     - --injections-lane
     - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_105
     injections_lane: injections/injections_targeted_obslike.h5
     nsamp: 8000
     injection_pool: []
@@ -5424,6 +5526,9 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_obslike.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_obslike.h5
     data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
 - stage: V8
   title: 'the eight-parameter sampler: stage 4''s host-dependent populations sampled uniformly (bootstrap 5) while that is cheaper than rslice
     and with rslice after (realization 100 continued from its stopped uniform run, which is held; realizations 101-105 with the automatic switch

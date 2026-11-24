@@ -12,6 +12,9 @@ ordered by an explicit `lane_rank` per run (`make_runlist.py` LANE_RANKS); `laun
 **18 Nov, 13:00 UTC:** the eight-parameter runs sample uniformly first and with rslice after (stage V8 below): driver
 options `--auto-switch-sample/--auto-switch-cpi` (off by default; default path bit for bit unchanged), realization 100
 continued from its stopped uniform run, realizations 101-105 with the automatic switch; both run lists regenerated.
+**23 Nov, 23:30 UTC:** every analysis of the observed-like mass spectrum takes the defensive mixture redraw (driver option
+`--redraw-mixture support`, section "The mixture redraw" below): stage E2M (a `_mix` partner of each of E2's 95 grids, not queued yet)
+and stage 5 (same run names, `--run-name`); E2's runs stay as they are; both run lists regenerated; `launch.py stage --spread`.
 
 ## What it runs
 
@@ -158,7 +161,9 @@ complete|21|20|19|18`, `--density counts|given|free` (`--log10n-gal/--log10n-agn
 for its fixed values), `--nsamp` (0 = the file's own samples), `--redraw-index`, `--half-variance-correction
 on|off`, `--max-var`, `--zmax`, `--free`, `--prior NAME=LO,HI` (tests only), `--nside N` (18 Nov; default 32 = the
 production survey files `data/seedNNN/surveys/`, unchanged; another value reads `data/seedNNN/surveys_ns<N>/` and needs a
-`--variant` containing `nside<N>`, recorded as `survey_nside` in config.json only off the default). Grid: a coarse pass over the
+`--variant` containing `nside<N>`, recorded as `survey_nside` in config.json only off the default), `--redraw-mixture off|support` (23 Nov;
+default off; needs a `--variant` containing `mix` or an explicit `--run-name`; recorded as `redraw_mixture` in config.json and summary.json
+only when on; below), `--run-name` (the run path, default from the options). Grid: a coarse pass over the
 whole prior (H0 step 2 × f step 0.1; H0 step 1 in 1-D), then a fine grid of 41 × 21 (81 in 1-D) cells
 centred on it, ±5 sd; the mass outside the fine grid is computed from the coarse pass and must be
 < 1e-4 (else the fine grid is widened once); `--grid NAME=LO,HI,STEP` sets it explicitly. Nested:
@@ -179,11 +184,14 @@ setting, the Slurm job id and wall time of every session.
     $PY scripts/launch.py status [-v] [--stage S]
     $PY scripts/launch.py stage 1 E1 [--dry-run]    # stages 1-5 (production), E1/E2/E3 (experiment)
     $PY scripts/launch.py --lanes 2 stage 2 4 --match '<regex>' --only-lane 2 [--dry-run [--show N]]
+    $PY scripts/launch.py --lanes 2 stage E2M --spread [--dry-run]
     $PY scripts/launch.py run <run name> [--part nested_1] [--hours 6]
 
 `--match REGEX` queues only the runs of the named stages whose name matches (Python `re.search`; anchor
 with `^`/`$`). `--only-lane K` puts every new task on lane K instead of balancing, rewrites only lane K's
-file and starts a job for lane K only. `--dry-run` writes and submits nothing; it prints per lane the tasks
+file and starts a job for lane K only. `--spread` (23 Nov) balances the new tasks among themselves (each to the lane
+with less new work so far); without it each goes to the lane with less work to do in all, which sends a whole stage to
+one lane when the lanes are uneven. `--dry-run` writes and submits nothing; it prints per lane the tasks
 to do, their GPU hours, the first `--show` (30) tasks in the order the worker takes them, a count by
 (rank, stage), and whether a lane job would be submitted.
 
@@ -194,7 +202,7 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 
 | rank | runs |
 |---|---|
-| 1.0, 1.5 | stage 1; E1 and E2 |
+| 1.0, 1.5 | stage 1; E1, E2 and E2M |
 | 2 | stage 2, the grids (known population, flux-limited) |
 | 2.5 | stage V8 (eight-parameter sampler, below), realization 100: the rslice continuation |
 | 2.8 | stage 2, the nested runs (free densities; rank 6 until 18 Nov) |
@@ -266,10 +274,11 @@ lane has 2.9e6 detected injections against the record's 2.2e6.
 | 2 flux-limited catalogs (grids; free densities nested) | 44 | 56 | 216,704 | 10.0 | 10.0 |
 | 3 equal-population events, single population | 20 | 40 | 650,000 | 60.4 | 60.4 |
 | 4 host-dependent events (peak lane; 23 Nov: one eight-parameter run left, realization 100) | 16 | 31 | 777,000 | 83.6 | 83.6 |
-| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler; cost from V8's five finished runs) | 15 | 25 | 1,408,115 | 212.3 | 212.3 |
+| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler; cost from V8's five finished runs; 23 Nov, 23:30: `--redraw-mixture support`, names kept) | 15 | 25 | 1,408,115 | 212.3 | 212.3 |
 | X checks of analysis settings, not production (23 Nov: with realization 106's two observed-like grids at 32000 samples) | 119 | 119 | 82,390 | 27.5 | 27.4 |
 | E1 experiment grids, peak family | 235 | 235 | 147,745 | 28.5 | 28.5 |
-| E2 experiment grids, observed-like family (23 Nov: with the twenty grids of realizations 106-115, below) | 95 | 95 | 63,290 | 11.4 | 11.4 |
+| E2 experiment grids, observed-like family (23 Nov: with the twenty grids of realizations 106-115, below; no key or macro of the paper reads them since 23 Nov, 23:30) | 95 | 95 | 63,290 | 11.4 | 11.4 |
+| E2M E2's grids with the mixture redraw (23 Nov, 23:30; below; cost: the partners' measured calls and seconds per call) | 95 | 95 | 69,560 | 12.0 | 12.0 |
 | E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 20.5 | 20.5 |
 
 **Stage 5** (`paper_prd/runs.txt`, approved): stage 4's three classes on the observed-like host-dependent
@@ -429,9 +438,35 @@ upper mass edge is carried by one or two of its 8000 samples (steps of about 1.2
 complete/obslike_f0p30_s1/realization_106_s32000`, the E2 entry's arguments plus `--nsamp 32000 --variant s32000` only (checked by the
 builder; resolved configurations differ in `nsamp`, `variant`, `run_name` alone: same redraw key and injection set), the driver's own
 grid passes, rank 2.85, 2008 calls each (the partners'), 0.64 + 0.69 GPU-h (the partners' seconds per call x 2.409, the median 32000/8000
-ratio of E2's `obslike_f1p00_s0/..._s32000_inj1` over `obslike_f0p30_s0` grids). No key reads them; the paper's `Obs<Assumed|Pops>MC...`
-macros use them in place of realization 106's production grids (`paper_prd/scripts/build_values.STAGE_X_MC_RUNS`). Queue (lane 2):
+ratio of E2's `obslike_f1p00_s0/..._s32000_inj1` over `obslike_f0p30_s0` grids). No key reads them (23 Nov, 23:30 UTC: the paper's
+`Obs<Assumed|Pops>MC...` macros that used them are removed; the observed-like family takes the mixture redraw instead, below). Queue (lane 2):
 `$PY scripts/launch.py --lanes 2 stage X --only-lane 2 --match '^two_tracers_(one_population|two_populations)/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000$'`.
+
+**The mixture redraw (23 Nov, 23:30 UTC; stage E2M, stage 5).** *Option:* `--redraw-mixture support` (`scripts/redraw_mixture.py`, its
+docstring): a merger whose posterior reaches beyond the observed-like power law's sharp upper mass edge gets half of its samples from its
+posterior restricted to the region where the edge can be met for some H0 of the prior, with exact weights (the mixture density enters
+p_pe); the other mergers keep the production redraw bit for bit, and for the peak-dominated family (no sharp edge) the region is
+everything and the redraw is the production one. CPU checks: it removes the steps of ln L(H0) of the observed-like runs
+(`tests/mixture_redraw/`). The driver accepts the option only with a `--variant` containing `mix` or an explicit `--run-name`, so a
+production grid or nested state is never resumed with the other estimator; config.json and summary.json record `"redraw_mixture":
+"support"` only when it is on. Evidences with and without the option differ by a constant: a Bayes factor compares runs of one setting.
+*Decision:* every observed-like result of the paper is recomputed with the option on; E2's 95 grids stay on disk and in the run list as
+they are, and no paper key or macro reads them any more (`make_runlist.measured_lane_factors` still measures the lane factor on them).
+*Stage E2M* (`make_runlist.MIX`, `build_mix`, `mix_partner_entry`; RUNLIST_experiment.yaml, after E3): one partner per E2 grid, 95 runs,
+95 tasks: the E2 entry's arguments with the token `mix` appended to the variant (`--variant mix`, or `--variant agn_s32000_inj1_mix`,
+`s32000_inj1_mix`) and `--redraw-mixture support`, nothing else (checked by the builder argument by argument; the driver's resolved
+configurations differ from the partner's in `run_name`, `variant` and `redraw_mixture` alone, all 95, CPU); run names `<E2 name>_mix`;
+field `mix_partner`; lane rank 1.5 and the partner's priority; cost the partner's measured calls and seconds per call plus 20 s of setup
+per process, 69,560 calls, 12.0 GPU-h. Queue on both lanes: `$PY scripts/launch.py --lanes 2 stage E2M --spread`.
+*Stage 5* (not started; `make_runlist.stage5_mix`): every entry gets `--redraw-mixture support --run-name <its name>`. The names carry no
+`mix` token because the 25 tasks were already queued on the lanes by these names and no stage-5 run directory existed: `--run-name` keeps
+them (the driver's resolved configurations equal the old entries' but for `redraw_mixture`, run name and nested state paths included,
+all 25 tasks, CPU). The builder stops if a stage-5 run directory exists whose config.json does not record the option (a run begun
+without it). A lane job that started before 23:30 UTC holds the old stage-5 entries in memory until it re-reads the run lists, which
+it does when it meets a task it does not know (an E2M task). Checks (CPU, 23 Nov): `tests/test_runlist_resolve.py` on the 95 E2M and 15
+stage-5 entries alone (`A16_RUNLIST_DIR` = a copy of the lists with those stages, `A16_RESOLVE_OUT=tests/results/runlist_resolve_mix.json`):
+120 tasks, all resolve to their run-list names; a dry run of stage 5's eight-parameter entry of realization 100 with the option
+(nested, `--dry-run`, scratch output) builds, redraws and samples.
 
 ## Tests
 

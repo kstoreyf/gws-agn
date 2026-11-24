@@ -246,23 +246,13 @@ Macros wanted:
 `\HDBiasHzero`, `\ObsBiasHzero` as "the bias of the single population" (the text will quote `\HDSingleHzeroComb`
 with its level).
 
-## H. Realization 106 at 32,000 samples per merger (23 Nov 2026)
+## H. The observed-like family on the mixture redraw (23 Nov 2026, 23:30 UTC)
 
-Why. In realization 106 of `obslike_f0p30_s1` one merger whose posterior lies almost wholly above the power law's upper
-mass edge is carried by one or two of its 8000 samples; its Monte Carlo sum puts two steps of about 1.2 nats into
-ln L(H0) (analysis_16 `tests/obslike_steps_merger.py`; gone at 32,000 samples on CPU). Analysis 16 runs that
-realization's two grids again at 32,000 samples (stage X, `.../obslike_f0p30_s1/realization_106_s32000`: the E2
-arguments plus `--nsamp 32000 --variant s32000`). The size of the effect goes in the paper beside the production
-numbers; keys `ObsAssumed` and `ObsPops` and their macros stay as they are (`build_values.STAGE_X_MC_RUNS`, map block
-`obslike_mc`, audit J7). Not used in `main.tex` yet.
-
-- `\ObsAssumedMCHzeroComb`, `\ObsAssumedMCHzeroCL`, `\ObsPopsMCHzeroComb`, `\ObsPopsMCHzeroCL`: H0 combined over the
-  fifteen realizations of the key with realization 106's grid replaced by the 32,000-sample one, and the level of the
-  input; printed as `\ObsAssumedHzeroComb`, `\ObsAssumedHzeroCL`.
-- `\ObsAssumedMCShiftHzero`, `Min`, `Max`: `\ObsAssumedShiftHzero` with realization 106 from its two 32,000-sample runs.
-- `\ObsMCOneHzero`, `\ObsMCOneHzeroProd`: realization 106 alone, population assumed, at 32,000 and at 8000 samples
-  (printed as `\ObsAssumedHzero`).
-- The sample number: the existing `\MCNsampHi` (32000, printed as the Appendix prints it); no new macro.
-
-Red until both 32,000-sample summaries exist; placeholders: 68.4 (+0.5, -0.5), level 98; 67.4 (+0.4, -0.4), level 80;
-shift 1.0, smallest 0.4, largest 1.8; realization 106 alone 70.0 (+1.7, -1.6), and the production value.
+Replaces the request of the same afternoon (realization 106 at 32,000 samples per merger; its nine macros
+`\ObsAssumedMCHzero<Comb|CL>`, `\ObsPopsMCHzero<Comb|CL>`, `\ObsAssumedMCShiftHzero[Min|Max]`, `\ObsMCOneHzero[Prod]`, the map
+block `obslike_mc` and audit J7 are removed; `main.tex` used none). Every analysis of the observed-like spectrum is recomputed with the
+defensive mixture redraw of the posterior samples (analysis_16 `--redraw-mixture support`, stage E2M: E2's grids again, run names
+`<E2 name>_mix`; stage 5 under its own names). Keys `ObsAssumed`, `ObsPops` (with their subsets, shifts, bias and `NoPeak`) and the
+observed-like `\HWObs...` macros read the E2M runs; `ObsSingle`, `ObsHost`, `ObsNone` keep their names. Until the E2M runs exist each is
+red and prints the value it had from the E2 grids (`values/obslike_e2_frozen.json`); audit J8 checks the option in every run they read.
+No new macro.

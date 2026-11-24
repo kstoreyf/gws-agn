@@ -1215,8 +1215,7 @@ peak-dominated spectrum gave $\HDAssumedShiftHzero\,\kms$. Combined over the
 $H_0=\ObsAssumedHzeroComb\,\kms$, with the input at the
 \ObsAssumedHzeroCL\% credible level and outside the 90\% interval, and the
 two populations at their inputs give $\ObsPopsHzeroComb\,\kms$, with the
-input at the \ObsPopsHzeroCL\% level; Appendix~\ref{app:like} gives the
-Monte Carlo accuracy of the two levels. % REREAD
+input at the \ObsPopsHzeroCL\% level. % REREAD
 The \NrealObsFirst{} realizations that carry the analyses with inferred
 populations below lie low: with the two populations at their inputs they
 combine to $\ObsPopsFirstHzeroComb\,\kms$, the input at the
@@ -1528,7 +1527,17 @@ event $i$, $\hat\mu$ is the mean of $\pi/p_{\rm draw}$ over all drawn
 signals, counted as zero for those not detected, $N_{\rm eff}$ is the
 effective number of detected signals, and the last term corrects for the
 uncertainty of $\hat\mu$ \cite{Farr:2019rap}. The term $\sigma_i^2/2$ removes
-to first order the bias of the logarithm of a Monte Carlo mean. For
+to first order the bias of the logarithm of a Monte Carlo mean.
+The power law of the observed-like spectrum ends sharply at
+$\ObsMmax\msun$, and a merger whose posterior lies almost wholly above that
+mass would be carried by a handful of its samples. For that spectrum half of
+the samples of each merger whose posterior reaches beyond the edge are
+therefore drawn from the posterior restricted to primary masses that lie
+below the edge for some $H_0$ of the prior, and every sample is weighted by
+the inverse of the density of this mixture relative to the posterior
+\cite{Hesterberg:1995,Owen:2000}, which leaves the estimate unbiased for any
+population. % EXPECTED (the observed-like runs with the mixture proposal)
+For
 realization A $\MockNinjDrawn$ signals are drawn and $\MockNinjFound$ are
 detected, part of them concentrated on the cataloged AGN so that the sparse
 AGN term of the detected fraction is sampled at every $H_0$ of the prior. A
@@ -1553,20 +1562,7 @@ variance grows with the weight of the AGN term. For mergers all hosted by
 AGN the variance is \MCAGNLnLVarEightK{} at \MCNsampMid{} samples and the
 median of $H_0$ varies by $\MCAGNHzeroSdEightK\,\kms$; at the \MCNsampHi{}
 samples used for these sets they are \MCAGNLnLVarThirtyTwoK{} and
-$\MCAGNHzeroSdThirtyTwoK\,\kms$.
-The observed-like spectrum ends sharply at $\ObsMmax\msun$, and a merger
-whose posterior lies almost wholly above that mass is carried by the few
-samples below it, which enter the sum one at a time as $H_0$ rises. One of
-the \NrealObsAssumed{} realizations of Sec.~\ref{sec:obs} holds such a
-merger. With \MCNsampHi{} samples per merger that realization gives
-$H_0=\ObsMCOneHzero\,\kms$ with the population assumed, where \ProdNsamp{}
-give $\ObsMCOneHzeroProd$, and the combined posterior becomes
-$\ObsAssumedMCHzeroComb\,\kms$, with the input at the
-\ObsAssumedMCHzeroCL\% credible level where Sec.~\ref{sec:obs} quotes
-\ObsAssumedHzeroCL\%; with the two populations at their inputs it becomes
-$\ObsPopsMCHzeroComb\,\kms$, with the input at the \ObsPopsMCHzeroCL\%
-level. % EXPECTED
-Between sets of
+$\MCAGNHzeroSdThirtyTwoK\,\kms$. Between sets of
 simulated signals the medians vary by $\MCMixedInjHzeroSd\,\kms$ and
 \MCMixedInjfSd.
 

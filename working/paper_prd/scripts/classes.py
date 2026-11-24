@@ -60,6 +60,9 @@ Macros (all half-widths are of H0 in km/s/Mpc; "realizations" = the experiment's
 
 A macro is real (black) when every summary.json it names exists; otherwise it is red and prints the expected value
 of placeholder_results.CLASS_EXPECTED (the archived letter's expected values; 'invented' where it had none).
+23 Nov, 23:30 UTC (build_values.OBS_MIX): the observed-like family's macros read the runs of stage E2M (the E2 grids with the mixture
+redraw, run names <E2 name>_mix); while those are missing they print the value they had from the E2 grids on 23 Nov (frozen,
+values/obslike_e2_frozen.json: mean, smallest, largest).
 Single-run numbers come from summary.json (never from grid/result.json); the AGN factor of a host-class-known grid,
 which no summary holds, from run_posteriors.factor_summary (the summaries' own method on lnL_agn).
 """
@@ -245,6 +248,10 @@ def _runlist_index():
             for r in st["runs"]:
                 R = int(re.search(r"realization_(\d{3})", r["name"]).group(1))
                 if xr and R not in xr:
+                    continue
+                # 23 Nov, 23:30 UTC (bv.OBS_MIX): the observed-like family's macros read stage E2M's runs (the E2 grids with the mixture
+                # redraw, <E2 name>_mix); stage E2's grids feed no macro any more
+                if (r.get("set") or {}).get("family") == bv.OBS_MIX["family"] and str(st["stage"]) != bv.OBS_MIX["stage"]:
                     continue
                 rec = exp.setdefault((r["analysis"], r["set"]["label"]), {"run": _pattern(r["name"]), "runlist": RUNLIST_EXP.name,
                                                                           "stage": str(st["stage"]), "realizations": set()})
@@ -464,6 +471,13 @@ def evaluate(name):
     if kind in ("mean_hw", "factor_hw"):
         paths, miss = _need(rec)
         if miss:
+            fz = bv.frozen_macro(name)
+            if fz and fz["extra"].get("per_realization") is not None and sorted(int(r) for r in fz["extra"]["per_realization"]) == rec["realizations"]:
+                # 23 Nov, 23:30 UTC (bv.OBS_MIX): an observed-like macro waits for stage E2M's runs; its placeholder is its frozen value of the
+                # stage-E2 grids (mean, smallest and largest half-width), not the expected value
+                return Res(name, False, float(fz["value"]), float(bv.frozen_macro(name + "Min")["value"]), float(bv.frozen_macro(name + "Max")["value"]),
+                           [str(p) for p in paths], [str(p) for p in miss], f"placeholder: {bv.frozen_note(name + '[Min|Max]')}",
+                           {"run": rec["run"], "realizations": rec["realizations"], "stage": rec.get("stage"), "runlist": rec.get("runlist")})
             v, src = expected(name)
             return _placeholder(name, kind, v, src, [str(p) for p in paths], [str(p) for p in miss], rec)
         per = {}

@@ -8,6 +8,8 @@ Both files are written atomically (temporary file, then rename): the lane worker
 
     python scripts/make_runlist.py [--timing tests/results/timing.json] [--realizations-10 100,...]
 
+(RUNLIST_experiment.yaml: stages E1, E2, E3 and, since 23 Nov, E2M; see MIX.)
+
 Stage 5 (paper_prd/runs.txt): the observed-like mass spectrum (data/obslike/README.md), host-dependent
 events, on the "5" realizations: stage 4's three classes with the family in the run name
 (host_dependent_obslike), the family's events suffix, population inputs and injection lane as E2 takes
@@ -19,6 +21,12 @@ pure-rslice eight-parameter runs only realization 100's stays (STAGE4_RSLICE_KEP
 23 Nov, later: the experiment's set obslike_f0p30_s1 also on realizations 106-115 for two analyses (two_tracers_two_populations,
 two_tracers_one_population; EXPERIMENT_EXTRA, build_experiment_extra): stage E2 entries with the arguments of the set's five but the
 realization, seconds per call measured on those five.
+23 Nov, 23:30 UTC: the defensive mixture redraw (driver option --redraw-mixture support, scripts/redraw_mixture.py) for every analysis
+of the observed-like mass spectrum (MIX, build_mix): stage E2M holds a partner of every stage-E2 grid, its arguments plus
+--redraw-mixture support and the token mix appended to the variant (run names <E2 name>_mix; field mix_partner), checked argument by
+argument, cost the partner's measured calls and seconds per call plus MIX["setup_seconds"] per process; the E2 runs stay as they are.
+Stage 5 (not started) takes --redraw-mixture support and keeps its run names with --run-name (stage5_mix; the builder stops if a
+stage-5 run directory exists without the option in its config.json).
 
 Cost model (the brief's numbers until the tests measure them; --timing merges measured spc_* keys):
   seconds per call at 8,000 samples: 0.39 with the population fixed, 0.44 with it free (both catalogs,
@@ -110,6 +118,7 @@ LANE_RANKS = [
     (1.0, 1, {}),                                                      # population known, complete
     (1.5, "E1", {}),                                                   # experiment grids
     (1.5, "E2", {}),
+    (1.5, "E2M", {}),                                                  # 23 Nov: E2's partners with the mixture redraw (E2's rank)
     (2, 2, {"mode": "grid"}),                                          # known population, flux-limited
     (2.5, "V8", {"realizations": (100,)}),                             # realization 100: unif then rslice (continuation)
     (3.5, "V8", {"realizations": (101, 102, 103, 105)}),               # unif then rslice, the other four (after rank 3)
@@ -206,6 +215,8 @@ TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
           5: "observed-like mass spectrum, host-dependent events",
           "E1": "experiment grids, present mass spectrum", "E2": "experiment grids, observed-like mass spectrum",
           "E3": "experiment nested runs: single population on (f = 0.3, s = 2)",
+          "E2M": "experiment grids, observed-like mass spectrum, with the defensive mixture redraw (--redraw-mixture support): "
+                 "a partner of every stage-E2 grid (run name <E2 name>_mix, field mix_partner)",
           "V8": "the eight-parameter sampler: stage 4's host-dependent populations sampled uniformly (bootstrap 5) while "
                 "that is cheaper than rslice and with rslice after (realization 100 continued from its stopped uniform "
                 "run, which is held; realizations 101-105 with the automatic switch at 60 calls per iteration)",
@@ -722,8 +733,8 @@ X_MIX_PRIORITY = {0.3: 0.0, 0.5: 0.5}
 # 32000 samples (tests/obslike_steps_merger.py, tests/results/obslike_steps_hybrid_*_r106.json). The two E2 grids of that realization
 # again at 32000 samples per merger: the E2 entry's arguments plus --nsamp 32000 --variant s32000 and nothing else (run names
 # realization_106_s32000; the same events, injection set (one, the set's lane; no pool), redraw key, priors and grid passes: the 32000-
-# sample redraw holds the 8000 production samples first). Stage X: no key reads them; the paper's macros Obs<Assumed|Pops>MC... put
-# them in place of realization 106's production grids (paper_prd/scripts/build_values.STAGE_X_MC_RUNS). Seconds per call: the partner's
+# sample redraw holds the 8000 production samples first). Stage X: no key reads them (23 Nov, 23:30 UTC: nor any macro; the paper's
+# Obs<Assumed|Pops>MC... macros are removed, the observed-like family takes the mixture redraw, MIX). Seconds per call: the partner's
 # measured value times the ratio the _s32000 precedents measured with one injection set on this lane (X_OBS_MC["spc_ratio"]: the
 # experiment's f = 1 grids at 32000 samples over its f = 0.3 grids at 8000, the same analysis class and realization); calls: the
 # partner's measured calls (its fine grid was widened: 2008, not 1147).
@@ -1086,8 +1097,8 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         two_tracers_two_populations) at 32000 samples per merger (X_OBS_MC, _x_obs_mc): the E2 entry's arguments plus --nsamp 32000
         --variant s32000 and nothing else (checked), run names .../obslike_f0p30_s1/realization_106_s32000, one injection set, the
         driver's own grid passes. Seconds per call: the partner's measured value times the ratio measured on the _s32000 precedents of
-        this lane (_x_obs_mc_ratio); calls: the partner's. No key reads them; the paper's Obs<Assumed|Pops>MC... macros put them in place
-        of realization 106's production grids (paper_prd/scripts/build_values.STAGE_X_MC_RUNS)."""
+        this lane (_x_obs_mc_ratio); calls: the partner's. No key or macro reads them (23 Nov, 23:30 UTC: the paper's
+        Obs<Assumed|Pops>MC... macros are removed; the observed-like family takes the mixture redraw, MIX)."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -1172,6 +1183,122 @@ def stage5_eight_parameter_cost(popfam, catalogs="both"):
             "seconds_per_call_source": f"spc_free_hostdep x {f} (lane_factor of the {popfam} family)", "measured": None}
 
 
+# 23 Nov, 23:30 UTC: the defensive mixture redraw (prod_driver --redraw-mixture support, scripts/redraw_mixture.py) for every analysis of
+# the observed-like mass spectrum, whose power law ends at a sharp upper mass edge: mergers whose posterior reaches beyond it get half of
+# their samples from the posterior restricted to the region where the edge can be met (exact weights). Evidences with and without the
+# option differ by a constant, so a Bayes factor compares runs of one setting.
+#   stage E2M (build_mix): a partner of every stage-E2 grid (the observed-like family's sets obslike_*), its arguments plus --redraw-mixture
+#             support and the token mix appended to the variant (--variant mix, or <variant>_mix), nothing else (checked); run name the
+#             driver's for those arguments, <E2 name>_mix (the driver refuses the option without the token or --run-name, so a production
+#             grid is never resumed with the other estimator); field mix_partner; stage, lane rank (1.5) and priority as E2's; cost the
+#             partner's measured calls and seconds per call (same cost per call) plus setup_seconds per process (the refill of the mergers
+#             beyond the edge). The E2 runs stay in the run list as they are.
+#   stage 5   (stage5_mix): --redraw-mixture support --run-name <its present name> (the runs were queued on the lanes by these names before
+#             the option; none had started): the resolved configuration is the present one plus redraw_mixture alone. The builder stops if a
+#             stage-5 run directory exists whose config.json does not record the option.
+MIX = {"stage": "E2M", "of_stage": "E2", "family": "obslike", "args": ["--redraw-mixture", "support"], "mode": "support", "token": "mix",
+       "setup_seconds": 20.0}
+
+
+def _strip_flags(args, flags):
+    """args without the given flags and their values (each flag takes one value)."""
+    out, i = [], 0
+    while i < len(args):
+        if args[i] in flags:
+            i += 2
+            continue
+        out.append(args[i])
+        i += 1
+    return out
+
+
+def _argv_of(args, flag):
+    return args[args.index(flag) + 1] if flag in args else None
+
+
+def mix_partner_entry(p):
+    """The stage-E2M partner of the stage-E2 entry p (MIX): p's arguments with --variant <v> -> --variant <v>_mix (--variant mix when p has
+    none) and --redraw-mixture support appended, nothing else (checked); the run name P.run_name gives for that variant, which must be
+    p's name + _mix; cost the partner's measured calls and seconds per call (its sessions) plus MIX['setup_seconds'] per process."""
+    tok = MIX["token"]
+    st = p.get("set") or {}
+    if p.get("stage") != MIX["of_stage"] or st.get("family") != MIX["family"] or not p.get("args") or p.get("parts") != ["grid"]:
+        sys.exit(f"[fatal] E2M: {p.get('name')} is not a stage-E2 grid of the observed-like family with arguments")
+    a0 = list(p["args"])
+    if "--redraw-mixture" in a0 or "--run-name" in a0 or a0.count("--variant") > 1:
+        sys.exit(f"[fatal] E2M: {p['name']} already carries --redraw-mixture or --run-name, or two --variant")
+    v0 = _argv_of(a0, "--variant") or ""
+    v1 = f"{v0}_{tok}" if v0 else tok
+    a1 = list(a0)
+    if "--variant" in a1:
+        a1[a1.index("--variant") + 1] = v1
+    else:
+        a1 += ["--variant", v1]
+    a1 += MIX["args"]
+    # the arguments differ from the partner's by exactly these two options: the same tokens once both are set aside, the variant the
+    # partner's plus the token, the option given once with its value
+    if (_strip_flags(a1, ("--variant", "--redraw-mixture")) != _strip_flags(a0, ("--variant", "--redraw-mixture"))
+            or _argv_of(a1, "--variant") != v1 or a1.count("--variant") != 1 or v1.split("_")[-1] != tok or "_".join(v1.split("_")[:-1]) != v0
+            or a1.count("--redraw-mixture") != 1 or _argv_of(a1, "--redraw-mixture") != MIX["mode"] or len(a1) != len(a0) + 2 + (0 if v0 else 2)):
+        sys.exit(f"[fatal] E2M: {p['name']}: the partner's arguments differ by more than --variant {v1} --redraw-mixture {MIX['mode']}")
+    R = int(_argv_of(a1, "--realization"))
+    name = P.run_name(p["analysis"], P.EXPERIMENT_CATALOGS[p["analysis"]], "complete", "", R, set_label=st["label"], variant=v1)
+    if name != f"{p['name']}_{tok}":
+        sys.exit(f"[fatal] E2M: run name {name} is not {p['name']}_{tok}")
+    e = {}
+    for k, v in p.items():
+        e[k] = v
+        if k == "name":
+            e["mix_partner"] = p["name"]
+    e.update({"name": name, "args": a1, "stage": MIX["stage"], "redraw_mixture": MIX["mode"]})
+    spc, calls = run_seconds_per_call(p["name"]), run_calls(p["name"])
+    setup_h = MIX["setup_seconds"] / 3600.0
+    if spc and calls:
+        e["est_calls"] = int(calls)
+        e["est_seconds_per_call"] = round(spc, 4)
+        e["est_gpu_hours"] = round(calls * spc / 3600 + COST["overhead_hours_per_process"] + setup_h, 3)
+        e["est_calls_source"] = f"measured on the partner {p['name']} (its sessions)"
+        e["est_seconds_per_call_source"] = (f"measured on the partner {p['name']} (its sessions; the mixture redraw does not change the cost of a "
+                                            f"call); plus {MIX['setup_seconds']:g} s of setup per process (the refill of the mergers beyond the edge)")
+    else:
+        e["est_gpu_hours"] = round(p["est_gpu_hours"] + setup_h, 3)
+        e["est_calls_source"] = f"the partner's estimate ({p['name']} not finished)"
+        e["est_seconds_per_call_source"] = f"the partner's estimate, plus {MIX['setup_seconds']:g} s of setup per process"
+    e["est_gpu_hours_per_part"] = e["est_gpu_hours"]
+    return e
+
+
+def build_mix(e2_runs):
+    """Stage E2M: the partner of every stage-E2 grid (mix_partner_entry), in E2's order."""
+    out = [mix_partner_entry(p) for p in e2_runs]
+    if len({e["name"] for e in out}) != len(out) or {e["mix_partner"] for e in out} != {p["name"] for p in e2_runs}:
+        sys.exit("[fatal] E2M: the partners are not one per stage-E2 run")
+    return out
+
+
+def stage5_mix(e):
+    """Stage 5 with the mixture redraw (MIX): e's arguments plus --redraw-mixture support --run-name <e's name> (the names stay those the lanes
+    hold); stops if the run's directory exists and its config.json does not record redraw_mixture = support (a run begun without it)."""
+    a = list(e["args"])
+    if "--redraw-mixture" in a or "--run-name" in a:
+        sys.exit(f"[fatal] stage 5: {e['name']} already carries --redraw-mixture or --run-name")
+    d = P.RUNS / e["name"]
+    if d.exists():
+        cj = d / "config.json"
+        try:
+            rec = json.loads(cj.read_text()).get("redraw_mixture") if cj.exists() else None
+        except json.JSONDecodeError:
+            rec = None
+        if rec != MIX["mode"]:
+            sys.exit(f"[fatal] stage 5: {d} exists and its config.json does not record redraw_mixture = {MIX['mode']} "
+                     f"({'no config.json' if not cj.exists() else repr(rec)}): it was begun without the option")
+    e = dict(e, args=a + MIX["args"] + ["--run-name", e["name"]])
+    e["redraw_mixture"] = MIX["mode"]
+    e["run_name_kept"] = ("--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run "
+                          "directory of stage 5 existed), so the name carries no mix token")
+    return e
+
+
 def build_stage5(realizations, rec):
     """Stage 5: stage 4's three classes (single population with both catalogs, host-dependent populations
     with the eight-parameter model, single population without a catalog) on the observed-like
@@ -1209,6 +1336,8 @@ def build_stage5(realizations, rec):
             e["sampler"] = ("unif, then rslice once a 2,000-call chunk needs more than 60 calls per iteration (V8_AUTO_ARGS; stage V8's "
                             "mixed sampler, compared against rslice on realization 100: tests/results/compare_r100_eight_parameter.json)")
             out.append(e)
+    # 23 Nov, 23:30 UTC: the defensive mixture redraw on every stage-5 run, the run names kept (stage5_mix)
+    out = [stage5_mix(e) for e in out]
     inj_ok = rec.get("injections_exist")
     if isinstance(inj_ok, dict):
         for e in out:
@@ -1501,6 +1630,8 @@ def build_experiment(realizations):
                                   lane_ok=None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(r)))))
     for k in ("E1", "E2"):
         st[k].sort(key=lambda e: (e["priority"], e["est_gpu_hours"], e["name"]))
+    # 23 Nov, 23:30 UTC: every E2 grid again with the defensive mixture redraw (MIX, build_mix), in E2's order
+    st[MIX["stage"]] = build_mix(st["E2"])
     return st, reused, awaiting, info
 
 
@@ -1616,7 +1747,7 @@ def main():
     xdoc = dict(head, what="the short paper's experiment (archive/paper_short_independent/EXPERIMENT.md); runs that "
                            "production stage 1 already contains are listed under reused_from_stage_1, not run again",
                 realizations=rx, event_sets=info, awaiting_sets=awaiting, reused_from_stage_1=reused,
-                stages=[stage_block(k, xs[k]) for k in ("E1", "E2", "E3")])
+                stages=[stage_block(k, xs[k]) for k in ("E1", "E2", "E3", MIX["stage"])])     # E2M last: the other stages keep their places
     write_atomic(a.out_experiment, yaml.safe_dump(xdoc, sort_keys=False, width=140))
     for s in doc["stages"] + xdoc["stages"]:
         ranks = sorted({r["lane_rank"] for r in s["runs"] if r["lane_rank"] is not None})
