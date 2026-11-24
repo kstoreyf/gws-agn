@@ -62,7 +62,8 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
    `main.tex` also: abstract ("and in the mean over them the single population needs ...");
    the `% EXPECTED` tags of the sentences that are now real are removed.
 
-### THE STEPS IN ln L OF THE OBSERVED-LIKE FAMILY: DIAGNOSED (20:25 UTC), two grids queued to size it
+### THE STEPS IN ln L OF THE OBSERVED-LIKE FAMILY: diagnosed, fixed by the mixture sampling, 95 re-runs
+### queued (read from "DECIDED 21:45 UTC" on for what is current; the bullets before it are the history)
 - FOUND 19:10 UTC: Fig. 7(a)'s curve for the assumed population has a shoulder at 69.2.
   Realization 106's stored ln L along H0 at f_AGN = 0.30 has two upward STEPS, +1.2 nats
   between 68.2 and 68.4 and +1.3 between 69.0 and 69.2, in `two_tracers_one_population` and
