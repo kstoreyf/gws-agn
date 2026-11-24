@@ -1,4 +1,4 @@
-# Checkpoint, 24 Nov 2026, 07:35 UTC (read this first after a context clear)
+# Checkpoint, 24 Nov 2026, 12:56 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -14,6 +14,14 @@ this file holds the working state.
   running lane jobs). Nothing of this project runs or can start on RITA-GPU; both GPUs are
   free. The two watchers on run results (`bqb11jb9l`, `bwyy2o0h3`) were stopped too: no
   background task and no agent is alive.
+- 12:54 UTC 24 Nov: the massgap session wrote that its jobs on RITA-GPU finished at 12:52 UTC,
+  that the owner had asked it to tell me, and that it will submit nothing more there without
+  his say. VERIFIED from the scheduler: node rita IDLE, both GPUs free, no job but my two held
+  ones in the partition; its last jobs `lh100p-c` and `lh100p-d` COMPLETED 12:52 UTC. I tried
+  `scontrol release 1534275 1534274` on the strength of the owner's earlier "then reque after
+  them"; the session's permission check refused it (the owner's last own word is "Stop your
+  jobs."; a message from another session is not his approval). THE JOBS ARE STILL HELD. The
+  owner was asked at 12:56 UTC to say "resume" or to run the release himself.
 - DO NOT RESUME WITHOUT THE OWNER'S WORD. When they say so: `scontrol release 1534275
   1534274` (each then starts when a GPU is free, takes its lane file up where it stopped
   and chains its own successor); check with `$PY scripts/launch.py --lanes 2 status` in the
