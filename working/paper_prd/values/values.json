@@ -991,7 +991,7 @@
     "sd": 0.9732639907273574,
     "map_1d": 69.1875,
     "edge_density_lo": 2.7326012646602616e-36,
-    "edge_density_hi": 7.807268611740445e-31
+    "edge_density_hi": 7.8072686117404475e-31
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog A (seed 100) (median and 90% equal-tailed interval)",
@@ -1208,7 +1208,7 @@
     "sd": 1.2929369600001703,
     "map_1d": 67.8125,
     "edge_density_lo": 1.0858478383356696e-27,
-    "edge_density_hi": 2.6246574489763248e-33
+    "edge_density_hi": 2.6246574489763262e-33
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog B (seed 101) (median and 90% equal-tailed interval)",
@@ -1414,7 +1414,7 @@
     "sd": 0.9399027796033694,
     "map_1d": 69.5,
     "edge_density_lo": 1.4545852121911042e-20,
-    "edge_density_hi": 7.7458480435581295e-31
+    "edge_density_hi": 7.745848043558132e-31
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog D (seed 103) (median and 90% equal-tailed interval)",
@@ -1513,11 +1513,11 @@
      66.06538750093809,
      69.26623496819334
     ],
-    "mean": 67.62634295877508,
+    "mean": 67.62634295877507,
     "sd": 0.974225153452815,
     "map_1d": 67.5625,
     "edge_density_lo": 1.98394866456441e-33,
-    "edge_density_hi": 5.653024506860752e-39
+    "edge_density_hi": 5.653024506860751e-39
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog E (seed 105) (median and 90% equal-tailed interval)",
@@ -1620,7 +1620,7 @@
     "sd": 1.7167537576912892,
     "map_1d": 69.25,
     "edge_density_lo": 3.430766111993934e-29,
-    "edge_density_hi": 9.194138862491326e-34
+    "edge_density_hi": 9.194138862491327e-34
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog F (seed 114) (median and 90% equal-tailed interval)",
@@ -1723,7 +1723,7 @@
     "sd": 1.0921781267842245,
     "map_1d": 67.5,
     "edge_density_lo": 1.885540397144679e-31,
-    "edge_density_hi": 2.702796741732628e-29
+    "edge_density_hi": 2.7027967417326267e-29
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog G (seed 115) (median and 90% equal-tailed interval)",
@@ -1826,7 +1826,7 @@
     "sd": 1.0910273857804345,
     "map_1d": 68.1875,
     "edge_density_lo": 3.65099004640832e-25,
-    "edge_density_hi": 6.507966801708775e-39
+    "edge_density_hi": 6.507966801708776e-39
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog H (seed 116) (median and 90% equal-tailed interval)",
@@ -1929,7 +1929,7 @@
     "sd": 1.5267553997443997,
     "map_1d": 69.25,
     "edge_density_lo": 1.5491482081672552e-19,
-    "edge_density_hi": 1.8490632171560464e-23
+    "edge_density_hi": 1.8490632171560476e-23
    },
    "units": "km/s/Mpc",
    "meaning": "H0, complete catalogs, joint (H0, f_AGN) fit, catalog I (seed 117) (median and 90% equal-tailed interval)",
@@ -2113,7 +2113,7 @@
     "sd": 0.3836585204249085,
     "map_1d": 68.375,
     "edge_density_lo": 5.122247513259325e-234,
-    "edge_density_hi": 1.2574881234688848e-280
+    "edge_density_hi": 1.257488123468885e-280
    },
    "units": "km/s/Mpc",
    "meaning": "H0, combined posterior of the 9 complete-catalog joint analyses (median and 90% equal-tailed interval)",
@@ -4160,7 +4160,7 @@
     "sd": 0.9713383672502528,
     "map_1d": 69.25,
     "edge_density_lo": 2.6914594955380647e-36,
-    "edge_density_hi": 2.2395103219274224e-30
+    "edge_density_hi": 2.2395103219274238e-30
    },
    "units": "km/s/Mpc",
    "meaning": "H0, flux limit m < 21, densities of missing hosts at their input values (median and 90% equal-tailed interval)",
@@ -4348,7 +4348,7 @@
     "sd": 0.9765081161936452,
     "map_1d": 69.25,
     "edge_density_lo": 2.6479446240888203e-36,
-    "edge_density_hi": 3.097641114747204e-28
+    "edge_density_hi": 3.097641114747205e-28
    },
    "units": "km/s/Mpc",
    "meaning": "H0, flux limit m < 20, densities of missing hosts at their input values (median and 90% equal-tailed interval)",
@@ -4536,7 +4536,7 @@
     "sd": 0.9834493938845642,
     "map_1d": 68.9375,
     "edge_density_lo": 4.315528559338868e-34,
-    "edge_density_hi": 2.3253607433498325e-53
+    "edge_density_hi": 2.325360743349832e-53
    },
    "units": "km/s/Mpc",
    "meaning": "H0, flux limit m < 19, densities of missing hosts at their input values (median and 90% equal-tailed interval)",
@@ -4724,7 +4724,7 @@
     "sd": 1.0383405824360068,
     "map_1d": 68.75,
     "edge_density_lo": 1.7905294912511307e-38,
-    "edge_density_hi": 1.1660293777692552e-61
+    "edge_density_hi": 1.1660293777692545e-61
    },
    "units": "km/s/Mpc",
    "meaning": "H0, flux limit m < 18, densities of missing hosts at their input values (median and 90% equal-tailed interval)",
@@ -7920,10 +7920,10 @@
      65.43347769451636,
      69.37360464787146
     ],
-    "mean": 67.57200051656073,
+    "mean": 67.57200051656072,
     "sd": 1.198943736928739,
     "map_1d": 67.87,
-    "edge_density_lo": 5.5746382209638404e-12,
+    "edge_density_lo": 5.57463822096384e-12,
     "edge_density_hi": 2.8818046593685252e-11
    },
    "units": "km/s/Mpc",
@@ -7944,8 +7944,8 @@
     "input": 67.74,
     "in68": true,
     "in90": true,
-    "level_two_sided": 0.05091813807206402,
-    "cdf_at_input": 0.525459069036032
+    "level_two_sided": 0.0509181380720638,
+    "cdf_at_input": 0.5254590690360319
    },
    "extra": {
     "decimals": 1
@@ -8134,10 +8134,10 @@
      3.8131146938114355,
      5.872820625984633
     ],
-    "mean": 4.814184361069595,
+    "mean": 4.8141843610695965,
     "sd": 0.6232761543203619,
     "map_1d": 4.75,
-    "edge_density_lo": 8.626940642040948e-11,
+    "edge_density_lo": 8.626940642040949e-11,
     "edge_density_hi": 2.3396649350477092e-07
    },
    "units": "Msun",
@@ -8338,7 +8338,7 @@
   "HDFixRhoHzeroDmuG": {
    "class": "anc",
    "render": "-0.25",
-   "value": -0.25098866058410857,
+   "value": -0.2509886605841085,
    "units": "",
    "meaning": "correlation of H0 and dmuG, host-dependent model with the reference population fixed",
    "source": {
@@ -8359,7 +8359,7 @@
   "HDFixRhoHzerof": {
    "class": "anc",
    "render": "0.09",
-   "value": 0.0897269443282707,
+   "value": 0.08972694432827069,
    "units": "",
    "meaning": "correlation of H0 and f, host-dependent model with the reference population fixed",
    "source": {
@@ -13834,8 +13834,8 @@
     "input": 67.74,
     "in68": true,
     "in90": true,
-    "level_two_sided": 0.3714815022433432,
-    "cdf_at_input": 0.3142592488783284
+    "level_two_sided": 0.3714815022433433,
+    "cdf_at_input": 0.31425924887832835
    },
    "extra": {
     "decimals": 0
@@ -13998,8 +13998,8 @@
     "mean": 89.00980224428761,
     "sd": 2.7497249315338776,
     "map_1d": 88.625,
-    "edge_density_lo": 2.2402267304522253e-25,
-    "edge_density_hi": 0.004555179378141056
+    "edge_density_lo": 2.2402267304522276e-25,
+    "edge_density_hi": 0.004555179378141061
    },
    "units": "km/s/Mpc",
    "meaning": "H0, same mock, offsets not modelled (common population); the posterior is cut by the top of the range at 100, so it is a lower bound (median and 90% equal-tailed interval)",
@@ -14098,7 +14098,7 @@
     "sd": 1.7272861153549055,
     "map_1d": 67.74,
     "edge_density_lo": 1.23374457648889e-07,
-    "edge_density_hi": 8.065577627474713e-09
+    "edge_density_hi": 8.065577627474715e-09
    },
    "units": "km/s/Mpc",
    "meaning": "H0, galaxy-only control mock with spin offset only, spin offset modelled (pinned at input) (median and 90% equal-tailed interval)",
@@ -14116,8 +14116,8 @@
     "input": 67.74,
     "in68": true,
     "in90": true,
-    "level_two_sided": 0.15931628201858472,
-    "cdf_at_input": 0.5796581410092924
+    "level_two_sided": 0.15931628201858516,
+    "cdf_at_input": 0.5796581410092926
    },
    "extra": {
     "decimals": 1
@@ -14184,7 +14184,7 @@
   "CtrlUnmodHzeroEdge": {
    "class": "anc",
    "render": "0.0046",
-   "value": 0.004555179378141056,
+   "value": 0.004555179378141061,
    "units": "",
    "meaning": "posterior density at H0 = 100 relative to its peak, galaxy-only control with offsets unmodelled",
    "source": {
@@ -15600,8 +15600,8 @@
      0.11828806641419477,
      0.842650219132639
     ],
-    "mean": 0.3754857003319749,
-    "sd": 0.2202015230965241,
+    "mean": 0.37548570033197487,
+    "sd": 0.22020152309652408,
     "map_1d": 0.203125,
     "edge_density_lo": 4.0832333607449565e-05,
     "edge_density_hi": 0.1060559450275928
@@ -15990,7 +15990,7 @@
      70.59939604760241
     ],
     "mean": 69.09754645124292,
-    "sd": 0.8983486564656962,
+    "sd": 0.8983486564656961,
     "map_1d": 69.0,
     "edge_density_lo": 3.3143318315174286e-08,
     "edge_density_hi": 2.1777886500710194e-08
@@ -18615,11 +18615,11 @@
     "median": 38.0195907102378,
     "ci68": [
      29.746102905633176,
-     47.64306983578416
+     47.64306983578417
     ],
     "ci90": [
      24.96548790191448,
-     54.7733025724334
+     54.77330257243343
     ],
     "z_ratio_range_over_H0_nodes": [
      197.48570133742228,
@@ -18639,8 +18639,8 @@
     "input": 42.778809294764024,
     "in68": true,
     "in90": true,
-    "level_two_sided": 0.3903027494713882,
-    "cdf_at_input": 0.6951513747356941
+    "level_two_sided": 0.390302749471388,
+    "cdf_at_input": 0.695151374735694
    },
    "extra": {
     "decimals": 0
@@ -18764,14 +18764,14 @@
    "class": "anc",
    "render": "38^{+17}_{-13}",
    "value": {
-    "median": 37.812559740589485,
+    "median": 37.812559740589585,
     "ci68": [
-     29.64667244804316,
-     47.318567301095605
+     29.64667244804322,
+     47.318567301095534
     ],
     "ci90": [
-     24.930514405652378,
-     54.377369068527344
+     24.930514405652364,
+     54.37736906852752
     ],
     "z_ratio_range_over_H0_nodes": [
      50.01376813989425,
@@ -18791,8 +18791,8 @@
     "input": 42.778809294764024,
     "in68": true,
     "in90": true,
-    "level_two_sided": 0.4097342356729039,
-    "cdf_at_input": 0.704867117836452
+    "level_two_sided": 0.4097342356729057,
+    "cdf_at_input": 0.7048671178364528
    },
    "extra": {
     "decimals": 0
@@ -18878,14 +18878,14 @@
    "class": "anc",
    "render": "34^{+16}_{-12}",
    "value": {
-    "median": 34.24878312420274,
+    "median": 34.248783124202674,
     "ci68": [
-     26.58662207113679,
-     43.23533965710551
+     26.58662207113682,
+     43.2353396571055
     ],
     "ci90": [
-     22.187516684097204,
-     49.9502357215742
+     22.187516684097226,
+     49.950235721574224
     ],
     "z_ratio_range_over_H0_nodes": [
      50.00409688264104,
@@ -18905,8 +18905,8 @@
     "input": 42.778809294764024,
     "in68": true,
     "in90": true,
-    "level_two_sided": 0.6566709070352394,
-    "cdf_at_input": 0.8283354535176197
+    "level_two_sided": 0.6566709070352443,
+    "cdf_at_input": 0.8283354535176222
    },
    "extra": {
     "decimals": 0
@@ -45564,7 +45564,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
     "key": "ObsPops",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsFirstHzeroComb, ObsPopsFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45589,7 +45589,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsFirstHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
     "key": "ObsPops",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsFirstHzeroComb, ObsPopsFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45619,7 +45619,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json ...",
     "key": "ObsPops",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsLaterHzeroComb, ObsPopsLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45649,7 +45649,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsLaterHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json ...",
     "key": "ObsPops",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsLaterHzeroComb, ObsPopsLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45684,7 +45684,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
     "key": "ObsAssumed",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedFirstHzeroComb, ObsAssumedFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45709,7 +45709,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedFirstHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
     "key": "ObsAssumed",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedFirstHzeroComb, ObsAssumedFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45739,7 +45739,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
     "key": "ObsAssumed",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedLaterHzeroComb, ObsAssumedLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -45769,7 +45769,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedLaterHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json ...",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
     "key": "ObsAssumed",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedLaterHzeroComb, ObsAssumedLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
    },
@@ -47801,33 +47801,51 @@
    }
   },
   "HWObsUnknownZero": {
-   "class": "ph",
-   "render": "\\ph{3.5}",
-   "value": 3.4906476462345126,
+   "class": "plain",
+   "render": "3.6",
+   "value": 3.5733190603384615,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class unknown (both catalogs, f_AGN inferred, population known), equal populations, input f_AGN = 0, observed-like spectrum; runs two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_{R}_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownZero[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 4.631193260971006,
+     "101": 3.306254165525928,
+     "102": 3.19783187092629,
+     "103": 2.641890278661748,
+     "105": 4.0894257256073345
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsUnknownZeroMin": {
-   "class": "ph",
-   "render": "\\ph{2.6}",
-   "value": 2.639802249405008,
+   "class": "plain",
+   "render": "2.6",
+   "value": 2.641890278661748,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsUnknownZero",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownZero[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47837,14 +47855,20 @@
    }
   },
   "HWObsUnknownZeroMax": {
-   "class": "ph",
-   "render": "\\ph{4.7}",
-   "value": 4.663740391685469,
+   "class": "plain",
+   "render": "4.6",
+   "value": 4.631193260971006,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsUnknownZero",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownZero[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47854,33 +47878,51 @@
    }
   },
   "HWObsUnknownThirty": {
-   "class": "ph",
-   "render": "\\ph{2.0}",
-   "value": 1.9756274617984702,
+   "class": "plain",
+   "render": "2.0",
+   "value": 1.9708708093333498,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class unknown (both catalogs, f_AGN inferred, population known), equal populations, input f_AGN = 0.3, observed-like spectrum; runs two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.8681467521047566,
+     "101": 2.0043734492068523,
+     "102": 2.211040788273536,
+     "103": 1.9010162390704082,
+     "105": 1.8697768180111964
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsUnknownThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.8181794320084705,
+   "class": "plain",
+   "render": "1.9",
+   "value": 1.8681467521047566,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsUnknownThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47890,14 +47932,20 @@
    }
   },
   "HWObsUnknownThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{2.3}",
-   "value": 2.332532245708471,
+   "class": "plain",
+   "render": "2.2",
+   "value": 2.211040788273536,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsUnknownThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47907,33 +47955,51 @@
    }
   },
   "HWObsUnknownHundred": {
-   "class": "ph",
-   "render": "\\ph{0.84}",
-   "value": 0.8427536991204903,
+   "class": "plain",
+   "render": "0.80",
+   "value": 0.7999238020910596,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class unknown (both catalogs, f_AGN inferred, population known), equal populations, input f_AGN = 1, observed-like spectrum; runs two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_s32000_inj1_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownHundred[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_100_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_101_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_102_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_103_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_105_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 2,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 0.8415464375928821,
+     "101": 0.6975209765789216,
+     "102": 0.8654338782723343,
+     "103": 0.8346799613936895,
+     "105": 0.7604377566174705
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsUnknownHundredMin": {
-   "class": "ph",
-   "render": "\\ph{0.70}",
-   "value": 0.6986892282346915,
+   "class": "plain",
+   "render": "0.70",
+   "value": 0.6975209765789216,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsUnknownHundred",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownHundred[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_100_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_101_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_102_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_103_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_105_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47943,50 +48009,74 @@
    }
   },
   "HWObsUnknownHundredMax": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.061165716889974,
+   "class": "plain",
+   "render": "0.87",
+   "value": 0.8654338782723343,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsUnknownHundred",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsUnknownHundred[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_100_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_101_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_102_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_103_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f1p00_s0/realization_105_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 2,
     "rounding": "two significant figures"
    }
   },
   "HWObsKnownZero": {
-   "class": "ph",
-   "render": "\\ph{3.5}",
-   "value": 3.486937270220993,
+   "class": "plain",
+   "render": "3.6",
+   "value": 3.567894297444812,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (the galaxy catalog alone on mergers with no AGN host), equal populations, input f_AGN = 0, observed-like spectrum; runs galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownZero[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 4.280232059306428,
+     "101": 3.6595187729996326,
+     "102": 3.149979185459209,
+     "103": 2.575381060255758,
+     "105": 4.174360409203032
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsKnownZeroMin": {
-   "class": "ph",
-   "render": "\\ph{2.6}",
-   "value": 2.5684733305676843,
+   "class": "plain",
+   "render": "2.6",
+   "value": 2.575381060255758,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsKnownZero",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownZero[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -47996,14 +48086,20 @@
    }
   },
   "HWObsKnownZeroMax": {
-   "class": "ph",
-   "render": "\\ph{4.3}",
-   "value": 4.346061508299961,
+   "class": "plain",
+   "render": "4.3",
+   "value": 4.280232059306428,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsKnownZero",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownZero[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/galaxy_catalog_alone/galaxy_catalog/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48013,33 +48109,51 @@
    }
   },
   "HWObsKnownThirty": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.3351652351846055,
+   "class": "plain",
+   "render": "1.4",
+   "value": 1.3596607311923747,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, the two H0 posteriors multiplied), equal populations, input f_AGN = 0.3, observed-like spectrum; runs hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_agn_s32000_inj1_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.3352421201652476,
+     "101": 1.2568420253508634,
+     "102": 1.436550177142351,
+     "103": 1.5168465029830855,
+     "105": 1.2528228303203264
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsKnownThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.2}",
-   "value": 1.1703838814461136,
+   "class": "plain",
+   "render": "1.3",
+   "value": 1.2528228303203264,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsKnownThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48049,14 +48163,20 @@
    }
   },
   "HWObsKnownThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{1.5}",
-   "value": 1.4695876794953193,
+   "class": "plain",
+   "render": "1.5",
+   "value": 1.5168465029830855,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsKnownThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s0/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48066,33 +48186,51 @@
    }
   },
   "HWObsKnownHundred": {
-   "class": "ph",
-   "render": "\\ph{0.83}",
-   "value": 0.8345895484080842,
+   "class": "plain",
+   "render": "0.79",
+   "value": 0.7897512231307445,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (the AGN catalog alone on mergers all hosted by AGN), equal populations, input f_AGN = 1, observed-like spectrum; runs hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_agn_s32000_inj1_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownHundred[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 2,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 0.8259401669847009,
+     "101": 0.6812955172979756,
+     "102": 0.866527521363416,
+     "103": 0.8212575473468959,
+     "105": 0.7537353626607342
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsKnownHundredMin": {
-   "class": "ph",
-   "render": "\\ph{0.68}",
-   "value": 0.6835800391237825,
+   "class": "plain",
+   "render": "0.68",
+   "value": 0.6812955172979756,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsKnownHundred",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownHundred[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48102,50 +48240,74 @@
    }
   },
   "HWObsKnownHundredMax": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.0596027218405055,
+   "class": "plain",
+   "render": "0.87",
+   "value": 0.866527521363416,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsKnownHundred",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownHundred[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f1p00_s0/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
-    "decimals": 1,
+    "decimals": 2,
     "rounding": "two significant figures"
    }
   },
   "HWObsNone": {
-   "class": "ph",
-   "render": "\\ph{8.4}",
-   "value": 8.444615624875402,
+   "class": "plain",
+   "render": "8.6",
+   "value": 8.614610966760821,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, no catalog (the mass spectrum alone, population known; the experiment's f = 0 set), observed-like spectrum; runs mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsNone[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 8.380856421200768,
+     "101": 8.985325729120472,
+     "102": 8.429579839561779,
+     "103": 8.775254789284794,
+     "105": 8.502038054636294
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsNoneMin": {
-   "class": "ph",
-   "render": "\\ph{7.1}",
-   "value": 7.149706756424337,
+   "class": "plain",
+   "render": "8.4",
+   "value": 8.380856421200768,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsNone",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsNone[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48155,14 +48317,20 @@
    }
   },
   "HWObsNoneMax": {
-   "class": "ph",
-   "render": "\\ph{9.3}",
-   "value": 9.333338833609986,
+   "class": "plain",
+   "render": "9.0",
+   "value": 8.985325729120472,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsNone",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_{R}_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsNone[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/mass_spectrum_alone/no_catalog/complete/obslike_f0p00_s0/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48178,7 +48346,7 @@
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.3, observed-like spectrum; runs two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realization 103)",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
    },
    "claim": "classes",
@@ -48197,7 +48365,7 @@
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realization 103)",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
    },
    "claim": "classes",
@@ -48214,7 +48382,7 @@
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realizations 100,101,102,103,105)",
+    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realization 103)",
     "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
    },
    "claim": "classes",
@@ -48225,33 +48393,51 @@
    }
   },
   "HWObsKnownPopsThirty": {
-   "class": "ph",
-   "render": "\\ph{1.2}",
-   "value": 1.2371001038452092,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.2254935461355672,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host class known (each merger with the catalog and population of its true host class, each population at its input, the two H0 posteriors multiplied), host-dependent mergers (AGN offsets 5 Msun and 0.10; the same mergers as HWObsPopsThirty), input f_AGN = 0.3, observed-like spectrum; runs hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_agn_s32000_inj1_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.2689533556280281,
+     "101": 1.084315249439257,
+     "102": 1.307469810180244,
+     "103": 1.287483827769485,
+     "105": 1.1792454876608218
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsKnownPopsThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.0941527347810762,
+   "class": "plain",
+   "render": "1.1",
+   "value": 1.084315249439257,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsKnownPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48261,14 +48447,20 @@
    }
   },
   "HWObsKnownPopsThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.316338412759528,
+   "class": "plain",
+   "render": "1.3",
+   "value": 1.307469810180244,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsKnownPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_agn_s32000_inj1_mix (missing realizations 100,101,102,103,105)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsKnownPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_100_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_101_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_102_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_103_agn_s32000_inj1_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/hosts_known/both_catalogs/complete/obslike_f0p30_s1/realization_105_agn_s32000_inj1_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -57571,7 +57763,7 @@
      "sd": 0.9732639907273574,
      "map_1d": 69.1875,
      "edge_density_lo": 2.7326012646602616e-36,
-     "edge_density_hi": 7.807268611740445e-31
+     "edge_density_hi": 7.8072686117404475e-31
     },
     "f": {
      "median": 0.27337782810374855,
@@ -57610,7 +57802,7 @@
      "sd": 1.2929369600001703,
      "map_1d": 67.8125,
      "edge_density_lo": 1.0858478383356696e-27,
-     "edge_density_hi": 2.6246574489763248e-33
+     "edge_density_hi": 2.6246574489763262e-33
     },
     "f": {
      "median": 0.3074282130023859,
@@ -57688,7 +57880,7 @@
      "sd": 0.9399027796033694,
      "map_1d": 69.5,
      "edge_density_lo": 1.4545852121911042e-20,
-     "edge_density_hi": 7.7458480435581295e-31
+     "edge_density_hi": 7.745848043558132e-31
     },
     "f": {
      "median": 0.25632811917750253,
@@ -57723,11 +57915,11 @@
       66.06538750093809,
       69.26623496819334
      ],
-     "mean": 67.62634295877508,
+     "mean": 67.62634295877507,
      "sd": 0.974225153452815,
      "map_1d": 67.5625,
      "edge_density_lo": 1.98394866456441e-33,
-     "edge_density_hi": 5.653024506860752e-39
+     "edge_density_hi": 5.653024506860751e-39
     },
     "f": {
      "median": 0.3524355761847678,
@@ -57766,7 +57958,7 @@
      "sd": 1.7167537576912892,
      "map_1d": 69.25,
      "edge_density_lo": 3.430766111993934e-29,
-     "edge_density_hi": 9.194138862491326e-34
+     "edge_density_hi": 9.194138862491327e-34
     },
     "f": {
      "median": 0.2678692535336949,
@@ -57805,7 +57997,7 @@
      "sd": 1.0921781267842245,
      "map_1d": 67.5,
      "edge_density_lo": 1.885540397144679e-31,
-     "edge_density_hi": 2.702796741732628e-29
+     "edge_density_hi": 2.7027967417326267e-29
     },
     "f": {
      "median": 0.32963966881885776,
@@ -57844,7 +58036,7 @@
      "sd": 1.0910273857804345,
      "map_1d": 68.1875,
      "edge_density_lo": 3.65099004640832e-25,
-     "edge_density_hi": 6.507966801708775e-39
+     "edge_density_hi": 6.507966801708776e-39
     },
     "f": {
      "median": 0.35060469514534726,
@@ -57883,7 +58075,7 @@
      "sd": 1.5267553997443997,
      "map_1d": 69.25,
      "edge_density_lo": 1.5491482081672552e-19,
-     "edge_density_hi": 1.8490632171560464e-23
+     "edge_density_hi": 1.8490632171560476e-23
     },
     "f": {
      "median": 0.1544723587937574,
@@ -65199,7 +65391,7 @@
      "sd": 0.9732639907273574,
      "map_1d": 69.1875,
      "edge_density_lo": 2.7326012646602616e-36,
-     "edge_density_hi": 7.807268611740445e-31
+     "edge_density_hi": 7.8072686117404475e-31
     }
    },
    "a3_joint_complete_s100 (0c5b3db, selection, n0=-3/-5, C=1 by deep m_lim)": {
@@ -65233,7 +65425,7 @@
      "sd": 0.9726851379307893,
      "map_1d": 69.1875,
      "edge_density_lo": 2.2897154456769618e-36,
-     "edge_density_hi": 7.424789124827056e-31
+     "edge_density_hi": 7.424789124827053e-31
     }
    },
    "fu_probes_joint_complete_n0m24_s100 (0c5b3db, selection, n0=-24)": {
@@ -65303,7 +65495,7 @@
     "sd": 0.9760267303295922,
     "map_1d": 68.9375,
     "edge_density_lo": 4.332703534052104e-39,
-    "edge_density_hi": 3.573073916921986e-44
+    "edge_density_hi": 3.5730739169219857e-44
    }
   },
   "c6_stored_summary_C_in_horizon": {
@@ -65349,7 +65541,7 @@
   "c7_C10J_rejected_cells": 80,
   "c7_C10J_edge_densities": {
    "H0": [
-    5.5746382209638404e-12,
+    5.57463822096384e-12,
     2.8818046593685252e-11
    ],
    "f": [
@@ -65357,7 +65549,7 @@
     4.7757008181669085e-09
    ],
    "dmuG": [
-    8.626940642040948e-11,
+    8.626940642040949e-11,
     2.3396649350477092e-07
    ],
    "dmuChi": [
@@ -65435,7 +65627,7 @@
    "sd": 0.9966929017166274,
    "map_1d": 69.0625,
    "edge_density_lo": 2.999376006001233e-36,
-   "edge_density_hi": 9.80311680842605e-31
+   "edge_density_hi": 9.803116808426053e-31
   },
   "c9_J9_rejected_cells": 809,
   "c9_A9_J_vs_S_evidence_ratio_log10": 8.620316407542164,

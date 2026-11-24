@@ -1,4 +1,4 @@
-# Checkpoint, 24 Nov 2026, 00:05 UTC (read this first after a context clear)
+# Checkpoint, 24 Nov 2026, 07:05 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,7 +6,61 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 24 Nov 00:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 24 Nov 07:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+
+### THE LANES ARE STOPPED BEHIND THE MASSGAP JOBS (owner, 24 Nov 06:48 UTC; read this first)
+- OWNER: "Checkpoint your jobs on rita-gpu. Let the massgap jobs go in first then reque after
+  them". The massgap jobs are the owner's own, from another project (job names `lh100-tc5`
+  1534267, `lh100-tc17` 1534268, and the array `lh100` 1534269 of 98 tasks, two at a time,
+  8 h limit each, which waits `afterok` on the two). Never touch them.
+- DONE 06:50:29 UTC: `scancel 1494378 1482276` (my two running lane jobs; gone in 10 s). The
+  massgap test jobs started on both GPUs at 06:50:33 UTC. My successors 1496542 (lane 1) and
+  1495021 (lane 2) are PENDING with `Dependency=afterany:1534269_*`; that dependency was
+  already on them when I looked (set from the owner's side), I did not change it. They start
+  by themselves when the whole array has ended and carry on from the lane files.
+- NOTHING IS LOST: grid passes save every 60 s (`<pass>.partial.npz`) and resume; nested parts
+  resume from `state.save`. Interrupted: lane 1 in the fine pass of `two_tracers_two_
+  populations/.../obslike_f0p30_s1/realization_113_mix` (coarse done, fine partial saved
+  06:49:32), lane 2 at the start of `.../realization_112_mix`. Their `attempts.json` still say
+  "running" and a LOCK is left; the worker handles that at restart (as on 21 Nov).
+- HOW LONG: unknown to me. The array is 98 tasks of at most 8 h, two at a time: up to 16 days
+  at the limits, two days if a task takes an hour. EVERYTHING of this project on the GPUs
+  waits for it: 11 E2M grids (2.4 GPU-h), E3 (3 parts), HDSingle 106 to 110, stage 3, stage 5
+  (about 310 GPU-h in all; lanes 46 and 41 tasks to do, none failed). The Sec. IV E milestone
+  (PDF, "5, then 10", push request) is no longer on 25 Nov: it comes about 14 h of lane time
+  after the lanes resume. The owner was told.
+- RISK: if a `lh100-tc` job FAILS, the array's `afterok` can never be satisfied, it stays
+  pending, and my jobs wait forever. WATCHER `bae7bng0m` (armed 06:55 UTC) fires when a lane
+  job is RUNNING again, or the array shows DependencyNeverSatisfied, or neither lane job is
+  in the queue, or at 12:00 UTC 27 Nov. If it reports STUCK or the limit: tell the owner; the
+  release is theirs to order (`scontrol update JobId=1496542 Dependency=` and the same for
+  1495021 would start the lanes; do NOT do it without their word).
+- TO RESTART BY HAND if both lane jobs are gone: `$PY scripts/launch.py --lanes 2 stage E2M
+  --spread --dry-run` shows what it would submit; a lane with tasks to do and no job gets one
+  from `launch.py` (dry run first; add `--dependency` by hand only if the owner wants the
+  massgap order kept).
+- WHILE WAITING (CPU only, nothing blocked by the stop): the refresh below is done; the
+  re-reading of the observed-like sentences waits for the 11 open grids, all of the set
+  `obslike_f0p30_s1` (ObsAssumed lacks realizations 100, 105, 106; ObsPops lacks 103, 106,
+  107, 108, 111, 112, 113, 115).
+
+### THE MIXTURE RE-RUNS SO FAR (84 of 95; refresh 07:02 UTC: exit 0, audit 95 of 95, figures
+### 515 with 0 mismatches, 203 of 256 result macros of the text real)
+- Every set with `_s0` is complete, so the half-width means are real again (old value in
+  parentheses): HWObsNone 8.6 [8.4, 9.0] (8.4 [7.1, 9.3]); HWObsUnknownZero 3.6 [2.6, 4.6]
+  (3.5); HWObsKnownZero 3.6 (3.5); HWObsUnknownThirty 2.0 [1.9, 2.2] (2.0); HWObsKnownThirty
+  1.4 [1.3, 1.5] (1.3); HWObsUnknownHundred 0.80 [0.70, 0.87] (0.84 [0.70, 1.1]);
+  HWObsKnownHundred 0.79 (0.83); HWObsKnownPopsThirty 1.2. As the CPU hybrids predicted.
+  The sentences of Sec. IV F that quote them still hold as worded (8.6 against 5.6 without a
+  catalog; 2.0 against 2.0; "inside the range over the realizations"); re-read them with the
+  rest when the eleven are in.
+- STEP SCAN on the 84 new grids: none in any grid the paper reads. ONE grid still has steps:
+  `mass_spectrum_alone/no_catalog/complete/obslike_f1p00_s0/realization_103_mix` (about 100
+  nats at 51.6, 3.5 at 55.9, 0.7 at 60.9): the all-AGN set without a catalog at 8000 samples,
+  merger 553, which the mixture does not resolve at 8000 (it says so in its limits). No paper
+  macro reads `mass_spectrum_alone` on that set; do not start reading it without 32,000
+  samples.
+
 Local commits up to the one that carries this file; GitHub has e6d5313 (ask before any push).
 
 ### The session is back; there was no gap

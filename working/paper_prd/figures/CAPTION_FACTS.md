@@ -95,12 +95,12 @@ Series, points and their macros (each point: mean `\HW...`, bar `...Min` to `...
 - (a) host-dependent populations inferred with $H_0$: 1 point (1 real, 0 red): f=0.3 `\HWHost` = 1.6 (real) [1.4, 1.8]
 - (a) no catalog (horizontal line): 1 point (1 real, 0 red): `\HWNone` = 5.6 (real) (range over the realizations 4.0 to 6.1, not drawn)
 - (a) galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (1 real, 0 red): `\HWKnownZero` = 3.5 (real) (range over the realizations 3.0 to 4.6, not drawn)
-- (b) host class unknown: 3 points (0 real, 3 red): f=0 `\HWObsUnknownZero` = 3.5 (red) [2.6, 4.7]; f=0.3 `\HWObsUnknownThirty` = 2.0 (red) [1.8, 2.3]; f=1 `\HWObsUnknownHundred` = 0.84 (red) [0.70, 1.1]
+- (b) host class unknown: 3 points (3 real, 0 red): f=0 `\HWObsUnknownZero` = 3.6 (real) [2.6, 4.6]; f=0.3 `\HWObsUnknownThirty` = 2.0 (real) [1.9, 2.2]; f=1 `\HWObsUnknownHundred` = 0.80 (real) [0.70, 0.87]
 - (b) host-dependent populations, $\Delta\mu_{\rm G}=5\,M_\odot$, $\Delta\mu_\chi=0.10$: 1 point (0 real, 1 red): f=0.3 `\HWObsPopsThirty` = 1.6 (red) [1.3, 1.8]
-- (b) host class known: 3 points (0 real, 3 red): f=0 `\HWObsKnownZero` = 3.5 (red) [2.6, 4.3]; f=0.3 `\HWObsKnownThirty` = 1.3 (red) [1.2, 1.5]; f=1 `\HWObsKnownHundred` = 0.83 (red) [0.68, 1.1]
+- (b) host class known: 3 points (3 real, 0 red): f=0 `\HWObsKnownZero` = 3.6 (real) [2.6, 4.3]; f=0.3 `\HWObsKnownThirty` = 1.4 (real) [1.3, 1.5]; f=1 `\HWObsKnownHundred` = 0.79 (real) [0.68, 0.87]
 - (b) host-dependent populations inferred with $H_0$: 1 point (0 real, 1 red): f=0.3 `\HWObsHost` = 2.3 (red) [2.1, 2.5]
-- (b) no catalog (horizontal line): 1 point (0 real, 1 red): `\HWObsNone` = 8.4 (red) (range over the realizations 7.1 to 9.3, not drawn)
-- (b) galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (0 real, 1 red): `\HWObsKnownZero` = 3.5 (red) (range over the realizations 2.6 to 4.3, not drawn)
+- (b) no catalog (horizontal line): 1 point (1 real, 0 red): `\HWObsNone` = 8.6 (real) (range over the realizations 8.4 to 9.0, not drawn)
+- (b) galaxy catalog alone, $f_{\rm AGN}=0$ (horizontal line): 1 point (1 real, 0 red): `\HWObsKnownZero` = 3.6 (real) (range over the realizations 2.6 to 4.3, not drawn)
 - (c) positions alone: real; 360 AGN-hosted and 640 galaxy-hosted mergers; printed means: 0.30 = `\ProbGalPos` = 0.30 (real), 0.37 = `\ProbAGNPos` = 0.37 (real); evaluated at f_AGN = `\ProbEvalfAGNPos` = 0.32 (real) (the run's posterior median, where a merger with equal class likelihoods lies; not drawn: the dashed line is the input); mean over all the mergers `\ProbAllPos` = 0.32 (real)
 - (c) positions with masses and spins: real; 360 AGN-hosted and 640 galaxy-hosted mergers; printed means: 0.28 = `\ProbGalPops` = 0.28 (real), 0.51 = `\ProbAGNPops` = 0.51 (real); evaluated at f_AGN = `\ProbEvalfAGNPops` = 0.30 (real) (the run's posterior median, where a merger with equal class likelihoods lies; not drawn: the dashed line is the input); mean over all the mergers `\ProbAllPops` = 0.36 (real)
 - Numbers printed in the panels: the four means of (c) above; the legend's offsets 5 (`\MockDmuG`) and 0.10 (`\MockDmuChi`). The figure check compares every drawn point, bar end and line with its macro (value and printed text) and the printed text with the macro's text.

@@ -904,12 +904,13 @@
 },
 "HDSingleTwice": {
 "state": "partial",
-"n_have": 3,
+"n_have": 4,
 "n_need": 5,
 "realizations_have": [
 100,
 101,
-102
+102,
+103
 ],
 "realizations_want": [
 100,
@@ -919,17 +920,29 @@
 105
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_103",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_105"
 ],
 "stage": "E3",
 "runlist": "RUNLIST_experiment.yaml"
 },
 "ObsAssumed": {
-"state": "waiting",
-"n_have": 0,
+"state": "partial",
+"n_have": 12,
 "n_need": 15,
-"realizations_have": [],
+"realizations_have": [
+101,
+102,
+103,
+107,
+108,
+109,
+110,
+111,
+112,
+113,
+114,
+115
+],
 "realizations_want": [
 100,
 101,
@@ -949,29 +962,25 @@
 ],
 "missing": [
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix"
 ],
 "stage": "E2M",
 "runlist": "RUNLIST_experiment.yaml"
 },
 "ObsPops": {
-"state": "waiting",
-"n_have": 0,
+"state": "partial",
+"n_have": 7,
 "n_need": 15,
-"realizations_have": [],
+"realizations_have": [
+100,
+101,
+102,
+105,
+109,
+110,
+114
+],
 "realizations_want": [
 100,
 101,
@@ -990,20 +999,13 @@
 115
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
 ],
 "stage": "E2M",
@@ -773760,10 +773762,23 @@
 "commit": "3a36d4c82b72532391aff636783f3f1e8f28d24f"
 },
 "production_status": {
-"state": "waiting",
-"n_have": 0,
+"state": "partial",
+"n_have": 12,
 "n_need": 15,
-"realizations_have": [],
+"realizations_have": [
+101,
+102,
+103,
+107,
+108,
+109,
+110,
+111,
+112,
+113,
+114,
+115
+],
 "realizations_want": [
 100,
 101,
@@ -773783,20 +773798,8 @@
 ],
 "missing": [
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
+"analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix"
 ],
 "stage": "E2M",
 "runlist": "RUNLIST_experiment.yaml"
@@ -777178,10 +777181,18 @@
 "commit": "3a36d4c82b72532391aff636783f3f1e8f28d24f"
 },
 "production_status": {
-"state": "waiting",
-"n_have": 0,
+"state": "partial",
+"n_have": 7,
 "n_need": 15,
-"realizations_have": [],
+"realizations_have": [
+100,
+101,
+102,
+105,
+109,
+110,
+114
+],
 "realizations_want": [
 100,
 101,
@@ -777200,20 +777211,13 @@
 115
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix",
-"analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix",
 "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix"
 ],
 "stage": "E2M",
@@ -787102,12 +787106,13 @@
 "LB": null,
 "production_status": {
 "state": "partial",
-"n_have": 3,
+"n_have": 4,
 "n_need": 5,
 "realizations_have": [
 100,
 101,
-102
+102,
+103
 ],
 "realizations_want": [
 100,
@@ -787117,7 +787122,6 @@
 105
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_103",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/peak_f0p30_s2/realization_105"
 ],
 "stage": "E3",
