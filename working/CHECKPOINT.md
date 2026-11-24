@@ -1,4 +1,4 @@
-# Checkpoint, 24 Nov 2026, 07:05 UTC (read this first after a context clear)
+# Checkpoint, 24 Nov 2026, 07:15 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -8,7 +8,26 @@ this file holds the working state.
 
 ## STATE 24 Nov 07:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 
-### THE LANES ARE STOPPED BEHIND THE MASSGAP JOBS (owner, 24 Nov 06:48 UTC; read this first)
+### THE LANES RUN AGAIN SINCE 07:07 UTC 24 Nov (read this first; it supersedes the block below)
+- The massgap test job `lh100-tc5` (1534267) FAILED after 17 min (07:07:26 UTC); `lh100-tc17`
+  completed; the array 1534269 was cancelled at the same second (its `afterok` could not be
+  met). That fulfilled the `afterany` of my lane jobs, and they started by themselves: lane 2
+  job 1495021 at 07:07:26, lane 1 job 1496542 at 07:08:07 UTC (limits 07:07 and 07:08 UTC 26
+  Nov; successors 1534274 and 1534275 chained). I released nothing. Lane 1 resumed its
+  interrupted grid from its saved cells (coarse 286 of 286, fine 252 of 861 on record), lane
+  2 restarted the one it had just begun. No massgap job is in the queue (07:12 UTC).
+- THE OWNER WAS TOLD (07:15 UTC) that the gate job failed and that the lanes run again. IF
+  THEY RESUBMIT THE MASSGAP JOBS AND WANT THEM FIRST AGAIN: `scancel` the two RUNNING
+  `agn-prod-l*` jobs (grids save every 60 s, nested parts resume from `state.save`) and make
+  the two PENDING successors wait: `scontrol update JobId=<successor> Dependency=afterany:
+  <massgap job ids>` (an array as `<id>`; keep nothing else in the list). Do it only on their
+  word; never touch the massgap jobs themselves.
+- SCHEDULE NOW: the eleven open E2M grids end about 08:30 UTC 24 Nov (watcher `bqb11jb9l`,
+  limit 11:30 UTC, is still armed and fires on the 95); then E3 and HDSingle 106 to 110: the
+  Sec. IV E milestone about 23:00 UTC 24 Nov (watcher `bwyy2o0h3`, limit 09:00 UTC 25 Nov).
+  Watcher `bae7bng0m` has fired (resumed).
+
+### (history) THE LANES WERE STOPPED BEHIND THE MASSGAP JOBS (owner, 24 Nov 06:48 UTC)
 - OWNER: "Checkpoint your jobs on rita-gpu. Let the massgap jobs go in first then reque after
   them". The massgap jobs are the owner's own, from another project (job names `lh100-tc5`
   1534267, `lh100-tc17` 1534268, and the array `lh100` 1534269 of 98 tasks, two at a time,
@@ -319,27 +338,20 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
 
 ### Running now, and what each needs from you
-- NOTHING of this project runs on RITA-GPU since 06:50 UTC 24 Nov (top block). The lane jobs
-  1496542 (lane 1) and 1495021 (lane 2) wait on the massgap array. When they start: lane 1
-  finishes its E2M grids (6 open), then E3 (2 parts), HDSingle 106 to 110 first parts,
-  stage 3, stage 5; lane 2 its E2M grids (5 open), E3 (1 part), HDSingle 106 to 110 second
-  parts, stage 3, stage 5. Each job chains its own successor at its start.
-- WATCHER `bae7bng0m`: the lanes resume, or the massgap array is stuck, or 12:00 UTC 27 Nov.
-- WATCHER `bqb11jb9l`: the 95 E2M summaries, or an error outcome, or 11:30 UTC 24 Nov: it will
-  fire at its limit with 84 of 95; re-arm one for the eleven when the lanes resume (list
-  `tests/results/e2m_runs.txt`).
-- WATCHER `bwyy2o0h3`: the ten runs of the Sec. IV E milestone (E3's five and HDSingle 106 to
-  110), or an error outcome, or 09:00 UTC 25 Nov: it will fire at its limit; re-arm one when
-  the lanes resume (E3's five are `single_population/both_catalogs/complete/peak_f0p30_s2/
-  realization_{100,101,102,103,105}`).
+- LANE 1 (job 1496542, limit 07:08 UTC 26 Nov, successor 1534275): its 6 open E2M grids, then
+  E3 (2 parts), HDSingle 106 to 110 first parts, stage 3, stage 5.
+- LANE 2 (job 1495021, limit 07:07 UTC 26 Nov, successor 1534274): its 5 open E2M grids, then
+  E3 (1 part), HDSingle 106 to 110 second parts, stage 3, stage 5.
+- WATCHER `bqb11jb9l`: all 95 E2M summaries, or an error outcome, or 11:30 UTC 24 Nov.
+- WATCHER `bwyy2o0h3`: the ten runs of the Sec. IV E milestone, or an error outcome, or 09:00
+  UTC 25 Nov.
 - No agent is running. If the session restarted, the watchers are gone: check by hand.
 
 ### Do next, in order
-1. When the lanes have resumed and the eleven open E2M grids are in (about 1.5 h after the
-   restart): "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done
-   on the 84, top block).
-2. THE SEC. IV E MILESTONE (about 14 h of lane time after the lanes resume; it was 12:00 UTC
-   25 Nov before the stop): when E3's five and HDSingle 106 to 110
+1. When the eleven open E2M grids are in (about 08:30 UTC 24 Nov, watcher `bqb11jb9l`):
+   "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done on the
+   84, see "THE MIXTURE RE-RUNS SO FAR").
+2. THE SEC. IV E MILESTONE (about 23:00 UTC 24 Nov): when E3's five and HDSingle 106 to 110
    are in: refresh; the single-population sentences and the twice-offset sentence turn
    black; re-read them (the wording "is not biased" must match the level the combined
    posteriors print). Commit, PDF to the owner with SendUserFile
