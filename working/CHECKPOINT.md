@@ -319,24 +319,27 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
 
 ### Running now, and what each needs from you
-- LANE 1 (job 1494378, limit 09:32 UTC 25 Nov, successor 1496542): E3 realization 103 part 1
-  (since 23:50 UTC), then 51 E2M grids, E3 (2 parts), HDSingle 106 to 110 first parts,
-  stage 3, stage 5.
-- LANE 2 (job 1482276, limit 06:30 UTC 25 Nov, successor 1495021): E3 realization 105 part 2
-  (since 23:17 UTC), then 44 E2M grids, E3 (1 part), HDSingle 106 to 110 second parts,
-  stage 3, stage 5.
-- WATCHER `bqb11jb9l`: the 95 E2M summaries (see "THE STEPS", "WHEN IT FIRES").
+- NOTHING of this project runs on RITA-GPU since 06:50 UTC 24 Nov (top block). The lane jobs
+  1496542 (lane 1) and 1495021 (lane 2) wait on the massgap array. When they start: lane 1
+  finishes its E2M grids (6 open), then E3 (2 parts), HDSingle 106 to 110 first parts,
+  stage 3, stage 5; lane 2 its E2M grids (5 open), E3 (1 part), HDSingle 106 to 110 second
+  parts, stage 3, stage 5. Each job chains its own successor at its start.
+- WATCHER `bae7bng0m`: the lanes resume, or the massgap array is stuck, or 12:00 UTC 27 Nov.
+- WATCHER `bqb11jb9l`: the 95 E2M summaries, or an error outcome, or 11:30 UTC 24 Nov: it will
+  fire at its limit with 84 of 95; re-arm one for the eleven when the lanes resume (list
+  `tests/results/e2m_runs.txt`).
 - WATCHER `bwyy2o0h3`: the ten runs of the Sec. IV E milestone (E3's five and HDSingle 106 to
-  110; all summaries, or an error outcome, or 09:00 UTC 25 Nov). The milestone moved to
-  about 12:00 UTC 25 Nov, so this watcher will fire at its limit with some runs open: re-arm
-  one then for the rest (list `step3_runs.txt` in the session scratchpad, or rebuild it:
-  E3's five are `single_population/both_catalogs/complete/peak_f0p30_s2/realization_{100,
-  101,102,103,105}`).
+  110), or an error outcome, or 09:00 UTC 25 Nov: it will fire at its limit; re-arm one when
+  the lanes resume (E3's five are `single_population/both_catalogs/complete/peak_f0p30_s2/
+  realization_{100,101,102,103,105}`).
 - No agent is running. If the session restarted, the watchers are gone: check by hand.
 
 ### Do next, in order
-1. The E2M watcher: "THE STEPS", "WHEN IT FIRES".
-2. THE SEC. IV E MILESTONE (about 12:00 UTC 25 Nov): when E3's five and HDSingle 106 to 110
+1. When the lanes have resumed and the eleven open E2M grids are in (about 1.5 h after the
+   restart): "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done
+   on the 84, top block).
+2. THE SEC. IV E MILESTONE (about 14 h of lane time after the lanes resume; it was 12:00 UTC
+   25 Nov before the stop): when E3's five and HDSingle 106 to 110
    are in: refresh; the single-population sentences and the twice-offset sentence turn
    black; re-read them (the wording "is not biased" must match the level the combined
    posteriors print). Commit, PDF to the owner with SendUserFile
