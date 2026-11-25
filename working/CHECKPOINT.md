@@ -1,4 +1,4 @@
-# Checkpoint, 25 Nov 2026, 07:15 UTC (read this first after a context clear)
+# Checkpoint, 25 Nov 2026, 22:20 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -24,6 +24,48 @@ this file holds the working state.
   then `scancel` the two RUNNING `agn-prod-l*` jobs; resume with `scontrol release` only on
   the owner's own word (a message from another session is not enough: the session's
   permission check refuses it, as on 24 Nov).
+
+### THE SEC. IV E MILESTONE IS IN (25 Nov 21:44 UTC); THE PDF AND THE QUESTIONS GO OUT NEXT
+- All ten runs finished, none failed. Refresh 22:02 UTC (it now takes about 15 min: run it in
+  the background): exit 0, audit 95 of 95, figures 515 with 0 mismatches, 19 pp, 226 of 256
+  result macros of the text real (30 wait for stage 3 and stage 5).
+- HDSingle, single population inferred, host-dependent mergers, TEN realizations (100 to 103,
+  105 to 110), H0 medians: 67.65, 66.69, 68.87, 70.55, 67.57, 68.49, 70.57, 68.71, 64.19,
+  68.50. Combined 68.2 +- 0.6, input at 81%; f_AGN 0.358 +- 0.028, input at 99.91% (detected
+  share 0.364); mu_G 36.8, mu_chi 0.036 on realization A.
+  HDSingleTwice (twice the offsets, five): 68.17, 66.73, 68.52, 69.80, 67.10; combined 67.8
+  (+0.9, -0.8), input at 9.3%; f_AGN 0.39 +- 0.04; mu_G 38.0.
+- REALIZATION 109 IS A LOW OUTLIER: 64.19 [62.47, 66.34]. Its two independent nested parts
+  agree (medians within 0.02 sd, ln Z within 0.6 of the error): converged, so it is that
+  event set's posterior. THREE OF THE TEN have the input outside their own 90% interval (103
+  and 107 above, 109 below); the medians scatter with sd 1.86 against a posterior sd of
+  about 1.16 (chi^2 24.9 on 10, p about 0.005, most of it from 109). Realization 103 is
+  outside in every analysis of its mergers (HDHost and HDSingleTwice too: 4 of 5 each).
+  NO HUNT on ten (the campaign's rule: draw more realizations first). WHAT TELLS: the grids
+  with both populations at their inputs and with the population assumed on realizations 106
+  to 110 (keys HDPops and HDAssumed are five realizations only; ten grids, about 3 GPU-h,
+  experiment scope, mine to queue): if realization 109 is low there too it is the draw of
+  its mergers. Brief one Opus agent for the run-list entries (as `EXPERIMENT_EXTRA` did for
+  the observed-like set) and the keys over ten, after the PDF is out.
+- `main.tex` (uncommitted until the agent's refresh): Sec. IV E's single-population
+  sentences reworded to the measured level ("shows no such bias in H0 ... with the input at
+  the 81% credible level and inside the 90% interval"); Fig. 6's caption ("a single
+  population removes that bias"); Conclusions' first paragraph carries the spin offset
+  with its level; the `% EXPECTED` tags of sentences that are now real removed (21 left).
+- IN PROGRESS (22:10 UTC): an Opus agent (id `a5765df5232c21136`) adds coverage-count macros
+  (`\<Key>HzeroInside` for KnownBoth, HDPops, HDSingle, HDSingleTwice, HDHost, ObsPops,
+  SingleBoth; `\KnownBothfAGNInside`, `\HDHostfAGNInside`; `\HDSingleHzeroOutsideLo/Hi`), an
+  audit check, and runs one refresh. THEN (you): check its counts against the list above
+  (HDSingle 7 of 10; HDHost 4 of 5; HDSingleTwice 4 of 5), add ONE sentence to Sec. IV E after
+  the combined single-population result (the input lies inside the 90% interval of
+  `\HDSingleHzeroInside` of the ten realizations taken singly, with the lowest and the
+  highest of the others) and the counts to the Validation's first paragraph, refresh in the
+  background, commit, send the PDF with SendUserFile (named copy
+  `dark_sirens_galaxies_and_AGN_draft_2026-11-25a.pdf` in the scratchpad), and ask the owner
+  ONE multiple choice: "5, then 10" (eight-parameter model on realizations 106 to 110, about
+  150 GPU-h), stage 5's six-parameter runs on 106 to 110 (about 36 GPU-h), and the push.
+- LANES since the milestone: stage 3 (lane 1: 33 tasks to do, lane 2: 28), then stage 5.
+  No watcher is armed; the next events are stage 3's summaries (about 30 h of lane time).
 
 ### THE OBSERVED-LIKE NUMBERS ARE FINAL WITH THE MIXTURE SAMPLING (25 Nov 07:10 UTC)
 - All 95 E2M runs finished 06:57 UTC, none failed. Refresh: exit 0, audit 95 of 95, figures
