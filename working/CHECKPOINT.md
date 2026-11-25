@@ -1,4 +1,4 @@
-# Checkpoint, 25 Nov 2026, 05:56 UTC (read this first after a context clear)
+# Checkpoint, 25 Nov 2026, 07:15 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -24,6 +24,30 @@ this file holds the working state.
   then `scancel` the two RUNNING `agn-prod-l*` jobs; resume with `scontrol release` only on
   the owner's own word (a message from another session is not enough: the session's
   permission check refuses it, as on 24 Nov).
+
+### THE OBSERVED-LIKE NUMBERS ARE FINAL WITH THE MIXTURE SAMPLING (25 Nov 07:10 UTC)
+- All 95 E2M runs finished 06:57 UTC, none failed. Refresh: exit 0, audit 95 of 95, figures
+  515 with 0 mismatches, 19 pp, 216 of 256 result macros of the text real.
+- FIFTEEN REALIZATIONS, both catalogs (old production value in parentheses): population
+  assumed 68.4 +- 0.5, input at 98% and outside the 90% interval (68.5 +0.5 -0.4, 99%); both
+  populations at their inputs 67.5 +- 0.4, 73% (67.4, 86%); shift per realization median 0.9,
+  range 0.6 to 1.8 (1.0, 0.4 to 1.8), mean 0.98 +- 0.09, positive in fifteen of fifteen;
+  f_AGN with the population assumed 0.306 +- 0.017 (46%). First five with both populations
+  at their inputs 67.0 +- 0.7 at 91%, later ten 67.7 (+0.6, -0.5) at 8.2%; assumed 67.8 +- 0.8
+  (19%) and 68.7 +- 0.6 (99%). HWObsPopsThirty 1.6 [1.4, 1.8]. The half-width means: block
+  "THE MIXTURE RE-RUNS SO FAR" below (unchanged by the last eleven grids).
+- CHECKS REPEATED ON THE NEW GRIDS: step scan over the 95: none but the known all-AGN
+  no-catalog grid of realization 103 at 8000 samples, which no macro reads. LEAVE-ONE-OUT of
+  the fifteen, population assumed: the level of the input stays between 93.0% and 99.3%
+  (without realization 106: 93.0%; before the fix 89.5%), so the input is outside the 90%
+  interval whichever realization is left out; both populations at their inputs: 39% to 88%.
+  Realization 106 with the mixture: 69.85 [68.31, 71.58] (production 70.11 [69.07, 71.73]).
+  Fig. 7(a)'s dotted curve is smooth (the shoulder at 69.2 is gone).
+- RE-READ against the rendered PDF, all hold as worded: Sec. IV F (8.6 against 5.6 without a
+  catalog; 2.0 against 2.0; 1.6 against 1.6; the shift 0.9 against 3.2; the two combined
+  posteriors with their levels; the five that lie low), Sec. IV G's sentence, the abstract's
+  sentence, Table III's row, Fig. 8's caption. The three `% REREAD` tags and the `% EXPECTED`
+  of the Appendix A sentence are removed. What stays red in Sec. IV F is stage 5.
 
 ### (history) ALL JOBS OF THIS PROJECT WERE STOPPED FROM 07:30 UTC 24 Nov TO 05:50 UTC 25 Nov
 - DONE 07:30:50 UTC, in this order: `scontrol hold 1534275 1534274` (the two pending lane
@@ -395,11 +419,11 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   E3, HDSingle 106 to 110 first parts, stage 3, stage 5.
 - LANE 2 (job 1534274, limit 05:50 UTC 27 Nov, successor 1592194): its open E2M grids, then
   E3, HDSingle 106 to 110 second parts, stage 3, stage 5.
-- WATCHERS `bdremiera` (E2M) and `b4bih8iiz` (milestone): top block. No agent is running. If
+- WATCHER `b4bih8iiz` (milestone): top block (`bdremiera` has fired). No agent is running. If
   the session restarted, the watchers are gone: check by hand.
 
 ### Do next, in order
-1. When the seven open E2M grids are in (about 06:45 UTC 25 Nov, watcher `bdremiera`):
+1. (DONE 07:10 UTC 25 Nov, top blocks.) When the seven open E2M grids are in:
    "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done on the
    84, see "THE MIXTURE RE-RUNS SO FAR").
 2. THE SEC. IV E MILESTONE (about 19:00 to 20:00 UTC 25 Nov, watcher `b4bih8iiz`): when E3's

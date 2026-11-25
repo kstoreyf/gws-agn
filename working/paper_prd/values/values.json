@@ -42349,32 +42349,25 @@
    "extra": {}
   },
   "ObsAssumedHzero": {
-   "class": "ph",
-   "render": "\\ph{67.6^{+1.7}_{-1.6}}",
+   "class": "plain",
+   "render": "67.8^{+1.7}_{-1.6}",
    "value": {
-    "median": 67.61596979761507,
+    "median": 67.7901143816447,
     "ci68": [
-     66.65603368784828,
-     68.65436348910588
+     66.80239218126849,
+     68.81518726177973
     ],
     "ci90": [
-     66.04984216631246,
-     69.33501779094478
+     66.17215178842535,
+     69.4754407417569
     ],
-    "ul90": 68.95694226970998,
-    "level_of_input": 0.09798068128780146
+    "ul90": 69.10620007143676,
+    "level_of_input": 0.03935566058659168
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -42384,132 +42377,90 @@
    }
   },
   "ObsAssumedHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{67.6}",
-   "value": 67.61596979761507,
+   "class": "plain",
+   "render": "67.8",
+   "value": 67.7901143816447,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{66.0}",
-   "value": 66.04984216631246,
+   "class": "plain",
+   "render": "66.2",
+   "value": 66.17215178842535,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{69.3}",
-   "value": 69.33501779094478,
+   "class": "plain",
+   "render": "69.5",
+   "value": 69.4754407417569,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.3}",
-   "value": 3.2851756246323163,
+   "class": "plain",
+   "render": "3.3",
+   "value": 3.3032889533315455,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.6425878123161581,
+   "class": "plain",
+   "render": "1.7",
+   "value": 1.6516444766657727,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (ObsAssumedHzeroWid) of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (ObsAssumedHzeroWid) of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{68.5^{+0.5}_{-0.4}}",
+   "class": "plain",
+   "render": "68.4^{+0.5}_{-0.5}",
    "value": {
-    "median": 68.50234422813895,
+    "median": 68.41809736942965,
     "ci68": [
-     68.2883397432749,
-     68.77047542115983
+     68.14452849448044,
+     68.6969591284316
     ],
     "ci90": [
-     68.06309650536356,
-     69.05199441796115
+     67.958958428596,
+     68.8808931765028
     ],
-    "ul90": 68.8751437296783,
-    "level_of_input": 0.9886031143740075
+    "ul90": 68.77862966689528,
+    "level_of_input": 0.9830468061438337
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -42519,132 +42470,90 @@
    }
   },
   "ObsAssumedHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{68.5}",
-   "value": 68.50234422813895,
+   "class": "plain",
+   "render": "68.4",
+   "value": 68.41809736942965,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{68.1}",
-   "value": 68.06309650536356,
+   "class": "plain",
+   "render": "68.0",
+   "value": 67.958958428596,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{69.1}",
-   "value": 69.05199441796115,
+   "class": "plain",
+   "render": "68.9",
+   "value": 68.8808931765028,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 0.9888979125975936,
+   "class": "plain",
+   "render": "0.9",
+   "value": 0.9219347479067892,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{99}",
-   "value": 0.9886031143740075,
+   "class": "plain",
+   "render": "98",
+   "value": 0.9830468061438337,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedHzeroComb (H0, [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.39^{+0.07}_{-0.07}}",
+   "class": "plain",
+   "render": "0.39^{+0.07}_{-0.07}",
    "value": {
-    "median": 0.3868702034380116,
+    "median": 0.3872428835266343,
     "ci68": [
-     0.345772511325158,
-     0.4281486430708174
+     0.34604798774967416,
+     0.4286155915075968
     ],
     "ci90": [
-     0.3191056632124022,
-     0.4551298134345217
+     0.31931681689034036,
+     0.4556613074276255
     ],
-    "ul90": 0.44006340489451856,
-    "level_of_input": 0.965574864600691
+    "ul90": 0.44055807084301146,
+    "level_of_input": 0.9659229973782908
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -42654,132 +42563,90 @@
    }
   },
   "ObsAssumedfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.39}",
-   "value": 0.3868702034380116,
+   "class": "plain",
+   "render": "0.39",
+   "value": 0.3872428835266343,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.32}",
-   "value": 0.3191056632124022,
+   "class": "plain",
+   "render": "0.32",
+   "value": 0.31931681689034036,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.46}",
-   "value": 0.4551298134345217,
+   "class": "plain",
+   "render": "0.46",
+   "value": 0.4556613074276255,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.14}",
-   "value": 0.1360241502221195,
+   "class": "plain",
+   "render": "0.14",
+   "value": 0.13634449053728515,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.07}",
-   "value": 0.06801207511105975,
+   "class": "plain",
+   "render": "0.07",
+   "value": 0.06817224526864257,
    "units": "",
-   "meaning": "half of the full 90% width (ObsAssumedfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (ObsAssumedfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.306^{+0.017}_{-0.017}}",
+   "class": "plain",
+   "render": "0.306^{+0.017}_{-0.017}",
    "value": {
-    "median": 0.306037091025169,
+    "median": 0.30647081422233824,
     "ci68": [
-     0.2955719030785895,
-     0.3165590245333682
+     0.2960079027736972,
+     0.3169909322522753
     ],
     "ci90": [
-     0.28875761668197014,
-     0.32346457071777707
+     0.2891853539374932,
+     0.3238979544443055
     ],
-    "ul90": 0.3196025854647196,
-    "level_of_input": 0.4332382669196039
+    "ul90": 0.3200376306364263,
+    "level_of_input": 0.4612120335899925
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -42789,132 +42656,90 @@
    }
   },
   "ObsAssumedfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.306}",
-   "value": 0.306037091025169,
+   "class": "plain",
+   "render": "0.306",
+   "value": 0.30647081422233824,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.289}",
-   "value": 0.28875761668197014,
+   "class": "plain",
+   "render": "0.289",
+   "value": 0.2891853539374932,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.323}",
-   "value": 0.32346457071777707,
+   "class": "plain",
+   "render": "0.324",
+   "value": 0.3238979544443055,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.035}",
-   "value": 0.034706954035806925,
+   "class": "plain",
+   "render": "0.035",
+   "value": 0.03471260050681235,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsAssumedfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{43}",
-   "value": 0.4332382669196039,
+   "class": "plain",
+   "render": "46",
+   "value": 0.4612120335899925,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in ObsAssumedfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key ObsAssumed] host-dependent populations, observed-like spectrum; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzero": {
-   "class": "ph",
-   "render": "\\ph{66.3^{+1.9}_{-1.7}}",
+   "class": "plain",
+   "render": "66.5^{+1.8}_{-1.7}",
    "value": {
-    "median": 66.31413702391542,
+    "median": 66.50983594236787,
     "ci68": [
-     65.27545886237687,
-     67.44399979016953
+     65.46145182703722,
+     67.61094047815867
     ],
     "ci90": [
-     64.65082575349109,
-     68.19402891785815
+     64.8180297531504,
+     68.33471747078032
     ],
-    "ul90": 67.77177669701153,
-    "level_of_input": 0.7901139571373863
+    "ul90": 67.93044510777375,
+    "level_of_input": 0.7333310993950528
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -42924,132 +42749,90 @@
    }
   },
   "ObsPopsHzeroMed": {
-   "class": "ph",
-   "render": "\\ph{66.3}",
-   "value": 66.31413702391542,
+   "class": "plain",
+   "render": "66.5",
+   "value": 66.50983594236787,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroLo": {
-   "class": "ph",
-   "render": "\\ph{64.7}",
-   "value": 64.65082575349109,
+   "class": "plain",
+   "render": "64.8",
+   "value": 64.8180297531504,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroHi": {
-   "class": "ph",
-   "render": "\\ph{68.2}",
-   "value": 68.19402891785815,
+   "class": "plain",
+   "render": "68.3",
+   "value": 68.33471747078032,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroWid": {
-   "class": "ph",
-   "render": "\\ph{3.5}",
-   "value": 3.543203164367057,
+   "class": "plain",
+   "render": "3.5",
+   "value": 3.516687717629921,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroHalfWid": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.7716015821835285,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.7583438588149605,
    "units": "km/s/Mpc",
-   "meaning": "half of the full 90% width (ObsPopsHzeroWid) of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (ObsPopsHzeroWid) of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.4^{+0.4}_{-0.4}}",
+   "class": "plain",
+   "render": "67.5^{+0.4}_{-0.4}",
    "value": {
-    "median": 67.37079345545664,
+    "median": 67.45539062470702,
     "ci68": [
-     67.11070178668791,
-     67.61953415644365
+     67.18579380728556,
+     67.71104682760523
     ],
     "ci90": [
-     66.95162232112004,
-     67.78260763154329
+     67.02076367197172,
+     67.87780023515903
     ],
-    "ul90": 67.69208771431249,
-    "level_of_input": 0.8591576332542805
+    "ul90": 67.78387008420812,
+    "level_of_input": 0.732934992146981
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -43059,132 +42842,90 @@
    }
   },
   "ObsPopsHzeroCombMed": {
-   "class": "ph",
-   "render": "\\ph{67.4}",
-   "value": 67.37079345545664,
+   "class": "plain",
+   "render": "67.5",
+   "value": 67.45539062470702,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroCombLo": {
-   "class": "ph",
-   "render": "\\ph{67.0}",
-   "value": 66.95162232112004,
+   "class": "plain",
+   "render": "67.0",
+   "value": 67.02076367197172,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroCombHi": {
-   "class": "ph",
-   "render": "\\ph{67.8}",
-   "value": 67.78260763154329,
+   "class": "plain",
+   "render": "67.9",
+   "value": 67.87780023515903,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.8}",
-   "value": 0.8309853104232445,
+   "class": "plain",
+   "render": "0.9",
+   "value": 0.8570365631873074,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{86}",
-   "value": 0.8591576332542805,
+   "class": "plain",
+   "render": "73",
+   "value": 0.732934992146981,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsHzeroComb (H0, [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGN": {
-   "class": "ph",
-   "render": "\\ph{0.33^{+0.05}_{-0.05}}",
+   "class": "plain",
+   "render": "0.33^{+0.05}_{-0.05}",
    "value": {
-    "median": 0.32728517177418925,
+    "median": 0.3276249781671269,
     "ci68": [
-     0.2973707869558445,
-     0.3577810520046443
+     0.2976550332706805,
+     0.3581772948470114
     ],
     "ci90": [
-     0.27816259972842555,
-     0.3779963197716131
+     0.27841427703384847,
+     0.37843305204260247
     ],
-    "ul90": 0.3666784543294473,
-    "level_of_input": 0.6351867057326137
+    "ul90": 0.36709265116256823,
+    "level_of_input": 0.6402723214506778
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -43194,132 +42935,90 @@
    }
   },
   "ObsPopsfAGNMed": {
-   "class": "ph",
-   "render": "\\ph{0.33}",
-   "value": 0.32728517177418925,
+   "class": "plain",
+   "render": "0.33",
+   "value": 0.3276249781671269,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNLo": {
-   "class": "ph",
-   "render": "\\ph{0.28}",
-   "value": 0.27816259972842555,
+   "class": "plain",
+   "render": "0.28",
+   "value": 0.27841427703384847,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNHi": {
-   "class": "ph",
-   "render": "\\ph{0.38}",
-   "value": 0.3779963197716131,
+   "class": "plain",
+   "render": "0.38",
+   "value": 0.37843305204260247,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNWid": {
-   "class": "ph",
-   "render": "\\ph{0.10}",
-   "value": 0.09983372004318752,
+   "class": "plain",
+   "render": "0.10",
+   "value": 0.100018775008754,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNHalfWid": {
-   "class": "ph",
-   "render": "\\ph{0.05}",
-   "value": 0.04991686002159376,
+   "class": "plain",
+   "render": "0.05",
+   "value": 0.050009387504377,
    "units": "",
-   "meaning": "half of the full 90% width (ObsPopsfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
+   "meaning": "half of the full 90% width (ObsPopsfAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, realization A (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNComb": {
-   "class": "ph",
-   "render": "\\ph{0.301^{+0.013}_{-0.013}}",
+   "class": "plain",
+   "render": "0.301^{+0.013}_{-0.013}",
    "value": {
-    "median": 0.300827368934214,
+    "median": 0.3007835712420452,
     "ci68": [
-     0.2931173839197502,
-     0.308582511253954
+     0.29307078255141533,
+     0.3085417528048564
     ],
     "ci90": [
-     0.28808755102109196,
-     0.31368830497144234
+     0.28803479522124625,
+     0.3136541319998407
     ],
-    "ul90": 0.31083989495355097,
-    "level_of_input": 0.08467754039560094
+    "ul90": 0.3108029234730243,
+    "level_of_input": 0.08015177167552778
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -43329,100 +43028,65 @@
    }
   },
   "ObsPopsfAGNCombMed": {
-   "class": "ph",
-   "render": "\\ph{0.301}",
-   "value": 0.300827368934214,
+   "class": "plain",
+   "render": "0.301",
+   "value": 0.3007835712420452,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNCombLo": {
-   "class": "ph",
-   "render": "\\ph{0.288}",
-   "value": 0.28808755102109196,
+   "class": "plain",
+   "render": "0.288",
+   "value": 0.28803479522124625,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNCombHi": {
-   "class": "ph",
-   "render": "\\ph{0.314}",
-   "value": 0.31368830497144234,
+   "class": "plain",
+   "render": "0.314",
+   "value": 0.3136541319998407,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNCombWid": {
-   "class": "ph",
-   "render": "\\ph{0.026}",
-   "value": 0.025600753950350386,
+   "class": "plain",
+   "render": "0.026",
+   "value": 0.02561933677859446,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete, combined over 15 realizations (the experiment's set obslike_f0p30_s1 (the events of stage 5) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the observed-like family's injection lane (injections_targeted_obslike.h5); the experiment's five realizations; with the defensive mixture redraw of the posterior samples (analysis_16 --redraw-mixture support, stage E2M, run names <E2 name>_mix); fifteen realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {}
   },
   "ObsPopsfAGNCL": {
-   "class": "ph",
-   "render": "\\ph{8.5}",
-   "value": 0.08467754039560094,
+   "class": "plain",
+   "render": "8.0",
+   "value": 0.08015177167552778,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in ObsPopsfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key ObsPops] host-dependent populations, observed-like spectrum; the two populations at their inputs; both catalogs, complete)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsPops",
-    "placeholder_source": "A: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist; Comb: frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json; git 3a36d4c), until the stage-E2M runs exist",
-    "placeholder_file": {
-     "A": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100/summary.json",
-     "Comb": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}/summary.json, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115]"
-    },
-    "json": "paper_prd/values/placeholder_results.json"
+    "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -44960,16 +44624,16 @@
    "extra": {}
   },
   "ObsAssumedBiasHzero": {
-   "class": "ph",
-   "render": "\\ph{0.8}",
-   "value": 0.7623442281389572,
+   "class": "plain",
+   "render": "0.7",
+   "value": 0.6780973694296506,
    "units": "km/s/Mpc",
    "meaning": "median of ObsAssumedHzeroComb minus the input H0 (population assumed (the galaxy class's for both classes), host-dependent mergers, observed-like spectrum, combined over 15 realizations)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "derived from the placeholder entries",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json"
+    ],
+    "computation": "median of ObsAssumedHzeroComb minus 67.74"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45094,107 +44758,194 @@
    }
   },
   "ObsAssumedShiftHzero": {
-   "class": "ph",
-   "render": "\\ph{1.0}",
-   "value": 0.9699541274386547,
+   "class": "plain",
+   "render": "0.9",
+   "value": 0.9367396614576364,
    "units": "km/s/Mpc",
    "meaning": "median over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations; experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsAssumed,ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedShiftHzero; git 3a36d4c), until the stage-E2M runs exist",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "posterior.H0.median of each summary of key ObsAssumed minus that of the same realization of key ObsPops; their median"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
     "decimals": 1,
     "per_realization": {
-     "100": 1.301832773699644,
-     "101": 0.6756585692188395,
-     "102": 1.0773662298953752,
-     "103": 1.4150509550056114,
-     "105": 1.1104498903209645,
-     "106": 0.4112417372802213,
-     "107": 1.7731337455625038,
-     "108": 0.8805740650657583,
-     "109": 1.3940212234792284,
-     "110": 0.8604618501865389,
-     "111": 0.5421177024657595,
-     "112": 0.6975266485464999,
-     "113": 0.5155395117452457,
-     "114": 1.2391907560758568,
-     "115": 0.9699541274386547
+     "100": 1.2802784392768274,
+     "101": 0.7698480915989308,
+     "102": 1.1659355691516566,
+     "103": 1.393755124336593,
+     "105": 0.9829589334973861,
+     "106": 0.566406353135477,
+     "107": 1.7582730401132807,
+     "108": 0.7373789694516404,
+     "109": 1.2891451553289244,
+     "110": 0.7296583820684646,
+     "111": 0.6177644406231622,
+     "112": 0.7135088785973949,
+     "113": 0.6038231065272157,
+     "114": 1.1662268408262122,
+     "115": 0.9367396614576364
     }
    }
   },
   "ObsAssumedShiftHzeroMin": {
-   "class": "ph",
-   "render": "\\ph{0.4}",
-   "value": 0.4112417372802213,
+   "class": "plain",
+   "render": "0.6",
+   "value": 0.566406353135477,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations; experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsAssumed,ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedShiftHzeroMin; git 3a36d4c), until the stage-E2M runs exist",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "posterior.H0.median of each summary of key ObsAssumed minus that of the same realization of key ObsPops; their smallest"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
     "decimals": 1,
     "per_realization": {
-     "100": 1.301832773699644,
-     "101": 0.6756585692188395,
-     "102": 1.0773662298953752,
-     "103": 1.4150509550056114,
-     "105": 1.1104498903209645,
-     "106": 0.4112417372802213,
-     "107": 1.7731337455625038,
-     "108": 0.8805740650657583,
-     "109": 1.3940212234792284,
-     "110": 0.8604618501865389,
-     "111": 0.5421177024657595,
-     "112": 0.6975266485464999,
-     "113": 0.5155395117452457,
-     "114": 1.2391907560758568,
-     "115": 0.9699541274386547
+     "100": 1.2802784392768274,
+     "101": 0.7698480915989308,
+     "102": 1.1659355691516566,
+     "103": 1.393755124336593,
+     "105": 0.9829589334973861,
+     "106": 0.566406353135477,
+     "107": 1.7582730401132807,
+     "108": 0.7373789694516404,
+     "109": 1.2891451553289244,
+     "110": 0.7296583820684646,
+     "111": 0.6177644406231622,
+     "112": 0.7135088785973949,
+     "113": 0.6038231065272157,
+     "114": 1.1662268408262122,
+     "115": 0.9367396614576364
     }
    }
   },
   "ObsAssumedShiftHzeroMax": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.7731337455625038,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.7582730401132807,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations; experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: the two populations at their inputs, both catalogs, 15 realizations",
-    "key": "ObsAssumed,ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedShiftHzeroMax; git 3a36d4c), until the stage-E2M runs exist",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "posterior.H0.median of each summary of key ObsAssumed minus that of the same realization of key ObsPops; their largest"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
     "decimals": 1,
     "per_realization": {
-     "100": 1.301832773699644,
-     "101": 0.6756585692188395,
-     "102": 1.0773662298953752,
-     "103": 1.4150509550056114,
-     "105": 1.1104498903209645,
-     "106": 0.4112417372802213,
-     "107": 1.7731337455625038,
-     "108": 0.8805740650657583,
-     "109": 1.3940212234792284,
-     "110": 0.8604618501865389,
-     "111": 0.5421177024657595,
-     "112": 0.6975266485464999,
-     "113": 0.5155395117452457,
-     "114": 1.2391907560758568,
-     "115": 0.9699541274386547
+     "100": 1.2802784392768274,
+     "101": 0.7698480915989308,
+     "102": 1.1659355691516566,
+     "103": 1.393755124336593,
+     "105": 0.9829589334973861,
+     "106": 0.566406353135477,
+     "107": 1.7582730401132807,
+     "108": 0.7373789694516404,
+     "109": 1.2891451553289244,
+     "110": 0.7296583820684646,
+     "111": 0.6177644406231622,
+     "112": 0.7135088785973949,
+     "113": 0.6038231065272157,
+     "114": 1.1662268408262122,
+     "115": 0.9367396614576364
     }
    }
   },
@@ -45325,16 +45076,30 @@
    }
   },
   "ObsAssumedNoPeak": {
-   "class": "ph",
-   "render": "\\ph{zero}",
+   "class": "plain",
+   "render": "zero",
    "value": 0,
    "units": "realizations",
    "meaning": "number of realizations of key ObsAssumed (population assumed, host-dependent mergers, observed-like spectrum) whose H0 posterior has no interior maximum in the prior range [50, 100]: the node with the largest corrected ln L over the fine and coarse passes (both parameters) lies at a prior edge of H0 (the rule of KnownAGNNoPeak)",
    "source": {
-    "missing": "experiment stage E2M (RUNLIST_experiment.yaml; E2's grids with the mixture redraw), set obslike_f0p30_s1: population assumed (the galaxy class's), both catalogs, 15 realizations",
-    "key": "ObsAssumed",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedNoPeak; git 3a36d4c), until the stage-E2M runs exist",
-    "json": "paper_prd/values/placeholder_results.json"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/grid"
+    ],
+    "computation": "run_posteriors.interior_maximum of each realization's grid (fine and coarse passes)"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45342,19 +45107,19 @@
     "rows": {
      "100": {
       "argmax": {
-       "H0": 67.6,
+       "H0": 67.8,
        "f_agn": 0.38
       },
       "at_edge": false,
-      "lnL": -3040.8482068861013
+      "lnL": -3030.6016558251226
      },
      "101": {
       "argmax": {
-       "H0": 67.25,
-       "f_agn": 0.33
+       "H0": 67.6,
+       "f_agn": 0.325
       },
       "at_edge": false,
-      "lnL": -3120.710135091442
+      "lnL": -3112.9255957569208
      },
      "102": {
       "argmax": {
@@ -45362,7 +45127,7 @@
        "f_agn": 0.42
       },
       "at_edge": false,
-      "lnL": -3075.303696043302
+      "lnL": -3071.01035687283
      },
      "103": {
       "argmax": {
@@ -45370,7 +45135,7 @@
        "f_agn": 0.285
       },
       "at_edge": false,
-      "lnL": -3096.492491811454
+      "lnL": -3088.096103970299
      },
      "105": {
       "argmax": {
@@ -45378,15 +45143,15 @@
        "f_agn": 0.325
       },
       "at_edge": false,
-      "lnL": -3179.036771796843
+      "lnL": -3174.8672162921184
      },
      "106": {
       "argmax": {
-       "H0": 70.0,
+       "H0": 69.8,
        "f_agn": 0.3
       },
       "at_edge": false,
-      "lnL": -3181.5763729825553
+      "lnL": -3171.5710897737526
      },
      "107": {
       "argmax": {
@@ -45394,31 +45159,31 @@
        "f_agn": 0.27
       },
       "at_edge": false,
-      "lnL": -3191.597794677866
+      "lnL": -3183.9536776555747
      },
      "108": {
-      "argmax": {
-       "H0": 67.8,
-       "f_agn": 0.285
-      },
-      "at_edge": false,
-      "lnL": -3084.6197621728165
-     },
-     "109": {
       "argmax": {
        "H0": 67.5,
        "f_agn": 0.285
       },
       "at_edge": false,
-      "lnL": -3162.7637587163063
+      "lnL": -3077.4848060821955
+     },
+     "109": {
+      "argmax": {
+       "H0": 67.75,
+       "f_agn": 0.285
+      },
+      "at_edge": false,
+      "lnL": -3153.785037584641
      },
      "110": {
       "argmax": {
-       "H0": 68.8,
+       "H0": 68.7,
        "f_agn": 0.25
       },
       "at_edge": false,
-      "lnL": -3077.344110542405
+      "lnL": -3071.7896551050394
      },
      "111": {
       "argmax": {
@@ -45426,39 +45191,39 @@
        "f_agn": 0.34
       },
       "at_edge": false,
-      "lnL": -3088.0909604697135
+      "lnL": -3083.966531529654
      },
      "112": {
       "argmax": {
-       "H0": 68.2,
-       "f_agn": 0.34
+       "H0": 68.0,
+       "f_agn": 0.33
       },
       "at_edge": false,
-      "lnL": -3192.2150944662703
+      "lnL": -3184.4364153661973
      },
      "113": {
       "argmax": {
-       "H0": 68.0,
+       "H0": 68.4,
        "f_agn": 0.25
       },
       "at_edge": false,
-      "lnL": -3112.600624967947
+      "lnL": -3108.1416774955
      },
      "114": {
       "argmax": {
        "H0": 69.5,
-       "f_agn": 0.26
+       "f_agn": 0.28
       },
       "at_edge": false,
-      "lnL": -3072.9863937219657
+      "lnL": -3063.5878142174274
      },
      "115": {
       "argmax": {
-       "H0": 68.1,
+       "H0": 68.7,
        "f_agn": 0.285
       },
       "at_edge": false,
-      "lnL": -3243.647060219617
+      "lnL": -3233.3672930981797
      }
     }
    }
@@ -45552,21 +45317,26 @@
    }
   },
   "ObsPopsFirstHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.0^{+0.7}_{-0.6}}",
+   "class": "plain",
+   "render": "67.0^{+0.7}_{-0.7}",
    "value": {
-    "median": 66.95534284594726,
+    "median": 67.03018961449526,
     "ci90": [
-     66.31636555667203,
-     67.63673839913267
+     66.3768657222788,
+     67.71318700938141
     ]
    },
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
-    "key": "ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsFirstHzeroComb, ObsPopsFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45583,15 +45353,20 @@
    }
   },
   "ObsPopsFirstHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{94}",
-   "value": 0.9409578473625733,
+   "class": "plain",
+   "render": "91",
+   "value": 0.9127017177904364,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsFirstHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
-    "key": "ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsFirstHzeroComb, ObsPopsFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45607,21 +45382,31 @@
    }
   },
   "ObsPopsLaterHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.6^{+0.7}_{-0.5}}",
+   "class": "plain",
+   "render": "67.7^{+0.6}_{-0.5}",
    "value": {
-    "median": 67.60723051508201,
+    "median": 67.70658819988624,
     "ci90": [
-     67.07805134432469,
-     68.27012734512084
+     67.15978822751596,
+     68.2618355719366
     ]
    },
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json ...",
-    "key": "ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsLaterHzeroComb, ObsPopsLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45643,15 +45428,25 @@
    }
   },
   "ObsPopsLaterHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{32}",
-   "value": 0.31634203043364395,
+   "class": "plain",
+   "render": "8.2",
+   "value": 0.08216932335022298,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsPopsLaterHzeroComb (H0, key ObsPops (the two populations at their inputs, host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json ...",
-    "key": "ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsPopsLaterHzeroComb, ObsPopsLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45672,21 +45467,26 @@
    }
   },
   "ObsAssumedFirstHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{67.8^{+0.8}_{-0.8}}",
+   "class": "plain",
+   "render": "67.8^{+0.8}_{-0.8}",
    "value": {
-    "median": 67.79459679360691,
+    "median": 67.84943240648664,
     "ci90": [
-     67.03061862214427,
-     68.56733255399944
+     67.09531592434783,
+     68.63658010109164
     ]
    },
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
-    "key": "ObsAssumed",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedFirstHzeroComb, ObsAssumedFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45703,15 +45503,20 @@
    }
   },
   "ObsAssumedFirstHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{9.0}",
-   "value": 0.08959677669891941,
+   "class": "plain",
+   "render": "19",
+   "value": 0.18502647752634327,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedFirstHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json; analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
-    "key": "ObsAssumed",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedFirstHzeroComb, ObsAssumedFirstHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45727,21 +45532,31 @@
    }
   },
   "ObsAssumedLaterHzeroComb": {
-   "class": "ph",
-   "render": "\\ph{69.0^{+0.5}_{-0.6}}",
+   "class": "plain",
+   "render": "68.7^{+0.6}_{-0.6}",
    "value": {
-    "median": 68.95129966399101,
+    "median": 68.66446362256826,
     "ci90": [
-     68.34086583114228,
-     69.49434005846076
+     68.10956836167983,
+     69.22597532891234
     ]
    },
    "units": "km/s/Mpc",
    "meaning": "H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
-    "key": "ObsAssumed",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedLaterHzeroComb, ObsAssumedLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45763,15 +45578,25 @@
    }
   },
   "ObsAssumedLaterHzeroCL": {
-   "class": "ph",
-   "render": "\\ph{99.8}",
-   "value": 0.9976208935946893,
+   "class": "plain",
+   "render": "99",
+   "value": 0.9928397764540491,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsAssumedLaterHzeroComb (H0, key ObsAssumed (population assumed (the galaxy class's mass and spin distribution for both classes), host-dependent populations, observed-like spectrum), combined over the 10 realizations added to them (106, 107, 108, 109, 110, 111, 112, 113, 114, 115))",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
-    "key": "ObsAssumed",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedLaterHzeroComb, ObsAssumedLaterHzeroCL; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_106_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_107_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_108_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_109_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_110_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_111_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_112_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_113_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_114_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_115_mix/summary.json"
+    ],
+    "computation": "run_posteriors.combined: the corrected ln L of the grids summed (cubic splines of each fine pass, linear in the coarse pass); placeholder_results.summarize_xp"
    },
    "claim": "skeleton,subsets",
    "containment": null,
@@ -45792,26 +45617,36 @@
    }
   },
   "ObsAssumedFirstShiftHzero": {
-   "class": "ph",
-   "render": "\\ph{1.1}",
-   "value": 1.1104498903209645,
+   "class": "plain",
+   "render": "1.2",
+   "value": 1.1659355691516566,
    "units": "km/s/Mpc",
    "meaning": "median over the 5 realizations that carry stage 5 (100, 101, 102, 103, 105) of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key ObsAssumed minus key ObsPops, observed-like spectrum, per realization), signed",
    "source": {
-    "missing": "the summaries of ObsAssumed and ObsPops of the first realizations",
-    "key": "ObsAssumed,ObsPops",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, ObsAssumedFirstShiftHzero; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "posterior.H0.median of each summary of ObsAssumed minus that of ObsPops, the same realization; their median"
    },
    "claim": "skeleton,subsets",
    "containment": null,
    "extra": {
     "decimals": 1,
     "per_realization": {
-     "100": 1.301832773699644,
-     "101": 0.6756585692188395,
-     "102": 1.0773662298953752,
-     "103": 1.4150509550056114,
-     "105": 1.1104498903209645
+     "100": 1.2802784392768274,
+     "101": 0.7698480915989308,
+     "102": 1.1659355691516566,
+     "103": 1.393755124336593,
+     "105": 0.9829589334973861
     }
    }
   },
@@ -48340,33 +48175,51 @@
    }
   },
   "HWObsPopsThirty": {
-   "class": "ph",
-   "render": "\\ph{1.6}",
-   "value": 1.608067831724871,
+   "class": "plain",
+   "render": "1.6",
+   "value": 1.6225290111443242,
    "units": "km/s/Mpc",
    "meaning": "mean over the realizations of the 90% half-width of H0, host-dependent populations held at their inputs (AGN offsets 5 Msun and 0.10), host class unknown, both catalogs, f_AGN inferred, host-dependent mergers, input f_AGN = 0.3, observed-like spectrum; runs two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (analyses/analysis_16_production_runs/runs), realizations [100, 101, 102, 103, 105]",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realization 103)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
    "extra": {
     "decimals": 1,
     "rounding": "two significant figures",
-    "per_realization": null,
+    "per_realization": {
+     "100": 1.7583438588149605,
+     "101": 1.4064695856500506,
+     "102": 1.8441607384723966,
+     "103": 1.525324553784209,
+     "105": 1.5783463190000049
+    },
     "kind": "mean_hw"
    }
   },
   "HWObsPopsThirtyMin": {
-   "class": "ph",
-   "render": "\\ph{1.3}",
-   "value": 1.3009885785166233,
+   "class": "plain",
+   "render": "1.4",
+   "value": 1.4064695856500506,
    "units": "km/s/Mpc",
    "meaning": "smallest over the realizations of the 90% half-width of H0 of HWObsPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realization 103)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
@@ -48376,14 +48229,20 @@
    }
   },
   "HWObsPopsThirtyMax": {
-   "class": "ph",
-   "render": "\\ph{1.8}",
-   "value": 1.7848485811655834,
+   "class": "plain",
+   "render": "1.8",
+   "value": 1.8441607384723966,
    "units": "km/s/Mpc",
    "meaning": "largest over the realizations of the 90% half-width of H0 of HWObsPopsThirty",
    "source": {
-    "missing": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_{R}_mix (missing realization 103)",
-    "placeholder_source": "frozen: the value of 23 Nov from stage E2's grids without the mixture redraw (paper_prd/values/obslike_e2_frozen.json, HWObsPopsThirty[Min|Max]; git 3a36d4c), until the stage-E2M runs exist"
+    "files": [
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_100_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_101_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_102_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_103_mix/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_105_mix/summary.json"
+    ],
+    "computation": "mean over 5 realizations of half the 90% width of H0 (summary.json posterior.H0)"
    },
    "claim": "classes",
    "containment": null,
