@@ -64,7 +64,7 @@ for all of them returns $H_0=\HDAssumedHzeroComb\,\kms$ for an input of
 $\HDSingleHzeroComb\,\kms$, and the host-dependent analysis returns
 $\HDHostHzeroComb\,\kms$ (90\% credible intervals of posteriors combined over
 \NrealHDAssumed, \NrealHDSingle{} and \NrealHD{} realizations; \MockPeakFrac{}
-of the mergers in the mass peak). % EXPECTED
+of the mergers in the mass peak).
 The host-dependent analysis is preferred to the single population with
 $\lB$ between \HDLBMin{} and \HDLBMax{} in each realization, and in the mean
 over them the single population needs \CostSingleHost{} times as many mergers
@@ -1041,7 +1041,7 @@ If AGN-hosted mergers are heavier and spin faster, an analysis that assumes
 one known population for both host classes is biased in $H_0$. Inferring a
 single population removes the bias, and inferring one for each host class
 measures how the classes differ and narrows $H_0$ (Fig.~\ref{fig:hd},
-Table~\ref{tab:results}). % EXPECTED
+Table~\ref{tab:results}).
 For mergers with host-dependent populations and both catalogs, the analysis
 of Sec.~\ref{sec:anchor} with the mass and spin distribution of the
 galaxy-hosted mergers assumed for both classes gives
@@ -1072,26 +1072,33 @@ prior edge of \PriorHzeroHi, with $\fagn<\HDAssumedTwicefAGNUL$ at 90\%
 credibility.
 
 A single population with its mass and spin parameters inferred
-(Sec.~\ref{sec:single}) is not biased in $H_0$ at these offsets. % EXPECTED
+(Sec.~\ref{sec:single}) shows no such bias in $H_0$.
 Combined over \NrealHDSingle{} realizations it gives
 $H_0=\HDSingleHzeroComb\,\kms$, with the input at the \HDSingleHzeroCL\%
-credible level, and realization A alone has a 90\% half-width of
-$\HDSingleHzeroHalfWid\,\kms$. % EXPECTED
-Its mass peak settles at $\mu_{\rm G}=\HDSingleMuG\msun$, between the
+credible level and inside the 90\% interval, and realization A alone has a
+90\% half-width of $\HDSingleHzeroHalfWid\,\kms$.
+Taken singly, \HDSingleHzeroInside{} of the \NrealHDSingle{} realizations
+hold the input inside their 90\% interval; the lowest and the highest of the
+others give $\HDSingleHzeroOutsideLo$ and $\HDSingleHzeroOutsideHi\,\kms$.
+The realizations scatter by more than their intervals allow, and we have not
+traced the excess to the mergers or to the analysis. % REREAD (grids with the populations known on realizations 106 to 110 will tell)
+% "inside the 90% interval": \HDSingleHzeroCL is 81 over ten realizations; re-read if realizations are added
+The mass peak of the single population settles at
+$\mu_{\rm G}=\HDSingleMuG\msun$, between the
 $\MockMuG\msun$ of the galaxy class and the $\MockMuGAGN\msun$ of the AGN
-class, and its spin mean at $\HDSingleMuChi$. We read the absence of a bias
-as the inferred peak following the mass scale of the detected mergers as a
-whole, which an assumed peak cannot do. With offsets twice as large the
+class, and its spin mean at $\HDSingleMuChi$. We read this as the inferred
+peak following the mass scale of the detected mergers as a whole, which an
+assumed peak cannot do. With offsets twice as large the
 single population gives $H_0=\HDSingleTwiceHzeroComb\,\kms$ over
 \NrealHDSingleTwice{} realizations, with the input at the
 \HDSingleTwiceHzeroCL\% credible level and a peak at
-$\HDSingleTwiceMuG\msun$ on realization A. % EXPECTED
+$\HDSingleTwiceMuG\msun$ on realization A.
 The fraction that the single population returns is not the input:
 $\fagn=\HDSinglefAGNComb$, with \MockfAGN{} at the \HDSinglefAGNCL\% credible
 level. Heavier mergers are detected to larger distances, so that
 \MockHDfDetMean{} of the detected mergers are AGN-hosted in the mean over
 the realizations, and a single population, with one detection probability
-for both classes, returns that share. % EXPECTED
+for both classes, returns that share.
 The catalogs carry the measurement of $H_0$: with no catalog and the mass
 and spin distributions inferred, the posterior of $H_0$ on realization A
 extends from \HDNoneHzeroLo{} to $\HDNoneHzeroHi\,\kms$ at 90\% credibility,
@@ -1111,8 +1118,8 @@ Joint posterior of the AGN offsets of the mass peak and of the spin mean
 with host-dependent populations (90\% highest-density region), with the
 input (black plus sign) and no offset (black cross). (c) Posterior density
 of $\fagn$ for the three analyses. Assuming the population of the
-galaxy-hosted mergers biases $H_0$; a single population does not, and it
-returns the AGN share of the detected mergers in place of $\fagn$. % EXPECTED
+galaxy-hosted mergers biases $H_0$; a single population removes that bias
+and returns the AGN share of the detected mergers in place of $\fagn$.
 }
 \label{fig:hd}
 \end{figure*}
@@ -1338,6 +1345,11 @@ $\mu_\chi$ and $\sigma_\chi$ at the \HDHostMuGCL\%, \HDHostSigmaGCL\%,
 the spin mean of the galaxy class, above $\mu_\chi=\HDHostMuChiComb$, and
 that of the spin offset of the AGN class, below
 $\dmuchi=\HDHostDmuChiComb$ (Sec.~\ref{sec:hd}).
+Taken singly, the realizations hold the input of $H_0$ inside their 90\%
+interval in \KnownBothHzeroInside{} of \NrealKnown{} cases with the
+population known and in \HDHostHzeroInside{} of \NrealHD{} with
+host-dependent populations, and that of $\fagn$ in \KnownBothfAGNInside{} of
+\NrealKnown{} and in \HDHostfAGNInside{} of \NrealHD.
 % "Two inputs ... both in the spins": \HDHostMuChiCL 95 and \HDHostDmuChiCL 98; all other levels of key HDHost below 90; re-read if realizations are added
 
 Second, the analysis does not find AGN-hosted mergers where there are none,
@@ -1419,14 +1431,16 @@ give.
 
 BBH mergers hosted by two classes of object can be told apart as populations
 by where they are and by what they are, and a dark siren measurement of
-$H_0$ from them holds when both are inferred together. % EXPECTED
+$H_0$ from them holds when both are inferred together.
 On simulated mergers,
 one likelihood with a galaxy catalog, an AGN catalog and a mass and spin
 distribution for each host class returns $H_0$, the fraction of mergers
-hosted by AGN and the differences in mass and spin between the classes,
+hosted by AGN and the differences in mass and spin between the classes
+(the spin offset $\HDHostDmuChiComb$ for an input of \MockDmuChi, at the
+\HDHostDmuChiCL\% credible level of \NrealHD{} realizations),
 where an assumed population returns a biased $H_0$ and a single inferred
 population returns the AGN share of the detected mergers in place of the
-fraction. % EXPECTED
+fraction.
 This is the inference that the analyses of
 Refs.~\cite{Bom:2023zgw,Cross-Parkin:2026pua,Pouw:2026lar} leave to future
 work. With the host class known, most of the constraint on $H_0$ comes from

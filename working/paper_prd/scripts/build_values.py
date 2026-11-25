@@ -1746,8 +1746,16 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   keep their run names (the runs take the option). Until its E2M runs exist each of them is red, one state per key or macro, and prints
   the value it had from the E2 grids on 23 Nov (`values/obslike_e2_frozen.json`, written once). The macros of realization 106 at 32000
   samples (`Obs<Assumed|Pops>MC...`, `ObsMCOne...`, map block `obslike_mc`) are removed; main.tex used none.
+- Coverage counts (25 Nov; notes/MACRO_REQUESTS.md I; `build_values.build_coverage`, audit J9). **`\\<Key><Q>Inside`** (a word, as
+  the `\\Nreal...` macros): the number of the key's realizations (`values/production_map.json`) whose own 90% equal-tailed interval of
+  Q (the run's `summary.json` `posterior.<param>.ci90`, the interval the key's per-realization macros print) contains the input (the
+  summaries' `truth.<param>`): `KnownBoth` (H0, f_AGN), `HDPops`, `HDSingle`, `HDSingleTwice` (H0), `HDHost` (H0, f_AGN), `ObsPops`,
+  `SingleBoth` (H0). One state per macro, its key's; red while the key waits, printing 9N/10 rounded down (the nominal coverage).
+  **`\\HDSingleHzeroOutsideLo`**, **`\\HDSingleHzeroOutsideHi`**: the lowest and the highest H0 median among the realizations of
+  `HDSingle` whose interval does not contain the input, with that realization's own 90% interval, printed as `\\HDSingleHzero`; not
+  defined when no realization lies outside.
 """
-R2_DEFINITIONS = """## Definitions of the revision-2 macros (17 Nov 2026)
+R2_DEFINITIONS ="""## Definitions of the revision-2 macros (17 Nov 2026)
 
 - **Rate per host, `RateRatio*`, `NormRateRatio*`, `MockRateRatio`.** R = r_AGN / r_gal = [f_AGN/(1 - f_AGN)] Z_gal/Z_AGN (Eq. rates; LIKELIHOOD_MATH sec. 8), with Z_k the normaliser of the convention the analysis used. The f_AGN posterior is transformed, never its summary: for complete catalogs (log10 n_k = -24, Analyses 2 and 8-13) Z_k = N_k, so the quantiles of R are those of f_AGN times N_gal/N_AGN (combined posterior of the 9 catalogs: geometric mean of their 9 count ratios, which differ by 0.26%); for the flux-limited grids (Analyses 3, 4) R depends on H0 through Z_k, and its CDF is summed over the H0 nodes of the refined (H0, f) posterior; for the free-density chains (Analysis 5) R is computed per sample with that sample's H0, n_gal, n_AGN; for Analysis 15 from each scan's own Z_k per H0 row. Input: `MockRateRatio` = [0.30/0.70] N_gal/N_AGN of the reference catalogs.
 - **Normaliser, `NormF<class><config>[Prod]`.** Z_k(H0) = N_k + n_k 4 pi int_0^zmax [1 - C_k(z)] dV_c/(dz dOmega) dz; N_k = the cataloged count of the survey file (sum of ngals), C_k the Schechter selection completeness the run pinned (h-scaled), n_k the input density, H0 = 67.74; F_k = N_k/Z_k is the cataloged share of the normalisation volume. No suffix: zmax = 5 (every stored run). `Prod`: zmax = 1.10 (production convention, decisions item 3). `Complete`: the nominal-limit representation of complete catalogs used by Analysis 3 (m_lim 24 GAL, 25 AGN); `NormFComplete`: Analyses 0-2 and 8-13, where Z_k = N_k.
@@ -2995,6 +3003,79 @@ def build_keys_three_steps(K, q, addf, srcf, fin):
          computation=how, extra={"correlations": rho, "decimals": 2}, ph_source=f"realization A's run while the key waits for its other realizations ({how})")
 
 
+# 25 Nov (notes/MACRO_REQUESTS.md I): coverage counts. (key, quantity) of each <Key><Q>Inside; the keys of COVERAGE_OUTSIDE also print the
+# lowest and the highest H0 median among their realizations whose own interval misses the input (<Key>HzeroOutside<Lo|Hi>)
+COVERAGE = (("KnownBoth", "Hzero"), ("KnownBoth", "fAGN"), ("HDPops", "Hzero"), ("HDSingle", "Hzero"), ("HDSingleTwice", "Hzero"),
+            ("HDHost", "Hzero"), ("HDHost", "fAGN"), ("ObsPops", "Hzero"), ("SingleBoth", "Hzero"))
+COVERAGE_OUTSIDE = ("HDSingle",)
+
+
+def build_coverage(K, fin, srcf):
+    """25 Nov (notes/MACRO_REQUESTS.md I): <Key><Q>Inside, the number of the key's realizations (production_map.json) whose OWN 90%
+    equal-tailed interval of Q (the run's summary.json posterior.<param>.ci90, what the key's per-realization macros print) contains the
+    input (the summaries' truth.<param>), a word as the Nreal macros print. One state per macro, the key's: black when the key is a
+    production result; red otherwise, printing 9N/10 rounded down (the nominal coverage of a 90% interval; N the key's realizations).
+    <Key>HzeroOutside<Lo|Hi> (keys of COVERAGE_OUTSIDE): the realization with the lowest (highest) H0 median among those whose interval
+    does not contain the input, its median and 90% interval printed as the key's realization-A macro prints one (fci); red while the key
+    waits (from the summaries that exist); not defined when no realization lies outside."""
+    import production as PRD_
+    specs = PRD_.load_map().get("keys", {})
+    word = lambda n: NUM_WORD.get(n, "zero" if n == 0 else str(n))
+    for k, qn in COVERAGE:
+        sp, E = specs[k], K[k]
+        par = sp["quantities"][qn]["param"]
+        reals = list(sp["realizations"])
+        f_ = fin([k])
+        if f_:
+            assert reals == list(E["realizations"]), (k, reals, E["realizations"])
+        rows, files = {}, []
+        for r in reals:
+            p = PRD_.key_dir(sp, r) / "summary.json"
+            if not p.exists():
+                continue
+            s = json.loads(p.read_text())
+            t, po = float(s["truth"][par]), s["posterior"][par]
+            lo, hi = float(po["ci90"][0]), float(po["ci90"][1])
+            ins = lo <= t <= hi
+            rows[r] = {"median": float(po["median"]), "ci90": [lo, hi], "input": t, "inside": ins, "side": None if ins else ("above" if lo > t else "below")}
+            files.append(rel(p))
+        x0s = {v["input"] for v in rows.values()}
+        assert len(x0s) <= 1, (k, qn, x0s)
+        x0 = x0s.pop() if x0s else float(E["quantities"][qn]["input"])
+        assert abs(x0 - float(E["quantities"][qn]["input"])) < 1e-12, (k, qn, x0, E["quantities"][qn]["input"])
+        N = len(reals)
+        outside = {r: v["side"] for r, v in rows.items() if not v["inside"]}
+        n = sum(1 for v in rows.values() if v["inside"]) if f_ else (9 * N) // 10
+        P, un = Q_DESC[qn] if qn == "Hzero" else "f_AGN", (" km/s/Mpc" if qn == "Hzero" else "")
+        what = (f"key {k} ({E['events']}; {E['analysis']}; {E['catalogs']}) whose own 90% equal-tailed interval of {P} (the run's summary.json "
+                f"posterior.{par}.ci90, the interval the key's per-realization macros print) contains the input {P} = {x0:g}{un}")
+        tail = (f"; outside: {', '.join(f'{r} ({sd})' for r, sd in outside.items()) or 'none'}" if f_ else
+                f"; red while the key waits: {n} = 9N/10 rounded down, the nominal coverage of a 90% interval")
+        cls, wrap = ("plain", (lambda t_: t_)) if f_ else ("ph", (lambda t_: f"\\ph{{{t_}}}"))
+        comp = (f"count of the key's {N} realizations (production_map.json) with posterior.{par}.ci90[0] <= truth.{par} <= posterior.{par}.ci90[1] "
+                f"in their summary.json")
+        src = {"files": files, "computation": comp} if f_ else dict(srcf([k]), placeholder_source=f"expected: {n} (9N/10 rounded down, N = {N}; "
+                                                                                                   f"the nominal coverage of a 90% interval)")
+        ex = {"key": k, "parameter": par, "input": x0, "realizations": reals, "n_realizations": N, "per_realization": rows, "outside": outside}
+        add(f"{k}{qn}Inside", cls, wrap(word(n)), n, "realizations", f"number of the {N} realizations of {what}, printed as a word{tail}", src,
+            "skeleton,keys", extra=ex)
+        if k in COVERAGE_OUTSIDE and qn == "Hzero":
+            out = {r: rows[r] for r in outside}
+            if not out:
+                continue          # no realization outside: the two macros are not defined
+            for suf, r, w in (("Lo", min(out, key=lambda r_: out[r_]["median"]), "lowest"), ("Hi", max(out, key=lambda r_: out[r_]["median"]), "highest")):
+                v = out[r]
+                r_, d = fci(v["median"], v["ci90"][0], v["ci90"][1])
+                srco = ({"files": [rel(PRD_.key_dir(sp, r) / "summary.json")], "computation": f"posterior.{par} of the realization's summary.json"} if f_ else
+                        dict(srcf([k]), placeholder_source=f"the summaries that exist ({', '.join(map(str, rows))}; the key waits for the others)"))
+                add(f"{k}{qn}Outside{suf}", cls, wrap(r_), {"median": v["median"], "ci90": list(v["ci90"])}, "km/s/Mpc",
+                    f"{w} H0 median among the realizations of key {k} ({E['events']}; {E['analysis']}; {E['catalogs']}) whose own 90% equal-tailed "
+                    f"interval of H0 (the run's summary.json posterior.{par}.ci90) does NOT contain the input H0 = {x0:g} km/s/Mpc (those {k}{qn}Inside "
+                    f"does not count): realization {r} ({v['side']} the input), its median and 90% equal-tailed interval printed as {k}{qn} prints "
+                    f"realization A", srco, "skeleton,keys",
+                    extra={"decimals": d, "realization": r, "side": v["side"], "input": x0, "outside": outside})
+
+
 def build_keys():
     import placeholder_results as PR
     doc = PR.main()
@@ -3117,6 +3198,7 @@ def build_keys():
     for nm, k in (("CorrHzeroMuGNone", "SingleNone"), ("CorrHzeroMuGBoth", "SingleBoth")):
         v = K[k]["joint"]["A"]["correlation"]
         addf(nm, [k], fnum(v, 1), v, "", f"correlation coefficient r of H0 and the mass-peak location, single population, {'no catalog' if 'None' in nm else 'both catalogs'}, realization A")
+    build_coverage(K, fin, srcf)
 
 
 # ============================================================================================= #

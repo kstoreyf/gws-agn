@@ -718,6 +718,7 @@ def audit_keys(mac):
     audit_requests(mac, doc)
     audit_production(mac, doc, owner)
     audit_obslike_mixture(mac, doc)
+    audit_coverage(mac, doc)
     audit_classes(mac, doc)
     audit_density(mac)
     audit_density_phys(mac)
@@ -1765,6 +1766,79 @@ def audit_obslike_mixture(mac, doc):
                    "directly): " + "; ".join(out) + "; later, as each E2M or stage-5 summary appears, redraw_mixture = support is required in it "
                    "(and absent from every other run of the paper), and its macros leave their frozen values"
                    + (f"; FAIL: {'; '.join(bad[:5])}" if bad else ""))
+
+
+# J9 (25 Nov, notes/MACRO_REQUESTS.md I): the coverage counts <Key><Q>Inside and HDSingleHzeroOutside<Lo|Hi> (build_values.build_coverage), by
+# own code: the map's realizations and run names read here (production_map.json, _key_run), each summary.json read directly, the input from its
+# truth block, containment in its own posterior.<param>.ci90, the words and the intervals formatted by own code; black exactly when the key is
+# a production result (and then every summary exists), red otherwise with 9N/10 rounded down.
+_COVER = {"KnownBothHzeroInside": ("KnownBoth", "Hzero", "H0"), "KnownBothfAGNInside": ("KnownBoth", "fAGN", "f_agn"),
+          "HDPopsHzeroInside": ("HDPops", "Hzero", "H0"), "HDSingleHzeroInside": ("HDSingle", "Hzero", "H0"),
+          "HDSingleTwiceHzeroInside": ("HDSingleTwice", "Hzero", "H0"), "HDHostHzeroInside": ("HDHost", "Hzero", "H0"),
+          "HDHostfAGNInside": ("HDHost", "fAGN", "f_agn"), "ObsPopsHzeroInside": ("ObsPops", "Hzero", "H0"),
+          "SingleBothHzeroInside": ("SingleBoth", "Hzero", "H0")}
+_COVER_OUT = {"HDSingleHzeroInside": "HDSingleHzeroOutside"}
+
+
+def audit_coverage(mac, doc):
+    specs = _jr(OUT / "values" / "production_map.json").get("keys", {})
+    bad, out = [], []
+    for nm, (k, qn, par) in _COVER.items():
+        if nm not in mac:
+            bad.append(f"{nm} not defined")
+            continue
+        m, sp = mac[nm], specs[k]
+        reals = list(sp["realizations"])
+        have = {R: _jr(RUNS16 / _key_run(sp, R) / "summary.json") for R in reals if (RUNS16 / _key_run(sp, R) / "summary.json").exists()}
+        black = bool((doc.get(k) or {}).get("final"))
+        if black and len(have) != len(reals):
+            bad.append(f"{k} is a production result but {len(reals) - len(have)} of its summaries are missing")
+        if (m["class"] == "plain") != black or (m["render"].startswith("\\ph{") == black):
+            bad.append(f"{nm} prints {m['class']} '{m['render']}' while key {k} is {'real' if black else 'waiting'}")
+        rows = {}
+        for R, s in have.items():
+            t, ps = float(s["truth"][par]), s["posterior"][par]
+            lo, hi = float(ps["ci90"][0]), float(ps["ci90"][1])
+            rows[R] = (float(ps["median"]), lo, hi, t, "inside" if lo <= t <= hi else ("above" if lo > t else "below"))
+        x0s = {v[3] for v in rows.values()}
+        if len(x0s) > 1:
+            bad.append(f"{k}: the summaries disagree on the input of {par} ({sorted(x0s)})")
+        x0 = min(x0s) if x0s else float(doc[k]["quantities"][qn]["input"])
+        n_in = sum(1 for v in rows.values() if v[4] == "inside")
+        n_w = n_in if black else (9 * len(reals)) // 10
+        r_w = _OWN_WORDS[n_w] if black else "\\ph{" + _OWN_WORDS[n_w] + "}"
+        if m["value"] != n_w or m["render"] != r_w:
+            bad.append(f"{nm} = {m['value']} '{m['render']}' vs own {n_w} '{r_w}'")
+        if [int(x) for x in m["extra"].get("realizations", [])] != reals:
+            bad.append(f"{nm} records realizations {m['extra'].get('realizations')} vs the map's {reals}")
+        P = "H0" if par == "H0" else "f_AGN"
+        if not all(s_ in m["meaning"] for s_ in (f"key {k} ", "90%", f"interval of {P}", f"input {P} = {x0:g}", "own")):
+            bad.append(f"{nm}: the meaning does not name the key, the parameter, the 90% interval of the run and the input {x0:g}")
+        outs = {R: v for R, v in rows.items() if v[4] != "inside"}
+        out.append(f"{nm} '{m['render']}' ({n_in} of {len(reals)} own intervals contain {x0:g}"
+                   + (f"; outside: {', '.join(f'{R} {v[4]} ({v[0]:.2f} [{v[1]:.2f}, {v[2]:.2f}])' for R, v in outs.items())}" if outs else "") + ")")
+        if nm in _COVER_OUT:
+            base = _COVER_OUT[nm]
+            if not outs:
+                if any(base + s_ in mac for s_ in ("Lo", "Hi")):
+                    bad.append(f"{base}Lo/Hi defined although no realization lies outside")
+                out.append(f"{base}Lo/Hi not defined (none outside)")
+                continue
+            for suf, R in (("Lo", min(outs, key=lambda R_: outs[R_][0])), ("Hi", max(outs, key=lambda R_: outs[R_][0]))):
+                n2 = base + suf
+                if n2 not in mac:
+                    bad.append(f"{n2} not defined although realization {R} lies outside")
+                    continue
+                v, (med, lo, hi) = mac[n2]["value"], outs[R][:3]
+                if max(abs(v["median"] - med), abs(v["ci90"][0] - lo), abs(v["ci90"][1] - hi)) > 1e-12:
+                    bad.append(f"{n2} value is not realization {R}'s summary")
+                want = _own_interval({"median": med, "ci90": [lo, hi]})
+                if mac[n2]["render"] != (want if black else f"\\ph{{{want}}}") or (mac[n2]["class"] == "plain") != black:
+                    bad.append(f"{n2} prints {mac[n2]['class']} '{mac[n2]['render']}' vs own '{want}' ({'black' if black else 'red'})")
+                out.append(f"{n2} '{mac[n2]['render']}' (realization {R})")
+    check(not bad, "J9 coverage counts (own reading of production_map.json's realizations and of each summary.json: truth, posterior ci90; own "
+                   "words and intervals; black exactly when the key is a production result, red 9N/10 otherwise): " + "; ".join(out)
+                   + (f"; FAIL: {'; '.join(bad[:6])}" if bad else ""))
 
 
 def _counts(run):

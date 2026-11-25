@@ -256,3 +256,25 @@ defensive mixture redraw of the posterior samples (analysis_16 `--redraw-mixture
 observed-like `\HWObs...` macros read the E2M runs; `ObsSingle`, `ObsHost`, `ObsNone` keep their names. Until the E2M runs exist each is
 red and prints the value it had from the E2 grids (`values/obslike_e2_frozen.json`); audit J8 checks the option in every run they read.
 No new macro.
+
+## I. Coverage counts (25 Nov 2026)
+
+How many realizations of a key have their OWN 90% interval around the input: for key K and parameter q, the number of
+K's realizations (`values/production_map.json`) whose run's `summary.json` `posterior.<q>.ci90` (the interval the key's
+per-realization macros print) contains the input (the summaries' `truth.<q>`), printed as a word like `\NrealHDSingle`.
+Built by `scripts/build_values.py` (`build_coverage`), checked by audit J9 (own reading of the map and the summaries).
+One state per macro, its key's: black when the key is a production result; red otherwise, printing 9N/10 rounded down.
+
+| macro | key, parameter, input | realizations |
+|---|---|---|
+| `\KnownBothHzeroInside`, `\KnownBothfAGNInside` | `KnownBoth`, H0 (67.74) and f_AGN (0.30) | twenty |
+| `\HDPopsHzeroInside` | `HDPops`, H0 | five |
+| `\HDSingleHzeroInside` | `HDSingle`, H0 | ten |
+| `\HDSingleTwiceHzeroInside` | `HDSingleTwice`, H0 | five |
+| `\HDHostHzeroInside`, `\HDHostfAGNInside` | `HDHost`, H0 and f_AGN | five |
+| `\ObsPopsHzeroInside` | `ObsPops`, H0 | fifteen |
+| `\SingleBothHzeroInside` | `SingleBoth`, H0 (waits for its runs: red, "nine") | ten |
+
+`\HDSingleHzeroOutsideLo`, `\HDSingleHzeroOutsideHi`: the lowest and the highest H0 median among the realizations of
+`HDSingle` whose interval does not contain the input, with that realization's own 90% interval, printed as `\HDSingleHzero`
+prints realization A. Not defined when no realization lies outside (none of `main.tex`'s text may then use them).
