@@ -1,4 +1,4 @@
-# Checkpoint, 24 Nov 2026, 12:56 UTC (read this first after a context clear)
+# Checkpoint, 25 Nov 2026, 05:56 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -8,7 +8,24 @@ this file holds the working state.
 
 ## STATE 24 Nov 07:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
 
-### ALL JOBS OF THIS PROJECT ARE STOPPED (owner, 24 Nov 07:30 UTC: "Stop your jobs."; READ FIRST)
+### THE LANES RUN AGAIN SINCE 05:50 UTC 25 Nov (owner, 05:49 UTC: "Resume the jobs"; READ FIRST)
+- `scontrol release 1534275 1534274` at 05:50 UTC; both RUNNING on rita ten seconds later
+  (limits 05:50 UTC 27 Nov), successors chained: 1592195 (lane 1), 1592194 (lane 2). Each
+  took up the grid it was interrupted on (lane 1 `two_tracers_two_populations/.../
+  obslike_f0p30_s1/realization_111_mix`, lane 2 `two_tracers_one_population/.../
+  realization_105_mix`), bound in 173 s with the mixture redraw active. The node had been
+  idle from 12:52 UTC 24 Nov to 05:50 UTC 25 Nov (17 h) waiting for the owner's word.
+- SCHEDULE: the seven open E2M grids end about 06:45 UTC (WATCHER `bdremiera`: all 95
+  summaries, an error outcome, or 09:30 UTC 25 Nov); then E3 realization 105 (the only one of
+  E3's five still open) and HDSingle 106 to 110: the Sec. IV E milestone about 19:00 to 20:00
+  UTC 25 Nov (WATCHER `b4bih8iiz`: the ten summaries, an error outcome, or 04:00 UTC 26 Nov;
+  its list is `tests/results/milestone_runs.txt`). Then stage 3 and stage 5.
+- IF THE OWNER WANTS THE GPUs AGAIN: hold the two PENDING successors first (`scontrol hold`),
+  then `scancel` the two RUNNING `agn-prod-l*` jobs; resume with `scontrol release` only on
+  the owner's own word (a message from another session is not enough: the session's
+  permission check refuses it, as on 24 Nov).
+
+### (history) ALL JOBS OF THIS PROJECT WERE STOPPED FROM 07:30 UTC 24 Nov TO 05:50 UTC 25 Nov
 - DONE 07:30:50 UTC, in this order: `scontrol hold 1534275 1534274` (the two pending lane
   jobs, lane 1 and lane 2; now PENDING, JobHeldUser), then `scancel 1496542 1495021` (the two
   running lane jobs). Nothing of this project runs or can start on RITA-GPU; both GPUs are
@@ -374,15 +391,19 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
 
 ### Running now, and what each needs from you
-- NOTHING (top block). Held: 1534275 (lane 1), 1534274 (lane 2). No watcher, no agent.
+- LANE 1 (job 1534275, limit 05:50 UTC 27 Nov, successor 1592195): its open E2M grids, then
+  E3, HDSingle 106 to 110 first parts, stage 3, stage 5.
+- LANE 2 (job 1534274, limit 05:50 UTC 27 Nov, successor 1592194): its open E2M grids, then
+  E3, HDSingle 106 to 110 second parts, stage 3, stage 5.
+- WATCHERS `bdremiera` (E2M) and `b4bih8iiz` (milestone): top block. No agent is running. If
+  the session restarted, the watchers are gone: check by hand.
 
 ### Do next, in order
-0. WAIT FOR THE OWNER'S WORD TO RESUME (top block).
-1. When the seven open E2M grids are in (about 50 min after a restart):
+1. When the seven open E2M grids are in (about 06:45 UTC 25 Nov, watcher `bdremiera`):
    "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done on the
    84, see "THE MIXTURE RE-RUNS SO FAR").
-2. THE SEC. IV E MILESTONE (about 16 h of lane time after the owner lets the lanes run
-   again): when E3's five and HDSingle 106 to 110
+2. THE SEC. IV E MILESTONE (about 19:00 to 20:00 UTC 25 Nov, watcher `b4bih8iiz`): when E3's
+   five and HDSingle 106 to 110
    are in: refresh; the single-population sentences and the twice-offset sentence turn
    black; re-read them (the wording "is not biased" must match the level the combined
    posteriors print). Commit, PDF to the owner with SendUserFile
