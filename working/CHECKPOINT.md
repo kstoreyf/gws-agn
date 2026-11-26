@@ -1,4 +1,4 @@
-# Checkpoint, 26 Nov 2026, 07:10 UTC (read this first after a context clear)
+# Checkpoint, 26 Nov 2026, 09:10 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -6,113 +6,86 @@ you orchestrate and check). The memory files `gw-agn-paper-prd.md`,
 `gw-agn-ownership-handover.md`, `writer-briefs-must-follow-style-skill.md` hold the owner's words;
 this file holds the working state.
 
-## STATE 24 Nov 07:05 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+## STATE 26 Nov 09:10 UTC (READ THIS BLOCK FIRST; it supersedes steps 3 and 4 of Sec. 0)
+Local commits up to the one that carries this file; GitHub has a10b467 (ask before any push).
+THIS IS A COMPLETE RESUME DOCUMENT: the owner was advised to `/clear` (context 70% full).
 
-### THE LANES RUN AGAIN SINCE 05:50 UTC 25 Nov (owner, 05:49 UTC: "Resume the jobs"; READ FIRST)
-- `scontrol release 1534275 1534274` at 05:50 UTC; both RUNNING on rita ten seconds later
-  (limits 05:50 UTC 27 Nov), successors chained: 1592195 (lane 1), 1592194 (lane 2). Each
-  took up the grid it was interrupted on (lane 1 `two_tracers_two_populations/.../
-  obslike_f0p30_s1/realization_111_mix`, lane 2 `two_tracers_one_population/.../
-  realization_105_mix`), bound in 173 s with the mixture redraw active. The node had been
-  idle from 12:52 UTC 24 Nov to 05:50 UTC 25 Nov (17 h) waiting for the owner's word.
-- SCHEDULE: the seven open E2M grids end about 06:45 UTC (WATCHER `bdremiera`: all 95
-  summaries, an error outcome, or 09:30 UTC 25 Nov); then E3 realization 105 (the only one of
-  E3's five still open) and HDSingle 106 to 110: the Sec. IV E milestone about 19:00 to 20:00
-  UTC 25 Nov (WATCHER `b4bih8iiz`: the ten summaries, an error outcome, or 04:00 UTC 26 Nov;
-  its list is `tests/results/milestone_runs.txt`). Then stage 3 and stage 5.
-- IF THE OWNER WANTS THE GPUs AGAIN: hold the two PENDING successors first (`scontrol hold`),
-  then `scancel` the two RUNNING `agn-prod-l*` jobs; resume with `scontrol release` only on
-  the owner's own word (a message from another session is not enough: the session's
-  permission check refuses it, as on 24 Nov).
+### WHERE THINGS STAND (26 Nov 09:10 UTC)
+- PAPER (`working/paper_prd`, commit of this file): refresh 09:05 UTC exit 0, audit 97 of 97,
+  figures 515 with 0 mismatches, 19 pp, 234 of 264 result macros of the text real; 30 wait
+  for stage 3 (Sec. IV D) and stage 5 (the inferred-population part of Sec. IV F). PDF
+  `dark_sirens_galaxies_and_AGN_draft_2026-11-26a.pdf` SENT to the owner 09:10 UTC. The
+  refresh takes about 13 min: run it in the background.
+- SEC. IV E IS FINAL ON WHAT EXISTS: population assumed 71.3 (+0.7, -0.6) over ten, input
+  beyond 99.99%; both populations at their inputs 67.8 +- 0.5 (24%); shift median 3.6 (2.2
+  to 20.2), positive in ten of ten; single population 68.2 +- 0.6 over ten (81%), twice the
+  offsets 67.8 (+0.9, -0.8) over five (9.3%); host-dependent 67.9 (+0.9, -0.8) over FIVE
+  (26%), log10 B 2.5 to 8.4, 1.3 [1.0, 1.8] times the mergers; two spin inputs outside their
+  90% intervals (95% and 98%). Coverage: seven of ten with the single population and with
+  the populations known; twenty of twenty (H0) and seventeen of twenty (f_AGN) for equal
+  populations.
+- THE SCATTER OF THE HOST-DEPENDENT REALIZATIONS, CLOSED (26 Nov): twelve redraw grids
+  (stage X, both populations at their inputs): realization A medians over five draws at 8000
+  samples 67.20, 67.47, 67.11, 66.95, 66.93 (sd 0.22, 0.23 of its 68% half-width; 67.25 and
+  67.49 at 32,000); realization 109: 64.03, 65.04, 64.73, 64.60, 64.87 (mean 64.7, sd 0.39;
+  65.12 and 65.04 at 32,000). So the redraw noise of this family is NOT larger than the 0.28
+  of equal populations (my message of 04:55 UTC, from two CPU redraws of 109, overstated it
+  and was corrected to the owner at 08:50 UTC); realization 109 is a low draw of about three
+  posterior sd in one of ten, low in every analysis of its mergers; two of the three
+  realizations outside their 90% interval miss by 0.2 or less. Per-merger likelihoods
+  calibrated (score variance over curvature 1.24 +- 0.18, 1.00 without the Monte Carlo
+  part), selection term 0.2 in H0. Sec. IV E and Appendix A say so with macros
+  `\MCHDHzeroSdEightK` 0.22, `\MCHDHzeroSdRelEightK` 0.23, `\MCHDNdraws` five,
+  `\MCHDLowHzeroSdEightK` 0.39, `\MCHDLowHzeroMean` 64.7 (audit J10). Memory:
+  `gw-agn-host-dependent-redraw-noise` (corrected).
+- THE OBSERVED-LIKE FAMILY runs with the mixture sampling (`--redraw-mixture support`; stage
+  E2M done; stage 5 carries the option); its numbers are final where runs exist (blocks
+  further down).
+- CHAIN RULES ADDED THIS WEEK: `run_posteriors.SPLINE_GUARD = 1e-12` (do not loosen: 1e-6
+  breaks audit S12); coverage macros `\<Key>HzeroInside` (J9); keys HDPops, HDAssumed over
+  ten, HDHost over five until group A exists (edit in `notes/MACRO_REQUESTS.md` Sec. J);
+  ObsSingle, ObsNone over ten (`\NrealObsSingle`, `\NrealObsNone`), ObsHost five.
 
-### OPEN PROBLEM: THE HOST-DEPENDENT REALIZATIONS OF THE PEAK FAMILY SCATTER TOO MUCH (26 Nov
-### 03:20 UTC; READ FIRST)
-- The ten grids of group C finished 03:19 UTC, none failed. H0 median [90%] on the set
-  `peak_f0p30_s1`, both catalogs, realizations 100, 101, 102, 103, 105, 106 to 110:
-  BOTH POPULATIONS AT THEIR INPUTS (`two_tracers_two_populations`): 67.20 [65.76, 68.64];
-  66.70 [65.41, 68.29]; 68.46 [66.71, 70.25]; 70.03 [67.90, 71.62]; 67.74 [65.97, 69.32];
-  69.32 [67.84, 70.73]; 69.18 [67.23, 71.36]; 68.28 [66.61, 69.88]; 64.03 [62.84, 65.97];
-  67.70 [66.30, 69.02].
-  POPULATION ASSUMED minus that, per realization: +3.72 +20.18 +2.65 +3.19 +2.19 +3.85 +6.14
-  +3.52 +4.73 +2.22 (median +3.6; positive in ten of ten: the bias of the assumed population
-  holds on ten). SINGLE POPULATION minus that: mean +0.31, sd 0.59.
-- SO: realization 109 is low with the true populations known too (3.7 posterior sd): its low
-  H0 is NOT the single-population analysis. And the ten scatter by sd 1.69 around a mean of
-  67.86 against a posterior sd of about 0.99: 7 of 10 hold the input in their own 90%
-  interval (103, 106 by 0.10, 109 outside), chi^2 26.4 on 10. No mean offset. The
-  equal-population family holds the input in 20 of 20, the observed-like host-dependent
-  family in 13 of 15. The excess is specific to host-dependent populations with the
-  peak-dominated spectrum, the family of Sec. IV E.
-- WHAT IT MEANS FOR THE PAPER IF IT STANDS: the single-realization intervals of Sec. IV E are
-  too narrow by about 1.6 to 1.7 in this family, and the combined intervals with them
-  (HDPops, HDSingle, HDHost; the half-width means of Sec. IV B's open squares). The biases
-  of the assumed population (paired, +3.6) do not depend on it.
-- DIAGNOSED 04:40 UTC (Opus agent, CPU; `tests/hd_scatter_eval.py`, `hd_scatter_analyze.py`,
-  results `tests/results/hd_scatter_*.json`; per-merger sums reproduce the stored ln L to
-  3.6e-12 at 46 nodes; I checked the redraw file against its report):
-  T2 MONTE CARLO NOISE OF THE POSTERIOR SAMPLES IS LARGE IN THIS FAMILY: for realization 109
-  (both populations at their inputs, line at f_AGN 0.34) two independent redraws of all
-  mergers at 8000 samples give medians 65.01 and 64.71 against the stored 63.96: +1.06 and
-  +0.75, sd of the three 0.54 (0.65 posterior sd), where Appendix A quotes 0.28 for the
-  equal-population realization A. Hybrid (19 mergers below an effective number of 50 at
-  32,000 samples, the ten largest contributors at 256,000): 64.00 [62.83, 65.82] -> 64.44
-  [63.01, 66.52]. The noise is spread over about 190 mergers with effective numbers below
-  300, not a few. Census (below 5 / 20 / 50 / 100): 109 0/5/20/49; 105 2/7/23/48; 103
-  2/11/19/47.
-  T3 THE SELECTION TERM: Monte Carlo sd 0.7 nats on ln L(64) - ln L(input), about 0.2 in H0;
-  N^2/N_eff 1.1 to 1.25. The seed's second injection set changes that difference by -2.9 +-
-  1.7 nats for 109 (toward the input) and by 0.0 +- 1.5 for 105.
-  T4 THE PER-MERGER LIKELIHOODS ARE CALIBRATED at the input: score variance over curvature
-  1.24 +- 0.18 pooled over the ten, 1.00 with the Monte Carlo part removed (19% of the
-  numerator); equal-population controls 1.30 +- 0.37 and 1.15.
-  T1 REALIZATION 109: its pull to low H0 is spread over many mergers of both host classes
-  (galaxy-hosted +6.4 nats, AGN-hosted +5.9 against realization 105; +8.1 remain with the
-  fifty largest of each class removed); ln L is a near-linear ramp from 64.5 to 67.5 that
-  survives both redraws. Averaged over its three draws it sits near 64.6.
-- READING (mine): no fault. The family's excess scatter is (a) posterior-sample noise of
-  about half a posterior sd per realization at 8000 samples, twice what the paper states for
-  equal populations (with it the expected chi^2 of ten medians is about 14; the nine without
-  109 give 12.7), and (b) realization 109, a low draw of about 2.7 to 3.4 sd once its Monte
-  Carlo part is averaged, in one of ten. Sec. IV E's results stand; its single-realization
-  numbers carry a Monte Carlo error of about half their posterior sd, the combined ones
-  of ten realizations about 0.16 against a posterior sd of 0.36. NOT FIXED BY MORE WORK NOW:
-  32,000 samples for the eight-parameter runs would cost three times their GPU time.
-- DONE 07:05 UTC (agent's work checked by me against the commit before: 26 macros changed,
-  all of HDAssumed and HDPops; 11 added; run lists: 12 runs added, none changed):
-  KEYS HDPops AND HDAssumed ARE OVER TEN REALIZATIONS: population assumed 71.3 (+0.7, -0.6),
-  input beyond 99.99% (five: 71.2 +- 0.8); both populations at their inputs 67.8 +- 0.5 at 24%
-  (67.7 +- 0.8, 7.9%); shift median 3.6, range 2.2 to 20.2 (3.2); f_AGN assumed 0.355 +-
-  0.029 at 99.8% (0.35 +- 0.04, 97%); f_AGN with the populations known 0.317 +- 0.016 at 92%
-  (not quoted in the text); `\HDPopsHzeroInside` seven of ten (103, 106, 109 outside);
-  `\NrealHDAssumed` ten; new `\NrealHDAssumedTwice` five (main.tex line 1068 uses it).
-  CHAIN CHANGE: `run_posteriors.py` splines a fine pass with non-finite cells when the run's
-  posterior weight within three cells of them is below 1e-12 (`SPLINE_GUARD`), else linear
-  as before. Only HDAssumed's realization 101 switches (guard 5e-27; its combined median
-  71.2982 -> 71.3071, which is what the audit's own path gives; with the old rule audit J1
-  and J5 failed by 0.0086 against 0.0066). A looser guard (1e-6) moved the sky-resolution
-  combination and broke S12: do not loosen it.
-  TWELVE REDRAW GRIDS QUEUED 05:18 UTC (stage X, rank 2.85, 4.0 GPU-h, six per lane):
-  `two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{100,109}_
-  {rd1,rd2,rd3,rd4,s32000_rd0,s32000_rd1}`. WATCHER `b8w97ff9b` (twelve summaries, an error
-  outcome, or 10:30 UTC 26 Nov; list `tests/results/hd_redraw_runs.txt`). Macros (red until
-  then): `\MCHDHzeroSdEightK`, `\MCHDHzeroSdThirtyTwoK`, `\MCHDfSdEightK`,
-  `\MCHDHzeroSdRelEightK`, `\MCHDNdraws`; for 109 `\MCHDLowHzeroSdEightK`,
-  `\MCHDLowHzeroSdThirtyTwoK`, `\MCHDLowfSdEightK`, `\MCHDLowHzeroSdRelEightK`,
-  `\MCHDLowHzeroMean`; audit J10; definitions as Analysis 14's `\MCMixed...` (sd, ddof 1,
-  of the posterior median over redraws; Rel = over the mean 68% half-width).
-  `main.tex`: Sec. IV E's scatter sentence is rewritten (seven of ten with the single
-  population, seven of ten with the populations known, "so the scatter beyond the intervals
-  is not owed to the inferred population. Part of it is Monte Carlo noise: ... We read the
-  remainder as the draw of the realization that lies lowest, which does so in every analysis
-  of its mergers."), Appendix A "Accuracy" has the redraw sentence for this family; both
-  tagged `% EXPECTED`. Refresh 07:05 UTC: exit 0, audit 97 of 97.
-- WHEN THE WATCHER FIRES: refresh in the background (about 13 min). Read the two sentences
-  against the black numbers: if realization A's redraw sd at 8000 samples is well below 0.5
-  (say 0.3), "part of it is Monte Carlo noise" needs the size said plainly and the sentence
-  on the lowest realization carries more; if the mean of 109's draws is not near 64.6, say
-  what it is. Check that the 32,000-sample numbers are below the 8000 ones. Remove the two
-  `% EXPECTED` tags, commit, PDF `..._draft_2026-11-26a.pdf` to the owner with a short note
-  (ten realizations in Sec. IV E; the scatter explained; ask for the push).
+### RUNNING AND QUEUED (both lanes; nothing else of this project runs)
+- LANE 1 job 1534275 and LANE 2 job 1534274 (limits 05:50 UTC 27 Nov; successors 1592195 and
+  1592194 chained; each job stops itself 15 min before its limit and the successor resumes).
+  ORDER on each lane: stage 3 first five (rank 7, ends about 14:00 UTC 26 Nov), stage 5's
+  six-parameter runs on ten realizations (rank 8, 35.5 h per lane), stage 3 second five
+  (rank 9, 15 h), the eight-parameter runs of realizations 106 to 110 (stage V8, rank 9.5:
+  two on lane 1, three on lane 2, 30.7 GPU-h each), stage 5's eight-parameter runs (rank 10:
+  three and two, 35.3 GPU-h each). About 225 GPU-h per lane: ends about 5 Dec if the GPUs
+  stay with this project.
+- WATCHER `b333sm0y9` (armed 09:05 UTC): the forty summaries of stage 3 and of stage 5's
+  six-parameter runs (`tests/results/stage3_stage5six_runs.txt`), or an error outcome, or
+  22:00 UTC 28 Nov. Expected about 16:00 UTC 28 Nov. No agent is running.
+- THE OWNER MAY TAKE THE GPUs for the massgap session: "stop your jobs" = `scontrol hold` the
+  PENDING `agn-prod-l*` jobs first, then `scancel` the RUNNING ones; resume with `scontrol
+  release` only on the owner's own word (a message from another session is refused).
+
+### DO NEXT, IN ORDER
+1. When the watcher fires (or stage 3 alone is complete: check `launch.py --lanes 2 status`):
+   refresh in the background. STAGE 3 turns Sec. IV D black (keys SingleBoth, SingleNone, ten
+   realizations; `\SingleBothHzeroInside`): re-read the whole subsection and the Validation's
+   "First, H0 is recovered at each level of freedom" against the printed levels; Table III
+   rows; Figs. 5, 8, 10. STAGE 5 SIX-PARAMETER turns the single-population and no-catalog
+   sentences of Sec. IV F black over ten realizations (the first five are the low draw: 67.0
+   against 67.7 for the other ten with the populations known; say what the two halves give
+   if they differ); before quoting realization 100, look at its H0 marginal (edge merger
+   494). Commit, PDF, ask for a push.
+2. When group A (eight-parameter, 106 to 110) is in (about 1 Dec): extend HDHost to ten
+   (`notes/MACRO_REQUESTS.md` Sec. J), refresh, re-read Sec. IV E's third paragraph, the
+   abstract, the Conclusions (the two spin levels: are they still outside over ten?), the
+   Validation sentence "Two inputs lie outside ...". Commit, PDF.
+3. When stage 5's eight-parameter runs are in (about 5 Dec): Sec. IV F's last paragraph,
+   Fig. 7 (decide its drawing: the assumed population is over fifteen, the single population
+   over ten, the host-dependent analysis over five: either draw all on the common five or
+   say in the caption which curve uses which realizations), Table III, abstract. Then the
+   independent Fable review against the style skill's self-check, the build gates, the
+   title-image count, the reference list (Sec. 5 items 4 and 5 of this file).
+4. Small leftovers: `\ObsHDfDetMean` over ten (unused); the all-AGN no-catalog observed-like
+   grid still has steps at 8000 samples (no macro reads it); Fig. 9(a)'s facets.
+- OWED TO THE OWNER: nothing blocks. A push was last made at a10b467 (25 Nov); ask again at
+  the next PDF.
 
 ### THE OWNER'S DECISIONS OF 25 Nov 22:40 UTC (multiple choice)
 - "5, then 10": RUN AFTER STAGE 3: the eight-parameter model on realizations 106 to 110
@@ -602,46 +575,6 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   sampling with `\cite{Hesterberg:1995,Owen:2000}` (verified by web search, recorded in
   `notes/CITATION_CHECKS.md`, entries in `refs.bib`), tagged `% EXPECTED` until the runs exist.
   THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
-
-### Running now, and what each needs from you
-- LANE 1 (job 1534275, limit 05:50 UTC 27 Nov, successor 1592195) and LANE 2 (job 1534274,
-  same limit, successor 1592194): the redraw grids (rank 2.85), then the order of "LANE
-  ORDER NOW" in the block of the owner's decisions.
-- WATCHER `b8w97ff9b`: the twelve redraw grids (top block). No agent runs.
-- NEXT EVENTS: those grids (about 09:00 UTC 26 Nov); then stage 3's first five and stage 5's
-  six-parameter runs: arm watchers on them after the grids (summaries, error outcome, limit).
-
-### Do next, in order
-1. (DONE 07:10 UTC 25 Nov, top blocks.) When the seven open E2M grids are in:
-   "THE STEPS", "WHEN IT FIRES" (the half-widths and the step scan are already done on the
-   84, see "THE MIXTURE RE-RUNS SO FAR").
-2. THE SEC. IV E MILESTONE (about 19:00 to 20:00 UTC 25 Nov, watcher `b4bih8iiz`): when E3's
-   five and HDSingle 106 to 110
-   are in: refresh; the single-population sentences and the twice-offset sentence turn
-   black; re-read them (the wording "is not biased" must match the level the combined
-   posteriors print). Commit, PDF to the owner with SendUserFile
-   (`dark_sirens_galaxies_and_AGN_draft_2026-11-25a.pdf`, a named copy in the scratchpad),
-   and ONE multiple choice with the push request: "5, then 10" (the eight-parameter model on
-   realizations 106 to 110, about 150 GPU-h; say what the five gave: H0 67.9 (+0.9, -0.8) at
-   26%, log10 B 2.5 to 8.4, 1.3 [1.0, 1.8] times the mergers, and the two spin inputs outside
-   their 90% intervals at 95% and 98%, which is the reason to run it), and stage 5's
-   six-parameter runs on realizations 106 to 110 as well (about 36 GPU-h; its first five are
-   the low draw). Tell them in the same message what the mixture sampling changed.
-3. FIG. 7 WHEN STAGE 5 IS REAL (decide then, mine): its dotted curve (population assumed) is
-   combined over fifteen while the single-population and host-dependent curves will be the
-   low five; on the same five the assumed population gives 67.8 +- 0.8 (before the mixture
-   re-runs). Either draw all three on the five, with the fifteen in the text, or say in the
-   caption which curve uses which realizations. Table III states the counts per row already.
-4. STAGE 5 (starts about 26 Nov): when realization 100's posteriors come in, look at its H0
-   marginal (edge merger 494; with the mixture 1069 of its 8000 samples lie below the edge
-   at the input H0, where production had 6).
-5. Then Sec. 5 items 3 to 5 of this file (stage 3 and stage 5 subsections as they turn black,
-   the independent Fable review against the style skill's self-check, small leftovers).
-- OWED TO THE OWNER: nothing blocks. At the milestone: the PDF, the multiple choice, the
-  push request (GitHub has e6d5313).
-- CONTEXT: this session's context is long (resumed 18:55 UTC 23 Nov, five agents, eight
-  refreshes). This block is a complete resume document; a `/clear` and "continue from the
-  latest checkpoint" loses nothing.
 
 ### What happened on 23 Nov (all committed)
 1. EIGHT-PARAMETER RUNS (host-dependent populations, `..._unif_then_rslice`): realizations 100

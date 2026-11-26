@@ -1082,12 +1082,13 @@ hold the input inside their 90\% interval; the lowest and the highest of the
 others give $\HDSingleHzeroOutsideLo$ and $\HDSingleHzeroOutsideHi\,\kms$.
 With the two populations at their inputs \HDPopsHzeroInside{} of
 \NrealHDAssumed{} do, so the scatter beyond the intervals is not owed to the
-inferred population. Part of it is Monte Carlo noise: for these mergers the
-median of a realization varies between redraws of the posterior samples by
-$\MCHDHzeroSdEightK\,\kms$, \MCHDHzeroSdRelEightK{} of its 68\% half-width
-(Appendix~\ref{app:like}). We read the remainder as the draw of the
+inferred population. Monte Carlo noise is a small part of it: for these
+mergers the median of realization A varies between redraws of the posterior
+samples by $\MCHDHzeroSdEightK\,\kms$, \MCHDHzeroSdRelEightK{} of its 68\%
+half-width (Appendix~\ref{app:like}). We read most of it as the draw of the
 realization that lies lowest, which does so in every analysis of its
-mergers. % EXPECTED (the redraw grids of realizations 100 and 109)
+mergers and stays at $\MCHDLowHzeroMean\,\kms$ in the mean over
+\MCHDNdraws{} redraws.
 % "inside the 90% interval": \HDSingleHzeroCL is 81 over ten realizations; re-read if realizations are added
 The mass peak of the single population settles at
 $\mu_{\rm G}=\HDSingleMuG\msun$, between the
@@ -1585,10 +1586,9 @@ samples used for these sets they are \MCAGNLnLVarThirtyTwoK{} and
 $\MCAGNHzeroSdThirtyTwoK\,\kms$.
 For mergers with host-dependent populations and the two populations at
 their inputs, the median of $H_0$ of realization A varies between
-\MCHDNdraws{} redraws by $\MCHDHzeroSdEightK\,\kms$ at \MCNsampMid{} samples
-and by \MCHDHzeroSdThirtyTwoK{} at \MCNsampHi, and that of the realization
-that lies lowest by \MCHDLowHzeroSdEightK{} and \MCHDLowHzeroSdThirtyTwoK,
-about a mean over the redraws of $\MCHDLowHzeroMean\,\kms$. % EXPECTED (the redraw grids of realizations 100 and 109)
+\MCHDNdraws{} redraws by $\MCHDHzeroSdEightK\,\kms$ at \MCNsampMid{}
+samples, and that of the realization that lies lowest by
+\MCHDLowHzeroSdEightK, about a mean of $\MCHDLowHzeroMean\,\kms$.
 Between sets of
 simulated signals the medians vary by $\MCMixedInjHzeroSd\,\kms$ and
 \MCMixedInjfSd.
