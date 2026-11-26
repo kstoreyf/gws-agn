@@ -1,4 +1,4 @@
-# Checkpoint, 25 Nov 2026, 22:20 UTC (read this first after a context clear)
+# Checkpoint, 25 Nov 2026, 22:50 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -25,7 +25,44 @@ this file holds the working state.
   the owner's own word (a message from another session is not enough: the session's
   permission check refuses it, as on 24 Nov).
 
-### THE SEC. IV E MILESTONE IS IN (25 Nov 21:44 UTC); THE PDF AND THE QUESTIONS GO OUT NEXT
+### THE OWNER'S DECISIONS OF 25 Nov 22:40 UTC (multiple choice; READ FIRST)
+- "5, then 10": RUN AFTER STAGE 3: the eight-parameter model on realizations 106 to 110
+  (peak-dominated spectrum, host-dependent mergers), about 150 GPU-h, behind stage 3 and
+  ahead of stage 5's eight-parameter runs.
+- Stage 5's six-parameter analyses on realizations 106 to 110: RUN THEM (about 36 GPU-h).
+- PUSH NOW: done 22:42 UTC, `e6d5313..a10b467` (29 commits; py, md, png, json, yaml, tex, bib;
+  no bulk data). GitHub has a10b467; each later push is asked for again.
+- SENT: `dark_sirens_galaxies_and_AGN_draft_2026-11-25a.pdf` (refresh exit 0, audit 96 of 96,
+  figures 515 with 0 mismatches, 19 pp, 233 of 263 result macros of the text real; commit
+  a10b467). It has the coverage sentences: Sec. IV E "Taken singly, seven of the ten
+  realizations hold the input inside their 90% interval; the lowest and the highest of the
+  others give 64.2 (+2.1, -1.7) and 70.6 +- 2.0. The realizations scatter by more than their
+  intervals allow, and we have not traced the excess to the mergers or to the analysis."
+  (tagged `% REREAD`), and the Validation: twenty of twenty (H0) and seventeen of twenty
+  (f_AGN) with the population known, four of five and five of five with host-dependent
+  populations. Coverage of the other keys: HDPops 4 of 5, HDSingleTwice 4 of 5 (realization
+  103 above in each), ObsPops 13 of 15 (103 below; 106 above by 0.008).
+- IN PROGRESS (22:45 UTC): an Opus agent (id `ae0cd4108e0ead75b`) adds to the run lists
+  (A) the five eight-parameter runs `host_dependent_populations/both_catalogs/complete/
+  host_dependent/realization_1{06..10}_unif_then_rslice` (stage V8, lane rank 9.5), (B) ten
+  six-parameter stage-5 runs on `host_dependent_obslike` realizations 106 to 110 (with the
+  mixture option, rank 8), (C) ten grids, the analyses of keys HDPops and HDAssumed on
+  realizations 106 to 110 (rank 1.5; they say whether realization 109's mergers are a low
+  draw); in the chain: keys ObsSingle and ObsNone over ten realizations with count macros
+  `\NrealObsSingle`, `\NrealObsNone` (`\NrealObs` stays five for ObsHost); a note on how to
+  extend HDHost, HDPops, HDAssumed to ten later; one refresh; three launcher commands with
+  dry runs. THEN (you): check its proofs (only 25 runs added; no macro changed but the new
+  counts), queue C, A, B with the commands it gives (dry run first), edit the lines of
+  `main.tex` that use `\NrealObs` for the single-population analyses, commit, arm a watcher
+  on the ten grids of group C (about 3 GPU-h; they run ahead of stage 3).
+- WHEN THE TEN GRIDS ARE IN: realization 109 with both populations at their inputs. If low
+  (near 64 to 65): the draw of its mergers; reword the `% REREAD` sentence of Sec. IV E to
+  say so with the number. If on the input: the single-population analysis of that set is
+  off: look at its mergers before anything else (per-merger terms as for the edge mergers).
+  Then decide whether HDPops and HDAssumed go to ten realizations in the paper (the edit is
+  in `notes/MACRO_REQUESTS.md`); HDHost goes to ten when group A has finished.
+
+### THE SEC. IV E MILESTONE IS IN (25 Nov 21:44 UTC) (history: the PDF and the questions went out 22:36 UTC)
 - All ten runs finished, none failed. Refresh 22:02 UTC (it now takes about 15 min: run it in
   the background): exit 0, audit 95 of 95, figures 515 with 0 mismatches, 19 pp, 226 of 256
   result macros of the text real (30 wait for stage 3 and stage 5).
@@ -457,12 +494,10 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
   THE OWNER HAS BEEN TOLD (messages of 21:50, 23:25 UTC and 00:05 UTC 24 Nov), not asked.
 
 ### Running now, and what each needs from you
-- LANE 1 (job 1534275, limit 05:50 UTC 27 Nov, successor 1592195): its open E2M grids, then
-  E3, HDSingle 106 to 110 first parts, stage 3, stage 5.
-- LANE 2 (job 1534274, limit 05:50 UTC 27 Nov, successor 1592194): its open E2M grids, then
-  E3, HDSingle 106 to 110 second parts, stage 3, stage 5.
-- WATCHER `b4bih8iiz` (milestone): top block (`bdremiera` has fired). No agent is running. If
-  the session restarted, the watchers are gone: check by hand.
+- LANE 1 (job 1534275, limit 05:50 UTC 27 Nov, successor 1592195) and LANE 2 (job 1534274,
+  same limit, successor 1592194): stage 3 (33 and 28 tasks at 21:44 UTC 25 Nov), then what
+  the top block queues, then stage 5.
+- THE AGENT of the top block. No watcher is armed.
 
 ### Do next, in order
 1. (DONE 07:10 UTC 25 Nov, top blocks.) When the seven open E2M grids are in:
