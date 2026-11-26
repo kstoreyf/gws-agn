@@ -1,4 +1,4 @@
-# Checkpoint, 26 Nov 2026, 03:35 UTC (read this first after a context clear)
+# Checkpoint, 26 Nov 2026, 04:55 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -47,24 +47,51 @@ this file holds the working state.
   too narrow by about 1.6 to 1.7 in this family, and the combined intervals with them
   (HDPops, HDSingle, HDHost; the half-width means of Sec. IV B's open squares). The biases
   of the assumed population (paired, +3.6) do not depend on it.
-- AN OPUS AGENT (started 03:30 UTC, id `aa6f59b2e03c04ea3`, CPU, about 100 min) tests three
-  candidates with direct measurements: T1 where 109's pull comes from (selection term,
-  galaxy-hosted, AGN-hosted; few mergers or many), T2 Monte Carlo resolution (hybrid with
-  more samples for poorly resolved mergers; a full redraw of 109 with another redraw
-  index), T3 the Monte Carlo error of the selection term's H0 dependence, T4 the information
-  equality per merger (score variance against curvature, by host class, with two
-  equal-population realizations as control). Files `tests/hd_scatter_*.py`, results
-  `tests/results/hd_scatter_*.json`.
-- WHEN IT REPORTS: check one number yourself. If T2 or T3 show Monte Carlo noise of the size
-  needed (about 1.4 in the median per realization): fix the sampling (more samples or a
-  better proposal for the mergers that carry it; more injections) BEFORE the eight-parameter
-  runs of 106 to 110 start (rank 9.5, about 2.5 days away) and re-run the family's grids. If
-  T4 shows the per-merger likelihoods too sharp: a modelling fault in the host-dependent
-  likelihood or mocks; find it before anything of Sec. IV E is called final. If none: more
-  realizations (cheap grids) and state the coverage as measured. TELL THE OWNER either way.
-- The `% REREAD` sentence of Sec. IV E ("we have not traced the excess to the mergers or to
-  the analysis") must be rewritten from the outcome; today it is still right as far as it
-  goes, but the excess is not confined to the single population.
+- DIAGNOSED 04:40 UTC (Opus agent, CPU; `tests/hd_scatter_eval.py`, `hd_scatter_analyze.py`,
+  results `tests/results/hd_scatter_*.json`; per-merger sums reproduce the stored ln L to
+  3.6e-12 at 46 nodes; I checked the redraw file against its report):
+  T2 MONTE CARLO NOISE OF THE POSTERIOR SAMPLES IS LARGE IN THIS FAMILY: for realization 109
+  (both populations at their inputs, line at f_AGN 0.34) two independent redraws of all
+  mergers at 8000 samples give medians 65.01 and 64.71 against the stored 63.96: +1.06 and
+  +0.75, sd of the three 0.54 (0.65 posterior sd), where Appendix A quotes 0.28 for the
+  equal-population realization A. Hybrid (19 mergers below an effective number of 50 at
+  32,000 samples, the ten largest contributors at 256,000): 64.00 [62.83, 65.82] -> 64.44
+  [63.01, 66.52]. The noise is spread over about 190 mergers with effective numbers below
+  300, not a few. Census (below 5 / 20 / 50 / 100): 109 0/5/20/49; 105 2/7/23/48; 103
+  2/11/19/47.
+  T3 THE SELECTION TERM: Monte Carlo sd 0.7 nats on ln L(64) - ln L(input), about 0.2 in H0;
+  N^2/N_eff 1.1 to 1.25. The seed's second injection set changes that difference by -2.9 +-
+  1.7 nats for 109 (toward the input) and by 0.0 +- 1.5 for 105.
+  T4 THE PER-MERGER LIKELIHOODS ARE CALIBRATED at the input: score variance over curvature
+  1.24 +- 0.18 pooled over the ten, 1.00 with the Monte Carlo part removed (19% of the
+  numerator); equal-population controls 1.30 +- 0.37 and 1.15.
+  T1 REALIZATION 109: its pull to low H0 is spread over many mergers of both host classes
+  (galaxy-hosted +6.4 nats, AGN-hosted +5.9 against realization 105; +8.1 remain with the
+  fifty largest of each class removed); ln L is a near-linear ramp from 64.5 to 67.5 that
+  survives both redraws. Averaged over its three draws it sits near 64.6.
+- READING (mine): no fault. The family's excess scatter is (a) posterior-sample noise of
+  about half a posterior sd per realization at 8000 samples, twice what the paper states for
+  equal populations (with it the expected chi^2 of ten medians is about 14; the nine without
+  109 give 12.7), and (b) realization 109, a low draw of about 2.7 to 3.4 sd once its Monte
+  Carlo part is averaged, in one of ten. Sec. IV E's results stand; its single-realization
+  numbers carry a Monte Carlo error of about half their posterior sd, the combined ones
+  of ten realizations about 0.16 against a posterior sd of 0.36. NOT FIXED BY MORE WORK NOW:
+  32,000 samples for the eight-parameter runs would cost three times their GPU time.
+- IN PROGRESS (04:50 UTC): an Opus agent (id `a2ad6c621264822e0`) (1) takes keys HDPops and
+  HDAssumed to ten realizations (the edit of `notes/MACRO_REQUESTS.md` Sec. J; new
+  `\NrealHDAssumedTwice`), (2) adds twelve stage-X redraw grids of `two_tracers_two_
+  populations` on `peak_f0p30_s1` (realizations 100 and 109; redraw indices 1 to 4 at 8000
+  samples, 0 and 1 at 32,000; rank 2.85) with macros `\MCHDHzeroSdEightK`,
+  `\MCHDHzeroSdThirtyTwoK`, `\MCHDfSdEightK`, `\MCHDHzeroSdRelEightK`, `\MCHDNdraws` and
+  the `\MCHDLow...` set for 109 (red until the runs exist), one refresh, a dry run.
+  THEN (you): check its tables (which macros changed by going to ten; only those), put
+  `\NrealHDAssumedTwice` where main.tex speaks of the twice-offset key, queue the twelve
+  grids (dry run first), and rewrite from black macros: Sec. IV E's `% REREAD` sentence
+  (seven of ten with the single population AND with the populations known,
+  `\HDPopsHzeroInside`; the redraw scatter of this family from Appendix A; the one
+  realization that lies low in every analysis of its mergers) and one sentence in Appendix
+  A "Accuracy" with `\MCHDHzeroSdEightK` beside `\MCMixedHzeroSdEightK`. Commit. Tell the
+  owner what changed in the abstract's headline number if HDAssumed moves.
 
 ### THE OWNER'S DECISIONS OF 25 Nov 22:40 UTC (multiple choice)
 - "5, then 10": RUN AFTER STAGE 3: the eight-parameter model on realizations 106 to 110
