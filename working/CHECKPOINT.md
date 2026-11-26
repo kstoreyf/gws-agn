@@ -1,4 +1,4 @@
-# Checkpoint, 26 Nov 2026, 01:00 UTC (read this first after a context clear)
+# Checkpoint, 26 Nov 2026, 03:35 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -25,7 +25,48 @@ this file holds the working state.
   the owner's own word (a message from another session is not enough: the session's
   permission check refuses it, as on 24 Nov).
 
-### THE OWNER'S DECISIONS OF 25 Nov 22:40 UTC (multiple choice; READ FIRST)
+### OPEN PROBLEM: THE HOST-DEPENDENT REALIZATIONS OF THE PEAK FAMILY SCATTER TOO MUCH (26 Nov
+### 03:20 UTC; READ FIRST)
+- The ten grids of group C finished 03:19 UTC, none failed. H0 median [90%] on the set
+  `peak_f0p30_s1`, both catalogs, realizations 100, 101, 102, 103, 105, 106 to 110:
+  BOTH POPULATIONS AT THEIR INPUTS (`two_tracers_two_populations`): 67.20 [65.76, 68.64];
+  66.70 [65.41, 68.29]; 68.46 [66.71, 70.25]; 70.03 [67.90, 71.62]; 67.74 [65.97, 69.32];
+  69.32 [67.84, 70.73]; 69.18 [67.23, 71.36]; 68.28 [66.61, 69.88]; 64.03 [62.84, 65.97];
+  67.70 [66.30, 69.02].
+  POPULATION ASSUMED minus that, per realization: +3.72 +20.18 +2.65 +3.19 +2.19 +3.85 +6.14
+  +3.52 +4.73 +2.22 (median +3.6; positive in ten of ten: the bias of the assumed population
+  holds on ten). SINGLE POPULATION minus that: mean +0.31, sd 0.59.
+- SO: realization 109 is low with the true populations known too (3.7 posterior sd): its low
+  H0 is NOT the single-population analysis. And the ten scatter by sd 1.69 around a mean of
+  67.86 against a posterior sd of about 0.99: 7 of 10 hold the input in their own 90%
+  interval (103, 106 by 0.10, 109 outside), chi^2 26.4 on 10. No mean offset. The
+  equal-population family holds the input in 20 of 20, the observed-like host-dependent
+  family in 13 of 15. The excess is specific to host-dependent populations with the
+  peak-dominated spectrum, the family of Sec. IV E.
+- WHAT IT MEANS FOR THE PAPER IF IT STANDS: the single-realization intervals of Sec. IV E are
+  too narrow by about 1.6 to 1.7 in this family, and the combined intervals with them
+  (HDPops, HDSingle, HDHost; the half-width means of Sec. IV B's open squares). The biases
+  of the assumed population (paired, +3.6) do not depend on it.
+- AN OPUS AGENT (started 03:30 UTC, id `aa6f59b2e03c04ea3`, CPU, about 100 min) tests three
+  candidates with direct measurements: T1 where 109's pull comes from (selection term,
+  galaxy-hosted, AGN-hosted; few mergers or many), T2 Monte Carlo resolution (hybrid with
+  more samples for poorly resolved mergers; a full redraw of 109 with another redraw
+  index), T3 the Monte Carlo error of the selection term's H0 dependence, T4 the information
+  equality per merger (score variance against curvature, by host class, with two
+  equal-population realizations as control). Files `tests/hd_scatter_*.py`, results
+  `tests/results/hd_scatter_*.json`.
+- WHEN IT REPORTS: check one number yourself. If T2 or T3 show Monte Carlo noise of the size
+  needed (about 1.4 in the median per realization): fix the sampling (more samples or a
+  better proposal for the mergers that carry it; more injections) BEFORE the eight-parameter
+  runs of 106 to 110 start (rank 9.5, about 2.5 days away) and re-run the family's grids. If
+  T4 shows the per-merger likelihoods too sharp: a modelling fault in the host-dependent
+  likelihood or mocks; find it before anything of Sec. IV E is called final. If none: more
+  realizations (cheap grids) and state the coverage as measured. TELL THE OWNER either way.
+- The `% REREAD` sentence of Sec. IV E ("we have not traced the excess to the mergers or to
+  the analysis") must be rewritten from the outcome; today it is still right as far as it
+  goes, but the excess is not confined to the single population.
+
+### THE OWNER'S DECISIONS OF 25 Nov 22:40 UTC (multiple choice)
 - "5, then 10": RUN AFTER STAGE 3: the eight-parameter model on realizations 106 to 110
   (peak-dominated spectrum, host-dependent mergers), about 150 GPU-h, behind stage 3 and
   ahead of stage 5's eight-parameter runs.
