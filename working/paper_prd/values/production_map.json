@@ -1524,7 +1524,12 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
    ],
    "realization_A": 100,
    "settings": "injection lane injections/injections_targeted_obslike.h5",
@@ -1542,7 +1547,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1564,7 +1574,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1586,7 +1601,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1609,7 +1629,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1632,7 +1657,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1655,7 +1685,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1889,7 +1924,12 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
    ],
    "realization_A": 100,
    "settings": "injection lane injections/injections_targeted_obslike.h5",
@@ -1907,7 +1947,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1929,7 +1974,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1952,7 +2002,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1975,7 +2030,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },
@@ -1998,7 +2058,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "product of the kernel densities (run_posteriors.chain_marginal_product)"
      },

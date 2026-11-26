@@ -278,3 +278,44 @@ One state per macro, its key's: black when the key is a production result; red o
 `\HDSingleHzeroOutsideLo`, `\HDSingleHzeroOutsideHi`: the lowest and the highest H0 median among the realizations of
 `HDSingle` whose interval does not contain the input, with that realization's own 90% interval, printed as `\HDSingleHzero`
 prints realization A. Not defined when no realization lies outside (none of `main.tex`'s text may then use them).
+
+## J. Stage 5 on ten realizations; HDHost, HDPops, HDAssumed on ten later (25 Nov 2026)
+
+Analysis 16's run lists (25 Nov, approved by the owner) carry stage 5's single-population classes on 106-110, stage V8's
+eight-parameter run on 106-110 and the experiment's grids of `peak_f0p30_s1` on 106-110 (`make_runlist.STAGE5_LATER`,
+`V8_LATER`, `EXPERIMENT_EXTRA`). Done now: `ObsSingle` and `ObsNone` combine ten realizations (100, 101, 102, 103, 105,
+106-110), `ObsHost` five. New: **`\NrealObsSingle`**, **`\NrealObsNone`** (ten); `\NrealObs` stays five and counts `ObsHost`
+alone. On the realizations common to `ObsSingle` and `ObsHost` (100, 101, 102, 103, 105): `\ObsLB`, `\ObsHostLB`,
+`\ObsHostLBComb`, `\ObsLBMin`, `\ObsLBMax` (ObsHost's realizations, the reference run of each), `\HWObsSingle[Min|Max]`
+(classes `realizations_of` HWObsHost), `\CostObsSingleHost[Min|Max]`, `\ObsHDfDetMean`, and the subsets
+`\NrealObsFirst`/`Later`, `\ObsPops<First|Later>...`, `\ObsAssumed<First|Later>...`, `\ObsAssumedFirstShiftHzero` (First =
+the realizations carrying all three keys of stage 5). The red placeholders of `ObsSingle` and `ObsNone` keep the combination
+invented for five (`placeholder_results.PLACEHOLDER_N`, audit H3). `HDHost`, `HDPops`, `HDAssumed` keep their five realizations
+until their further runs exist.
+
+The edit that extends them to ten, once every summary of groups A (`host_dependent_populations/both_catalogs/complete/
+host_dependent/realization_1{06..10}_unif_then_rslice`) and C (`two_tracers_{one_population,two_populations}/both_catalogs/
+complete/peak_f0p30_s1/realization_1{06..10}`) exists (each key stays real only if all ten summaries exist; do the two keys of C
+together, and HDHost on its own once A is done):
+
+- `HDHost` (group A). `scripts/build_values.py`, `STAGE_V_KEY_RUNS["HDHost"]`: `"realizations": (100, 101, 102, 103, 105)` ->
+  `"realizations": (100, 101, 102, 103, 105, 106, 107, 108, 109, 110)`. `scripts/audit_values.py`: `def _own_hd_stage_v(idx=None,
+  reals=(100, 101, 102, 103, 105))` -> `reals=(100, 101, 102, 103, 105, 106, 107, 108, 109, 110)` and `_HD_V8_LATER = (106, 107,
+  108, 109, 110)` -> `_HD_V8_LATER = ()`. Then `production.py --write-map` and the refresh. Follow: `\NrealHD` (ten), `HWHost`,
+  `\HWHDSingle`, `\CostSingleHost`, `\HDLB...`, `\HDHostLBComb`, `\HDHostHzeroInside`, `\HDHostfAGNInside`, Fig. 6, the open square
+  of fig_classes (a); main.tex line 702's comment ("five each").
+- `HDPops`, `HDAssumed` (group C). `scripts/build_values.py`: `KEY_REALIZATIONS_HELD = {"HDPops": (100, 101, 102, 103, 105),
+  "HDAssumed": (100, 101, 102, 103, 105)}` -> `KEY_REALIZATIONS_HELD = {}`; `scripts/audit_values.py`: `_OWN_KEY_REALIZATIONS_HELD
+  = {...}` -> `_OWN_KEY_REALIZATIONS_HELD = {}`. `\NrealHDAssumed` then counts unequal keys (HDAssumedTwice keeps five) and
+  `build_requests` stops at its assertion, so split it: in `build_values.build_requests`, `nreal("NrealHDAssumed", ["HDAssumed",
+  "HDAssumedTwice", "HDPops"], ...)` -> `nreal("NrealHDAssumed", ["HDAssumed", "HDPops"], ...)` plus `nreal("NrealHDAssumedTwice",
+  ["HDAssumedTwice"], "realizations combined, population assumed, host-dependent mergers with twice the offsets, peak-dominated
+  spectrum (key HDAssumedTwice; RUNLIST_experiment.yaml stage E1)")`; in `audit_values.audit_requests`, `want["NrealHDAssumed"] =
+  {n_exp("two_tracers_one_population", "peak_f0p30_s1"), n_exp("two_tracers_two_populations", "peak_f0p30_s1")}`,
+  `want["NrealHDAssumedTwice"] = n_exp("two_tracers_one_population", "peak_f0p30_s2")`, and in its N_comb list
+  `("NrealHDAssumed", ["HDAssumed", "HDAssumedTwice", "HDPops"])` -> `("NrealHDAssumed", ["HDAssumed", "HDPops"]),
+  ("NrealHDAssumedTwice", ["HDAssumedTwice"])`. Then `production.py --write-map` and the refresh. Follow: `\HDAssumed...Comb`,
+  `CL`, `\HDAssumedBiasHzero`, `\HDAssumedShiftHzero[Min|Max]` (ten paired shifts), `\HDAssumedNoPeak`, `\HDPops...Comb`, `CL`,
+  `\HDPopsHzeroInside`. Unchanged: the experiment's means of classes.py on this set (`\HWPopsThirty`, `\ProbAGNPos`, ...) stay on the
+  experiment's five (the run list's header realizations). main.tex: lines 1068-1069 ("in any of the `\NrealHDAssumed`
+  realizations" for `\HDAssumedTwiceNoPeak`) then need `\NrealHDAssumedTwice`.

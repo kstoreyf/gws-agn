@@ -27,6 +27,11 @@ of the observed-like mass spectrum (MIX, build_mix): stage E2M holds a partner o
 argument, cost the partner's measured calls and seconds per call plus MIX["setup_seconds"] per process; the E2 runs stay as they are.
 Stage 5 (not started) takes --redraw-mixture support and keeps its run names with --run-name (stage5_mix; the builder stops if a
 stage-5 run directory exists without the option in its config.json).
+25 Nov (approved by the owner; section "25 Nov: further realizations of approved runs"): (A) stage V8's eight-parameter run on
+realizations 106-110 (V8_LATER, build_v8_later: the automatic V8 runs' arguments but the realization, cost from V8's five finished runs,
+lane rank 9.5); (B) stage 5's two single-population classes on 106-110 (STAGE5_LATER, build_stage5_later: stage 5's arguments but the
+realization and --run-name, appended after the fifteen, lane rank 8); (C) EXPERIMENT_EXTRA's set peak_f0p30_s1 on 106-110 for
+two_tracers_two_populations and two_tracers_one_population (stage E1, rank 1.5; files checked against stage 4's; measured calls).
 
 Cost model (the brief's numbers until the tests measure them; --timing merges measured spc_* keys):
   seconds per call at 8,000 samples: 0.39 with the population fixed, 0.44 with it free (both catalogs,
@@ -122,6 +127,8 @@ LANE_RANKS = [
     (2, 2, {"mode": "grid"}),                                          # known population, flux-limited
     (2.5, "V8", {"realizations": (100,)}),                             # realization 100: unif then rslice (continuation)
     (3.5, "V8", {"realizations": (101, 102, 103, 105)}),               # unif then rslice, the other four (after rank 3)
+    (9.5, "V8", {"realizations": R_LATER}),                            # 25 Nov: unif then rslice on 106-110 (V8_LATER), after all of
+                                                                       # stage 3 (7, 9), before stage 5's eight-parameter runs (10)
     (2.8, 2, {"mode": "nested"}),                                      # free densities (was 6 until 18 Nov)
     (2.85, "X", {}),                                                   # checks of two settings, realization 100 (18 Nov); sky resolution on 101-105 (19 Nov)
     (2.9, 4, {"analysis": "host_dependent_populations", "realizations": (100,)}),   # V8's rslice reference
@@ -219,7 +226,8 @@ TITLES = {1: "population known, complete catalogs", 2: "flux-limited catalogs",
                  "a partner of every stage-E2 grid (run name <E2 name>_mix, field mix_partner)",
           "V8": "the eight-parameter sampler: stage 4's host-dependent populations sampled uniformly (bootstrap 5) while "
                 "that is cheaper than rslice and with rslice after (realization 100 continued from its stopped uniform "
-                "run, which is held; realizations 101-105 with the automatic switch at 60 calls per iteration)",
+                "run, which is held; realizations 101-105 with the automatic switch at 60 calls per iteration; 25 Nov: "
+                "realizations 106-110 with the same automatic switch, V8_LATER)",
           "X": "checks of two analysis settings on realization 100 (not production results): stage 1's two-tracer grid with "
                "the catalogs pixelized at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical "
                "units) at the values from the counts, the AGN density at that value and at twice it; and the two-tracer grid "
@@ -603,6 +611,165 @@ def v8_measured_cost(realizations=R_FIRST):
     spc = sum(v["seconds_in_likelihood"] for v in rows.values()) / sum(v["session_calls"] for v in rows.values())
     return {"realizations": sorted(rows), "calls_mean": int(round(statistics.fmean(v["calls"] for v in rows.values()))),
             "seconds_per_call": spc, "per_run": rows}
+
+
+# ============================================================================ 25 Nov: further realizations of approved runs
+# Approved by the owner on 25 Nov: (A) the eight-parameter model on realizations 106-110 (V8_LATER, stage V8) and (B) stage 5's six- and
+# five-parameter analyses on realizations 106-110 (STAGE5_LATER, stage 5); and a small check, (C) the two experiment grids of the set
+# peak_f0p30_s1 that the paper's keys HDPops and HDAssumed read, on 106-110 (EXPERIMENT_EXTRA). Each new entry is built by the same code
+# as its partners (the runs of realizations 100-105 it extends), its arguments are checked against every partner's with the realization
+# (and the run name) set aside, its files are checked on disk (_hold_if_surveys_missing), and its cost comes from the measured partners.
+# The paper's keys keep their realizations until the runs exist (paper_prd/scripts/build_values.STAGE_V_KEY_RUNS, KEY_REALIZATIONS_HELD;
+# notes/MACRO_REQUESTS.md J).
+V8_LATER = R_LATER
+STAGE5_LATER = {"classes": (("single_population", "both"), ("single_population", "none")), "realizations": R_LATER}
+
+
+def _with_realization(args, r):
+    """args with the value of --realization replaced by r."""
+    return [str(r) if (i > 0 and args[i - 1] == "--realization") else x for i, x in enumerate(args)]
+
+
+def _renamed(name, R, r):
+    """A run name of realization R as the run of realization r (the token realization_RRR replaced once)."""
+    old, new = f"realization_{int(R):03d}", f"realization_{int(r):03d}"
+    if name.count(old) != 1:
+        sys.exit(f"[fatal] {name}: not one {old} in the run name")
+    return name.replace(old, new)
+
+
+def _same_files_but_seed(e, p):
+    """e's events file and injection set are p's with p's realization directory (data/seedRRR/) replaced by e's."""
+    R, r = arg_of(p, "--realization"), arg_of(e, "--realization")
+    sub = lambda f: None if f is None else str(f).replace(f"/seed{R}/", f"/seed{r}/")
+    return (e["events_file"] == sub(p["events_file"]) and e["injections_file"] == sub(p["injections_file"])
+            and e["injections_lane"] == p["injections_lane"] and e["nsamp"] == p["nsamp"] and e["injection_pool"] == p["injection_pool"]
+            and e["free"] == p["free"] and e["mode"] == p["mode"] and e["parts"] == p["parts"])
+
+
+def _hold_if_surveys_missing(e, catalogs):
+    """The complete survey files at the production nside the run reads (none without a catalog), listed in the entry; the entry is held
+    while one is missing (as _x_hold_if_missing; the events file and injection set make data_exists, as everywhere)."""
+    real = int(arg_of(e, "--realization"))
+    surveys = [P.survey_path(real, t, "complete") for t in P.CATALOG_SETS[catalogs]]
+    miss = [str(p) for p in surveys if not p.exists()]
+    e["surveys"] = [str(p) for p in surveys]
+    if miss and not e.get("hold"):
+        e["hold"] = f"waiting for data: missing {', '.join(miss)}; rerun make_runlist.py when they exist"
+        e["data_exists"] = False
+    return e
+
+
+def build_v8_later(v8_runs, realizations=V8_LATER, hd_lane=None):
+    """(A) 25 Nov: stage V8's eight-parameter run (peak-dominated spectrum, host-dependent mergers, host-dependent populations, both
+    catalogs complete) on each realization of `realizations`, run name .../host_dependent/realization_NNN_unif_then_rslice, built as
+    build_v8 builds the automatic runs of 101, 102, 103, 105 (V8_AUTO_ARGS: unif, then rslice after the first 2,000-call chunk above
+    60 calls per iteration), one part nested_1. Checked: the arguments equal every automatic V8 run's with the realization replaced
+    (realization 100's continuation, --init-from its stopped run's state with --switch-sample rslice, is no template), the run name
+    is theirs with the realization replaced, the events file and injection set are theirs in the realization's own directory, and the
+    sampled parameters, parts and Monte Carlo settings are theirs. Cost: the calls per run and seconds per call measured on V8's
+    finished runs (v8_measured_cost: realization 100's calls include its stopped uniform run's), else build_v8's estimate.
+    Lane rank 9.5 (LANE_RANKS)."""
+    auto = [p for p in v8_runs if "--auto-switch-sample" in p["args"] and "--init-from" not in p["args"] and not p.get("hold")
+            and int(arg_of(p, "--realization")) not in realizations]
+    if not auto:
+        sys.exit("[fatal] V8_LATER: no automatic stage-V8 run to take the arguments from")
+    m = v8_measured_cost()
+    if m:
+        calls, spc = m["calls_mean"], m["seconds_per_call"]
+        per = "; ".join(f"{r}: {v['calls']:,}" for r, v in m["per_run"].items())
+        calls_src = (f"mean of the likelihood calls of stage V8's finished runs realization_NNN_unif_then_rslice ({len(m['realizations'])}: "
+                     f"{per}; realization 100 with its stopped uniform run's 30,102)")
+        spc_src = (f"{spc:.4f} s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions; the "
+                   "same family, lane and analysis)")
+    else:
+        sw, cpi = V8_COST["auto_switch_at"], V8_COST["rslice_calls_per_iteration"]
+        n_it = COST["calls_by_ndim"][8] / V8_COST["a13_calls_per_iteration"]
+        calls = int(round(sw["ncall"] + max(n_it - sw["iterations"], 0) * cpi))
+        spc, s0 = v8_seconds_per_call()
+        calls_src, spc_src = "no stage-V8 run finished: build_v8's estimate for the automatic switch", f"realization 100's stopped run: {s0}"
+    out = []
+    for r in realizations:
+        e = entry("V8", "nested", "host_dependent_populations", "both", "complete", "host_dependent", r, lane=hd_lane,
+                  sampler_args=V8_AUTO_ARGS, name_variant=V8_UNIF_THEN_RSLICE, n_parts=1, calls_per_part=calls)
+        e = finish(e, "V8", "nested", e["free"], spc, e["events_file"], e["injections_file"], n_parts=1, calls_per_part=calls)
+        for p in auto:
+            R = arg_of(p, "--realization")
+            if e["args"] != _with_realization(p["args"], r) or e["name"] != _renamed(p["name"], R, r) or not _same_files_but_seed(e, p):
+                sys.exit(f"[fatal] V8_LATER {e['name']}: differs from {p['name']} by more than the realization")
+        e["est_calls_source"], e["est_seconds_per_call_source"] = calls_src, spc_src
+        e["extends"] = {"stage": "V8", "partners": [p["name"] for p in auto], "of_realizations": [int(arg_of(p, "--realization")) for p in auto],
+                        "differs_by": "--realization (and the run name)",
+                        "why": "the eight-parameter model on five more realizations (approved 25 Nov); the paper's key HDHost keeps its five "
+                               "until these runs exist (paper_prd notes/MACRO_REQUESTS.md J)"}
+        out.append(_hold_if_surveys_missing(e, "both"))
+    return out
+
+
+def _measured_parts(names, parts):
+    """(mean calls per finished part, seconds per call pooled over their sessions, number of finished parts) of the runs `names`, or None."""
+    calls, secs, n = [], 0.0, 0
+    for nm in names:
+        for pt in parts:
+            rj = P.RUNS / nm / pt / "result.json"
+            if not rj.exists():
+                continue
+            try:
+                r = json.loads(rj.read_text())
+            except json.JSONDecodeError:
+                continue
+            ses = r.get("sessions") or []
+            c = sum(s.get("calls", 0) for s in ses)
+            if r.get("finished") and c:
+                calls.append(c)
+                secs += sum(s.get("seconds_in_likelihood", 0.0) for s in ses)
+                n += 1
+    return (statistics.fmean(calls), secs / sum(calls), n) if calls else None
+
+
+def build_stage5_later(rec, stage5_runs):
+    """(B) 25 Nov: stage 5's six-parameter (single population, both catalogs) and five-parameter (single population, no catalog) analyses
+    on STAGE5_LATER's realizations: build_stage5's own entries for those realizations (the observed-like host-dependent set, its events
+    suffix, population inputs and injection lane, the mixture redraw with --run-name, stage5_mix), the eight-parameter class left out;
+    appended after the fifteen. Checked: per class, the arguments equal every partner's (stage 5's run of the class on 100-105) with the
+    realization replaced and the --run-name value the partner's name with the realization replaced, which is the run name; the events
+    file and injection set are the partner's in the realization's own directory. Cost: the partners' measured calls per part and seconds
+    per call once some of their parts have finished, else the partners' own estimate (the same cost model). Lane rank 8 (LANE_RANKS)."""
+    new = [e for e in build_stage5(STAGE5_LATER["realizations"], rec) if (e["analysis"], arg_of(e, "--catalogs")) in STAGE5_LATER["classes"]]
+    out = []
+    for e in new:
+        r, cat = arg_of(e, "--realization"), arg_of(e, "--catalogs")
+        ps = [p for p in stage5_runs if p["analysis"] == e["analysis"] and arg_of(p, "--catalogs") == cat
+              and int(arg_of(p, "--realization")) not in STAGE5_LATER["realizations"]]
+        if len(ps) != len(R_FIRST):
+            sys.exit(f"[fatal] STAGE5_LATER {e['name']}: {len(ps)} partners of class ({e['analysis']}, {cat}), not {len(R_FIRST)}")
+        for p in ps:
+            R = arg_of(p, "--realization")
+            want = _with_realization(p["args"], r)
+            want[want.index("--run-name") + 1] = _renamed(p["name"], R, r)
+            if (e["args"] != want or e["name"] != _renamed(p["name"], R, r) or arg_of(e, "--run-name") != e["name"]
+                    or not _same_files_but_seed(e, p) or e.get("redraw_mixture") != p.get("redraw_mixture")):
+                sys.exit(f"[fatal] STAGE5_LATER {e['name']}: differs from {p['name']} by more than the realization and the run name")
+            if (e["est_gpu_hours"], e["est_calls"], e["est_seconds_per_call"]) != (p["est_gpu_hours"], p["est_calls"], p["est_seconds_per_call"]):
+                sys.exit(f"[fatal] STAGE5_LATER {e['name']}: the cost model gives another estimate than {p['name']}'s")
+        m = _measured_parts([p["name"] for p in ps], e["parts"])
+        if m:
+            e = finish(e, 5, "nested", e["free"], m[1], e["events_file"], e["injections_file"], calls_per_part=int(round(m[0])))
+            if e.get("lane_not_validated"):
+                e["data_exists"] = False
+            e["est_calls_source"] =f"mean calls per part measured on the partners' {m[2]} finished parts ({', '.join(p['name'] for p in ps)})"
+            e["est_seconds_per_call_source"] = "measured on the same parts (seconds in the likelihood over calls, pooled)"
+        else:
+            e["est_calls_source"] = ("the partners' estimate (none of stage 5's runs of this class on 100-105 has finished): "
+                                     f"{e['est_calls'] // len(e['parts']):,} calls per part (calls_by_ndim[{len(e['free'])}])")
+            e["est_seconds_per_call_source"] = ("the partners' estimate: the record lane's seconds per call of the class times the observed-like "
+                                                f"lane factor ({cat} catalogs)")
+        e["extends"] = {"stage": 5, "partners": [p["name"] for p in ps], "of_realizations": [int(arg_of(p, "--realization")) for p in ps],
+                        "differs_by": "--realization and --run-name (the run name, realization replaced)",
+                        "why": "stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and "
+                               "ObsNone take ten realizations, ObsHost keeps its five"}
+        out.append(_hold_if_surveys_missing(e, cat))
+    return out
 
 
 # stage X (18 Nov): checks of two analysis settings on realization 100; the paper's number chain reads the nside-64 run by
@@ -1556,12 +1723,28 @@ def exp_entry(stage, mode, analysis, fam, f, s, r, suffix, priority, membership=
 # so the paper's keys (ObsPops, ObsAssumed) take them by their run pattern; scripts/classes.py keeps its experiment macros on the
 # experiment's realizations (the run list's header 'realizations'). Lane rank: E2's (1.5), ahead of E3 (4).
 EXPERIMENT_EXTRA = {("obslike", 0.3, 1): {"analyses": ("two_tracers_two_populations", "two_tracers_one_population"),
-                                          "realizations": tuple(range(106, 116))}}
+                                          "realizations": tuple(range(106, 116))},
+                    # 25 Nov (C, a small check): the peak-dominated host-dependent set peak_f0p30_s1 (the events of stage 4; the paper's keys
+                    # HDPops and HDAssumed read its five) on realizations 106-110. Stage 4's single population puts realization 109 at H0
+                    # 64.2 [62.5, 66.3]; with both populations at their inputs and with the population assumed these grids say whether its
+                    # mergers are a low draw. data/experiment_sets.json lists this set's injections for 100-105 only: for a realization it
+                    # does not list, the events file and the lane are checked on disk and must be the files stage 4's run of that
+                    # realization reads (unlisted_lane "stage 4"; the rule stage 4 and V8 follow: only a listed false waits). Calls: the
+                    # mean measured on the set's five runs of the analysis (calls_measured; one of them widened its fine grid), seconds per
+                    # call likewise. Stage E1, lane rank 1.5, the set's priority. The paper's keys keep their five (KEY_REALIZATIONS_HELD).
+                    ("peak", 0.3, 1): {"analyses": ("two_tracers_two_populations", "two_tracers_one_population"),
+                                       "realizations": R_LATER, "unlisted_lane": "stage 4", "calls_measured": True,
+                                       "why": ("realization 109's single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: "
+                                               "with the populations at their inputs and assumed, five more realizations say whether its mergers "
+                                               "are a low draw")}}
 
 
 def build_experiment_extra(smap):
     """The runs of EXPERIMENT_EXTRA: exp_entry's run of each analysis and realization, its arguments checked against the set's existing
-    runs of that analysis (equal but for the realization), seconds per call the mean measured on those runs (their sessions)."""
+    runs of that analysis (equal but for the realization; 25 Nov: against each of the five), seconds per call the mean measured on those
+    runs (their sessions). 25 Nov, per set: unlisted_lane "stage 4" (a realization data/experiment_sets.json does not list for the set
+    takes its events file and lane from disk, which must be those of stage 4's single-population run of the realization, and is held while
+    a survey file is missing), calls_measured (calls the mean measured on the five, not the cost model's), why (the entry's extends.why)."""
     out = {}
     for (fam, f, s), ext in EXPERIMENT_EXTRA.items():
         rec = smap.get((fam, round(f, 4), s)) or {}
@@ -1573,19 +1756,39 @@ def build_experiment_extra(smap):
             assert a in experiment_analyses(f, s), (a, fam, f, s)
             part = [exp_entry(stage, "grid", a, fam, f, s, r, rec.get("suffix"), prio, lane=lane, lane_ok=True) for r in EXPERIMENT_REALIZATIONS]
             got = [x for x in (run_seconds_per_call(p["name"]) for p in part) if x]
+            calls_got = [x for x in (run_calls(p["name"]) for p in part) if x] if ext.get("calls_measured") else []
             for r in ext["realizations"]:
-                lane_ok = None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(r)))
+                listed = isinstance(inj_ok, dict) and str(r) in inj_ok
+                if ext.get("unlisted_lane") and isinstance(inj_ok, dict) and not listed:
+                    lane_ok = None       # not listed: the files on disk decide (checked against stage 4's run of the realization below)
+                else:
+                    lane_ok = None if not isinstance(inj_ok, dict) else bool(inj_ok.get(str(r)))
                 e = exp_entry(stage, "grid", a, fam, f, s, r, rec.get("suffix"), prio, lane=lane, lane_ok=lane_ok)
-                ref = part[0]["args"]
-                want = [str(r) if (i > 0 and ref[i - 1] == "--realization") else x for i, x in enumerate(ref)]
-                if e["args"] != want:
-                    sys.exit(f"[fatal] {e['name']}: arguments differ from {part[0]['name']}'s by more than the realization")
+                for p in part:
+                    if e["args"] != _with_realization(p["args"], r):
+                        sys.exit(f"[fatal] {e['name']}: arguments differ from {p['name']}'s by more than the realization")
                 if got:
                     e = finish(e, stage, "grid", e["free"], statistics.fmean(got), e["events_file"], e["injections_file"], priority=prio)
                     e["est_seconds_per_call_source"] = (f"mean measured on the set's runs of this analysis on realizations "
                                                         f"{', '.join(map(str, EXPERIMENT_REALIZATIONS))} ({len(got)} of {len(part)}; their sessions)")
+                if calls_got:
+                    c = statistics.fmean(calls_got)
+                    e["est_calls"] = int(round(c))
+                    e["est_gpu_hours"] = round(c * e["est_seconds_per_call"] / 3600 + COST["overhead_hours_per_process"], 3)
+                    e["est_gpu_hours_per_part"] = e["est_gpu_hours"]
+                    e["est_calls_source"] = (f"mean measured on the set's runs of this analysis on realizations "
+                                             f"{', '.join(map(str, EXPERIMENT_REALIZATIONS))} ({len(calls_got)} of {len(part)}: "
+                                             f"{', '.join(map(str, calls_got))}; a run whose fine grid is widened takes 2008)")
                 e["extends"] = {"set": P.set_name(fam, f, s), "analysis": a, "of_realizations": list(EXPERIMENT_REALIZATIONS),
-                                "why": "the low H0 of the set's first realizations (more realizations decide whether it is a draw)"}
+                                "why": ext.get("why", "the low H0 of the set's first realizations (more realizations decide whether it is a draw)")}
+                if ext.get("unlisted_lane") and not listed:
+                    s4 = entry(4, "nested", "single_population", "both", "complete", "host_dependent", r, lane=lane)
+                    if (e["events_file"], e["injections_file"]) != (s4["events_file"], s4["injections_file"]):
+                        sys.exit(f"[fatal] {e['name']}: events file or lane differ from stage 4's {s4['name']}")
+                    e["lane_record"] = (f"data/experiment_sets.json lists this set's injections for realizations {', '.join(sorted(inj_ok))} only; "
+                                        f"realization {r}'s events file and lane are those of stage 4's {s4['name']} (checked here), "
+                                        f"on disk: {'yes' if e['data_exists'] else 'no (waiting for data)'}")
+                    e = _hold_if_surveys_missing(e, P.EXPERIMENT_CATALOGS[a])
                 out.setdefault(stage, []).append(e)
     return out
 
@@ -1723,7 +1926,9 @@ def main():
                                            "yet; rerun make_runlist.py when it does")
                 e["data_exists"] = False
     st[5] = build_stage5(r5, smap.get(STAGE5_SET))
+    st[5] += build_stage5_later(smap.get(STAGE5_SET), st[5])        # (B) 25 Nov: appended after the fifteen
     vs = {"V8": build_v8(r5, hd_lane=hd.get("lane"))}
+    vs["V8"] += build_v8_later(vs["V8"], hd_lane=hd.get("lane"))     # (A) 25 Nov: appended after the six
     if isinstance(hd.get("injections_exist"), dict) and not P.present_lane(hd.get("lane") or ""):
         for e in vs["V8"]:
             r = arg_of(e, "--realization")

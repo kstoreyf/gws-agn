@@ -136,7 +136,8 @@ def _experiment_realizations():
                 if r["analysis"] == an and r["set"]["label"] == lab:
                     a = r["args"]
                     out.setdefault(key, set()).add(int(a[a.index("--realization") + 1]))
-    return {k: sorted(v) for k, v in out.items()}
+    # 25 Nov (bv.KEY_REALIZATIONS_HELD): HDPops and HDAssumed keep their five while the run list's further realizations wait for their runs
+    return {k: bv.held_realizations(k, sorted(v)) for k, v in out.items()}
 
 
 RUNREAL_EXP = _experiment_realizations()
@@ -484,11 +485,27 @@ def invented_comb(sA, N, x0, bias=0.0, rng=None, kind="normal"):
 
 
 # ---------------------------------------------------------------- the entries
+# 25 Nov: the number of realizations a key's invented combination was made for, where the key's runs have grown since: ObsSingle and ObsNone
+# combine ten realizations since 25 Nov (analysis_16 make_runlist.STAGE5_LATER), their red placeholders were invented for five (23 Nov). The
+# header rule is applied with this N (field N_placeholder; audit H3 reads it), so the placeholders keep their values; N_comb is the run list's.
+PLACEHOLDER_N = {"ObsSingle": 5, "ObsNone": 5}
+
+
 def entry(events, analysis, catalogs, free, stage, key):
     N, why = NREAL[key]
-    return {"events": events, "analysis": analysis, "catalogs": catalogs, "free": free, "stage": f"{STAGE_TITLE[stage]}, {N} realizations",
-            "N_comb": N, "N_comb_source": why, "realizations": RUNREAL.get(key, RUNREAL_EXP.get(key)),
-            "final": False, "quantities": {}, "joint": {}, "LB": None}
+    E = {"events": events, "analysis": analysis, "catalogs": catalogs, "free": free, "stage": f"{STAGE_TITLE[stage]}, {N} realizations",
+         "N_comb": N, "N_comb_source": why, "realizations": RUNREAL.get(key, RUNREAL_EXP.get(key)),
+         "final": False, "quantities": {}, "joint": {}, "LB": None}
+    if key in PLACEHOLDER_N and PLACEHOLDER_N[key] != N:
+        E["N_placeholder"] = PLACEHOLDER_N[key]
+        E["N_placeholder_why"] = (f"the invented combination of this red placeholder is the one made for {PLACEHOLDER_N[key]} realizations on 23 Nov; "
+                                  f"the key combines {N} since 25 Nov (placeholder_results.PLACEHOLDER_N)")
+    return E
+
+
+def n_invent(E):
+    """The N of the header rule for E's invented combinations: N_placeholder where the key's runs grew after its placeholder was made."""
+    return E.get("N_placeholder", E["N_comb"])
 
 
 def q_put(E, q, A, comb, srcA, srcC, fileA=None, fileC=None, x0="default", note=None):
@@ -725,7 +742,7 @@ def build():
             x0 = INP[q] if q in ("Hzero", "fAGN") else None
             A = gauss_xp(m, hw, PRIOR[q], x0)
             ref = INP[q]
-            q_put(E, q, A, invented_comb(A, E["N_comb"], ref, bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
+            q_put(E, q, A, invented_comb(A, n_invent(E), ref, bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
                   note=("one population for a mixture: no single input" if x0 is None else None) if inv_note is None else qnote(q))
         K[f"{pre}Single"] = E
         # host-dependent populations
@@ -762,7 +779,7 @@ def build():
         for q, (m, hw, b) in spec.items():
             x0 = INP[q] if q == "Hzero" else None
             A = gauss_xp(m, hw, PRIOR[q], x0)
-            q_put(E, q, A, invented_comb(A, E["N_comb"], INP[q], bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
+            q_put(E, q, A, invented_comb(A, n_invent(E), INP[q], bias=b, rng=PRIOR[q]), "invented", "invented (the bias survives the combination)", x0=x0,
                   note=qnote(q))
         K[f"{pre}None"] = E
     # ======== 23 Nov: the experiment's runs on the host-dependent sets as keys (notes/MACRO_REQUESTS.md G1; invented placeholders) ========

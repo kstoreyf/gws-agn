@@ -645,6 +645,18 @@ STAGE_V_KEY_RUNS = {
                "stage": "V8", "variant": "unif_then_rslice", "realizations": (100, 101, 102, 103, 105)},
 }
 SAMPLER_FLAGS = ("--sample", "--auto-switch-sample", "--auto-switch-cpi", "--init-from", "--switch-sample")
+# 25 Nov: keys whose run pattern has more realizations in the run lists than the key reads yet. analysis_16's make_runlist.py added the
+# experiment's set peak_f0p30_s1 on realizations 106-110 (EXPERIMENT_EXTRA; a check of realization 109's low H0) and stage V8's
+# eight-parameter run on 106-110 (V8_LATER); the runs are queued, not run, and a key that named them would turn red. A key listed here reads
+# only these realizations (production.build_map, placeholder_results._experiment_realizations; audit_values._OWN_KEY_REALIZATIONS_HELD by own
+# code); key HDHost's realizations are STAGE_V_KEY_RUNS' own list. notes/MACRO_REQUESTS.md J gives the edit that extends each to ten.
+KEY_REALIZATIONS_HELD = {"HDPops": (100, 101, 102, 103, 105), "HDAssumed": (100, 101, 102, 103, 105)}
+
+
+def held_realizations(key, reals):
+    """reals restricted to KEY_REALIZATIONS_HELD[key] (as given for a key not listed)."""
+    h = KEY_REALIZATIONS_HELD.get(key)
+    return [r for r in reals if r in h] if h else list(reals)
 
 
 def stage_v_key_runs(idx, key):
@@ -1738,6 +1750,14 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   (events metadata `realised.realised_f_agn`, the summaries' `planted.truth_f_agn`). Half-widths of the single population on the
   realizations of `\\HWHost` and the factor in mergers: `\\HWHDSingle`, `\\HWObsSingle`, `\\CostSingleHost`, `\\CostObsSingleHost`
   (scripts/classes.py).
+- Realizations of stage 5 (25 Nov; notes/MACRO_REQUESTS.md J): `ObsSingle` and `ObsNone` combine ten realizations (100, 101, 102,
+  103, 105, 106-110; analysis_16 `make_runlist.STAGE5_LATER`), `ObsHost` five. **`\\NrealObsSingle`**, **`\\NrealObsNone`** count the
+  first two; `\\NrealObs` counts `ObsHost` alone. Whatever pairs the single population with the host-dependent populations on the same
+  mergers stays on the realizations common to both (`ObsHost`'s): `\\ObsLB`, `\\ObsHostLB[Comb]`, `\\ObsLBMin`, `\\ObsLBMax`,
+  `\\HWObsSingle[Min|Max]`, `\\CostObsSingleHost[Min|Max]`; so do `\\ObsHDfDetMean` and the subsets `First`/`Later` of
+  `ObsPops`/`ObsAssumed` (`\\NrealObsFirst`: realizations that carry all three keys of stage 5). The red placeholders of `ObsSingle` and
+  `ObsNone` keep the combination invented for five (`placeholder_results.PLACEHOLDER_N`). Keys `HDPops` and `HDAssumed` stay on their five
+  realizations although the run list has ten (`build_values.KEY_REALIZATIONS_HELD`), and `HDHost` on its five (`STAGE_V_KEY_RUNS`).
 - The observed-like family on the mixture redraw (23 Nov, 23:30 UTC; notes/MACRO_REQUESTS.md H; `build_values.OBS_MIX`, audit J8).
   Every key and macro that read the observed-like grids of stage E2 reads their partners of stage E2M (analysis_16: the same arguments
   plus `--redraw-mixture support`, run names `<E2 name>_mix`): keys `ObsAssumed`, `ObsPops` (and with them their subsets
@@ -2799,10 +2819,11 @@ SUBSET_PH_HW = 0.8       # 90% half-width (km/s/Mpc) of five realizations' combi
 
 def obs_subsets(specs):
     """23 Nov: {"First": [...], "Later": [...]} of the observed-like keys ObsPops and ObsAssumed (each over every realization of its runs,
-    RUNLIST_experiment.yaml): First = the realizations that also carry stage 5 (key ObsSingle's), Later = the others (the further
-    realizations of make_runlist.EXPERIMENT_EXTRA)."""
+    RUNLIST_experiment.yaml): First = the realizations that also carry stage 5 (25 Nov: all three of its keys, ObsSingle, ObsHost and
+    ObsNone; the single-population keys have ten realizations since 25 Nov, ObsHost five), Later = the others (the further realizations of
+    make_runlist.EXPERIMENT_EXTRA)."""
     reals = sorted(set(specs.get("ObsAssumed", {}).get("realizations", [])) & set(specs.get("ObsPops", {}).get("realizations", [])))
-    s5 = set(specs.get("ObsSingle", {}).get("realizations", []))
+    s5 = set.intersection(*(set(specs.get(k, {}).get("realizations", [])) for k in ("ObsSingle", "ObsHost", "ObsNone")))
     return {"First": [r for r in reals if r in s5], "Later": [r for r in reals if r not in s5]}
 
 
@@ -3415,7 +3436,11 @@ def build_requests():
     nreal("NrealHD", ["HDHost"], "realizations combined, host-dependent populations analysis of host-dependent mergers, peak-dominated spectrum (key HDHost)")
     nreal("NrealHDSingle", ["HDSingle"], "realizations combined, single-population analysis of host-dependent mergers, both catalogs (key HDSingle)")
     nreal("NrealHDNone", ["HDNone"], "realizations combined, single-population analysis of host-dependent mergers, no catalog (key HDNone)")
-    nreal("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"], "realizations combined, observed-like spectrum, all three analyses (keys ObsSingle, ObsHost, ObsNone; Stage 5 of RUNLIST.yaml)")
+    # 25 Nov: stage 5's single-population keys take ten realizations (analysis_16 make_runlist.STAGE5_LATER), the host-dependent one keeps five
+    nreal("NrealObs", ["ObsHost"], "realizations combined, observed-like spectrum, host-dependent populations (key ObsHost; Stage 5 of RUNLIST.yaml; "
+          "until 25 Nov also the number of ObsSingle and ObsNone, now NrealObsSingle and NrealObsNone)")
+    nreal("NrealObsSingle", ["ObsSingle"], "realizations combined, observed-like spectrum, single population, both catalogs (key ObsSingle; Stage 5 of RUNLIST.yaml)")
+    nreal("NrealObsNone", ["ObsNone"], "realizations combined, observed-like spectrum, single population, no catalog (key ObsNone; Stage 5 of RUNLIST.yaml)")
     nreal("NrealCtrl", ["CtrlZero", "CtrlTenth"], "realizations combined, each of the two control sets (no AGN-hosted mergers; one in ten) (keys CtrlZero, CtrlTenth; the experiment's f = 0 and f = 0.1 "
           "sets with both catalogs, RUNLIST_experiment.yaml" + ("" if all(k in PR.RUNREAL_EXP for k in ("CtrlZero", "CtrlTenth")) else "; run R4 of runs.txt, not yet in a run list") + ")")
     # 23 Nov (notes/MACRO_REQUESTS.md G1): the experiment's keys of Sec. IV E (RUNLIST_experiment.yaml); one number for the keys the text
@@ -3430,20 +3455,22 @@ def build_requests():
     # 23 Nov: the two subsets of those realizations (build_obslike_subsets): the ones that carry stage 5 (key ObsSingle, RUNLIST.yaml) and the
     # further ones (make_runlist.EXPERIMENT_EXTRA), from the run lists
     ro = sorted(set(PR.RUNREAL_EXP.get("ObsAssumed", [])) & set(PR.RUNREAL_EXP.get("ObsPops", [])))
-    s5 = set(PR.RUNREAL.get("ObsSingle", []))
-    for nm, rs, what in (("NrealObsFirst", [r for r in ro if r in s5], "that also carry stage 5 (key ObsSingle)"),
-                         ("NrealObsLater", [r for r in ro if r not in s5], "added to them (realizations without stage 5)")):
+    # 25 Nov: stage 5's realizations are those that carry all three of its analyses (ObsSingle and ObsNone have ten since 25 Nov, ObsHost five)
+    s5 = set(PR.RUNREAL.get("ObsSingle", [])) & set(PR.RUNREAL.get("ObsHost", [])) & set(PR.RUNREAL.get("ObsNone", []))
+    for nm, rs, what in (("NrealObsFirst", [r for r in ro if r in s5], "that also carry stage 5 (keys ObsSingle, ObsHost, ObsNone)"),
+                         ("NrealObsLater", [r for r in ro if r not in s5], "added to them (realizations without all of stage 5)")):
         add(nm, "plain", NUM_WORD.get(len(rs), str(len(rs))), len(rs), "realizations",
             f"realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2M) {what}: "
             f"{', '.join(map(str, rs))} (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
             {"file": rel(PR.RUNLIST_EXP), "computation": f"realizations of both keys' runs {'that' if nm.endswith('First') else 'that do not'} appear "
-             f"among key ObsSingle's in {rel(PR.RUNLIST)}"}, "design,realizations", extra={"realizations": rs})
+             f"among those of keys ObsSingle, ObsHost and ObsNone alike in {rel(PR.RUNLIST)}"}, "design,realizations", extra={"realizations": rs})
     # 23 Nov (G2): the AGN-hosted share of the detected mergers of the host-dependent sets, the mean over the realizations of the single
     # population's key (realization A alone: MockHDfDet), from each realization's events metadata (realised.realised_f_agn, the number the
     # run summaries record as planted.truth_f_agn)
     for nm, key, stem, what in (("MockHDfDetMean", "HDSingle", "marked_dmu0p10_dmuG5_corepop", "peak-dominated"),
                                 ("ObsHDfDetMean", "ObsSingle", "marked_dmu0p10_dmuG5_obslike", "observed-like")):
-        reals = PR.RUNREAL[key]
+        # 25 Nov: ObsSingle has ten realizations, ObsHost five; the observed-like mean stays on the realizations common to both (as before)
+        reals = PR.RUNREAL[key] if key == "HDSingle" else [r for r in PR.RUNREAL[key] if r in PR.RUNREAL.get("ObsHost", [])]
         files = {r: DATA / f"seed{r}" / "events" / f"events_meta_{stem}.json" for r in reals}
         per = {r: float(jload(p)["realised"]["realised_f_agn"]) for r, p in files.items()}
         m = float(np.mean(list(per.values())))

@@ -1,4 +1,4 @@
-# Checkpoint, 25 Nov 2026, 22:50 UTC (read this first after a context clear)
+# Checkpoint, 26 Nov 2026, 01:00 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -42,19 +42,40 @@ this file holds the working state.
   (f_AGN) with the population known, four of five and five of five with host-dependent
   populations. Coverage of the other keys: HDPops 4 of 5, HDSingleTwice 4 of 5 (realization
   103 above in each), ObsPops 13 of 15 (103 below; 106 above by 0.008).
-- IN PROGRESS (22:45 UTC): an Opus agent (id `ae0cd4108e0ead75b`) adds to the run lists
-  (A) the five eight-parameter runs `host_dependent_populations/both_catalogs/complete/
-  host_dependent/realization_1{06..10}_unif_then_rslice` (stage V8, lane rank 9.5), (B) ten
-  six-parameter stage-5 runs on `host_dependent_obslike` realizations 106 to 110 (with the
-  mixture option, rank 8), (C) ten grids, the analyses of keys HDPops and HDAssumed on
-  realizations 106 to 110 (rank 1.5; they say whether realization 109's mergers are a low
-  draw); in the chain: keys ObsSingle and ObsNone over ten realizations with count macros
-  `\NrealObsSingle`, `\NrealObsNone` (`\NrealObs` stays five for ObsHost); a note on how to
-  extend HDHost, HDPops, HDAssumed to ten later; one refresh; three launcher commands with
-  dry runs. THEN (you): check its proofs (only 25 runs added; no macro changed but the new
-  counts), queue C, A, B with the commands it gives (dry run first), edit the lines of
-  `main.tex` that use `\NrealObs` for the single-population analyses, commit, arm a watcher
-  on the ten grids of group C (about 3 GPU-h; they run ahead of stage 3).
+- QUEUED 00:47 UTC 26 Nov (the agent's entries checked by me against the commit before: 25
+  runs added, none removed, no existing run changed, arguments differ from a partner's only
+  by the realization; no macro changed but two new counts):
+  C. ten grids `two_tracers_{two_populations,one_population}/both_catalogs/complete/
+     peak_f0p30_s1/realization_1{06..10}` (stage E1, rank 1.5, 1.8 GPU-h): they start when
+     each lane's present stage-3 part ends and are in by about 03:00 UTC. WATCHER `by4c1r4ut`
+     (ten summaries, an error outcome, or 05:30 UTC; list `tests/results/
+     hd_grids_106_110.txt`).
+  A. five eight-parameter runs `host_dependent_populations/both_catalogs/complete/
+     host_dependent/realization_1{06..10}_unif_then_rslice` (stage V8, rank 9.5, 153.3 GPU-h:
+     106 and one more on lane 1, three on lane 2).
+  B. ten six-parameter stage-5 runs `single_population/{both_catalogs,no_catalog}/complete/
+     host_dependent_obslike/realization_1{06..10}` (rank 8, 35.5 GPU-h, the mixture option
+     on, names without the token as stage 5's).
+  LANE ORDER NOW (both lanes): E1 grids (0.9 h), stage 3 first five (rank 7: 11 and 8 h),
+  stage 5 six-parameter on ten (rank 8: 35.5 h each), stage 3 second five (rank 9: 15 h
+  each), the eight-parameter runs of 106 to 110 (rank 9.5: 61 and 92 h), stage 5's
+  eight-parameter runs (rank 10: 106 and 71 h). Totals 230 and 222 GPU-h: about 5 Dec.
+  I had told the owner the eight-parameter runs of 106 to 110 were "about 26 h away"; they
+  are about 2.5 days away (the rank-8 block is ahead of them); corrected to the owner at
+  00:55 UTC. Still behind all of stage 3 and ahead of stage 5's eight-parameter runs.
+- CHAIN: keys ObsSingle and ObsNone cover ten realizations (100 to 103, 105, 106 to 110);
+  `\NrealObsSingle`, `\NrealObsNone` (ten); `\NrealObs` stays five and counts ObsHost. The
+  macros that pair ObsSingle with ObsHost (`\ObsLB...`, `\HWObsSingle`, `\CostObsSingleHost`)
+  use the five common realizations. HDPops and HDAssumed are HELD at five
+  (`build_values.KEY_REALIZATIONS_HELD`), HDHost at five (`STAGE_V_KEY_RUNS`); the exact edits
+  that take each to ten are in `notes/MACRO_REQUESTS.md` Sec. J (HDHost when group A has
+  finished; HDPops and HDAssumed when group C has, with a new `\NrealHDAssumedTwice` and
+  main.tex's lines on "any of the ... realizations" for the twice-offset sentence).
+  `main.tex`: Table III's two single-population rows of the observed-like block and Sec.
+  IV F's sentence use the new counts; "The five realizations that carry the host-dependent
+  analysis below, and half of the single-population analysis, lie low". Refresh 01:00 UTC:
+  exit 0. FIG. 7 will combine the single population over ten and the host-dependent
+  analysis over five: decide its drawing when stage 5 is real (Do next, item 3).
 - WHEN THE TEN GRIDS ARE IN: realization 109 with both populations at their inputs. If low
   (near 64 to 65): the draw of its mergers; reword the `% REREAD` sentence of Sec. IV E to
   say so with the number. If on the input: the single-population analysis of that set is
@@ -495,9 +516,11 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
 
 ### Running now, and what each needs from you
 - LANE 1 (job 1534275, limit 05:50 UTC 27 Nov, successor 1592195) and LANE 2 (job 1534274,
-  same limit, successor 1592194): stage 3 (33 and 28 tasks at 21:44 UTC 25 Nov), then what
-  the top block queues, then stage 5.
-- THE AGENT of the top block. No watcher is armed.
+  same limit, successor 1592194): the order of the top block ("LANE ORDER NOW").
+- WATCHER `by4c1r4ut`: the ten grids of realizations 106 to 110 (top block). No agent runs.
+- NEXT EVENTS: those grids (about 03:00 UTC 26 Nov); stage 3's first five, keys SingleBoth and
+  SingleNone need all ten realizations (rank 9 block: about 2.5 days); arm a watcher on stage
+  3 and on stage 5's six-parameter runs after the grids (summaries, error outcome, limit).
 
 ### Do next, in order
 1. (DONE 07:10 UTC 25 Nov, top blocks.) When the seven open E2M grids are in:

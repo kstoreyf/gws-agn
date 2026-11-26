@@ -1,4 +1,4 @@
-generated_utc: '2026-11-23T23:30:00Z'
+generated_utc: '2026-11-26T00:19:54Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -4621,12 +4621,12 @@ stages:
     data_exists: true
 - stage: 5
   title: observed-like mass spectrum, host-dependent events
-  n_runs: 15
-  n_tasks: 25
-  est_calls: 1408115
-  est_gpu_hours: 212.25
-  est_gpu_hours_existing_data: 212.25
-  est_gpu_hours_ready: 212.25
+  n_runs: 25
+  n_tasks: 45
+  est_calls: 1733115
+  est_gpu_hours: 247.78
+  est_gpu_hours_existing_data: 247.78
+  est_gpu_hours_ready: 247.78
   n_runs_held: 0
   runs:
   - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_100
@@ -5529,16 +5529,781 @@ stages:
     redraw_mixture: support
     run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
       stage 5 existed), so the name carries no mix token'
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_106
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_106
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 18,000 calls per part (calls_by_ndim[6])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (both catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_100
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_101
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_102
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_103
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_agn_complete_ns32.h5
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_107
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_107
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 18,000 calls per part (calls_by_ndim[6])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (both catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_100
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_101
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_102
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_103
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_agn_complete_ns32.h5
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_108
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_108
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 18,000 calls per part (calls_by_ndim[6])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (both catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_100
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_101
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_102
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_103
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_agn_complete_ns32.h5
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_109
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_109
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 18,000 calls per part (calls_by_ndim[6])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (both catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_100
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_101
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_102
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_103
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_agn_complete_ns32.h5
+  - name: single_population/both_catalogs/complete/host_dependent_obslike/realization_110
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/both_catalogs/complete/host_dependent_obslike/realization_110
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 6
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 36000
+    est_seconds_per_call: 0.4669
+    est_gpu_hours: 4.714
+    est_gpu_hours_per_part: 2.357
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 18,000 calls per part (calls_by_ndim[6])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (both catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_100
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_101
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_102
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_103
+      - single_population/both_catalogs/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_agn_complete_ns32.h5
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_106
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_106
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 14,500 calls per part (calls_by_ndim[5])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (none catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_100
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_101
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_102
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_103
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys: []
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_107
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_107
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 14,500 calls per part (calls_by_ndim[5])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (none catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_100
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_101
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_102
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_103
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys: []
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_108
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_108
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 14,500 calls per part (calls_by_ndim[5])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (none catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_100
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_101
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_102
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_103
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys: []
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_109
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_109
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 14,500 calls per part (calls_by_ndim[5])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (none catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_100
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_101
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_102
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_103
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys: []
+  - name: single_population/no_catalog/complete/host_dependent_obslike/realization_110
+    analysis: single_population
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - single_population
+    - --catalogs
+    - none
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _obslike
+    - --family-name
+    - obslike
+    - --population-family
+    - obslike
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_obslike.h5
+    - --redraw-mixture
+    - support
+    - --run-name
+    - single_population/no_catalog/complete/host_dependent_obslike/realization_110
+    injections_lane: injections/injections_targeted_obslike.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: 5
+    mode: nested
+    free:
+    - H0
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    n_parameters: 5
+    parts:
+    - nested_1
+    - nested_2
+    est_calls: 29000
+    est_seconds_per_call: 0.2913
+    est_gpu_hours: 2.392
+    est_gpu_hours_per_part: 1.196
+    priority: 0.0
+    lane_rank: 8
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_obslike.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_obslike.h5
+    data_exists: true
+    redraw_mixture: support
+    run_name_kept: '--run-name: the run was queued on the lanes by this name before the option existed (23 Nov, 23:30 UTC; no run directory of
+      stage 5 existed), so the name carries no mix token'
+    est_calls_source: 'the partners'' estimate (none of stage 5''s runs of this class on 100-105 has finished): 14,500 calls per part (calls_by_ndim[5])'
+    est_seconds_per_call_source: 'the partners'' estimate: the record lane''s seconds per call of the class times the observed-like lane factor
+      (none catalogs)'
+    extends:
+      stage: 5
+      partners:
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_100
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_101
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_102
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_103
+      - single_population/no_catalog/complete/host_dependent_obslike/realization_105
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization and --run-name (the run name, realization replaced)
+      why: stage 5's single-population analyses on five more realizations (approved 25 Nov); the paper's keys ObsSingle and ObsNone take ten realizations,
+        ObsHost keeps its five
+    surveys: []
 - stage: V8
   title: 'the eight-parameter sampler: stage 4''s host-dependent populations sampled uniformly (bootstrap 5) while that is cheaper than rslice
     and with rslice after (realization 100 continued from its stopped uniform run, which is held; realizations 101-105 with the automatic switch
-    at 60 calls per iteration)'
-  n_runs: 6
-  n_tasks: 7
-  est_calls: 1054667
-  est_gpu_hours: 145.35
-  est_gpu_hours_existing_data: 145.35
-  est_gpu_hours_ready: 143.09
+    at 60 calls per iteration; 25 Nov: realizations 106-110 with the same automatic switch, V8_LATER)'
+  n_runs: 11
+  n_tasks: 12
+  est_calls: 2137782
+  est_gpu_hours: 298.66
+  est_gpu_hours_existing_data: 298.66
+  est_gpu_hours_ready: 296.41
   n_runs_held: 1
   runs:
   - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5
@@ -5885,6 +6650,371 @@ stages:
     est_seconds_per_call_source: 'realization 100''s stopped run: runs/host_dependent_populations/both_catalogs/complete/host_dependent/realization_100_unif_boot5/nested_1/sessions.json
       (28810 calls)'
     validates: host_dependent_populations/both_catalogs/complete/host_dependent/realization_105
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_106_unif_then_rslice
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 216623
+    est_seconds_per_call: 0.5092
+    est_gpu_hours: 30.663
+    est_gpu_hours_per_part: 30.663
+    priority: 0.0
+    lane_rank: 9.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137; 101: 207,096;
+      102: 214,184; 103: 226,744; 105: 204,953; realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: 0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions;
+      the same family, lane and analysis)
+    extends:
+      stage: V8
+      partners:
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+      of_realizations:
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization (and the run name)
+      why: the eight-parameter model on five more realizations (approved 25 Nov); the paper's key HDHost keeps its five until these runs exist
+        (paper_prd notes/MACRO_REQUESTS.md J)
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_agn_complete_ns32.h5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_107_unif_then_rslice
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 216623
+    est_seconds_per_call: 0.5092
+    est_gpu_hours: 30.663
+    est_gpu_hours_per_part: 30.663
+    priority: 0.0
+    lane_rank: 9.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137; 101: 207,096;
+      102: 214,184; 103: 226,744; 105: 204,953; realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: 0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions;
+      the same family, lane and analysis)
+    extends:
+      stage: V8
+      partners:
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+      of_realizations:
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization (and the run name)
+      why: the eight-parameter model on five more realizations (approved 25 Nov); the paper's key HDHost keeps its five until these runs exist
+        (paper_prd notes/MACRO_REQUESTS.md J)
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_agn_complete_ns32.h5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_108_unif_then_rslice
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 216623
+    est_seconds_per_call: 0.5092
+    est_gpu_hours: 30.663
+    est_gpu_hours_per_part: 30.663
+    priority: 0.0
+    lane_rank: 9.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137; 101: 207,096;
+      102: 214,184; 103: 226,744; 105: 204,953; realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: 0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions;
+      the same family, lane and analysis)
+    extends:
+      stage: V8
+      partners:
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+      of_realizations:
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization (and the run name)
+      why: the eight-parameter model on five more realizations (approved 25 Nov); the paper's key HDHost keeps its five until these runs exist
+        (paper_prd notes/MACRO_REQUESTS.md J)
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_agn_complete_ns32.h5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_109_unif_then_rslice
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 216623
+    est_seconds_per_call: 0.5092
+    est_gpu_hours: 30.663
+    est_gpu_hours_per_part: 30.663
+    priority: 0.0
+    lane_rank: 9.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137; 101: 207,096;
+      102: 214,184; 103: 226,744; 105: 204,953; realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: 0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions;
+      the same family, lane and analysis)
+    extends:
+      stage: V8
+      partners:
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+      of_realizations:
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization (and the run name)
+      why: the eight-parameter model on five more realizations (approved 25 Nov); the paper's key HDHost keeps its five until these runs exist
+        (paper_prd notes/MACRO_REQUESTS.md J)
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_agn_complete_ns32.h5
+  - name: host_dependent_populations/both_catalogs/complete/host_dependent/realization_110_unif_then_rslice
+    analysis: host_dependent_populations
+    args:
+    - --mode
+    - nested
+    - --analysis
+    - host_dependent_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --sample
+    - unif
+    - --auto-switch-sample
+    - rslice
+    - --auto-switch-cpi
+    - '60'
+    - --variant
+    - unif_then_rslice
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: V8
+    mode: nested
+    free:
+    - H0
+    - f_agn
+    - mu_G
+    - sigma_G
+    - mu_chi
+    - sigma_chi
+    - dmu_G
+    - dmu_chi
+    n_parameters: 8
+    parts:
+    - nested_1
+    est_calls: 216623
+    est_seconds_per_call: 0.5092
+    est_gpu_hours: 30.663
+    est_gpu_hours_per_part: 30.663
+    priority: 0.0
+    lane_rank: 9.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_calls_source: 'mean of the likelihood calls of stage V8''s finished runs realization_NNN_unif_then_rslice (5: 100: 230,137; 101: 207,096;
+      102: 214,184; 103: 226,744; 105: 204,953; realization 100 with its stopped uniform run''s 30,102)'
+    est_seconds_per_call_source: 0.5092 s per call measured on the same runs (seconds in the likelihood over calls, pooled over their sessions;
+      the same family, lane and analysis)
+    extends:
+      stage: V8
+      partners:
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_101_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_102_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_103_unif_then_rslice
+      - host_dependent_populations/both_catalogs/complete/host_dependent/realization_105_unif_then_rslice
+      of_realizations:
+      - 101
+      - 102
+      - 103
+      - 105
+      differs_by: --realization (and the run name)
+      why: the eight-parameter model on five more realizations (approved 25 Nov); the paper's key HDHost keeps its five until these runs exist
+        (paper_prd notes/MACRO_REQUESTS.md J)
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_agn_complete_ns32.h5
 - stage: X
   title: 'checks of two analysis settings on realization 100 (not production results): stage 1''s two-tracer grid with the catalogs pixelized
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at

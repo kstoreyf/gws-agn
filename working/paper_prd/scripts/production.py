@@ -23,6 +23,8 @@ settings as stage 1 (its arguments without --membership, plus --variant nside32)
 realization_NNN_unif_then_rslice for every realization (100, 101, 102, 103, 105): the eight-parameter model with the mixed sampler,
 stage 4's arguments plus the sampler options and the variant only; its pattern is that one (stage_v_realizations, stage_v_why), and
 stage 4's pure-rslice run of realization 100 feeds no key. ObsHost reads stage 5's own .../realization_NNN_unif_then_rslice runs.
+(25 Nov, build_values.KEY_REALIZATIONS_HELD): HDPops and HDAssumed read their five realizations although the run list has ten (the further
+runs are queued, not run); ObsSingle and ObsNone read stage 5's ten, ObsHost its five.
 
 A key turns REAL (final, black macros, final palette in the figures) only when every summary.json it names
 exists (all realizations, and the runs it depends on: the reference of its Bayes factor, the known-density run
@@ -216,6 +218,8 @@ def build_map():
         rx = _pattern_re(pat)
         # the runs of the key's pattern in the production stages (23 Nov: explicit; stages V and X never feed a key, bv.production_stage)
         recs = {int(m.group(1)): r for n, r in runs.items() if bv.production_stage(r["stage"]) and (m := rx.match(n))}
+        # 25 Nov (bv.KEY_REALIZATIONS_HELD): HDPops and HDAssumed keep their five while the further realizations of the run list wait for their runs
+        recs = {R: r for R, r in recs.items() if R in bv.held_realizations(key, [R])}
         # The second deliberate exception (23 Nov, bv.STAGE_V_KEY_RUNS): key HDHost reads stage V8's runs realization_NNN_unif_then_rslice
         # for every realization (the mixed sampler, the production sampler of the eight-parameter model since its comparison with rslice
         # on realization 100), each with stage 4's arguments plus the sampler options and the variant only; stage 4's pure-rslice run of

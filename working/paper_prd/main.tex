@@ -652,9 +652,9 @@ Single population, no catalog & \NrealHDNone & $<\HDNoneHzeroCombUL$ & & & & \\
 \hline
 \multicolumn{7}{l}{Host-dependent populations, observed-like spectrum}\\
 Population assumed, both catalogs & \NrealObsAssumed & $\ObsAssumedHzeroComb$ & $\ObsAssumedfAGNComb$ & & & \\
-Single population, both catalogs & \NrealObs & $\ObsSingleHzeroComb$ & $\ObsSinglefAGNComb$ & & & \\
+Single population, both catalogs & \NrealObsSingle & $\ObsSingleHzeroComb$ & $\ObsSinglefAGNComb$ & & & \\
 Host-dependent populations, both catalogs & \NrealObs & $\ObsHostHzeroComb$ & $\ObsHostfAGNComb$ & $\ObsHostDmuGComb$ & $\ObsHostDmuChiComb$ & $\ObsHostLBComb$\\
-Single population, no catalog & \NrealObs & $\ObsNoneHzeroComb$ & & & & \\
+Single population, no catalog & \NrealObsNone & $\ObsNoneHzeroComb$ & & & & \\
 \end{tabular}
 \end{ruledtabular}
 \end{table*}
@@ -1223,8 +1223,8 @@ $H_0=\ObsAssumedHzeroComb\,\kms$, with the input at the
 \ObsAssumedHzeroCL\% credible level and outside the 90\% interval, and the
 two populations at their inputs give $\ObsPopsHzeroComb\,\kms$, with the
 input at the \ObsPopsHzeroCL\% level.
-The \NrealObsFirst{} realizations that carry the analyses with inferred
-populations below lie low: with the two populations at their inputs they
+The \NrealObsFirst{} realizations that carry the host-dependent analysis
+below, and half of the single-population analysis, lie low: with the two populations at their inputs they
 combine to $\ObsPopsFirstHzeroComb\,\kms$, the input at the
 \ObsPopsFirstHzeroCL\% level, against $\ObsPopsLaterHzeroComb\,\kms$ and the
 \ObsPopsLaterHzeroCL\% level for the other \NrealObsLater, which we read as
@@ -1232,8 +1232,8 @@ the draw of those \NrealObsFirst.
 With no catalog
 the single-population analysis gives $H_0=\ObsNoneHzero\,\kms$ on
 realization A, against $\HDNoneHzero\,\kms$ for the peak-dominated spectrum.
-With both catalogs the single-population analysis combined over \NrealObs{}
-realizations gives $H_0=\ObsSingleHzeroComb\,\kms$, with the input at the
+With both catalogs the single-population analysis combined over
+\NrealObsSingle{} realizations gives $H_0=\ObsSingleHzeroComb\,\kms$, with the input at the
 \ObsSingleHzeroCL\% credible level; the 90\% half-width of realization A
 alone is $\ObsSingleHzeroHalfWid\,\kms$. % EXPECTED
 The host-dependent analysis gives $H_0=\ObsHostHzeroComb\,\kms$, with the

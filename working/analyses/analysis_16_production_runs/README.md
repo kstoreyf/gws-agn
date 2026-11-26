@@ -15,6 +15,9 @@ continued from its stopped uniform run, realizations 101-105 with the automatic 
 **23 Nov, 23:30 UTC:** every analysis of the observed-like mass spectrum takes the defensive mixture redraw (driver option
 `--redraw-mixture support`, section "The mixture redraw" below): stage E2M (a `_mix` partner of each of E2's 95 grids, not queued yet)
 and stage 5 (same run names, `--run-name`); E2's runs stay as they are; both run lists regenerated; `launch.py stage --spread`.
+**25 Nov, 23:30 UTC:** realizations 106-110 of approved runs (section "Realizations 106-110 of approved runs" below): (A) stage V8's
+eight-parameter run, rank 9.5; (B) stage 5's two single-population classes, rank 8; (C) E1's two grids of `peak_f0p30_s1` (keys HDPops,
+HDAssumed), rank 1.5. 25 entries appended, no existing entry changed; both run lists regenerated (not queued).
 
 ## What it runs
 
@@ -202,7 +205,7 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 
 | rank | runs |
 |---|---|
-| 1.0, 1.5 | stage 1; E1, E2 and E2M |
+| 1.0, 1.5 | stage 1; E1, E2 and E2M (25 Nov: with E1's `peak_f0p30_s1` grids of 106-110) |
 | 2 | stage 2, the grids (known population, flux-limited) |
 | 2.5 | stage V8 (eight-parameter sampler, below), realization 100: the rslice continuation |
 | 2.8 | stage 2, the nested runs (free densities; rank 6 until 18 Nov) |
@@ -213,8 +216,9 @@ the experiment's grids (f = 0.3 sets first, then 0.1 and 0.5, then the rest; s, 
 | 4 | E3 |
 | 5 | stage 4, single population with both catalogs, realizations 106-110 |
 | 7 | stage 3 on realizations 100, 101, 102, 103, 105 |
-| 8 | stage 5, the six- and five-parameter runs |
+| 8 | stage 5, the six- and five-parameter runs (25 Nov: also on realizations 106-110) |
 | 9 | stage 3 on realizations 106-110 |
+| 9.5 | stage V8 on realizations 106-110 (25 Nov; unif, then rslice automatically): after all of stage 3, before stage 5's eight-parameter runs |
 | 10 | stage 5, the eight-parameter runs (mixed sampler; 23 Nov): after every six-parameter run |
 
 **One lane** (default; this project may run one job at a time on RITA-GPU): every job the launcher
@@ -274,9 +278,10 @@ lane has 2.9e6 detected injections against the record's 2.2e6.
 | 2 flux-limited catalogs (grids; free densities nested) | 44 | 56 | 216,704 | 10.0 | 10.0 |
 | 3 equal-population events, single population | 20 | 40 | 650,000 | 60.4 | 60.4 |
 | 4 host-dependent events (peak lane; 23 Nov: one eight-parameter run left, realization 100) | 16 | 31 | 777,000 | 83.6 | 83.6 |
-| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler; cost from V8's five finished runs; 23 Nov, 23:30: `--redraw-mixture support`, names kept) | 15 | 25 | 1,408,115 | 212.3 | 212.3 |
+| 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler; cost from V8's five finished runs; 23 Nov, 23:30: `--redraw-mixture support`, names kept; 25 Nov: the two single-population classes also on 106-110) | 25 | 45 | 1,733,115 | 247.8 | 247.8 |
+| V8 the eight-parameter sampler (realization 100's stopped uniform run, held; its continuation; 101-105 automatic; 25 Nov: 106-110 automatic) | 11 | 12 | 2,137,782 | 298.7 | 296.4 |
 | X checks of analysis settings, not production (23 Nov: with realization 106's two observed-like grids at 32000 samples) | 119 | 119 | 82,390 | 27.5 | 27.4 |
-| E1 experiment grids, peak family | 235 | 235 | 147,745 | 28.5 | 28.5 |
+| E1 experiment grids, peak family (25 Nov: with the ten grids of `peak_f0p30_s1` on 106-110) | 245 | 245 | 160,075 | 30.3 | 30.3 |
 | E2 experiment grids, observed-like family (23 Nov: with the twenty grids of realizations 106-115, below; no key or macro of the paper reads them since 23 Nov, 23:30) | 95 | 95 | 63,290 | 11.4 | 11.4 |
 | E2M E2's grids with the mixture redraw (23 Nov, 23:30; below; cost: the partners' measured calls and seconds per call) | 95 | 95 | 69,560 | 12.0 | 12.0 |
 | E3 experiment nested, (f = 0.3, s = 2) | 5 | 10 | 180,000 | 20.5 | 20.5 |
@@ -318,7 +323,36 @@ the arguments of the set's five but for the realization (checked by the builder)
 on the five (0.445 and 0.483), 3.4 GPU-h estimated and 3.7 h measured; lane rank 1.5 (E2's). Each entry carries `extends`. The
 paper's keys `ObsPops` and `ObsAssumed` read all fifteen by their run pattern (`paper_prd/values/production_map.json`);
 `paper_prd/scripts/classes.py` keeps the experiment's macros on the experiment's five. Stage 5's nested runs stay on realizations
-100-105.
+100-105 (25 Nov: their single-population classes also on 106-110, below).
+
+**Realizations 106-110 of approved runs (25 Nov; `make_runlist.py` section "25 Nov: further realizations of approved runs").** Each
+entry is built by the code of its partners (the runs of 100-105 it extends, field `extends`), its arguments are checked by the builder
+against every partner's with the realization and the run name set aside (the driver's resolved configurations then differ in the
+realization's files, truth, redraw key and run name alone, CPU), and it is held while a survey file is missing. The files exist for every
+realization: peak-dominated host-dependent events and the peak lane generated 17 Nov (the events and lane of stage 4), the observed-like
+host-dependent events and lane 23 Nov (E2's 106-115), surveys 17 Sep. CPU resolve test of the 25 entries alone (35 tasks, all pass):
+`tests/results/runlist_resolve_r106_110.json`.
+- (A) `V8_LATER`, `build_v8_later`: `host_dependent_populations/both_catalogs/complete/host_dependent/realization_1{06..10}_unif_then_rslice`,
+  stage V8, the arguments of the automatic V8 runs of 101, 102, 103, 105 but the realization (realization 100's continuation is no
+  template); 216,623 calls and 0.5092 s per call each (V8's five finished runs, `v8_measured_cost`), 30.7 GPU-h each, 153.3 for the five;
+  lane rank 9.5. The paper's key HDHost keeps its five (`paper_prd` `build_values.STAGE_V_KEY_RUNS`).
+- (B) `STAGE5_LATER`, `build_stage5_later`: `single_population/{both_catalogs,no_catalog}/complete/host_dependent_obslike/realization_1{06..10}`,
+  stage 5's own entries for those realizations (`--redraw-mixture support --run-name <name>`), appended after the fifteen; the arguments
+  of stage 5's entries of 100-105 but the realization and the `--run-name` value; cost the partners' estimate while none of them has
+  finished (18,000 calls per part at 0.467 s and 14,500 at 0.291 s: 4.7 and 2.4 GPU-h per run, 35.5 for the ten); lane rank 8. The paper's
+  keys ObsSingle and ObsNone take ten realizations; ObsHost keeps its five.
+- (C) `EXPERIMENT_EXTRA[("peak", 0.3, 1)]`: `two_tracers_{two_populations,one_population}/both_catalogs/complete/peak_f0p30_s1/realization_1{06..10}`,
+  stage E1, the arguments of the set's five but the realization (realization 100's carry `--membership` in addition, as for the
+  observed-like set); calls and seconds per call the means measured on the five (1147 and 1319 calls: one of the one-population grids
+  widened its fine grid; 0.478 and 0.441 s), 1.8 GPU-h for the ten; lane rank 1.5, the set's priority. `data/experiment_sets.json` lists
+  this set's injections for 100-105 only, so for 106-110 the builder takes the files from disk and checks that they are those of stage 4's
+  single-population run of the realization (field `lane_record`). Why: stage 4's single population puts realization 109 at H0 64.2
+  [62.5, 66.3]; these grids say whether its mergers are a low draw. The paper's keys HDPops and HDAssumed keep their five
+  (`build_values.KEY_REALIZATIONS_HELD`; the edit that extends them: `paper_prd/notes/MACRO_REQUESTS.md` J).
+Queue (dry runs in the 25 Nov report): `$PY scripts/launch.py --lanes 2 stage E1 --spread --match
+'^two_tracers_(one_population|two_populations)/both_catalogs/complete/peak_f0p30_s1/realization_1(0[6-9]|10)$'`; `$PY scripts/launch.py
+--lanes 2 stage V8 --match '^host_dependent_populations/both_catalogs/complete/host_dependent/realization_1(0[6-9]|10)_unif_then_rslice$'`;
+`$PY scripts/launch.py --lanes 2 stage 5 --spread --match '^single_population/(both_catalogs|no_catalog)/complete/host_dependent_obslike/realization_1(0[6-9]|10)$'`.
 
 Queued 17 Nov (one chain, job agn-prod-l1 1414946 and its successors): stage 1, then E1 and E2 in the
 order s = 0, 1, 2 and within each f = 0.3, then 0.1 and 0.5, then 0 and 1. Nested stages (2-4, E3) wait

@@ -1,4 +1,4 @@
-generated_utc: '2026-11-23T23:30:00Z'
+generated_utc: '2026-11-26T00:19:54Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -167,12 +167,12 @@ reused_from_stage_1:
 stages:
 - stage: E1
   title: experiment grids, present mass spectrum
-  n_runs: 235
-  n_tasks: 235
-  est_calls: 147745
-  est_gpu_hours: 28.54
-  est_gpu_hours_existing_data: 28.54
-  est_gpu_hours_ready: 28.54
+  n_runs: 245
+  n_tasks: 245
+  est_calls: 160075
+  est_gpu_hours: 30.33
+  est_gpu_hours_existing_data: 30.33
+  est_gpu_hours_ready: 30.33
   n_runs_held: 0
   runs:
   - name: galaxy_catalog_alone/galaxy_catalog/complete/peak_f0p30_s0/realization_100
@@ -5533,6 +5533,696 @@ stages:
     events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/events/events_marked_dmu0p10_dmuG5_corepop.h5
     injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed105/injections/injections_targeted_peak.h5
     data_exists: true
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_106
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4778
+    est_gpu_hours: 0.175
+    est_gpu_hours_per_part: 0.175
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 1147,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 106''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_106 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_107
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4778
+    est_gpu_hours: 0.175
+    est_gpu_hours_per_part: 0.175
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 1147,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 107''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_107 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_108
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4778
+    est_gpu_hours: 0.175
+    est_gpu_hours_per_part: 0.175
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 1147,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 108''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_108 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4778
+    est_gpu_hours: 0.175
+    est_gpu_hours_per_part: 0.175
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 1147,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_110
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4778
+    est_gpu_hours: 0.175
+    est_gpu_hours_per_part: 0.175
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 1147,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 110''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_110 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_106
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '106'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1319
+    est_seconds_per_call: 0.4412
+    est_gpu_hours: 0.184
+    est_gpu_hours_per_part: 0.184
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 2008,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 106''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_106 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed106/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_107
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '107'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1319
+    est_seconds_per_call: 0.4412
+    est_gpu_hours: 0.184
+    est_gpu_hours_per_part: 0.184
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 2008,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 107''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_107 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed107/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_108
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '108'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1319
+    est_seconds_per_call: 0.4412
+    est_gpu_hours: 0.184
+    est_gpu_hours_per_part: 0.184
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 2008,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 108''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_108 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed108/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_109
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1319
+    est_seconds_per_call: 0.4412
+    est_gpu_hours: 0.184
+    est_gpu_hours_per_part: 0.184
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 2008,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_agn_complete_ns32.h5
+  - name: two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_110
+    analysis: two_tracers_one_population
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_one_population
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '110'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: E1
+    mode: grid
+    free:
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1319
+    est_seconds_per_call: 0.4412
+    est_gpu_hours: 0.184
+    est_gpu_hours_per_part: 0.184
+    priority: 100
+    lane_rank: 1.5
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: mean measured on the set's runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5; their sessions)
+    est_calls_source: 'mean measured on the set''s runs of this analysis on realizations 100, 101, 102, 103, 105 (5 of 5: 1147, 1147, 1147, 2008,
+      1147; a run whose fine grid is widened takes 2008)'
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_one_population
+      of_realizations:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 105
+      why: 'realization 109''s single-population posterior (stage 4, key HDSingle) sits at H0 64.2 [62.5, 66.3]: with the populations at their
+        inputs and assumed, five more realizations say whether its mergers are a low draw'
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 110''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_110 (checked here), on disk: yes'
+    surveys:
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed110/surveys/survey_agn_complete_ns32.h5
   - name: mass_spectrum_alone/no_catalog/complete/peak_f0p30_s1/realization_100
     analysis: mass_spectrum_alone
     set:

@@ -262,14 +262,19 @@
 ]
 },
 "ObsSingle": {
-"N": 5,
-"source": "RUNLIST.yaml: 5 runs {'analysis': 'single_population', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105]",
+"N": 10,
+"source": "RUNLIST.yaml: 10 runs {'analysis': 'single_population', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110]",
 "realizations": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ]
 },
 "ObsHost": {
@@ -284,14 +289,19 @@
 ]
 },
 "ObsNone": {
-"N": 5,
-"source": "RUNLIST.yaml: 5 runs {'analysis': 'single_population', 'catalogs': 'none', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105]",
+"N": 10,
+"source": "RUNLIST.yaml: 10 runs {'analysis': 'single_population', 'catalogs': 'none', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110]",
 "realizations": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ]
 },
 "CtrlTenth": {
@@ -653,10 +663,13 @@
 },
 "SingleNone": {
 "state": "partial",
-"n_have": 1,
+"n_have": 4,
 "n_need": 10,
 "realizations_have": [
-100
+100,
+101,
+102,
+103
 ],
 "realizations_want": [
 100,
@@ -671,9 +684,6 @@
 110
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_101",
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_102",
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_103",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_105",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_106",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_107",
@@ -766,21 +776,31 @@
 "ObsSingle": {
 "state": "waiting",
 "n_have": 0,
-"n_need": 5,
+"n_need": 10,
 "realizations_have": [],
 "realizations_want": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ],
 "missing": [
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_100",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_101",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_102",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_103",
-"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_105"
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_105",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_106",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_107",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_108",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_109",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_110"
 ],
 "stage": "5",
 "runlist": "RUNLIST.yaml"
@@ -815,21 +835,31 @@
 "ObsNone": {
 "state": "waiting",
 "n_have": 0,
-"n_need": 5,
+"n_need": 10,
 "realizations_have": [],
 "realizations_want": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ],
 "missing": [
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_100",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_101",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_102",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_103",
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_105"
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_105",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_106",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_107",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_108",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_109",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_110"
 ],
 "stage": "5",
 "runlist": "RUNLIST.yaml"
@@ -138195,7 +138225,7 @@
 44.814309766314615
 ],
 "ci90": [
-30.199258995276036,
+30.199258995276033,
 48.84737497261422
 ],
 "ul90": 46.5606172123211,
@@ -139003,7 +139033,7 @@
 4.35201e-09,
 3.95646e-09
 ],
-"level_of_input": 0.4851504541920133,
+"level_of_input": 0.4851504541920131,
 "input": 42.778809294764024
 },
 "source": "production",
@@ -163306,8 +163336,8 @@
 46.0252819473382
 ],
 "ci90": [
-23.396557651899943,
-52.89555073036185
+23.39655765189994,
+52.89555073036184
 ],
 "ul90": 48.81947908234363,
 "x": [
@@ -164120,16 +164150,16 @@
 "n_samples": 20000
 },
 "Comb": {
-"median": 38.744486674826945,
+"median": 38.74448667482695,
 "ci68": [
 33.13521903046602,
-44.889184992480686
+44.8891849924807
 ],
 "ci90": [
 29.703449577389932,
-49.22998647773951
+49.22998647773953
 ],
-"ul90": 46.78970924295588,
+"ul90": 46.789709242955894,
 "x": [
 6.640969,
 6.829933,
@@ -164934,7 +164964,7 @@
 5.36002e-09,
 4.69352e-09
 ],
-"level_of_input": 0.49517074902572045,
+"level_of_input": 0.49517074902571934,
 "input": 42.778809294764024
 },
 "source": "production",
@@ -529331,10 +529361,13 @@
 "LB": null,
 "production_status": {
 "state": "partial",
-"n_have": 1,
+"n_have": 4,
 "n_need": 10,
 "realizations_have": [
-100
+100,
+101,
+102,
+103
 ],
 "realizations_want": [
 100,
@@ -529349,9 +529382,6 @@
 110
 ],
 "missing": [
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_101",
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_102",
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_103",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_105",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_106",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/equal_populations/realization_107",
@@ -590656,15 +590686,20 @@
 "analysis": "single population",
 "catalogs": "both catalogs, complete",
 "free": "six",
-"stage": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
-"N_comb": 5,
-"N_comb_source": "RUNLIST.yaml: 5 runs {'analysis': 'single_population', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105]",
+"stage": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
+"N_comb": 10,
+"N_comb_source": "RUNLIST.yaml: 10 runs {'analysis': 'single_population', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110]",
 "realizations": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ],
 "final": false,
 "quantities": {
@@ -600533,24 +600568,36 @@
 },
 "joint": {},
 "LB": null,
+"N_placeholder": 5,
+"N_placeholder_why": "the invented combination of this red placeholder is the one made for 5 realizations on 23 Nov; the key combines 10 since 25 Nov (placeholder_results.PLACEHOLDER_N)",
 "production_status": {
 "state": "waiting",
 "n_have": 0,
-"n_need": 5,
+"n_need": 10,
 "realizations_have": [],
 "realizations_want": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ],
 "missing": [
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_100",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_101",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_102",
 "analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_103",
-"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_105"
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_105",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_106",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_107",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_108",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_109",
+"analyses/analysis_16_production_runs/runs/single_population/both_catalogs/complete/host_dependent_obslike/realization_110"
 ],
 "stage": "5",
 "runlist": "RUNLIST.yaml"
@@ -752135,15 +752182,20 @@
 "analysis": "single population",
 "catalogs": "no catalog",
 "free": "five",
-"stage": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
-"N_comb": 5,
-"N_comb_source": "RUNLIST.yaml: 5 runs {'analysis': 'single_population', 'catalogs': 'none', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105]",
+"stage": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
+"N_comb": 10,
+"N_comb_source": "RUNLIST.yaml: 10 runs {'analysis': 'single_population', 'catalogs': 'none', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110]",
 "realizations": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ],
 "final": false,
 "quantities": {
@@ -760367,24 +760419,36 @@
 },
 "joint": {},
 "LB": null,
+"N_placeholder": 5,
+"N_placeholder_why": "the invented combination of this red placeholder is the one made for 5 realizations on 23 Nov; the key combines 10 since 25 Nov (placeholder_results.PLACEHOLDER_N)",
 "production_status": {
 "state": "waiting",
 "n_have": 0,
-"n_need": 5,
+"n_need": 10,
 "realizations_have": [],
 "realizations_want": [
 100,
 101,
 102,
 103,
-105
+105,
+106,
+107,
+108,
+109,
+110
 ],
 "missing": [
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_100",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_101",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_102",
 "analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_103",
-"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_105"
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_105",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_106",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_107",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_108",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_109",
+"analyses/analysis_16_production_runs/runs/single_population/no_catalog/complete/host_dependent_obslike/realization_110"
 ],
 "stage": "5",
 "runlist": "RUNLIST.yaml"

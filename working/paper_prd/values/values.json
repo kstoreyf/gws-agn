@@ -19014,7 +19014,7 @@
    "value": {
     "median": 39.22728204747112,
     "ci68": [
-     30.28303208741162,
+     30.283032087411623,
      50.205032663614894
     ],
     "ci90": [
@@ -27585,11 +27585,11 @@
      44.814309766314615
     ],
     "ci90": [
-     30.199258995276036,
+     30.199258995276033,
      48.84737497261422
     ],
     "ul90": 46.5606172123211,
-    "level_of_input": 0.4851504541920133
+    "level_of_input": 0.4851504541920131
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10)) (median and 90% equal-tailed interval)",
@@ -27619,7 +27619,7 @@
   "FreeTwentyOneRateRatioCombLo": {
    "class": "plain",
    "render": "30",
-   "value": 30.199258995276036,
+   "value": 30.199258995276033,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -27645,7 +27645,7 @@
   "FreeTwentyOneRateRatioCombWid": {
    "class": "plain",
    "render": "19",
-   "value": 18.648115977338183,
+   "value": 18.648115977338186,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -27658,7 +27658,7 @@
   "FreeTwentyOneRateRatioCL": {
    "class": "plain",
    "render": "49",
-   "value": 0.4851504541920133,
+   "value": 0.4851504541920131,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeTwentyOneRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeTwentyOne] equal populations; number densities inferred; both catalogs, m < 21)",
    "source": {
@@ -28390,8 +28390,8 @@
      46.0252819473382
     ],
     "ci90": [
-     23.396557651899943,
-     52.89555073036185
+     23.39655765189994,
+     52.89555073036184
     ],
     "ul90": 48.81947908234363,
     "level_of_input": 0.4953000000000001
@@ -28424,7 +28424,7 @@
   "FreeTwentyRateRatioLo": {
    "class": "plain",
    "render": "23",
-   "value": 23.396557651899943,
+   "value": 23.39655765189994,
    "units": "",
    "meaning": "lower end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28437,7 +28437,7 @@
   "FreeTwentyRateRatioHi": {
    "class": "plain",
    "render": "53",
-   "value": 52.89555073036185,
+   "value": 52.89555073036184,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28450,7 +28450,7 @@
   "FreeTwentyRateRatioWid": {
    "class": "plain",
    "render": "29",
-   "value": 29.498993078461904,
+   "value": 29.4989930784619,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, realization A (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28464,17 +28464,17 @@
    "class": "plain",
    "render": "39^{+10}_{-9}",
    "value": {
-    "median": 38.744486674826945,
+    "median": 38.74448667482695,
     "ci68": [
      33.13521903046602,
-     44.889184992480686
+     44.8891849924807
     ],
     "ci90": [
      29.703449577389932,
-     49.22998647773951
+     49.22998647773953
     ],
-    "ul90": 46.78970924295588,
-    "level_of_input": 0.49517074902572045
+    "ul90": 46.789709242955894,
+    "level_of_input": 0.49517074902571934
    },
    "units": "",
    "meaning": "merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10)) (median and 90% equal-tailed interval)",
@@ -28491,7 +28491,7 @@
   "FreeTwentyRateRatioCombMed": {
    "class": "plain",
    "render": "39",
-   "value": 38.744486674826945,
+   "value": 38.74448667482695,
    "units": "",
    "meaning": "median of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28517,7 +28517,7 @@
   "FreeTwentyRateRatioCombHi": {
    "class": "plain",
    "render": "49",
-   "value": 49.22998647773951,
+   "value": 49.22998647773953,
    "units": "",
    "meaning": "upper end of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28530,7 +28530,7 @@
   "FreeTwentyRateRatioCombWid": {
    "class": "plain",
    "render": "20",
-   "value": 19.526536900349576,
+   "value": 19.526536900349598,
    "units": "",
    "meaning": "full width of the 90% interval of merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20, combined over 3 realizations (R = [f/(1-f)] Z_gal/Z_AGN per sample, Z_k = N_k + n_k V_miss,k (h-scaled densities of the sample, missing volume to z = 1.10))",
    "source": {
@@ -28543,7 +28543,7 @@
   "FreeTwentyRateRatioCL": {
    "class": "plain",
    "render": "50",
-   "value": 0.49517074902572045,
+   "value": 0.49517074902571934,
    "units": "%",
    "meaning": "two-sided credible level at which the input 42.7788 lies in FreeTwentyRateRatioComb (merger rate per AGN over merger rate per galaxy, [key FreeTwenty] equal populations; number densities inferred; both catalogs, m < 20)",
    "source": {
@@ -36425,7 +36425,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36448,7 +36448,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36468,7 +36468,7 @@
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36488,7 +36488,7 @@
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36508,7 +36508,7 @@
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36528,7 +36528,7 @@
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (ObsSingleHzeroWid) of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36558,9 +36558,9 @@
     "level_of_input": 0.2547346490412231
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36581,9 +36581,9 @@
    "render": "\\ph{68.0}",
    "value": 67.952,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "median of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36601,9 +36601,9 @@
    "render": "\\ph{66.9}",
    "value": 66.87868161735456,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36621,9 +36621,9 @@
    "render": "\\ph{69.0}",
    "value": 69.02531838264544,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36641,9 +36641,9 @@
    "render": "\\ph{2.1}",
    "value": 2.1466367652908787,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "full width of the 90% interval of H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36663,7 +36663,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsSingleHzeroComb (H0, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36695,7 +36695,7 @@
    "units": "",
    "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36718,7 +36718,7 @@
    "units": "",
    "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36738,7 +36738,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36758,7 +36758,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36778,7 +36778,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36798,7 +36798,7 @@
    "units": "",
    "meaning": "half of the full 90% width (ObsSinglefAGNWid) of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36828,9 +36828,9 @@
     "level_of_input": 0.8978796074538623
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36851,9 +36851,9 @@
    "render": "\\ph{0.34}",
    "value": 0.339999999997102,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36871,9 +36871,9 @@
    "render": "\\ph{0.30}",
    "value": 0.2997505742694322,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36891,9 +36891,9 @@
    "render": "\\ph{0.38}",
    "value": 0.3802494257247716,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36911,9 +36911,9 @@
    "render": "\\ph{0.08}",
    "value": 0.08049885145533942,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36933,7 +36933,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in ObsSinglefAGNComb (f_AGN (fraction of mergers hosted by AGN), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36964,7 +36964,7 @@
    "units": "Msun",
    "meaning": "mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -36987,7 +36987,7 @@
    "units": "Msun",
    "meaning": "median of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37007,7 +37007,7 @@
    "units": "Msun",
    "meaning": "lower end of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37027,7 +37027,7 @@
    "units": "Msun",
    "meaning": "upper end of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37047,7 +37047,7 @@
    "units": "Msun",
    "meaning": "full width of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37077,9 +37077,9 @@
     "level_of_input": 0.7797991178902532
    },
    "units": "Msun",
-   "meaning": "mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37100,9 +37100,9 @@
    "render": "\\ph{34.4}",
    "value": 34.4,
    "units": "Msun",
-   "meaning": "median of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37120,9 +37120,9 @@
    "render": "\\ph{33.9}",
    "value": 33.86334080867727,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37140,9 +37140,9 @@
    "render": "\\ph{34.9}",
    "value": 34.93665919132272,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37160,9 +37160,9 @@
    "render": "\\ph{1.1}",
    "value": 1.0733183826454464,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of mass-peak location, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37193,7 +37193,7 @@
    "units": "Msun",
    "meaning": "mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37216,7 +37216,7 @@
    "units": "Msun",
    "meaning": "median of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37236,7 +37236,7 @@
    "units": "Msun",
    "meaning": "lower end of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37256,7 +37256,7 @@
    "units": "Msun",
    "meaning": "upper end of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37276,7 +37276,7 @@
    "units": "Msun",
    "meaning": "full width of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37306,9 +37306,9 @@
     "level_of_input": 0.8321809473532151
    },
    "units": "Msun",
-   "meaning": "mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37329,9 +37329,9 @@
    "render": "\\ph{3.9}",
    "value": 3.9000000002146598,
    "units": "Msun",
-   "meaning": "median of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37349,9 +37349,9 @@
    "render": "\\ph{3.5}",
    "value": 3.5422274888810614,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37369,9 +37369,9 @@
    "render": "\\ph{4.3}",
    "value": 4.257772511548255,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37389,9 +37389,9 @@
    "render": "\\ph{0.7}",
    "value": 0.715545022667194,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of mass-peak width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37422,7 +37422,7 @@
    "units": "",
    "meaning": "spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37445,7 +37445,7 @@
    "units": "",
    "meaning": "median of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37465,7 +37465,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37485,7 +37485,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37505,7 +37505,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37535,9 +37535,9 @@
     "level_of_input": 0.999999999999998
    },
    "units": "",
-   "meaning": "spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37558,9 +37558,9 @@
    "render": "\\ph{0.030}",
    "value": 0.030000000000000013,
    "units": "",
-   "meaning": "median of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37578,9 +37578,9 @@
    "render": "\\ph{0.024}",
    "value": 0.023738976101234887,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37598,9 +37598,9 @@
    "render": "\\ph{0.036}",
    "value": 0.036261023898765156,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37618,9 +37618,9 @@
    "render": "\\ph{0.013}",
    "value": 0.012522047797530269,
    "units": "",
-   "meaning": "full width of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of spin mean (effective spin), [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37651,7 +37651,7 @@
    "units": "",
    "meaning": "spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37674,7 +37674,7 @@
    "units": "",
    "meaning": "median of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37694,7 +37694,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37714,7 +37714,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37734,7 +37734,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37764,9 +37764,9 @@
     "level_of_input": 0.9978232046285304
    },
    "units": "",
-   "meaning": "spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37787,9 +37787,9 @@
    "render": "\\ph{0.110}",
    "value": 0.11000000000000001,
    "units": "",
-   "meaning": "median of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37807,9 +37807,9 @@
    "render": "\\ph{0.105}",
    "value": 0.10463340808677275,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37827,9 +37827,9 @@
    "render": "\\ph{0.115}",
    "value": 0.1153665919132273,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -37847,9 +37847,9 @@
    "render": "\\ph{0.011}",
    "value": 0.010733183826454551,
    "units": "",
-   "meaning": "full width of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of spin width, [key ObsSingle] host-dependent populations, observed-like spectrum; single population; both catalogs, complete, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -39955,7 +39955,7 @@
    "units": "km/s/Mpc",
    "meaning": "H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -39978,7 +39978,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -39998,7 +39998,7 @@
    "units": "km/s/Mpc",
    "meaning": "lower end of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40018,7 +40018,7 @@
    "units": "km/s/Mpc",
    "meaning": "upper end of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40038,7 +40038,7 @@
    "units": "km/s/Mpc",
    "meaning": "full width of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40058,7 +40058,7 @@
    "units": "km/s/Mpc",
    "meaning": "half of the full 90% width (ObsNoneHzeroWid) of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (PAPER_SKELETON Sec. 7, revised 17 Nov evening): the precision of one catalog of 1000 mergers, to quote beside a bias",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40088,9 +40088,9 @@
     "level_of_input": 0.4464102556060102
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40111,9 +40111,9 @@
    "render": "\\ph{70}",
    "value": 69.803135319957,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "median of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40131,9 +40131,9 @@
    "render": "\\ph{64}",
    "value": 64.07455083876548,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "lower end of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40151,9 +40151,9 @@
    "render": "\\ph{76}",
    "value": 75.53172438015653,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "upper end of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40171,9 +40171,9 @@
    "render": "\\ph{11}",
    "value": 11.457173541391057,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
+   "meaning": "full width of the 90% interval of H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (PAPER_SKELETON Sec. 7, revised 17 Nov evening)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40193,7 +40193,7 @@
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in ObsNoneHzeroComb (H0, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40224,7 +40224,7 @@
    "units": "Msun",
    "meaning": "mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40247,7 +40247,7 @@
    "units": "Msun",
    "meaning": "median of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40267,7 +40267,7 @@
    "units": "Msun",
    "meaning": "lower end of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40287,7 +40287,7 @@
    "units": "Msun",
    "meaning": "upper end of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40307,7 +40307,7 @@
    "units": "Msun",
    "meaning": "full width of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40337,9 +40337,9 @@
     "level_of_input": 0.46012192388377526
    },
    "units": "Msun",
-   "meaning": "mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40360,9 +40360,9 @@
    "render": "\\ph{34.4}",
    "value": 34.4,
    "units": "Msun",
-   "meaning": "median of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40380,9 +40380,9 @@
    "render": "\\ph{33.3}",
    "value": 33.32668161735455,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40400,9 +40400,9 @@
    "render": "\\ph{35.5}",
    "value": 35.47331838264544,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40420,9 +40420,9 @@
    "render": "\\ph{2.1}",
    "value": 2.1466367652908858,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of mass-peak location, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40453,7 +40453,7 @@
    "units": "Msun",
    "meaning": "mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40476,7 +40476,7 @@
    "units": "Msun",
    "meaning": "median of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40496,7 +40496,7 @@
    "units": "Msun",
    "meaning": "lower end of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40516,7 +40516,7 @@
    "units": "Msun",
    "meaning": "upper end of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40536,7 +40536,7 @@
    "units": "Msun",
    "meaning": "full width of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40566,9 +40566,9 @@
     "level_of_input": 0.7301465843924246
    },
    "units": "Msun",
-   "meaning": "mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40589,9 +40589,9 @@
    "render": "\\ph{3.9}",
    "value": 3.900000140380888,
    "units": "Msun",
-   "meaning": "median of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40609,9 +40609,9 @@
    "render": "\\ph{3.5}",
    "value": 3.4527857135294595,
    "units": "Msun",
-   "meaning": "lower end of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40629,9 +40629,9 @@
    "render": "\\ph{4.3}",
    "value": 4.347214567232317,
    "units": "Msun",
-   "meaning": "upper end of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40649,9 +40649,9 @@
    "render": "\\ph{0.9}",
    "value": 0.8944288537028577,
    "units": "Msun",
-   "meaning": "full width of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of mass-peak width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40682,7 +40682,7 @@
    "units": "",
    "meaning": "spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40705,7 +40705,7 @@
    "units": "",
    "meaning": "median of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40725,7 +40725,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40745,7 +40745,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40765,7 +40765,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40795,9 +40795,9 @@
     "level_of_input": 0.999999999994661
    },
    "units": "",
-   "meaning": "spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40818,9 +40818,9 @@
    "render": "\\ph{0.030}",
    "value": 0.029999999999999992,
    "units": "",
-   "meaning": "median of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40838,9 +40838,9 @@
    "render": "\\ph{0.023}",
    "value": 0.02284454411569705,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40858,9 +40858,9 @@
    "render": "\\ph{0.037}",
    "value": 0.03715545588430297,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40878,9 +40878,9 @@
    "render": "\\ph{0.014}",
    "value": 0.014310911768605918,
    "units": "",
-   "meaning": "full width of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of spin mean (effective spin), [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40911,7 +40911,7 @@
    "units": "",
    "meaning": "spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40934,7 +40934,7 @@
    "units": "",
    "meaning": "median of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40954,7 +40954,7 @@
    "units": "",
    "meaning": "lower end of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40974,7 +40974,7 @@
    "units": "",
    "meaning": "upper end of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -40994,7 +40994,7 @@
    "units": "",
    "meaning": "full width of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, realization A (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -41024,9 +41024,9 @@
     "level_of_input": 0.9913892072902744
    },
    "units": "",
-   "meaning": "spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
+   "meaning": "spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder) (median and 90% equal-tailed interval)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -41047,9 +41047,9 @@
    "render": "\\ph{0.110}",
    "value": 0.11000000000000001,
    "units": "",
-   "meaning": "median of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "median of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -41067,9 +41067,9 @@
    "render": "\\ph{0.104}",
    "value": 0.10373897610123492,
    "units": "",
-   "meaning": "lower end of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "lower end of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -41087,9 +41087,9 @@
    "render": "\\ph{0.116}",
    "value": 0.11626102389876515,
    "units": "",
-   "meaning": "upper end of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "upper end of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -41107,9 +41107,9 @@
    "render": "\\ph{0.013}",
    "value": 0.01252204779753023,
    "units": "",
-   "meaning": "full width of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 5 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
+   "meaning": "full width of the 90% interval of spin width, [key ObsNone] host-dependent populations, observed-like spectrum; single population; no catalog, combined over 10 realizations (observed-like inputs (data/obslike): mass peak 34 Msun, width 3.6 Msun; the invented medians keep their offsets from the inputs of the earlier placeholder)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsNone",
     "placeholder_source": "A: invented; Comb: invented (the bias survives the combination)",
     "placeholder_file": {
@@ -43681,7 +43681,7 @@
    "units": "km/s/Mpc",
    "meaning": "median of ObsSingleHzeroComb minus the input H0 (bias of the single-population analysis of host-dependent events, observed-like spectrum, combined)",
    "source": {
-    "missing": "Stage 5: observed-like spectrum, host-dependent events, 5 realizations",
+    "missing": "Stage 5: observed-like spectrum, host-dependent events, 10 realizations",
     "key": "ObsSingle",
     "placeholder_source": "derived from the placeholder entries",
     "json": "paper_prd/values/placeholder_results.json"
@@ -54729,18 +54729,43 @@
    "render": "five",
    "value": 5,
    "units": "realizations",
-   "meaning": "realizations combined, observed-like spectrum, all three analyses (keys ObsSingle, ObsHost, ObsNone; Stage 5 of RUNLIST.yaml)",
+   "meaning": "realizations combined, observed-like spectrum, host-dependent populations (key ObsHost; Stage 5 of RUNLIST.yaml; until 25 Nov also the number of ObsSingle and ObsNone, now NrealObsSingle and NrealObsNone)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/RUNLIST.yaml",
-    "computation": "realizations of the runs of ObsSingle {'analysis': 'single_population', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}; ObsHost {'analysis': 'host_dependent_populations', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}; ObsNone {'analysis': 'single_population', 'catalogs': 'none', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}"
+    "computation": "realizations of the runs of ObsHost {'analysis': 'host_dependent_populations', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}"
    },
    "claim": "design,realizations",
    "containment": null,
    "extra": {
     "keys": [
-     "ObsSingle",
-     "ObsHost",
-     "ObsNone"
+     "ObsHost"
+    ],
+    "realizations": {
+     "ObsHost": [
+      100,
+      101,
+      102,
+      103,
+      105
+     ]
+    }
+   }
+  },
+  "NrealObsSingle": {
+   "class": "plain",
+   "render": "ten",
+   "value": 10,
+   "units": "realizations",
+   "meaning": "realizations combined, observed-like spectrum, single population, both catalogs (key ObsSingle; Stage 5 of RUNLIST.yaml)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST.yaml",
+    "computation": "realizations of the runs of ObsSingle {'analysis': 'single_population', 'catalogs': 'both', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}"
+   },
+   "claim": "design,realizations",
+   "containment": null,
+   "extra": {
+    "keys": [
+     "ObsSingle"
     ],
     "realizations": {
      "ObsSingle": [
@@ -54748,21 +54773,44 @@
       101,
       102,
       103,
-      105
-     ],
-     "ObsHost": [
-      100,
-      101,
-      102,
-      103,
-      105
-     ],
+      105,
+      106,
+      107,
+      108,
+      109,
+      110
+     ]
+    }
+   }
+  },
+  "NrealObsNone": {
+   "class": "plain",
+   "render": "ten",
+   "value": 10,
+   "units": "realizations",
+   "meaning": "realizations combined, observed-like spectrum, single population, no catalog (key ObsNone; Stage 5 of RUNLIST.yaml)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST.yaml",
+    "computation": "realizations of the runs of ObsNone {'analysis': 'single_population', 'catalogs': 'none', 'flux': 'complete', 'events': 'host_dependent', 'suffix': '_obslike'}"
+   },
+   "claim": "design,realizations",
+   "containment": null,
+   "extra": {
+    "keys": [
+     "ObsNone"
+    ],
+    "realizations": {
      "ObsNone": [
       100,
       101,
       102,
       103,
-      105
+      105,
+      106,
+      107,
+      108,
+      109,
+      110
      ]
     }
    }
@@ -54932,10 +54980,10 @@
    "render": "five",
    "value": 5,
    "units": "realizations",
-   "meaning": "realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2M) that also carry stage 5 (key ObsSingle): 100, 101, 102, 103, 105 (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
+   "meaning": "realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2M) that also carry stage 5 (keys ObsSingle, ObsHost, ObsNone): 100, 101, 102, 103, 105 (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
-    "computation": "realizations of both keys' runs that appear among key ObsSingle's in analyses/analysis_16_production_runs/runs/RUNLIST.yaml"
+    "computation": "realizations of both keys' runs that appear among those of keys ObsSingle, ObsHost and ObsNone alike in analyses/analysis_16_production_runs/runs/RUNLIST.yaml"
    },
    "claim": "design,realizations",
    "containment": null,
@@ -54954,10 +55002,10 @@
    "render": "ten",
    "value": 10,
    "units": "realizations",
-   "meaning": "realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2M) added to them (realizations without stage 5): 106, 107, 108, 109, 110, 111, 112, 113, 114, 115 (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
+   "meaning": "realizations of keys ObsAssumed and ObsPops (observed-like host-dependent mergers, RUNLIST_experiment.yaml stage E2M) added to them (realizations without all of stage 5): 106, 107, 108, 109, 110, 111, 112, 113, 114, 115 (the subsets of Obs<Pops|Assumed><First|Later>Hzero...)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
-    "computation": "realizations of both keys' runs that do not appear among key ObsSingle's in analyses/analysis_16_production_runs/runs/RUNLIST.yaml"
+    "computation": "realizations of both keys' runs that do not appear among those of keys ObsSingle, ObsHost and ObsNone alike in analyses/analysis_16_production_runs/runs/RUNLIST.yaml"
    },
    "claim": "design,realizations",
    "containment": null,

@@ -713,8 +713,14 @@ def audit_keys(mac):
             if Q["comb_source"].startswith("invented") and "prior dominates" not in Q["comb_source"] and not (k == "CtrlZero" and q == "fAGN"):
                 wa = Q["A"]["ci90"][1] - Q["A"]["ci90"][0]
                 wc = Q["Comb"]["ci90"][1] - Q["Comb"]["ci90"][0]
-                rat.append(abs(wc / wa * math.sqrt(E["N_comb"]) - 1))
-    check(max(rat) < 0.05, f"H3 every invented combination is narrower than realization A by sqrt(N) to {100 * max(rat):.1f}% ({len(rat)} key-quantities; truncation at prior edges allowed for)")
+                # 25 Nov: N_placeholder (placeholder_results.PLACEHOLDER_N) where the key's runs grew after its placeholder was invented
+                rat.append(abs(wc / wa * math.sqrt(E.get("N_placeholder", E["N_comb"])) - 1))
+    n_ph = sorted(k for k, E in doc.items() if "N_placeholder" in E)
+    bad_ph = [k for k in n_ph if doc[k].get("final") or doc[k]["N_placeholder"] >= doc[k]["N_comb"]]
+    ph_txt = ", ".join("%s %d of %d" % (k, doc[k]["N_placeholder"], doc[k]["N_comb"]) for k in n_ph) or "none"
+    check(max(rat) < 0.05 and not bad_ph, f"H3 every invented combination is narrower than realization A by sqrt(N) to {100 * max(rat):.1f}% ({len(rat)} key-quantities; "
+          f"truncation at prior edges allowed for; N = N_comb, or N_placeholder for the red keys whose runs grew after their placeholder was made: "
+          f"{ph_txt})" + (f"; BAD N_placeholder: {', '.join(bad_ph)}" if bad_ph else ""))
     audit_requests(mac, doc)
     audit_production(mac, doc, owner)
     audit_obslike_mixture(mac, doc)
@@ -791,16 +797,21 @@ def audit_requests(mac, doc):
             "NrealHDSingle": n("single_population", "both", "complete", "host_dependent", None),
             "NrealHDNone": n("single_population", "none", "complete", "host_dependent", None)}
     runs_txt = (OUT / "runs.txt").read_text()
-    want["NrealObs"] = {n("single_population", c, "complete", "host_dependent_obslike", None) for c in ("both", "none")} | {
-        n("host_dependent_populations", "both", "complete", "host_dependent_obslike", None)}
+    # 25 Nov: stage 5's single-population classes have ten realizations, the host-dependent class five: one count each
+    want["NrealObs"] = n("host_dependent_populations", "both", "complete", "host_dependent_obslike", None)
+    want["NrealObsSingle"] = n("single_population", "both", "complete", "host_dependent_obslike", None)
+    want["NrealObsNone"] = n("single_population", "none", "complete", "host_dependent_obslike", None)
     rx = yaml.safe_load((B.AN / "analysis_16_production_runs" / "runs" / "RUNLIST_experiment.yaml").read_text())
     ctrl = {lab: {r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
                   if r["analysis"] == "two_tracers_one_population" and r["set"]["label"] == lab} for lab in ("peak_f0p00_s0", "peak_f0p10_s0")}
     want["NrealCtrl"] = {len(v) for v in ctrl.values()} if all(ctrl.values()) else (5 if "five for the others" in runs_txt else -1)
     # 23 Nov: the experiment's keys of Sec. IV E (own parser of RUNLIST_experiment.yaml: analysis and set label of every run)
     # (23 Nov, 23:30 UTC: the observed-like sets' runs of the keys are stage E2M's, E2's grids with the mixture redraw)
-    n_exp = lambda an, lab: len({r["args"][r["args"].index("--realization") + 1] for st in rx["stages"] for r in st["runs"]
-                                 if r["analysis"] == an and r["set"]["label"] == lab and (not lab.startswith("obslike_") or str(st["stage"]) == "E2M")})
+    # (25 Nov: keys HDPops and HDAssumed count only the realizations they read while the run list carries more, _OWN_KEY_REALIZATIONS_HELD)
+    held = {(an, lab): set(_OWN_KEY_REALIZATIONS_HELD[k]) for k, (an, lab, _s) in _EXP_KEYS.items() if k in _OWN_KEY_REALIZATIONS_HELD}
+    n_exp = lambda an, lab: len({int(r["args"][r["args"].index("--realization") + 1]) for st in rx["stages"] for r in st["runs"]
+                                 if r["analysis"] == an and r["set"]["label"] == lab and (not lab.startswith("obslike_") or str(st["stage"]) == "E2M")}
+                                & held.get((an, lab), set(range(1000))))
     want["NrealHDAssumed"] = {n_exp("two_tracers_one_population", "peak_f0p30_s1"), n_exp("two_tracers_one_population", "peak_f0p30_s2"),
                               n_exp("two_tracers_two_populations", "peak_f0p30_s1")}
     want["NrealHDSingleTwice"] = n_exp("single_population", "peak_f0p30_s2")
@@ -814,10 +825,12 @@ def audit_requests(mac, doc):
     bad += [f"{k} N_comb {E['N_comb']} vs macro" for k, E in doc.items()
             for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
                           ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
-                          ("NrealObs", ["ObsSingle", "ObsHost", "ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"]),
+                          ("NrealObs", ["ObsHost"]), ("NrealObsSingle", ["ObsSingle"]), ("NrealObsNone", ["ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"]),
                           ("NrealHDAssumed", ["HDAssumed", "HDAssumedTwice", "HDPops"]), ("NrealHDSingleTwice", ["HDSingleTwice"]),
                           ("NrealObsAssumed", ["ObsAssumed", "ObsPops"])) if k in ks and E["N_comb"] != val(m)]
-    check(not bad, f"I0 the {len(want)} numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs; "
+    check(not bad, f"I0 the {len(want)} numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs, "
+                   f"one count per class since 25 Nov: NrealObs (host-dependent) {want['NrealObs']}, NrealObsSingle {want['NrealObsSingle']}, NrealObsNone {want['NrealObsNone']}; "
+                   f"HDPops and HDAssumed on the realizations they read, {sorted(_OWN_KEY_REALIZATIONS_HELD['HDPops'])}; "
                    f"the keys of Sec. IV E on three steps: RUNLIST_experiment.yaml's runs on the host-dependent sets; "
                    f"KnownBoth: stage 1 and the {len(_xr)} stage-X runs realization_NNN_nside32 {sorted(_xr)}; HDHost: stage V8's "
                    f"realization_NNN_unif_then_rslice {sorted(_own_hd_stage_v()[1])}), "
@@ -993,11 +1006,12 @@ _OBS_HOST = "host_dependent_populations/both_catalogs/complete/host_dependent_ob
 _OWN_SAMPLER_FLAGS = ("--sample", "--auto-switch-sample", "--auto-switch-cpi", "--init-from", "--switch-sample")
 
 
-def _own_hd_stage_v(idx=None):
+def _own_hd_stage_v(idx=None, reals=(100, 101, 102, 103, 105)):
     """(stage 4's realizations of the pure-rslice runs .../host_dependent/realization_NNN, {realization: run name} of key HDHost's runs):
     a stage-V8 run named realization_NNN_unif_then_rslice joins when NNN is one of 100, 101, 102, 103, 105 and its flags, the sampler's
     set aside (_OWN_SAMPLER_FLAGS), are, one by one, those every stage-4 run of the pattern shares (the realization set aside) with its
-    own realization and --variant unif_then_rslice, nothing else, each flag given once with its value."""
+    own realization and --variant unif_then_rslice, nothing else, each flag given once with its value. (25 Nov: reals = _HD_V8_LATER
+    gives the same for the further realizations, which the key does not read yet.)"""
     idx = idx or _own_runlist_idx()
     s4 = {int(m.group(1)): _own_flags(a) for n, (st, a) in idx.items() if st == "4" for m in [re.fullmatch(_HD_RX, n)] if m}
     common = [{k: v for k, v in f.items() if k != "--realization"} for f in s4.values()]
@@ -1010,7 +1024,7 @@ def _own_hd_stage_v(idx=None):
             continue
         R, f = int(m.group(1)), _own_flags(a)
         want = dict(common[0], **{"--realization": str(R), "--variant": "unif_then_rslice"})
-        if R in (100, 101, 102, 103, 105) and {k: v for k, v in f.items() if k not in _OWN_SAMPLER_FLAGS} == want and len(a) == 2 * len(f):
+        if R in reals and {k: v for k, v in f.items() if k not in _OWN_SAMPLER_FLAGS} == want and len(a) == 2 * len(f):
             out[R] = n
     return sorted(s4), dict(sorted(out.items()))
 
@@ -1399,6 +1413,11 @@ _EXP_KEYS = {"HDAssumed": ("two_tracers_one_population", "peak_f0p30_s1", "E1"),
              # 23 Nov, 23:30 UTC: the observed-like keys read stage E2M (E2's grids with the mixture redraw, <E2 name>_mix)
              "ObsAssumed": ("two_tracers_one_population", "obslike_f0p30_s1", "E2M"), "ObsPops": ("two_tracers_two_populations", "obslike_f0p30_s1", "E2M")}
 _SAME_MERGERS = (("HDAssumed", "HDPops"), ("HDAssumedTwice", "HDSingleTwice"), ("ObsAssumed", "ObsPops"))
+# 25 Nov, own list: the realizations keys HDPops and HDAssumed read while RUNLIST_experiment.yaml carries more (analysis_16 added the set's
+# grids of 106-110, queued, not run; build_values.KEY_REALIZATIONS_HELD, which must equal this); and the stage-V8 runs of 106-110 that match
+# key HDHost's pattern without being read by it (analysis_16 make_runlist.V8_LATER; the key's realizations are _own_hd_stage_v's)
+_OWN_KEY_REALIZATIONS_HELD = {"HDPops": (100, 101, 102, 103, 105), "HDAssumed": (100, 101, 102, 103, 105)}
+_HD_V8_LATER = (106, 107, 108, 109, 110)
 
 
 def _own_pchip_marg(names, ax, l, par, refine=8):
@@ -1434,6 +1453,11 @@ def audit_three_steps(mac, doc, specs, comb_cache):
     for k, (an, lab, stg) in _EXP_KEYS.items():
         got = {int(r["args"][r["args"].index("--realization") + 1]): (str(st["stage"]), r["name"], r.get("events_file"))
                for st in rxl["stages"] if str(st["stage"]) == stg for r in st["runs"] if r["analysis"] == an and r["set"]["label"] == lab}
+        if k in _OWN_KEY_REALIZATIONS_HELD:
+            # 25 Nov: the key reads its five although the run list carries the set's further realizations (own list)
+            if not set(_OWN_KEY_REALIZATIONS_HELD[k]) <= set(got):
+                why.append(f"{k}: run list lacks some of its realizations {_OWN_KEY_REALIZATIONS_HELD[k]}")
+            got = {R: v for R, v in got.items() if R in _OWN_KEY_REALIZATIONS_HELD[k]}
         own[k], evf[k] = got, {R: v[2] for R, v in got.items()}
         sp, E = specs.get(k) or {}, doc.get(k) or {}
         pats = {re.sub(r"realization_\d{3}", "realization_{R}", v[1]) for v in got.values()}
@@ -1444,6 +1468,8 @@ def audit_three_steps(mac, doc, specs, comb_cache):
     for a, b in _SAME_MERGERS:
         if sorted(evf[a]) != sorted(evf[b]) or any(not evf[a][R] or evf[a][R] != evf[b][R] for R in evf[a]):
             why.append(f"{a} and {b} not on the same events files")
+    if {k: tuple(v) for k, v in B.KEY_REALIZATIONS_HELD.items()} != _OWN_KEY_REALIZATIONS_HELD:
+        why.append(f"build_values.KEY_REALIZATIONS_HELD {B.KEY_REALIZATIONS_HELD} vs own {_OWN_KEY_REALIZATIONS_HELD}")
     # (b) HDAssumedTwice: only realization A's median of H0 and 90% upper limit of f_AGN (and its NoPeak)
     k = "HDAssumedTwice"
     extra_m = [n for n in mac if n.startswith(k) and n not in (f"{k}HzeroMed", f"{k}fAGNUL", f"{k}NoPeak")]
@@ -1526,7 +1552,9 @@ def audit_three_steps(mac, doc, specs, comb_cache):
     for nm, key, stem in (("MockHDfDetMean", "HDSingle", "marked_dmu0p10_dmuG5_corepop"), ("ObsHDfDetMean", "ObsSingle", "marked_dmu0p10_dmuG5_obslike")):
         sp = specs.get(key) or {}
         fr = []
-        for R in sp.get("realizations", []):
+        # 25 Nov: ObsSingle has ten realizations, ObsHost five; the observed-like mean is over the realizations common to both
+        rs_ = sp.get("realizations", []) if key == "HDSingle" else [R for R in sp.get("realizations", []) if R in (specs.get("ObsHost") or {}).get("realizations", [])]
+        for R in rs_:
             with h5py.File(B.DATA / f"seed{R}" / "events" / f"events{('_' + stem)}.h5", "r") as h:
                 ht = np.asarray(h["truth/host_type"][()], int)
             fr.append(float(np.mean(ht == 1)))
@@ -1572,8 +1600,11 @@ def audit_obslike_subsets(mac, specs):
     own = {k: sorted(int(m.group(1)) for st in rxl["stages"] for r in st["runs"]
                      for m in [re.fullmatch(re.escape(p).replace(re.escape("{R}"), r"(\d{3})"), r["name"])] if m) for k, p in _OBS_SUB.items()}
     rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
-    s5 = {int(m.group(1)) for st in rl["stages"] if str(st["stage"]) == "5" for r in st["runs"]
-          for m in [re.fullmatch(r"single_population/both_catalogs/complete/host_dependent_obslike/realization_(\d{3})", r["name"])] if m}
+    # 25 Nov: the realizations that carry all three classes of stage 5 (the single-population classes have ten since 25 Nov, the host-dependent five)
+    s5 = set.intersection(*({int(m.group(1)) for st in rl["stages"] if str(st["stage"]) == "5" for r in st["runs"] for m in [re.fullmatch(rx_, r["name"])] if m}
+                            for rx_ in (r"single_population/both_catalogs/complete/host_dependent_obslike/realization_(\d{3})",
+                                        r"single_population/no_catalog/complete/host_dependent_obslike/realization_(\d{3})",
+                                        r"host_dependent_populations/both_catalogs/complete/host_dependent_obslike/realization_(\d{3})_unif_then_rslice")))
     common = sorted(set(own["ObsPops"]) & set(own["ObsAssumed"]))
     sub = {"First": [r for r in common if r in s5], "Later": [r for r in common if r not in s5]}
     for nm, t in (("NrealObsFirst", "First"), ("NrealObsLater", "Later")):
@@ -2232,6 +2263,12 @@ def audit_classes(mac, doc):
             # 23 Nov (HW<pre>Single): the realizations of another macro's record, all of which the run list holds for this run
             ref_ = blk.get(rec["realizations_of"]) or {}
             if rec["realizations"] != ref_.get("realizations") or not set(rec["realizations"]) <= set(exp_idx.get(rec["run"], ())):
+                notlisted.append(name)
+        elif rec["run"] == _HD_V8:
+            # 25 Nov: stage V8's pattern also carries 106-110 (analysis_16 V8_LATER), which key HDHost and so HWHost do not read yet: the record
+            # has the key's realizations (own parser, _own_hd_stage_v), all of them in the run list
+            own_v = sorted(_own_hd_stage_v()[1])
+            if sorted(rec["realizations"]) != own_v or not set(own_v) <= set(exp_idx.get(rec["run"], ())):
                 notlisted.append(name)
         elif sorted(exp_idx.get(rec["run"], ())) != sorted(rec["realizations"]):
             notlisted.append(name)
@@ -3471,7 +3508,13 @@ def audit_density_phys(mac):
     # the second deliberate exception (build_values.STAGE_V_KEY_RUNS, 23 Nov): the pattern of key HDHost and of its macro HWHost is stage V8's
     # realization_NNN_unif_then_rslice (_HD_V8); it may match exactly the V8 runs the own parser finds (_own_hd_stage_v), nothing else may
     allowed_v = set(_own_hd_stage_v({n: (st, a) for n, (st, a) in idx.items()})[1].values())
-    hit = [n for n in nonprod if any(r.match(n) and not (p == _HD_V8 and n in allowed_v) for p, r in zip(pats, rx))]
+    # 25 Nov: stage V8's runs of the further realizations (_HD_V8_LATER, the same flags) match the pattern of HDHost but are read by no key
+    # (S8: the map names only allowed_v); they are matched, not fed
+    later_v = set(_own_hd_stage_v({n: (st, a) for n, (st, a) in idx.items()}, reals=_HD_V8_LATER)[1].values())
+    hd_named_ = {_key_run(pm["keys"]["HDHost"], R) for R in pm["keys"]["HDHost"].get("realizations", [])} if "HDHost" in pm.get("keys", {}) else set()
+    if later_v & hd_named_:
+        later_v = set()           # read by the key: no longer allowed as matched only
+    hit = [n for n in nonprod if any(r.match(n) and not (p == _HD_V8 and (n in allowed_v or n in later_v)) for p, r in zip(pats, rx))]
     exc_v = sorted(n for n in nonprod if n in allowed_v and any(p == _HD_V8 and r.match(n) for p, r in zip(pats, rx)))
     n_v_pats = sum(1 for p in pats if p == _HD_V8)
     # the runs the map names per realization (runs_by_realization): only the deliberate exception, KnownBoth's stage-X realization_NNN_nside32
@@ -3485,7 +3528,8 @@ def audit_density_phys(mac):
           f"production map ({len(pats)} patterns: keys, experiment macros, density arms) or is named by it per realization, but for the two "
           f"deliberate exceptions: key KnownBoth's {len(exc)} stage-X runs realization_NNN_nside32 (stage 1's flags plus --variant nside32, own "
           f"parser) and key HDHost's {len(exc_v)} stage-V8 runs realization_NNN_unif_then_rslice (stage 4's flags plus the sampler's and the "
-          f"variant, own parser), matched only by the pattern of key HDHost and of HWHost ({n_v_pats} patterns)"
+          f"variant, own parser), matched only by the pattern of key HDHost and of HWHost ({n_v_pats} patterns; 25 Nov: the pattern also matches "
+          f"the {len(later_v)} stage-V8 runs of {', '.join(map(str, _HD_V8_LATER))}, the same flags, which the map does not name)"
           f"{': ' + ', '.join(hit[:4]) if hit else ''}{'; the map lacks some of them' if set(exc) != allowed or set(exc_v) != allowed_v else ''}")
 
 
