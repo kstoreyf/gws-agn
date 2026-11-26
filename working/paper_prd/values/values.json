@@ -19014,7 +19014,7 @@
    "value": {
     "median": 39.22728204747112,
     "ci68": [
-     30.283032087411623,
+     30.28303208741162,
      50.205032663614894
     ],
     "ci90": [
@@ -41217,22 +41217,22 @@
   },
   "HDAssumedHzeroComb": {
    "class": "plain",
-   "render": "71.2^{+0.8}_{-0.8}",
+   "render": "71.3^{+0.7}_{-0.6}",
    "value": {
-    "median": 71.20600742578111,
+    "median": 71.30711963100204,
     "ci68": [
-     70.7418358839298,
-     71.68157620063303
+     70.91686715809223,
+     71.71745825892577
     ],
     "ci90": [
-     70.42344880987788,
-     72.01869943782282
+     70.66859468236869,
+     71.9961141105513
     ],
-    "ul90": 71.82873953403599,
-    "level_of_input": 0.999999999994585
+    "ul90": 71.84121026674099,
+    "level_of_input": 1.0
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41245,10 +41245,10 @@
   },
   "HDAssumedHzeroCombMed": {
    "class": "plain",
-   "render": "71.2",
-   "value": 71.20600742578111,
+   "render": "71.3",
+   "value": 71.30711963100204,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41258,10 +41258,10 @@
   },
   "HDAssumedHzeroCombLo": {
    "class": "plain",
-   "render": "70.4",
-   "value": 70.42344880987788,
+   "render": "70.7",
+   "value": 70.66859468236869,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41272,9 +41272,9 @@
   "HDAssumedHzeroCombHi": {
    "class": "plain",
    "render": "72.0",
-   "value": 72.01869943782282,
+   "value": 71.9961141105513,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41284,10 +41284,10 @@
   },
   "HDAssumedHzeroCombWid": {
    "class": "plain",
-   "render": "1.6",
-   "value": 1.5952506279449352,
+   "render": "1.3",
+   "value": 1.3275194281826117,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41298,7 +41298,7 @@
   "HDAssumedHzeroCL": {
    "class": "plain",
    "render": "\\ensuremath{>}99.99",
-   "value": 0.999999999994585,
+   "value": 1.0,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in HDAssumedHzeroComb (H0, [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete)",
    "source": {
@@ -41403,38 +41403,38 @@
   },
   "HDAssumedfAGNComb": {
    "class": "plain",
-   "render": "0.35^{+0.04}_{-0.04}",
+   "render": "0.355^{+0.029}_{-0.029}",
    "value": {
-    "median": 0.3534201091047099,
+    "median": 0.3551039594412033,
     "ci68": [
-     0.328835777252105,
-     0.3786344208750242
+     0.33745735549889677,
+     0.37278256903277224
     ],
     "ci90": [
-     0.31213401018132747,
-     0.3953034330411713
+     0.32592434691880795,
+     0.3843575480504664
     ],
-    "ul90": 0.3860617993581232,
-    "level_of_input": 0.9670978825673768
+    "ul90": 0.3778912887255409,
+    "level_of_input": 0.9981504754486031
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
    "extra": {
-    "decimals": 2,
+    "decimals": 3,
     "input": 0.3
    }
   },
   "HDAssumedfAGNCombMed": {
    "class": "plain",
-   "render": "0.35",
-   "value": 0.3534201091047099,
+   "render": "0.355",
+   "value": 0.3551039594412033,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41444,10 +41444,10 @@
   },
   "HDAssumedfAGNCombLo": {
    "class": "plain",
-   "render": "0.31",
-   "value": 0.31213401018132747,
+   "render": "0.326",
+   "value": 0.32592434691880795,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41457,10 +41457,10 @@
   },
   "HDAssumedfAGNCombHi": {
    "class": "plain",
-   "render": "0.40",
-   "value": 0.3953034330411713,
+   "render": "0.384",
+   "value": 0.3843575480504664,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41470,10 +41470,10 @@
   },
   "HDAssumedfAGNCombWid": {
    "class": "plain",
-   "render": "0.08",
-   "value": 0.08316942285984386,
+   "render": "0.058",
+   "value": 0.05843320113165845,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41483,8 +41483,8 @@
   },
   "HDAssumedfAGNCL": {
    "class": "plain",
-   "render": "97",
-   "value": 0.9670978825673768,
+   "render": "99.8",
+   "value": 0.9981504754486031,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in HDAssumedfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key HDAssumed] host-dependent populations; population assumed (the galaxy class's mass and spin distribution for both classes); both catalogs, complete)",
    "source": {
@@ -41619,22 +41619,22 @@
   },
   "HDPopsHzeroComb": {
    "class": "plain",
-   "render": "67.7^{+0.8}_{-0.8}",
+   "render": "67.8^{+0.5}_{-0.5}",
    "value": {
-    "median": 67.69310913659496,
+    "median": 67.8345842964131,
     "ci68": [
-     67.22959547254254,
-     68.17410205511973
+     67.52367169337317,
+     68.15429796869834
     ],
     "ci90": [
-     66.93605479210564,
-     68.5001232830218
+     67.3245386236936,
+     68.36822845522629
     ],
-    "ul90": 68.31639511428502,
-    "level_of_input": 0.07855357026101539
+    "ul90": 68.2483789458544,
+    "level_of_input": 0.23575053697492832
    },
    "units": "km/s/Mpc",
-   "meaning": "H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41647,10 +41647,10 @@
   },
   "HDPopsHzeroCombMed": {
    "class": "plain",
-   "render": "67.7",
-   "value": 67.69310913659496,
+   "render": "67.8",
+   "value": 67.8345842964131,
    "units": "km/s/Mpc",
-   "meaning": "median of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "median of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41660,10 +41660,10 @@
   },
   "HDPopsHzeroCombLo": {
    "class": "plain",
-   "render": "66.9",
-   "value": 66.93605479210564,
+   "render": "67.3",
+   "value": 67.3245386236936,
    "units": "km/s/Mpc",
-   "meaning": "lower end of the 90% interval of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41673,10 +41673,10 @@
   },
   "HDPopsHzeroCombHi": {
    "class": "plain",
-   "render": "68.5",
-   "value": 68.5001232830218,
+   "render": "68.4",
+   "value": 68.36822845522629,
    "units": "km/s/Mpc",
-   "meaning": "upper end of the 90% interval of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41686,10 +41686,10 @@
   },
   "HDPopsHzeroCombWid": {
    "class": "plain",
-   "render": "1.6",
-   "value": 1.5640684909161564,
+   "render": "1.0",
+   "value": 1.0436898315326886,
    "units": "km/s/Mpc",
-   "meaning": "full width of the 90% interval of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41699,8 +41699,8 @@
   },
   "HDPopsHzeroCL": {
    "class": "plain",
-   "render": "7.9",
-   "value": 0.07855357026101539,
+   "render": "24",
+   "value": 0.23575053697492832,
    "units": "%",
    "meaning": "two-sided credible level at which the input 67.74 lies in HDPopsHzeroComb (H0, [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete)",
    "source": {
@@ -41805,22 +41805,22 @@
   },
   "HDPopsfAGNComb": {
    "class": "plain",
-   "render": "0.314^{+0.022}_{-0.022}",
+   "render": "0.317^{+0.016}_{-0.016}",
    "value": {
-    "median": 0.31393679216108733,
+    "median": 0.31666119056081554,
     "ci68": [
-     0.3006663767703134,
-     0.3273660145212754
+     0.3072467162743119,
+     0.32615170076830313
     ],
     "ci90": [
-     0.29207434516460257,
-     0.33623664886113497
+     0.30113564683101784,
+     0.3324123941620697
     ],
-    "ul90": 0.33127505130921137,
-    "level_of_input": 0.7040933145594044
+    "ul90": 0.3289087794717081,
+    "level_of_input": 0.9228735778223971
    },
    "units": "",
-   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
+   "meaning": "f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations) (median and 90% equal-tailed interval)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41833,10 +41833,10 @@
   },
   "HDPopsfAGNCombMed": {
    "class": "plain",
-   "render": "0.314",
-   "value": 0.31393679216108733,
+   "render": "0.317",
+   "value": 0.31666119056081554,
    "units": "",
-   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "median of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41846,10 +41846,10 @@
   },
   "HDPopsfAGNCombLo": {
    "class": "plain",
-   "render": "0.292",
-   "value": 0.29207434516460257,
+   "render": "0.301",
+   "value": 0.30113564683101784,
    "units": "",
-   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "lower end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41859,10 +41859,10 @@
   },
   "HDPopsfAGNCombHi": {
    "class": "plain",
-   "render": "0.336",
-   "value": 0.33623664886113497,
+   "render": "0.332",
+   "value": 0.3324123941620697,
    "units": "",
-   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "upper end of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41872,10 +41872,10 @@
   },
   "HDPopsfAGNCombWid": {
    "class": "plain",
-   "render": "0.044",
-   "value": 0.0441623036965324,
+   "render": "0.031",
+   "value": 0.031276747331051846,
    "units": "",
-   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 5 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
+   "meaning": "full width of the 90% interval of f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete, combined over 10 realizations (the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
    },
@@ -41885,8 +41885,8 @@
   },
   "HDPopsfAGNCL": {
    "class": "plain",
-   "render": "70",
-   "value": 0.7040933145594044,
+   "render": "92",
+   "value": 0.9228735778223971,
    "units": "%",
    "meaning": "two-sided credible level at which the input 0.3 lies in HDPopsfAGNComb (f_AGN (fraction of mergers hosted by AGN), [key HDPops] host-dependent populations; the two populations at their inputs; both catalogs, complete)",
    "source": {
@@ -43708,10 +43708,10 @@
   },
   "HDAssumedBiasHzero": {
    "class": "plain",
-   "render": "3.5",
-   "value": 3.4660074257811146,
+   "render": "3.6",
+   "value": 3.5671196310020434,
    "units": "km/s/Mpc",
-   "meaning": "median of HDAssumedHzeroComb minus the input H0 (population assumed (the galaxy class's for both classes), host-dependent mergers, peak-dominated spectrum, combined over 5 realizations)",
+   "meaning": "median of HDAssumedHzeroComb minus the input H0 (population assumed (the galaxy class's for both classes), host-dependent mergers, peak-dominated spectrum, combined over 10 realizations)",
    "source": {
     "files": [
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json"
@@ -43756,8 +43756,8 @@
   },
   "HDAssumedShiftHzero": {
    "class": "plain",
-   "render": "3.2",
-   "value": 3.19493564248981,
+   "render": "3.6",
+   "value": 3.621928900484292,
    "units": "km/s/Mpc",
    "meaning": "median over the realizations of the change of the H0 median when the galaxy class's population is assumed for both classes, against the two populations at their inputs, on the same host-dependent mergers (key HDAssumed minus key HDPops, peak-dominated spectrum, per realization), signed",
    "source": {
@@ -43771,7 +43771,17 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json"
     ],
     "computation": "posterior.H0.median of each summary of key HDAssumed minus that of the same realization of key HDPops; their median"
    },
@@ -43784,7 +43794,12 @@
      "101": 20.18413668906264,
      "102": 2.652695323644352,
      "103": 3.19493564248981,
-     "105": 2.188255340154896
+     "105": 2.188255340154896,
+     "106": 3.8458811935433346,
+     "107": 6.144201209852966,
+     "108": 3.523269996176637,
+     "109": 4.734648457374988,
+     "110": 2.219814612858798
     }
    }
   },
@@ -43805,7 +43820,17 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json"
     ],
     "computation": "posterior.H0.median of each summary of key HDAssumed minus that of the same realization of key HDPops; their smallest"
    },
@@ -43818,7 +43843,12 @@
      "101": 20.18413668906264,
      "102": 2.652695323644352,
      "103": 3.19493564248981,
-     "105": 2.188255340154896
+     "105": 2.188255340154896,
+     "106": 3.8458811935433346,
+     "107": 6.144201209852966,
+     "108": 3.523269996176637,
+     "109": 4.734648457374988,
+     "110": 2.219814612858798
     }
    }
   },
@@ -43839,7 +43869,17 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json"
     ],
     "computation": "posterior.H0.median of each summary of key HDAssumed minus that of the same realization of key HDPops; their largest"
    },
@@ -43852,7 +43892,12 @@
      "101": 20.18413668906264,
      "102": 2.652695323644352,
      "103": 3.19493564248981,
-     "105": 2.188255340154896
+     "105": 2.188255340154896,
+     "106": 3.8458811935433346,
+     "107": 6.144201209852966,
+     "108": 3.523269996176637,
+     "109": 4.734648457374988,
+     "110": 2.219814612858798
     }
    }
   },
@@ -44060,7 +44105,12 @@
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_101/grid",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_102/grid",
      "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_103/grid",
-     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_105/grid"
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_105/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_106/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_107/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_108/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_109/grid",
+     "analyses/analysis_16_production_runs/runs/two_tracers_one_population/both_catalogs/complete/peak_f0p30_s1/realization_110/grid"
     ],
     "computation": "run_posteriors.interior_maximum of each realization's grid (fine and coarse passes)"
    },
@@ -44107,6 +44157,46 @@
       },
       "at_edge": false,
       "lnL": -2981.4210887438576
+     },
+     "106": {
+      "argmax": {
+       "H0": 73.6,
+       "f_agn": 0.375
+      },
+      "at_edge": false,
+      "lnL": -3003.527524211107
+     },
+     "107": {
+      "argmax": {
+       "H0": 75.2,
+       "f_agn": 0.3
+      },
+      "at_edge": false,
+      "lnL": -3006.7868084423567
+     },
+     "108": {
+      "argmax": {
+       "H0": 71.6,
+       "f_agn": 0.35
+      },
+      "at_edge": false,
+      "lnL": -3049.4438479389555
+     },
+     "109": {
+      "argmax": {
+       "H0": 68.0,
+       "f_agn": 0.36
+      },
+      "at_edge": false,
+      "lnL": -3020.994460203869
+     },
+     "110": {
+      "argmax": {
+       "H0": 69.8,
+       "f_agn": 0.4
+      },
+      "at_edge": false,
+      "lnL": -2936.9434064245543
      }
     }
    }
@@ -45422,19 +45512,24 @@
   },
   "HDPopsHzeroInside": {
    "class": "plain",
-   "render": "four",
-   "value": 4,
+   "render": "seven",
+   "value": 7,
    "units": "realizations",
-   "meaning": "number of the 5 realizations of key HDPops (host-dependent populations; the two populations at their inputs; both catalogs, complete) whose own 90% equal-tailed interval of H0 (the run's summary.json posterior.H0.ci90, the interval the key's per-realization macros print) contains the input H0 = 67.74 km/s/Mpc, printed as a word; outside: 103 (above)",
+   "meaning": "number of the 10 realizations of key HDPops (host-dependent populations; the two populations at their inputs; both catalogs, complete) whose own 90% equal-tailed interval of H0 (the run's summary.json posterior.H0.ci90, the interval the key's per-realization macros print) contains the input H0 = 67.74 km/s/Mpc, printed as a word; outside: 103 (above), 106 (above), 109 (below)",
    "source": {
     "files": [
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_101/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_102/summary.json",
      "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_103/summary.json",
-     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json"
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_105/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_106/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_107/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_108/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109/summary.json",
+     "analyses/analysis_16_production_runs/runs/two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_110/summary.json"
     ],
-    "computation": "count of the key's 5 realizations (production_map.json) with posterior.H0.ci90[0] <= truth.H0 <= posterior.H0.ci90[1] in their summary.json"
+    "computation": "count of the key's 10 realizations (production_map.json) with posterior.H0.ci90[0] <= truth.H0 <= posterior.H0.ci90[1] in their summary.json"
    },
    "claim": "skeleton,keys",
    "containment": null,
@@ -45447,9 +45542,14 @@
      101,
      102,
      103,
-     105
+     105,
+     106,
+     107,
+     108,
+     109,
+     110
     ],
-    "n_realizations": 5,
+    "n_realizations": 10,
     "per_realization": {
      "100": {
       "median": 67.19529283507742,
@@ -45500,10 +45600,62 @@
       "input": 67.74,
       "inside": true,
       "side": null
+     },
+     "106": {
+      "median": 69.32108369911896,
+      "ci90": [
+       67.84310236871698,
+       70.72561904115548
+      ],
+      "input": 67.74,
+      "inside": false,
+      "side": "above"
+     },
+     "107": {
+      "median": 69.18357134756911,
+      "ci90": [
+       67.22910792684166,
+       71.36477804658385
+      ],
+      "input": 67.74,
+      "inside": true,
+      "side": null
+     },
+     "108": {
+      "median": 68.27753808500321,
+      "ci90": [
+       66.60802463004788,
+       69.88084757319452
+      ],
+      "input": 67.74,
+      "inside": true,
+      "side": null
+     },
+     "109": {
+      "median": 64.03036126875936,
+      "ci90": [
+       62.84454400376349,
+       65.97236047057048
+      ],
+      "input": 67.74,
+      "inside": false,
+      "side": "below"
+     },
+     "110": {
+      "median": 67.69955599828273,
+      "ci90": [
+       66.3007136810251,
+       69.02385043306684
+      ],
+      "input": 67.74,
+      "inside": true,
+      "side": null
      }
     },
     "outside": {
-     "103": "above"
+     "103": "above",
+     "106": "above",
+     "109": "below"
     }
    }
   },
@@ -46218,7 +46370,18 @@
      110
     ],
     "n_realizations": 10,
-    "per_realization": {},
+    "per_realization": {
+     "100": {
+      "median": 68.00105488587803,
+      "ci90": [
+       65.83034960505016,
+       69.95528064212212
+      ],
+      "input": 67.74,
+      "inside": true,
+      "side": null
+     }
+    },
     "outside": {}
    }
   },
@@ -54852,20 +55015,19 @@
   },
   "NrealHDAssumed": {
    "class": "plain",
-   "render": "five",
-   "value": 5,
+   "render": "ten",
+   "value": 10,
    "units": "realizations",
-   "meaning": "realizations combined, population assumed (the galaxy class's for both classes) and the two populations at their inputs, host-dependent mergers (offsets as given and twice those), peak-dominated spectrum (keys HDAssumed, HDAssumedTwice, HDPops; RUNLIST_experiment.yaml stage E1)",
+   "meaning": "realizations combined, population assumed (the galaxy class's for both classes) and the two populations at their inputs, host-dependent mergers, peak-dominated spectrum (keys HDAssumed, HDPops; RUNLIST_experiment.yaml stage E1; until 25 Nov also the number of HDAssumedTwice, now NrealHDAssumedTwice)",
    "source": {
     "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
-    "computation": "HDAssumed: RUNLIST_experiment.yaml: 5 runs of two_tracers_one_population on the experiment's set peak_f0p30_s1, realizations [100, 101, 102, 103, 105]; HDAssumedTwice: RUNLIST_experiment.yaml: 5 runs of two_tracers_one_population on the experiment's set peak_f0p30_s2, realizations [100, 101, 102, 103, 105]; HDPops: RUNLIST_experiment.yaml: 5 runs of two_tracers_two_populations on the experiment's set peak_f0p30_s1, realizations [100, 101, 102, 103, 105]"
+    "computation": "HDAssumed: RUNLIST_experiment.yaml: 10 runs of two_tracers_one_population on the experiment's set peak_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110]; HDPops: RUNLIST_experiment.yaml: 10 runs of two_tracers_two_populations on the experiment's set peak_f0p30_s1, realizations [100, 101, 102, 103, 105, 106, 107, 108, 109, 110]"
    },
    "claim": "design,realizations",
    "containment": null,
    "extra": {
     "keys": [
      "HDAssumed",
-     "HDAssumedTwice",
      "HDPops"
     ],
     "realizations": {
@@ -54874,16 +55036,46 @@
       101,
       102,
       103,
-      105
+      105,
+      106,
+      107,
+      108,
+      109,
+      110
      ],
-     "HDAssumedTwice": [
+     "HDPops": [
       100,
       101,
       102,
       103,
-      105
-     ],
-     "HDPops": [
+      105,
+      106,
+      107,
+      108,
+      109,
+      110
+     ]
+    }
+   }
+  },
+  "NrealHDAssumedTwice": {
+   "class": "plain",
+   "render": "five",
+   "value": 5,
+   "units": "realizations",
+   "meaning": "realizations combined, population assumed, host-dependent mergers with twice the offsets, peak-dominated spectrum (key HDAssumedTwice; RUNLIST_experiment.yaml stage E1)",
+   "source": {
+    "file": "analyses/analysis_16_production_runs/runs/RUNLIST_experiment.yaml",
+    "computation": "HDAssumedTwice: RUNLIST_experiment.yaml: 5 runs of two_tracers_one_population on the experiment's set peak_f0p30_s2, realizations [100, 101, 102, 103, 105]"
+   },
+   "claim": "design,realizations",
+   "containment": null,
+   "extra": {
+    "keys": [
+     "HDAssumedTwice"
+    ],
+    "realizations": {
+     "HDAssumedTwice": [
       100,
       101,
       102,
@@ -57921,6 +58113,646 @@
      103,
      105
     ]
+   }
+  },
+  "MCHDHzeroSdEightK": {
+   "class": "ph",
+   "render": "\\ph{0.50}",
+   "value": 0.5,
+   "units": "km/s/Mpc",
+   "meaning": "spread (sd, ddof 1) of the posterior median of H0 over 5 draws of the posterior samples of all mergers at 8000 samples per merger (redraw indices 0, 1, 2, 3, 4; index 0 the production grid), realization A (100) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 4 of the 7 runs of realization A (100) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.50"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 100,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd2",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd4",
+       "summary": true,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDHzeroSdThirtyTwoK": {
+   "class": "ph",
+   "render": "\\ph{0.30}",
+   "value": 0.3,
+   "units": "km/s/Mpc",
+   "meaning": "spread (sd, ddof 1) of the posterior median of H0 over 2 draws at 32000 samples per merger (redraw indices 0, 1), realization A (100) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 4 of the 7 runs of realization A (100) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.30"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 100,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd2",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd4",
+       "summary": true,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDfSdEightK": {
+   "class": "ph",
+   "render": "\\ph{0.010}",
+   "value": 0.01,
+   "units": "",
+   "meaning": "spread (sd, ddof 1) of the posterior median of f_AGN over 5 draws of the posterior samples of all mergers at 8000 samples per merger (redraw indices 0, 1, 2, 3, 4; index 0 the production grid), realization A (100) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 4 of the 7 runs of realization A (100) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.010"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 100,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd2",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd4",
+       "summary": true,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDHzeroSdRelEightK": {
+   "class": "ph",
+   "render": "\\ph{0.50}",
+   "value": 0.5,
+   "units": "",
+   "meaning": "that spread of H0 over the mean 68% half-width of H0 of the same draws (as MCMixedHzeroSdRelEightK), realization A (100) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 4 of the 7 runs of realization A (100) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.50"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 100,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd2",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd4",
+       "summary": true,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDNdraws": {
+   "class": "ph",
+   "render": "\\ph{five}",
+   "value": 5.0,
+   "units": "draws",
+   "meaning": "number of draws of the posterior samples at 8000 samples per merger (the production grid counted), realization A (100) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations) (a word)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 4 of the 7 runs of realization A (100) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): five"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 100,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd2",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd4",
+       "summary": true,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDLowHzeroSdEightK": {
+   "class": "ph",
+   "render": "\\ph{0.50}",
+   "value": 0.5,
+   "units": "km/s/Mpc",
+   "meaning": "spread (sd, ddof 1) of the posterior median of H0 over 5 draws of the posterior samples of all mergers at 8000 samples per merger (redraw indices 0, 1, 2, 3, 4; index 0 the production grid), realization 109 (the low one) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 6 of the 7 runs of realization 109 (the low one) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.50"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 109,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd4",
+       "summary": false,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDLowHzeroSdThirtyTwoK": {
+   "class": "ph",
+   "render": "\\ph{0.30}",
+   "value": 0.3,
+   "units": "km/s/Mpc",
+   "meaning": "spread (sd, ddof 1) of the posterior median of H0 over 2 draws at 32000 samples per merger (redraw indices 0, 1), realization 109 (the low one) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 6 of the 7 runs of realization 109 (the low one) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.30"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 109,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd4",
+       "summary": false,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDLowfSdEightK": {
+   "class": "ph",
+   "render": "\\ph{0.010}",
+   "value": 0.01,
+   "units": "",
+   "meaning": "spread (sd, ddof 1) of the posterior median of f_AGN over 5 draws of the posterior samples of all mergers at 8000 samples per merger (redraw indices 0, 1, 2, 3, 4; index 0 the production grid), realization 109 (the low one) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 6 of the 7 runs of realization 109 (the low one) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.010"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 109,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd4",
+       "summary": false,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDLowHzeroSdRelEightK": {
+   "class": "ph",
+   "render": "\\ph{0.50}",
+   "value": 0.5,
+   "units": "",
+   "meaning": "that spread of H0 over the mean 68% half-width of H0 of the same draws (as MCMixedHzeroSdRelEightK), realization 109 (the low one) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 6 of the 7 runs of realization 109 (the low one) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 0.50"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 109,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd4",
+       "summary": false,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
+   }
+  },
+  "MCHDLowHzeroMean": {
+   "class": "ph",
+   "render": "\\ph{64.6}",
+   "value": 64.6,
+   "units": "km/s/Mpc",
+   "meaning": "mean of the posterior medians of H0 over 5 draws of the posterior samples of all mergers at 8000 samples per merger (redraw indices 0, 1, 2, 3, 4; index 0 the production grid), realization 109 (the low one) of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, two_tracers_two_populations) (the decimals of HDPopsHzeroComb)",
+   "source": {
+    "missing": "analysis_16 stage X (make_runlist.X_HD_REDRAW): 6 of the 7 runs of realization 109 (the low one) wait: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2; two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3 ...",
+    "placeholder_source": "invented (notes/MACRO_REQUESTS.md K): 64.6"
+   },
+   "claim": "appendixA,hd_redraw",
+   "containment": null,
+   "extra": {
+    "realization": 109,
+    "runs": {
+     "8000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109",
+       "summary": true,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 2,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 3,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 4,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd4",
+       "summary": false,
+       "problem": null
+      }
+     ],
+     "32000": [
+      {
+       "redraw_index": 0,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd0",
+       "summary": false,
+       "problem": null
+      },
+      {
+       "redraw_index": 1,
+       "run": "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd1",
+       "summary": false,
+       "problem": null
+      }
+     ]
+    }
    }
   }
  },

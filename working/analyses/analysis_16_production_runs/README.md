@@ -280,7 +280,7 @@ lane has 2.9e6 detected injections against the record's 2.2e6.
 | 4 host-dependent events (peak lane; 23 Nov: one eight-parameter run left, realization 100) | 16 | 31 | 777,000 | 83.6 | 83.6 |
 | 5 observed-like spectrum, host-dependent events (obslike lane; 23 Nov: eight-parameter runs with the mixed sampler; cost from V8's five finished runs; 23 Nov, 23:30: `--redraw-mixture support`, names kept; 25 Nov: the two single-population classes also on 106-110) | 25 | 45 | 1,733,115 | 247.8 | 247.8 |
 | V8 the eight-parameter sampler (realization 100's stopped uniform run, held; its continuation; 101-105 automatic; 25 Nov: 106-110 automatic) | 11 | 12 | 2,137,782 | 298.7 | 296.4 |
-| X checks of analysis settings, not production (23 Nov: with realization 106's two observed-like grids at 32000 samples) | 119 | 119 | 82,390 | 27.5 | 27.4 |
+| X checks of analysis settings, not production (23 Nov: with realization 106's two observed-like grids at 32000 samples; 25 Nov: with the twelve redraw grids of realizations 100 and 109 of `peak_f0p30_s1`) | 131 | 131 | 101,320 | 31.5 | 31.3 |
 | E1 experiment grids, peak family (25 Nov: with the ten grids of `peak_f0p30_s1` on 106-110) | 245 | 245 | 160,075 | 30.3 | 30.3 |
 | E2 experiment grids, observed-like family (23 Nov: with the twenty grids of realizations 106-115, below; no key or macro of the paper reads them since 23 Nov, 23:30) | 95 | 95 | 63,290 | 11.4 | 11.4 |
 | E2M E2's grids with the mixture redraw (23 Nov, 23:30; below; cost: the partners' measured calls and seconds per call) | 95 | 95 | 69,560 | 12.0 | 12.0 |
@@ -475,6 +475,22 @@ grid passes, rank 2.85, 2008 calls each (the partners'), 0.64 + 0.69 GPU-h (the 
 ratio of E2's `obslike_f1p00_s0/..._s32000_inj1` over `obslike_f0p30_s0` grids). No key reads them (23 Nov, 23:30 UTC: the paper's
 `Obs<Assumed|Pops>MC...` macros that used them are removed; the observed-like family takes the mixture redraw instead, below). Queue (lane 2):
 `$PY scripts/launch.py --lanes 2 stage X --only-lane 2 --match '^two_tracers_(one_population|two_populations)/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000$'`.
+*25 Nov (`make_runlist.build_checks` (j), `X_HD_REDRAW`):* on CPU, realization 109 of `peak_f0p30_s1` with both populations at their
+inputs moves its H0 median by +1.06 and +0.75 (about one posterior standard deviation) when the posterior samples of all mergers are
+drawn anew (`--redraw-index 1`, `2`, 8000 samples; `tests/hd_scatter_eval.py`, `tests/results/hd_scatter_t2redraw_r109.json`), against
+0.28 for an equal-population realization in Analysis 14. Twelve grids measure that scatter on the GPU: the set's stage-E1 grid of
+`two_tracers_two_populations` on realizations 100 (the paper's realization A) and 109, run names `.../peak_f0p30_s1/realization_NNN_rd{1..4}`
+(the E1 entry's arguments plus `--redraw-index i --variant rd<i>`, 8000 samples; index 0 is the E1 run) and
+`.../realization_NNN_s32000_rd{0,1}` (plus `--nsamp 32000 --redraw-index i --variant s32000_rd<i>`; the 32000-sample redraw of index i
+holds the 8000 samples of index i first), nothing else (checked by the builder; realization 100's keep the E1 entry's `--membership`;
+resolved configurations differ from the partner's in `redraw_key`, `nsamp`, `variant`, `run_name` alone, all twelve, CPU). Rank 2.85,
+priority 0; cost the partner's measured calls (1147 for 100, 2008 for 109: its fine grid was widened) and seconds per call (0.481,
+0.468), at 32000 samples times 2.462 (the ratio measured on (i)'s `two_tracers_two_populations` pair, the observed-like lane: the peak lane
+has no two-tracer grid at 32000 samples with one injection set): 0.18 / 0.40 GPU-h per grid for 100, 0.28 / 0.67 for 109, 4.0 in all.
+CPU resolve test of the twelve alone: `tests/results/runlist_resolve_hd_redraw.json` (12 tasks, all pass). The paper's `\MCHD...` (realization
+A) and `\MCHDLow...` (realization 109) macros read them (`paper_prd/scripts/build_values.build_hd_redraw`; red until all of a realization's
+grids exist). Queue (both lanes): `$PY scripts/launch.py --lanes 2 stage X --spread --match
+'^two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_1(00|09)_(rd[1-4]|s32000_rd[01])$'`.
 
 **The mixture redraw (23 Nov, 23:30 UTC; stage E2M, stage 5).** *Option:* `--redraw-mixture support` (`scripts/redraw_mixture.py`, its
 docstring): a merger whose posterior reaches beyond the observed-like power law's sharp upper mass edge gets half of its samples from its

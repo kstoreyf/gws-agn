@@ -650,7 +650,9 @@ SAMPLER_FLAGS = ("--sample", "--auto-switch-sample", "--auto-switch-cpi", "--ini
 # eight-parameter run on 106-110 (V8_LATER); the runs are queued, not run, and a key that named them would turn red. A key listed here reads
 # only these realizations (production.build_map, placeholder_results._experiment_realizations; audit_values._OWN_KEY_REALIZATIONS_HELD by own
 # code); key HDHost's realizations are STAGE_V_KEY_RUNS' own list. notes/MACRO_REQUESTS.md J gives the edit that extends each to ten.
-KEY_REALIZATIONS_HELD = {"HDPops": (100, 101, 102, 103, 105), "HDAssumed": (100, 101, 102, 103, 105)}
+# 25 Nov, later: the ten grids of group C (two_tracers_{two_populations,one_population}/.../peak_f0p30_s1/realization_1{06..10}) finished,
+# so HDPops and HDAssumed read all ten (MACRO_REQUESTS J); HDHost keeps STAGE_V_KEY_RUNS' five until group A has run.
+KEY_REALIZATIONS_HELD = {}
 
 
 def held_realizations(key, reals):
@@ -1745,7 +1747,7 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   **`\\HDLBMin`**, **`\\HDLBMax`**, **`\\ObsLBMin`**, **`\\ObsLBMax`** (the smallest and largest per-realization log10 Bayes factor
   of `<pre>HostLBComb`; red while the key waits: the realizations whose two summaries exist); **`\\HDHostMaxAbsCorrHzero`** (realization
   A: the largest |correlation| of H0 with the other seven parameters, two decimals). Numbers of realizations: `\\NrealHDAssumed`
-  (keys HDAssumed, HDAssumedTwice, HDPops), `\\NrealHDSingleTwice`, `\\NrealObsAssumed` (ObsAssumed, ObsPops); the AGN-hosted
+  (keys HDAssumed, HDPops; 25 Nov, later: ten), `\\NrealHDAssumedTwice` (HDAssumedTwice, five), `\\NrealHDSingleTwice`, `\\NrealObsAssumed` (ObsAssumed, ObsPops); the AGN-hosted
   share of the detected mergers in the mean over the realizations of HDSingle and ObsSingle, `\\MockHDfDetMean`, `\\ObsHDfDetMean`
   (events metadata `realised.realised_f_agn`, the summaries' `planted.truth_f_agn`). Half-widths of the single population on the
   realizations of `\\HWHost` and the factor in mergers: `\\HWHDSingle`, `\\HWObsSingle`, `\\CostSingleHost`, `\\CostObsSingleHost`
@@ -1756,8 +1758,9 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   mergers stays on the realizations common to both (`ObsHost`'s): `\\ObsLB`, `\\ObsHostLB[Comb]`, `\\ObsLBMin`, `\\ObsLBMax`,
   `\\HWObsSingle[Min|Max]`, `\\CostObsSingleHost[Min|Max]`; so do `\\ObsHDfDetMean` and the subsets `First`/`Later` of
   `ObsPops`/`ObsAssumed` (`\\NrealObsFirst`: realizations that carry all three keys of stage 5). The red placeholders of `ObsSingle` and
-  `ObsNone` keep the combination invented for five (`placeholder_results.PLACEHOLDER_N`). Keys `HDPops` and `HDAssumed` stay on their five
-  realizations although the run list has ten (`build_values.KEY_REALIZATIONS_HELD`), and `HDHost` on its five (`STAGE_V_KEY_RUNS`).
+  `ObsNone` keep the combination invented for five (`placeholder_results.PLACEHOLDER_N`). Keys `HDPops` and `HDAssumed` combine ten
+  realizations since their grids of 106-110 finished (25 Nov, later; `build_values.KEY_REALIZATIONS_HELD` is empty), `HDAssumedTwice` its
+  five; `HDHost` stays on its five (`STAGE_V_KEY_RUNS`) until its runs of 106-110 exist.
 - The observed-like family on the mixture redraw (23 Nov, 23:30 UTC; notes/MACRO_REQUESTS.md H; `build_values.OBS_MIX`, audit J8).
   Every key and macro that read the observed-like grids of stage E2 reads their partners of stage E2M (analysis_16: the same arguments
   plus `--redraw-mixture support`, run names `<E2 name>_mix`): keys `ObsAssumed`, `ObsPops` (and with them their subsets
@@ -1774,6 +1777,16 @@ KEY_DEFINITIONS = """## The key scheme (notes/PAPER_SKELETON.md Sec. 6; values/p
   **`\\HDSingleHzeroOutsideLo`**, **`\\HDSingleHzeroOutsideHi`**: the lowest and the highest H0 median among the realizations of
   `HDSingle` whose interval does not contain the input, with that realization's own 90% interval, printed as `\\HDSingleHzero`; not
   defined when no realization lies outside.
+- The redraw scatter of a host-dependent realization (25 Nov; notes/MACRO_REQUESTS.md K; `build_values.build_hd_redraw`, audit J10).
+  Key `HDPops`'s grid of realization A (`\\MCHD...`) and of realization 109 (`\\MCHDLow...`), with the posterior samples of all mergers
+  drawn anew (analysis_16 stage X, `make_runlist.X_HD_REDRAW`: `.../peak_f0p30_s1/realization_NNN_rd<i>`, `..._s32000_rd<i>`). As
+  Analysis 14's `\\MCMixed...`: **`\\<P>HzeroSdEightK`**, **`\\<P>fSdEightK`** the standard deviation (ddof 1) of the posterior median
+  (`summary.json`) over the five draws at 8000 samples per merger (redraw indices 0-4, 0 the production grid), **`\\<P>HzeroSdThirtyTwoK`**
+  over the two at 32000 (indices 0, 1), **`\\<P>HzeroSdRelEightK`** the first over the mean 68% half-width of H0 of the five (half the
+  central 68% interval of the run's marginal); **`\\MCHDNdraws`** the number of draws at 8000 samples (a word); **`\\MCHDLowHzeroMean`**
+  the mean of the five H0 medians of realization 109, with the decimals of `\\HDPopsHzeroComb`. One state per realization: black when
+  all seven runs are in the run lists with the right arguments and have their summaries; red otherwise (0.50, 0.30, 0.010, 0.50, five;
+  for 109 64.6).
 """
 R2_DEFINITIONS ="""## Definitions of the revision-2 macros (17 Nov 2026)
 
@@ -3445,9 +3458,12 @@ def build_requests():
           "sets with both catalogs, RUNLIST_experiment.yaml" + ("" if all(k in PR.RUNREAL_EXP for k in ("CtrlZero", "CtrlTenth")) else "; run R4 of runs.txt, not yet in a run list") + ")")
     # 23 Nov (notes/MACRO_REQUESTS.md G1): the experiment's keys of Sec. IV E (RUNLIST_experiment.yaml); one number for the keys the text
     # quotes together (nreal asserts that they agree)
-    nreal("NrealHDAssumed", ["HDAssumed", "HDAssumedTwice", "HDPops"], "realizations combined, population assumed (the galaxy class's for both "
-          "classes) and the two populations at their inputs, host-dependent mergers (offsets as given and twice those), peak-dominated spectrum "
-          "(keys HDAssumed, HDAssumedTwice, HDPops; RUNLIST_experiment.yaml stage E1)")
+    # 25 Nov, later (MACRO_REQUESTS J): HDAssumed and HDPops take ten realizations, HDAssumedTwice keeps five, so one count each
+    nreal("NrealHDAssumed", ["HDAssumed", "HDPops"], "realizations combined, population assumed (the galaxy class's for both "
+          "classes) and the two populations at their inputs, host-dependent mergers, peak-dominated spectrum "
+          "(keys HDAssumed, HDPops; RUNLIST_experiment.yaml stage E1; until 25 Nov also the number of HDAssumedTwice, now NrealHDAssumedTwice)")
+    nreal("NrealHDAssumedTwice", ["HDAssumedTwice"], "realizations combined, population assumed, host-dependent mergers with twice the offsets, "
+          "peak-dominated spectrum (key HDAssumedTwice; RUNLIST_experiment.yaml stage E1)")
     nreal("NrealHDSingleTwice", ["HDSingleTwice"], "realizations combined, single population inferred on host-dependent mergers with twice the "
           "offsets, both catalogs (key HDSingleTwice; RUNLIST_experiment.yaml stage E3)")
     nreal("NrealObsAssumed", ["ObsAssumed", "ObsPops"], "realizations combined, population assumed and the two populations at their inputs, "
@@ -3546,6 +3562,129 @@ def build_requests():
     # the sky resolution (SkyResShiftHzero, SkyResShiftfAGN): the nside-64 run of realization A against KnownBoth's (scripts/skyres.py)
     import skyres as SK
     SK.build(add, add_ph, REG)      # REG: the registry so far (SkyResAllShiftPctHalfWid's red rule reads KnownBothHzeroHalfWid from it)
+    # 25 Nov (notes/MACRO_REQUESTS.md K): the redraw scatter of a host-dependent realization (analysis_16 stage X, make_runlist.X_HD_REDRAW)
+    build_hd_redraw()
+
+
+# ---------------------------------------------------------------- 25 Nov: the redraw scatter of a host-dependent realization
+# notes/MACRO_REQUESTS.md K; analysis_16 make_runlist.X_HD_REDRAW (stage X of RUNLIST.yaml, build_checks (j)). Key HDPops's grid of a
+# realization (two_tracers_two_populations on the set peak_f0p30_s1, both populations at their inputs; stage E1 of RUNLIST_experiment.yaml,
+# redraw index 0, 8000 samples per merger) against the same grid with the posterior samples of all mergers drawn anew. Definitions of
+# Analysis 14's \MCMixed... macros (aggregate_mc_accuracy.stats_block): the spread is the standard deviation (ddof 1) over the draws of
+# the posterior median (here the run's summary.json posterior.<param>.median, the median the paper prints per realization); ...SdRel is
+# that spread over the mean over the draws of the 68% half-width of H0 (half the central 68% interval of the run's marginal of H0,
+# run_posteriors.marginal, as the keys' combined posteriors take it).
+HD_REDRAW_RUN = "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R:03d}"
+HD_REDRAW_DRAWS = {8000: ((0, ""), (1, "_rd1"), (2, "_rd2"), (3, "_rd3"), (4, "_rd4")), 32000: ((0, "_s32000_rd0"), (1, "_s32000_rd1"))}
+# prefix: realization and the red values (Sd and SdRel printed with the decimals of the black macro; HzeroMean with HDPopsHzeroComb's)
+HD_REDRAW_GROUPS = {"MCHD": {"realization": 100, "what": "realization A (100)",
+                             "red": {"HzeroSdEightK": 0.5, "HzeroSdThirtyTwoK": 0.3, "fSdEightK": 0.01, "HzeroSdRelEightK": 0.5, "Ndraws": 5}},
+                    "MCHDLow": {"realization": 109, "what": "realization 109 (the low one)",
+                                "red": {"HzeroSdEightK": 0.5, "HzeroSdThirtyTwoK": 0.3, "fSdEightK": 0.01, "HzeroSdRelEightK": 0.5, "HzeroMean": 64.6}}}
+HD_REDRAW_DEC = {"HzeroSdEightK": 2, "HzeroSdThirtyTwoK": 2, "fSdEightK": 3, "HzeroSdRelEightK": 2}     # as MCMixed<...>
+
+
+def hd_redraw_runs(R, idx=None, idx_exp=None):
+    """{nsamp: [(redraw index, run name, why-not or None)]} of realization R: index 0 at 8000 is the stage-E1 grid of RUNLIST_experiment.yaml,
+    the others stage-X runs of RUNLIST.yaml whose arguments are the E1 entry's plus [--nsamp N] --redraw-index i --variant <its token> (a run
+    not in the run lists, or with other arguments, carries the reason)."""
+    idx = idx if idx is not None else runlist_index()
+    idx_exp = idx_exp if idx_exp is not None else runlist_index(A16 / "runs" / "RUNLIST_experiment.yaml")
+    base = HD_REDRAW_RUN.format(R=R)
+    out = {}
+    for ns, draws in HD_REDRAW_DRAWS.items():
+        for i, suf in draws:
+            name = base + suf
+            why = None
+            if not suf:
+                if idx_exp.get(name, ("",))[0] != "E1":
+                    why = "not a stage-E1 run of RUNLIST_experiment.yaml"
+            else:
+                st, a = idx.get(name, ("", []))
+                pa = idx_exp.get(base, ("", None))[1]
+                want = (list(pa or []) + (["--nsamp", str(ns)] if ns != 8000 else []) + ["--redraw-index", str(i), "--variant", suf[1:]])
+                if st != "X":
+                    why = "not a stage-X run of RUNLIST.yaml"
+                elif pa is None or a != want:
+                    why = f"arguments are not the E1 grid's plus {' '.join(want[len(pa or []):])}"
+            out.setdefault(ns, []).append((i, name, why))
+    return out
+
+
+def hd_redraw_stats(names):
+    """Per run (A16 run names with summary.json): H0 and f_AGN medians (summary.json) and the 68% half-width of H0 (run_posteriors.marginal);
+    and over the runs: sd (ddof 1) of the medians, mean 68% half-width, mean of the H0 medians."""
+    import statistics
+    import placeholder_results as phr
+    import run_posteriors as RP
+    per = {}
+    for n in names:
+        d = A16 / "runs" / n
+        s = jload(d / "summary.json")
+        x, p = RP.marginal([d], "H0")
+        q = phr.summarize_xp(x, p)
+        per[n] = {"H0": float(s["posterior"]["H0"]["median"]), "f_agn": float(s["posterior"]["f_agn"]["median"]),
+                  "hw68_H0": 0.5 * (q["ci68"][1] - q["ci68"][0]), "redraw_key": s.get("redraw_key"), "nsamp": s.get("nsamp")}
+    h = [v["H0"] for v in per.values()]
+    f = [v["f_agn"] for v in per.values()]
+    hw = statistics.fmean(v["hw68_H0"] for v in per.values())
+    return {"per_run": per, "H0_sd": statistics.stdev(h), "f_sd": statistics.stdev(f), "hw68_H0_mean": hw, "H0_mean": statistics.fmean(h),
+            "H0_sd_over_hw68": statistics.stdev(h) / hw}
+
+
+def build_hd_redraw():
+    """MCHD... (realization A) and MCHDLow... (realization 109): HzeroSdEightK, HzeroSdThirtyTwoK, fSdEightK, HzeroSdRelEightK, and
+    MCHDNdraws (the draws at 8000 samples, the production run counted, a word), MCHDLowHzeroMean (mean of the H0 medians of the draws at
+    8000 samples, the decimals of HDPopsHzeroComb). One state per group (realization): black when every run of HD_REDRAW_DRAWS of the
+    realization is in the run lists with the right arguments and has its summary.json; red otherwise, printing HD_REDRAW_GROUPS' values."""
+    idx, idx_exp = runlist_index(), runlist_index(A16 / "runs" / "RUNLIST_experiment.yaml")
+    dec_mean = int((next((r for r in REG if r["name"] == "HDPopsHzeroComb"), None) or {"extra": {"decimals": 1}})["extra"].get("decimals", 1))
+    for pre, G in HD_REDRAW_GROUPS.items():
+        R = G["realization"]
+        runs = hd_redraw_runs(R, idx, idx_exp)
+        listed = all(w is None for v in runs.values() for _i, _n, w in v)
+        have = {n: (A16 / "runs" / n / "summary.json").exists() for v in runs.values() for _i, n, _w in v}
+        black = listed and all(have.values())
+        n8, n32 = len(runs[8000]), len(runs[32000])
+        what = (f"{G['what']} of the host-dependent set peak_f0p30_s1, both populations at their inputs, both catalogs (key HDPops's grid, "
+                f"two_tracers_two_populations)")
+        draws = (f"over {n8} draws of the posterior samples of all mergers at 8000 samples per merger (redraw indices "
+                 f"{', '.join(str(i) for i, _n, _w in runs[8000])}; index 0 the production grid)")
+        draws32 = f"over {n32} draws at 32000 samples per merger (redraw indices {', '.join(str(i) for i, _n, _w in runs[32000])})"
+        defs = {"HzeroSdEightK": ("km/s/Mpc", f"spread (sd, ddof 1) of the posterior median of H0 {draws}, {what}"),
+                "HzeroSdThirtyTwoK": ("km/s/Mpc", f"spread (sd, ddof 1) of the posterior median of H0 {draws32}, {what}"),
+                "fSdEightK": ("", f"spread (sd, ddof 1) of the posterior median of f_AGN {draws}, {what}"),
+                "HzeroSdRelEightK": ("", f"that spread of H0 over the mean 68% half-width of H0 of the same draws (as MCMixedHzeroSdRelEightK), {what}")}
+        if pre == "MCHD":
+            defs["Ndraws"] = ("draws", f"number of draws of the posterior samples at 8000 samples per merger (the production grid counted), {what} (a word)")
+        else:
+            defs["HzeroMean"] = ("km/s/Mpc", f"mean of the posterior medians of H0 {draws}, {what} (the decimals of HDPopsHzeroComb)")
+        names8 = [n for _i, n, _w in runs[8000]]
+        names32 = [n for _i, n, _w in runs[32000]]
+        ex_runs = {str(ns): [{"redraw_index": i, "run": n, "summary": have[n], "problem": w} for i, n, w in v] for ns, v in runs.items()}
+        if black:
+            s8, s32 = hd_redraw_stats(names8), hd_redraw_stats(names32)
+            vals = {"HzeroSdEightK": s8["H0_sd"], "HzeroSdThirtyTwoK": s32["H0_sd"], "fSdEightK": s8["f_sd"], "HzeroSdRelEightK": s8["H0_sd_over_hw68"],
+                    "Ndraws": n8, "HzeroMean": s8["H0_mean"]}
+            files = [rel(A16 / "runs" / n / "summary.json") for n in names8 + names32]
+            comp = ("summary.json posterior.<H0|f_agn>.median of each draw; statistics.stdev (ddof 1) over the draws; 68% half-width of H0 = half "
+                    "the central 68% interval of run_posteriors.marginal of the run (placeholder_results.summarize_xp), averaged over the draws")
+            for m, (un, mean) in defs.items():
+                v = vals[m]
+                r = (NUM_WORD.get(int(v), str(int(v))) if m == "Ndraws" else fnum(v, dec_mean if m == "HzeroMean" else HD_REDRAW_DEC[m]))
+                add(f"{pre}{m}", "plain", r, float(v), un, mean, {"files": files, "computation": comp}, "appendixA,hd_redraw",
+                    extra={"realization": R, "runs": ex_runs, "per_run_8000": s8["per_run"], "per_run_32000": s32["per_run"],
+                           "hw68_H0_mean_8000": s8["hw68_H0_mean"]})
+        else:
+            miss = ([f"{n} ({w})" for v in runs.values() for _i, n, w in v if w] + [n for n, h_ in have.items() if not h_])
+            for m, (un, mean) in defs.items():
+                v = G["red"][m]
+                r = (NUM_WORD[v] if m == "Ndraws" else fnum(v, dec_mean if m == "HzeroMean" else HD_REDRAW_DEC[m]))
+                add(f"{pre}{m}", "ph", f"\\ph{{{r}}}", float(v), un, mean,
+                    {"missing": f"analysis_16 stage X (make_runlist.X_HD_REDRAW): {len(miss)} of the {n8 + n32} runs of {G['what']} wait: "
+                                + "; ".join(miss[:3]) + (" ..." if len(miss) > 3 else ""),
+                     "placeholder_source": f"invented (notes/MACRO_REQUESTS.md K): {r}"},
+                    "appendixA,hd_redraw", extra={"realization": R, "runs": ex_runs})
 
 
 # ============================================================================================= #

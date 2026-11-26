@@ -1065,8 +1065,8 @@ A correlation between $H_0$ and the fraction of a heavier formation channel
 has been reported without catalogs \cite{Scarpa:2026piy}; here the heavier
 population is also a different host class, and the catalogs see it.
 With offsets twice as large the posterior of $H_0$ has no interior maximum
-in any of the \NrealHDAssumed{} realizations: on
-% "any": \HDAssumedTwiceNoPeak equals \NrealHDAssumed (audit check J5); re-read if either changes
+in any of the \NrealHDAssumedTwice{} realizations: on
+% "any": \HDAssumedTwiceNoPeak equals \NrealHDAssumedTwice (audit check J5); re-read if either changes
 realization A its median is \HDAssumedTwiceHzeroMed{} against the upper
 prior edge of \PriorHzeroHi, with $\fagn<\HDAssumedTwicefAGNUL$ at 90\%
 credibility.
@@ -1080,8 +1080,14 @@ credible level and inside the 90\% interval, and realization A alone has a
 Taken singly, \HDSingleHzeroInside{} of the \NrealHDSingle{} realizations
 hold the input inside their 90\% interval; the lowest and the highest of the
 others give $\HDSingleHzeroOutsideLo$ and $\HDSingleHzeroOutsideHi\,\kms$.
-The realizations scatter by more than their intervals allow, and we have not
-traced the excess to the mergers or to the analysis. % REREAD (grids with the populations known on realizations 106 to 110 will tell)
+With the two populations at their inputs \HDPopsHzeroInside{} of
+\NrealHDAssumed{} do, so the scatter beyond the intervals is not owed to the
+inferred population. Part of it is Monte Carlo noise: for these mergers the
+median of a realization varies between redraws of the posterior samples by
+$\MCHDHzeroSdEightK\,\kms$, \MCHDHzeroSdRelEightK{} of its 68\% half-width
+(Appendix~\ref{app:like}). We read the remainder as the draw of the
+realization that lies lowest, which does so in every analysis of its
+mergers. % EXPECTED (the redraw grids of realizations 100 and 109)
 % "inside the 90% interval": \HDSingleHzeroCL is 81 over ten realizations; re-read if realizations are added
 The mass peak of the single population settles at
 $\mu_{\rm G}=\HDSingleMuG\msun$, between the
@@ -1576,7 +1582,14 @@ variance grows with the weight of the AGN term. For mergers all hosted by
 AGN the variance is \MCAGNLnLVarEightK{} at \MCNsampMid{} samples and the
 median of $H_0$ varies by $\MCAGNHzeroSdEightK\,\kms$; at the \MCNsampHi{}
 samples used for these sets they are \MCAGNLnLVarThirtyTwoK{} and
-$\MCAGNHzeroSdThirtyTwoK\,\kms$. Between sets of
+$\MCAGNHzeroSdThirtyTwoK\,\kms$.
+For mergers with host-dependent populations and the two populations at
+their inputs, the median of $H_0$ of realization A varies between
+\MCHDNdraws{} redraws by $\MCHDHzeroSdEightK\,\kms$ at \MCNsampMid{} samples
+and by \MCHDHzeroSdThirtyTwoK{} at \MCNsampHi, and that of the realization
+that lies lowest by \MCHDLowHzeroSdEightK{} and \MCHDLowHzeroSdThirtyTwoK,
+about a mean over the redraws of $\MCHDLowHzeroMean\,\kms$. % EXPECTED (the redraw grids of realizations 100 and 109)
+Between sets of
 simulated signals the medians vary by $\MCMixedInjHzeroSd\,\kms$ and
 \MCMixedInjfSd.
 

@@ -319,3 +319,30 @@ together, and HDHost on its own once A is done):
   `\HDPopsHzeroInside`. Unchanged: the experiment's means of classes.py on this set (`\HWPopsThirty`, `\ProbAGNPos`, ...) stay on the
   experiment's five (the run list's header realizations). main.tex: lines 1068-1069 ("in any of the `\NrealHDAssumed`
   realizations" for `\HDAssumedTwiceNoPeak`) then need `\NrealHDAssumedTwice`.
+
+Done 25 Nov, later (group C's ten summaries exist): the edit above for `HDPops` and `HDAssumed`, `production.py --write-map`, the refresh.
+`HDHost` keeps its five (group A has not run). New: **`\NrealHDAssumedTwice`** (five). `\NrealHDAssumed` counts `HDAssumed` and `HDPops`
+(ten).
+
+## K. The redraw scatter of a host-dependent realization (25 Nov 2026)
+
+Why. On CPU, realization 109 of `peak_f0p30_s1` with both populations at their inputs moves its H0 median by +1.06 and +0.75 (about one
+posterior standard deviation) when the posterior samples of all mergers are drawn anew (analysis_16 `tests/results/hd_scatter_t2redraw_r109.json`),
+against `\MCMixedHzeroSdEightK` = 0.28 for an equal-population realization (Appendix A). Runs: analysis_16 stage X (`make_runlist.X_HD_REDRAW`),
+key `HDPops`'s grid `two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R}` with `--redraw-index 1-4` at 8000
+samples (`..._rd<i>`) and `--nsamp 32000 --redraw-index 0, 1` (`..._s32000_rd<i>`), for R = 100 (realization A) and 109. Definitions as
+Analysis 14's `\MCMixed...` (`aggregate_mc_accuracy.stats_block`): the spread is the standard deviation (ddof 1) over the draws of the
+posterior median (`summary.json`); `...SdRel` that spread over the mean 68% half-width of H0 of the same draws.
+
+| macro | quantity | red value |
+|---|---|---|
+| `\MCHDHzeroSdEightK`, `\MCHDLowHzeroSdEightK` | sd of the H0 median over the five draws at 8000 samples (redraw 0, the production grid, and 1-4) | 0.50 |
+| `\MCHDHzeroSdThirtyTwoK`, `\MCHDLowHzeroSdThirtyTwoK` | the same over the two draws at 32,000 samples (redraws 0, 1) | 0.30 |
+| `\MCHDfSdEightK`, `\MCHDLowfSdEightK` | sd of the f_AGN median over the five draws at 8000 samples | 0.010 |
+| `\MCHDHzeroSdRelEightK`, `\MCHDLowHzeroSdRelEightK` | the first over the mean 68% half-width of H0 of the five | 0.50 |
+| `\MCHDNdraws` | draws at 8000 samples, the production grid counted (a word) | five |
+| `\MCHDLowHzeroMean` | mean of the five H0 medians of realization 109 (decimals of `\HDPopsHzeroComb`) | 64.6 |
+
+One state per realization (prefix `MCHD` = 100, `MCHDLow` = 109): black when its seven runs are in the run lists with the right arguments
+and every summary exists; red otherwise. Built by `scripts/build_values.py` (`build_hd_redraw`), checked by audit J10 (own parser of both run
+lists, configs and summaries read directly, own PCHIP 68% half-width).

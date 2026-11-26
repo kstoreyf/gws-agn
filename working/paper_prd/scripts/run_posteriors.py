@@ -16,7 +16,8 @@ two things only: the names of the free parameters and whether the fine pass was 
 
 Grids: the corrected ln L (ln L + sum sigma_i^2/2 - N/(2 N_eff), Analysis 14's correction, when the run applied
 it), fine pass first, coarse pass outside it. Combinations sum the corrected ln L of the realizations on a common
-mesh (cubic splines of each fine pass, linear in the coarse pass). Nested runs: the finished parts' weighted
+mesh (cubic splines of each fine pass, linear in the coarse pass; since 26 Nov a fine pass with non-finite cells is
+splined too, filled at the floor, when its mass near them is below SPLINE_GUARD = 1e-12, _spline_ready). Nested runs: the finished parts' weighted
 samples, resampled systematically to equal weight; combinations multiply kernel densities of the marginals.
 """
 from __future__ import annotations
@@ -124,13 +125,46 @@ def _common_axes(all_parts, n2=(401, 801), n1=4001):
     return names, axes
 
 
+# 26 Nov: a fine pass with non-finite cells (the variance cap) is splined like any other, its non-finite cells filled with _eval_parts'
+# floor (lowest finite value - 200), when the run's own posterior mass near them is negligible: guard = sum of exp(lnL - max) over the
+# finite cells within GUARD_CELLS cells (in every axis) of a non-finite cell over the sum over all finite cells, below SPLINE_GUARD (1e-12: essentially no mass, so every pass with more keeps its linear rule);
+# otherwise the pass keeps the linear interpolation of _eval_parts. One rule for marginals, combinations and joint regions.
+SPLINE_GUARD = 1e-12
+GUARD_CELLS = 3
+
+
+def nonfinite_guard(lnc, k=GUARD_CELLS):
+    """Share of the pass's posterior mass (exp(lnL - max), finite cells) within k cells in every axis of a non-finite cell (0 when none)."""
+    from scipy.ndimage import maximum_filter
+    lnc = np.asarray(lnc, float)
+    ok = np.isfinite(lnc)
+    if ok.all():
+        return 0.0
+    w = np.where(ok, np.exp(lnc - np.max(lnc[ok])), 0.0)
+    near = maximum_filter((~ok).astype(np.uint8), size=2 * k + 1, mode="constant", cval=0).astype(bool)
+    return float(w[near].sum() / w.sum())
+
+
+def _spline_ready(lnc):
+    """The fine pass's ln L to spline: as it is when finite; with its non-finite cells at _eval_parts' floor when nonfinite_guard is
+    below SPLINE_GUARD; None (keep the linear fallback) otherwise."""
+    ok = np.isfinite(lnc)
+    if ok.all():
+        return lnc
+    if nonfinite_guard(lnc) < SPLINE_GUARD:
+        return np.where(ok, lnc, np.min(lnc[ok]) - 200.0)
+    return None
+
+
 def _spline_parts(parts):
-    """Cubic splines of the corrected ln L of a 2-D grid run's fine pass (the coarse pass stays linear)."""
+    """Cubic splines of the corrected ln L of a 2-D grid run's fine pass (the coarse pass stays linear); a pass with non-finite
+    cells is splined only when its mass near them is negligible (_spline_ready), else None (linear)."""
     from scipy.interpolate import RectBivariateSpline
     names, axes, lnc = parts[0]
-    if len(axes) != 2 or not np.all(np.isfinite(lnc)):
+    lf = _spline_ready(lnc) if len(axes) == 2 else None
+    if lf is None:
         return None
-    return RectBivariateSpline(axes[0], axes[1], lnc, kx=3, ky=3, s=0), axes
+    return RectBivariateSpline(axes[0], axes[1], lf, kx=3, ky=3, s=0), axes
 
 
 def grid_joint(run_dirs, n=(401, 321), pad=0.0):
@@ -138,7 +172,8 @@ def grid_joint(run_dirs, n=(401, 321), pad=0.0):
     summed (uniform priors): dict(names, x, y, P (density, normalised on the mesh), level90 (the density
     above which 90% of the mass lies), edge (largest density on the mesh border over the peak), runs).
     The mesh spans the intersection of the runs' fine passes (widened by `pad` of its width, where the
-    coarse passes are used); ln L is a cubic spline of each fine pass and linear in the coarse pass."""
+    coarse passes are used); ln L is a cubic spline of each fine pass and linear in the coarse pass (a fine pass with
+    non-finite cells by the rule of _spline_ready, the same as for marginals and combinations)."""
     all_parts = [_grid_parts(Path(d)) for d in run_dirs]
     names = all_parts[0][0][0]
     lo = [max(p[0][1][i][0] for p in all_parts) for i in range(2)]
@@ -172,15 +207,17 @@ def _eval_parts_spline(parts, pts):
     interpolation leaves dips of up to (step^2/8) |d^2 lnL/dx^2| between nodes, which add up over realizations
     (0.3 nats at the 0.025 f_AGN step of the 2-D grids summed over ten realizations). A cubic spline rings where
     ln L jumps by tens of nats between two nodes (audit_values.py K2 fails for any grid of the paper with such a
-    jump where the posterior has mass)."""
+    jump where the posterior has mass). A fine pass with non-finite cells is splined by the rule of _spline_ready
+    (filled at the floor when its mass near them is below SPLINE_GUARD), else left linear."""
     from scipy.interpolate import CubicSpline
     val = _eval_parts(parts, pts)
     names, axes, lnc = parts[0]
-    if not np.all(np.isfinite(lnc)):
+    lf = _spline_ready(lnc)
+    if lf is None:
         return val
     inside = np.all([(pts[:, i] >= a[0]) & (pts[:, i] <= a[-1]) for i, a in enumerate(axes)], axis=0)
     if len(axes) == 1:
-        val[inside] = CubicSpline(axes[0], lnc)(pts[inside, 0])
+        val[inside] = CubicSpline(axes[0], lf)(pts[inside, 0])
     else:
         spl, _ = _spline_parts(parts)
         val[inside] = spl.ev(pts[inside, 0], pts[inside, 1])

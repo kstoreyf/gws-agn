@@ -725,6 +725,7 @@ def audit_keys(mac):
     audit_production(mac, doc, owner)
     audit_obslike_mixture(mac, doc)
     audit_coverage(mac, doc)
+    audit_hd_redraw(mac)
     audit_classes(mac, doc)
     audit_density(mac)
     audit_density_phys(mac)
@@ -812,8 +813,9 @@ def audit_requests(mac, doc):
     n_exp = lambda an, lab: len({int(r["args"][r["args"].index("--realization") + 1]) for st in rx["stages"] for r in st["runs"]
                                  if r["analysis"] == an and r["set"]["label"] == lab and (not lab.startswith("obslike_") or str(st["stage"]) == "E2M")}
                                 & held.get((an, lab), set(range(1000))))
-    want["NrealHDAssumed"] = {n_exp("two_tracers_one_population", "peak_f0p30_s1"), n_exp("two_tracers_one_population", "peak_f0p30_s2"),
-                              n_exp("two_tracers_two_populations", "peak_f0p30_s1")}
+    # (25 Nov, later: HDAssumed and HDPops on ten, HDAssumedTwice on five: one count each)
+    want["NrealHDAssumed"] = {n_exp("two_tracers_one_population", "peak_f0p30_s1"), n_exp("two_tracers_two_populations", "peak_f0p30_s1")}
+    want["NrealHDAssumedTwice"] = n_exp("two_tracers_one_population", "peak_f0p30_s2")
     want["NrealHDSingleTwice"] = n_exp("single_population", "peak_f0p30_s2")
     want["NrealObsAssumed"] = {n_exp("two_tracers_one_population", "obslike_f0p30_s1"), n_exp("two_tracers_two_populations", "obslike_f0p30_s1")}
     words = {3: "three", 5: "five", 10: "ten", 15: "fifteen", 20: "twenty"}     # (15: the observed-like keys of Sec. IV F since 23 Nov)
@@ -826,11 +828,14 @@ def audit_requests(mac, doc):
             for m, ks in (("NrealKnown", ["KnownBoth"]), ("NrealKnownAlone", ["KnownGal", "KnownAGN", "KnownNone"]), ("NrealPure", ["AGNhosted", "Galhosted"]),
                           ("NrealSingle", ["SingleBoth", "SingleNone"]), ("NrealHD", ["HDHost"]), ("NrealHDSingle", ["HDSingle"]), ("NrealHDNone", ["HDNone"]),
                           ("NrealObs", ["ObsHost"]), ("NrealObsSingle", ["ObsSingle"]), ("NrealObsNone", ["ObsNone"]), ("NrealCtrl", ["CtrlZero", "CtrlTenth"]),
-                          ("NrealHDAssumed", ["HDAssumed", "HDAssumedTwice", "HDPops"]), ("NrealHDSingleTwice", ["HDSingleTwice"]),
+                          ("NrealHDAssumed", ["HDAssumed", "HDPops"]), ("NrealHDAssumedTwice", ["HDAssumedTwice"]),
+                          ("NrealHDSingleTwice", ["HDSingleTwice"]),
                           ("NrealObsAssumed", ["ObsAssumed", "ObsPops"])) if k in ks and E["N_comb"] != val(m)]
     check(not bad, f"I0 the {len(want)} numbers of realizations equal the run lists (own parser; the control sets: the experiment's f = 0 and f = 0.1 sets; Stage 5 for Obs, "
                    f"one count per class since 25 Nov: NrealObs (host-dependent) {want['NrealObs']}, NrealObsSingle {want['NrealObsSingle']}, NrealObsNone {want['NrealObsNone']}; "
-                   f"HDPops and HDAssumed on the realizations they read, {sorted(_OWN_KEY_REALIZATIONS_HELD['HDPops'])}; "
+                   f"HDPops and HDAssumed on the realizations they read, "
+                   f"{sorted(_OWN_KEY_REALIZATIONS_HELD['HDPops']) if 'HDPops' in _OWN_KEY_REALIZATIONS_HELD else 'all of the run list'} "
+                   f"(NrealHDAssumed {val('NrealHDAssumed')}, NrealHDAssumedTwice {val('NrealHDAssumedTwice')}); "
                    f"the keys of Sec. IV E on three steps: RUNLIST_experiment.yaml's runs on the host-dependent sets; "
                    f"KnownBoth: stage 1 and the {len(_xr)} stage-X runs realization_NNN_nside32 {sorted(_xr)}; HDHost: stage V8's "
                    f"realization_NNN_unif_then_rslice {sorted(_own_hd_stage_v()[1])}), "
@@ -1416,7 +1421,8 @@ _SAME_MERGERS = (("HDAssumed", "HDPops"), ("HDAssumedTwice", "HDSingleTwice"), (
 # 25 Nov, own list: the realizations keys HDPops and HDAssumed read while RUNLIST_experiment.yaml carries more (analysis_16 added the set's
 # grids of 106-110, queued, not run; build_values.KEY_REALIZATIONS_HELD, which must equal this); and the stage-V8 runs of 106-110 that match
 # key HDHost's pattern without being read by it (analysis_16 make_runlist.V8_LATER; the key's realizations are _own_hd_stage_v's)
-_OWN_KEY_REALIZATIONS_HELD = {"HDPops": (100, 101, 102, 103, 105), "HDAssumed": (100, 101, 102, 103, 105)}
+# (25 Nov, later: the grids of 106-110 finished; HDPops and HDAssumed read all ten, MACRO_REQUESTS J)
+_OWN_KEY_REALIZATIONS_HELD = {}
 _HD_V8_LATER = (106, 107, 108, 109, 110)
 
 
@@ -1869,6 +1875,109 @@ def audit_coverage(mac, doc):
                 out.append(f"{n2} '{mac[n2]['render']}' (realization {R})")
     check(not bad, "J9 coverage counts (own reading of production_map.json's realizations and of each summary.json: truth, posterior ci90; own "
                    "words and intervals; black exactly when the key is a production result, red 9N/10 otherwise): " + "; ".join(out)
+                   + (f"; FAIL: {'; '.join(bad[:6])}" if bad else ""))
+
+
+# J10 (25 Nov, notes/MACRO_REQUESTS.md K): the redraw scatter of a host-dependent realization, \MCHD... (realization 100) and \MCHDLow...
+# (realization 109) (build_values.build_hd_redraw), by own code: both run lists parsed here (the E1 grid of the realization, and stage X's
+# draws whose flags are, one by one, the E1 grid's plus [--nsamp 32000] --redraw-index i --variant <token>); when every summary exists,
+# each draw's config.json checked against the E1 grid's (it may differ in run_name, variant, redraw_key, nsamp alone, the redraw key in
+# its last entry by i), the medians read from summary.json directly, statistics.stdev, the 68% half-width of H0 from an own PCHIP marginal
+# of the pass the summary names; black exactly when the realization's seven runs are listed and summarized, red with the requested values.
+_HDR_RUN = "two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{R:03d}"
+_HDR_GROUPS = {"MCHD": (100, {"HzeroSdEightK": 0.5, "HzeroSdThirtyTwoK": 0.3, "fSdEightK": 0.01, "HzeroSdRelEightK": 0.5, "Ndraws": 5}),
+               "MCHDLow": (109, {"HzeroSdEightK": 0.5, "HzeroSdThirtyTwoK": 0.3, "fSdEightK": 0.01, "HzeroSdRelEightK": 0.5, "HzeroMean": 64.6})}
+_HDR_DEC = {"HzeroSdEightK": 2, "HzeroSdThirtyTwoK": 2, "fSdEightK": 3, "HzeroSdRelEightK": 2}
+_HDR_DRAWS = {8000: (0, 1, 2, 3, 4), 32000: (0, 1)}
+
+
+def _own_hd_redraw_stats(runs):
+    """Own second path over a list of A16 run names: H0 and f_AGN medians from summary.json, the 68% half-width of H0 from own PCHIP of the
+    corrected ln L of the pass the summary names; (sd H0, sd f, mean hw68, mean H0, per run)."""
+    import statistics
+    from scipy.integrate import cumulative_trapezoid
+    per = {}
+    for n in runs:
+        run = RUNS16 / n
+        s = _jr(run / "summary.json")
+        nm_, ax_, l_ = _corrected(run, _pass_file(run)[0])
+        x, p = _own_pchip_marg(nm_, ax_, l_, "H0")
+        c = cumulative_trapezoid(p, x, initial=0.0)
+        c /= c[-1]
+        q16, q84 = (float(np.interp(u, c, x)) for u in (0.16, 0.84))
+        per[n] = (float(s["posterior"]["H0"]["median"]), float(s["posterior"]["f_agn"]["median"]), 0.5 * (q84 - q16))
+    h, f, hw = ([v[i] for v in per.values()] for i in range(3))
+    return statistics.stdev(h), statistics.stdev(f), statistics.fmean(hw), statistics.fmean(h), per
+
+
+def audit_hd_redraw(mac):
+    import yaml
+    rl = yaml.safe_load((RUNS16 / "RUNLIST.yaml").read_text())
+    rx = yaml.safe_load((RUNS16 / "RUNLIST_experiment.yaml").read_text())
+    xs = {r["name"]: list(r["args"]) for st in rl["stages"] if str(st["stage"]) == "X" for r in st["runs"]}
+    e1 = {r["name"]: list(r["args"]) for st in rx["stages"] if str(st["stage"]) == "E1" for r in st["runs"]}
+    med_txt = mac["HDPopsHzeroComb"]["render"].split("^")[0] if "HDPopsHzeroComb" in mac else "0.0"     # its median's decimals
+    dmean = len(med_txt.split(".")[1]) if "." in med_txt else 0
+    bad, out = [], []
+    for pre, (R, red) in _HDR_GROUPS.items():
+        base = _HDR_RUN.format(R=R)
+        names = {ns: [base if (ns == 8000 and i == 0) else base + (f"_s{ns}" if ns != 8000 else "") + f"_rd{i}" for i in ii]
+                 for ns, ii in _HDR_DRAWS.items()}
+        listed, why = base in e1, ([] if base in e1 else [f"{base} not in stage E1"])
+        for ns, ii in _HDR_DRAWS.items():
+            for i, n in zip(ii, names[ns]):
+                if n == base:
+                    continue
+                tok = (f"s{ns}_" if ns != 8000 else "") + f"rd{i}"
+                want = dict(_own_flags(e1.get(base, [])), **{"--redraw-index": str(i), "--variant": tok}, **({"--nsamp": str(ns)} if ns != 8000 else {}))
+                a = xs.get(n)
+                n_extra = 3 if ns != 8000 else 2
+                if a is None or _own_flags(a) != want or len(a) != len(e1.get(base, [])) + 2 * n_extra:
+                    listed = False
+                    why.append(f"{n}: {'not in stage X' if a is None else 'flags are not the E1 grid plus the redraw options'}")
+        alln = names[8000] + names[32000]
+        have = [n for n in alln if (RUNS16 / n / "summary.json").exists()]
+        black = listed and len(have) == len(alln)
+        want_names = [f"{pre}{k}" for k in red]
+        absent = [n for n in want_names if n not in mac]
+        if absent:
+            bad.append(f"{pre}: macros missing {absent}")
+            continue
+        if black:
+            sd8, f8, hw8, mean8, per8 = _own_hd_redraw_stats(names[8000])
+            sd32 = _own_hd_redraw_stats(names[32000])[0]
+            c0 = _jr(RUNS16 / base / "config.json")
+            for ns, ii in _HDR_DRAWS.items():
+                for i, n in zip(ii, names[ns]):
+                    c = _jr(RUNS16 / n / "config.json")
+                    dk = sorted(k for k in set(c) | set(c0) if c.get(k) != c0.get(k))
+                    if not set(dk) <= {"run_name", "variant", "redraw_key", "nsamp"} or c["nsamp"] != ns or c["redraw_key"][-1] != i \
+                            or c["redraw_key"][:-1] != c0["redraw_key"][:-1]:
+                        bad.append(f"{n}: config differs from the E1 grid's in {dk} (nsamp {c['nsamp']}, redraw key {c['redraw_key']})")
+            own = {"HzeroSdEightK": (sd8, 1e-12), "HzeroSdThirtyTwoK": (sd32, 1e-12), "fSdEightK": (f8, 1e-12),
+                   "HzeroSdRelEightK": (sd8 / hw8, 0.01 * sd8 / hw8 + 1e-9), "Ndraws": (float(len(names[8000])), 0.0), "HzeroMean": (mean8, 1e-12)}
+            for k in red:
+                v, tol = own[k]
+                m = mac[f"{pre}{k}"]
+                # (SdRel: the own half-width comes from another interpolation, so its render is checked as its own value's)
+                r = (_OWN_WORDS[int(v)] if k == "Ndraws" else
+                     _own_fixed(float(m["value"]) if k == "HzeroSdRelEightK" else v, dmean if k == "HzeroMean" else _HDR_DEC[k]))
+                if m["class"] != "plain" or abs(float(m["value"]) - v) > tol or m["render"] != r:
+                    bad.append(f"{pre}{k} = {m['class']} {m['value']} '{m['render']}' vs own {v:.6g} '{r}' (tol {tol:.2g})")
+            out.append(f"{pre} (realization {R}, black): H0 medians {', '.join(f'{v[0]:.3f}' for v in per8.values())}; sd {sd8:.3f} "
+                       f"(32000: {sd32:.3f}), f sd {f8:.4f}, sd/hw68 {sd8 / hw8:.3f} (own hw68 {hw8:.3f}), mean {mean8:.3f}")
+        else:
+            for k, v in red.items():
+                m = mac[f"{pre}{k}"]
+                r = "\\ph{" + (_OWN_WORDS[v] if k == "Ndraws" else _own_fixed(v, dmean if k == "HzeroMean" else _HDR_DEC[k])) + "}"
+                if m["class"] != "ph" or m["render"] != r or abs(float(m["value"]) - v) > 1e-12:
+                    bad.append(f"{pre}{k} = {m['class']} '{m['render']}' while realization {R} waits (want red '{r}')")
+            out.append(f"{pre} (realization {R}, red: {len(have)} of {len(alln)} summaries, runs listed {'yes' if listed else 'no: ' + '; '.join(why[:2])})")
+        if (mac[want_names[0]]["class"] == "plain") != black:
+            bad.append(f"{pre}: black/red does not follow its runs")
+    check(not bad, "J10 the redraw scatter of a host-dependent realization (MCHD..., MCHDLow...; own parser of both run lists: the E1 grid and "
+                   "stage X's draws with its flags plus the redraw options; summaries, configs and grids read directly; own PCHIP 68% half-width; "
+                   "black exactly when a realization's seven runs are listed and summarized): " + "; ".join(out)
                    + (f"; FAIL: {'; '.join(bad[:6])}" if bad else ""))
 
 

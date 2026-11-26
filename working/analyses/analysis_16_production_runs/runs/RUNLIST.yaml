@@ -1,4 +1,4 @@
-generated_utc: '2026-11-26T00:19:54Z'
+generated_utc: '2026-11-26T04:50:47Z'
 driver: 'scripts/prod_driver.py (core e7c3007 venv); every run also gets the defaults: --nsamp 8000 --half-variance-correction on --max-var 20
   --zmax 1.10, nested --nlive 200 --dlogz 0.1, unif up to six parameters, rslice for eight'
 cost_model:
@@ -7020,12 +7020,12 @@ stages:
     at nside 64; the m < 18 grid with both number densities given in Mpc^-3 (physical units) at the values from the counts, the AGN density at
     that value and at twice it; and the two-tracer grid at nside 32 and at nside 64 with Analysis 14''s Monte Carlo settings (32000 samples per
     merger, six pooled injection sets)'
-  n_runs: 119
-  n_tasks: 119
-  est_calls: 82390
-  est_gpu_hours: 27.54
-  est_gpu_hours_existing_data: 27.54
-  est_gpu_hours_ready: 27.37
+  n_runs: 131
+  n_tasks: 131
+  est_calls: 101320
+  est_gpu_hours: 31.51
+  est_gpu_hours_existing_data: 31.51
+  est_gpu_hours_ready: 31.34
   n_runs_held: 5
   runs:
   - name: known_population/both_catalogs/complete/equal_populations/realization_100_nside64
@@ -13750,3 +13750,895 @@ stages:
       partner: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106
       nsamp: 32000
       why: 'the steps of ln L(H0) in realization 106 (tests/obslike_steps_merger.py): their size in the combination'
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd1
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --membership
+    - --redraw-index
+    - '1'
+    - --variant
+    - rd1
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free: &id001
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4813
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4813 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 100 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      differs_by: --redraw-index 1 --variant rd1
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      nsamp: 8000
+      redraw_index: 1
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd2
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --membership
+    - --redraw-index
+    - '2'
+    - --variant
+    - rd2
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free: *id001
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4813
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4813 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 100 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      differs_by: --redraw-index 2 --variant rd2
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      nsamp: 8000
+      redraw_index: 2
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd3
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --membership
+    - --redraw-index
+    - '3'
+    - --variant
+    - rd3
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free: *id001
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4813
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4813 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 100 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      differs_by: --redraw-index 3 --variant rd3
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      nsamp: 8000
+      redraw_index: 3
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_rd4
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --membership
+    - --redraw-index
+    - '4'
+    - --variant
+    - rd4
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free: *id001
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 0.4813
+    est_gpu_hours: 0.176
+    est_gpu_hours_per_part: 0.176
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4813 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 100 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      differs_by: --redraw-index 4 --variant rd4
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      nsamp: 8000
+      redraw_index: 4
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd0
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --membership
+    - --nsamp
+    - '32000'
+    - --redraw-index
+    - '0'
+    - --variant
+    - s32000_rd0
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free: *id001
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 1.185
+    est_gpu_hours: 0.4
+    est_gpu_hours_per_part: 0.4
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: '0.4813 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions,
+      8000 samples) x 2.4623, the ratio measured (their sessions) on the _s32000 precedent(s) of the same change to the same analysis with one
+      injection set: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000 over its partner (2.4623) (observed-like
+      lane; the peak lane has no such grid)'
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 100 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 32000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      differs_by: --nsamp 32000 --redraw-index 0 --variant s32000_rd0
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      nsamp: 32000
+      redraw_index: 0
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100_s32000_rd1
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '100'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --membership
+    - --nsamp
+    - '32000'
+    - --redraw-index
+    - '1'
+    - --variant
+    - s32000_rd1
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    stage: X
+    mode: grid
+    free: *id001
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 1147
+    est_seconds_per_call: 1.185
+    est_gpu_hours: 0.4
+    est_gpu_hours_per_part: 0.4
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed100/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: '0.4813 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions,
+      8000 samples) x 2.4623, the ratio measured (their sessions) on the _s32000 precedent(s) of the same change to the same analysis with one
+      injection set: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000 over its partner (2.4623) (observed-like
+      lane; the peak lane has no such grid)'
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100 (its sessions)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 100 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 32000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      differs_by: --nsamp 32000 --redraw-index 1 --variant s32000_rd1
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 100
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_100
+      nsamp: 32000
+      redraw_index: 1
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd1
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --redraw-index
+    - '1'
+    - --variant
+    - rd1
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys: &id002
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_gal_complete_ns32.h5
+    - /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/surveys/survey_agn_complete_ns32.h5
+    stage: X
+    mode: grid
+    free: &id003
+    - H0
+    - f_agn
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 0.4684
+    est_gpu_hours: 0.284
+    est_gpu_hours_per_part: 0.284
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4684 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions; its fine grid
+      was widened)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 109 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      differs_by: --redraw-index 1 --variant rd1
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 109
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      nsamp: 8000
+      redraw_index: 1
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd2
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --redraw-index
+    - '2'
+    - --variant
+    - rd2
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys: *id002
+    stage: X
+    mode: grid
+    free: *id003
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 0.4684
+    est_gpu_hours: 0.284
+    est_gpu_hours_per_part: 0.284
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4684 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions; its fine grid
+      was widened)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 109 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      differs_by: --redraw-index 2 --variant rd2
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 109
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      nsamp: 8000
+      redraw_index: 2
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd3
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --redraw-index
+    - '3'
+    - --variant
+    - rd3
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys: *id002
+    stage: X
+    mode: grid
+    free: *id003
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 0.4684
+    est_gpu_hours: 0.284
+    est_gpu_hours_per_part: 0.284
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4684 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions; its fine grid
+      was widened)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 109 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      differs_by: --redraw-index 3 --variant rd3
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 109
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      nsamp: 8000
+      redraw_index: 3
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_rd4
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --redraw-index
+    - '4'
+    - --variant
+    - rd4
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 8000
+    injection_pool: []
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys: *id002
+    stage: X
+    mode: grid
+    free: *id003
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 0.4684
+    est_gpu_hours: 0.284
+    est_gpu_hours_per_part: 0.284
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: 0.4684 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions,
+      8000 samples)
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions; its fine grid
+      was widened)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 109 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 8000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      differs_by: --redraw-index 4 --variant rd4
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 109
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      nsamp: 8000
+      redraw_index: 4
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd0
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nsamp
+    - '32000'
+    - --redraw-index
+    - '0'
+    - --variant
+    - s32000_rd0
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys: *id002
+    stage: X
+    mode: grid
+    free: *id003
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 1.1533
+    est_gpu_hours: 0.666
+    est_gpu_hours_per_part: 0.666
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: '0.4684 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions,
+      8000 samples) x 2.4623, the ratio measured (their sessions) on the _s32000 precedent(s) of the same change to the same analysis with one
+      injection set: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000 over its partner (2.4623) (observed-like
+      lane; the peak lane has no such grid)'
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions; its fine grid
+      was widened)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 109 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 32000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      differs_by: --nsamp 32000 --redraw-index 0 --variant s32000_rd0
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 109
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      nsamp: 32000
+      redraw_index: 0
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)
+  - name: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109_s32000_rd1
+    analysis: two_tracers_two_populations
+    set:
+      family: peak
+      f: 0.3
+      s: 1
+      label: peak_f0p30_s1
+      suffix: _marked_dmu0p10_dmuG5_corepop
+      population_family: corepop
+    args:
+    - --mode
+    - grid
+    - --analysis
+    - two_tracers_two_populations
+    - --catalogs
+    - both
+    - --flux
+    - complete
+    - --events-kind
+    - host_dependent
+    - --events-suffix
+    - _corepop
+    - --population-family
+    - corepop
+    - --set-label
+    - peak_f0p30_s1
+    - --realization
+    - '109'
+    - --injections-lane
+    - injections/injections_targeted_peak.h5
+    - --nsamp
+    - '32000'
+    - --redraw-index
+    - '1'
+    - --variant
+    - s32000_rd1
+    injections_lane: injections/injections_targeted_peak.h5
+    nsamp: 32000
+    injection_pool: []
+    lane_record: 'data/experiment_sets.json lists this set''s injections for realizations 100, 101, 102, 103, 105 only; realization 109''s events
+      file and lane are those of stage 4''s single_population/both_catalogs/complete/host_dependent/realization_109 (checked here), on disk: yes'
+    surveys: *id002
+    stage: X
+    mode: grid
+    free: *id003
+    n_parameters: 2
+    parts:
+    - grid
+    est_calls: 2008
+    est_seconds_per_call: 1.1533
+    est_gpu_hours: 0.666
+    est_gpu_hours_per_part: 0.666
+    priority: 0.0
+    lane_rank: 2.85
+    events_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/events/events_marked_dmu0p10_dmuG5_corepop.h5
+    injections_file: /hildafs/projects/phy230014p/magana/gws-agn/working/data/seed109/injections/injections_targeted_peak.h5
+    data_exists: true
+    est_seconds_per_call_source: '0.4684 measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions,
+      8000 samples) x 2.4623, the ratio measured (their sessions) on the _s32000 precedent(s) of the same change to the same analysis with one
+      injection set: two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000 over its partner (2.4623) (observed-like
+      lane; the peak lane has no such grid)'
+    est_calls_source: measured on two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109 (its sessions; its fine grid
+      was widened)
+    check:
+      what: the Monte Carlo scatter of the H0 and f_AGN posteriors of realization 109 (host-dependent mergers, both populations at their inputs)
+        over redraws of the posterior samples of all mergers, 32000 samples per merger
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      differs_by: --nsamp 32000 --redraw-index 1 --variant s32000_rd1
+    extends:
+      set: peak_f0p30_s1
+      analysis: two_tracers_two_populations
+      of_realizations:
+      - 109
+      partner: two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_109
+      nsamp: 32000
+      redraw_index: 1
+      why: realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU (tests/results/hd_scatter_t2redraw_r109.json),
+        against 0.28 km/s/Mpc for an equal-population realization (Analysis 14)

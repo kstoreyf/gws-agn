@@ -1,4 +1,4 @@
-# Checkpoint, 26 Nov 2026, 04:55 UTC (read this first after a context clear)
+# Checkpoint, 26 Nov 2026, 07:10 UTC (read this first after a context clear)
 
 You are the Fable session that owns the gws-agn project (owner handover of 16 Nov 2026: full
 technical and creative freedom; Fable agents write and review, Opus agents code and submit jobs,
@@ -77,21 +77,42 @@ this file holds the working state.
   numbers carry a Monte Carlo error of about half their posterior sd, the combined ones
   of ten realizations about 0.16 against a posterior sd of 0.36. NOT FIXED BY MORE WORK NOW:
   32,000 samples for the eight-parameter runs would cost three times their GPU time.
-- IN PROGRESS (04:50 UTC): an Opus agent (id `a2ad6c621264822e0`) (1) takes keys HDPops and
-  HDAssumed to ten realizations (the edit of `notes/MACRO_REQUESTS.md` Sec. J; new
-  `\NrealHDAssumedTwice`), (2) adds twelve stage-X redraw grids of `two_tracers_two_
-  populations` on `peak_f0p30_s1` (realizations 100 and 109; redraw indices 1 to 4 at 8000
-  samples, 0 and 1 at 32,000; rank 2.85) with macros `\MCHDHzeroSdEightK`,
-  `\MCHDHzeroSdThirtyTwoK`, `\MCHDfSdEightK`, `\MCHDHzeroSdRelEightK`, `\MCHDNdraws` and
-  the `\MCHDLow...` set for 109 (red until the runs exist), one refresh, a dry run.
-  THEN (you): check its tables (which macros changed by going to ten; only those), put
-  `\NrealHDAssumedTwice` where main.tex speaks of the twice-offset key, queue the twelve
-  grids (dry run first), and rewrite from black macros: Sec. IV E's `% REREAD` sentence
-  (seven of ten with the single population AND with the populations known,
-  `\HDPopsHzeroInside`; the redraw scatter of this family from Appendix A; the one
-  realization that lies low in every analysis of its mergers) and one sentence in Appendix
-  A "Accuracy" with `\MCHDHzeroSdEightK` beside `\MCMixedHzeroSdEightK`. Commit. Tell the
-  owner what changed in the abstract's headline number if HDAssumed moves.
+- DONE 07:05 UTC (agent's work checked by me against the commit before: 26 macros changed,
+  all of HDAssumed and HDPops; 11 added; run lists: 12 runs added, none changed):
+  KEYS HDPops AND HDAssumed ARE OVER TEN REALIZATIONS: population assumed 71.3 (+0.7, -0.6),
+  input beyond 99.99% (five: 71.2 +- 0.8); both populations at their inputs 67.8 +- 0.5 at 24%
+  (67.7 +- 0.8, 7.9%); shift median 3.6, range 2.2 to 20.2 (3.2); f_AGN assumed 0.355 +-
+  0.029 at 99.8% (0.35 +- 0.04, 97%); f_AGN with the populations known 0.317 +- 0.016 at 92%
+  (not quoted in the text); `\HDPopsHzeroInside` seven of ten (103, 106, 109 outside);
+  `\NrealHDAssumed` ten; new `\NrealHDAssumedTwice` five (main.tex line 1068 uses it).
+  CHAIN CHANGE: `run_posteriors.py` splines a fine pass with non-finite cells when the run's
+  posterior weight within three cells of them is below 1e-12 (`SPLINE_GUARD`), else linear
+  as before. Only HDAssumed's realization 101 switches (guard 5e-27; its combined median
+  71.2982 -> 71.3071, which is what the audit's own path gives; with the old rule audit J1
+  and J5 failed by 0.0086 against 0.0066). A looser guard (1e-6) moved the sky-resolution
+  combination and broke S12: do not loosen it.
+  TWELVE REDRAW GRIDS QUEUED 05:18 UTC (stage X, rank 2.85, 4.0 GPU-h, six per lane):
+  `two_tracers_two_populations/both_catalogs/complete/peak_f0p30_s1/realization_{100,109}_
+  {rd1,rd2,rd3,rd4,s32000_rd0,s32000_rd1}`. WATCHER `b8w97ff9b` (twelve summaries, an error
+  outcome, or 10:30 UTC 26 Nov; list `tests/results/hd_redraw_runs.txt`). Macros (red until
+  then): `\MCHDHzeroSdEightK`, `\MCHDHzeroSdThirtyTwoK`, `\MCHDfSdEightK`,
+  `\MCHDHzeroSdRelEightK`, `\MCHDNdraws`; for 109 `\MCHDLowHzeroSdEightK`,
+  `\MCHDLowHzeroSdThirtyTwoK`, `\MCHDLowfSdEightK`, `\MCHDLowHzeroSdRelEightK`,
+  `\MCHDLowHzeroMean`; audit J10; definitions as Analysis 14's `\MCMixed...` (sd, ddof 1,
+  of the posterior median over redraws; Rel = over the mean 68% half-width).
+  `main.tex`: Sec. IV E's scatter sentence is rewritten (seven of ten with the single
+  population, seven of ten with the populations known, "so the scatter beyond the intervals
+  is not owed to the inferred population. Part of it is Monte Carlo noise: ... We read the
+  remainder as the draw of the realization that lies lowest, which does so in every analysis
+  of its mergers."), Appendix A "Accuracy" has the redraw sentence for this family; both
+  tagged `% EXPECTED`. Refresh 07:05 UTC: exit 0, audit 97 of 97.
+- WHEN THE WATCHER FIRES: refresh in the background (about 13 min). Read the two sentences
+  against the black numbers: if realization A's redraw sd at 8000 samples is well below 0.5
+  (say 0.3), "part of it is Monte Carlo noise" needs the size said plainly and the sentence
+  on the lowest realization carries more; if the mean of 109's draws is not near 64.6, say
+  what it is. Check that the 32,000-sample numbers are below the 8000 ones. Remove the two
+  `% EXPECTED` tags, commit, PDF `..._draft_2026-11-26a.pdf` to the owner with a short note
+  (ten realizations in Sec. IV E; the scatter explained; ask for the push).
 
 ### THE OWNER'S DECISIONS OF 25 Nov 22:40 UTC (multiple choice)
 - "5, then 10": RUN AFTER STAGE 3: the eight-parameter model on realizations 106 to 110
@@ -584,11 +605,11 @@ Local commits up to the one that carries this file; GitHub has e6d5313 (ask befo
 
 ### Running now, and what each needs from you
 - LANE 1 (job 1534275, limit 05:50 UTC 27 Nov, successor 1592195) and LANE 2 (job 1534274,
-  same limit, successor 1592194): the order of the top block ("LANE ORDER NOW").
-- WATCHER `by4c1r4ut`: the ten grids of realizations 106 to 110 (top block). No agent runs.
-- NEXT EVENTS: those grids (about 03:00 UTC 26 Nov); stage 3's first five, keys SingleBoth and
-  SingleNone need all ten realizations (rank 9 block: about 2.5 days); arm a watcher on stage
-  3 and on stage 5's six-parameter runs after the grids (summaries, error outcome, limit).
+  same limit, successor 1592194): the redraw grids (rank 2.85), then the order of "LANE
+  ORDER NOW" in the block of the owner's decisions.
+- WATCHER `b8w97ff9b`: the twelve redraw grids (top block). No agent runs.
+- NEXT EVENTS: those grids (about 09:00 UTC 26 Nov); then stage 3's first five and stage 5's
+  six-parameter runs: arm watchers on them after the grids (summaries, error outcome, limit).
 
 ### Do next, in order
 1. (DONE 07:10 UTC 25 Nov, top blocks.) When the seven open E2M grids are in:

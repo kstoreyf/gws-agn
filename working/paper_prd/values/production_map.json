@@ -2085,7 +2085,12 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
    ],
    "realization_A": 100,
    "settings": "the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and the galaxy class's population assumed for both classes (two_tracers_one_population), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations",
@@ -2103,7 +2108,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
@@ -2125,7 +2135,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
@@ -2207,7 +2222,12 @@
     101,
     102,
     103,
-    105
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
    ],
    "realization_A": 100,
    "settings": "the experiment's set peak_f0p30_s1 (the events of stage 4, AGN offsets 5 Msun and 0.10) analysed with both catalogs, f_AGN free and each class's population at its input (two_tracers_two_populations), on the peak family's injection lane (injections_targeted_peak.h5); the experiment's five realizations",
@@ -2225,7 +2245,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },
@@ -2247,7 +2272,12 @@
        101,
        102,
        103,
-       105
+       105,
+       106,
+       107,
+       108,
+       109,
+       110
       ],
       "combine": "grid ln L summed (run_posteriors.grid_marginal)"
      },

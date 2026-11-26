@@ -92,6 +92,10 @@ Cost model (the brief's numbers until the tests measure them; --timing merges me
   build_checks (i)): the E2 entry's arguments plus --nsamp 32000 --variant s32000 (run names realization_106_s32000); seconds per call
   the partner's measured value times the 32000/8000 ratio measured on the _s32000 precedents of the observed-like lane with one
   injection set, calls the partner's measured calls.
+  And (25 Nov, appended after those) the redraw scatter of a host-dependent realization (X_HD_REDRAW; build_checks (j)): the E1 grid of
+  two_tracers_two_populations on peak_f0p30_s1, realizations 100 and 109, with --redraw-index 1-4 at 8000 samples and --nsamp 32000
+  --redraw-index 0, 1 (variants rd<i>, s32000_rd<i>; run names realization_NNN_rd1, realization_NNN_s32000_rd0), twelve grids; cost the
+  partner's measured calls and seconds per call, at 32000 times the ratio measured on (i)'s two_tracers_two_populations pair.
   Plus a fixed time per process for loading, redrawing, binding and compiling (overhead_hours_per_process;
   measured from the closure test's production grid when its result exists).
   Another family's lane (stage 5, observed-like): the record-lane seconds per call times the measured ratio
@@ -1206,6 +1210,100 @@ def _x_obs_mc(smap):
     return out
 
 
+# (j) 25 Nov: the redraw scatter of a host-dependent realization. On CPU (tests/hd_scatter_eval.py, tests/results/hd_scatter_t2redraw_r109.json),
+# realization 109 of the set peak_f0p30_s1 with both populations at their inputs moves its H0 median by +1.06 and +0.75 (about one posterior
+# standard deviation) when the posterior samples of all mergers are drawn anew (--redraw-index 1, 2; 8000 samples), against the 0.28 the
+# paper's Appendix A quotes for an equal-population realization (\MCMixedHzeroSdEightK, Analysis 14). The set's stage-E1 grid of
+# two_tracers_two_populations (key HDPops) on realization 100 (the paper's realization A) and on realization 109, again with other redraws:
+# the E1 entry's arguments plus --redraw-index i (i = 1-4 at the production 8000 samples; index 0 at 8000 is the E1 run itself) and plus
+# --nsamp 32000 --redraw-index i (i = 0, 1), and a --variant that names both (rd<i>, s32000_rd<i>: run names realization_NNN_rd1,
+# realization_NNN_s32000_rd0), nothing else (checked; realization 100's E1 entry carries --membership, which they keep). Twelve grids,
+# stage X, rank 2.85, priority 0. A 32000-sample redraw of index i holds the 8000 samples of index i first (blocks of 2000 on one stream).
+# Read by paper_prd's \MCHD... and \MCHDLow... macros (build_values.build_hd_redraw; the paper's selectors skip stage X). Cost: the
+# partner's measured calls and seconds per call; at 32000 samples times the ratio measured on the _s32000 precedents that make the same
+# change to the same analysis with one injection set (X_HD_REDRAW["spc_ratio"]: (i)'s grids of obslike_f0p30_s1, the observed-like lane;
+# the peak lane has no two-tracer grid at 32000 samples with one set, and its hosts_known runs mix 32000 and 8000 samples per merger).
+X_HD_REDRAW = {"set": ("peak", 0.3, 1), "analysis": "two_tracers_two_populations", "realizations": (100, 109),
+               "draws": ((8000, (1, 2, 3, 4)), (32000, (0, 1))), "priority": 0.0,
+               "spc_ratio": (("two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106_s32000",
+                              "two_tracers_two_populations/both_catalogs/complete/obslike_f0p30_s1/realization_106"),)}
+
+
+def _x_hd_redraw_ratio(nsamp):
+    """(ratio, source) of seconds per call at nsamp samples over 8000: the median over X_HD_REDRAW["spc_ratio"]'s pairs on record (their
+    sessions), else _x_obs_mc_ratio() (32000 only)."""
+    rat = {}
+    for num, den in X_HD_REDRAW["spc_ratio"]:
+        a, b = run_seconds_per_call(num), run_seconds_per_call(den)
+        if a and b:
+            rat[num] = a / b
+    if not rat:
+        m, src = _x_obs_mc_ratio()
+        return m, "no pair of X_HD_REDRAW['spc_ratio'] on record: " + src
+    m = statistics.median(rat.values())
+    return m, (f"x {m:.4f}, the ratio measured (their sessions) on the _s{nsamp} precedent(s) of the same change to the same analysis with one "
+               f"injection set: {'; '.join(f'{n} over its partner ({v:.4f})' for n, v in rat.items())} (observed-like lane; the peak lane has no "
+               "such grid)")
+
+
+def _x_hd_redraw():
+    """(j) X_HD_REDRAW: per realization, the stage-E1 entry of the set (as build_experiment and build_experiment_extra make it, the partner)
+    with --redraw-index i (and --nsamp N where N differs from the partner's 8000) and --variant [sN_]rd<i> appended, nothing else (checked);
+    cost the partner's measured calls and seconds per call (x _x_hd_redraw_ratio at 32000)."""
+    fam, f, s = X_HD_REDRAW["set"]
+    a = X_HD_REDRAW["analysis"]
+    label = P.set_name(fam, f, s)
+    e1 = {e["name"]: e for e in build_experiment(list(EXPERIMENT_REALIZATIONS))[0]["E1"]}
+    out = []
+    for R in X_HD_REDRAW["realizations"]:
+        pname = P.run_name(a, P.EXPERIMENT_CATALOGS[a], "complete", "", R, set_label=label)
+        partner = e1.get(pname)
+        if partner is None or partner["stage"] != "E1" or not partner.get("args") or partner.get("hold"):
+            sys.exit(f"[fatal] (j) no stage-E1 entry {pname} with arguments")
+        pa = partner["args"]
+        if (partner["nsamp"] != 8000 or partner["injection_pool"]
+                or any(x in pa for x in ("--nsamp", "--redraw-index", "--redraw-key", "--variant", "--run-name"))):
+            sys.exit(f"[fatal] (j) {pname}: not a production-settings grid (8000 samples, one injection set, redraw 0, no variant)")
+        spc0, calls = run_seconds_per_call(pname), run_calls(pname)
+        for ns, idxs in X_HD_REDRAW["draws"]:
+            ratio, ratio_src = (1.0, "") if ns == partner["nsamp"] else _x_hd_redraw_ratio(ns)
+            for i in idxs:
+                if ns == partner["nsamp"] and i == 0:
+                    sys.exit(f"[fatal] (j) {pname}: redraw 0 at {ns} samples is the partner itself")
+                var = (f"s{ns}_" if ns != partner["nsamp"] else "") + f"rd{i}"
+                extra = (["--nsamp", str(ns)] if ns != partner["nsamp"] else []) + ["--redraw-index", str(i), "--variant", var]
+                e = {"name": P.run_name(a, P.EXPERIMENT_CATALOGS[a], "complete", "", R, set_label=label, variant=var), "analysis": a,
+                     "set": dict(partner["set"]), "args": list(pa) + extra, "injections_lane": partner["injections_lane"], "nsamp": ns,
+                     "injection_pool": []}
+                for k in ("lane_record", "surveys"):
+                    if k in partner:
+                        e[k] = partner[k]
+                if (e["args"][:len(pa)] != pa or e["args"][len(pa):] != extra or e["name"] == pname
+                        or e["name"] != re.sub(r"(realization_\d{3})$", rf"\1_{var}", pname)):
+                    sys.exit(f"[fatal] {e['name']}: arguments differ from {pname}'s by more than {' '.join(extra)}")
+                spc = (spc0 or partner["est_seconds_per_call"]) * ratio
+                e = finish(e, "X", "grid", partner["free"], spc, partner["events_file"], partner["injections_file"],
+                           priority=X_HD_REDRAW["priority"])
+                if calls:     # the partner's measured calls (finish() takes the cost model's 1147 grid cells)
+                    e["est_calls"] = int(calls)
+                    e["est_gpu_hours"] = round(calls * spc / 3600 + COST["overhead_hours_per_process"], 3)
+                    e["est_gpu_hours_per_part"] = e["est_gpu_hours"]
+                e["est_seconds_per_call_source"] = ((f"{spc0:.4f} measured on {pname} (its sessions, 8000 samples)" if spc0 else
+                                                     f"the partner's estimate {partner['est_seconds_per_call']} (partner not on record)")
+                                                    + (f" {ratio_src}" if ratio_src else ""))
+                e["est_calls_source"] = (f"measured on {pname} (its sessions{'; its fine grid was widened' if calls != COST['grid_2d_cells'] else ''})"
+                                         if calls else "cost model (partner not on record)")
+                e["check"] = {"what": (f"the Monte Carlo scatter of the H0 and f_AGN posteriors of realization {R} (host-dependent mergers, both "
+                                       f"populations at their inputs) over redraws of the posterior samples of all mergers, {ns} samples per merger"),
+                              "partner": pname, "differs_by": " ".join(extra)}
+                e["extends"] = {"set": label, "analysis": a, "of_realizations": [R], "partner": pname, "nsamp": ns, "redraw_index": i,
+                                "why": ("realization 109's H0 median moves by about one posterior standard deviation between redraws on CPU "
+                                        "(tests/results/hd_scatter_t2redraw_r109.json), against 0.28 km/s/Mpc for an equal-population realization "
+                                        "(Analysis 14)")}
+                out.append(e)
+    return out
+
+
 def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, later_realizations=X_SKYRES_LATER,
                  more_realizations=X_SKYRES_MORE):
     """Stage X.
@@ -1265,7 +1363,12 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         --variant s32000 and nothing else (checked), run names .../obslike_f0p30_s1/realization_106_s32000, one injection set, the
         driver's own grid passes. Seconds per call: the partner's measured value times the ratio measured on the _s32000 precedents of
         this lane (_x_obs_mc_ratio); calls: the partner's. No key or macro reads them (23 Nov, 23:30 UTC: the paper's
-        Obs<Assumed|Pops>MC... macros are removed; the observed-like family takes the mixture redraw, MIX)."""
+        Obs<Assumed|Pops>MC... macros are removed; the observed-like family takes the mixture redraw, MIX).
+    (j) 25 Nov, appended after (i): the redraw scatter of a host-dependent realization (X_HD_REDRAW, _x_hd_redraw): the stage-E1 grid of
+        two_tracers_two_populations on peak_f0p30_s1 of realizations 100 and 109 with --redraw-index 1-4 (8000 samples) and with --nsamp
+        32000 --redraw-index 0, 1, and --variant rd<i> / s32000_rd<i> (run names realization_NNN_rd<i>, realization_NNN_s32000_rd<i>),
+        nothing else (checked); per realization in that order. Cost: the partner's measured calls and seconds per call (x the ratio of
+        X_HD_REDRAW["spc_ratio"] at 32000). Read by paper_prd's \\MCHD... macros (build_values.build_hd_redraw)."""
     out = [_x_skyres(real)]
     lim = X_UNITS_LIMIT
     unit_partner = P.run_name("known_population", "both", lim, "equal_populations", real)
@@ -1321,6 +1424,8 @@ def build_checks(real=X_REALIZATION, skyres_realizations=X_SKYRES_REALIZATIONS, 
         out += _x_more_pair(r)
     # (i) realization 106's two E2 grids of obslike_f0p30_s1 at 32000 samples per merger, appended after (h)
     out += _x_obs_mc(smap)
+    # (j) the redraw scatter of realizations 100 and 109 of peak_f0p30_s1 (both populations at their inputs), appended after (i)
+    out += _x_hd_redraw()
     return out
 
 
